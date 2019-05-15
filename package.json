@@ -16,7 +16,7 @@
   },
   "proxy": "http://localhost:8080",
   "scripts": {
-    "start": "nodemon ./server/index.js",
+    "start": "node ./server/index.js",
     "dev": "concurrently --kill-others-on-fail \"cd client && npm start\" \"nodemon ./server/index.js\"",
     "client:init": "cd client && npm i",
     "build": "cd client && npm run build",
