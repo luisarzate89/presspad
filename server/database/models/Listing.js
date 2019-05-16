@@ -1,24 +1,25 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
 const listingSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: "users",
   },
   address: {
-    street: String,
+    line1: String,
+    line2: String,
     city: String,
-    postcode: String
+    postcode: String,
   },
   description: String,
-  otherInfo: String,
+  otherInfo: [String],
   price: Number,
   photos: [String],
-  availableDates: [{ startDate: Date, endDate: Date }]
+  availableDates: [{ startDate: Date, endDate: Date }],
 });
 
-const Listing = model('listings', listingSchema);
+const Listing = model("listings", listingSchema);
 
 module.exports = Listing;

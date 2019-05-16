@@ -8,16 +8,16 @@ module.exports = async () => {
 
   const referrals = [
     {
-      referrer: superhost[0]._id,
-      referred: hosts[0]._id,
+      referrer: superhost[0],
+      referred: hosts[0],
     },
     {
-      referrer: superhost[0]._id,
-      referred: hosts[1]._id,
+      referrer: superhost[0],
+      referred: hosts[1],
     },
     {
-      referrer: superhost[0]._id,
-      referred: hosts[2]._id,
+      referrer: superhost[0],
+      referred: hosts[2],
     },
   ];
   const storedReferrals = await Referal.create(referrals);

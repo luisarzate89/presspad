@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
 const bookingSchema = new Schema({
   listing: {
     type: Schema.Types.ObjectId,
-    ref: 'listings'
+    ref: "listings",
   },
   // intern that requests booking
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: "users",
   },
   startDate: Date,
   endDate: Date,
@@ -18,11 +18,11 @@ const bookingSchema = new Schema({
   // tracking also canceled bookings might be a good idea ?
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'canceled'],
-    default: 'pending'
-  }
+    enum: ["pending", "confirmed", "canceled"],
+    default: "pending",
+  },
 });
 
-const Booking = model('bookings', bookingSchema);
+const Booking = model("bookings", bookingSchema);
 
 module.exports = Booking;

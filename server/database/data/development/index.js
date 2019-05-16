@@ -7,6 +7,8 @@ const organisations = require("./organisations");
 const users = require("./users");
 const referrals = require("./referrals");
 const profiles = require("./profiles");
+const listings = require("./listings");
+const bookings = require("./bookings");
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -16,6 +18,8 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await users();
       await referrals();
       await profiles();
+      await listings();
+      await bookings();
     })
     .then(resolve)
     .catch(reject);
