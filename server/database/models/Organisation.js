@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
@@ -6,14 +6,15 @@ const organisationSchema = new Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   code: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
+  logo: String,
 });
 
-const Organisation = model('organisations', organisationSchema);
+const Organisation = model("organisations", organisationSchema);
 
 module.exports = Organisation;
