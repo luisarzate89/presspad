@@ -62,7 +62,5 @@ module.exports = async () => {
       ],
     },
   ];
-  const storedListings = await Listing.create(listings);
-
-  return storedListings;
+  await Listing.create(listings);
 };

@@ -23,8 +23,7 @@ const userSchema = new Schema({
   // this is currently only for hosts as they need to be
   // referred by a superhost. once that code is submitted
   // a transaction gets stored in the referrals table.
-  // the code used gets stored in here
-  refCodeUsed: {
+  referral: {
     type: Schema.Types.ObjectId,
     ref: "users",
   },

@@ -68,21 +68,21 @@ module.exports = async () => {
       name: "Adam Appele",
       password: "123456",
       role: "host",
-      refCodeUsed: storedSuperhost,
+      referral: storedSuperhost,
     },
     {
       email: "eve@hello.com",
       name: "Eve Richards",
       password: "123456",
       role: "host",
-      refCodeUsed: storedSuperhost,
+      referral: storedSuperhost,
     },
     {
       email: "hilda@bbc.co.uk",
       name: "Hilda Meyer",
       password: "123456",
       role: "host",
-      refCodeUsed: storedSuperhost,
+      referral: storedSuperhost,
     },
   ];
 

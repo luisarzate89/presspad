@@ -4,11 +4,11 @@ const { Schema, model } = mongoose;
 
 const reviewSchema = new Schema(
   {
-    user: {
+    to: {
       type: Schema.Types.ObjectId,
       ref: "users",
     },
-    reviewer: {
+    from: {
       type: Schema.Types.ObjectId,
       ref: "users",
     },

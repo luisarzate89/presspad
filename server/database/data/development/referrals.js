@@ -20,7 +20,5 @@ module.exports = async () => {
       referred: hosts[2],
     },
   ];
-  const storedReferrals = await Referal.create(referrals);
-
-  return storedReferrals;
+  await Referal.create(referrals);
 };

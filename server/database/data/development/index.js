@@ -9,6 +9,7 @@ const referrals = require("./referrals");
 const profiles = require("./profiles");
 const listings = require("./listings");
 const bookings = require("./bookings");
+const reviews = require("./reviews");
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -20,6 +21,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await profiles();
       await listings();
       await bookings();
+      await reviews();
     })
     .then(resolve)
     .catch(reject);

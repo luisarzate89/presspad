@@ -41,7 +41,5 @@ module.exports = async () => {
       endDate: "2019-11-16",
     },
   ];
-  const storedBookings = await Booking.create(bookings);
-
-  return storedBookings;
+  await Booking.create(bookings);
 };

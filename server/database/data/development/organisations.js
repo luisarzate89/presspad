@@ -20,7 +20,5 @@ module.exports = async () => {
     },
   ];
 
-  const storedOrganisations = await Organisation.create(organisations);
-
-  return storedOrganisations;
+  await Organisation.create(organisations);
 };
