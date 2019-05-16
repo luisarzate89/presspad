@@ -48,4 +48,87 @@ module.exports = async () => {
   ];
 
   await Profile.create(hostProfiles);
+
+  // add interns
+  const interns = await User.find({ role: "intern" });
+
+  const internProfiles = [
+    {
+      user: interns[0],
+      verified: true,
+      bio:
+        "Hi I'm Simon and I'm starting an internship at the AFP any time soon. Would love to find a nice place to stay at.",
+      jobTitle: "Journalist",
+      pressPass: "simon-presspass.jpg",
+      favouriteArticle: {
+        title: "A story about techno",
+        author: "Raver Joseph",
+        link: "www.guardian.com/1314141asfas",
+      },
+      verification: {
+        photoID: "simon-photoID.png",
+        offerLetter: "simon-offer-letter.jpg",
+        reference1: {
+          name: "Yalla Master",
+          contact: "014251521, hello@yalla.com",
+        },
+        reference2: {
+          name: "Mister Myagi",
+          contact: "Bricklane 102 London, mobile: 0125215215",
+        },
+      },
+    },
+    {
+      user: interns[1],
+      verified: true,
+      bio:
+        "Hi I'm Joe and I'm starting an internship at the BBC. Would love to find an awesome place to stay at.",
+      jobTitle: "Music Journalist",
+      pressPass: "joe-presspass.jpg",
+      favouriteArticle: {
+        title: "French Nancy - good times",
+        author: "Solo Chief",
+        link: "www.fa.com/1314141as21421as",
+      },
+      verification: {
+        photoID: "joe-photoID.png",
+        offerLetter: "joe-offer-letter.jpg",
+        reference1: {
+          name: "Yalla Master",
+          contact: "014251521, hello@yalla.com",
+        },
+        reference2: {
+          name: "Mister Myagi",
+          contact: "Bricklane 102 London, mobile: 0125215215",
+        },
+      },
+    },
+    {
+      user: interns[2],
+      verified: true,
+      bio:
+        "Hi I'm Ramy and I'm starting an internship at the FA. Would love to find an cosy place to stay at.",
+      jobTitle: "Coding Journalist",
+      pressPass: "ramy-presspass.jpg",
+      favouriteArticle: {
+        title: "MongoDB is for cool kids",
+        author: "Professor Mongo",
+        link: "www.fa.com/1314sada22s",
+      },
+      verification: {
+        photoID: "ramy-photoID.png",
+        offerLetter: "ramy-offer-letter.jpg",
+        reference1: {
+          name: "Yalla Master",
+          contact: "014251521, hello@yalla.com",
+        },
+        reference2: {
+          name: "Mister Myagi",
+          contact: "Bricklane 102 London, mobile: 0125215215",
+        },
+      },
+    },
+  ];
+
+  await Profile.create(internProfiles);
 };

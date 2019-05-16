@@ -28,23 +28,18 @@ const profileSchema = new Schema({
     link: String,
   },
   // later plan would be enum [basic, pro, custom...]
-  plan: String,
-  budgetHolder: {
-    name: {
-      type: String,
-      trim: true,
-    },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
-  },
+
   verification: {
     photoID: String,
-    OfferLetter: String,
-    Reference1: String,
-    Reference2: String,
+    offerLetter: String,
+    reference1: {
+      name: String,
+      contact: String,
+    },
+    reference2: {
+      name: String,
+      contact: String,
+    },
   },
 });
 

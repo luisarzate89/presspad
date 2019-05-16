@@ -21,6 +21,7 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisationCodes[0],
+      plan: "basic",
     },
     {
       email: "josephine@guardian.co.uk",
@@ -28,6 +29,7 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisationCodes[1],
+      plan: "basic",
     },
     {
       email: "brian@bbc.co.uk",
@@ -35,6 +37,7 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisationCodes[2],
+      plan: "basic",
     },
     {
       email: "luise@afp.co.uk",
@@ -42,6 +45,7 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisationCodes[3],
+      plan: "basic",
     },
   ];
 
