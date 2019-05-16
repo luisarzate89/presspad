@@ -20,10 +20,9 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  // the trainer's local lead
   referalCode: {
     type: Schema.Types.ObjectId,
-    ref: 'refCodes'
+    ref: 'referalCodes'
   },
   organisation: {
     type: Schema.Types.ObjectId,
