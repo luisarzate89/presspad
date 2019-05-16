@@ -26,7 +26,6 @@ const profileSchema = new Schema({
   },
   plan: {
     enum: ['basic', 'pro', 'custom'],
-    default: 'basic'
   },
   budgetHolder: {
     name: {

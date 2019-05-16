@@ -20,7 +20,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  referalCode: {
+  refCodeUsed: {
     type: Schema.Types.ObjectId,
     ref: 'referalCodes'
   },
@@ -30,7 +30,14 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['admin', 'superhost', 'host', 'organisation', 'intern'],
+    enum: [
+      'admin',
+      'organisation',
+      'superhost',
+      'host',
+      'organisation',
+      'intern'
+    ],
     required: true
   }
 });
