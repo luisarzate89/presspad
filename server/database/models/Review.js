@@ -16,8 +16,12 @@ const reviewSchema = new Schema(
       type: Number,
       min: 1,
       max: 5,
+      required: true,
     },
-    message: String,
+    message: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true },
 );

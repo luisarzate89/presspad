@@ -11,7 +11,10 @@ const profileSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  bio: String,
+  bio: {
+    type: String,
+    required: true,
+  },
   interests: [String],
   organisation: {
     name: String,
@@ -20,8 +23,12 @@ const profileSchema = new Schema({
   jobTitle: {
     type: String,
     lowercase: true,
+    required: true,
   },
-  pressPass: String,
+  pressPass: {
+    type: String,
+    required: true,
+  },
   favouriteArticle: {
     title: String,
     author: String,

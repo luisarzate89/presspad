@@ -12,14 +12,21 @@ const bookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
-  startDate: Date,
-  endDate: Date,
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
   // bookings need to be confirmed or canceled by host
   // tracking also canceled bookings might be a good idea ?
   status: {
     type: String,
     enum: ["pending", "confirmed", "canceled"],
     default: "pending",
+    required: true,
   },
 });
 

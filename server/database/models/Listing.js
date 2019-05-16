@@ -8,14 +8,29 @@ const listingSchema = new Schema({
     ref: "users",
   },
   address: {
-    line1: String,
+    line1: {
+      type: String,
+      required: true,
+    },
     line2: String,
-    city: String,
-    postcode: String,
+    city: {
+      type: String,
+      required: true,
+    },
+    postcode: {
+      type: String,
+      required: true,
+    },
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,
+  },
   otherInfo: [String],
-  price: Number,
+  price: {
+    type: Number,
+    required: true,
+  },
   photos: [String],
   availableDates: [{ startDate: Date, endDate: Date }],
 });
