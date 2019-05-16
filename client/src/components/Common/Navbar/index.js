@@ -16,6 +16,8 @@ import {
   SIGNOUT_URL
 } from "../../../constants/navRoutes";
 
+import USER_TYPES from "./../../../constants/userTypes";
+
 const Wrapper = styled.div`
   position: fixed;
   display: flex;
@@ -36,10 +38,6 @@ const Logo = styled.img`
 const Options = styled.div`
   color: ${colors.white};
   font-size: 1.25rem;
-  border: 1px red solid;
-  width: 50%;
-  display: flex;
-  justify-content: flex-end;
 
   .active {
     font-weight: bold;
@@ -53,18 +51,51 @@ const MenuItem = styled(NavLink)`
   width: 100%;
 `;
 
-export default class Navbar extends Component {
-  render() {
-    return (
-      <Wrapper>
+const Navbar = ({ loggedIn, userType }) => {
+  // RENDERING IS BASED ON KNOWING IF LOGGEDIN AND THE TYPE OF USER
+
+  return (
+    <Wrapper>
+      <NavLink to={HOME_URL}>
         <Logo src={whiteLogo} alt="logo" />
-        <Options>
-          <MenuItem to={HOME_URL}>Home</MenuItem>
-          <MenuItem to={ABOUT_URL}>About</MenuItem>
-          <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
-          <MenuItem to={SIGNIN_URL}>Sign in</MenuItem>
-        </Options>
-      </Wrapper>
-    );
-  }
-}
+      </NavLink>
+      <Options>
+        {/* NOT LOGGED IN */}
+        {!loggedIn && (
+          <>
+            <MenuItem to={HOME_URL}>Home</MenuItem>
+            <MenuItem to={ABOUT_URL}>About</MenuItem>
+            <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
+            <MenuItem to={SIGNIN_URL}>Sign in</MenuItem>
+          </>
+        )}
+
+        {/* LOGGED IN  */}
+        {loggedIn && (
+          <>
+            <MenuItem to={DASHBOARD_URL}>Dashboard</MenuItem>
+            {userType === USER_TYPES.intern && (
+              <>
+                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+                <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
+              </>
+            )}
+            {userType === USER_TYPES.host && (
+              <>
+                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+              </>
+            )}
+            {userType === USER_TYPES.organisation && (
+              <>
+                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+              </>
+            )}
+            <MenuItem to={SIGNOUT_URL}>Sign out</MenuItem>
+          </>
+        )}
+      </Options>
+    </Wrapper>
+  );
+};
+
+export default Navbar;
