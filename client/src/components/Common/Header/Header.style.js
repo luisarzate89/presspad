@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   height: 60px;
   background-color: #07294a;
   color: #ffffff;
+  z-index: 1;
 `;
 
 export const Menu = styled.ul`
