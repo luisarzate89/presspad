@@ -30,8 +30,6 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.img`
-  /* width: 8rem;
-  height: auto; */
   height: 2.5rem;
 `;
 
