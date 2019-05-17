@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Header from "./../../Common/Header";
+import { Carousel } from "antd";
 import {
   Wrapper,
   HeroSection,
-  HeroImage,
   Iframe,
   DescriptionSection,
   Description,
@@ -14,15 +13,41 @@ import {
   CardDescription,
   CardButton,
   CardIcon,
-  FindMoreWrapper
+  FindMoreWrapper,
+  TestimonialSection,
+  CarouselWrapper,
+  Quote,
+  TestimonialWords
 } from "./LandingPage.style";
 import heroImage from "./../../../assets/landin-page-hero-image.png";
 import descriptionImage from "./../../../assets/description-image.png";
+import descriptionImage2 from "./../../../assets/description-image-2.png";
+import quote from "./../../../assets/quote.png";
+
+import { ReactComponent as Arrow } from "../../../assets/arrow.svg";
 import organizationFindMore from "./../../../assets/organization.png";
 import hostFindMore from "./../../../assets/host.png";
 import internFindMore from "./../../../assets/intern.png";
 
 class LandingPage extends Component {
+  state = {
+    slideIndex: 0
+  };
+
+  afterChange = slideIndex => {
+    this.setState({
+      slideIndex
+    });
+  };
+
+  handleLeftArrow = (current, next) => {
+    this.carousel.prev(1);
+  };
+
+  handleRightArrow = () => {
+    this.carousel.next(1);
+  };
+
   render() {
     return (
       <Wrapper>
@@ -32,6 +57,7 @@ class LandingPage extends Component {
             frameBorder="0"
           />
         </HeroSection>
+        {/* first description section */}
         <DescriptionSection>
           <div className="section__content">
             <div className="imageWrapper">
@@ -97,6 +123,74 @@ class LandingPage extends Component {
             </FindMoreWrapper>
           </div>
         </FindMoreSestion>
+        {/* second description section */}
+        <DescriptionSection>
+          <div className="section__content">
+            <div className="descriptionWrapper">
+              <Description>
+                We're looking for partners, funders, & investors to help us grow
+                our online platform so we can sign up more hosts, and help more
+                interns! Check out our Pitch Deck with all the info you need.
+              </Description>
+            </div>
+            <div className="imageWrapper">
+              <DescriptionImage src={descriptionImage2} />
+            </div>
+          </div>
+        </DescriptionSection>
+        <TestimonialSection>
+          <CarouselWrapper>
+            <Arrow
+              width="95"
+              transform="rotate(180)"
+              onClick={this.handleLeftArrow}
+              style={{
+                position: "absolute",
+                height: "100px",
+                left: "-100px",
+                top: "50%",
+                transform: " translateY(-50%) rotate(180deg)",
+                cursor: "pointer"
+              }}
+            />
+            <Carousel
+              autoplay
+              dots={false}
+              afterChange={this.afterChange}
+              ref={node => (this.carousel = node)}
+            >
+              <div>
+                <TestimonialWords>
+                  <Quote src={quote} />
+                  Staying with Emily was an absolute pleasure. I learned a great
+                  deal about how to approach politicians and very much enjoyed
+                  the city. We managed to go to a few journalistic events as
+                  well and met some amazing people!
+                </TestimonialWords>
+              </div>
+              <div>
+                <TestimonialWords>
+                  <Quote src={quote} />I learned a great deal about how to
+                  approach politicians and very much enjoyed the city. We
+                  managed to go to a few journalistic events as well and met
+                  some amazing people!
+                </TestimonialWords>
+              </div>
+            </Carousel>
+            <Arrow
+              width="95"
+              onClick={this.handleRightArrow}
+              style={{
+                position: "absolute",
+                height: "100px",
+                right: "-100px",
+                top: "50%",
+                transform: " translateY(-50%)",
+                cursor: "pointer"
+              }}
+            />
+          </CarouselWrapper>
+        </TestimonialSection>
       </Wrapper>
     );
   }

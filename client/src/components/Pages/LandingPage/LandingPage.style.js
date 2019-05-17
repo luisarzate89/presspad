@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  .ant-carousel .slick-slide {
+    text-align: center;
+    overflow: hidden;
+  }
+`;
 
 export const HeroSection = styled.div`
   height: 100vh;
@@ -96,7 +101,7 @@ export const FindMoreSestion = styled.div`
 
 export const FindMoreCard = styled.div`
   position: relative;
-  min-width: 260px;
+  min-width: 300px;
   text-align: center;
   margin: 100px auto 0;
   padding: 0 20px;
@@ -154,4 +159,34 @@ export const FindMoreWrapper = styled.div`
   width: 90%;
   margin: 0 auto;
   flex-wrap: wrap;
+`;
+
+export const TestimonialSection = styled.div`
+  padding: 225px 0 100px;
+  background-color: #fbfbfb;
+`;
+
+export const CarouselWrapper = styled.div`
+  width: 70%;
+  max-width: 830px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+export const Quote = styled.img`
+  display: inline !important;
+  margin-right: 20px;
+`;
+
+export const TestimonialWords = styled.p`
+  font-family: Raleway;
+  font-style: italic;
+  font-weight: 200;
+  font-size: 25px;
+  line-height: 35px;
+  /* or 140% */
+
+  letter-spacing: 1px;
+
+  color: #313234;
 `;
