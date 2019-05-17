@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import { Carousel } from "antd";
+
+// import components
+import Footer from "./../../Common/Footer";
+
+// import styled components
 import {
   Wrapper,
   HeroSection,
@@ -17,14 +22,15 @@ import {
   TestimonialSection,
   CarouselWrapper,
   Quote,
-  TestimonialWords
+  TestimonialWords,
+  Arrow
 } from "./LandingPage.style";
+
+// import images
 import heroImage from "./../../../assets/landin-page-hero-image.png";
 import descriptionImage from "./../../../assets/description-image.png";
 import descriptionImage2 from "./../../../assets/description-image-2.png";
 import quote from "./../../../assets/quote.png";
-
-import { ReactComponent as Arrow } from "../../../assets/arrow.svg";
 import organizationFindMore from "./../../../assets/organization.png";
 import hostFindMore from "./../../../assets/host.png";
 import internFindMore from "./../../../assets/intern.png";
@@ -51,6 +57,7 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
+        <Arrow />
         <HeroSection src={heroImage}>
           <Iframe
             src="https://www.youtube.com/embed/OCWj5xgu5Ng"
@@ -144,14 +151,7 @@ class LandingPage extends Component {
               width="95"
               transform="rotate(180)"
               onClick={this.handleLeftArrow}
-              style={{
-                position: "absolute",
-                height: "100px",
-                left: "-100px",
-                top: "50%",
-                transform: " translateY(-50%) rotate(180deg)",
-                cursor: "pointer"
-              }}
+              direction="left"
             />
             <Carousel
               autoplay
@@ -178,19 +178,13 @@ class LandingPage extends Component {
               </div>
             </Carousel>
             <Arrow
+              direction="right"
               width="95"
               onClick={this.handleRightArrow}
-              style={{
-                position: "absolute",
-                height: "100px",
-                right: "-100px",
-                top: "50%",
-                transform: " translateY(-50%)",
-                cursor: "pointer"
-              }}
             />
           </CarouselWrapper>
         </TestimonialSection>
+        <Footer />
       </Wrapper>
     );
   }

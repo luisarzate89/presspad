@@ -1,18 +1,21 @@
 import styled from "styled-components";
 import { Icon as AntIcon } from "antd";
 
+import { colors } from "./../../../theme";
+
 export const Wrapper = styled.div`
   width: 100%;
 `;
 
 export const ContactWrapper = styled.div`
   width: 100%;
-  background-color: #ffffff;
-  color: #313234;
-  height: 113px;
+  background-color: ${colors.white};
+  color: ${colors.fontBlack};
+  min-height: 113px;
   box-shadow: 0px 5px 20px rgba(4, 25, 105, 0.61);
 
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const SocialMediaIconsWrapper = styled.div`
@@ -43,8 +46,8 @@ export const Title = styled.h3`
 
 export const CopyRightsWrapper = styled.div`
   width: 100%;
-  background-color: #07294a;
-  color: #ffffff;
+  background-color: ${colors.fontPrimary};
+  color: ${colors.white};
   font-family: Raleway;
   font-weight: 300;
   font-size: 16px;
@@ -63,14 +66,18 @@ export const IconWrapper = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #0ac7e7;
+  background-color: ${colors.lightBlue};
   display: flex;
   align-items: center;
   justify-content: center;
+
+  a {
+    height: 20px;
+  }
 `;
 
 export const Icon = styled(AntIcon)`
-  color: #ffffff;
+  color: ${colors.white};
   font-size: 20px;
   height: 20px;
 `;

@@ -34,7 +34,7 @@ class Footer extends Component {
                 size="large"
                 style={{ borderRadius: "0", cursor: "not-allowed" }}
               >
-                Primary
+                Subscribe
               </Button>
             </div>
           </NewsLetter>

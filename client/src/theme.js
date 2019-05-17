@@ -46,9 +46,12 @@ const colorCodes = {
 
   // general
   white: "#FFFFFF",
+  grayWhite: "fbfbfb",
   lightGray: "#979797",
   gray: "#545455",
-  blueGray: "#F2F6FA"
+  blueGray: "#F2F6FA",
+  lightBlue: "#0ac7e7",
+  black: "#000000"
 };
 
 // general colors
