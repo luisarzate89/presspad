@@ -24,4 +24,18 @@ describe("Test Profile schema", () => {
     expect(profiles).toHaveLength(6);
     done();
   });
+
+  test("should store a new Profile correctly", async (done) => {
+    const interns = await User.find({ role: "intern" });
+    const newProfile = {
+      user: interns[0],
+      bio: "test",
+      jobTitle: "Journalist",
+      pressPass: "simon-presspass.jpg",
+    };
+    const storedProfile = await Profile.create(newProfile);
+    expect(storedProfile).toBeDefined();
+    expect(storedProfile.bio).toBe(newProfile.bio);
+    done();
+  });
 });
