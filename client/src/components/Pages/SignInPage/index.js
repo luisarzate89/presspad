@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 
+// COMMON COMPONENTS
+import Button from "./../../Common/Button";
+
 // STYLING
 import {
   Wrapper,
@@ -38,6 +41,7 @@ export default class SignInPage extends Component {
               size="large"
             />
           </InputDiv>
+          <Button label="Sign in" type="primary" />
         </SignInForm>
       </Wrapper>
     );
