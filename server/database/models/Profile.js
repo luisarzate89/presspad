@@ -29,6 +29,10 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
+  profilePic: {
+    type: String,
+    required: true,
+  },
   favouriteArticle: {
     title: String,
     author: String,

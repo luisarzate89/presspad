@@ -44,6 +44,7 @@ module.exports = async () => {
       },
       jobTitle: "Sports Writer",
       pressPass: "eve-presspass.jpg",
+      profilePic: "adam-profile.jpg",
     },
   ];
 
