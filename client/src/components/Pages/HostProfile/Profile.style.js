@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
@@ -135,7 +136,7 @@ export const SubImage = styled.div`
 
 export const MainSection = styled.section`
   width: 100%;
-  border: 1px solid;
+
   margin-top: 7px;
   display: flex;
   justify-content: center;
@@ -168,25 +169,56 @@ export const OtherInfo = styled(InnerCard)`
   height: 150px;
 `;
 
-export const PressPadOffer = styled.div`
-  width: 100%
-  height: 180px;
-  border: 2px solid pink;
+export const PressPadOffer = styled(InnerCard)`
   margin-top: 10px;
+  height: 200px;
 `;
 
-export const Reviews = styled.div`
-  width: 100%
-  height: 180px;
-  border: 2px solid pink;
+export const Reviews = styled(InnerCard)`
   margin-top: 10px;
+  height: 300px;
+`;
 
+export const ReviewsSection = styled.div`
+  display: flex;
+`;
+
+export const ReviewsBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 8px;
+  width: 50%;
+`;
+
+export const ReviewsHeader = styled.div`
+  display: flex;
+`;
+
+export const StarRate = styled(Rate)`
+  font-size: 16px;
+`;
+
+export const ReviewHeadline = styled.h4`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2;
+`;
+
+export const ReviewText = styled.p`
+  font-weight: 300;
+  font-size: 16px;
+`;
+
+export const MoreReviewsLink = styled(Link)`
+  text-align: left;
+  color: ${colors.links};
+  text-decoration: none;
 `;
 
 export const AvailableHosting = styled.div`
   width: 35%;
   border: 1px solid green;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -227,17 +259,18 @@ export const Paragraph = styled.p`
   text-align: left;
   font-weight: 300;
   color: ${colors.fontLightBlack};
-  margin-top: 5px;
+  margin-top: 8px;
 `;
 
-export const List = styled.ul`
+export const List = styled.div`
+  margin-top: 10px;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   text-align: left;
 `;
 
 export const ListItem = styled.li`
-  display: inline-block;
+  margin-top: 8px;
+  font-weight: 300;
   width: calc(100% / 3);
 `;

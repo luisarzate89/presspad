@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import "antd/dist/antd.css";
+import { Rate } from "antd";
 
 import {
   Wrapper,
@@ -32,7 +34,14 @@ import {
   Paragraph,
   Card,
   List,
-  ListItem
+  ListItem,
+  ReviewsBox,
+  MoreReviewsLink,
+  ReviewsHeader,
+  StarRate,
+  ReviewHeadline,
+  ReviewText,
+  ReviewsSection
 } from "./Profile.style";
 
 // images
@@ -100,8 +109,56 @@ class HostProfile extends Component {
                 </List>
               </OtherInfo>
             </Card>
-            <PressPadOffer />
-            <Reviews />
+            <Card>
+              <PressPadOffer>
+                <SubHeadline>My PressPad Offer</SubHeadline>
+                <ParagraphHeadline>
+                  12 Marylbone St., London, NW2 5EP{" "}
+                </ParagraphHeadline>
+                <Paragraph>
+                  I live fairly close to the city centre in a relatively new
+                  build and share the apartment with an old friend. She’s a
+                  technical engineer and often works on location, so she’s not
+                  around very often during spring and summer.
+                </Paragraph>
+              </PressPadOffer>
+            </Card>
+            <Card>
+              <Reviews>
+                <SubHeadline>Reviews</SubHeadline>
+                <ReviewsSection>
+                  <ReviewsBox>
+                    <ReviewsHeader>
+                      <StarRate disabled defaultValue={2} />
+                      <ReviewHeadline>
+                        Alan, political investigator
+                      </ReviewHeadline>
+                    </ReviewsHeader>
+                    <ReviewText>
+                      Staying here was an absolute pleasure. I learned a great
+                      deal about how to approach politicians and very much
+                      enjoyed the city. We managed to go to a few journalistic
+                      events as well and met some amazing people!
+                    </ReviewText>
+                  </ReviewsBox>
+                  <ReviewsBox>
+                    <ReviewsHeader>
+                      <StarRate disabled defaultValue={2} />
+                      <ReviewHeadline>
+                        Alan, political investigator
+                      </ReviewHeadline>
+                    </ReviewsHeader>
+                    <ReviewText>
+                      Staying here was an absolute pleasure. I learned a great
+                      deal about how to approach politicians and very much
+                      enjoyed the city. We managed to go to a few journalistic
+                      events as well and met some amazing people!
+                    </ReviewText>
+                  </ReviewsBox>
+                </ReviewsSection>
+                <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
+              </Reviews>
+            </Card>
           </TextContentDiv>
           <AvailableHosting>
             <CalendarDiv />
