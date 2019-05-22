@@ -12,12 +12,36 @@ import {
   Headline,
   Address,
   SymbolDiv,
-  Symbol
+  Symbol,
+  ImageSection,
+  MainImageDiv,
+  MainImage,
+  SubImage,
+  SideImageDiv,
+  MainSection,
+  TextContentDiv,
+  AboutMe,
+  OtherInfo,
+  PressPadOffer,
+  Reviews,
+  AvailableHosting,
+  CalendarDiv,
+  PricingDiv,
+  SubHeadline,
+  ParagraphHeadline,
+  Paragraph,
+  Card,
+  List,
+  ListItem
 } from "./Profile.style";
 
 // images
 import adamProfile from "./../../../assets/profile-pictures/adam-profile.jpeg";
 import starSign from "./../../../assets/star-sign-symbol.svg";
+import listingImgC from "./../../../assets/listing-pictures/adam-21-roading-road/house.jpg";
+import listingImgB from "./../../../assets/listing-pictures/adam-21-roading-road/kitchen.jpg";
+import listingImgA from "./../../../assets/listing-pictures/adam-21-roading-road/living-room.jpg";
+import { Calendar } from "antd";
 
 class HostProfile extends Component {
   render() {
@@ -39,6 +63,51 @@ class HostProfile extends Component {
             <Symbol src={starSign} />
           </SymbolDiv>
         </Header>
+        <ImageSection>
+          <MainImageDiv>
+            <MainImage src={listingImgA} />
+          </MainImageDiv>
+          <SideImageDiv>
+            <SubImage src={listingImgB} />
+            <SubImage src={listingImgC} />
+          </SideImageDiv>
+        </ImageSection>
+        <MainSection>
+          <TextContentDiv>
+            <Card>
+              <AboutMe>
+                <SubHeadline>About Me</SubHeadline>
+                <ParagraphHeadline>
+                  Policy research editor - Financial Times
+                </ParagraphHeadline>
+                <Paragraph>
+                  I work at a major news publisher, specialising in politics and
+                  international relations. Used to travel a lot but now deal
+                  mainly with local policies.
+                </Paragraph>
+              </AboutMe>
+            </Card>
+            <Card>
+              <OtherInfo>
+                <SubHeadline>Other Info</SubHeadline>
+                <List>
+                  <ListItem>Pets allowed</ListItem>
+                  <ListItem>Pets allowed</ListItem>
+                  <ListItem>Pets allowed</ListItem>
+                  <ListItem>Pets allowed</ListItem>
+                  <ListItem>Pets allowed</ListItem>
+                  <ListItem>Pets allowed</ListItem>
+                </List>
+              </OtherInfo>
+            </Card>
+            <PressPadOffer />
+            <Reviews />
+          </TextContentDiv>
+          <AvailableHosting>
+            <CalendarDiv />
+            <PricingDiv />
+          </AvailableHosting>
+        </MainSection>
       </Wrapper>
     );
   }
