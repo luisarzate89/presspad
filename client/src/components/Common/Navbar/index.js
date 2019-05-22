@@ -27,6 +27,11 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${colors.primary};
   height: 60px;
+  z-index: 1;
+
+  & + * {
+    padding-top: 60px;
+  }
 `;
 
 const Logo = styled.img`
