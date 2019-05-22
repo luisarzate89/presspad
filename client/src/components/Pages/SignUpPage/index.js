@@ -25,8 +25,14 @@ export default class SignUpPage extends Component {
   state = {
     fields: {},
     errors: {},
-    msg: null
+    msg: null,
+    userType: null
   };
+
+  componentDidMount() {
+    const { userType } = this.props;
+    this.setState({ userType });
+  }
 
   onInputChange = e => {
     const { fields } = this.state;
@@ -64,7 +70,7 @@ export default class SignUpPage extends Component {
   };
 
   validateForm = () => {
-    const { fields } = this.state;
+    const { fields, userType } = this.state;
     const errors = {};
     let formIsValid = true;
 
@@ -78,9 +84,14 @@ export default class SignUpPage extends Component {
       errors.emailError = "* Please enter your email";
     }
 
-    if (!fields.orgCode) {
+    if (!fields.orgCode && userType === USER_TYPES.intern) {
       formIsValid = false;
       errors.orgCodeError = "* Please enter your unique code";
+    }
+
+    if (!fields.organisation && userType === USER_TYPES.organisation) {
+      formIsValid = false;
+      errors.organisationError = "* Please enter your organisation";
     }
 
     if (typeof fields.email !== "undefined") {
@@ -143,11 +154,12 @@ export default class SignUpPage extends Component {
 
   render() {
     const { fields, errors, msg } = this.state;
-    const { email, password, password2, name, orgCode } = fields;
+    const { email, password, password2, name, orgCode, organisation } = fields;
     const {
       nameError,
       emailError,
       orgCodeError,
+      organisationError,
       passwordError,
       password2Error
     } = errors;
@@ -163,6 +175,18 @@ export default class SignUpPage extends Component {
           {userType === USER_TYPES.intern && (
             <FormHeader>
               Please choose a password to complete your PressPad sign up process
+            </FormHeader>
+          )}
+          {userType === USER_TYPES.organisation && (
+            <FormHeader>
+              Please fill in the details below to create your organisation’s
+              PressPad account
+            </FormHeader>
+          )}
+          {userType === USER_TYPES.host && (
+            <FormHeader>
+              Please choose a password to create your account and become a
+              PressPad host
             </FormHeader>
           )}
           <InputDiv>
@@ -206,6 +230,21 @@ export default class SignUpPage extends Component {
               <ErrorMsg>{orgCodeError}</ErrorMsg>
             </InputDiv>
           )}
+          {userType === USER_TYPES.organisation && (
+            <InputDiv>
+              <InputLabel htmlFor="organisation">Organisation code</InputLabel>
+              <Input
+                placeholder="Enter your organisation"
+                name="organisation"
+                id="organisation"
+                type="text"
+                size="large"
+                onChange={onInputChange}
+                value={organisation}
+              />
+              <ErrorMsg>{organisationError}</ErrorMsg>
+            </InputDiv>
+          )}
           <InputDiv>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input.Password
@@ -233,9 +272,8 @@ export default class SignUpPage extends Component {
             <ErrorMsg>{password2Error}</ErrorMsg>
           </InputDiv>
           <ButtonWrapper>
-            <Button label="Sign in" type="primary" onClick={onFormSubmit} />
+            <Button label="Sign up" type="primary" onClick={onFormSubmit} />
           </ButtonWrapper>
-
           <ErrorMsg>{msg}</ErrorMsg>
         </SignUpForm>
       </Wrapper>
