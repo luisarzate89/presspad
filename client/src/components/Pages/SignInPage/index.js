@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { Input } from "antd";
+import axios from "axios";
 
 // COMMON COMPONENTS
 import Button from "./../../Common/Button";
+
+// CONSTANTS
+import { API_LOGIN_URL } from "./../../../constants/apiRoutes";
+import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
 // STYLING
 import {
@@ -74,10 +79,24 @@ export default class SignInPage extends Component {
     if (isValid) {
       const { email, password } = fields;
       const loginData = { email, password };
+      axios
+        .post(API_LOGIN_URL, loginData)
+        .then(({ data }) => {
+          console.log("reached", data);
+          console.log(this.props);
+          this.props.handleChangeState({ ...data, isLoggedIn: true });
+          // this.props.history.push(DASHBOARD_URL);
+          console.log(this.props);
+        })
+        .catch(err => {
+          this.setState({ msg: "error" });
+        });
     }
   };
 
   render() {
+    console.log("RENDER", this.props.handleChangeState);
+    console.log("RENDER", this.props.anyProps);
     const { fields, errors, msg } = this.state;
     const { email, password } = fields;
     const { emailError, passwordError } = errors;

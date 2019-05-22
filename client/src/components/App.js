@@ -13,15 +13,34 @@ import Navbar from "./Common/Navbar";
 
 import Pages from "./Pages";
 
+export const initialState = {
+  isLoggedIn: false,
+  userId: null,
+  userName: null,
+  userEmail: null,
+  isMounted: false
+};
+
 class App extends Component {
+  state = {
+    ...initialState
+  };
+
+  handleChangeState = data => {
+    this.setState({ ...data, isMounted: true });
+  };
+
   render() {
+    const { isLoggedIn } = this.state;
     return (
       <Router>
         <div className="App">
           <Navbar />
-          <Switch>
-            <Pages />
-          </Switch>
+          <Pages
+            handleChangeState={this.handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.state}
+          />
         </div>
       </Router>
     );
