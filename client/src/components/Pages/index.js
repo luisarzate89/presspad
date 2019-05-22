@@ -6,11 +6,13 @@ import PrivateRoute from "./../Common/PrivateRoute";
 
 import LandingPage from "./LandingPage";
 import SignInPage from "./SignInPage";
+import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 
 import {
   HOME_URL,
   SIGNIN_URL,
+  SIGNUP_INTERN,
   DASHBOARD_URL
 } from "./../../constants/navRoutes";
 
@@ -28,6 +30,21 @@ class Pages extends Component {
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
+          />
+          <Route
+            path={SIGNUP_INTERN}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="intern"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
           />
           <Route
             path={SIGNIN_URL}
