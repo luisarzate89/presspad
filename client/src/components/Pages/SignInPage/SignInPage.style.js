@@ -31,8 +31,13 @@ export const InputLabel = styled.label`
 
 export const InputDiv = styled.div`
   width: 50%;
+  margin-bottom: 1rem;
 `;
 
 export const ReferralText = styled.p``;
 
 export const Disclaimer = styled.div``;
+
+export const ErrorMsg = styled.div`
+  color: ${colors.red};
+`;
