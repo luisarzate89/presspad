@@ -36,11 +36,13 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar />
-          <Pages
-            handleChangeState={this.handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.state}
-          />
+          <Switch>
+            <Pages
+              handleChangeState={this.handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.state}
+            />
+          </Switch>
         </div>
       </Router>
     );

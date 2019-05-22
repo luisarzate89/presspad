@@ -82,11 +82,8 @@ export default class SignInPage extends Component {
       axios
         .post(API_LOGIN_URL, loginData)
         .then(({ data }) => {
-          console.log("reached", data);
-          console.log(this.props);
           this.props.handleChangeState({ ...data, isLoggedIn: true });
-          // this.props.history.push(DASHBOARD_URL);
-          console.log(this.props);
+          this.props.history.push(DASHBOARD_URL);
         })
         .catch(err => {
           this.setState({ msg: "error" });
@@ -95,8 +92,6 @@ export default class SignInPage extends Component {
   };
 
   render() {
-    console.log("RENDER", this.props.handleChangeState);
-    console.log("RENDER", this.props.anyProps);
     const { fields, errors, msg } = this.state;
     const { email, password } = fields;
     const { emailError, passwordError } = errors;
