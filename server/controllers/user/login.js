@@ -32,6 +32,7 @@ module.exports = (req, res, next) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          role: user.role,
         };
 
         // create token for 30 days

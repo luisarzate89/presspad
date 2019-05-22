@@ -21,7 +21,8 @@ export const initialState = {
   id: null,
   name: null,
   email: null,
-  isMounted: false
+  isMounted: false,
+  role: null
 };
 
 class App extends Component {
@@ -51,11 +52,11 @@ class App extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.state;
+    const { isLoggedIn, role } = this.state;
     return (
       <Router>
         <div className="App">
-          <Navbar />
+          <Navbar isLoggedIn={isLoggedIn} userType={role} />
           <Pages
             handleChangeState={this.handleChangeState}
             isLoggedIn={isLoggedIn}
