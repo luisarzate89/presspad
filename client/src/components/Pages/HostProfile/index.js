@@ -41,7 +41,10 @@ import {
   StarRate,
   ReviewHeadline,
   ReviewText,
-  ReviewsSection
+  ReviewsSection,
+  PriceHeadline,
+  PriceLabel,
+  RequestBtn
 } from "./Profile.style";
 
 // images
@@ -161,8 +164,19 @@ class HostProfile extends Component {
             </Card>
           </TextContentDiv>
           <AvailableHosting>
-            <CalendarDiv />
-            <PricingDiv />
+            <Card>
+              <CalendarDiv>
+                <SubHeadline>Available hosting</SubHeadline>
+                <ParagraphHeadline>
+                  Choose a slot to view price and request a stay with this host
+                </ParagraphHeadline>
+              </CalendarDiv>
+              <PricingDiv>
+                <PriceHeadline>Full price for period</PriceHeadline>
+                <PriceLabel>£245.00</PriceLabel>
+                <RequestBtn>Request Stay</RequestBtn>
+              </PricingDiv>
+            </Card>
           </AvailableHosting>
         </MainSection>
       </Wrapper>

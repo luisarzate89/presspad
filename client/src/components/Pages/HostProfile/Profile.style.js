@@ -4,7 +4,7 @@ import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
-import { shadows, colors } from "./../../../theme";
+import { shadows, colors, borders } from "./../../../theme";
 
 export const Wrapper = styled.div`
    {
@@ -218,25 +218,33 @@ export const MoreReviewsLink = styled(Link)`
 
 export const AvailableHosting = styled.div`
   width: 35%;
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-left: 5px;
+  margin-left: 15px;
 `;
 
-export const CalendarDiv = styled.div`
-  width: 100%;
-  height: 185px;
-  border: 2px solid pink;
+const InnerSideCard = styled.div`
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
-export const PricingDiv = styled.div`
-  width: 100%;
+export const CalendarDiv = styled(InnerSideCard)`
+  height: 300px;
+`;
+
+export const PricingDiv = styled(InnerSideCard)`
+  border-top: ${borders.divider}
   height: 185px;
-  border: 2px solid pink;
+`;
+
+export const PriceHeadline = styled(ReviewHeadline)`
+  text-align: left;
   margin-top: 10px;
 `;
+export const PriceLabel = styled.h1``;
+export const RequestBtn = styled.button``;
 
 export const SubHeadline = styled.h2`
   font-weight: 600;

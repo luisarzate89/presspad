@@ -65,7 +65,7 @@ export const colors = {
 // shadows
 export const shadows = {
   main: "0px 0px 24px rgba(0, 0, 0, 0.04)",
-  card: "0 1px 3px rgba(0,0,0,0.16), 0 1px 3px rgba(0,0,0,0.23)",
+  card: "0 0.5px 1.5px rgba(0,0,0,0.8), 0 0.5px 1.5px rgba(0,0,0,0.17)",
   pic: "0px 2px 24px rgba(0, 0, 0, 0.215882)"
 };
 
