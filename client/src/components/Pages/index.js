@@ -17,7 +17,6 @@ import {
 class Pages extends Component {
   render() {
     const { handleChangeState, isLoggedIn } = this.props;
-    console.log(isLoggedIn);
     return (
       <>
         <Switch>

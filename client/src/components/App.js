@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 
 // Antd style
@@ -56,11 +56,11 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar />
-            <Pages
-              handleChangeState={this.handleChangeState}
-              isLoggedIn={isLoggedIn}
-              {...this.state}
-            />
+          <Pages
+            handleChangeState={this.handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.state}
+          />
         </div>
       </Router>
     );

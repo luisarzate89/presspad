@@ -16,8 +16,6 @@ import {
   SignInForm,
   InputLabel,
   InputDiv,
-  ReferralText,
-  Disclaimer,
   ErrorMsg
 } from "./SignInPage.style";
 

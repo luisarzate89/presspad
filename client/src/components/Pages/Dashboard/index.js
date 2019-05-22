@@ -7,18 +7,6 @@ export default class Dashboard extends Component {
       <div>
         <h1>Dashboard</h1>
         <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
-        <p>Dashboard holding page</p>
       </div>
     );
   }

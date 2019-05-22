@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { colors, borders } from "../../../theme";
+import { colors } from "../../../theme";
 
 const sharedStyles = css`
   position: relative;

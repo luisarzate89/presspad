@@ -4,8 +4,6 @@ import { Spin } from "antd";
 
 import { SIGNIN_URL } from "./../../../constants/navRoutes";
 
-import Dashboard from "./../../Pages/Dashboard";
-
 // import { Wrapper, SpinWrapper } from "./PrivateRoute.style";
 
 const PrivateRoute = ({
@@ -16,7 +14,6 @@ const PrivateRoute = ({
   exact,
   ...rest
 }) => {
-  console.log(Component);
   return isMounted ? (
     <>
       <Route
@@ -24,7 +21,7 @@ const PrivateRoute = ({
         {...rest}
         render={LinkProps =>
           isLoggedIn ? (
-            <Dashboard {...LinkProps} {...rest} />
+            <Component {...LinkProps} {...rest} />
           ) : (
             <Redirect to={SIGNIN_URL} />
           )
