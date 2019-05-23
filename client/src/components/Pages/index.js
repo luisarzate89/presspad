@@ -1,17 +1,53 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
+
+//  COMMON COMPONENTS
+import PrivateRoute from "./../Common/PrivateRoute";
 
 import LandingPage from "./LandingPage";
+import SignInPage from "./SignInPage";
+import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
 
-import { HOME_URL, HOST_PROFILE } from "./../../constants/navRoutes";
+import {
+  HOME_URL,
+  SIGNIN_URL,
+  DASHBOARD_URL,
+  HOST_PROFILE
+} from "./../../constants/navRoutes";
 
 class Pages extends Component {
   render() {
+    const { handleChangeState, isLoggedIn } = this.props;
     return (
       <>
-        <Route exact path={HOME_URL} component={LandingPage} />
-        <Route path={HOST_PROFILE} component={HostProfile} />
+        <Switch>
+          <Route path={HOME_URL} exact component={LandingPage} />
+          <Route path={HOST_PROFILE} component={HostProfile} />
+
+          <PrivateRoute
+            exact
+            path={DASHBOARD_URL}
+            Component={Dashboard}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+          <Route
+            path={SIGNIN_URL}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignInPage
+                  handleChangeState={handleChangeState}
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
+        </Switch>
       </>
     );
   }

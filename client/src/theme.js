@@ -51,7 +51,10 @@ const colorCodes = {
   gray: "#545455",
   blueGray: "#F2F6FA",
   lightBlue: "#0ac7e7",
-  black: "#000000"
+  black: "#000000",
+
+  // transparent
+  transGray: "rgba(84, 84, 85, 0.4)"
 };
 
 // general colors

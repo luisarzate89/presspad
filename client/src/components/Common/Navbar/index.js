@@ -54,7 +54,7 @@ const MenuItem = styled(NavLink)`
   width: 100%;
 `;
 
-const Navbar = ({ loggedIn, userType }) => {
+const Navbar = ({ isLoggedIn, userType }) => {
   // RENDERING IS BASED ON KNOWING IF LOGGEDIN AND THE TYPE OF USER
 
   return (
@@ -64,7 +64,7 @@ const Navbar = ({ loggedIn, userType }) => {
       </NavLink>
       <Options>
         {/* NOT LOGGED IN */}
-        {!loggedIn && (
+        {!isLoggedIn && (
           <>
             <MenuItem to={HOME_URL}>Home</MenuItem>
             <MenuItem to={ABOUT_URL}>About</MenuItem>
@@ -74,7 +74,7 @@ const Navbar = ({ loggedIn, userType }) => {
         )}
 
         {/* LOGGED IN  */}
-        {loggedIn && (
+        {isLoggedIn && (
           <>
             <MenuItem to={DASHBOARD_URL}>Dashboard</MenuItem>
             {userType === USER_TYPES.intern && (
@@ -84,6 +84,11 @@ const Navbar = ({ loggedIn, userType }) => {
               </>
             )}
             {userType === USER_TYPES.host && (
+              <>
+                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+              </>
+            )}
+            {userType === USER_TYPES.superhost && (
               <>
                 <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
               </>
