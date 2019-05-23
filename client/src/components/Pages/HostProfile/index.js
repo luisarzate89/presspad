@@ -53,32 +53,10 @@ import {
 import "antd/dist/antd.css";
 
 // images
-import adamProfile from "./../../../assets/profile-pictures/adam-profile.jpeg";
+
 import starSign from "./../../../assets/star-sign-symbol.svg";
-import listingImgC from "./../../../assets/listing-pictures/adam-21-roading-road/house.jpg";
-import listingImgB from "./../../../assets/listing-pictures/adam-21-roading-road/kitchen.jpg";
-import listingImgA from "./../../../assets/listing-pictures/adam-21-roading-road/living-room.jpg";
 
 import { Spin, message, Calendar } from "antd";
-
-// functions
-const axiosCall = () => {
-  //get user id
-  const id = window.location.href.split("/")[4];
-  const url = `${API_HOST_PROFILE_URL}${id}`;
-  console.log(url);
-
-  axios
-    .get(`${API_HOST_PROFILE_URL}${id}`)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      const error =
-        err.response && err.response.data && err.response.data.error;
-      message.error(error || "Something went wrong");
-    });
-};
 
 class HostProfile extends Component {
   state = {
@@ -86,14 +64,63 @@ class HostProfile extends Component {
     profileData: null
   };
 
+  // functions
+  axiosCall = () => {
+    //get user id
+    const id = window.location.href.split("/")[4];
+    const data = { userId: id };
+    axios
+      .post(API_HOST_PROFILE_URL, data)
+      .then(res => {
+        this.setState({ isLoading: false, profileData: res.data[0] });
+      })
+      .catch(err => {
+        const error =
+          err.response && err.response.data && err.response.data.error;
+        message.error(error || "Something went wrong");
+      });
+  };
+
   componentWillMount() {
-    axiosCall();
+    this.axiosCall();
   }
 
+  // checks if profile image exists and returns src path
+  getProfilePic = img =>
+    img && img.length > 0
+      ? require(`./../../../assets/profile-pictures/${img}`)
+      : require("./../../../assets/profile-pictures/random-profile.jpg");
+
+  // checks if lisitng image exists and goes to right folder
+  getListingPic = (name, listingPic) => {
+    name = name.split(" ");
+    name = `${name[0].toLowerCase()}-${name[1].toLowerCase()}`;
+
+    return listingPic && listingPic.length > 0
+      ? require(`./../../../assets/listing-pictures/${name}/${listingPic}`)
+      : require("./../../../assets/listing-pictures/listing-placeholder.jpg");
+  };
+
+  createAddress = (street, city) => `${street}, ${city}`;
+
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, profileData } = this.state;
 
     if (isLoading) return <Spin tip="Loading Profile" />;
+    const { name, email, listing, profile, reviews } = profileData;
+    const { bio, interests, jobTitle, organisation, profilePic } = profile;
+
+    console.log(reviews);
+    // console.log(this.getListingPic(this.splitName(name), listing.photos[0]));
+
+    const {
+      address,
+      description,
+      availableDates,
+      otherInfo,
+      photos,
+      price
+    } = listing;
 
     return (
       <Wrapper>
@@ -104,22 +131,51 @@ class HostProfile extends Component {
           </BackLinkDiv>
         </LinkDiv>
         <Header>
-          <ProfilePicDiv src={adamProfile} />
+          <ProfilePicDiv
+            src={
+              this.getProfilePic(profilePic)
+                ? this.getProfilePic(profilePic)
+                : require("./../../../assets/profile-pictures/random-profile.jpg")
+            }
+          />
           <HeadlineDiv>
-            <Headline>A policy research editor at Financial Times</Headline>
-            <Address>12 Marylbone St., London</Address>
+            <Headline>
+              A {jobTitle} at {organisation.name}
+            </Headline>
+            <Address>{`${listing.address.street}, ${
+              listing.address.city
+            }`}</Address>
           </HeadlineDiv>
           <SymbolDiv>
+            {/* this needs to be dynamically rendered at some point */}
             <Symbol src={starSign} />
           </SymbolDiv>
         </Header>
         <ImageSection>
           <MainImageDiv>
-            <MainImage src={listingImgA} />
+            <MainImage
+              src={
+                this.getListingPic(name, listing.photos[0])
+                  ? this.getListingPic(name, listing.photos[0])
+                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
+              }
+            />
           </MainImageDiv>
           <SideImageDiv>
-            <SubImage src={listingImgB} />
-            <SubImage src={listingImgC} />
+            <SubImage
+              src={
+                this.getListingPic(name, listing.photos[1])
+                  ? this.getListingPic(name, listing.photos[1])
+                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
+              }
+            />
+            <SubImage
+              src={
+                this.getListingPic(name, listing.photos[2])
+                  ? this.getListingPic(name, listing.photos[2])
+                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
+              }
+            />
           </SideImageDiv>
         </ImageSection>
         <MainSection>
@@ -128,25 +184,18 @@ class HostProfile extends Component {
               <AboutMe>
                 <SubHeadline>About Me</SubHeadline>
                 <ParagraphHeadline>
-                  Policy research editor - Financial Times
+                  {jobTitle} - {organisation.name}
                 </ParagraphHeadline>
-                <Paragraph>
-                  I work at a major news publisher, specialising in politics and
-                  international relations. Used to travel a lot but now deal
-                  mainly with local policies.
-                </Paragraph>
+                <Paragraph>{bio}</Paragraph>
               </AboutMe>
             </Card>
             <Card>
               <OtherInfo>
                 <SubHeadline>Other Info</SubHeadline>
                 <List>
-                  <ListItem>Pets allowed</ListItem>
-                  <ListItem>Pets allowed</ListItem>
-                  <ListItem>Pets allowed</ListItem>
-                  <ListItem>Pets allowed</ListItem>
-                  <ListItem>Pets allowed</ListItem>
-                  <ListItem>Pets allowed</ListItem>
+                  {listing.otherInfo.map(li => (
+                    <ListItem>{li}</ListItem>
+                  ))}
                 </List>
               </OtherInfo>
             </Card>
@@ -154,48 +203,27 @@ class HostProfile extends Component {
               <PressPadOffer>
                 <SubHeadline>My PressPad Offer</SubHeadline>
                 <ParagraphHeadline>
-                  12 Marylbone St., London, NW2 5EP{" "}
+                  {listing.address.street}, {listing.address.city},{" "}
+                  {listing.address.postcode}
                 </ParagraphHeadline>
-                <Paragraph>
-                  I live fairly close to the city centre in a relatively new
-                  build and share the apartment with an old friend. She’s a
-                  technical engineer and often works on location, so she’s not
-                  around very often during spring and summer.
-                </Paragraph>
+                <Paragraph>{listing.description}</Paragraph>
               </PressPadOffer>
             </Card>
             <Card>
               <Reviews>
                 <SubHeadline>Reviews</SubHeadline>
                 <ReviewsSection>
-                  <ReviewsBox>
-                    <ReviewsHeader>
-                      <StarRate disabled defaultValue={2} />
-                      <ReviewHeadline>
-                        Alan, political investigator
-                      </ReviewHeadline>
-                    </ReviewsHeader>
-                    <ReviewText>
-                      Staying here was an absolute pleasure. I learned a great
-                      deal about how to approach politicians and very much
-                      enjoyed the city. We managed to go to a few journalistic
-                      events as well and met some amazing people!
-                    </ReviewText>
-                  </ReviewsBox>
-                  <ReviewsBox>
-                    <ReviewsHeader>
-                      <StarRate disabled defaultValue={2} />
-                      <ReviewHeadline>
-                        Alan, political investigator
-                      </ReviewHeadline>
-                    </ReviewsHeader>
-                    <ReviewText>
-                      Staying here was an absolute pleasure. I learned a great
-                      deal about how to approach politicians and very much
-                      enjoyed the city. We managed to go to a few journalistic
-                      events as well and met some amazing people!
-                    </ReviewText>
-                  </ReviewsBox>
+                  {reviews.map(re => (
+                    <ReviewsBox>
+                      <ReviewsHeader>
+                        <StarRate disabled defaultValue={re.rating} />
+                        <ReviewHeadline>
+                          Alan, political investigator
+                        </ReviewHeadline>
+                      </ReviewsHeader>
+                      <ReviewText>{re.message}</ReviewText>
+                    </ReviewsBox>
+                  ))}
                 </ReviewsSection>
                 <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
               </Reviews>

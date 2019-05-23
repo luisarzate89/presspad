@@ -162,17 +162,17 @@ const InnerCard = styled.div`
 `;
 
 export const AboutMe = styled(InnerCard)`
-  height: 150px;
+  height: 200px;
 `;
 
 export const OtherInfo = styled(InnerCard)`
   margin-top: 10px;
-  height: 150px;
+  height: 200px;
 `;
 
 export const PressPadOffer = styled(InnerCard)`
   margin-top: 10px;
-  height: 200px;
+  height: 300px;
 `;
 
 export const Reviews = styled(InnerCard)`

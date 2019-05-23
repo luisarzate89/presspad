@@ -18,6 +18,7 @@ module.exports = async () => {
       },
       jobTitle: "Journalist",
       pressPass: "adam-presspass.jpg",
+      profilePic: "adam-profile.jpeg",
     },
     {
       user: hosts[1],
@@ -43,8 +44,7 @@ module.exports = async () => {
         website: "www.guardian.co.uk",
       },
       jobTitle: "Sports Writer",
-      pressPass: "eve-presspass.jpg",
-      profilePic: "adam-profile.jpg",
+      pressPass: "hilda-presspass.jpg",
     },
   ];
 

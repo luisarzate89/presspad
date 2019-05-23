@@ -31,6 +31,7 @@ const profileSchema = new Schema({
   },
   profilePic: {
     type: String,
+    default: "",
   },
   favouriteArticle: {
     title: String,
