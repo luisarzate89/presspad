@@ -15,7 +15,7 @@ import {
   UploadText,
   UploadButton,
   PhotoWrapper
-} from "./InternCreateProfile.style";
+} from "./HostCreateProfile.style";
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
 
