@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";

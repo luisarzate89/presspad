@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import "antd/dist/antd.css";
-import { Rate } from "antd";
 
+//api
+import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
+import axios from "axios";
+
+//styles
 import {
   Wrapper,
   LinkDiv,
@@ -47,16 +50,51 @@ import {
   RequestBtn
 } from "./Profile.style";
 
+import "antd/dist/antd.css";
+
 // images
 import adamProfile from "./../../../assets/profile-pictures/adam-profile.jpeg";
 import starSign from "./../../../assets/star-sign-symbol.svg";
 import listingImgC from "./../../../assets/listing-pictures/adam-21-roading-road/house.jpg";
 import listingImgB from "./../../../assets/listing-pictures/adam-21-roading-road/kitchen.jpg";
 import listingImgA from "./../../../assets/listing-pictures/adam-21-roading-road/living-room.jpg";
-import { Calendar } from "antd";
+
+import { Spin, message, Calendar } from "antd";
+
+// functions
+const axiosCall = () => {
+  //get user id
+  const id = window.location.href.split("/")[4];
+  const url = `${API_HOST_PROFILE_URL}${id}`;
+  console.log(url);
+
+  axios
+    .get(`${API_HOST_PROFILE_URL}${id}`)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      const error =
+        err.response && err.response.data && err.response.data.error;
+      message.error(error || "Something went wrong");
+    });
+};
 
 class HostProfile extends Component {
+  state = {
+    isLoading: true,
+    profileData: null
+  };
+
+  componentWillMount() {
+    axiosCall();
+  }
+
   render() {
+    const { isLoading } = this.state;
+
+    if (isLoading) return <Spin tip="Loading Profile" />;
+
     return (
       <Wrapper>
         <LinkDiv>

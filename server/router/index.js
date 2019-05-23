@@ -15,7 +15,7 @@ const { LOGIN_URL, USER_URL, HOST_PROFILE_URL } = require("../../client/src/cons
 router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
-router.get(HOST_PROFILE_URL, getHostProfile);
+router.post(HOST_PROFILE_URL, getHostProfile);
 
 // USE CONTROLLERS
 router.post(LOGIN_URL, loginController);

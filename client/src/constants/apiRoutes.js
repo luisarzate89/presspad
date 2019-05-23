@@ -6,7 +6,7 @@ const API_LOGIN_URL = `${API_PREFIX}${LOGIN_URL}`; // to use on the client
 const USER_URL = "/user/check-user";
 const API_USER_URL = `${API_PREFIX}${USER_URL}`;
 
-const HOST_PROFILE_URL = "/host/:id";
+const HOST_PROFILE_URL = "/host/";
 
 const API_HOST_PROFILE_URL = `${API_PREFIX}${HOST_PROFILE_URL}`;
 
