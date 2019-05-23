@@ -21,7 +21,6 @@ module.exports.addNewUser = async (userInfo) => {
       name,
       password,
       role,
-      userCode: shortid.generate(),
       organisation: newOrg,
     });
   }
@@ -33,18 +32,15 @@ module.exports.addNewUser = async (userInfo) => {
       password,
       role,
       referral,
-      userCode: shortid.generate(),
     });
   }
   // assume it's intern at this point
-  const { code } = userInfo;
-  const org = await findOrg(code);
+  const { organisation } = userInfo;
   return User.create({
     email: email.toLowerCase(),
     name,
     password,
     role,
-    organisation: org,
-    userCode: shortid.generate(),
+    organisation,
   });
 };

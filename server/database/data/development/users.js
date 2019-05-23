@@ -1,61 +1,57 @@
 const shortid = require("shortid");
 const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
+const OrgCodes = require("../../models/OrgCodes");
 
 module.exports = async () => {
   // organisation codes
-  const organisationCodes = await Organisation.find();
+  const organisations = await Organisation.find();
   // create admin
   const admin = {
     email: "mark@presspad.co.uk",
     name: "Mark Upton",
     password: "123456",
     role: "admin",
-    userCode: shortid.generate(),
   };
   await User.create(admin);
 
   // create organisation users
-  const organisations = [
+  const organisationUsers = [
     {
       email: "michael@financialtimes.co.uk",
       name: "Michael Peters",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[0],
+      organisation: organisations[0],
       plan: "basic",
-      userCode: shortid.generate(),
     },
     {
       email: "josephine@guardian.co.uk",
       name: "Josephine Doeski",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[1],
+      organisation: organisations[1],
       plan: "basic",
-      userCode: shortid.generate(),
     },
     {
       email: "brian@bbc.co.uk",
       name: "Brian Meyer",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[2],
+      organisation: organisations[2],
       plan: "basic",
-      userCode: shortid.generate(),
     },
     {
       email: "luise@afp.co.uk",
       name: "Luise Michaels",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[3],
+      organisation: organisations[3],
       plan: "basic",
-      userCode: shortid.generate(),
     },
   ];
 
-  await User.create(organisations);
+  await User.create(organisationUsers);
 
   // create superhost
   const superhost = {
@@ -63,7 +59,6 @@ module.exports = async () => {
     name: "Alexandra Lions",
     password: "123456",
     role: "superhost",
-    userCode: shortid.generate(),
   };
 
   const storedSuperhost = await User.create(superhost);
@@ -76,7 +71,6 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      userCode: shortid.generate(),
     },
     {
       email: "eve@hello.com",
@@ -84,7 +78,6 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      userCode: shortid.generate(),
     },
     {
       email: "hilda@bbc.co.uk",
@@ -92,7 +85,6 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      userCode: shortid.generate(),
     },
   ];
 
@@ -105,24 +97,21 @@ module.exports = async () => {
       name: "Simon Dupree",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[3],
-      userCode: shortid.generate(),
+      organisation: organisations[0],
     },
     {
       email: "joe@hello.com",
       name: "Joe The Friel",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[2],
-      userCode: shortid.generate(),
+      organisation: organisations[1],
     },
     {
       email: "ramy@rambo.co.uk",
       name: "Ramy Rambo",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[0],
-      userCode: shortid.generate(),
+      organisation: organisations[2],
     },
   ];
 

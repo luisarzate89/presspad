@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const buildDB = require("../../../database/data/test");
 
 const { addNewUser } = require("./../../../database/queries/user");
-const { addOrg, findOrg } = require("./../../../database/queries/user/organisation");
+const { addOrg, checkCode } = require("./../../../database/queries/user/organisation");
 
 const User = require("../../../database/models/User");
 const Organisation = require("../../../database/models/Organisation");
+const OrgCode = require("../../../database/models/OrgCodes");
 
 describe("Test for add and find organisation queries", () => {
   beforeAll(async () => {
@@ -28,10 +29,10 @@ describe("Test for add and find organisation queries", () => {
   });
 
   test("Test findOrg", async (done) => {
-    const org = await Organisation.findOne();
-    findOrg(org.code).then((foundOrg) => {
-      expect(foundOrg).toBeDefined();
-      expect(foundOrg.name).toBe(org.name);
+    const orgCode = await OrgCode.findOne();
+    checkCode(orgCode.code).then((foundOrgCode) => {
+      expect(foundOrgCode).toBeDefined();
+      expect(foundOrgCode.organisation).toBeDefined();
       done();
     });
   });
@@ -55,7 +56,7 @@ describe("Test addNewUser query", () => {
       name: "Ted Test",
       password: "a123456A",
       role: "intern",
-      code: org.code,
+      organisation: org,
     };
 
     addNewUser(userInfo).then((newUser) => {
