@@ -58,21 +58,32 @@ module.exports.hostReviews = userId => new Promise((resolve, reject) => {
         from: "users",
         localField: "from",
         foreignField: "_id",
-        as: "from",
+        as: "from_user",
       },
+    },
+    {
+      $unwind: "$from_user",
+    },
+    {
+      $lookup: {
+        from: "profiles",
+        localField: "from",
+        foreignField: "user",
+        as: "from_profile",
+      },
+    },
+    {
+      $unwind: "$from_profile",
     },
     {
       $project: {
         _id: 0,
-        "from.name": 1,
-        "from.role": 1,
+        "from_user.name": 1,
+        "from_profile.jobTitle": 1,
         message: 1,
         createdAt: 1,
         rating: 1,
       },
-    },
-    {
-      $unwind: "$from",
     },
   ])
     .then(response => resolve(response))

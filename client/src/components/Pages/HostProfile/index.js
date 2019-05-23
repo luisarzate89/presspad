@@ -61,7 +61,8 @@ import { Spin, message, Calendar } from "antd";
 class HostProfile extends Component {
   state = {
     isLoading: true,
-    profileData: null
+    profileData: null,
+    reviews: null
   };
 
   // functions
@@ -72,7 +73,11 @@ class HostProfile extends Component {
     axios
       .post(API_HOST_PROFILE_URL, data)
       .then(res => {
-        this.setState({ isLoading: false, profileData: res.data[0] });
+        this.setState({
+          isLoading: false,
+          profileData: res.data[0][0],
+          reviews: res.data[1]
+        });
       })
       .catch(err => {
         const error =
@@ -104,23 +109,12 @@ class HostProfile extends Component {
   createAddress = (street, city) => `${street}, ${city}`;
 
   render() {
-    const { isLoading, profileData } = this.state;
+    if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
-    if (isLoading) return <Spin tip="Loading Profile" />;
-    const { name, email, listing, profile, reviews } = profileData;
+    const { profileData, reviews } = this.state;
+
+    const { name, email, listing, profile } = profileData;
     const { bio, interests, jobTitle, organisation, profilePic } = profile;
-
-    console.log(reviews);
-    // console.log(this.getListingPic(this.splitName(name), listing.photos[0]));
-
-    const {
-      address,
-      description,
-      availableDates,
-      otherInfo,
-      photos,
-      price
-    } = listing;
 
     return (
       <Wrapper>
@@ -193,8 +187,8 @@ class HostProfile extends Component {
               <OtherInfo>
                 <SubHeadline>Other Info</SubHeadline>
                 <List>
-                  {listing.otherInfo.map(li => (
-                    <ListItem>{li}</ListItem>
+                  {listing.otherInfo.map((li, i) => (
+                    <ListItem key={i}>{li}</ListItem>
                   ))}
                 </List>
               </OtherInfo>
@@ -209,25 +203,28 @@ class HostProfile extends Component {
                 <Paragraph>{listing.description}</Paragraph>
               </PressPadOffer>
             </Card>
-            <Card>
-              <Reviews>
-                <SubHeadline>Reviews</SubHeadline>
-                <ReviewsSection>
-                  {reviews.map(re => (
-                    <ReviewsBox>
-                      <ReviewsHeader>
-                        <StarRate disabled defaultValue={re.rating} />
-                        <ReviewHeadline>
-                          Alan, political investigator
-                        </ReviewHeadline>
-                      </ReviewsHeader>
-                      <ReviewText>{re.message}</ReviewText>
-                    </ReviewsBox>
-                  ))}
-                </ReviewsSection>
-                <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
-              </Reviews>
-            </Card>
+            {reviews.length > 0 && (
+              <Card>
+                <Reviews>
+                  <SubHeadline>Reviews</SubHeadline>
+                  <ReviewsSection>
+                    {reviews.map((re, i) => (
+                      <ReviewsBox key={i}>
+                        <ReviewsHeader>
+                          <StarRate disabled defaultValue={re.rating} />
+                          <ReviewHeadline>
+                            {re.from_user.name.split(" ")[0]},{" "}
+                            {re.from_profile.jobTitle}
+                          </ReviewHeadline>
+                        </ReviewsHeader>
+                        <ReviewText>{re.message}</ReviewText>
+                      </ReviewsBox>
+                    ))}
+                  </ReviewsSection>
+                  <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
+                </Reviews>
+              </Card>
+            )}
           </TextContentDiv>
           <AvailableHosting>
             <Card>

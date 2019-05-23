@@ -42,7 +42,7 @@ describe("Tests for hostProfile queries", () => {
     await hostReviews(hosts[0]._id).then((reviews) => {
       expect(reviews).toBeDefined();
       expect(reviews[0]).toBeDefined();
-      expect(reviews[0].from.name).toBeDefined();
+      expect(reviews[0].from_user.name).toBeDefined();
       expect(reviews[0].rating).toBeDefined();
     });
     done();

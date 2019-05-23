@@ -38,7 +38,7 @@ describe("Testing for get host profile route", () => {
         expect(res.body[0][0].listing).toBeDefined();
         expect(res.body[0][0].profile).toBeDefined();
         expect(res.body[1]).toBeDefined();
-        expect(res.body[1][0].from.name).toBeDefined();
+        expect(res.body[1][0].from_user.name).toBeDefined();
         expect(res.body[1][0].message).toBeDefined();
         done(err);
       });
@@ -53,7 +53,6 @@ describe("Testing for get host profile route", () => {
       .expect("Content-Type", /json/)
       .expect(404)
       .end((err, res) => {
-        expect(res.body).toBeDefined();
         expect(res.body.error).toBe("Cannot find the profile you're looking for");
         done(err);
       });
