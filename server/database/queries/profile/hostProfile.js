@@ -1,21 +1,46 @@
 const mongoose = require("mongoose");
 const User = require("../../models/User");
 
-const hostProfileData = userId => new Promise((resolve, reject) => {
+module.exports = userId => new Promise((resolve, reject) => {
   User.aggregate([
     // match user
     {
       $match: { _id: mongoose.Types.ObjectId(userId) },
     },
-
     // lookup profile
-
+    {
+      $lookup: {
+        from: "profiles",
+        localField: "_id",
+        foreignField: "user",
+        as: "profile",
+      },
+    },
+    {
+      $unwind: "$profile",
+    },
     // lookup listings
-
-    // lookup reviews
+    {
+      $lookup: {
+        from: "listings",
+        localField: "_id",
+        foreignField: "user",
+        as: "listing",
+      },
+    },
+    {
+      $unwind: "$listing",
+    },
+    // lookup reviews about the host
+    {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "to",
+        as: "reviews",
+      },
+    },
   ])
     .then(response => resolve(response))
     .catch(error => reject(error));
 });
-
-export default hostProfileData;
