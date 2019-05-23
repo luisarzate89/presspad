@@ -34,11 +34,12 @@ describe("Testing for get host profile route", () => {
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body).toBeDefined();
-        expect(res.body[0]._id).toBeDefined();
-        expect(res.body[0].email).toBe(host.email);
-        expect(res.body[0].listing).toBeDefined();
-        expect(res.body[0].profile).toBeDefined();
-        expect(res.body[0].reviews).toBeDefined();
+        expect(res.body[0][0].name).toBe(host.name);
+        expect(res.body[0][0].listing).toBeDefined();
+        expect(res.body[0][0].profile).toBeDefined();
+        expect(res.body[1]).toBeDefined();
+        expect(res.body[1][0].from.name).toBeDefined();
+        expect(res.body[1][0].message).toBeDefined();
         done(err);
       });
   });
@@ -61,10 +62,11 @@ describe("Testing for get host profile route", () => {
   test("test with no user id", async (done) => {
     request(app)
       .post("/api/host")
+      .send("hello")
       .expect("Content-Type", /json/)
       .expect(400)
       .end((err, res) => {
-        expect(err).toBeDefined();
+        expect(res.body.error).toBeDefined();
         expect(res.body.error).toBe("error loading profile");
         done(err);
       });

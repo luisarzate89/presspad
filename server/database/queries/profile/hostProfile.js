@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../../models/User");
+const Review = require("../../models/Review");
 
 module.exports.hostProfileData = userId => new Promise((resolve, reject) => {
   User.aggregate([
@@ -31,14 +32,47 @@ module.exports.hostProfileData = userId => new Promise((resolve, reject) => {
     {
       $unwind: "$listing",
     },
-    // lookup reviews about the host
+    {
+      $project: {
+        _id: 0,
+        name: 1,
+        email: 1,
+        listing: 1,
+        profile: 1,
+      },
+    },
+  ])
+    .then(response => resolve(response))
+    .catch(error => reject(error));
+});
+
+module.exports.hostReviews = userId => new Promise((resolve, reject) => {
+  Review.aggregate([
+    // match user
+    {
+      $match: { to: mongoose.Types.ObjectId(userId) },
+    },
+    // lookup user
     {
       $lookup: {
-        from: "reviews",
-        localField: "_id",
-        foreignField: "to",
-        as: "reviews",
+        from: "users",
+        localField: "from",
+        foreignField: "_id",
+        as: "from",
       },
+    },
+    {
+      $project: {
+        _id: 0,
+        "from.name": 1,
+        "from.role": 1,
+        message: 1,
+        createdAt: 1,
+        rating: 1,
+      },
+    },
+    {
+      $unwind: "$from",
     },
   ])
     .then(response => resolve(response))
