@@ -17,6 +17,7 @@ import "antd/lib/avatar/style/index.css";
 import "antd/lib/grid/style/index.css";
 import "antd/lib/checkbox/style/index.css";
 import "antd/lib/date-picker/style/index.css";
+import "antd/lib/divider/style/index.css";
 
 import Pages from "./Pages";
 

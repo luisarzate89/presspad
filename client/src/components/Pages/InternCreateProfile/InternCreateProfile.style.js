@@ -64,8 +64,6 @@ export const UploadText = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  display: inline-block;
-  width: 150px;
   margin-bottom: 20px;
 `;
 
@@ -83,8 +81,13 @@ export const PhotoWrapper = styled.div`
   @media (max-width: 575.98px) { 
     height: 257px;
     margin: 0
-    margin-bottom:12.5px
+    margin-bottom:12.5px;
    }
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: ${({ imageSrc }) =>
+    imageSrc ? `url(${imageSrc})` : "none"};
 `;
 
 export const UploadButton = styled.button`
