@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const buildDB = require("../../../database/data/test");
 
 const { addNewUser } = require("./../../../database/queries/user");
-const { addOrg, checkCode } = require("./../../../database/queries/user/organisation");
+const { addOrg, checkCode, deleteCode } = require("./../../../database/queries/user/organisation");
 
 const User = require("../../../database/models/User");
 const Organisation = require("../../../database/models/Organisation");
@@ -28,11 +28,20 @@ describe("Test for add and find organisation queries", () => {
     });
   });
 
-  test("Test findOrg", async (done) => {
+  test("Test checkCode", async (done) => {
     const orgCode = await OrgCode.findOne();
     checkCode(orgCode.code).then((foundOrgCode) => {
       expect(foundOrgCode).toBeDefined();
       expect(foundOrgCode.organisation).toBeDefined();
+      done();
+    });
+  });
+
+  test("Test deleteCode", async (done) => {
+    const orgCode = await OrgCode.findOne();
+    deleteCode(orgCode.code).then((deletedCode) => {
+      expect(deletedCode).toBeDefined();
+      expect(deletedCode.deletedCount).toBe(1);
       done();
     });
   });

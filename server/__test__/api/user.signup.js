@@ -6,7 +6,7 @@ const app = require("./../../app");
 
 const { API_SIGNUP_URL } = require("../../../client/src/constants/apiRoutes");
 
-const Organisation = require("../../../database/models/Organisation");
+const Organisation = require("./../../database/models/Organisation");
 
 describe("Testing for signup route", () => {
   beforeAll(async () => {
