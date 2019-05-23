@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 
 // read the config file
-// require("dotenv").config();
-require("env2")("./.env");
+require("dotenv").config();
 
 let mongoURI = process.env.MONGO_URI;
 
 if (process.env.NODE_ENV === "test") {
   // change mongoURI to testing database URI
   mongoURI = process.env.MONGOURI_TEST;
+} else if (process.env.NODE_ENV === "production") {
+  // console.log(process.env.MONGO_URI_PROD);
+  // change mongoURI to testing database URI
+  mongoURI = process.env.MONGO_URI_PROD;
 }
-
+// mongodb://localhost:27017/connect5db
 // create DB connection
 const dbConnection = () => mongoose.connect(mongoURI, {
   useNewUrlParser: true,
