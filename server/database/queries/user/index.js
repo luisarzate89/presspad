@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const shortid = require("shortid");
 const User = require("../../models/User");
 
-const { addOrg, findOrg } = require("./organisation");
+const { addOrg } = require("./organisation");
 
 module.exports.findByEmail = email => User.findOne({ email: email.toLowerCase() });
 
