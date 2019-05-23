@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const buildDB = require("../../../database/data/test/index");
 
 // get query
-const hostProfileData = require("../../../database/queries/profile/hostProfile");
+const { hostProfileData } = require("../../../database/queries/profile/hostProfile");
 
 // get models
 const User = require("../../../database/models/User");

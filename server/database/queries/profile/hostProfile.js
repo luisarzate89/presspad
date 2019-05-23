@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../../models/User");
 
-module.exports = userId => new Promise((resolve, reject) => {
+module.exports.hostProfileData = userId => new Promise((resolve, reject) => {
   User.aggregate([
     // match user
     {
