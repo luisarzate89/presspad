@@ -1,3 +1,4 @@
+const shortid = require("shortid");
 const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
 
@@ -10,6 +11,7 @@ module.exports = async () => {
     name: "Mark Upton",
     password: "123456",
     role: "admin",
+    userCode: shortid.generate(),
   };
   await User.create(admin);
 
@@ -22,6 +24,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisationCodes[0],
       plan: "basic",
+      userCode: shortid.generate(),
     },
     {
       email: "josephine@guardian.co.uk",
@@ -30,6 +33,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisationCodes[1],
       plan: "basic",
+      userCode: shortid.generate(),
     },
     {
       email: "brian@bbc.co.uk",
@@ -38,6 +42,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisationCodes[2],
       plan: "basic",
+      userCode: shortid.generate(),
     },
     {
       email: "luise@afp.co.uk",
@@ -46,6 +51,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisationCodes[3],
       plan: "basic",
+      userCode: shortid.generate(),
     },
   ];
 
@@ -57,6 +63,7 @@ module.exports = async () => {
     name: "Alexandra Lions",
     password: "123456",
     role: "superhost",
+    userCode: shortid.generate(),
   };
 
   const storedSuperhost = await User.create(superhost);
@@ -69,6 +76,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      userCode: shortid.generate(),
     },
     {
       email: "eve@hello.com",
@@ -76,6 +84,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      userCode: shortid.generate(),
     },
     {
       email: "hilda@bbc.co.uk",
@@ -83,6 +92,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      userCode: shortid.generate(),
     },
   ];
 
@@ -96,6 +106,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisationCodes[3],
+      userCode: shortid.generate(),
     },
     {
       email: "joe@hello.com",
@@ -103,6 +114,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisationCodes[2],
+      userCode: shortid.generate(),
     },
     {
       email: "ramy@rambo.co.uk",
@@ -110,6 +122,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisationCodes[0],
+      userCode: shortid.generate(),
     },
   ];
 
