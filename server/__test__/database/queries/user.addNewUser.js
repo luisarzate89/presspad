@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const buildDB = require("../../../database/data/test");
 
-const { addOrg, findOrg, addNewUser } = require("./../../../database/queries/user");
+const { addNewUser } = require("./../../../database/queries/user");
+const { addOrg, findOrg } = require("./../../../database/queries/user/organisation");
 
 const User = require("../../../database/models/User");
 const Organisation = require("../../../database/models/Organisation");
@@ -36,29 +37,68 @@ describe("Test for add and find organisation queries", () => {
   });
 });
 
-// describe("Test for findByEmail query", () => {
-//   beforeAll(async () => {
-//     // build dummy data
-//     await buildDB();
-//   });
+describe("Test addNewUser query", () => {
+  beforeAll(async () => {
+    // build dummy data
+    await buildDB();
+  });
 
-//   afterAll(() => {
-//     mongoose.disconnect();
-//   });
+  afterAll(() => {
+    mongoose.disconnect();
+  });
 
-//   test("Test with correct eamil", async (done) => {
-//     const user = await User.findOne();
-//     findByEmail(user.email).then((foundUser) => {
-//       expect(foundUser).toBeDefined();
-//       expect(foundUser.email).toBe(user.email);
-//       done();
-//     });
-//   });
+  test("Test intern", async (done) => {
+    const org = await Organisation.findOne();
 
-//   test("Test with email that doesn't exist", async (done) => {
-//     findByEmail("wrong@eamil.com").then((foundUser) => {
-//       expect(foundUser).toBeNull();
-//       done();
-//     });
-//   });
-// });
+    const userInfo = {
+      email: "intern@test.com",
+      name: "Ted Test",
+      password: "a123456A",
+      role: "intern",
+      code: org.code,
+    };
+
+    addNewUser(userInfo).then((newUser) => {
+      expect(newUser).toBeDefined();
+      expect(newUser.email).toBe(userInfo.email);
+      expect(newUser.organisation.id).toBe(org.id);
+      done();
+    });
+  });
+
+  test("Test host", async (done) => {
+    const referralUser = await User.findOne({ role: "superhost" });
+
+    const userInfo = {
+      email: "host@test.com",
+      name: "Ted Test",
+      password: "a123456A",
+      role: "host",
+      referral: referralUser.id,
+    };
+
+    addNewUser(userInfo).then((newUser) => {
+      expect(newUser).toBeDefined();
+      expect(newUser.email).toBe(userInfo.email);
+      expect(newUser.role).toBe(userInfo.role);
+      done();
+    });
+  });
+
+  test("Test organisation", async (done) => {
+    const userInfo = {
+      email: "organisation@test.com",
+      name: "Ted Test",
+      password: "a123456A",
+      role: "organisation",
+      organisation: "Test Media Inc",
+    };
+
+    addNewUser(userInfo).then((newUser) => {
+      expect(newUser).toBeDefined();
+      expect(newUser.email).toBe(userInfo.email);
+      expect(newUser.role).toBe(userInfo.role);
+      done();
+    });
+  });
+});

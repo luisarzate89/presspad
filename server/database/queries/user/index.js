@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
 const shortid = require("shortid");
 const User = require("../../models/User");
-const Organisation = require("../../models/Organisation");
 
-const addOrg = (name, logo) => Organisation.create({ name, logo, code: shortid.generate() });
-
-const findOrg = uniqueCode => Organisation.findOne({ code: uniqueCode });
+const { addOrg, findOrg } = require("./organisation");
 
 module.exports.findByEmail = email => User.findOne({ email: email.toLowerCase() });
 
@@ -48,7 +45,6 @@ module.exports.addNewUser = async (userInfo) => {
     password,
     role,
     organisation: org,
+    userCode: shortid.generate(),
   });
 };
-
-module.exports = { addOrg, findOrg };
