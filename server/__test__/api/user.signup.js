@@ -6,7 +6,7 @@ const app = require("./../../app");
 
 const { API_SIGNUP_URL } = require("../../../client/src/constants/apiRoutes");
 
-const Organisation = require("./../../database/models/Organisation");
+const OrgCodes = require("./../../database/models/OrgCodes");
 
 describe("Testing for signup route", () => {
   beforeAll(async () => {
@@ -19,7 +19,7 @@ describe("Testing for signup route", () => {
   });
 
   test("test correct intern details", async (done) => {
-    const org = await Organisation.findOne();
+    const org = await OrgCodes.findOne();
 
     const data = {
       userInfo: {
@@ -38,7 +38,10 @@ describe("Testing for signup route", () => {
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
-        expect(res.body).toBe("hello");
+        expect(res.body).toBeDefined();
+        expect(res.body.email).toBe(data.userInfo.email);
+        expect(res.body.name).toBe(data.userInfo.name);
+        expect(res.body.password).toBe(undefined);
         done(err);
       });
   });

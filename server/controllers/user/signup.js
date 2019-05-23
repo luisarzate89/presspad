@@ -25,11 +25,44 @@ module.exports = (req, res, next) => {
       // different actions then based on user role
 
       if (role === "intern") {
+        // get code from userInfo
+        const { code } = userInfo;
         // check code exists
-        // if code doesn't exist return error that code doesn't exist
-        // if code exists add organisation to userInfo object
-        // add new user
-        // delete code
+        return checkCode(code)
+          .then((storedCode) => {
+            // if code doesn't exist return error that code doesn't exist
+            if (!storedCode) {
+              return next(boom.notFound("Code has expired or does not exist"));
+            }
+            // if code exists add organisation to userInfo object
+            userInfo.organisation = storedCode.organisation;
+
+            // add new user
+            return addNewUser(userInfo)
+              .then((user) => {
+                const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+                  expiresIn: tokenMaxAge.string,
+                });
+
+                res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
+
+                // delete code and then send userInfo back to client
+                return deleteCode(code)
+                  .then(() => {
+                    // data to be sent in the response
+                    const newUserInfo = {
+                      id: user._id,
+                      role: user.role,
+                      email: user.email,
+                      name: user.name,
+                    };
+                    return res.json(newUserInfo);
+                  })
+                  .catch(err => next(boom.badImpletemention(err)));
+              })
+              .catch(err => next(boom.badImplementation(err)));
+          })
+          .catch(err => next(boom.badImplementation(err)));
       }
 
       return addNewUser(userInfo)
