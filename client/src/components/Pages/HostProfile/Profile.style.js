@@ -176,7 +176,7 @@ export const PressPadOffer = styled(InnerCard)`
 
 export const Reviews = styled(InnerCard)`
   margin-top: 10px;
-  height: 300px;
+  height: 350px;
 `;
 
 export const ReviewsSection = styled.div`
