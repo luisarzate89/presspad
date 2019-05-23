@@ -5,6 +5,8 @@ const OrgCodes = require("../../models/OrgCodes");
 
 module.exports.addOrg = (name, logo) => Organisation.create({ name, logo, code: shortid.generate() });
 
+module.exports.getOrgByName = name => Organisation.find({ name });
+
 module.exports.checkCode = uniqueCode => OrgCodes.findOne({ code: uniqueCode });
 
 module.exports.createCode = organisationId => OrgCodes.create({ organisation: organisationId, code: shortid.generate() });

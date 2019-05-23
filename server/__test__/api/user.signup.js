@@ -7,6 +7,7 @@ const app = require("./../../app");
 const { API_SIGNUP_URL } = require("../../../client/src/constants/apiRoutes");
 
 const OrgCodes = require("./../../database/models/OrgCodes");
+const User = require("./../../database/models/User");
 
 describe("Testing for signup route", () => {
   beforeAll(async () => {
@@ -42,6 +43,102 @@ describe("Testing for signup route", () => {
         expect(res.body.email).toBe(data.userInfo.email);
         expect(res.body.name).toBe(data.userInfo.name);
         expect(res.body.password).toBe(undefined);
+        done(err);
+      });
+  });
+
+  test("test if email already exists", async (done) => {
+    const data = {
+      userInfo: {
+        email: "intern@test.com",
+        name: "Ted Test",
+        password: "a123456A",
+        role: "intern",
+        code: "11111",
+      },
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect("Content-Type", /json/)
+      .expect(409)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.error).toBe("Email already taken");
+        done(err);
+      });
+  });
+
+  test("test intern with incorrect code", async (done) => {
+    const data = {
+      userInfo: {
+        email: "newIntern@test.com",
+        name: "Ted Test",
+        password: "a123456A",
+        role: "intern",
+        code: "11111",
+      },
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect("Content-Type", /json/)
+      .expect(404)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.error).toBe("Code has expired or does not exist");
+        done(err);
+      });
+  });
+
+  test("test host with correct details", async (done) => {
+    const superhost = await User.find({ type: "superhost" });
+
+    const data = {
+      userInfo: {
+        email: "host@test.com",
+        name: "Ted Test",
+        password: "a123456A",
+        role: "host",
+        referral: superhost.id,
+      },
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.email).toBe(data.userInfo.email);
+        expect(res.referral).toBe(superhost.id);
+        done(err);
+      });
+  });
+
+  test("test organisation with correct details", async (done) => {
+    const data = {
+      userInfo: {
+        email: "organisation@test.com",
+        name: "Ted Test",
+        password: "a123456A",
+        role: "host",
+        organisation: "ITV",
+      },
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.email).toBe(data.userInfo.email);
+        expect(res.body.organisation).toBe(data.userInfo.organisation);
         done(err);
       });
   });

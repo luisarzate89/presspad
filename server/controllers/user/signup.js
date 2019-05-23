@@ -6,7 +6,11 @@ const jwt = require("jsonwebtoken");
 
 // QUERIES
 const { findByEmail, addNewUser } = require("./../../database/queries/user");
-const { checkCode, deleteCode } = require("./../../database/queries/user/organisation");
+const {
+  checkCode,
+  deleteCode,
+  getOrgByName,
+} = require("./../../database/queries/user/organisation");
 
 // CONSTANTS
 const { tokenMaxAge } = require("./../../constants");
@@ -22,8 +26,7 @@ module.exports = (req, res, next) => {
         return next(boom.conflict("Email already taken"));
       }
 
-      // different actions then based on user role
-
+      // MORE CHECKS REQUIRED FOR INTERN
       if (role === "intern") {
         // get code from userInfo
         const { code } = userInfo;
@@ -65,6 +68,7 @@ module.exports = (req, res, next) => {
           .catch(err => next(boom.badImplementation(err)));
       }
 
+      // FOR HOST AND ORGANISATION
       return addNewUser(userInfo)
         .then((user) => {
           const token = jwt.sign({ id: user._id }, process.env.SECRET, {
