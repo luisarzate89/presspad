@@ -1,13 +1,23 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Divider, Input, Checkbox, DatePicker } from "antd";
+import {
+  Row,
+  Col,
+  Avatar,
+  Divider,
+  Input,
+  Checkbox,
+  DatePicker,
+  message
+} from "antd";
 import moment from "moment";
+import * as Yup from "yup";
 
 import {
   PageWrapper,
   ContentWrapper,
   HeaderWrapper,
   HiText,
-  AddProfilePhotoButton,
+  HeaderButtonsWrapper,
   Section,
   SectionTitile,
   SectionWrapperContent,
@@ -19,6 +29,17 @@ import {
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
 
+const schema = Yup.object().shape({
+  profileImage: Yup.mixed().required("Required"),
+  bio: Yup.string().required("Required"),
+  organisationName: Yup.string().required("Required"),
+  organisationWebsite: Yup.string()
+    .url("Not a valid link")
+    .required("Required"),
+  jobTitle: Yup.string().required("Required"),
+  pressPass: Yup.mixed().required("Required")
+});
+
 class InternCreateProfile extends Component {
   state = {
     profileImage: {
@@ -27,22 +48,17 @@ class InternCreateProfile extends Component {
     },
     bio: "",
     interests: "",
-    organisation: {
-      name: "",
-      website: ""
-    },
-    jobTitle: "",
-    offer: {
-      // address
-      line1: "",
-      line2: "",
-      city: "",
-      postcode: "",
+    organisationName: "",
+    organisationWebsite: "",
 
-      description: "",
-      otherInfo: [String],
-      price: ""
-    },
+    jobTitle: "",
+    addressLine1: "",
+    addressLine2: "",
+    addressCity: "",
+    addressPostCode: "",
+    offerDescription: "",
+    offerOtherInfo: [],
+
     availableDates: [
       {
         startDate: null,
@@ -51,21 +67,8 @@ class InternCreateProfile extends Component {
         endValue: null,
         endOpen: false
       }
-      // {
-      //   startDate: null,
-      //   endDate: null,
-      //   startValue: null,
-      //   endValue: null,
-      //   endOpen: false
-      // }
-      // {
-      //   startDate: null,
-      //   endDate: null,
-      //   startValue: null,
-      //   endValue: null,
-      //   endOpen: false
-      // }
     ],
+
     offerImages1: {
       dataUrl: null,
       file: null
@@ -78,7 +81,8 @@ class InternCreateProfile extends Component {
       dataUrl: null,
       file: null
     },
-    pressPass: {}
+    pressPass: {},
+    errors: {}
   };
 
   handleOtherInfo = otherInfo => {
@@ -109,17 +113,31 @@ class InternCreateProfile extends Component {
     this.setState({ [name]: value });
   };
 
+  hsndleSubmit = e => {
+    const { profileImage, pressPass } = this.state;
+    const state = {
+      ...this.state,
+      profileImage: profileImage.file,
+      pressPass: pressPass.dataUrl
+    };
+    e.preventDefault();
+    schema.validate(state, { abortEarly: false }).catch(err => {
+      const errors = {};
+      err.inner.forEach(element => {
+        errors[element.path] = element.message;
+      });
+      console.log(errors);
+
+      this.setState({ errors });
+    });
+  };
+
   nestedSetStat = (value, name, cb) => {
     const [parent, child] = name.split(".");
     const parentValue = this.state[parent];
     this.setState({ [parent]: { ...parentValue, [child]: value } }, () => {
       cb && cb();
     });
-  };
-
-  handelNestedInputChange = ({ target }) => {
-    const { value, name } = target;
-    this.nestedSetStat(value, name);
   };
 
   handlDateRage = (index, dateString) => {
@@ -136,18 +154,65 @@ class InternCreateProfile extends Component {
   };
 
   disabledStartDate = (index, startValue) => {
+    const { availableDates } = this.state;
     const endValue = this.state.availableDates[index].endValue;
-    if (!startValue || !endValue) {
-      return startValue && startValue < moment().endOf("day");
+
+    const isDatePicked = availableDates.reduce((prev, curr) => {
+      const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
+
+      if (
+        startValue &&
+        rangeStartValue &&
+        rangeEndValue &&
+        (startValue.valueOf() >= rangeStartValue.valueOf() &&
+          startValue.valueOf() <= rangeEndValue.valueOf() + 86400000)
+      ) {
+        return true;
+      }
+
+      return prev || false;
+    }, false);
+
+    if (isDatePicked) {
+      return true;
     }
+
+    if (!startValue || !endValue) {
+      // return true ===>>> disabled
+      return startValue && startValue < moment().subtract(1, "day");
+    }
+
     return (
       startValue.valueOf() > endValue.valueOf() ||
-      (startValue && startValue < moment().endOf("day"))
+      (startValue && startValue < moment().subtract(1, "day"))
     );
   };
+  // ------------------------------
 
   disabledEndDate = (index, endValue) => {
+    const { availableDates } = this.state;
+
     const startValue = this.state.availableDates[index].startValue;
+    const isDatePicked = availableDates.reduce((prev, curr) => {
+      const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
+
+      if (
+        startValue &&
+        rangeStartValue &&
+        rangeEndValue &&
+        (endValue.valueOf() >= rangeStartValue.valueOf() &&
+          endValue.valueOf() <= rangeEndValue.valueOf() + 86400000)
+      ) {
+        return true;
+      }
+
+      return prev || false;
+    }, false);
+
+    if (isDatePicked) {
+      return true;
+    }
+
     if (!endValue || !startValue) {
       return endValue && endValue < moment().endOf("day");
     }
@@ -164,11 +229,34 @@ class InternCreateProfile extends Component {
     const obj = {
       [field]: value
     };
+    const { startValue } = newAvailableDates[index];
 
+    let isDatePicked;
     if (field === "startValue") {
       obj.endOpen = true;
     } else if (field === "endValue") {
       obj.endOpen = false;
+
+      isDatePicked = availableDates.reduce((prev, curr) => {
+        const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
+
+        if (
+          value &&
+          startValue &&
+          rangeStartValue &&
+          rangeEndValue &&
+          (startValue.valueOf() <= rangeStartValue.valueOf() &&
+            value.valueOf() > rangeEndValue.valueOf())
+        ) {
+          return true;
+        }
+
+        return prev || false;
+      }, false);
+    }
+
+    if (isDatePicked) {
+      return message.warning("Cannot select intersected ranges");
     }
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
@@ -186,6 +274,11 @@ class InternCreateProfile extends Component {
 
   handleAddMoreRanges = () => {
     const { availableDates } = this.state;
+    const { endValue, startValue } = availableDates[availableDates.length - 1];
+    if (!endValue || !startValue) {
+      return message.warning("fill the previous one");
+    }
+
     const newAvailableDates = [...availableDates];
     newAvailableDates.push({
       startDate: null,
@@ -217,10 +310,11 @@ class InternCreateProfile extends Component {
               </Col>
               <Col span={20}>
                 <HiText>Hi Emily, please complete your profile</HiText>
-                <AddProfilePhotoButton>
+                <HeaderButtonsWrapper>
                   <UploadButton as="label" htmlFor="profileImage">
                     Add profile photo
                   </UploadButton>
+                  <p>{this.state.errors.profileImage}</p>
                   <input
                     type="file"
                     id="profileImage"
@@ -229,7 +323,10 @@ class InternCreateProfile extends Component {
                     accept="image/*"
                     style={{ display: "none" }}
                   />
-                </AddProfilePhotoButton>
+                  <UploadButton onClick={this.hsndleSubmit}>
+                    Submit
+                  </UploadButton>
+                </HeaderButtonsWrapper>
               </Col>
             </Row>
           </HeaderWrapper>
@@ -264,25 +361,25 @@ class InternCreateProfile extends Component {
               </Row>
               <Row gutter={25} type="flex">
                 <Col xs={24} sm={12} lg={9}>
-                  <Label htmlFor="organisation">Organisation</Label>
+                  <Label htmlFor="organisationName">Organisation</Label>
                   <Input
-                    name="organisation.name"
-                    onChange={this.handelNestedInputChange}
-                    value={this.state.organisation.name}
-                    id="organisation"
+                    name="organisationName"
+                    onChange={this.handelInputChange}
+                    value={this.state.organisationName}
+                    id="organisationName"
                     style={{ marginBottom: "20px" }}
                   />
                 </Col>
 
                 <Col xs={24} sm={12} lg={9}>
-                  <Label htmlFor="organisation.website">
+                  <Label htmlFor="organisationWebsite">
                     Organisation website
                   </Label>
                   <Input
-                    name="organisation.website"
-                    onChange={this.handelNestedInputChange}
-                    value={this.state.organisation.website}
-                    id="organisation.website"
+                    name="organisationWebsite"
+                    onChange={this.handelInputChange}
+                    value={this.state.organisationWebsite}
+                    id="organisationWebsite"
                     style={{ marginBottom: "20px" }}
                   />
                 </Col>
@@ -309,6 +406,7 @@ class InternCreateProfile extends Component {
                           id="Press pass"
                           style={{ marginBottom: "20px", display: "inline" }}
                           value={pressPassFileName}
+                          placeholder="No file has been uploaded"
                           disabled={!!pressPassFileName}
                         />
                       </Col>
@@ -339,31 +437,31 @@ class InternCreateProfile extends Component {
                 <Col xs={24} sm={24} lg={8}>
                   <Label htmlFor="addressline1">Address</Label>
                   <Input
-                    name="offer.line1"
+                    name="addressLine1"
                     placeholder="Address line 1"
                     id="addressline1"
-                    onChange={this.handelNestedInputChange}
-                    value={this.state.offer.line1}
+                    onChange={this.handelInputChange}
+                    value={this.state.addressLine1}
                     style={{ marginBottom: "10px", display: "inline" }}
                   />
                   <Input
-                    name="offer.line2"
-                    onChange={this.handelNestedInputChange}
-                    value={this.state.offer.line2}
+                    name="addressline2"
+                    onChange={this.handelInputChange}
+                    value={this.state.addressline2}
                     placeholder="Address line 2"
                     style={{ marginBottom: "10px", display: "inline" }}
                   />
                   <Input
-                    name="offer.city"
-                    value={this.state.offer.city}
-                    onChange={this.handelNestedInputChange}
+                    name="addressCity"
+                    value={this.state.addressCity}
+                    onChange={this.handelInputChange}
                     placeholder="City"
                     style={{ marginBottom: "10px", display: "inline" }}
                   />
                   <Input
-                    name="offer.postcode"
-                    value={this.state.offer.postcode}
-                    onChange={this.handelNestedInputChange}
+                    name="addressPostCode"
+                    value={this.state.addressPostCode}
+                    onChange={this.handelInputChange}
                     placeholder="Postcode"
                     style={{ marginBottom: "10px", display: "inline" }}
                   />

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
+  padding-bottom: 8rem;
 `;
 
 export const ContentWrapper = styled.div`
@@ -24,7 +25,12 @@ export const HiText = styled.h1`
   margin-bottom: 14px;
 `;
 
-export const AddProfilePhotoButton = styled.div``;
+export const HeaderButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-width: 260px;
+`;
 
 export const Section = styled.div``;
 
