@@ -19,7 +19,6 @@ module.exports = (req, res, next) => {
   const { userInfo } = req.body;
   const { email, role } = userInfo;
 
-  console.log("user", userInfo);
   // check if the email already exists
   findByEmail(email)
     .then((storedUser) => {
@@ -40,7 +39,6 @@ module.exports = (req, res, next) => {
             }
             // if code exists add organisation to userInfo object
             userInfo.organisation = storedCode.organisation;
-            console.log("CODE Passed");
             // add new user
             return addNewUser(userInfo)
               .then((user) => {
@@ -69,11 +67,9 @@ module.exports = (req, res, next) => {
           .catch(err => next(boom.badImplementation(err)));
       }
 
-      console.log("reached");
       // FOR HOST AND ORGANISATION
       return addNewUser(userInfo)
         .then((user) => {
-          console.log("USER", user);
           const token = jwt.sign({ id: user._id }, process.env.SECRET, {
             expiresIn: tokenMaxAge.string,
           });

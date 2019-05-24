@@ -5,8 +5,6 @@ const { getUserById } = require("./../../database/queries/user");
 module.exports = (req, res, next) => {
   const { referralId } = req.body;
 
-  console.log(referralId);
-
   getUserById(referralId, true)
     .then((storedUser) => {
       if (!storedUser) {

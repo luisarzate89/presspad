@@ -9,6 +9,7 @@ import Button from "./../../Common/Button";
 import {
   API_SIGNUP_URL,
   API_CHECK_REFERRAL_URL,
+  API_GET_ORGS_URL,
   DASHBOARD_URL,
   MYPROFILE_URL
 } from "./../../../constants/apiRoutes";
@@ -37,7 +38,8 @@ export default class SignUpPage extends Component {
     msg: null,
     userType: null,
     referral: null,
-    referralError: null
+    referralError: null,
+    existingOrgs: []
   };
 
   componentDidMount() {
@@ -45,6 +47,7 @@ export default class SignUpPage extends Component {
     this.setState({ userType });
 
     userType === "host" && this.checkValidReferral();
+    userType === "organisation" && this.getAllOrgs();
   }
 
   // function to check if the host is using a valid referral link
@@ -63,6 +66,36 @@ export default class SignUpPage extends Component {
     this.setState({
       fields
     });
+  };
+
+  // get all organisations for client side validation
+  getAllOrgs = () => {
+    axios
+      .get(API_GET_ORGS_URL)
+      .then(orgs => {
+        if (orgs.data.length > 0) {
+          const orgNames = orgs.data.map(organisation => {
+            return {
+              name: organisation.name,
+              email: organisation.orgDetails.email
+            };
+          });
+          this.setState({ existingOrgs: orgNames });
+        }
+      })
+      .catch(err => console.error(err));
+  };
+
+  // check organisation already exists
+  checkOrg = () => {
+    const { fields, existingOrgs } = this.state;
+    const { organisation } = fields;
+
+    const matchedOrg = existingOrgs.filter(
+      org => org.name.toLowerCase().trim() === organisation.toLowerCase().trim()
+    );
+
+    return matchedOrg;
   };
 
   onInputChange = e => {
@@ -125,6 +158,16 @@ export default class SignUpPage extends Component {
       errors.organisationError = "* Please enter your organisation";
     }
 
+    if (fields.organisation && userType === USER_TYPES.organisation) {
+      const matchedOrg = this.checkOrg(fields.organisation);
+      if (matchedOrg.length > 0) {
+        formIsValid = false;
+        errors.organisationError = `* ${
+          matchedOrg[0].name
+        } already has an account created by ${matchedOrg[0].email}`;
+      }
+    }
+
     if (typeof fields.email !== "undefined") {
       // regular expression for email validation
       const pattern = new RegExp(
@@ -172,7 +215,6 @@ export default class SignUpPage extends Component {
     e.preventDefault();
     const isValid = this.validateForm();
     if (isValid) {
-      console.log("SUCCESS");
       const userInfo = { ...fields };
 
       axios
@@ -186,8 +228,6 @@ export default class SignUpPage extends Component {
         .catch(err => {
           this.setState({ msg: "error" });
         });
-    } else {
-      console.log("NOOO");
     }
   };
 

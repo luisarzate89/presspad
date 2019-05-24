@@ -12,16 +12,21 @@ const API_CHECK_REFERRAL_URL = `${API_PREFIX}${CHECK_REFERRAL_URL}`;
 const USER_URL = "/user/check-user";
 const API_USER_URL = `${API_PREFIX}${USER_URL}`;
 
+const GET_ORGS_URL = "/user/get-all-orgs";
+const API_GET_ORGS_URL = `${API_PREFIX}${GET_ORGS_URL}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
   API_SIGNUP_URL,
   API_USER_URL,
   API_CHECK_REFERRAL_URL,
+  API_GET_ORGS_URL,
 
   // SERVER
   LOGIN_URL,
   SIGNUP_URL,
   USER_URL,
-  CHECK_REFERRAL_URL
+  CHECK_REFERRAL_URL,
+  GET_ORGS_URL
 };
