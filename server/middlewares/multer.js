@@ -1,0 +1,36 @@
+const multer = require("multer");
+const boom = require("boom");
+
+/**
+ * upload function that return a multer middleware
+ * @param { String }  fieldName - the request field name that contain the file
+ */
+
+module.exports = fieldName => (req, res, next) => {
+  // storage config
+  const storage = multer.diskStorage({
+    destination(destinationReq, file, cb) {
+      cb(null, "uploads/");
+    },
+    filename(fileReq, file, cb) {
+      const extention = file.originalname.split(".")[file.originalname.split(".").length - 1];
+      const fileName = file.originalname.split(".")[0];
+      cb(null, `${fileName}-${Date.now()}.${extention}`);
+    },
+  });
+
+  const upload = multer({ storage }).fields([
+    { name: "profileImage" },
+    { name: "pressPass" },
+    { name: "offerImages1" },
+    { name: "offerImages2" },
+    { name: "offerImages3" },
+  ]);
+
+  upload(req, res, (err) => {
+    if (err) {
+      return next(boom.badImplementation("Error while uploading files"));
+    }
+    return next();
+  });
+};
