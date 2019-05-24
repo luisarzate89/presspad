@@ -13,7 +13,9 @@ import {
   Label,
   UploadText,
   UploadButton,
-  PhotoWrapper
+  PhotoWrapper,
+  ErrorWrapper,
+  Error
 } from "./HostCreateProfile.style";
 
 const { TextArea } = Input;
@@ -43,12 +45,20 @@ class Content extends Component {
           <HeaderWrapper>
             <Row gutter={20} type="flex" justify="start">
               <Col span={2}>
-                <Avatar
-                  size="large"
-                  icon="user"
-                  style={{ marginRight: "26px" }}
-                  src={state.profileImage.dataUrl}
-                />
+                <ErrorWrapper>
+                  <Avatar
+                    size="large"
+                    icon="user"
+                    src={state.profileImage.dataUrl}
+                    style={{
+                      backgroundColor: state.errors.profileImage
+                        ? "red"
+                        : "none",
+                      marginRight: "26px"
+                    }}
+                  />
+                  <Error>{state.errors.profileImage}</Error>
+                </ErrorWrapper>
               </Col>
               <Col span={20}>
                 <HiText>Hi Emily, please complete your profile</HiText>
@@ -56,7 +66,6 @@ class Content extends Component {
                   <UploadButton as="label" htmlFor="profileImage">
                     Add profile photo
                   </UploadButton>
-                  <p>{state.errors.profileImage}</p>
                   <input
                     type="file"
                     id="profileImage"
@@ -77,15 +86,21 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={14}>
                   <Label htmlFor="bio">Bio</Label>
-                  <TextArea
-                    name="bio"
-                    onChange={handelInputChange}
-                    rows={7}
-                    id="bio"
-                    style={{ marginBottom: "40px" }}
-                    placeholder="Introduce yourself to interns"
-                    value={state.bio}
-                  />
+                  <ErrorWrapper error={state.errors.bio} marginBottom="40px">
+                    <TextArea
+                      name="bio"
+                      onChange={handelInputChange}
+                      rows={7}
+                      id="bio"
+                      placeholder="Introduce yourself to interns"
+                      value={state.bio}
+                      style={{
+                        border: state.errors.bio ? "none" : "1px solid #d9d9d9"
+                      }}
+                      border={false}
+                    />
+                    <Error>{state.errors.bio}</Error>
+                  </ErrorWrapper>
                 </Col>
                 <Col xs={24} lg={10}>
                   <Label htmlFor="interests">Interests</Label>
@@ -102,39 +117,69 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="organisationName">Organisation</Label>
-                  <Input
-                    name="organisationName"
-                    onChange={handelInputChange}
-                    value={state.organisationName}
-                    id="organisationName"
-                    style={{ marginBottom: "20px" }}
-                  />
+                  <ErrorWrapper
+                    error={state.errors.organisationName}
+                    marginBottom="20px"
+                  >
+                    <Input
+                      name="organisationName"
+                      onChange={handelInputChange}
+                      value={state.organisationName}
+                      id="organisationName"
+                      style={{
+                        border: state.errors.organisationName
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.organisationName}</Error>
+                  </ErrorWrapper>
                 </Col>
 
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="organisationWebsite">
                     Organisation website
                   </Label>
-                  <Input
-                    name="organisationWebsite"
-                    onChange={handelInputChange}
-                    value={state.organisationWebsite}
-                    id="organisationWebsite"
-                    style={{ marginBottom: "20px" }}
-                  />
+                  <ErrorWrapper
+                    error={state.errors.organisationWebsite}
+                    marginBottom="20px"
+                  >
+                    <Input
+                      name="organisationWebsite"
+                      onChange={handelInputChange}
+                      value={state.organisationWebsite}
+                      id="organisationWebsite"
+                      style={{
+                        border: state.errors.organisationWebsite
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.organisationWebsite}</Error>
+                  </ErrorWrapper>
                 </Col>
               </Row>
 
               <Row gutter={25} type="flex">
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="jobTitle">Job title</Label>
-                  <Input
-                    id="jobTitle"
-                    name="jobTitle"
-                    onChange={handelInputChange}
-                    value={state.jobTitle}
-                    style={{ marginBottom: "20px" }}
-                  />
+                  <ErrorWrapper
+                    error={state.errors.jobTitle}
+                    marginBottom="20px"
+                  >
+                    <Input
+                      id="jobTitle"
+                      name="jobTitle"
+                      onChange={handelInputChange}
+                      value={state.jobTitle}
+                      style={{
+                        border: state.errors.jobTitle
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.jobTitle}</Error>
+                  </ErrorWrapper>
                 </Col>
 
                 <Col xs={24} sm={15} lg={12}>
@@ -142,13 +187,24 @@ class Content extends Component {
                   <Row gutter={25} type="flex">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Col xs={18} sm={18} lg={18}>
-                        <Input
-                          id="Press pass"
-                          style={{ marginBottom: "20px", display: "inline" }}
-                          value={pressPassFileName}
-                          placeholder="No file has been uploaded"
-                          disabled={!!pressPassFileName}
-                        />
+                        <ErrorWrapper
+                          error={state.errors.pressPass}
+                          marginBottom="20px"
+                        >
+                          <Input
+                            id="Press pass"
+                            style={{
+                              border: state.errors.pressPass
+                                ? "none"
+                                : "1px solid #d9d9d9",
+                              display: "inline"
+                            }}
+                            value={pressPassFileName}
+                            placeholder="No file has been uploaded"
+                            disabled={!!pressPassFileName}
+                          />
+                          <Error>{state.errors.pressPass}</Error>
+                        </ErrorWrapper>
                       </Col>
                       <Col xs={9} sm={9} lg={9}>
                         <UploadText as="label" htmlFor="pressPass">
@@ -176,41 +232,88 @@ class Content extends Component {
                 {/* Address */}
                 <Col xs={24} sm={24} lg={8}>
                   <Label htmlFor="addressline1">Address</Label>
-                  <Input
-                    name="addressLine1"
-                    placeholder="Address line 1"
-                    id="addressline1"
-                    onChange={handelInputChange}
-                    value={state.addressLine1}
-                    style={{ marginBottom: "10px", display: "inline" }}
-                  />
-                  <Input
-                    name="addressline2"
-                    onChange={handelInputChange}
-                    value={state.addressline2}
-                    placeholder="Address line 2"
-                    style={{ marginBottom: "10px", display: "inline" }}
-                  />
-                  <Input
-                    name="addressCity"
-                    value={state.addressCity}
-                    onChange={handelInputChange}
-                    placeholder="City"
-                    style={{ marginBottom: "10px", display: "inline" }}
-                  />
-                  <Input
-                    name="addressPostCode"
-                    value={state.addressPostCode}
-                    onChange={handelInputChange}
-                    placeholder="Postcode"
-                    style={{ marginBottom: "10px", display: "inline" }}
-                  />
+                  <ErrorWrapper
+                    error={state.errors.addressLine1}
+                    marginBottom="10px"
+                  >
+                    <Input
+                      name="addressLine1"
+                      placeholder="Address line 1"
+                      id="addressline1"
+                      onChange={handelInputChange}
+                      value={state.addressLine1}
+                      style={{
+                        display: "inline",
+                        border: state.errors.addressline1
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.addressLine1}</Error>
+                  </ErrorWrapper>
+                  <ErrorWrapper
+                    error={state.errors.addressLine2}
+                    marginBottom="10px"
+                  >
+                    <Input
+                      name="addressLine2"
+                      onChange={handelInputChange}
+                      value={state.addressLine2}
+                      placeholder="Address line 2"
+                      style={{
+                        display: "inline",
+                        border: state.errors.addressLine2
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.addressLine2}</Error>
+                  </ErrorWrapper>
+                  <ErrorWrapper
+                    error={state.errors.addressCity}
+                    marginBottom="10px"
+                  >
+                    <Input
+                      name="addressCity"
+                      value={state.addressCity}
+                      onChange={handelInputChange}
+                      placeholder="City"
+                      style={{
+                        display: "inline",
+                        border: state.errors.addressCity
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.addressCity}</Error>
+                  </ErrorWrapper>
+                  <ErrorWrapper
+                    error={state.errors.addressPostCode}
+                    marginBottom="10px"
+                  >
+                    <Input
+                      name="addressPostCode"
+                      value={state.addressPostCode}
+                      onChange={handelInputChange}
+                      placeholder="Postcode"
+                      style={{
+                        display: "inline",
+                        border: state.errors.addressPostCode
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{state.errors.addressPostCode}</Error>
+                  </ErrorWrapper>
                 </Col>
                 <Col xs={24} sm={24} lg={16}>
                   <Label>Photos</Label>
                   <Row gutter={25} type="flex">
                     <Col xs={24} sm={16} lg={16}>
-                      <PhotoWrapper imageSrc={state.offerImages1.dataUrl}>
+                      <PhotoWrapper
+                        imageSrc={state.offerImages1.dataUrl}
+                        error={state.errors.offerImages1}
+                      >
                         <UploadButton as="label" htmlFor="offerImages1">
                           Add photo
                           <input
@@ -237,6 +340,7 @@ class Content extends Component {
                           small
                           direction="bottom"
                           imageSrc={state.offerImages2.dataUrl}
+                          error={state.errors.offerImages2}
                         >
                           <UploadButton as="label" htmlFor="offerImages2">
                             Add photo
@@ -250,10 +354,12 @@ class Content extends Component {
                             />
                           </UploadButton>
                         </PhotoWrapper>
+
                         <PhotoWrapper
                           small
                           direction="top"
                           imageSrc={state.offerImages3.dataUrl}
+                          error={state.errors.offerImages3}
                         >
                           <UploadButton as="label" htmlFor="offerImages3">
                             Add photo
@@ -310,12 +416,21 @@ class Content extends Component {
                   </CheckboxGroup>
                 </Col>
                 <Col xs={24} sm={24} lg={16}>
-                  <Label htmlFor="Your neighbourhood">Your neighbourhood</Label>
-                  <TextArea
-                    placeholder="Say a few things about your neighbourhood"
-                    id="Your neighbourhood"
-                    rows={5}
-                  />
+                  <Label htmlFor="offerDescription">Your neighbourhood</Label>
+                  <ErrorWrapper
+                    error={state.errors.offerDescription}
+                    marginBottom="10px"
+                  >
+                    <TextArea
+                      placeholder="Say a few things about your neighbourhood"
+                      id="offerDescription"
+                      rows={5}
+                      name="offerDescription"
+                      onChange={handelInputChange}
+                      value={state.offerDescription}
+                    />
+                    <Error>{state.errors.offerDescription}</Error>
+                  </ErrorWrapper>
                 </Col>
               </Row>
               <Row gutter={25} type="flex">
@@ -371,15 +486,18 @@ class Content extends Component {
                     </Col>
                   </Row>
                   {state.availableDates.length > 0 && (
-                    <UploadText
-                      style={{
-                        marginTop: "20px",
-                        display: "block"
-                      }}
-                      onClick={handleAddMoreRanges}
-                    >
-                      + Add more
-                    </UploadText>
+                    <>
+                      <UploadText
+                        style={{
+                          marginTop: "20px",
+                          display: "block"
+                        }}
+                        onClick={handleAddMoreRanges}
+                      >
+                        + Add more
+                      </UploadText>
+                      <Error>{state.errors.availableDates}</Error>
+                    </>
                   )}
                 </Col>
               </Row>

@@ -75,7 +75,7 @@ export const UploadText = styled.button`
 
 export const PhotoWrapper = styled.div`
   background: #ffffff;
-  border: 1px solid #dbdbdb;
+border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -86,7 +86,7 @@ export const PhotoWrapper = styled.div`
 
   @media (max-width: 575.98px) { 
     height: 257px;
-    margin: 0
+    margin: 0;
     margin-bottom:12.5px;
    }
 
@@ -107,4 +107,19 @@ export const UploadButton = styled.button`
   color: #0ac7e7;
   padding: 7px;
   cursor: pointer;
+`;
+
+export const ErrorWrapper = styled.div`
+  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  margin-bottom: ${({ marginBottom }) => marginBottom};
+
+  border-radius: 4px;
+  position: relative;
+`;
+export const Error = styled.p`
+  position: absolute;
+  top: 100%;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
 `;

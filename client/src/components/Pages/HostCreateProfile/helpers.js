@@ -124,3 +124,19 @@ export const checkSelectedRange = (startDate, endDate, availableDates) => {
   }, false);
   return surroundAnotherRange;
 };
+
+export const getValidDAtes = availableDates => {
+  const validDates = availableDates.reduce((prev, curr) => {
+    const { startDate, endDate } = curr;
+
+    if (!startDate || !endDate) {
+      prev.push({
+        startDate,
+        endDate
+      });
+    }
+
+    return prev;
+  }, []);
+  return validDates;
+};

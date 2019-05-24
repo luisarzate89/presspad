@@ -1,24 +1,46 @@
 import React, { Component } from "react";
 import { message } from "antd";
 import * as Yup from "yup";
+import axios from "axios";
 
 import {
   disabledEndDate,
   disabledStartDate,
-  checkSelectedRange
+  checkSelectedRange,
+  getValidDAtes
 } from "./helpers";
 
 import Content from "./Content";
 
 const schema = Yup.object().shape({
   profileImage: Yup.mixed().required("Required"),
+  offerImages1: Yup.mixed().required("Required"),
+  offerImages2: Yup.mixed().required("Required"),
+  offerImages3: Yup.mixed().required("Required"),
+
   bio: Yup.string().required("Required"),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
     .url("Not a valid link")
     .required("Required"),
   jobTitle: Yup.string().required("Required"),
-  pressPass: Yup.mixed().required("Required")
+  pressPass: Yup.mixed().required("Required"),
+  addressLine1: Yup.string().required("Required"),
+  addressLine2: Yup.string().required("Required"),
+  addressCity: Yup.string().required("Required"),
+  addressPostCode: Yup.string().required("Required"),
+  offerDescription: Yup.string().required("Required"),
+  availableDates: Yup.mixed().test(
+    "avialable-dates",
+    "Must select avialable dates",
+    function(availableDates) {
+      const { startDate, endDate } = availableDates[0];
+      if (!startDate || !endDate) {
+        return false;
+      }
+      return true;
+    }
+  )
 });
 
 class HostCreateProfile extends Component {
@@ -60,7 +82,10 @@ class HostCreateProfile extends Component {
       dataUrl: null,
       file: null
     },
-    pressPass: {},
+    pressPass: {
+      dataUrl: null,
+      file: null
+    },
     errors: {}
   };
 
@@ -92,22 +117,71 @@ class HostCreateProfile extends Component {
     this.setState({ [name]: value });
   };
 
-  hsndleSubmit = e => {
-    const { profileImage, pressPass } = this.state;
+  validate = () => {
+    const {
+      profileImage,
+      pressPass,
+      offerImages1,
+      offerImages2,
+      offerImages3
+    } = this.state;
+
     const state = {
       ...this.state,
       profileImage: profileImage.file,
-      pressPass: pressPass.dataUrl
+      pressPass: pressPass.dataUrl,
+      offerImages1: offerImages1.dataUrl,
+      offerImages2: offerImages2.dataUrl,
+      offerImages3: offerImages3.dataUrl
     };
-    e.preventDefault();
-    schema.validate(state, { abortEarly: false }).catch(err => {
+
+    return schema.validate(state, { abortEarly: false }).catch(err => {
       const errors = {};
       err.inner.forEach(element => {
         errors[element.path] = element.message;
       });
-      console.log(errors);
 
       this.setState({ errors });
+    });
+  };
+  handleSubmit = e => {
+    const form = new FormData();
+    e.preventDefault();
+    this.validate().then(res => {
+      if (res) {
+        form.append("bio", this.state.bio);
+        form.append("interests", this.state.bio);
+        form.append("organisationName", this.state.bio);
+        form.append("organisationWebsite", this.state.bio);
+        form.append("jobTitle", this.state.bio);
+        form.append("addressLine1", this.state.bio);
+        form.append("addressLine2", this.state.bio);
+        form.append("addressCity", this.state.bio);
+        form.append("addressPostCode", this.state.bio);
+        form.append("offerDescription", this.state.bio);
+        form.append("offerOtherInfo", this.state.bio);
+        form.append("availableDates", getValidDAtes(this.state.availableDates));
+        form.append("offerImages1", this.state.offerImages1.file);
+        form.append("offerImages2", this.state.offerImages2.file);
+        form.append("offerImages3", this.state.offerImages3.file);
+        form.append("pressPass", this.state.pressPass.file);
+        form.append("profileImage", this.state.profileImage.file);
+
+        axios({
+          method: "patch",
+          url: "/api/hosts/complete-profile",
+          data: form,
+          headers: {
+            "content-type": `multipart/form-data; boundary=${form._boundary}`
+          }
+        })
+          .then(({ data }) => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     });
   };
 
