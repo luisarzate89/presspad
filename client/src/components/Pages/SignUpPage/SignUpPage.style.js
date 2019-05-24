@@ -45,9 +45,30 @@ export const InputDiv = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const ReferralText = styled.p``;
+export const ReferralWrapper = styled.div`
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+`;
 
-export const Disclaimer = styled.div``;
+export const ReferralText = styled.p`
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+`;
+
+export const Disclaimer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-left: 1rem;
+`;
+
+export const DisclaimerText = styled.p`
+  font-size: 1.25rem;
+  font-weight: 300;
+  padding-left: 1rem;
+`;
 
 export const ErrorMsg = styled.div`
   color: ${colors.red};

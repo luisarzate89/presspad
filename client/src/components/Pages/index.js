@@ -13,6 +13,8 @@ import {
   HOME_URL,
   SIGNIN_URL,
   SIGNUP_INTERN,
+  SIGNUP_HOST,
+  SIGNUP_ORG,
   DASHBOARD_URL
 } from "./../../constants/navRoutes";
 
@@ -39,6 +41,36 @@ class Pages extends Component {
                 <SignUpPage
                   handleChangeState={handleChangeState}
                   userType="intern"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
+          <Route
+            path={SIGNUP_HOST}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="host"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
+          <Route
+            path={SIGNUP_ORG}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="organisation"
                   {...linkProps}
                 />
               ) : (

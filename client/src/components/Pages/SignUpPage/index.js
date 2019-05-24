@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Input } from "antd";
+import { Input, Checkbox } from "antd";
 import axios from "axios";
 
 // COMMON COMPONENTS
 import Button from "./../../Common/Button";
 
 // CONSTANTS
-import { API_LOGIN_URL } from "./../../../constants/apiRoutes";
+import {
+  API_SIGNUP_URL,
+  API_CHECK_REFERRAL_URL
+} from "./../../../constants/apiRoutes";
 import USER_TYPES from "./../../../constants/userTypes";
 
 // STYLING
@@ -18,7 +21,11 @@ import {
   InputLabel,
   InputDiv,
   ErrorMsg,
-  ButtonWrapper
+  ButtonWrapper,
+  ReferralWrapper,
+  Disclaimer,
+  DisclaimerText,
+  ReferralText
 } from "./SignUpPage.style";
 
 export default class SignUpPage extends Component {
@@ -26,13 +33,35 @@ export default class SignUpPage extends Component {
     fields: {},
     errors: {},
     msg: null,
-    userType: null
+    userType: null,
+    referral: null,
+    referralError: null
   };
 
   componentDidMount() {
     const { userType } = this.props;
     this.setState({ userType });
+
+    userType === "host" && this.checkValidReferral();
   }
+
+  // function to check if the host is using a valid referral link
+  checkValidReferral = () => {
+    const referralId = ("hello", window.location.href.split("/")[5]);
+    axios
+      .post(API_CHECK_REFERRAL_URL, { referralId })
+      .then(referralUser => this.setState({ referral: referralUser.data }))
+      .catch(err => this.setState({ referralError: err }));
+  };
+
+  // host checkbox function
+  onCheckboxChange = e => {
+    const { fields } = this.state;
+    fields[e.target.name] = e.target.checked;
+    this.setState({
+      fields
+    });
+  };
 
   onInputChange = e => {
     const { fields } = this.state;
@@ -121,6 +150,12 @@ export default class SignUpPage extends Component {
       formIsValid = false;
     }
 
+    // for hosts make sure they've ticked the disclaimer
+    if (!fields.checkbox) {
+      errors.disclaimerError = "* You must agree in order to sign up";
+      formIsValid = false;
+    }
+
     this.setState({
       errors
     });
@@ -153,7 +188,7 @@ export default class SignUpPage extends Component {
   };
 
   render() {
-    const { fields, errors, msg } = this.state;
+    const { fields, errors, msg, referralError, referral } = this.state;
     const { email, password, password2, name, orgCode, organisation } = fields;
     const {
       nameError,
@@ -161,10 +196,22 @@ export default class SignUpPage extends Component {
       orgCodeError,
       organisationError,
       passwordError,
-      password2Error
+      password2Error,
+      disclaimerError
     } = errors;
-    const { onInputChange, onFormSubmit } = this;
+    const { onInputChange, onFormSubmit, onCheckboxChange } = this;
     const { userType } = this.props;
+
+    if (referralError)
+      return (
+        <Wrapper>
+          <HeaderText>
+            Sorry, we cannot find a user for this referral link. Please contact
+            them again and try with another link.
+          </HeaderText>
+        </Wrapper>
+      );
+
     return (
       <Wrapper>
         <HeaderText>
@@ -271,6 +318,21 @@ export default class SignUpPage extends Component {
             />
             <ErrorMsg>{password2Error}</ErrorMsg>
           </InputDiv>
+          <ReferralWrapper>
+            {referral && (
+              <ReferralText>
+                You have been referred by {referral.name}
+              </ReferralText>
+            )}
+            <Disclaimer>
+              <Checkbox name="checkbox" onChange={onCheckboxChange} />
+              <DisclaimerText>
+                By ticking this box you agree we can contact your reference in
+                order to verify your profile
+              </DisclaimerText>
+            </Disclaimer>
+            <ErrorMsg>{disclaimerError}</ErrorMsg>
+          </ReferralWrapper>
           <ButtonWrapper>
             <Button label="Sign up" type="primary" onClick={onFormSubmit} />
           </ButtonWrapper>
