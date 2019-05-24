@@ -6,69 +6,65 @@ const MILLISECONDS_IN_A_DAY = 86400000;
  * check if the date is disabled(return true) or not(return false)
  * return true if the {endDate} is match a reserved range or its before current date
  * @param {Number} index the index of range you are checking for
- * @param {Date} endValue the date value you are looking for {moment date}
- * @param {Array.<{startValue: Date, endValue: Date}>} availableDates array of ranges
+ * @param {Date} endDate the date value you are looking for {moment date}
+ * @param {Array.<{startDate: Date, endDate: Date}>} availableDates array of ranges
  * @return {Boolean}
  */
-export const disabledEndDate = (index, endValue, availableDates) => {
-  const startValue = availableDates[index].startValue;
+export const disabledEndDate = (index, endDate, availableDates) => {
+  const startDate = availableDates[index].startDate;
 
   // check for reserved dates
-  const isDatePicked = checkIntersections(startValue, endValue, availableDates);
+  const isDatePicked = checkIntersections(startDate, endDate, availableDates);
 
   if (isDatePicked) {
     return true;
   }
 
-  // if the user didn't select the endValue nor startValue
+  // if the user didn't select the endDate nor startDate
   // then he can't select a date before the current date
-  if (!endValue || !startValue) {
-    return endValue && endValue < moment().endOf("day");
+  if (!endDate || !startDate) {
+    return endDate && endDate < moment().endOf("day");
   }
 
   // if the user selected a start date or end date
   // then he can't select reverse range
   // the start date must be before the end date
   return (
-    endValue.valueOf() <= startValue.valueOf() ||
-    (endValue && endValue < moment().endOf("day"))
+    endDate.valueOf() <= startDate.valueOf() ||
+    (endDate && endDate < moment().endOf("day"))
   );
 };
 
 /**
  * check if the date is disabled(return true) or not(return false)
- * return true if the {startValue} is match a reserved range or its before current date
+ * return true if the {startDate} is match a reserved range or its before current date
  * @param {Number} index the index of range you are checking for
- * @param {Date} startValue the date value you are looking for {moment date}
- * @param {Array.<{startValue: Date, endValue: Date}>} availableDates array of ranges
+ * @param {Date} startDate the date value you are looking for {moment date}
+ * @param {Array.<{startDate: Date, endDate: Date}>} availableDates array of ranges
  * @return {Boolean}
  */
-export const disabledStartDate = (index, startValue, availableDates) => {
-  const endValue = availableDates[index].endValue;
+export const disabledStartDate = (index, startDate, availableDates) => {
+  const endDate = availableDates[index].endDate;
 
   // check for reserved dates
-  const isDatePicked = checkIntersections(
-    startValue,
-    startValue,
-    availableDates
-  );
+  const isDatePicked = checkIntersections(startDate, startDate, availableDates);
 
   if (isDatePicked) {
     return true;
   }
 
-  // if the user didn't select the endValue nor startValue
+  // if the user didn't select the endDate nor startDate
   // then he can't select a date before the current date
-  if (!startValue || !endValue) {
-    return startValue && startValue < moment().subtract(1, "day");
+  if (!startDate || !endDate) {
+    return startDate && startDate < moment().subtract(1, "day");
   }
 
   // if the user selected a start date or end date
   // then he can't select reverse range
   // the start date must be before the end date
   return (
-    startValue.valueOf() > endValue.valueOf() ||
-    (startValue && startValue < moment().subtract(1, "day"))
+    startDate.valueOf() > endDate.valueOf() ||
+    (startDate && startDate < moment().subtract(1, "day"))
   );
 };
 
@@ -76,24 +72,23 @@ export const disabledStartDate = (index, startValue, availableDates) => {
  *  check if the date is already selectd in another range
  * @param {Date} startDate the startDate of the range we are looking for
  * @param {Date} compareDate the date we are looking for it can be the start date or end date
- * @param {Array.<{startValue: Date, endValue: Date}>} availableDates all the selected ranges
+ * @param {Array.<{startDate: Date, endDate: Date}>} availableDates all the selected ranges
  * @return {Boolean}
  */
 
 const checkIntersections = (startDate, compareDate, availableDates) => {
-  // iterate through the ranges and check if the endValue is in between them or not
-  // if  rangeStartValue < compareDate < rangeEndValue  return true
+  // iterate through the ranges and check if the endDate is in between them or not
+  // if  rangestartDate < compareDate < rangeendDate  return true
   // true means - disable this date -
   const isDatePicked = availableDates.reduce((prev, curr) => {
-    const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
+    const { startDate: rangestartDate, endDate: rangeendDate } = curr;
 
     if (
       startDate &&
-      rangeStartValue &&
-      rangeEndValue &&
-      (compareDate.valueOf() >= rangeStartValue.valueOf() &&
-        compareDate.valueOf() <=
-          rangeEndValue.valueOf() + MILLISECONDS_IN_A_DAY)
+      rangestartDate &&
+      rangeendDate &&
+      (compareDate.valueOf() >= rangestartDate.valueOf() &&
+        compareDate.valueOf() <= rangeendDate.valueOf() + MILLISECONDS_IN_A_DAY)
     ) {
       return true;
     }
@@ -105,22 +100,22 @@ const checkIntersections = (startDate, compareDate, availableDates) => {
 
 /**
  * check if the selected date does surround another range
- * @param {Date} startValue  range's the start date
- * @param {Date} endValue range's the end date
- * @param {Array.<{startValue: Date, endValue: Date}>} availableDates all the selected ranges
+ * @param {Date} startDate  range's the start date
+ * @param {Date} endDate range's the end date
+ * @param {Array.<{startDate: Date, endDate: Date}>} availableDates all the selected ranges
  * @return {Boolean}
  */
-export const checkSelectedRange = (startValue, endValue, availableDates) => {
+export const checkSelectedRange = (startDate, endDate, availableDates) => {
   const surroundAnotherRange = availableDates.reduce((prev, curr) => {
-    const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
+    const { startDate: rangestartDate, endDate: rangeendDate } = curr;
 
     if (
-      endValue &&
-      startValue &&
-      rangeStartValue &&
-      rangeEndValue &&
-      (startValue.valueOf() <= rangeStartValue.valueOf() &&
-        endValue.valueOf() > rangeEndValue.valueOf())
+      endDate &&
+      startDate &&
+      rangestartDate &&
+      rangeendDate &&
+      (startDate.valueOf() <= rangestartDate.valueOf() &&
+        endDate.valueOf() > rangeendDate.valueOf())
     ) {
       return true;
     }
