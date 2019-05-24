@@ -9,8 +9,13 @@ import {
   DatePicker,
   message
 } from "antd";
-import moment from "moment";
 import * as Yup from "yup";
+
+import {
+  disabledEndDate,
+  disabledStartDate,
+  checkSelectedRange
+} from "./helpers";
 
 import {
   PageWrapper,
@@ -26,6 +31,8 @@ import {
   UploadButton,
   PhotoWrapper
 } from "./HostCreateProfile.style";
+
+const MILLISECONDS_IN_A_DAY = 86400000;
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
 
@@ -132,94 +139,14 @@ class InternCreateProfile extends Component {
     });
   };
 
-  nestedSetStat = (value, name, cb) => {
-    const [parent, child] = name.split(".");
-    const parentValue = this.state[parent];
-    this.setState({ [parent]: { ...parentValue, [child]: value } }, () => {
-      cb && cb();
-    });
-  };
-
-  handlDateRage = (index, dateString) => {
-    const [startDate, endDate] = dateString;
-
-    const { availableDates } = this.state;
-    const newAvailableDates = [...availableDates];
-    newAvailableDates[index] = {
-      startDate,
-      endDate
-    };
-
-    this.setState({ availableDates: newAvailableDates });
-  };
-
   disabledStartDate = (index, startValue) => {
     const { availableDates } = this.state;
-    const endValue = this.state.availableDates[index].endValue;
-
-    const isDatePicked = availableDates.reduce((prev, curr) => {
-      const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
-
-      if (
-        startValue &&
-        rangeStartValue &&
-        rangeEndValue &&
-        (startValue.valueOf() >= rangeStartValue.valueOf() &&
-          startValue.valueOf() <= rangeEndValue.valueOf() + 86400000)
-      ) {
-        return true;
-      }
-
-      return prev || false;
-    }, false);
-
-    if (isDatePicked) {
-      return true;
-    }
-
-    if (!startValue || !endValue) {
-      // return true ===>>> disabled
-      return startValue && startValue < moment().subtract(1, "day");
-    }
-
-    return (
-      startValue.valueOf() > endValue.valueOf() ||
-      (startValue && startValue < moment().subtract(1, "day"))
-    );
+    return disabledStartDate(index, startValue, availableDates);
   };
-  // ------------------------------
 
   disabledEndDate = (index, endValue) => {
     const { availableDates } = this.state;
-
-    const startValue = this.state.availableDates[index].startValue;
-    const isDatePicked = availableDates.reduce((prev, curr) => {
-      const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
-
-      if (
-        startValue &&
-        rangeStartValue &&
-        rangeEndValue &&
-        (endValue.valueOf() >= rangeStartValue.valueOf() &&
-          endValue.valueOf() <= rangeEndValue.valueOf() + 86400000)
-      ) {
-        return true;
-      }
-
-      return prev || false;
-    }, false);
-
-    if (isDatePicked) {
-      return true;
-    }
-
-    if (!endValue || !startValue) {
-      return endValue && endValue < moment().endOf("day");
-    }
-    return (
-      endValue.valueOf() <= startValue.valueOf() ||
-      (endValue && endValue < moment().endOf("day"))
-    );
+    return disabledEndDate(index, endValue, availableDates);
   };
 
   changeSelectedDate = (index, field, value) => {
@@ -237,22 +164,7 @@ class InternCreateProfile extends Component {
     } else if (field === "endValue") {
       obj.endOpen = false;
 
-      isDatePicked = availableDates.reduce((prev, curr) => {
-        const { startValue: rangeStartValue, endValue: rangeEndValue } = curr;
-
-        if (
-          value &&
-          startValue &&
-          rangeStartValue &&
-          rangeEndValue &&
-          (startValue.valueOf() <= rangeStartValue.valueOf() &&
-            value.valueOf() > rangeEndValue.valueOf())
-        ) {
-          return true;
-        }
-
-        return prev || false;
-      }, false);
+      isDatePicked = checkSelectedRange(startValue, value, newAvailableDates);
     }
 
     if (isDatePicked) {
@@ -272,11 +184,20 @@ class InternCreateProfile extends Component {
     this.changeSelectedDate(index, "endValue", value);
   };
 
+  // add new available dates range
   handleAddMoreRanges = () => {
     const { availableDates } = this.state;
-    const { endValue, startValue } = availableDates[availableDates.length - 1];
-    if (!endValue || !startValue) {
-      return message.warning("fill the previous one");
+
+    const emptyRanges = availableDates.reduce((prev, curr) => {
+      const { endValue, startValue } = curr;
+      if (!endValue || !startValue) {
+        return true;
+      }
+      return prev || false;
+    }, false);
+
+    if (emptyRanges) {
+      return message.warning("fill the previous ranges");
     }
 
     const newAvailableDates = [...availableDates];
