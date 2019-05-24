@@ -196,7 +196,7 @@ export default class SignUpPage extends Component {
     }
 
     // for hosts make sure they've ticked the disclaimer
-    if (!fields.checkbox) {
+    if (userType === "host" && !fields.checkbox) {
       errors.disclaimerError = "* You must agree in order to sign up";
       formIsValid = false;
     }
@@ -362,21 +362,23 @@ export default class SignUpPage extends Component {
             />
             <ErrorMsg>{password2Error}</ErrorMsg>
           </InputDiv>
-          <ReferralWrapper>
-            {referral && (
-              <ReferralText>
-                You have been referred by {referral.name}
-              </ReferralText>
-            )}
-            <Disclaimer>
-              <Checkbox name="checkbox" onChange={onCheckboxChange} />
-              <DisclaimerText>
-                By ticking this box you agree we can contact your reference in
-                order to verify your profile
-              </DisclaimerText>
-            </Disclaimer>
-            <ErrorMsg>{disclaimerError}</ErrorMsg>
-          </ReferralWrapper>
+          {userType === "host" && (
+            <ReferralWrapper>
+              {referral && (
+                <ReferralText>
+                  You have been referred by {referral.name}
+                </ReferralText>
+              )}
+              <Disclaimer>
+                <Checkbox name="checkbox" onChange={onCheckboxChange} />
+                <DisclaimerText>
+                  By ticking this box you agree we can contact your reference in
+                  order to verify your profile
+                </DisclaimerText>
+              </Disclaimer>
+              <ErrorMsg>{disclaimerError}</ErrorMsg>
+            </ReferralWrapper>
+          )}
           <ButtonWrapper>
             <Button label="Sign up" type="primary" onClick={onFormSubmit} />
           </ButtonWrapper>
