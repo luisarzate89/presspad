@@ -19,6 +19,7 @@ module.exports = (req, res, next) => {
   const { userInfo } = req.body;
   const { email, role } = userInfo;
 
+  console.log("user", userInfo);
   // check if the email already exists
   findByEmail(email)
     .then((storedUser) => {
@@ -29,9 +30,9 @@ module.exports = (req, res, next) => {
       // MORE CHECKS REQUIRED FOR INTERN
       if (role === "intern") {
         // get code from userInfo
-        const { code } = userInfo;
+        const { orgCode } = userInfo;
         // check code exists
-        return checkCode(code)
+        return checkCode(orgCode)
           .then((storedCode) => {
             // if code doesn't exist return error that code doesn't exist
             if (!storedCode) {
@@ -39,7 +40,7 @@ module.exports = (req, res, next) => {
             }
             // if code exists add organisation to userInfo object
             userInfo.organisation = storedCode.organisation;
-
+            console.log("CODE Passed");
             // add new user
             return addNewUser(userInfo)
               .then((user) => {
@@ -50,7 +51,7 @@ module.exports = (req, res, next) => {
                 res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
 
                 // delete code and then send userInfo back to client
-                return deleteCode(code)
+                return deleteCode(orgCode)
                   .then(() => {
                     // data to be sent in the response
                     const newUserInfo = {
@@ -68,16 +69,25 @@ module.exports = (req, res, next) => {
           .catch(err => next(boom.badImplementation(err)));
       }
 
+      console.log("reached");
       // FOR HOST AND ORGANISATION
       return addNewUser(userInfo)
         .then((user) => {
+          console.log("USER", user);
           const token = jwt.sign({ id: user._id }, process.env.SECRET, {
             expiresIn: tokenMaxAge.string,
           });
 
           res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
 
-          return res.json(userInfo);
+          const newUserInfo = {
+            id: user._id,
+            role: user.role,
+            email: user.email,
+            name: user.name,
+          };
+
+          return res.json(newUserInfo);
         })
         .catch(err => next(boom.badImplementation(err)));
     })

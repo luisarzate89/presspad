@@ -8,7 +8,9 @@ import Button from "./../../Common/Button";
 // CONSTANTS
 import {
   API_SIGNUP_URL,
-  API_CHECK_REFERRAL_URL
+  API_CHECK_REFERRAL_URL,
+  DASHBOARD_URL,
+  MYPROFILE_URL
 } from "./../../../constants/apiRoutes";
 import USER_TYPES from "./../../../constants/userTypes";
 
@@ -164,24 +166,26 @@ export default class SignUpPage extends Component {
   };
 
   onFormSubmit = e => {
-    const { fields } = this.state;
+    const { fields, userType, referral } = this.state;
+    fields.role = userType;
+    if (userType === "host") fields.referral = referral.id;
     e.preventDefault();
     const isValid = this.validateForm();
     if (isValid) {
       console.log("SUCCESS");
-      // const { email, password } = fields;
-      // const loginData = { email, password };
-      // axios
-      //   .post(API_LOGIN_URL, loginData)
-      //   .then(({ data }) => {
-      //     this.props.handleChangeState({ ...data, isLoggedIn: true });
-      //     ["admin", "organisation"].includes(data.role)
-      //       ? this.props.history.push(DASHBOARD_URL)
-      //       : this.props.history.push(MYPROFILE_URL);
-      //   })
-      //   .catch(err => {
-      //     this.setState({ msg: "error" });
-      //   });
+      const userInfo = { ...fields };
+
+      axios
+        .post(API_SIGNUP_URL, { userInfo })
+        .then(({ data }) => {
+          this.props.handleChangeState({ ...data, isLoggedIn: true });
+          ["admin", "organisation"].includes(data.role)
+            ? this.props.history.push(DASHBOARD_URL)
+            : this.props.history.push(MYPROFILE_URL);
+        })
+        .catch(err => {
+          this.setState({ msg: "error" });
+        });
     } else {
       console.log("NOOO");
     }
@@ -279,7 +283,7 @@ export default class SignUpPage extends Component {
           )}
           {userType === USER_TYPES.organisation && (
             <InputDiv>
-              <InputLabel htmlFor="organisation">Organisation code</InputLabel>
+              <InputLabel htmlFor="organisation">Organisation</InputLabel>
               <Input
                 placeholder="Enter your organisation"
                 name="organisation"

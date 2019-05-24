@@ -13,6 +13,8 @@ module.exports.addNewUser = async (userInfo) => {
     email, name, password, role,
   } = userInfo;
 
+  console.log("addNewUSer", userInfo);
+
   if (role === "organisation") {
     const { organisation, logo } = userInfo;
     const newOrg = await addOrg(organisation, logo);
@@ -25,6 +27,7 @@ module.exports.addNewUser = async (userInfo) => {
     });
   }
   if (role === "host") {
+    console.log("host", userInfo);
     const { referral } = userInfo;
     return User.create({
       email: email.toLowerCase(),
