@@ -26,7 +26,7 @@ const schema = Yup.object().shape({
   jobTitle: Yup.string().required("Required"),
   pressPass: Yup.mixed().required("Required"),
   addressLine1: Yup.string().required("Required"),
-  addressLine2: Yup.string().required("Required"),
+  addressLine2: Yup.string(),
   addressCity: Yup.string().required("Required"),
   addressPostCode: Yup.string().required("Required"),
   offerDescription: Yup.string().required("Required"),
@@ -45,6 +45,7 @@ const schema = Yup.object().shape({
 
 class HostCreateProfile extends Component {
   state = {
+    attemptedToSubmit: false,
     profileImage: {
       dataUrl: null,
       file: null
@@ -89,8 +90,8 @@ class HostCreateProfile extends Component {
     errors: {}
   };
 
-  handleOtherInfo = otherInfo => {
-    this.setState({ otherInfo });
+  handleOtherInfo = offerOtherInfo => {
+    this.setState({ offerOtherInfo });
   };
 
   handleAddProfile = ({ target }) => {
@@ -101,12 +102,15 @@ class HostCreateProfile extends Component {
     reader.onload = () => {
       var dataUrl = reader.result;
 
-      this.setState({
-        [name]: {
-          dataUrl,
-          file: image
-        }
-      });
+      this.setState(
+        {
+          [name]: {
+            dataUrl,
+            file: image
+          }
+        },
+        () => this.state.attemptedToSubmit && this.updateErrors()
+      );
     };
 
     image && reader.readAsDataURL(image);
@@ -114,7 +118,10 @@ class HostCreateProfile extends Component {
 
   handelInputChange = ({ target }) => {
     const { value, name } = target;
-    this.setState({ [name]: value });
+    this.setState(
+      { [name]: value },
+      () => this.state.attemptedToSubmit && this.updateErrors()
+    );
   };
 
   validate = () => {
@@ -144,23 +151,36 @@ class HostCreateProfile extends Component {
       this.setState({ errors });
     });
   };
+
+  updateErrors = async () => {
+    await this.validate();
+  };
+
   handleSubmit = e => {
     const form = new FormData();
     e.preventDefault();
+    this.setState({ attemptedToSubmit: true });
     this.validate().then(res => {
       if (res) {
+        this.setState({ errors: {} });
         form.append("bio", this.state.bio);
-        form.append("interests", this.state.bio);
-        form.append("organisationName", this.state.bio);
-        form.append("organisationWebsite", this.state.bio);
-        form.append("jobTitle", this.state.bio);
-        form.append("addressLine1", this.state.bio);
-        form.append("addressLine2", this.state.bio);
-        form.append("addressCity", this.state.bio);
-        form.append("addressPostCode", this.state.bio);
-        form.append("offerDescription", this.state.bio);
-        form.append("offerOtherInfo", this.state.bio);
-        form.append("availableDates", getValidDAtes(this.state.availableDates));
+        form.append("interests", this.state.interests);
+        form.append("organisationName", this.state.organisationName);
+        form.append("organisationWebsite", this.state.organisationWebsite);
+        form.append("jobTitle", this.state.jobTitle);
+        form.append("addressLine1", this.state.addressLine1);
+        form.append("addressLine2", this.state.addressLine2);
+        form.append("addressCity", this.state.addressCity);
+        form.append("addressPostCode", this.state.addressPostCode);
+        form.append("offerDescription", this.state.offerDescription);
+        form.append(
+          "offerOtherInfo",
+          JSON.stringify(this.state.offerOtherInfo)
+        );
+        form.append(
+          "availableDates",
+          JSON.stringify(getValidDAtes(this.state.availableDates))
+        );
         form.append("offerImages1", this.state.offerImages1.file);
         form.append("offerImages2", this.state.offerImages2.file);
         form.append("offerImages3", this.state.offerImages3.file);
@@ -168,7 +188,7 @@ class HostCreateProfile extends Component {
         form.append("profileImage", this.state.profileImage.file);
 
         axios({
-          method: "patch",
+          method: "post",
           url: "/api/hosts/complete-profile",
           data: form,
           headers: {
@@ -219,7 +239,10 @@ class HostCreateProfile extends Component {
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
 
-    this.setState({ availableDates: newAvailableDates });
+    this.setState(
+      { availableDates: newAvailableDates },
+      () => this.state.attemptedToSubmit && this.updateErrors()
+    );
   };
 
   onStartChange = (index, value) => {

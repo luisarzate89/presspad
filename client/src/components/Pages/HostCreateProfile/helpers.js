@@ -129,10 +129,10 @@ export const getValidDAtes = availableDates => {
   const validDates = availableDates.reduce((prev, curr) => {
     const { startDate, endDate } = curr;
 
-    if (!startDate || !endDate) {
+    if (startDate && endDate) {
       prev.push({
-        startDate,
-        endDate
+        startDate: startDate.format(),
+        endDate: endDate.format()
       });
     }
 

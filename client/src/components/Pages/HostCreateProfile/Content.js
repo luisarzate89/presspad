@@ -105,7 +105,7 @@ class Content extends Component {
                 <Col xs={24} lg={10}>
                   <Label htmlFor="interests">Interests</Label>
                   <TextArea
-                    namr="interests"
+                    name="interests"
                     onChange={handelInputChange}
                     rows={7}
                     id={"interests"}
@@ -459,6 +459,7 @@ class Content extends Component {
                                 disabledDate={value =>
                                   disabledStartDate(index, value)
                                 }
+                                open={true}
                                 format="YYYY-MM-DD"
                                 value={item.startDate}
                                 placeholder="Start"
