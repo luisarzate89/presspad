@@ -1,12 +1,9 @@
 const boom = require("boom");
-const User = require("./../database/models/User");
 const { updateUserProfile } = require("./../database/queries/profiles");
 const { createNewListing } = require("./../database/queries/listings");
 
 module.exports = async (req, res, next) => {
-  // for now it will get the user from the request (if we have authentication middleware)
-  // if no user object in the request it will get the first host user
-  const user = req.user || await User.findOne({ role: "host" });
+  const { user } = req;
   try {
     const profileData = {
       user: user._id,

@@ -3,6 +3,8 @@ import { message, Modal, Spin, Alert } from "antd";
 import * as Yup from "yup";
 import axios from "axios";
 
+import { API_HOST_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
+
 import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
 import {
@@ -173,16 +175,13 @@ class HostCreateProfile extends Component {
             <Spin spinning={this.state.loading}>
               <Alert
                 message="updating your info"
-                description="this might take 3 seconds"
+                description="this might take sometime"
                 type="info"
               />
             </Spin>
           ),
           okButtonProps: {
             disabled: true
-          },
-          onOk: () => {
-            this.props.history.push(DASHBOARD_URL);
           }
         });
 
@@ -212,7 +211,7 @@ class HostCreateProfile extends Component {
 
         axios({
           method: "post",
-          url: "/api/hosts/complete-profile",
+          url: API_HOST_COMPLETE_PROFILE,
           data: form,
           headers: {
             "content-type": `multipart/form-data; boundary=${form._boundary}`
