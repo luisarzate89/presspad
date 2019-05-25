@@ -459,7 +459,6 @@ class Content extends Component {
                                 disabledDate={value =>
                                   disabledStartDate(index, value)
                                 }
-                                open={true}
                                 format="YYYY-MM-DD"
                                 value={item.startDate}
                                 placeholder="Start"
