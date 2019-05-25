@@ -13,7 +13,7 @@ module.exports = () => (req, res, next) => {
       const filePath = file[0].path;
       return fs.unlink(filePath, (err) => {
         if (err) {
-          next(boom.badImplementation("Error while uploading photo"));
+          console.log(err);
         }
       });
     });

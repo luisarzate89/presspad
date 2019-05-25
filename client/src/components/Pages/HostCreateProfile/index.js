@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { message } from "antd";
+import { message, Modal, Spin, Alert } from "antd";
 import * as Yup from "yup";
 import axios from "axios";
+
+import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
 import {
   disabledEndDate,
@@ -46,6 +48,7 @@ const schema = Yup.object().shape({
 class HostCreateProfile extends Component {
   state = {
     attemptedToSubmit: false,
+    loading: true,
     profileImage: {
       dataUrl: null,
       file: null
@@ -162,7 +165,27 @@ class HostCreateProfile extends Component {
     this.setState({ attemptedToSubmit: true });
     this.validate().then(res => {
       if (res) {
-        this.setState({ errors: {} });
+        this.setState({ errors: {}, uploading: true });
+        Modal.destroyAll();
+        Modal.info({
+          title: "Uploading",
+          content: (
+            <Spin spinning={this.state.loading}>
+              <Alert
+                message="updating your info"
+                description="this might take 3 seconds"
+                type="info"
+              />
+            </Spin>
+          ),
+          okButtonProps: {
+            disabled: true
+          },
+          onOk: () => {
+            this.props.history.push(DASHBOARD_URL);
+          }
+        });
+
         form.append("bio", this.state.bio);
         form.append("interests", this.state.interests);
         form.append("organisationName", this.state.organisationName);
@@ -196,10 +219,38 @@ class HostCreateProfile extends Component {
           }
         })
           .then(({ data }) => {
-            console.log(data);
+            Modal.destroyAll();
+            Modal.success({
+              title: "Done",
+              content: (
+                <Alert
+                  message="Thank you"
+                  description="Your info has been updated"
+                  type="success"
+                />
+              ),
+
+              onOk: () => {
+                this.props.history.push(DASHBOARD_URL);
+              },
+              type: "success"
+            });
+            this.setState({ loading: false, success: true });
           })
           .catch(err => {
-            console.log(err);
+            Modal.destroyAll();
+            Modal.error({
+              title: "Error",
+              content: (
+                <Alert
+                  message="Error"
+                  description={err.response.data.error}
+                  type="error"
+                />
+              ),
+              type: "error"
+            });
+            this.setState({ loading: false, erros: err.response.data });
           });
       }
     });

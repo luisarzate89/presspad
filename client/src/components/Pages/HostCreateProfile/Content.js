@@ -408,9 +408,7 @@ class Content extends Component {
                         </Checkbox>
                       </Col>
                       <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
-                        <Checkbox value="NOften away">
-                          No other flatmates
-                        </Checkbox>
+                        <Checkbox value="NOften away">Often away</Checkbox>
                       </Col>
                     </Row>
                   </CheckboxGroup>

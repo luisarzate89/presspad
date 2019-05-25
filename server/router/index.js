@@ -3,10 +3,12 @@ const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const multer = require("./../middlewares/multer");
 const googleStorage = require("./../middlewares/googleStorage");
 const deleteFromServer = require("./../middlewares/deleteFromServer");
+const { multerFields } = require("./../constants");
 
+const { hostCompleteProfile } = multerFields;
 router.post(
   "/hosts/complete-profile",
-  multer(),
+  multer(hostCompleteProfile),
   googleStorage(),
   deleteFromServer(),
   hostsCompleteProfile,
