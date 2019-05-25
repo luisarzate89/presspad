@@ -10,6 +10,8 @@ const dbConnection = require("./database/dbConnection");
 
 const app = express();
 
+require("dotenv").config();
+
 // connect to DB
 dbConnection();
 
