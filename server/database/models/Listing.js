@@ -27,10 +27,7 @@ const listingSchema = new Schema({
     required: true,
   },
   otherInfo: [String],
-  price: {
-    type: Number,
-    required: true,
-  },
+  price: Number,
   photos: [String],
   availableDates: [{ startDate: Date, endDate: Date }],
 });
