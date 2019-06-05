@@ -94,13 +94,13 @@ class HostProfile extends Component {
   getProfilePic = img =>
     img && img.length > 0
       ? img
-      : require("./../../../assets/profile-pictures/random-profile.jpg");
+      : require("./../../../assets/random-profile.jpg");
 
   // checks if lisitng image exists and goes to right folder
   getListingPic = listingPic => {
     return listingPic && listingPic.length > 0
       ? listingPic
-      : require("./../../../assets/listing-pictures/listing-placeholder.jpg");
+      : require("./../../../assets/listing-placeholder.jpg");
   };
 
   createAddress = (street, city) => `${street}, ${city}`;
