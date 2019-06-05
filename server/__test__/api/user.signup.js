@@ -28,7 +28,7 @@ describe("Testing for signup route", () => {
         name: "Ted Test",
         password: "a123456A",
         role: "intern",
-        code: org.code,
+        orgCode: org.code,
       },
     };
 
@@ -54,7 +54,7 @@ describe("Testing for signup route", () => {
         name: "Ted Test",
         password: "a123456A",
         role: "intern",
-        code: "11111",
+        orgCode: "11111",
       },
     };
 
@@ -77,7 +77,7 @@ describe("Testing for signup route", () => {
         name: "Ted Test",
         password: "a123456A",
         role: "intern",
-        code: "11111",
+        orgCode: "11111",
       },
     };
 
@@ -138,7 +138,6 @@ describe("Testing for signup route", () => {
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body.email).toBe(data.userInfo.email);
-        expect(res.body.organisation).toBe(data.userInfo.organisation);
         done(err);
       });
   });
