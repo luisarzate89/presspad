@@ -9,11 +9,13 @@ import HostCreateProfile from "./HostCreateProfile";
 
 import SignInPage from "./SignInPage";
 import Dashboard from "./Dashboard";
+import HostProfile from "./HostProfile";
 
 import {
   HOME_URL,
   SIGNIN_URL,
   DASHBOARD_URL,
+  HOST_PROFILE,
   COMPLETE_PROFILE_URL
 } from "./../../constants/navRoutes";
 
@@ -24,6 +26,8 @@ class Pages extends Component {
       <>
         <Switch>
           <Route path={HOME_URL} exact component={LandingPage} />
+          <Route path={HOST_PROFILE} component={HostProfile} />
+
           <PrivateRoute
             exact
             path={DASHBOARD_URL}

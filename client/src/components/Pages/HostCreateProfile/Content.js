@@ -33,7 +33,8 @@ class Content extends Component {
       onEndChange,
       onStartChange,
       handleAddMoreRanges,
-      state
+      state,
+      name
     } = this.props;
     const pressPassFileName = state.pressPass.file
       ? state.pressPass.file.name
@@ -61,7 +62,9 @@ class Content extends Component {
                 </ErrorWrapper>
               </Col>
               <Col span={20}>
-                <HiText>Hi Emily, please complete your profile</HiText>
+                <HiText>
+                  Hi {name.split(" ")[0]}, please complete your profile
+                </HiText>
                 <HeaderButtonsWrapper>
                   <UploadButton as="label" htmlFor="profileImage">
                     Add profile photo
@@ -238,7 +241,7 @@ class Content extends Component {
                   >
                     <Input
                       name="addressLine1"
-                      placeholder="Address line 1"
+                      placeholder="Street"
                       id="addressline1"
                       onChange={handelInputChange}
                       value={state.addressLine1}
@@ -259,7 +262,7 @@ class Content extends Component {
                       name="addressLine2"
                       onChange={handelInputChange}
                       value={state.addressLine2}
-                      placeholder="Address line 2"
+                      placeholder="Borough"
                       style={{
                         display: "inline",
                         border: state.errors.addressLine2

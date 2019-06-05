@@ -1,5 +1,9 @@
 const boom = require("boom");
-const { updateUserProfile } = require("./../database/queries/profiles");
+const {
+  updateUserProfile,
+  findProfile,
+  createNewProfile,
+} = require("./../database/queries/profiles");
 const { createNewListing } = require("./../database/queries/listings");
 
 module.exports = async (req, res, next) => {
@@ -15,13 +19,14 @@ module.exports = async (req, res, next) => {
       },
       jobTitle: req.body.jobTitle,
       pressPass: req.body.pressPass,
+      profileImage: req.body.profileImage,
     };
 
     const listingData = {
       user: user._id,
       address: {
-        line1: req.body.addressLine1,
-        line2: req.body.addressLine2,
+        street: req.body.addressLine1,
+        borough: req.body.addressLine2,
         city: req.body.addressCity,
         postcode: req.body.addressPostCode,
       },
@@ -30,12 +35,17 @@ module.exports = async (req, res, next) => {
       photos: [req.body.offerImages1, req.body.offerImages2, req.body.offerImages3],
       availableDates: JSON.parse(req.body.availableDates),
     };
+    const foundProfile = await findProfile(user._id);
 
     // update the host profile
-    await updateUserProfile(user._id, profileData);
+    if (foundProfile) {
+      await updateUserProfile(user._id, profileData).catch(err => console.log("err profile update", err));
+    }
+    await createNewProfile(profileData).catch(err => console.log("err creating profile", err));
 
     // create new listing
-    await createNewListing(listingData);
+    await createNewListing(listingData).catch(err => console.log("err listing update", err));
+
     res.json({ success: true });
   } catch (error) {
     next(boom.badImplementation());

@@ -102,11 +102,11 @@ class HostCreateProfile extends Component {
   handleAddProfile = ({ target }) => {
     const { files, name } = target;
     const image = files && files[0];
+
     var reader = new FileReader();
 
     reader.onload = () => {
       var dataUrl = reader.result;
-
       this.setState(
         {
           [name]: {
@@ -329,8 +329,12 @@ class HostCreateProfile extends Component {
   };
 
   render() {
+    console.log(this.state);
+    const { name, id } = this.props;
     return (
       <Content
+        name={name}
+        id={id}
         handleOtherInfo={this.handleOtherInfo}
         handleAddProfile={this.handleAddProfile}
         handelInputChange={this.handelInputChange}
