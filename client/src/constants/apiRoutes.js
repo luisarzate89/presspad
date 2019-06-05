@@ -6,12 +6,17 @@ const API_LOGIN_URL = `${API_PREFIX}${LOGIN_URL}`; // to use on the client
 const USER_URL = "/user/check-user";
 const API_USER_URL = `${API_PREFIX}${USER_URL}`;
 
+const HOST_COMPLETE_PROFILE = "/hosts/complete-profile";
+const API_HOST_COMPLETE_PROFILE = `${API_PREFIX}${HOST_COMPLETE_PROFILE}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
   API_USER_URL,
+  API_HOST_COMPLETE_PROFILE,
 
   // SERVER
   LOGIN_URL,
-  USER_URL
+  USER_URL,
+  HOST_COMPLETE_PROFILE
 };
