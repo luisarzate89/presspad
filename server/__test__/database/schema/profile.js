@@ -21,7 +21,7 @@ describe("Test Profile schema", () => {
 
   test("should store Profile schema correctly", async (done) => {
     const profiles = await Profile.find();
-    expect(profiles).toHaveLength(7);
+    expect(profiles).toHaveLength(6);
     done();
   });
 
