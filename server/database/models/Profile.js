@@ -15,7 +15,7 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  interests: [String],
+  interests: String,
   organisation: {
     name: String,
     website: String,
@@ -29,7 +29,7 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  profilePic: {
+  profileImage: {
     type: String,
     default: "",
   },

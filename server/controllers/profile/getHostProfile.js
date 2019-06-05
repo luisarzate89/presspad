@@ -8,6 +8,7 @@ const { hostProfileData, hostReviews } = require("./../../database/queries/profi
 
 module.exports = async (req, res, next) => {
   const { userId } = req.body;
+
   // check if user id is in request
   if (!userId) {
     return next(boom.badRequest("error loading profile"));

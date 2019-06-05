@@ -9,6 +9,18 @@ import "antd/lib/button/style/index.css";
 import "antd/lib/menu/style/index.css";
 import "antd/lib/carousel/style/index.css";
 import "antd/lib/breadcrumb/style/index.css";
+import "antd/lib/icon/style/index.css";
+import "antd/lib/collapse/style/index.css";
+import "antd/lib/table/style/index.css";
+import "antd/lib/avatar/style/index.css";
+import "antd/lib/grid/style/index.css";
+import "antd/lib/checkbox/style/index.css";
+import "antd/lib/date-picker/style/index.css";
+import "antd/lib/divider/style/index.css";
+import "antd/lib/message/style/index.css";
+import "antd/lib/modal/style/index.css";
+import "antd/lib/spin/style/index.css";
+import "antd/lib/alert/style/index.css";
 
 import { API_USER_URL } from "./../constants/apiRoutes";
 

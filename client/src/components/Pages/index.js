@@ -5,6 +5,8 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./../Common/PrivateRoute";
 
 import LandingPage from "./LandingPage";
+import HostCreateProfile from "./HostCreateProfile";
+
 import SignInPage from "./SignInPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
@@ -13,7 +15,8 @@ import {
   HOME_URL,
   SIGNIN_URL,
   DASHBOARD_URL,
-  HOST_PROFILE
+  HOST_PROFILE,
+  COMPLETE_PROFILE_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -33,6 +36,16 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
+
+          <PrivateRoute
+            exact
+            path={COMPLETE_PROFILE_URL}
+            Component={HostCreateProfile}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
           <Route
             path={SIGNIN_URL}
             exact

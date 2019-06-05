@@ -93,16 +93,13 @@ class HostProfile extends Component {
   // checks if profile image exists and returns src path
   getProfilePic = img =>
     img && img.length > 0
-      ? require(`./../../../assets/profile-pictures/${img}`)
+      ? img
       : require("./../../../assets/profile-pictures/random-profile.jpg");
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = (name, listingPic) => {
-    name = name.split(" ");
-    name = `${name[0].toLowerCase()}-${name[1].toLowerCase()}`;
-
+  getListingPic = listingPic => {
     return listingPic && listingPic.length > 0
-      ? require(`./../../../assets/listing-pictures/${name}/${listingPic}`)
+      ? listingPic
       : require("./../../../assets/listing-pictures/listing-placeholder.jpg");
   };
 
@@ -113,8 +110,8 @@ class HostProfile extends Component {
 
     const { profileData, reviews } = this.state;
 
-    const { name, listing, profile } = profileData;
-    const { bio, jobTitle, organisation, profilePic } = profile;
+    const { listing, profile } = profileData;
+    const { bio, jobTitle, organisation, profileImage } = profile;
 
     return (
       <Wrapper>
@@ -125,7 +122,7 @@ class HostProfile extends Component {
           </BackLinkDiv>
         </LinkDiv>
         <Header>
-          <ProfilePicDiv src={this.getProfilePic(profilePic)} />
+          <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeadlineDiv>
             <Headline>
               A {jobTitle} at {organisation.name}
@@ -141,11 +138,11 @@ class HostProfile extends Component {
         </Header>
         <ImageSection>
           <MainImageDiv>
-            <MainImage src={this.getListingPic(name, listing.photos[0])} />
+            <MainImage src={this.getListingPic(listing.photos[0])} />
           </MainImageDiv>
           <SideImageDiv>
-            <SubImage src={this.getListingPic(name, listing.photos[1])} />
-            <SubImage src={this.getListingPic(name, listing.photos[2])} />
+            <SubImage src={this.getListingPic(listing.photos[1])} />
+            <SubImage src={this.getListingPic(listing.photos[2])} />
           </SideImageDiv>
         </ImageSection>
         <MainSection>
