@@ -114,6 +114,8 @@ class HostProfile extends Component {
     const { listing, profile } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
 
+    const { availableDates, price } = listing;
+
     return (
       <Wrapper>
         <LinkDiv>
@@ -207,13 +209,8 @@ class HostProfile extends Component {
                 <ParagraphHeadline>
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
-                <Calendar />
+                <Calendar availableDates={availableDates} price={price} />
               </CalendarDiv>
-              <PricingDiv>
-                <PriceHeadline>Full price for period</PriceHeadline>
-                <PriceLabel>£245.00</PriceLabel>
-                <RequestBtn>Request Stay</RequestBtn>
-              </PricingDiv>
             </Card>
           </AvailableHosting>
         </MainSection>
