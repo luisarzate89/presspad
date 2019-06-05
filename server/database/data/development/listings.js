@@ -17,7 +17,11 @@ module.exports = async () => {
         "Colourful artwork adorns the walls throughout this curated interior, designed by one of Londons premier architects. Find inspiration in an urban minimalist home with wood finishes, original details, and chic furnishings throughout.",
       otherInfo: ["Pets allowed", "No other flatmates", "LGBTQ friendly", "Often away"],
       price: 30,
-      photos: ["1livingroom.jpg", "1kitchen.jpg", "1bathroom.jpg"],
+      photos: [
+        "https://i.ibb.co/rbBsRvD/1livingroom.jpg",
+        "https://i.ibb.co/hXFFfNz/1kitchen.jpg",
+        "https://i.ibb.co/VvXFwg4/1bathroom.jpg",
+      ],
       availableDates: [
         { startDate: "2019-05-16", endDate: "2019-07-16" },
         { startDate: "2019-09-14", endDate: "2019-10-12" },

@@ -18,7 +18,7 @@ module.exports = async () => {
       },
       jobTitle: "Journalist",
       pressPass: "adam-presspass.jpg",
-      profileImage: "adam-profile.jpeg",
+      profileImage: "https://i.ibb.co/FzL79hf/adam-profile.jpg",
     },
     {
       user: hosts[1],
@@ -45,19 +45,6 @@ module.exports = async () => {
       },
       jobTitle: "Sports Writer",
       pressPass: "hilda-presspass.jpg",
-    },
-    // initial profile
-    {
-      user: hosts[3],
-      verified: true,
-      bio: " ",
-      interests: " ",
-      organisation: {
-        name: " ",
-        website: " ",
-      },
-      jobTitle: " ",
-      pressPass: " ",
     },
   ];
 
