@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 //api
 import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
+import Calendar from "./Calendar";
 import axios from "axios";
 
 //styles
@@ -206,6 +207,7 @@ class HostProfile extends Component {
                 <ParagraphHeadline>
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
+                <Calendar />
               </CalendarDiv>
               <PricingDiv>
                 <PriceHeadline>Full price for period</PriceHeadline>

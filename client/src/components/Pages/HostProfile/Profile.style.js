@@ -232,7 +232,7 @@ const InnerSideCard = styled.div`
 `;
 
 export const CalendarDiv = styled(InnerSideCard)`
-  height: 300px;
+  height: 400px;
 `;
 
 export const PricingDiv = styled(InnerSideCard)`
