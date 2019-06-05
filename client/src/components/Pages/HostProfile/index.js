@@ -56,7 +56,7 @@ import "antd/dist/antd.css";
 
 import starSign from "./../../../assets/star-sign-symbol.svg";
 
-import { Spin, message, Calendar } from "antd";
+import { Spin, message } from "antd";
 
 class HostProfile extends Component {
   state = {
@@ -113,8 +113,8 @@ class HostProfile extends Component {
 
     const { profileData, reviews } = this.state;
 
-    const { name, email, listing, profile } = profileData;
-    const { bio, interests, jobTitle, organisation, profilePic } = profile;
+    const { name, listing, profile } = profileData;
+    const { bio, jobTitle, organisation, profilePic } = profile;
 
     return (
       <Wrapper>
@@ -125,13 +125,7 @@ class HostProfile extends Component {
           </BackLinkDiv>
         </LinkDiv>
         <Header>
-          <ProfilePicDiv
-            src={
-              this.getProfilePic(profilePic)
-                ? this.getProfilePic(profilePic)
-                : require("./../../../assets/profile-pictures/random-profile.jpg")
-            }
-          />
+          <ProfilePicDiv src={this.getProfilePic(profilePic)} />
           <HeadlineDiv>
             <Headline>
               A {jobTitle} at {organisation.name}
@@ -147,29 +141,11 @@ class HostProfile extends Component {
         </Header>
         <ImageSection>
           <MainImageDiv>
-            <MainImage
-              src={
-                this.getListingPic(name, listing.photos[0])
-                  ? this.getListingPic(name, listing.photos[0])
-                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
-              }
-            />
+            <MainImage src={this.getListingPic(name, listing.photos[0])} />
           </MainImageDiv>
           <SideImageDiv>
-            <SubImage
-              src={
-                this.getListingPic(name, listing.photos[1])
-                  ? this.getListingPic(name, listing.photos[1])
-                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
-              }
-            />
-            <SubImage
-              src={
-                this.getListingPic(name, listing.photos[2])
-                  ? this.getListingPic(name, listing.photos[2])
-                  : require("./../../../assets/listing-pictures/listing-placeholder.jpg")
-              }
-            />
+            <SubImage src={this.getListingPic(name, listing.photos[1])} />
+            <SubImage src={this.getListingPic(name, listing.photos[2])} />
           </SideImageDiv>
         </ImageSection>
         <MainSection>
