@@ -5,7 +5,7 @@ import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
-import { shadows, colors, borders } from "./../../../theme";
+import { shadows, colors } from "./../../../theme";
 
 export const Wrapper = styled.div`
    {

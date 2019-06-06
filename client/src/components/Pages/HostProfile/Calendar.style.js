@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { shadows, colors, borders } from "./../../../theme";
+import { colors, borders } from "./../../../theme";
 
 const classNames = {
   reactCalendar: ".react-calendar",
