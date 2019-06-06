@@ -49,6 +49,17 @@ export const SearchInputDiv = styled.div`
   margin-left: 2rem;
   display: flex;
   align-items: center;
+
+  /* this styling is currently in here to make interests inactive */
+  position: relative;
+  :after {
+    content: " ";
+    width: ${props => props.disabled && "100%"};
+    height: ${props => props.disabled && "100%"};
+    background: rgba(255, 255, 255, 0.6);
+    cursor: not-allowed;
+    position: absolute;
+  }
 `;
 
 export const ErrorMsg = styled.div`

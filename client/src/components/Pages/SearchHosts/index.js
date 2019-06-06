@@ -219,7 +219,7 @@ export default class index extends Component {
               format="YYYY-MM-DD"
             />
           </SearchInputDiv>
-          <SearchInputDiv>
+          <SearchInputDiv disabled>
             <SearchLabel htmlFor="interests">Interests</SearchLabel>
             <Input
               name="interests"
