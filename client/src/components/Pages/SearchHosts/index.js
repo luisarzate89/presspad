@@ -146,23 +146,25 @@ export default class index extends Component {
       : require("./../../../assets/listing-placeholder.jpg");
   };
 
-  // only show the dates listed that are relevant for this search
-  showDates = dates => {
-    // check if the user has searched for dates
-    const { searchFields } = this.state;
-    const { startDate, endDate } = searchFields;
+  showStartDate = dates => {
+    if (dates.length > 0) {
+      const sortedDates = dates.sort((a, b) => {
+        return b.startDate - a.startDate;
+      });
 
-    console.log("D", dates);
+      return moment(sortedDates[0].startDate).format("Do MMM");
+    } else return moment(dates[0].startDate).format("Do MMM YYYY");
+  };
 
-    if (startDate && endDate) {
-      // map through the dates to find all objects that have an end date after the user's start date and a start date before the user's end date
-      const availableDates = dates.filter(
-        date =>
-          date.endDate >= moment(startDate).format() &&
-          date.startDate <= moment(endDate).format()
+  showEndDate = dates => {
+    if (dates.length > 0) {
+      const sortedDates = dates.sort((a, b) => {
+        return b.endDate - a.endDate;
+      });
+      return moment(sortedDates[sortedDates.length - 1].endDate).format(
+        "Do MMM YYYY"
       );
-      console.log(availableDates);
-    }
+    } else return moment(dates[0].endDate).format("Do MMM YYYY");
   };
 
   render() {
@@ -240,14 +242,16 @@ export default class index extends Component {
             <Hosts>
               {listings.map(listing => (
                 <HostResult>
-                  {this.showDates(listing.availableDates)}
                   <HostHeader>
                     <HostTitle>
                       {listing.address.borough || listing.address.city}
                     </HostTitle>
                   </HostHeader>
                   <HostImg src={this.getListingPic()} />
-                  <HostDates>12 May - 24 May 2019</HostDates>
+                  <HostDates>
+                    {this.showStartDate(listing.availableDates)} -{" "}
+                    {this.showEndDate(listing.availableDates)}
+                  </HostDates>
                   <HostLocation>
                     {listing.address.borough && (
                       <>{listing.address.borough}, </>
