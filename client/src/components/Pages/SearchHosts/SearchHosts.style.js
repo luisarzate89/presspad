@@ -49,6 +49,30 @@ export const SearchInputDiv = styled.div`
   align-items: center;
 `;
 
+export const ErrorMsg = styled.div`
+  color: ${colors.red};
+  margin-top: 1rem;
+`;
+
+export const SearchButton = styled.button`
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  transition: all ease 0.15s;
+
+  &:hover,
+  &:active {
+    color: ${colors.primary};
+  }
+
+  &:active {
+    font-size: 0.8rem;
+  }
+`;
+
 export const ResultsWrapper = styled.div``;
 
 export const ResultsText = styled.h2``;
