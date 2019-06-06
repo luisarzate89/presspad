@@ -32,8 +32,7 @@ describe("Testing for login route", () => {
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
-        // expect(res.body.id).toBeDefined();
-        // expect(res.body.email).toBe(data.email);
+        expect(res.body.email).toBe(data.email);
         expect(res.headers["set-cookie"][0]).toMatch("token");
         done(err);
       });

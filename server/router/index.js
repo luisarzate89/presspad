@@ -3,6 +3,9 @@ const router = require("express").Router();
 // IMPORT CONTROLLERS
 const loginController = require("./../controllers/user/login");
 const userInfo = require("./../controllers/user/userInfo");
+const signUpController = require("./../controllers/user/signup");
+const getUserByReferral = require("./../controllers/user/getUserByReferral");
+const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
 
@@ -16,6 +19,9 @@ const deleteFromServer = require("./../middlewares/deleteFromServer");
 const {
   LOGIN_URL,
   USER_URL,
+  SIGNUP_URL,
+  CHECK_REFERRAL_URL,
+  GET_ORGS_URL,
   HOST_PROFILE_URL,
   HOST_COMPLETE_PROFILE,
 } = require("../../client/src/constants/apiRoutes");
@@ -43,5 +49,8 @@ router.post(HOST_PROFILE_URL, getHostProfile);
 
 // USE CONTROLLERS
 router.post(LOGIN_URL, loginController);
+router.post(SIGNUP_URL, signUpController);
+router.post(CHECK_REFERRAL_URL, getUserByReferral);
+router.get(GET_ORGS_URL, getAllOrgs);
 
 module.exports = router;
