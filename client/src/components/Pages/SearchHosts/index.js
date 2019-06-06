@@ -38,8 +38,7 @@ export default class index extends Component {
   state = {
     listings: null,
     searchFields: { city: null, startDate: null, endDate: null },
-    errors: {},
-    msg: null
+    errors: {}
   };
 
   fetchListings = () => {
@@ -172,7 +171,7 @@ export default class index extends Component {
   };
 
   render() {
-    const { searchFields, errors, msg, listings } = this.state;
+    const { searchFields, errors, listings } = this.state;
     const { isLoggedIn } = this.props;
     const { city, startDate, endDate } = searchFields;
     const { searchError } = errors;
