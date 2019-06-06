@@ -10,6 +10,38 @@ import {
   RequestBtn
 } from "./Calendar.style";
 
+const countDays = dates => {
+  const start = moment(dates[0]);
+  const end = moment(dates[1]);
+  return end.diff(start, "days");
+};
+
+const calculatePrice = dates => {
+  const start = moment(dates[0]);
+  const end = moment(dates[1]);
+
+  const weeks = end.diff(start, "weeks");
+  const days = end.diff(start, "days") % 7;
+
+  return weeks * 150 + days * 20;
+};
+
+// creates array of all available dates for listing
+const getAvailableDates = datesArray => {
+  const avDatesArray = [];
+  // get all available dates in range
+  datesArray.forEach(el => {
+    let currentDate = moment(el.startDate);
+    const stopDate = moment(el.endDate);
+    while (currentDate <= stopDate) {
+      avDatesArray.push(moment(currentDate).format("YYYY-MM-DD"));
+      currentDate = moment(currentDate).add(1, "days");
+    }
+  });
+  // get all days in month of current date and stop date
+  return avDatesArray;
+};
+
 class CalendarComponent extends Component {
   state = {
     dates: new Date(),
@@ -17,45 +49,20 @@ class CalendarComponent extends Component {
     price: 0
   };
 
+  // updates state
   onChange = dates => {
-    const { price } = this.props;
     this.setState({
       dates,
-      noNights: this.countDays(dates),
-      price: this.countDays(dates) * price
+      noNights: countDays(dates),
+      price: calculatePrice(dates)
     });
-  };
-
-  countDays = dates => {
-    const start = moment(dates[0]);
-    const end = moment(dates[1]);
-
-    return end.diff(start, "days");
-  };
-
-  // creates array of all available dates for listing
-  getAvailableDates = datesArray => {
-    const avDatesArray = [];
-
-    // get all available dates in range
-    datesArray.forEach(el => {
-      let currentDate = moment(el.startDate);
-      const stopDate = moment(el.endDate);
-      while (currentDate <= stopDate) {
-        avDatesArray.push(moment(currentDate).format("YYYY-MM-DD"));
-        currentDate = moment(currentDate).add(1, "days");
-      }
-    });
-
-    // get all days in month of current date and stop date
-    return avDatesArray;
   };
 
   // disables calendar tiles (days)
   tileDisabled = ({ date, view }) => {
     // create array of all days between avDateRanges
     const { availableDates } = this.props;
-    const avDateRange = this.getAvailableDates(availableDates);
+    const avDateRange = getAvailableDates(availableDates);
     //  return true if current date is not included in available dates => disable tile
     date = moment(date).format("YYYY-MM-DD");
     return (
@@ -65,6 +72,7 @@ class CalendarComponent extends Component {
 
   render() {
     const { price } = this.state;
+
     return (
       <div>
         <CalendarWrapper>
