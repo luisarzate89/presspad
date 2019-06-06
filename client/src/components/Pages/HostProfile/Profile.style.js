@@ -235,18 +235,6 @@ export const CalendarDiv = styled(InnerSideCard)`
   height: 400px;
 `;
 
-export const PricingDiv = styled(InnerSideCard)`
-  border-top: ${borders.divider}
-  height: 185px;
-`;
-
-export const PriceHeadline = styled(ReviewHeadline)`
-  text-align: left;
-  margin-top: 10px;
-`;
-export const PriceLabel = styled.h1``;
-export const RequestBtn = styled.button``;
-
 export const SubHeadline = styled.h2`
   font-weight: 600;
   font-size: 22px;

@@ -1,34 +1,34 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar/dist/entry.nostyle";
-import "./Calendar.css";
 import moment from "moment";
 
 import {
+  CalendarWrapper,
   PricingDiv,
   PriceHeadline,
   PriceLabel,
   RequestBtn
-} from "./Profile.style";
+} from "./Calendar.style";
 
 class CalendarComponent extends Component {
   state = {
-    date: new Date(),
-    noDays: null,
-    price: null
+    dates: new Date(),
+    noNights: null,
+    price: 0
   };
 
-  onChange = date => {
+  onChange = dates => {
     const { price } = this.props;
     this.setState({
-      date,
-      noDays: this.countDays(date),
-      price: this.countDays(date) * price
+      dates,
+      noNights: this.countDays(dates),
+      price: this.countDays(dates) * price
     });
   };
 
-  countDays = date => {
-    const start = moment(date[0]);
-    const end = moment(date[1]);
+  countDays = dates => {
+    const start = moment(dates[0]);
+    const end = moment(dates[1]);
 
     return end.diff(start, "days");
   };
@@ -56,7 +56,6 @@ class CalendarComponent extends Component {
     // create array of all days between avDateRanges
     const { availableDates } = this.props;
     const avDateRange = this.getAvailableDates(availableDates);
-
     //  return true if current date is not included in available dates => disable tile
     date = moment(date).format("YYYY-MM-DD");
     return (
@@ -65,17 +64,25 @@ class CalendarComponent extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { price } = this.state;
     return (
       <div>
-        <Calendar
-          selectRange
-          tileDisabled={this.tileDisabled}
-          onChange={this.onChange}
-          value={this.state.date}
-          // onClick={this.updatePrice}
-        />
+        <CalendarWrapper>
+          <Calendar
+            prev2Label={null}
+            next2Label={null}
+            tileDisabled={this.tileDisabled}
+            onChange={this.onChange}
+            value={this.state.date}
+            locale="en-t-jp"
+            maxDetail="month"
+            minDetail="month"
+            selectRange={true}
+            formatShortWeekday={(locale, value) =>
+              ["S", "M", "T", "W", "T", "F", "S"][moment(value).day()]
+            }
+          />
+        </CalendarWrapper>
         <PricingDiv>
           <PriceHeadline>Full price for period</PriceHeadline>
           <PriceLabel>£{price}</PriceLabel>
