@@ -126,6 +126,16 @@ export const HostResult = styled(Link)`
   }
 `;
 
+export const DisabledHostResult = styled.div`
+  width: 31%;
+  background: ${colors.white};
+  box-shadow: ${shadows.main};
+  color: ${colors.fontLightBlack};
+  margin-bottom: 1.25rem;
+  margin-right: ${props => props.underThree && "1.25rem"};
+  cursor: not-allowed;
+`;
+
 export const HostHeader = styled.div`
   padding: 1rem;
 `;
@@ -160,4 +170,16 @@ export const HostLocation = styled.p`
   font-weight: 300;
   text-transform: capitalize;
   padding: 1rem;
+`;
+
+export const SignUpPromo = styled(Link)`
+  font-weight: 500;
+  text-align: center;
+  color: ${colors.gray};
+  padding-top: 1rem;
+  font-size: 1.5rem;
+
+  :hover {
+    color: ${colors.primary};
+  }
 `;

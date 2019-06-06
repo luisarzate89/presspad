@@ -7,7 +7,7 @@ import moment from "moment";
 import { API_SEARCH_PROFILES_URL } from "./../../../constants/apiRoutes";
 
 // import Nav routes
-import { HOSTS_URL } from "./../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
 
 // import styled components
 import {
@@ -29,7 +29,9 @@ import {
   HostTitle,
   HostImg,
   HostDates,
-  HostLocation
+  HostLocation,
+  DisabledHostResult,
+  SignUpPromo
 } from "./SearchHosts.style";
 
 export default class index extends Component {
@@ -171,6 +173,7 @@ export default class index extends Component {
 
   render() {
     const { searchFields, errors, msg, listings } = this.state;
+    const { isLoggedIn } = this.props;
     const { city, startDate, endDate } = searchFields;
     const { searchError } = errors;
     return (
@@ -241,35 +244,73 @@ export default class index extends Component {
             <ResultsText>
               Your search returned {listings.length} results
             </ResultsText>
-            <Hosts underThree={listings.length < 3}>
-              {listings.map((listing, index) => (
-                <HostResult
-                  key={index}
-                  underThree={listings.length < 3}
-                  to={`${HOSTS_URL}/${listing.userID}`}
-                >
-                  <HostHeader>
-                    <HostTitle>
-                      {listing.address.borough || listing.address.city}
-                    </HostTitle>
-                  </HostHeader>
-                  <HostImg src={this.getListingPic(listing.photos[0])} />
-                  <HostDates>
-                    {this.showStartDate(listing.availableDates)} -{" "}
-                    {this.showEndDate(listing.availableDates)}
-                  </HostDates>
-                  <HostLocation>
-                    {listing.address.borough && (
-                      <>{listing.address.borough}, </>
-                    )}
-                    {listing.address.city && <>{listing.address.city}, </>}
-                    {listing.address.postcode && (
-                      <>{listing.address.postcode}</>
-                    )}
-                  </HostLocation>
-                </HostResult>
-              ))}
-            </Hosts>
+            {isLoggedIn ? (
+              <Hosts underThree={listings.length < 3}>
+                {listings.map((listing, index) => (
+                  <HostResult
+                    key={index}
+                    underThree={listings.length < 3}
+                    to={`${HOSTS_URL}/${listing.userID}`}
+                  >
+                    <HostHeader>
+                      <HostTitle>
+                        {listing.address.borough || listing.address.city}
+                      </HostTitle>
+                    </HostHeader>
+                    <HostImg src={this.getListingPic(listing.photos[0])} />
+                    <HostDates>
+                      {this.showStartDate(listing.availableDates)} -{" "}
+                      {this.showEndDate(listing.availableDates)}
+                    </HostDates>
+                    <HostLocation>
+                      {listing.address.borough && (
+                        <>{listing.address.borough}, </>
+                      )}
+                      {listing.address.city && <>{listing.address.city}, </>}
+                      {listing.address.postcode && (
+                        <>{listing.address.postcode}</>
+                      )}
+                    </HostLocation>
+                  </HostResult>
+                ))}
+              </Hosts>
+            ) : (
+              <>
+                <Hosts>
+                  {listings.slice(0, 3).map((listing, index) => (
+                    <DisabledHostResult
+                      key={index}
+                      to={`${HOSTS_URL}/${listing.userID}`}
+                      isLoggedIn={isLoggedIn}
+                    >
+                      <HostHeader>
+                        <HostTitle>
+                          {listing.address.borough || listing.address.city}
+                        </HostTitle>
+                      </HostHeader>
+                      <HostImg src={this.getListingPic(listing.photos[0])} />
+                      <HostDates>
+                        {this.showStartDate(listing.availableDates)} -{" "}
+                        {this.showEndDate(listing.availableDates)}
+                      </HostDates>
+                      <HostLocation>
+                        {listing.address.borough && (
+                          <>{listing.address.borough}, </>
+                        )}
+                        {listing.address.city && <>{listing.address.city}, </>}
+                        {listing.address.postcode && (
+                          <>{listing.address.postcode}</>
+                        )}
+                      </HostLocation>
+                    </DisabledHostResult>
+                  ))}
+                </Hosts>
+                <SignUpPromo to={SIGNUP_INTERN}>
+                  Sign up now to view all properties, full property details and
+                  request to stay.
+                </SignUpPromo>
+              </>
+            )}
           </ResultsWrapper>
         )}
       </Wrapper>

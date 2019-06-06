@@ -34,9 +34,9 @@ class Pages extends Component {
           <Route path={HOME_URL} exact component={LandingPage} />
           <Route path={HOST_PROFILE} component={HostProfile} />
           <Route
+            exact
             path={HOSTS_URL}
-            component={SearchHosts}
-            isLoggedIn={isLoggedIn}
+            render={() => <SearchHosts isLoggedIn={isLoggedIn} />}
           />
 
           <PrivateRoute
