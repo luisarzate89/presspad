@@ -45,6 +45,16 @@ describe("Tests for hostProfile queries", () => {
     done();
   });
 
+  test("Get listings when only date entered and available dates selected", async (done) => {
+    const data = { startDate: "2019-06-05", endDate: "2019-06-08" };
+
+    await searchProfiles(data).then((results) => {
+      expect(results).toBeDefined();
+      expect(results.length).toBe(2);
+    });
+    done();
+  });
+
   test("Get no listings when only date entered and unavailable dates selected", async (done) => {
     const data = { startDate: "2020-12-13", endDate: "2020-12-15" };
 

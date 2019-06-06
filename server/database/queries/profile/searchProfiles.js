@@ -19,13 +19,32 @@ module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
       {
         $match: { "availableDates.endDate": { $gte: new Date() } },
       },
-      // get any listings that have an end date later then the user's start date
+      //  filter the availableDates so only availableDate objects within the time range remain
       {
-        $match: { "availableDates.endDate": { $gte: new Date(startDate) } },
+        $project: {
+          availableDates: {
+            $filter: {
+              input: "$availableDates",
+              as: "availableDate",
+              cond: {
+                $and: [
+                  { $gte: ["$$availableDate.endDate", new Date(startDate)] },
+                  { $lte: ["$$availableDate.startDate", new Date(endDate)] },
+                ],
+              },
+            },
+          },
+          address: 1,
+          photos: 1,
+        },
       },
-      // then get listings that have a start date before the user's end date
       {
-        $match: { "availableDates.startDate": { $lt: new Date(endDate) } },
+        $addFields: {
+          totalDates: { $size: "$availableDates" },
+        },
+      },
+      {
+        $match: { totalDates: { $gt: 0 } },
       },
     ])
       .then(listings => resolve(listings))
@@ -43,13 +62,32 @@ module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
       {
         $match: { "availableDates.endDate": { $gte: new Date() } },
       },
-      // get any listings that have an end date later then the user's start date
+      //  filter the availableDates so only availableDate objects within the time range remain
       {
-        $match: { "availableDates.endDate": { $gte: new Date(startDate) } },
+        $project: {
+          availableDates: {
+            $filter: {
+              input: "$availableDates",
+              as: "availableDate",
+              cond: {
+                $and: [
+                  { $gte: ["$$availableDate.endDate", new Date(startDate)] },
+                  { $lte: ["$$availableDate.startDate", new Date(endDate)] },
+                ],
+              },
+            },
+          },
+          address: 1,
+          photos: 1,
+        },
       },
-      // then get listings that have a start date before the user's end date
       {
-        $match: { "availableDates.startDate": { $lt: new Date(endDate) } },
+        $addFields: {
+          totalDates: { $size: "$availableDates" },
+        },
+      },
+      {
+        $match: { totalDates: { $gt: 0 } },
       },
     ])
       .then(listings => resolve(listings))
