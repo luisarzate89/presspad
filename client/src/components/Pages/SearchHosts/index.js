@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input, DatePicker, Icon } from "antd";
 import axios from "axios";
+import moment from "moment";
 
 // import API routes
 import { API_SEARCH_PROFILES_URL } from "./../../../constants/apiRoutes";
@@ -23,7 +24,7 @@ import {
   HostResult,
   HostHeader,
   HostTitle,
-  HostLog,
+  HostLogo,
   HostImg,
   HostDates,
   HostLocation
@@ -39,6 +40,7 @@ export default class index extends Component {
 
   fetchListings = () => {
     const { searchFields, errors } = this.state;
+
     axios
       .post(API_SEARCH_PROFILES_URL, searchFields)
       .then(({ data }) => {
@@ -56,6 +58,41 @@ export default class index extends Component {
     const { searchFields } = this.state;
     searchFields[e.target.name] = e.target.value;
     this.setState({ searchFields });
+  };
+
+  // HANDLING DATE INPUTS
+  disabledStartDate = startDate => {
+    const { searchFields } = this.state;
+    const { endDate } = searchFields;
+    if (!endDate || !startDate) {
+      return false;
+    }
+    return startDate.valueOf() > endDate.valueOf();
+  };
+
+  disabledEndDate = endDate => {
+    const { searchFields } = this.state;
+    const { startDate } = searchFields;
+    if (!endDate || !startDate) {
+      return false;
+    }
+    return endDate.valueOf() <= startDate.valueOf();
+  };
+
+  onDateInputChange = (field, value) => {
+    const { searchFields } = this.state;
+    searchFields[field] = value;
+    this.setState({ searchFields });
+  };
+
+  onStartChange = value => {
+    this.onDateInputChange("startDate", value);
+    const dateString = moment(value).format("YYYY-MM-DD");
+    console.log(dateString);
+  };
+
+  onEndChange = value => {
+    this.onDateInputChange("endDate", value);
   };
 
   onSearchSubmit = e => {
@@ -102,8 +139,34 @@ export default class index extends Component {
     return searchIsValid;
   };
 
+  // checks if lisitng image exists and goes to right folder
+  getListingPic = listingPic => {
+    return listingPic && listingPic.length > 0
+      ? listingPic
+      : require("./../../../assets/listing-placeholder.jpg");
+  };
+
+  // only show the dates listed that are relevant for this search
+  showDates = dates => {
+    // check if the user has searched for dates
+    const { searchFields } = this.state;
+    const { startDate, endDate } = searchFields;
+
+    console.log("D", dates);
+
+    if (startDate && endDate) {
+      // map through the dates to find all objects that have an end date after the user's start date and a start date before the user's end date
+      const availableDates = dates.filter(
+        date =>
+          date.endDate >= moment(startDate).format() &&
+          date.startDate <= moment(endDate).format()
+      );
+      console.log(availableDates);
+    }
+  };
+
   render() {
-    const { searchFields, errors, msg } = this.state;
+    const { searchFields, errors, msg, listings } = this.state;
     const { city, startDate, endDate } = searchFields;
     const { searchError } = errors;
     return (
@@ -133,19 +196,23 @@ export default class index extends Component {
             <SearchLabel htmlFor="startDate">Between</SearchLabel>
             <DatePicker
               name="startDate"
+              disabledDate={this.disabledStartDate}
               id="startDate"
               type="date"
               style={{ marginRight: 8 }}
               value={startDate}
-              onChange={this.onInputChange}
+              onChange={this.onStartChange}
+              format="YYYY-MM-DD"
             />
             <SearchLabel htmlFor="endDate">and</SearchLabel>
             <DatePicker
               name="endDate"
+              disabledDate={this.disabledEndDate}
               id="endDate"
               type="date"
               value={endDate}
-              onChange={this.onInputChange}
+              onChange={this.onEndChange}
+              format="YYYY-MM-DD"
             />
           </SearchInputDiv>
           <SearchInputDiv>
@@ -165,6 +232,36 @@ export default class index extends Component {
           </SearchInputDiv>
         </SearchForm>
         <ErrorMsg>{searchError}</ErrorMsg>
+        {listings && (
+          <ResultsWrapper>
+            <ResultsText>
+              Your search returned {listings.length} results
+            </ResultsText>
+            <Hosts>
+              {listings.map(listing => (
+                <HostResult>
+                  {this.showDates(listing.availableDates)}
+                  <HostHeader>
+                    <HostTitle>
+                      {listing.address.borough || listing.address.city}
+                    </HostTitle>
+                  </HostHeader>
+                  <HostImg src={this.getListingPic()} />
+                  <HostDates>12 May - 24 May 2019</HostDates>
+                  <HostLocation>
+                    {listing.address.borough && (
+                      <>{listing.address.borough}, </>
+                    )}
+                    {listing.address.city && <>{listing.address.city}, </>}
+                    {listing.address.postcode && (
+                      <>{listing.address.postcode}</>
+                    )}
+                  </HostLocation>
+                </HostResult>
+              ))}
+            </Hosts>
+          </ResultsWrapper>
+        )}
       </Wrapper>
     );
   }

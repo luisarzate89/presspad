@@ -73,22 +73,72 @@ export const SearchButton = styled.button`
   }
 `;
 
-export const ResultsWrapper = styled.div``;
+export const ResultsWrapper = styled.div`
+  width: 100%;
+  padding-top: 1rem;
+`;
 
-export const ResultsText = styled.h2``;
+export const ResultsText = styled.h2`
+  text-align: left;
+  width: 100%;
+  color: ${colors.gray};
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+`;
 
-export const Hosts = styled.div``;
+export const Hosts = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
 
-export const HostResult = styled.div``;
+export const HostResult = styled.div`
+  width: 30%;
+  background: ${colors.white};
+  box-shadow: ${shadows.main};
+  color: ${colors.fontLightBlack};
+  margin-bottom: 1rem;
+  transition: all ease 0.15s;
+  cursor: pointer;
 
-export const HostHeader = styled.div``;
+  &:hover {
+    width: 31%;
+  }
 
-export const HostTitle = styled.p``;
+  &:active {
+    width: 30%;
+  }
+`;
+
+export const HostHeader = styled.div`
+  padding: 1rem;
+`;
+
+export const HostTitle = styled.p`
+  font-weight: 500;
+  font-size: 1.25rem;
+  text-transform: capitalize;
+  margin-bottom: 0;
+`;
 
 export const HostLogo = styled.img``;
 
-export const HostImg = styled.img``;
+export const HostImg = styled.img`
+  margin-bottom: 1rem;
+  width: 100%;
+`;
 
-export const HostDates = styled.p``;
+export const HostDates = styled.p`
+  font-weight: 500;
+  font-size: 1.25rem;
+  text-transform: capitalize;
+  padding: 0 1rem;
+  margin-bottom: 0;
+`;
 
-export const HostLocation = styled.p``;
+export const HostLocation = styled.p`
+  font-weight: 300;
+  text-transform: capitalize;
+  padding: 1rem;
+`;
