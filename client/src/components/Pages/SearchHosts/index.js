@@ -6,6 +6,9 @@ import moment from "moment";
 // import API routes
 import { API_SEARCH_PROFILES_URL } from "./../../../constants/apiRoutes";
 
+// import Nav routes
+import { HOSTS_URL } from "./../../../constants/navRoutes";
+
 // import styled components
 import {
   Wrapper,
@@ -24,7 +27,6 @@ import {
   HostResult,
   HostHeader,
   HostTitle,
-  HostLogo,
   HostImg,
   HostDates,
   HostLocation
@@ -239,15 +241,19 @@ export default class index extends Component {
             <ResultsText>
               Your search returned {listings.length} results
             </ResultsText>
-            <Hosts>
-              {listings.map(listing => (
-                <HostResult>
+            <Hosts underThree={listings.length < 3}>
+              {listings.map((listing, index) => (
+                <HostResult
+                  key={index}
+                  underThree={listings.length < 3}
+                  to={`${HOSTS_URL}/${listing._id}`}
+                >
                   <HostHeader>
                     <HostTitle>
                       {listing.address.borough || listing.address.city}
                     </HostTitle>
                   </HostHeader>
-                  <HostImg src={this.getListingPic()} />
+                  <HostImg src={this.getListingPic(listing.photos[0])} />
                   <HostDates>
                     {this.showStartDate(listing.availableDates)} -{" "}
                     {this.showEndDate(listing.availableDates)}

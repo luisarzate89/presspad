@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { colors, shadows } from "./../../../theme";
 
@@ -35,6 +36,7 @@ export const SearchForm = styled.form`
   box-shadow: ${shadows.main};
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
 `;
 
 export const FirstSearchInputDiv = styled.label``;
@@ -90,24 +92,26 @@ export const ResultsText = styled.h2`
 export const Hosts = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: ${props =>
+    props.underThree ? "flex-start" : "space-between"};
 `;
 
-export const HostResult = styled.div`
-  width: 30%;
+export const HostResult = styled(Link)`
+  width: 31%;
   background: ${colors.white};
   box-shadow: ${shadows.main};
   color: ${colors.fontLightBlack};
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  margin-right: ${props => props.underThree && "1.25rem"};
   transition: all ease 0.15s;
   cursor: pointer;
 
   &:hover {
-    width: 31%;
+    color: ${colors.fontLightBlack};
   }
 
   &:active {
-    width: 30%;
+    color: ${colors.fontLightBlack};
   }
 `;
 
@@ -124,9 +128,13 @@ export const HostTitle = styled.p`
 
 export const HostLogo = styled.img``;
 
-export const HostImg = styled.img`
+export const HostImg = styled.div`
   margin-bottom: 1rem;
   width: 100%;
+  height: 200px;
+  background-image: url(${props => props.src});
+  background-position: center;
+  background-size: cover;
 `;
 
 export const HostDates = styled.p`
