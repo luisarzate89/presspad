@@ -1,22 +1,23 @@
+const shortid = require("shortid");
 const Organisation = require("../../models/Organisation");
 
 module.exports = async () => {
   const organisations = [
     {
       name: "Financial Times",
-      code: "FT4C5Y",
+      code: shortid.generate(),
     },
     {
       name: "The Guardian",
-      code: "TG3T1Y",
+      code: shortid.generate(),
     },
     {
       name: "BBC",
-      code: "BB0I7U",
+      code: shortid.generate(),
     },
     {
       name: "AFP",
-      code: "AF2R2P",
+      code: shortid.generate(),
     },
   ];
 

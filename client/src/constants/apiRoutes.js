@@ -3,8 +3,17 @@ const API_PREFIX = "/api";
 const LOGIN_URL = "/user/login"; // to use on the server
 const API_LOGIN_URL = `${API_PREFIX}${LOGIN_URL}`; // to use on the client
 
+const SIGNUP_URL = "/user/signup";
+const API_SIGNUP_URL = `${API_PREFIX}${SIGNUP_URL}`;
+
+const CHECK_REFERRAL_URL = "/user/check-referral";
+const API_CHECK_REFERRAL_URL = `${API_PREFIX}${CHECK_REFERRAL_URL}`;
+
 const USER_URL = "/user/check-user";
 const API_USER_URL = `${API_PREFIX}${USER_URL}`;
+
+const GET_ORGS_URL = "/user/get-all-orgs";
+const API_GET_ORGS_URL = `${API_PREFIX}${GET_ORGS_URL}`;
 
 const HOST_PROFILE_URL = "/host/";
 const API_HOST_PROFILE_URL = `${API_PREFIX}${HOST_PROFILE_URL}`;
@@ -15,12 +24,18 @@ const API_HOST_COMPLETE_PROFILE = `${API_PREFIX}${HOST_COMPLETE_PROFILE}`;
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
+  API_SIGNUP_URL,
   API_USER_URL,
+  API_CHECK_REFERRAL_URL,
+  API_GET_ORGS_URL,
   API_HOST_COMPLETE_PROFILE,
   API_HOST_PROFILE_URL,
   // SERVER
   LOGIN_URL,
+  SIGNUP_URL,
   USER_URL,
+  CHECK_REFERRAL_URL,
+  GET_ORGS_URL,
   HOST_COMPLETE_PROFILE,
   HOST_PROFILE_URL
 };

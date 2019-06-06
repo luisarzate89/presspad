@@ -1,9 +1,11 @@
+const shortid = require("shortid");
 const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
+const OrgCodes = require("../../models/OrgCodes");
 
 module.exports = async () => {
   // organisation codes
-  const organisationCodes = await Organisation.find();
+  const organisations = await Organisation.find();
   // create admin
   const admin = {
     email: "mark@presspad.co.uk",
@@ -14,13 +16,13 @@ module.exports = async () => {
   await User.create(admin);
 
   // create organisation users
-  const organisations = [
+  const organisationUsers = [
     {
       email: "michael@financialtimes.co.uk",
       name: "Michael Peters",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[0],
+      organisation: organisations[0],
       plan: "basic",
     },
     {
@@ -28,7 +30,7 @@ module.exports = async () => {
       name: "Josephine Doeski",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[1],
+      organisation: organisations[1],
       plan: "basic",
     },
     {
@@ -36,7 +38,7 @@ module.exports = async () => {
       name: "Brian Meyer",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[2],
+      organisation: organisations[2],
       plan: "basic",
     },
     {
@@ -44,12 +46,12 @@ module.exports = async () => {
       name: "Luise Michaels",
       password: "123456",
       role: "organisation",
-      organisation: organisationCodes[3],
+      organisation: organisations[3],
       plan: "basic",
     },
   ];
 
-  await User.create(organisations);
+  await User.create(organisationUsers);
 
   // create superhost
   const superhost = {
@@ -102,21 +104,21 @@ module.exports = async () => {
       name: "Simon Dupree",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[3],
+      organisation: organisations[0],
     },
     {
       email: "joe@hello.com",
       name: "Joe The Friel",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[2],
+      organisation: organisations[1],
     },
     {
       email: "ramy@rambo.co.uk",
       name: "Ramy Rambo",
       password: "123456",
       role: "intern",
-      organisation: organisationCodes[0],
+      organisation: organisations[2],
     },
   ];
 

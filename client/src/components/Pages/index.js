@@ -8,12 +8,16 @@ import LandingPage from "./LandingPage";
 import HostCreateProfile from "./HostCreateProfile";
 
 import SignInPage from "./SignInPage";
+import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
 
 import {
   HOME_URL,
   SIGNIN_URL,
+  SIGNUP_INTERN,
+  SIGNUP_HOST,
+  SIGNUP_ORG,
   DASHBOARD_URL,
   HOST_PROFILE,
   COMPLETE_PROFILE_URL
@@ -46,6 +50,51 @@ class Pages extends Component {
             {...this.props}
           />
 
+          <Route
+            path={SIGNUP_INTERN}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="intern"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
+          <Route
+            path={SIGNUP_HOST}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="host"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
+          <Route
+            path={SIGNUP_ORG}
+            exact
+            render={linkProps =>
+              !isLoggedIn ? (
+                <SignUpPage
+                  handleChangeState={handleChangeState}
+                  userType="organisation"
+                  {...linkProps}
+                />
+              ) : (
+                <Redirect to={DASHBOARD_URL} />
+              )
+            }
+          />
           <Route
             path={SIGNIN_URL}
             exact

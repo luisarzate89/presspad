@@ -4,6 +4,7 @@ const dbConnection = require("../../dbConnection");
 const resetDb = require("./../resetDB");
 
 const organisations = require("./organisations");
+const orgCodes = require("./orgCodes");
 const users = require("./users");
 const referrals = require("./referrals");
 const profiles = require("./profiles");
@@ -16,6 +17,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
     .then(async () => {
       await resetDb();
       await organisations();
+      await orgCodes();
       await users();
       await referrals();
       await profiles();

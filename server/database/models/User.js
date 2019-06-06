@@ -20,6 +20,14 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  // // generate a code for the User
+  // // (this is to help generate unique codes for interns by organisations,
+  // // combining the orgCode and this code )
+  // // this could also be used for the host referral potentially rather than id
+  // userCode: {
+  //   type: String,
+  //   required: true,
+  // },
   // this is currently only for hosts as they need to be
   // referred by a superhost. once that code is submitted
   // a transaction gets stored in the referrals table.
@@ -28,7 +36,7 @@ const userSchema = new Schema({
     ref: "users",
   },
   // this is for interns and organisation users
-  // we need to store the code that's linked to an org
+  // we need to store the id that's linked to an org
   organisation: {
     type: Schema.Types.ObjectId,
     ref: "organisations",
