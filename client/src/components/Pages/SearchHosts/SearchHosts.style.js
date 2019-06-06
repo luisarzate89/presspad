@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows, size } from "./../../../theme";
 
 export const Wrapper = styled.div`
   padding: 7rem 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: ${size.laptop}) {
+    padding: 7rem 2rem;
+  }
 `;
 
 export const Header = styled.div`
@@ -37,9 +41,17 @@ export const SearchForm = styled.form`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+
+  @media (max-width: ${size.laptop}) {
+    padding: 2rem 1rem;
+  }
 `;
 
-export const FirstSearchInputDiv = styled.label``;
+export const FirstSearchInputDiv = styled.label`
+  @media (max-width: ${size.tablet}) {
+    margin-bottom: 1rem;
+  }
+`;
 
 export const SearchLabel = styled.label`
   margin-right: 0.5rem;
@@ -59,6 +71,15 @@ export const SearchInputDiv = styled.div`
     background: rgba(255, 255, 255, 0.6);
     cursor: not-allowed;
     position: absolute;
+  }
+
+  @media (max-width: ${size.laptop}) {
+    margin-left: 1rem;
+  }
+
+  @media (max-width: ${size.tablet}) {
+    margin-left: 0;
+    margin-bottom: 1rem;
   }
 `;
 
