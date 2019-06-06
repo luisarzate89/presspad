@@ -70,7 +70,19 @@ class CalendarComponent extends Component {
     );
   };
 
-  buttonEnabled = () => this.state.date;
+  handleClick = () => {
+    const { dates, price } = this.state;
+    const { internId, listingId } = this.props;
+    const bookingRequest = {
+      listing: listingId,
+      user: internId,
+      startDate: moment(dates[0]).format("YYYY-MM-DD"),
+      endDate: moment(dates[1]).format("YYYY-MM-DD"),
+      payment: price
+    };
+
+    console.log(bookingRequest);
+  };
 
   render() {
     const { price } = this.state;
@@ -97,7 +109,7 @@ class CalendarComponent extends Component {
           <PriceHeadline>Full price for period</PriceHeadline>
           <PriceLabel>£{price}</PriceLabel>
           <RequestBtn
-            onClick={() => console.log("jeu")}
+            onClick={this.handleClick}
             disabled={!this.state.noNights > 0}
           >
             Request Stay

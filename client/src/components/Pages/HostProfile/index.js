@@ -110,7 +110,11 @@ class HostProfile extends Component {
     const { listing, profile } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
 
-    const { availableDates, price } = listing;
+    const { _id, availableDates, price } = listing;
+
+    const intern = this.props.id;
+
+    console.log(this.props);
 
     return (
       <Wrapper>
@@ -205,7 +209,12 @@ class HostProfile extends Component {
                 <ParagraphHeadline>
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
-                <Calendar availableDates={availableDates} price={price} />
+                <Calendar
+                  internId={intern}
+                  listingId={_id}
+                  availableDates={availableDates}
+                  price={price}
+                />
               </CalendarDiv>
             </Card>
           </AvailableHosting>

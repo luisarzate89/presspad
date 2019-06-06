@@ -8,6 +8,7 @@ const getUserByReferral = require("./../controllers/user/getUserByReferral");
 const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const newBookingRequest = require("./../controllers/newBookingRequest");
 
 // IMPORT MIDDLEWARES
 const softAuthCheck = require("./../middlewares/softAuthCheck");
@@ -24,6 +25,7 @@ const {
   GET_ORGS_URL,
   HOST_PROFILE_URL,
   HOST_COMPLETE_PROFILE,
+  BOOKING_REQUEST_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -46,6 +48,9 @@ router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
 router.post(HOST_PROFILE_URL, getHostProfile);
+
+// creates new booking request
+router.post(BOOKING_REQUEST_URL, newBookingRequest);
 
 // USE CONTROLLERS
 router.post(LOGIN_URL, loginController);

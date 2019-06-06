@@ -98,6 +98,7 @@ const Navbar = ({ isLoggedIn, userType }) => {
                 <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
               </>
             )}
+
             <MenuItem to={SIGNOUT_URL}>Sign out</MenuItem>
           </>
         )}

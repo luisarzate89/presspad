@@ -329,7 +329,6 @@ class HostCreateProfile extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { name, id } = this.props;
     return (
       <Content
