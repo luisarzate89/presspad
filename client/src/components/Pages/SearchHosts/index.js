@@ -246,7 +246,7 @@ export default class index extends Component {
                 <HostResult
                   key={index}
                   underThree={listings.length < 3}
-                  to={`${HOSTS_URL}/${listing._id}`}
+                  to={`${HOSTS_URL}/${listing.userID}`}
                 >
                   <HostHeader>
                     <HostTitle>
