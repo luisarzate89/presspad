@@ -13,16 +13,24 @@ import {
 class CalendarComponent extends Component {
   state = {
     date: new Date(),
-    price: this.props.price
+    noDays: null,
+    price: null
   };
 
   onChange = date => {
-    console.log(Array.isArray(date));
+    const { price } = this.props;
+    this.setState({
+      date,
+      noDays: this.countDays(date),
+      price: this.countDays(date) * price
+    });
+  };
 
-    // const startDate = moment(date[0]).format("YYYY-MM-DD");
-    // const endDate = moment(date[1]).format("YYYY-MM-DD");
+  countDays = date => {
+    const start = moment(date[0]);
+    const end = moment(date[1]);
 
-    this.setState({ date });
+    return end.diff(start, "days");
   };
 
   // creates array of all available dates for listing
@@ -43,22 +51,21 @@ class CalendarComponent extends Component {
     return avDatesArray;
   };
 
+  // disables calendar tiles (days)
   tileDisabled = ({ date, view }) => {
-    // get availableDates
-    const { availableDates } = this.props;
-    date = moment(date).format("YYYY-MM-DD");
-
     // create array of all days between avDateRanges
+    const { availableDates } = this.props;
     const avDateRange = this.getAvailableDates(availableDates);
 
     //  return true if current date is not included in available dates => disable tile
-
+    date = moment(date).format("YYYY-MM-DD");
     return (
       view === "month" && !avDateRange.includes(date) // Block day tiles only
     );
   };
 
   render() {
+    console.log(this.state);
     const { price } = this.state;
     return (
       <div>
@@ -67,6 +74,7 @@ class CalendarComponent extends Component {
           tileDisabled={this.tileDisabled}
           onChange={this.onChange}
           value={this.state.date}
+          // onClick={this.updatePrice}
         />
         <PricingDiv>
           <PriceHeadline>Full price for period</PriceHeadline>

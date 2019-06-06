@@ -32,7 +32,6 @@ import {
   Reviews,
   AvailableHosting,
   CalendarDiv,
-  PricingDiv,
   SubHeadline,
   ParagraphHeadline,
   Paragraph,
@@ -45,10 +44,7 @@ import {
   StarRate,
   ReviewHeadline,
   ReviewText,
-  ReviewsSection,
-  PriceHeadline,
-  PriceLabel,
-  RequestBtn
+  ReviewsSection
 } from "./Profile.style";
 
 import "antd/dist/antd.css";
