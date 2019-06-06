@@ -70,6 +70,8 @@ class CalendarComponent extends Component {
     );
   };
 
+  buttonEnabled = () => this.state.date;
+
   render() {
     const { price } = this.state;
 
@@ -94,7 +96,12 @@ class CalendarComponent extends Component {
         <PricingDiv>
           <PriceHeadline>Full price for period</PriceHeadline>
           <PriceLabel>£{price}</PriceLabel>
-          <RequestBtn>Request Stay</RequestBtn>
+          <RequestBtn
+            onClick={() => console.log("jeu")}
+            disabled={!this.state.noNights > 0}
+          >
+            Request Stay
+          </RequestBtn>
         </PricingDiv>
       </div>
     );

@@ -174,7 +174,9 @@ export const PriceLabel = styled.h1`
 `;
 
 export const RequestBtn = styled.button`
-  background: ${colors.lightBlue}
+  background: ${props =>
+    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`}
+    opacity: ${props => (props.disabled ? "0.7" : "")};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
@@ -190,7 +192,8 @@ export const RequestBtn = styled.button`
   -moz-appearance: none;
 
   :focus, :hover {
-    transform: scale(1.1);
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
+
   }
 
 `;
