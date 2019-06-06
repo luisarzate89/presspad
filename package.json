@@ -55,11 +55,13 @@
     "dotenv": "^8.0.0",
     "env2": "^2.2.2",
     "express": "^4.16.4",
+    "firebase-admin": "^8.0.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.8",
     "morgan": "^1.9.1",
     "shortid": "^2.2.14",
+    "multer": "^1.4.1",
     "supertest": "^4.0.2"
   }
 }

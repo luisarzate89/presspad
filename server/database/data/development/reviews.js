@@ -13,6 +13,13 @@ module.exports = async () => {
       message: "My stay was perfect!",
     },
     {
+      to: hosts[0],
+      from: interns[2],
+      rating: 5,
+      message:
+        "Staying here was an absolute pleasure. I learned a great deal about how to approach politicians and very much enjoyed the city. We managed to go to a few journalistic events as well and met some amazing people!",
+    },
+    {
       to: interns[0],
       from: hosts[1],
       rating: 5,

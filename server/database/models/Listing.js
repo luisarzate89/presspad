@@ -8,11 +8,11 @@ const listingSchema = new Schema({
     ref: "users",
   },
   address: {
-    line1: {
+    street: {
       type: String,
       required: true,
     },
-    line2: String,
+    borough: String,
     city: {
       type: String,
       required: true,
@@ -27,10 +27,7 @@ const listingSchema = new Schema({
     required: true,
   },
   otherInfo: [String],
-  price: {
-    type: Number,
-    required: true,
-  },
+  price: Number,
   photos: [String],
   availableDates: [{ startDate: Date, endDate: Date }],
 });

@@ -31,8 +31,8 @@ describe("Test Listing schema", () => {
     const newListing = {
       user: hosts[0],
       address: {
-        line1: "21 Roding Road",
-        line2: "Homerton",
+        street: "21 Roding Road",
+        borough: "Homerton",
         city: "London",
         postcode: "E50DW",
       },

@@ -15,7 +15,7 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  interests: [String],
+  interests: String,
   organisation: {
     name: String,
     website: String,
@@ -28,6 +28,10 @@ const profileSchema = new Schema({
   pressPass: {
     type: String,
     required: true,
+  },
+  profileImage: {
+    type: String,
+    default: "",
   },
   favouriteArticle: {
     title: String,

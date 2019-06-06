@@ -86,6 +86,13 @@ module.exports = async () => {
       role: "host",
       referral: storedSuperhost,
     },
+    {
+      email: "simon@gmail.com",
+      name: "Simon Dupree",
+      password: "123456",
+      role: "host",
+      referral: storedSuperhost,
+    },
   ];
 
   await User.create(hosts);
@@ -93,7 +100,7 @@ module.exports = async () => {
   // create interns
   const interns = [
     {
-      email: "simon@gmail.com",
+      email: "simone@gmail.com",
       name: "Simon Dupree",
       password: "123456",
       role: "intern",
