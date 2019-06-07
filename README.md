@@ -29,14 +29,18 @@ Create a .env file in the root.
 PLEASE CONTACT THE TEAM TO GET THE INFORMATION YOU NEED TO PUT INTO THE ENV FILE AS THIS INCLUDES SENSITIVE DATA
 
 5. Build the Database
+
 ```npm run build:data:dev```
 
 6. Run the Tests
 To make sure everything is working as it should.
+
 ```$ npm test```
 
 8. Run the Server
+
 ```npm run dev```
+
 Wait for a compiled successfully message.
 
 9. Have Fun
