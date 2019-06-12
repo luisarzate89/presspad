@@ -11,6 +11,7 @@ import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
+import AdminDashboard from "./AdminDashboard";
 
 import {
   HOME_URL,
@@ -20,7 +21,8 @@ import {
   SIGNUP_ORG,
   DASHBOARD_URL,
   HOST_PROFILE,
-  COMPLETE_PROFILE_URL
+  COMPLETE_PROFILE_URL,
+  ADMIN_DASHBOARD_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -36,6 +38,15 @@ class Pages extends Component {
             exact
             path={DASHBOARD_URL}
             Component={Dashboard}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
+            path={ADMIN_DASHBOARD_URL}
+            Component={AdminDashboard}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
