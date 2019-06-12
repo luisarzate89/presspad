@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { colors } from "./../../../theme";
+import { colors, shadows } from "./../../../theme";
 
 export const Wrapper = styled.div`
   padding-top: 6rem;
@@ -48,6 +48,45 @@ export const MainSection = styled.div`
   width: 100%;
   display: flex;
   padding: 4rem 10rem;
+
+  /* div {
+    width: 100%;
+  } */
+
+  /* BESPOKE STYLING FOR ANTD TABLE */
+  .ant-table-wrapper {
+    width: 100% !important;
+  }
+
+  .ant-table-body {
+    background: ${colors.white} !important;
+    box-shadow: ${shadows.card} !important;
+    width: 100% !important;
+  }
+
+  .ant-table-thead > tr > th {
+    background: ${colors.white} !important;
+    font-weight: 500 !important;
+  }
+
+  .ant-table-tbody {
+    color: ${colors.black} !important;
+    width: 100% !important;
+  }
+
+  /* styling of organisation field */
+  .orgCol {
+    font-weight: 900 !important;
+  }
+
+  /* styling of name field */
+  .nameCol {
+    color: ${colors.secondary} !important;
+  }
+
+  .ant-table-column-title {
+    color: ${colors.black} !important;
+  }
 `;
 
 export const ContentTitle = styled.h3``;
