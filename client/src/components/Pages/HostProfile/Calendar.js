@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
+import axios from "axios";
+import { API_BOOKING_REQUEST_URL } from "../../../constants/apiRoutes";
 
 import {
   CalendarWrapper,
@@ -90,7 +92,10 @@ class CalendarComponent extends Component {
       payment: price
     };
 
-    console.log(bookingRequest);
+    axios
+      .post(API_BOOKING_REQUEST_URL, bookingRequest)
+      .then(() => console.log("sucess"))
+      .catch(() => console.log("fail"));
   };
 
   render() {
