@@ -130,6 +130,7 @@ export default class AdminDashboard extends Component {
           </DashboardMenu>
         </TopSection>
         <MainSection>
+          <ContentTitle>Your {activeLink}</ContentTitle>
           {activeLink === "clients" && (
             <ClientTable getColumnSearchProps={this.getColumnSearchProps} />
           )}

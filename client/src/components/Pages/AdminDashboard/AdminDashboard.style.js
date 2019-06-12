@@ -48,6 +48,7 @@ export const MainSection = styled.div`
   width: 100%;
   display: flex;
   padding: 4rem 10rem;
+  flex-direction: column;
 
   /* div {
     width: 100%;
@@ -89,7 +90,14 @@ export const MainSection = styled.div`
   }
 `;
 
-export const ContentTitle = styled.h3``;
+export const ContentTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: ${colors.black};
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-transform: capitalize;
+`;
 
 export const SearchWrapper = styled.div``;
 
