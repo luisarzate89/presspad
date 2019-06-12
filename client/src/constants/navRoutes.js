@@ -11,7 +11,8 @@ export const INTERN_PROFILE = `/interns/:id`;
 export const SIGNUP_INTERN = "/sign-up/intern";
 export const SIGNUP_HOST = `/sign-up/host/:referralCode`;
 export const SIGNUP_ORG = "/sign-up/organisation";
-export const COMPLETE_PROFILE_URL = "/complete-profile";
+export const HOST_COMPLETE_PROFILE_URL = "/host-complete-profile";
+export const INTERN_COMPLETE_PROFILE_URL = "/intern-complete-profile";
 
 // sign in/out
 export const SIGNIN_URL = "/sign-in";

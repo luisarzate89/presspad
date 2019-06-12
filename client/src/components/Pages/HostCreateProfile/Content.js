@@ -26,7 +26,7 @@ class Content extends Component {
     const {
       handleOtherInfo,
       handleAddProfile,
-      handelInputChange,
+      handleInputChange,
       handleSubmit,
       disabledStartDate,
       disabledEndDate,
@@ -92,7 +92,7 @@ class Content extends Component {
                   <ErrorWrapper error={state.errors.bio} marginBottom="40px">
                     <TextArea
                       name="bio"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       rows={7}
                       id="bio"
                       placeholder="Introduce yourself to interns"
@@ -109,7 +109,7 @@ class Content extends Component {
                   <Label htmlFor="interests">Interests</Label>
                   <TextArea
                     name="interests"
-                    onChange={handelInputChange}
+                    onChange={handleInputChange}
                     rows={7}
                     id={"interests"}
                     placeholder="Add some of your interests"
@@ -126,7 +126,7 @@ class Content extends Component {
                   >
                     <Input
                       name="organisationName"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.organisationName}
                       id="organisationName"
                       style={{
@@ -149,7 +149,7 @@ class Content extends Component {
                   >
                     <Input
                       name="organisationWebsite"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.organisationWebsite}
                       id="organisationWebsite"
                       style={{
@@ -173,7 +173,7 @@ class Content extends Component {
                     <Input
                       id="jobTitle"
                       name="jobTitle"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.jobTitle}
                       style={{
                         border: state.errors.jobTitle
@@ -243,7 +243,7 @@ class Content extends Component {
                       name="addressLine1"
                       placeholder="Street"
                       id="addressline1"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.addressLine1}
                       style={{
                         display: "inline",
@@ -260,7 +260,7 @@ class Content extends Component {
                   >
                     <Input
                       name="addressLine2"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.addressLine2}
                       placeholder="Borough"
                       style={{
@@ -279,7 +279,7 @@ class Content extends Component {
                     <Input
                       name="addressCity"
                       value={state.addressCity}
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       placeholder="City"
                       style={{
                         display: "inline",
@@ -297,7 +297,7 @@ class Content extends Component {
                     <Input
                       name="addressPostCode"
                       value={state.addressPostCode}
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       placeholder="Postcode"
                       style={{
                         display: "inline",
@@ -427,7 +427,7 @@ class Content extends Component {
                       id="offerDescription"
                       rows={5}
                       name="offerDescription"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.offerDescription}
                     />
                     <Error>{state.errors.offerDescription}</Error>

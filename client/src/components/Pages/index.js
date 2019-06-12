@@ -11,6 +11,7 @@ import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
+import InternCreateProfile from "./InternCreateProfile";
 
 import {
   HOME_URL,
@@ -20,7 +21,8 @@ import {
   SIGNUP_ORG,
   DASHBOARD_URL,
   HOST_PROFILE,
-  COMPLETE_PROFILE_URL
+  HOST_COMPLETE_PROFILE_URL,
+  INTERN_COMPLETE_PROFILE_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -43,8 +45,17 @@ class Pages extends Component {
 
           <PrivateRoute
             exact
-            path={COMPLETE_PROFILE_URL}
+            path={HOST_COMPLETE_PROFILE_URL}
             Component={HostCreateProfile}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
+            path={INTERN_COMPLETE_PROFILE_URL}
+            Component={InternCreateProfile}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
