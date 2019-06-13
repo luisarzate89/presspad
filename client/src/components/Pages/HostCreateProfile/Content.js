@@ -247,10 +247,7 @@ class Content extends Component {
                 {/* Address */}
                 <Col xs={24} sm={24} lg={8}>
                   <Label htmlFor="addressline1">Address</Label>
-                  <ErrorWrapper
-                    error={state.errors.addressLine1}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressLine1"
                       placeholder="Street"
@@ -259,17 +256,16 @@ class Content extends Component {
                       value={state.addressLine1}
                       style={{
                         display: "inline",
-                        border: state.errors.addressline1
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                        border: state.errors.addressLine1
+                          ? "1px solid red"
+                          : "1px solid #dbdbdb"
                       }}
                     />
-                    <Error>{state.errors.addressLine1}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressLine1}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressLine2}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressLine2"
                       onChange={handleInputChange}
@@ -278,16 +274,15 @@ class Content extends Component {
                       style={{
                         display: "inline",
                         border: state.errors.addressLine2
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressLine2}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressLine2}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressCity}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressCity"
                       value={state.addressCity}
@@ -296,16 +291,15 @@ class Content extends Component {
                       style={{
                         display: "inline",
                         border: state.errors.addressCity
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressCity}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressCity}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressPostCode}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressPostCode"
                       value={state.addressPostCode}
@@ -314,11 +308,13 @@ class Content extends Component {
                       style={{
                         display: "inline",
                         border: state.errors.addressPostCode
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressPostCode}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressPostCode}
+                    </Error>
                   </ErrorWrapper>
                 </Col>
                 <Col xs={24} sm={24} lg={16}>
