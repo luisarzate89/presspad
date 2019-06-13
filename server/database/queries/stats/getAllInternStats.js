@@ -23,16 +23,63 @@ module.exports.getAllInternStats = () => User.aggregate([
       as: "bookings",
     },
   },
+  // look up spent credits
+  {
+    $lookup: {
+      from: "transactions",
+      localField: "_id",
+      foreignField: "sender",
+      as: "spendingTransactions",
+    },
+  },
   {
     $project: {
       _id: 1,
       name: 1,
       credits: 1,
+      // get any bookings that cover today's date
       liveBookings: {
-        $filter: {
-          input: "$bookings",
-          as: "booking",
-          cond: { $gte: ["$booking.startDate", Date.now()] },
+        $size: {
+          $filter: {
+            input: "$bookings",
+            as: "booking",
+            cond: {
+              $and: [
+                { $lte: ["$$booking.startDate", new Date()] },
+                { $gte: ["$$booking.endDate", new Date()] },
+              ],
+            },
+          },
+        },
+      },
+      // get any pending bookings in the future
+      pendingBookings: {
+        $size: {
+          $filter: {
+            input: "$bookings",
+            as: "booking",
+            cond: {
+              $and: [
+                { $gt: ["$$booking.startDate", new Date()] },
+                { $eq: ["$$booking.status", "pending"] },
+              ],
+            },
+          },
+        },
+      },
+      // get any confirmed bookings in the future
+      confirmedBookings: {
+        $size: {
+          $filter: {
+            input: "$bookings",
+            as: "booking",
+            cond: {
+              $and: [
+                { $gt: ["$$booking.startDate", new Date()] },
+                { $eq: ["$$booking.status", "confirmed"] },
+              ],
+            },
+          },
         },
       },
     },

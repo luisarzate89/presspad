@@ -36,9 +36,10 @@ module.exports = async () => {
     },
     {
       listing: listings[2],
-      user: interns[2],
+      user: interns[3],
       startDate: "2019-10-14",
       endDate: "2019-11-16",
+      status: "pending",
     },
   ];
   await Booking.create(bookings);
