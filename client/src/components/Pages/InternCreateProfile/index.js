@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 
 import { API_INTERN_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
-import { DASHBOARD_URL } from "./../../../constants/navRoutes";
+import { HOSTS_URL } from "./../../../constants/navRoutes";
 
 const schema = Yup.object().shape({
   profileImage: Yup.mixed().required("Required"),
@@ -164,7 +164,7 @@ export default class InternCreateProfile extends Component {
               ),
 
               onOk: () => {
-                this.props.history.push(DASHBOARD_URL);
+                this.props.history.push(HOSTS_URL);
               },
               type: "success"
             });
