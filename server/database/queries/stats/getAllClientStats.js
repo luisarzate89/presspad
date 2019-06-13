@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
 
 module.exports.getAllClientStats = () => Organisation.aggregate([
@@ -58,14 +56,6 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
       as: "transactions",
     },
   },
-  // {
-  //   $unwind: "$transactions",
-  // },
-  // {
-  //   $addFields: {
-  //     totalSpentCredits: { $sum: "$transactions.credits" },
-  //   },
-  // },
   {
     $project: {
       _id: 1,
