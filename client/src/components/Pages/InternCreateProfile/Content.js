@@ -265,8 +265,10 @@ class Content extends Component {
                   </Row>
                 </Col>
                 <Col xs={24} lg={12}>
-                  <Row gutter={25} type="flex">
-                    <Label htmlFor="reference1Name">Reference 1</Label>
+                  <Row gutter={0} type="flex">
+                    <Col xs={24} sm={24}>
+                      <Label htmlFor="reference1Name">Reference 1</Label>
+                    </Col>
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
@@ -310,8 +312,11 @@ class Content extends Component {
                     </Row>
                   </Row>
 
-                  <Row gutter={25} type="flex">
-                    <Label htmlFor="reference2Name">Reference 2</Label>
+                  <Row gutter={0} type="flex">
+                    <Col xs={24} sm={24}>
+                      <Label htmlFor="reference2Name">Reference 2</Label>
+                    </Col>
+
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper

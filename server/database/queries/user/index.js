@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const shortid = require("shortid");
 const User = require("../../models/User");
 
 const { addOrg } = require("./organisation");
 
 module.exports.findByEmail = email => User.findOne({ email: email.toLowerCase() });
 
-module.exports.getUserById = (id, withoutPassword) => (withoutPassword ? User.findById(id, { password: 0 }) : User.findById(id));
+module.exports.getUserById = (id, withoutPassword) => (withoutPassword
+  ? User.findById(id, { password: 0 })
+  : User.findById(id));
 
 module.exports.addNewUser = async (userInfo) => {
   const {

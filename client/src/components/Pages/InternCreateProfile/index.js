@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Content from "./Content";
-import { message, Modal, Spin, Alert } from "antd";
+import { Modal, Spin, Alert } from "antd";
 import * as Yup from "yup";
 import axios from "axios";
 
@@ -98,6 +98,16 @@ export default class InternCreateProfile extends Component {
   };
 
   handleSubmit = e => {
+    const {
+      profileImage,
+      bio,
+      favouriteArticle,
+      jobTitle,
+      pressPass,
+      offerLetter,
+      photoIDFile
+    } = this.state;
+
     const form = new FormData();
     e.preventDefault();
     this.setState({ attemptedToSubmit: true });
@@ -122,14 +132,16 @@ export default class InternCreateProfile extends Component {
           }
         });
 
-        form.append("bio", this.state.bio);
-        form.append("favouriteArticle", this.state.bio);
-        form.append("jobTitle", this.state.bio);
+        // info
+        bio && form.append("bio", bio);
+        favouriteArticle && form.append("favouriteArticle", favouriteArticle);
+        jobTitle && form.append("jobTitle", jobTitle);
 
-        form.append("profileImage", this.state.profileImage.file);
-        form.append("pressPass", this.state.pressPass.file);
-        form.append("offerLetter", this.state.offerLetter.file);
-        form.append("photoIDFile", this.state.photoIDFile.file);
+        // files
+        profileImage.file && form.append("profileImage", profileImage.file);
+        pressPass.file && form.append("pressPass", pressPass.file);
+        offerLetter.file && form.append("offerLetter", offerLetter.file);
+        photoIDFile.file && form.append("photoIDFile", photoIDFile.file);
 
         axios({
           method: "post",

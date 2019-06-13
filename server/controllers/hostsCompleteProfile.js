@@ -39,12 +39,13 @@ module.exports = async (req, res, next) => {
 
     // update the host profile
     if (foundProfile) {
-      await updateUserProfile(user._id, profileData).catch(err => console.log("err profile update", err));
+      await updateUserProfile(user._id, profileData);
+    } else {
+      await createNewProfile(profileData);
     }
-    await createNewProfile(profileData).catch(err => console.log("err creating profile", err));
 
     // create new listing
-    await createNewListing(listingData).catch(err => console.log("err listing update", err));
+    await createNewListing(listingData);
 
     res.json({ success: true });
   } catch (error) {
