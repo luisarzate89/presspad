@@ -45,19 +45,31 @@ class Content extends Component {
         <ContentWrapper>
           <HeaderWrapper>
             <Row gutter={20} type="flex" justify="start">
-              <Col span={2}>
+              <Col xs={24} sm={4} lg={3}>
                 <ErrorWrapper>
-                  <Avatar
-                    size="large"
-                    icon="user"
-                    src={state.profileImage.dataUrl}
+                  <div
                     style={{
-                      backgroundColor: state.errors.profileImage
-                        ? "red"
-                        : "none",
-                      marginRight: "26px"
+                      textAlign: "center"
                     }}
-                  />
+                  >
+                    <Avatar
+                      size="large"
+                      icon="user"
+                      src={state.profileImage.dataUrl}
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        margin: "0 auto",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "42px",
+                        backgroundColor: state.errors.profileImage
+                          ? "red"
+                          : "none"
+                      }}
+                    />
+                  </div>
                   <Error>{state.errors.profileImage}</Error>
                 </ErrorWrapper>
               </Col>
