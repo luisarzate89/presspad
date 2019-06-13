@@ -1,7 +1,8 @@
 const multer = require("multer");
 const boom = require("boom");
 
-
+// fieldsArray to be used for filtering and validating the files
+// eslint-disable-next-line no-unused-vars
 module.exports = fieldsArray => (req, res, next) => {
   // storage config
   const storage = multer.diskStorage({
@@ -15,7 +16,7 @@ module.exports = fieldsArray => (req, res, next) => {
     },
   });
 
-  const upload = multer({ storage }).fields(fieldsArray);
+  const upload = multer({ storage }).any();
 
   upload(req, res, (err) => {
     if (err) {
