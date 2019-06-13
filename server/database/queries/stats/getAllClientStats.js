@@ -32,6 +32,7 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
     $project: {
       _id: 1,
       name: 1,
+      "userDetails._id": 1,
       "userDetails.email": 1,
       "userDetails.plan": 1,
       "userDetails.credits": 1,
@@ -50,14 +51,33 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
     },
   },
   {
+    $lookup: {
+      from: "transactions",
+      localField: "userDetails._id",
+      foreignField: "sender",
+      as: "transactions",
+    },
+  },
+  // {
+  //   $unwind: "$transactions",
+  // },
+  // {
+  //   $addFields: {
+  //     totalSpentCredits: { $sum: "$transactions.credits" },
+  //   },
+  // },
+  {
     $project: {
       _id: 1,
       name: 1,
+      "userDetails._id": 1,
       "userDetails.email": 1,
       "userDetails.plan": 1,
       "userDetails.credits": 1,
       "interns.name": 1,
       numberOfInterns: 1,
+      transactions: 1,
+      // totalSpentCredits: 1,
     },
   },
 ]);
