@@ -8,7 +8,7 @@ module.exports = async () => {
 
   const transactions = [
     {
-      credits: 200,
+      credits: 600,
       sender: orgs[0],
       recipient: interns[0],
     },
@@ -21,6 +21,11 @@ module.exports = async () => {
       credits: 100,
       sender: interns[0],
       recipient: hosts[0],
+    },
+    {
+      credits: 300,
+      sender: interns[0],
+      recipient: hosts[1],
     },
     {
       credits: 250,

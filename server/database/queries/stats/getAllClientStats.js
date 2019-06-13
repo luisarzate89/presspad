@@ -66,7 +66,7 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
       "userDetails.credits": 1,
       "interns.name": 1,
       numberOfInterns: 1,
-      transactions: 1,
+      spentCredits: { $sum: "$transactions.credits" },
       // totalSpentCredits: 1,
     },
   },
