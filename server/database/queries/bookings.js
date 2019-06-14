@@ -30,16 +30,68 @@ module.exports.createNewBooking = data => Booking.create(data);
 
 // 3)
 // updates listing
-module.exports.updateListingAvailability = async (listing, start, end) => {
+module.exports.updateListingAvailability = async (listing, bs, be) => {
   const findListing = await Listing.findOne({ _id: listing });
-  // create array of available days
-  const avDates = findListing.availableDates.reduce((acc, cur) => {
-    const dates = createDatesArray(cur.startDate, cur.endDate);
+
+  const listingAvDates = findListing.availableDates.reduce((acc, cur) => {
+    // listing available dates
+    const ls = cur.startDate;
+    const le = cur.endDate;
+
+    // check which object needs to be updated
+    const isBetween = moment(bs).isBetween(ls, le);
+    const isSameStart = moment(bs).isSame(ls, "day");
+    const isSameEnd = moment(be).isSame(le, "day");
+    let dates = { start: 0, end: 0 };
+
+    if (isBetween || isSameStart) {
+      // if booking has same lenght than availability => no days left
+      if (isSameStart && isSameEnd) {
+        dates = {};
+        acc.push(dates);
+      }
+      // if booking starts on same day but booking end is before listing availab. -> store rest avail.
+      if (isSameStart && moment(be).isBefore(le, "day")) {
+        dates.start = moment(be)
+          .add(1, "day")
+          .format("YYYY-MM-DD");
+        dates.end = moment(le).format("YYYY-MM-DD");
+        acc.push(dates);
+      }
+      // if booking start is after listing start and booking end is same as listing end -> store beginning avail
+      if (moment(bs).isAfter(ls, "day") && isSameEnd) {
+        dates.start = moment(ls).format("YYYY-MM-DD");
+        dates.end = moment(bs)
+          .subtract(1, "day")
+          .format("YYYY-MM-DD");
+        acc.push(dates);
+      }
+      // if booking start is after listing start and booking end is before listing end -> store avail. before and after booking
+      if (moment(bs).isAfter(ls, "day") && moment(be).isBefore(le, "day")) {
+        const dates1 = { start: 0, end: 0 };
+        const dates2 = { start: 0, end: 0 };
+
+        dates1.start = moment(ls).format("YYYY-MM-DD");
+        dates1.end = moment(bs)
+          .subtract(1, "day")
+          .format("YYYY-MM-DD");
+        acc.push(dates1);
+        dates2.start = moment(be)
+          .add(1, "day")
+          .format("YYYY-MM-DD");
+        dates2.end = moment(le).format("YYYY-MM-DD");
+        acc.push(dates2);
+      }
+    }
+    // return other objects
+    dates.start = moment(ls).format("YYYY-MM-DD");
+    dates.end = moment(le).format("YYYY-MM-DD");
     acc.push(dates);
+
     return acc;
   }, []);
 
-  // create array of booking dates
-  const bookingDates = createDatesArray(moment(start), moment(end));
-  return avDates.filter((date, i) => date[1]);
+  // us moment isBetween
+
+  return listingAvDates;
 };
