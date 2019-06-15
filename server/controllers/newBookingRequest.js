@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
   try {
     const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
 
-    if (userHasBooking) {
+    if (userHasBooking.bookingExists) {
       next(boom.forbidden("user has already a booking request for those dates"));
     }
     const data = {

@@ -1,10 +1,11 @@
+const mongoose = require("mongoose");
+
 const {
   checkOtherBookingExists,
   createNewBooking,
   updateListingAvailability,
 } = require("../../../database/queries/bookings");
 
-const mongoose = require("mongoose");
 const buildDB = require("../../../database/data/test/index");
 
 const User = require("../../../database/models/User");

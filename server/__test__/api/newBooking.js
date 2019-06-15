@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const User = require("../../database/models/User");
 const Listing = require("../../database/models/Listing");
+const Booking = require("../../database/models/Booking");
 
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
@@ -22,52 +23,55 @@ describe("Testing for get host profile route", () => {
     await buildDB();
   });
 
-  test("test to create new booking", async (done) => {
-    const host = await User.findOne({ role: "host" });
+  test("test to create new booking with valid request", async (done) => {
+    const interns = await User.find({ role: "intern" });
 
-    const data = { userId: host._id };
+    const listing = await Listing.findOne;
+
+    const data = {
+      user: interns[0]._id,
+      listing: listing._id,
+      startDate: "2019-07-01T00:00:00.000Z",
+      endDate: "2019-07-04T00:00:00.000Z",
+      payment: 405,
+    };
 
     request(app)
-      .post("/api/host")
+      .post("/api/new-booking")
       .send(data)
       .expect("Content-Type", /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body).toBeDefined();
-        expect(res.body[0][0].name).toBe(host.name);
-        expect(res.body[0][0].listing).toBeDefined();
-        expect(res.body[0][0].profile).toBeDefined();
-        expect(res.body[1]).toBeDefined();
-        expect(res.body[1][0].from_user.name).toBeDefined();
-        expect(res.body[1][0].message).toBeDefined();
+        expect(res.body.success).toBeTruthy();
         done(err);
       });
   });
 
-  test("test with incorrect user id", async (done) => {
-    const data = { userId: "5ce66c1635c86b54fd6c732c" };
+  test("test to create new booking with invalid request - duplicate booking dates", async (done) => {
+    const interns = await User.find({ role: "intern" });
+
+    const listing = await Listing.findOne;
+
+    const data = {
+      user: interns[0]._id,
+      listing: listing._id,
+      startDate: "2019-06-21T00:00:00.000Z",
+      endDate: "2019-06-29T00:00:00.000Z",
+      payment: 405,
+    };
 
     request(app)
-      .post("/api/host")
+      .post("/api/new-booking")
       .send(data)
       .expect("Content-Type", /json/)
-      .expect(404)
+      .expect(403)
       .end((err, res) => {
-        expect(res.body.error).toBe("Cannot find the profile you're looking for");
-        done(err);
-      });
-  });
-
-  test("test with no user id", async (done) => {
-    request(app)
-      .post("/api/host")
-      .send("hello")
-      .expect("Content-Type", /json/)
-      .expect(400)
-      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body).toBeDefined();
         expect(res.body.error).toBeDefined();
-        expect(res.body.error).toBe("error loading profile");
+        expect(res.body.error).toBe("user has already a booking request for those dates");
         done(err);
       });
   });
