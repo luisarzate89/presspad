@@ -11,15 +11,23 @@ module.exports = async (req, res, next) => {
   } = req.body;
 
   try {
-    // const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
+    const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
 
-    // if (userHasBooking) {
-    //   next(boom.forbidden("user has already a booking request for those dates"));
-    // }
-    await updateListingAvailability(listing, startDate, endDate).then(result => console.log(result));
+    if (userHasBooking) {
+      next(boom.forbidden("user has already a booking request for those dates"));
+    }
+    const data = {
+      listing,
+      user,
+      startDate,
+      endDate,
+      payment,
+    };
+    createNewBooking(data);
 
-    // console.log(userBookings);
-    // res.json({ success: true });
+    updateListingAvailability(listing, startDate, endDate);
+
+    res.json({ success: true });
   } catch (error) {
     next(boom.badImplementation());
   }

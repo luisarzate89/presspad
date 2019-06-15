@@ -18,22 +18,28 @@ module.exports.checkOtherBookingExists = async (userId, start, end) => {
     return acc.toString().split(",");
   }, []);
 
-  if (bookingDates.includes(start) || bookingDates.includes(end)) {
-    return true;
+  if (
+    bookingDates.includes(moment(start).format("YYYY-MM-DD"))
+    || bookingDates.includes(moment(end).format("YYYY-MM-DD"))
+  ) {
+    return { bookingExists: true };
   }
-  return false;
+  return { bookingExists: false };
 };
 
 // 2)
 // creates new booking
-module.exports.createNewBooking = data => Booking.create(data);
+module.exports.createNewBooking = async (data) => {
+  const newBooking = await Booking.create(data);
+  return newBooking;
+};
 
 // 3)
 // updates listing
-module.exports.updateListingAvailability = async (listing, bs, be) => {
-  const findListing = await Listing.findOne({ _id: listing });
+module.exports.updateListingAvailability = async (listingId, bs, be) => {
+  const listing = await Listing.findOne({ _id: listingId });
 
-  const listingAvDates = findListing.availableDates.reduce((acc, cur) => {
+  const listingAvDates = listing.availableDates.reduce((acc, cur) => {
     // listing available dates
     const ls = cur.startDate;
     const le = cur.endDate;
@@ -42,56 +48,58 @@ module.exports.updateListingAvailability = async (listing, bs, be) => {
     const isBetween = moment(bs).isBetween(ls, le);
     const isSameStart = moment(bs).isSame(ls, "day");
     const isSameEnd = moment(be).isSame(le, "day");
-    let dates = { start: 0, end: 0 };
+    const dates = { startDate: 0, endDate: 0 };
 
     if (isBetween || isSameStart) {
       // if booking has same lenght than availability => no days left
       if (isSameStart && isSameEnd) {
-        dates = {};
-        acc.push(dates);
+        return [];
       }
-      // if booking starts on same day but booking end is before listing availab. -> store rest avail.
+      // if booking starts on same day but booking endDate is before listing availab. -> store rest avail.
       if (isSameStart && moment(be).isBefore(le, "day")) {
-        dates.start = moment(be)
+        dates.startDate = moment(be)
           .add(1, "day")
           .format("YYYY-MM-DD");
-        dates.end = moment(le).format("YYYY-MM-DD");
+        dates.endDate = moment(le).format("YYYY-MM-DD");
         acc.push(dates);
       }
-      // if booking start is after listing start and booking end is same as listing end -> store beginning avail
+      // if booking startDate is after listing startDate and booking endDate is same as listing endDate -> store beginning avail
       if (moment(bs).isAfter(ls, "day") && isSameEnd) {
-        dates.start = moment(ls).format("YYYY-MM-DD");
-        dates.end = moment(bs)
+        dates.startDate = moment(ls).format("YYYY-MM-DD");
+        dates.endDate = moment(bs)
           .subtract(1, "day")
           .format("YYYY-MM-DD");
         acc.push(dates);
       }
-      // if booking start is after listing start and booking end is before listing end -> store avail. before and after booking
+      // if booking startDate is after listing startDate and booking endDate is before listing endDate -> store avail. before and after booking
       if (moment(bs).isAfter(ls, "day") && moment(be).isBefore(le, "day")) {
-        const dates1 = { start: 0, end: 0 };
-        const dates2 = { start: 0, end: 0 };
+        const dates1 = { startDate: 0, endDate: 0 };
+        const dates2 = { startDate: 0, endDate: 0 };
 
-        dates1.start = moment(ls).format("YYYY-MM-DD");
-        dates1.end = moment(bs)
+        dates1.startDate = moment(ls).format("YYYY-MM-DD");
+        dates1.endDate = moment(bs)
           .subtract(1, "day")
           .format("YYYY-MM-DD");
         acc.push(dates1);
-        dates2.start = moment(be)
+        dates2.startDate = moment(be)
           .add(1, "day")
           .format("YYYY-MM-DD");
-        dates2.end = moment(le).format("YYYY-MM-DD");
+        dates2.endDate = moment(le).format("YYYY-MM-DD");
         acc.push(dates2);
       }
+    } else {
+      // return the other availability objects
+      dates.startDate = moment(ls).format("YYYY-MM-DD");
+      dates.endDate = moment(le).format("YYYY-MM-DD");
+      acc.push(dates);
     }
-    // return other objects
-    dates.start = moment(ls).format("YYYY-MM-DD");
-    dates.end = moment(le).format("YYYY-MM-DD");
-    acc.push(dates);
-
     return acc;
   }, []);
 
-  // us moment isBetween
+  const update = await Listing.updateOne(
+    { _id: listing._id },
+    { $set: { availableDates: listingAvDates } },
+  );
 
-  return listingAvDates;
+  return update;
 };
