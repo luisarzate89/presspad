@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
     const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
 
     if (userHasBooking.bookingExists) {
-      next(boom.forbidden("user has already a booking request for those dates"));
+      next(boom.badRequest("user has already a booking request for those dates"));
     }
     const data = {
       listing,

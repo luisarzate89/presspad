@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 import { API_BOOKING_REQUEST_URL } from "../../../constants/apiRoutes";
 
 import {
@@ -11,6 +13,8 @@ import {
   PriceLabel,
   RequestBtn
 } from "./Calendar.style";
+
+const bookingRequest = (url, data) => axios.post(url, data);
 
 const countDays = dates => {
   const start = moment(dates[0]);
@@ -84,7 +88,7 @@ class CalendarComponent extends Component {
   handleClick = () => {
     const { dates, price } = this.state;
     const { internId, listingId } = this.props;
-    const bookingRequest = {
+    const data = {
       listing: listingId,
       user: internId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
@@ -92,10 +96,29 @@ class CalendarComponent extends Component {
       payment: price
     };
 
-    axios
-      .post(API_BOOKING_REQUEST_URL, bookingRequest)
-      .then(() => console.log("sucess"))
-      .catch(() => console.log("fail"));
+    bookingRequest(API_BOOKING_REQUEST_URL, data)
+      .then(res =>
+        Swal.fire({
+          type: "success",
+          title: "Booking request sent",
+          timer: 2500
+        })
+      )
+      .then(() => window.location.reload())
+
+      .catch(error => {
+        const response = error.response;
+        return Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: this.bookingErrMsg(response)
+        });
+      });
+  };
+
+  bookingErrMsg = response => {
+    const msg = "user has already a booking request for those dates";
+    return response.data.error === msg ? msg : "error making booking request";
   };
 
   render() {
