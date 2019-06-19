@@ -22,7 +22,9 @@ describe("Test get all client stats query", () => {
   test("Test get stats", async (done) => {
     getAllInternStats().then((response) => {
       expect(response).toBeDefined();
-      expect(response).toBe("hello");
+      expect(response[0].name).toBeDefined();
+      expect(response[0].credits).toBeDefined();
+      expect(response[0].spentCredits).toBeDefined();
       done();
     });
   });
