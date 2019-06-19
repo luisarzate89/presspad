@@ -3,12 +3,11 @@ const mongoose = require("mongoose");
 
 const User = require("../../database/models/User");
 const Listing = require("../../database/models/Listing");
-const Booking = require("../../database/models/Booking");
 
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
 
-describe("Testing for get host profile route", () => {
+describe("Testing for create new booking route", () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -25,8 +24,9 @@ describe("Testing for get host profile route", () => {
 
   test("test to create new booking with valid request", async (done) => {
     const interns = await User.find({ role: "intern" });
+    const hosts = await User.find({ role: "host" });
 
-    const listing = await Listing.findOne;
+    const listing = await Listing.findOne({ user: hosts[0]._id });
 
     const data = {
       user: interns[0]._id,
@@ -52,7 +52,9 @@ describe("Testing for get host profile route", () => {
   test("test to create new booking with invalid request - duplicate booking dates", async (done) => {
     const interns = await User.find({ role: "intern" });
 
-    const listing = await Listing.findOne;
+    const hosts = await User.find({ role: "host" });
+
+    const listing = await Listing.findOne({ user: hosts[0]._id });
 
     const data = {
       user: interns[0]._id,
@@ -66,7 +68,7 @@ describe("Testing for get host profile route", () => {
       .post("/api/new-booking")
       .send(data)
       .expect("Content-Type", /json/)
-      .expect(403)
+      .expect(400)
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body).toBeDefined();

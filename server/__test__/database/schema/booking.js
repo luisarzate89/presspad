@@ -22,7 +22,7 @@ describe("Test Booking schema", () => {
 
   test("should store Booking schema correctly", async (done) => {
     const bookings = await Booking.find();
-    expect(bookings).toHaveLength(5);
+    expect(bookings).toHaveLength(6);
     done();
   });
 
@@ -35,6 +35,7 @@ describe("Test Booking schema", () => {
       user: interns[0],
       startDate: "2019-05-19",
       endDate: "2019-07-12",
+      payment: 235,
     };
 
     const storedBooking = await Booking.create(newBooking);
