@@ -109,6 +109,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[0],
+      credits: 1200,
     },
     {
       email: "newby@gmail.com",
@@ -116,6 +117,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[0],
+      credits: 2200,
     },
     {
       email: "joe@hello.com",
@@ -123,6 +125,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[1],
+      credits: 3100,
     },
     {
       email: "ramy@rambo.co.uk",
@@ -130,6 +133,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[2],
+      credits: 1400,
     },
   ];
 

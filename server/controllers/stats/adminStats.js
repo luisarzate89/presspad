@@ -36,7 +36,32 @@ module.exports = async (req, res, next) => {
       .catch(err => next(boom.badImplementation(err)));
   } else if (userType === "intern") {
     getAllInternStats()
-      .then(stats => res.json(stats))
+      .then((stats) => {
+        if (stats.length === 0) return res.json(stats);
+
+        const cleanStats = stats.map((intern) => {
+          let status = "Looking for host";
+
+          if (intern.liveBookings > 0) {
+            status = "At host";
+          } else if (intern.pendingBookings > 0) {
+            status = "Pending request";
+          } else if (intern.confirmedBookings > 0) {
+            status = "Booking confirmed";
+          }
+
+          const internObj = {
+            key: stats.indexOf(intern) + 1,
+            name: intern.name,
+            organisation: intern.organisation[0].name,
+            totalCredits: intern.credits,
+            creditsSpent: intern.spentCredits,
+            status,
+          };
+          return internObj;
+        });
+        return res.json(cleanStats);
+      })
       .catch(err => next(boom.badImplementation(err)));
   } else return res.json("getting hosts next");
 };

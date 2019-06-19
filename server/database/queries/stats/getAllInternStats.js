@@ -1,7 +1,7 @@
 const User = require("../../models/User");
 
 module.exports.getAllInternStats = () => User.aggregate([
-  // get all interns 
+  // get all interns
   {
     $match: { role: "intern" },
   },
@@ -36,6 +36,7 @@ module.exports.getAllInternStats = () => User.aggregate([
     $project: {
       _id: 1,
       name: 1,
+      "organisation.name": 1,
       credits: 1,
       // get all the credits they've spent to date
       spentCredits: { $sum: "$spendingTransactions.credits" },
