@@ -11,6 +11,7 @@ import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
+import SearchHosts from "./SearchHosts";
 
 import {
   HOME_URL,
@@ -20,7 +21,8 @@ import {
   SIGNUP_ORG,
   DASHBOARD_URL,
   HOST_PROFILE,
-  COMPLETE_PROFILE_URL
+  COMPLETE_PROFILE_URL,
+  HOSTS_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -37,6 +39,12 @@ class Pages extends Component {
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
+          />
+          <Route path={HOST_PROFILE} component={HostProfile} />
+          <Route
+            exact
+            path={HOSTS_URL}
+            render={() => <SearchHosts isLoggedIn={isLoggedIn} />}
           />
 
           <PrivateRoute
