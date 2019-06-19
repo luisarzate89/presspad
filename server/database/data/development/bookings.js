@@ -12,6 +12,21 @@ module.exports = async () => {
       user: interns[0],
       startDate: "2019-05-19",
       endDate: "2019-07-12",
+      status: "confirmed",
+    },
+    {
+      listing: listings[1],
+      user: interns[0],
+      startDate: "2018-06-19",
+      endDate: "2018-08-12",
+      status: "pending",
+    },
+    {
+      listing: listings[2],
+      user: interns[0],
+      startDate: "2020-02-19",
+      endDate: "2020-03-12",
+      status: "confirmed",
     },
     {
       listing: listings[0],

@@ -46,6 +46,7 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
   {
     $addFields: {
       numberOfInterns: { $size: "$interns" },
+      internList: "$interns",
     },
   },
   {
@@ -64,10 +65,10 @@ module.exports.getAllClientStats = () => Organisation.aggregate([
       "userDetails.email": 1,
       "userDetails.plan": 1,
       "userDetails.credits": 1,
+      "interns.id": 1,
       "interns.name": 1,
       numberOfInterns: 1,
       spentCredits: { $sum: "$transactions.credits" },
-      // totalSpentCredits: 1,
     },
   },
 ]);

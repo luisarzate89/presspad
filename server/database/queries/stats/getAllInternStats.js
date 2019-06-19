@@ -1,7 +1,7 @@
 const User = require("../../models/User");
 
 module.exports.getAllInternStats = () => User.aggregate([
-  // get all interns relevant to this organisation
+  // get all interns 
   {
     $match: { role: "intern" },
   },
