@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Input, Button, Icon, Tag } from "antd";
+import { Input, Button, Icon } from "antd";
 
 // SUB COMPONENTS
 import ClientTable from "./ClientTable";

@@ -89,10 +89,8 @@ export default class SignInPage extends Component {
           handleChangeState({ ...data, isLoggedIn: true });
 
           data.role === "organisation" && history.push(DASHBOARD_URL);
-          data.role === "admin" &&
-            history
-              .push(ADMIN_DASHBOARD_URL)
-              [("host", "superhost", "intern")].includes(data.role) &&
+          data.role === "admin" && history.push(ADMIN_DASHBOARD_URL);
+          [("host", "superhost", "intern")].includes(data.role) &&
             history.push(MYPROFILE_URL);
         })
         .catch(err => {
