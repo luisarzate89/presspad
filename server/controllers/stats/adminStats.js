@@ -14,8 +14,6 @@ module.exports = async (req, res, next) => {
   // get whether you want client, intern or host data
   const { userType } = req.body;
 
-  console.log("user", userType);
-
   if (userType === "clients") {
     getAllClientStats()
       .then((stats) => {
@@ -74,7 +72,6 @@ module.exports = async (req, res, next) => {
         if (stats.length === 0) return res.json(stats);
 
         const cleanStats = stats.map((host) => {
-          console.log(host.verified);
           const hostObj = {
             key: stats.indexOf(host) + 1,
             name: host.name,
@@ -83,7 +80,6 @@ module.exports = async (req, res, next) => {
             approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
             userId: host._id,
           };
-          console.log(hostObj);
           return hostObj;
         });
         return res.json(cleanStats);

@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
 const User = require("../../../database/models/User");
-const Transaction = require("../../../database/models/Listing");
+const Transaction = require("../../../database/models/Transaction");
 const buildDB = require("../../../database/data/test");
 
 describe("Test Transaction schema", () => {
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     // build dummy data
     await buildDB();
+    done();
   });
 
   afterAll(() => {
