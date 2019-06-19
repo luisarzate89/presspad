@@ -3,7 +3,7 @@ const boom = require("boom");
 // IMPORT QUERIES
 const { getAllClientStats } = require("./../../database/queries/stats/getAllClientStats");
 const { getAllInternStats } = require("./../../database/queries/stats/getAllInternStats");
-const { getInternStatus } = require("./../../database/queries/user/index");
+const { getAllHostStats } = require("./../../database/queries/stats/getAllHostStats");
 
 module.exports = async (req, res, next) => {
   // get user data so we can check they are authorized
@@ -28,6 +28,7 @@ module.exports = async (req, res, next) => {
             interns: client.numberOfInterns,
             plan: client.userDetails.plan,
             currentlyHosted: client.currentlyHosted,
+            userId: client._id,
           };
           return clientObj;
         });
@@ -57,11 +58,29 @@ module.exports = async (req, res, next) => {
             totalCredits: intern.credits,
             creditsSpent: intern.spentCredits,
             status,
+            userId: intern._id,
           };
           return internObj;
         });
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else return res.json("getting hosts next");
+  } else if (userType === "host") {
+    getAllHostStats().then((stats) => {
+      if (stats.length === 0) return res.json(stats);
+
+      const cleanStats = stats.map((host) => {
+        const hostObj = {
+          key: stats.indexOf(host) + 1,
+          name: host.name,
+          city: host.listing.address.city,
+          hosted: host.internsHosted,
+          approvalStatus: host.verified ? "Approved" : "Waiting for approval",
+          userId: host._id,
+        };
+        return hostObj;
+      });
+      return res.json(cleanStats);
+    });
+  } else return next(boom.badRequest());
 };
