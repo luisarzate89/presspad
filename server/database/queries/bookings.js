@@ -4,19 +4,21 @@ const Listing = require("./../models/Listing");
 
 const createDatesArray = require("../../helpers/createDatesArray");
 
-// 1)
-// gets all user bookings and checks if new booking request dates are included
-
-module.exports.checkOtherBookingExists = async (userId, start, end) => {
-  // get all bookings of user
+// get all bookings of user
+module.exports.getUserBookings = async (userId) => {
   const bookings = await Booking.find({ user: userId });
-
-  // create array of booking days
   const userBookingDates = bookings.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
     acc.push(dates);
     return acc.toString().split(",");
   }, []);
+  return userBookingDates;
+};
+
+// 1)
+// gets all user bookings and checks if new booking request dates are included
+module.exports.checkOtherBookingExists = async (userId, start, end) => {
+  const userBookingDates = await this.getUserBookings(userId);
 
   const bookingRequestDates = createDatesArray(start, end);
 

@@ -3,6 +3,8 @@ import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Spin, Alert } from "antd";
+import { createDatesArray, getDateRangeFromArray } from "../../../helpers";
 
 import { API_BOOKING_REQUEST_URL } from "../../../constants/apiRoutes";
 
@@ -11,7 +13,8 @@ import {
   PricingDiv,
   PriceHeadline,
   PriceLabel,
-  RequestBtn
+  RequestBtn,
+  ErrorDiv
 } from "./Calendar.style";
 
 const bookingRequest = (url, data) => axios.post(url, data);
@@ -32,49 +35,37 @@ const calculatePrice = dates => {
   return weeks * 150 + days * 20;
 };
 
-// creates array of all available dates for listing
-const getAvailableDates = datesArray => {
-  const avDatesArray = [];
-
-  // get all available dates in range
-  datesArray.forEach(el => {
-    let currentDate = moment(el.startDate);
-    const stopDate = moment(el.endDate);
-
-    while (currentDate <= stopDate) {
-      avDatesArray.push(moment(currentDate).format("YYYY-MM-DD"));
-      currentDate = moment(currentDate).add(1, "days");
-    }
-  });
-  // get all days in month of current date and stop date
-
-  return avDatesArray;
-};
-
 class CalendarComponent extends Component {
   state = {
+    isLoading: true,
     avDates: [],
     dates: new Date(),
     noNights: null,
-    price: 0
+    price: 0,
+    bookingExists: false
   };
 
   componentDidMount() {
     const { availableDates } = this.props;
-    const avDateRange = getAvailableDates(availableDates);
+    const avDateRange = getDateRangeFromArray(availableDates);
 
     this.setState({
-      avDates: avDateRange
+      avDates: avDateRange,
+      isLoading: false
     });
   }
 
   // updates state
   onChange = dates => {
+    const { internBookings } = this.props;
+
     this.setState({
       dates,
       noNights: countDays(dates),
       price: calculatePrice(dates)
     });
+    // check if booking exists and update state
+    this.bookingFound(dates, internBookings);
   };
 
   // disables calendar tiles (days)
@@ -117,8 +108,25 @@ class CalendarComponent extends Component {
       });
   };
 
+  bookingFound = (selectedDates, existingBookingDates) => {
+    let bookingDatesFound;
+    if (selectedDates.length > 0) {
+      selectedDates = createDatesArray(selectedDates[0], selectedDates[1]);
+      bookingDatesFound = selectedDates.some(date =>
+        existingBookingDates.includes(date)
+      );
+    } else bookingDatesFound = false;
+    // if no booking selected or dates are already part of exiting user bookings
+    // disable request btn
+    return bookingDatesFound
+      ? this.setState({ bookingExists: true })
+      : this.setState({ bookingExists: false });
+  };
+
   render() {
-    const { price } = this.state;
+    const { price, noNights, bookingExists } = this.state;
+
+    if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
     return (
       <div>
@@ -141,9 +149,17 @@ class CalendarComponent extends Component {
         <PricingDiv>
           <PriceHeadline>Full price for period</PriceHeadline>
           <PriceLabel>£{price}</PriceLabel>
+          {bookingExists && (
+            <ErrorDiv>
+              <Alert
+                message="It seems like you have already requested a booking during those dates. You can only make one request at a time."
+                type="error"
+              />
+            </ErrorDiv>
+          )}
           <RequestBtn
             onClick={this.handleClick}
-            disabled={!this.state.noNights > 0}
+            disabled={noNights === 0 || noNights === null || bookingExists}
           >
             Request Stay
           </RequestBtn>

@@ -59,7 +59,8 @@ class HostProfile extends Component {
   state = {
     isLoading: true,
     profileData: null,
-    reviews: null
+    reviews: null,
+    internBookings: null
   };
 
   // functions
@@ -85,6 +86,11 @@ class HostProfile extends Component {
 
   componentWillMount() {
     this.axiosCall();
+
+    axios
+      .get(`/api/bookings/${this.props.id}`)
+      .then(result => this.setState({ internBookings: result.data }))
+      .catch(err => console.log(err));
   }
 
   // checks if profile image exists and returns src path
@@ -105,7 +111,7 @@ class HostProfile extends Component {
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
-    const { profileData, reviews } = this.state;
+    const { profileData, reviews, internBookings } = this.state;
 
     const { listing, profile } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
@@ -113,8 +119,6 @@ class HostProfile extends Component {
     const { _id, availableDates, price } = listing;
 
     const intern = this.props.id;
-
-    console.log(this.props);
 
     return (
       <Wrapper>
@@ -213,6 +217,7 @@ class HostProfile extends Component {
                   internId={intern}
                   listingId={_id}
                   availableDates={availableDates}
+                  internBookings={internBookings}
                   price={price}
                 />
               </CalendarDiv>

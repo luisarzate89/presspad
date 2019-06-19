@@ -10,6 +10,7 @@ const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
+const getUserBookings = require("./../controllers/getUserBookings");
 
 // IMPORT MIDDLEWARES
 const softAuthCheck = require("./../middlewares/softAuthCheck");
@@ -53,6 +54,9 @@ router.post(HOST_PROFILE_URL, getHostProfile);
 
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
+
+// creates new booking request
+router.get("/bookings/:id", getUserBookings);
 
 // search for available listings
 router.post(SEARCH_PROFILES_URL, searchProfiles);

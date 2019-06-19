@@ -195,5 +195,8 @@ export const RequestBtn = styled.button`
     transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
 
   }
+`;
 
+export const ErrorDiv = styled.div`
+  margin-bottom: 25px;
 `;
