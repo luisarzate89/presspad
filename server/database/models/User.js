@@ -43,7 +43,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "organisation", "superhost", "host", "organisation", "intern"],
+    enum: ["admin", "organisation", "superhost", "host", "intern"],
     required: true,
   },
   credits: Number,
