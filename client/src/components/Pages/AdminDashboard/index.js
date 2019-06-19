@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Table, Input, Button, Icon, Tag } from "antd";
+import { Input, Button, Icon, Tag } from "antd";
 
 // SUB COMPONENTS
 import ClientTable from "./ClientTable";
@@ -16,11 +16,7 @@ import {
   DashboardMenu,
   MenuItem,
   MainSection,
-  ContentTitle,
-  SearchWrapper,
-  SearchInput,
-  Filters,
-  ResultsWrapper
+  ContentTitle
 } from "./AdminDashboard.style";
 
 // API ROUTES

@@ -7,7 +7,11 @@ import Button from "./../../Common/Button";
 
 // CONSTANTS
 import { API_LOGIN_URL } from "./../../../constants/apiRoutes";
-import { DASHBOARD_URL, MYPROFILE_URL } from "./../../../constants/navRoutes";
+import {
+  DASHBOARD_URL,
+  MYPROFILE_URL,
+  ADMIN_DASHBOARD_URL
+} from "./../../../constants/navRoutes";
 
 // STYLING
 import {
@@ -80,10 +84,16 @@ export default class SignInPage extends Component {
       axios
         .post(API_LOGIN_URL, loginData)
         .then(({ data }) => {
-          this.props.handleChangeState({ ...data, isLoggedIn: true });
-          ["admin", "organisation"].includes(data.role)
-            ? this.props.history.push(DASHBOARD_URL)
-            : this.props.history.push(MYPROFILE_URL);
+          const { history, handleChangeState } = this.props;
+
+          handleChangeState({ ...data, isLoggedIn: true });
+
+          data.role === "organisation" && history.push(DASHBOARD_URL);
+          data.role === "admin" &&
+            history
+              .push(ADMIN_DASHBOARD_URL)
+              [("host", "superhost", "intern")].includes(data.role) &&
+            history.push(MYPROFILE_URL);
         })
         .catch(err => {
           this.setState({ msg: "error" });

@@ -51,7 +51,7 @@ export default class InternTable extends Component {
         sorter: (a, b) => a.name - b.name,
         className: "nameCol",
         render: text => (
-          <Link to={`/hosts/${getUserId(data, text)}`}>{text}</Link>
+          <Link to={`/interns/${getUserId(data, text)}`}>{text}</Link>
         )
       },
       {
