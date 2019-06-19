@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import { Table, Input, Button, Icon, Tag } from "antd";
 
@@ -22,14 +23,27 @@ import {
   ResultsWrapper
 } from "./AdminDashboard.style";
 
+// API ROUTES
+import { API_ADMIN_STATS_URL } from "./../../../constants/apiRoutes";
+
 export default class AdminDashboard extends Component {
   state = {
-    activeLink: "clients"
+    activeLink: "clients",
+    loading: false,
+    data: []
   };
 
   selectSection = section => {
-    console.log("reached");
-    this.setState({ activeLink: section });
+    this.setState({ activeLink: section, loading: true, data: [] });
+    axios
+      .post(API_ADMIN_STATS_URL, { userType: section })
+      .then(({ data }) => {
+        this.setState({ data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ loading: false });
+        console.log(err);
+      });
   };
 
   getColumnSearchProps = dataIndex => ({
@@ -102,7 +116,7 @@ export default class AdminDashboard extends Component {
   };
 
   render() {
-    const { activeLink } = this.state;
+    const { activeLink, loading, data } = this.state;
 
     return (
       <Wrapper>
@@ -132,13 +146,24 @@ export default class AdminDashboard extends Component {
         <MainSection>
           <ContentTitle>Your {activeLink}</ContentTitle>
           {activeLink === "clients" && (
-            <ClientTable getColumnSearchProps={this.getColumnSearchProps} />
+            <ClientTable
+              getColumnSearchProps={this.getColumnSearchProps}
+              loading={loading}
+              data={data}
+            />
           )}
           {activeLink === "interns" && (
-            <InternTable getColumnSearchProps={this.getColumnSearchProps} />
+            <InternTable 
+              getColumnSearchProps={this.getColumnSearchProps} 
+              loading={loading}
+              data={data} />
           )}
           {activeLink === "hosts" && (
-            <HostTable getColumnSearchProps={this.getColumnSearchProps} />
+            <HostTable
+              getColumnSearchProps={this.getColumnSearchProps}
+              loading={loading}
+              data={data}
+            />
           )}
           {/* <ContentTitle>Your Placeholder</ContentTitle>
           <SearchWrapper>

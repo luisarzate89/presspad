@@ -9,12 +9,14 @@ module.exports = async (req, res, next) => {
   // get user data so we can check they are authorized
   const { user } = req;
 
-  if (user.role !== "admin") return next(boom.notAuthorized("You do not have sufficient priveleges"));
+  if (user.role !== "admin") return next(boom.unauthorized("You do not have sufficient priveleges"));
 
   // get whether you want client, intern or host data
   const { userType } = req.body;
 
-  if (userType === "client") {
+  console.log("user", userType);
+
+  if (userType === "clients") {
     getAllClientStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
@@ -35,7 +37,7 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else if (userType === "intern") {
+  } else if (userType === "interns") {
     getAllInternStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
@@ -55,32 +57,37 @@ module.exports = async (req, res, next) => {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
             organisation: intern.organisation[0].name,
-            totalCredits: intern.credits,
-            creditsSpent: intern.spentCredits,
+            totalCredits: intern.credits || 0,
+            creditsSpent: intern.spentCredits || 0,
             status,
             userId: intern._id,
           };
           return internObj;
         });
+
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else if (userType === "host") {
-    getAllHostStats().then((stats) => {
-      if (stats.length === 0) return res.json(stats);
+  } else if (userType === "hosts") {
+    getAllHostStats()
+      .then((stats) => {
+        if (stats.length === 0) return res.json(stats);
 
-      const cleanStats = stats.map((host) => {
-        const hostObj = {
-          key: stats.indexOf(host) + 1,
-          name: host.name,
-          city: host.listing.address.city,
-          hosted: host.internsHosted,
-          approvalStatus: host.verified ? "Approved" : "Waiting for approval",
-          userId: host._id,
-        };
-        return hostObj;
-      });
-      return res.json(cleanStats);
-    });
+        const cleanStats = stats.map((host) => {
+          console.log(host.verified);
+          const hostObj = {
+            key: stats.indexOf(host) + 1,
+            name: host.name,
+            city: host.listing.address.city,
+            hosted: host.internsHosted,
+            approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
+            userId: host._id,
+          };
+          console.log(hostObj);
+          return hostObj;
+        });
+        return res.json(cleanStats);
+      })
+      .catch(err => next(boom.badImplementation(err)));
   } else return next(boom.badRequest());
 };

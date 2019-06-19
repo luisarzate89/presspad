@@ -10,24 +10,24 @@ const tagColors = {
   "Pending request": colors.orange
 };
 
-const data = [
-  {
-    key: "1",
-    name: "Andrew Langley",
-    organisation: "Financial Times",
-    totalCredits: 700,
-    creditsSpent: 300,
-    status: "Looking for host"
-  },
-  {
-    key: "2",
-    name: "Claire Bonnay",
-    organisation: "The Guardian",
-    totalCredits: 600,
-    creditsSpent: 450,
-    status: "At host"
-  }
-];
+// const data = [
+//   {
+//     key: "1",
+//     name: "Andrew Langley",
+//     organisation: "Financial Times",
+//     totalCredits: 700,
+//     creditsSpent: 300,
+//     status: "Looking for host"
+//   },
+//   {
+//     key: "2",
+//     name: "Claire Bonnay",
+//     organisation: "The Guardian",
+//     totalCredits: 600,
+//     creditsSpent: 450,
+//     status: "At host"
+//   }
+// ];
 
 export default class InternTable extends Component {
   state = {
@@ -35,7 +35,7 @@ export default class InternTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps } = this.props;
+    const { getColumnSearchProps, data, loading } = this.props;
 
     const columns = [
       {
@@ -129,6 +129,7 @@ export default class InternTable extends Component {
         dataSource={data}
         pagination={{ pageSize: 5 }}
         scroll={{ x: "100%" }}
+        loading={loading}
       />
     );
   }

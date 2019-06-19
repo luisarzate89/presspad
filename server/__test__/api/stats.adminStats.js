@@ -34,7 +34,7 @@ describe("Testing for get host profile route", () => {
       .expect(200)
       .end(async (err, res) => {
         const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "client" };
+        const data = { userType: "clients" };
 
         request(app)
           .post(API_ADMIN_STATS_URL)
@@ -69,7 +69,7 @@ describe("Testing for get host profile route", () => {
       .expect(200)
       .end(async (err, res) => {
         const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "intern" };
+        const data = { userType: "interns" };
 
         request(app)
           .post(API_ADMIN_STATS_URL)
@@ -103,7 +103,7 @@ describe("Testing for get host profile route", () => {
       .expect(200)
       .end(async (err, res) => {
         const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "host" };
+        const data = { userType: "hosts" };
 
         request(app)
           .post(API_ADMIN_STATS_URL)

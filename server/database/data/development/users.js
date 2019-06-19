@@ -104,8 +104,8 @@ module.exports = async () => {
   // create interns
   const interns = [
     {
-      email: "simone@gmail.com",
-      name: "Simon Dupree",
+      email: "mone@gmail.com",
+      name: "Mone Dupree",
       password: "123456",
       role: "intern",
       organisation: organisations[0],

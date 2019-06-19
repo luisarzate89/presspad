@@ -10,26 +10,26 @@ const tagColors = {
   basic: colors.gray
 };
 
-const data = [
-  {
-    key: "1",
-    organisation: "Financial Times",
-    totalCredits: 1600,
-    creditsSpent: 1200,
-    interns: 5,
-    currentlyHosted: 4,
-    plan: "pro"
-  },
-  {
-    key: "2",
-    organisation: "The Guardian",
-    totalCredits: 600,
-    creditsSpent: 450,
-    interns: 1,
-    currentlyHosted: 3,
-    plan: "basic"
-  }
-];
+// const data = [
+//   {
+//     key: "1",
+//     organisation: "Financial Times",
+//     totalCredits: 1600,
+//     creditsSpent: 1200,
+//     interns: 5,
+//     currentlyHosted: 4,
+//     plan: "pro"
+//   },
+//   {
+//     key: "2",
+//     organisation: "The Guardian",
+//     totalCredits: 600,
+//     creditsSpent: 450,
+//     interns: 1,
+//     currentlyHosted: 3,
+//     plan: "basic"
+//   }
+// ];
 
 export default class ClientTable extends Component {
   state = {
@@ -37,7 +37,7 @@ export default class ClientTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps } = this.props;
+    const { getColumnSearchProps, data, loading } = this.props;
 
     const columns = [
       {
@@ -134,6 +134,7 @@ export default class ClientTable extends Component {
         dataSource={data}
         pagination={{ pageSize: 5 }}
         scroll={{ x: "100%" }}
+        loading={loading}
       />
     );
   }
