@@ -46,6 +46,10 @@ export default class AdminDashboard extends Component {
       });
   };
 
+  componentDidMount() {
+    this.selectSection("clients");
+  }
+
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -153,10 +157,11 @@ export default class AdminDashboard extends Component {
             />
           )}
           {activeLink === "interns" && (
-            <InternTable 
-              getColumnSearchProps={this.getColumnSearchProps} 
+            <InternTable
+              getColumnSearchProps={this.getColumnSearchProps}
               loading={loading}
-              data={data} />
+              data={data}
+            />
           )}
           {activeLink === "hosts" && (
             <HostTable

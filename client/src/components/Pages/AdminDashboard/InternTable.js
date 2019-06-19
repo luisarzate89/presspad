@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { Table, Tag } from "antd";
 
 import { colors } from "./../../../theme";
 
+// import helpers
+import getUserId from "./../../../helpers/getUserId";
+
+//  set colours for tags in the table
 const tagColors = {
   "Looking for host": colors.primary,
   "At host": colors.green,
@@ -44,7 +49,10 @@ export default class InternTable extends Component {
         key: "name",
         ...getColumnSearchProps("name"),
         sorter: (a, b) => a.name - b.name,
-        className: "nameCol"
+        className: "nameCol",
+        render: text => (
+          <Link to={`/hosts/${getUserId(data, text)}`}>{text}</Link>
+        )
       },
       {
         title: "Organisation",
