@@ -1,6 +1,7 @@
 const boom = require("boom");
 const {
   checkOtherBookingExists,
+  checkIfListingAvailable,
   createNewBooking,
   updateListingAvailability,
 } = require("../database/queries/bookings");
@@ -10,25 +11,28 @@ module.exports = async (req, res, next) => {
     listing, user, startDate, endDate, payment,
   } = req.body;
 
-  try {
-    const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
+  const data = {
+    listing,
+    user,
+    startDate,
+    endDate,
+    payment,
+  };
 
-    if (userHasBooking.bookingExists) {
-      next(boom.badRequest("user has already a booking request for those dates"));
-    }
-    const data = {
-      listing,
-      user,
-      startDate,
-      endDate,
-      payment,
-    };
-    createNewBooking(data);
+  const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
+  const listingUnavailable = await checkIfListingAvailable(listing, startDate, endDate);
 
-    updateListingAvailability(listing, startDate, endDate);
-
-    res.json({ success: true });
-  } catch (error) {
-    next(boom.badImplementation());
+  // check if user already has booking request during requested dates
+  if (userHasBooking.bookingExists) {
+    return next(boom.badRequest("user has already a booking request for those dates"));
   }
+  // check if booking request falls into available dates of listing
+  if (listingUnavailable.listingUnavailable) {
+    return next(boom.badRequest("listing is not available during those dates"));
+  }
+  // create new booking
+  return createNewBooking(data)
+    .then(() => updateListingAvailability(listing, startDate, endDate))
+    .then(() => res.json({ success: true }))
+    .catch(() => next(boom.badRequest("error updating listing")));
 };

@@ -118,8 +118,8 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
 
     :disabled {
       background-color: ${colors.transGray};
-      color: ${colors.white}
-      opacity: 0.6;
+      color: ${colors.white};
+      opacity: 0.5;
     }
 
     :enabled:hover,

@@ -60,7 +60,10 @@ module.exports = async () => {
       photos: [],
       availableDates: [
         { startDate: "2019-06-15", endDate: "2019-06-19" },
-        { startDate: "2019-08-14", endDate: "2019-09-12" },
+        { startDate: "2019-06-24", endDate: "2019-06-26" },
+        { startDate: "2019-06-28", endDate: "2019-06-30" },
+        { startDate: "2019-07-04", endDate: "2019-07-06" },
+        { startDate: "2019-07-10", endDate: "2019-07-14" },
         { startDate: "2019-10-14", endDate: "2019-12-12" },
         { startDate: "2020-01-02", endDate: "2020-01-16" },
       ],

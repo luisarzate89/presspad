@@ -101,6 +101,7 @@ class CalendarComponent extends Component {
         Swal.fire({
           type: "success",
           title: "Booking request sent",
+          showConfirmButton: false,
           timer: 2500
         })
       )
@@ -111,14 +112,9 @@ class CalendarComponent extends Component {
         return Swal.fire({
           type: "error",
           title: "Oops...",
-          text: this.bookingErrMsg(response)
+          text: response.data.error
         });
       });
-  };
-
-  bookingErrMsg = response => {
-    const msg = "user has already a booking request for those dates";
-    return response.data.error === msg ? msg : "error making booking request";
   };
 
   render() {

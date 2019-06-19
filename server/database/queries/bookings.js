@@ -12,19 +12,39 @@ module.exports.checkOtherBookingExists = async (userId, start, end) => {
   const bookings = await Booking.find({ user: userId });
 
   // create array of booking days
-  const bookingDates = bookings.reduce((acc, cur) => {
+  const userBookingDates = bookings.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
     acc.push(dates);
     return acc.toString().split(",");
   }, []);
 
-  if (
-    bookingDates.includes(moment(start).format("YYYY-MM-DD"))
-    || bookingDates.includes(moment(end).format("YYYY-MM-DD"))
-  ) {
-    return { bookingExists: true };
-  }
-  return { bookingExists: false };
+  const bookingRequestDates = createDatesArray(start, end);
+
+  // check if any of the current booking request dates is included in users bookings
+  const bookingDateFound = bookingRequestDates.some(date => userBookingDates.includes(date));
+
+  return bookingDateFound ? { bookingExists: true } : { bookingExists: false };
+};
+
+// 2)
+// checks if current booking overlaps with listing unavailability
+module.exports.checkIfListingAvailable = async (listingId, bs, be) => {
+  const listing = await Listing.findOne({ _id: listingId });
+
+  // get all dates when listing is available
+  const listingAvDates = listing.availableDates.reduce((acc, cur) => {
+    const dates = createDatesArray(cur.startDate, cur.endDate);
+    acc.push(dates);
+    return acc.toString().split(",");
+  }, []);
+
+  // get all dates of current booking request
+  const bookingRequestDates = createDatesArray(bs, be);
+
+  // if any date of booking request is not in listing availability => error
+  const listingFullyAvailable = bookingRequestDates.every(date => listingAvDates.includes(date));
+
+  return listingFullyAvailable ? { listingUnavailable: false } : { listingUnavailable: true };
 };
 
 // 2)
@@ -37,8 +57,7 @@ module.exports.createNewBooking = async (data) => {
 // 3)
 // updates listing
 module.exports.updateListingAvailability = async (listingId, bs, be) => {
-  const listing = await Listing.find({ _id: listingId });
-
+  const listing = await Listing.findOne({ _id: listingId });
   const listingAvDates = listing.availableDates.reduce((acc, cur) => {
     // listing available dates
     const ls = cur.startDate;
