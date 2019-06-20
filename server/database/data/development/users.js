@@ -24,6 +24,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisations[0],
       plan: "basic",
+      credits: 500,
     },
     {
       email: "josephine@guardian.co.uk",
@@ -32,6 +33,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisations[1],
       plan: "basic",
+      credits: 1500,
     },
     {
       email: "brian@bbc.co.uk",
@@ -40,6 +42,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisations[2],
       plan: "basic",
+      credits: 750,
     },
     {
       email: "luise@afp.co.uk",
@@ -48,6 +51,7 @@ module.exports = async () => {
       role: "organisation",
       organisation: organisations[3],
       plan: "basic",
+      credits: 200,
     },
   ];
 
@@ -100,11 +104,20 @@ module.exports = async () => {
   // create interns
   const interns = [
     {
-      email: "simone@gmail.com",
-      name: "Simon Dupree",
+      email: "mone@gmail.com",
+      name: "Mone Dupree",
       password: "123456",
       role: "intern",
       organisation: organisations[0],
+      credits: 1200,
+    },
+    {
+      email: "newby@gmail.com",
+      name: "Newby French",
+      password: "123456",
+      role: "intern",
+      organisation: organisations[0],
+      credits: 2200,
     },
     {
       email: "joe@hello.com",
@@ -112,6 +125,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[1],
+      credits: 3100,
     },
     {
       email: "ramy@rambo.co.uk",
@@ -119,6 +133,7 @@ module.exports = async () => {
       password: "123456",
       role: "intern",
       organisation: organisations[2],
+      credits: 1400,
     },
   ];
 
