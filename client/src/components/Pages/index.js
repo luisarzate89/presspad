@@ -34,6 +34,14 @@ class Pages extends Component {
       <>
         <Switch>
           <Route path={HOME_URL} exact component={LandingPage} />
+
+          <PrivateRoute
+            path={HOST_PROFILE}
+            Component={HostProfile}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
           <Route path={HOST_PROFILE} component={HostProfile} />
           <Route
             exact

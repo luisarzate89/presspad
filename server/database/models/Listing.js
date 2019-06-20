@@ -27,9 +27,8 @@ const listingSchema = new Schema({
     required: true,
   },
   otherInfo: [String],
-  price: Number,
   photos: [String],
-  availableDates: [{ startDate: Date, endDate: Date }],
+  availableDates: [{ _id: false, startDate: Date, endDate: Date }],
 });
 
 const Listing = model("listings", listingSchema);

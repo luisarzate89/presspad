@@ -65,6 +65,7 @@ class App extends Component {
 
   render() {
     const { isLoggedIn, role } = this.state;
+
     return (
       <Router>
         <div className="App">
