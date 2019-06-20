@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -131,16 +132,13 @@ export const Card = styled.div`
   min-height: 84px;
 `;
 
-export const BlueLink = styled.a`
+export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
-  /* identical to box height */
-
   text-align: center;
-
   color: #0ac7e7;
 `;
 

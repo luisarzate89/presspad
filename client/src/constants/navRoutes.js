@@ -3,7 +3,6 @@ export const HOME_URL = "/";
 export const ABOUT_URL = "/about";
 export const MYPROFILE_URL = "/my-profile";
 export const DASHBOARD_URL = "/dashboard";
-export const ORGANISATION_DASHBOARD_URL = "/organisation-dashboard";
 export const HOSTS_URL = "/hosts";
 export const HOST_PROFILE = `/host/:id`;
 export const INTERN_PROFILE = `/interns/:id`;

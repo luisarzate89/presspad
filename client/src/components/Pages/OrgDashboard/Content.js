@@ -43,9 +43,7 @@ const columns = windowWidth => {
             </BlueLink>
           </Link>
         ) : (
-          <Link to={`/interns/${record._id}`}>
-            <BlueLink>{text}</BlueLink>
-          </Link>
+          <BlueLink to={`/interns/${record._id}`}>{text}</BlueLink>
         )
     }
   ];

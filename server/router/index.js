@@ -77,6 +77,6 @@ router.post(CHECK_REFERRAL_URL, getUserByReferral);
 router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs
-router.get(`${ORGS_DASHBOARD}/:id`, orgsDashboard);
+router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
 module.exports = router;

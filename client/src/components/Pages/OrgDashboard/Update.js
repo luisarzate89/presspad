@@ -13,7 +13,7 @@ export default ({ item }) => {
     case "stayApproved":
       return (
         <UpdateItem key={_id}>
-          {user.name} has matched with a{" "}
+          {user.name} has matched with{" "}
           <Link to={`/host/${secondParty._id}`}>
             <BlueSpan>{secondParty.name}</BlueSpan>
           </Link>{" "}

@@ -14,8 +14,7 @@ class OrganizationDashboard extends Component {
   };
 
   componentDidMount() {
-    const { orgId } = this.props.match.params;
-    axios.get(`${API_ORGS_DASHBOARD_URL}/${orgId}`).then(res => {
+    axios.get(API_ORGS_DASHBOARD_URL).then(res => {
       const [details, notifications, interns] = res.data;
 
       this.setState({

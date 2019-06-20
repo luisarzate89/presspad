@@ -13,7 +13,6 @@ import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
-import OrganisationDashboard from "./OrgDashboard";
 
 import {
   HOME_URL,
@@ -24,7 +23,6 @@ import {
   DASHBOARD_URL,
   HOST_PROFILE,
   COMPLETE_PROFILE_URL,
-  ORGANISATION_DASHBOARD_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL
 } from "./../../constants/navRoutes";
@@ -32,6 +30,7 @@ import {
 class Pages extends Component {
   render() {
     const { handleChangeState, isLoggedIn } = this.props;
+
     return (
       <>
         <Switch>
@@ -73,15 +72,6 @@ class Pages extends Component {
             exact
             path={COMPLETE_PROFILE_URL}
             Component={HostCreateProfile}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
-          />
-
-          <PrivateRoute
-            exact
-            path={`${ORGANISATION_DASHBOARD_URL}/:orgId`}
-            Component={OrganisationDashboard}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
