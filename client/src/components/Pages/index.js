@@ -13,6 +13,7 @@ import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
+import BookingRequest from "./BookingRequest";
 
 import {
   HOME_URL,
@@ -24,7 +25,8 @@ import {
   HOST_PROFILE,
   COMPLETE_PROFILE_URL,
   ADMIN_DASHBOARD_URL,
-  HOSTS_URL
+  HOSTS_URL,
+  BOOKING_REQUEST_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -42,7 +44,15 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-          <Route path={HOST_PROFILE} component={HostProfile} />
+
+          <PrivateRoute
+            path={BOOKING_REQUEST_URL}
+            Component={BookingRequest}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
           <Route
             exact
             path={HOSTS_URL}
