@@ -1,49 +1,30 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { Rate } from "antd";
+import { colors, shadows } from "./../../../theme";
 
-import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
-
-import { shadows, colors } from "./../../../theme";
-
-export const Wrapper = styled.div`
-   {
-    width: 80%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-`;
-
-export const LinkDiv = styled.div`
-   {
-    margin-top: 15px;
-    height: 25px;
-  }
-`;
-export const BackLinkDiv = styled.div`
-   {
-    margin-left: -10px;
-    display: flex;
-    justify-content: flex-start;
-  }
-`;
-
-export const Arrow = styled(BackArrowIcon)`
-  width: 4vw;
-`;
-
-export const BackLink = styled(Link)`
-  color: ${colors.links};
-  text-decoration: none;
-  font-weight: 500;
-  line-height: 1;
-`;
-
-export const Header = styled.header`
-  margin-top: 15px;
+export const MainSection = styled.section`
+  width: 100%;
+  margin-top: 7px;
   display: flex;
+  @media (max-width: 775.98px) {
+    margin-top: 0px;
+    flex-direction: column;
+  }
+`;
+
+export const Card = styled.div`
+  width: 100%;
+  box-shadow: ${shadows.card};
+`;
+
+const InnerCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const ProfilePicDiv = styled.div`
@@ -56,21 +37,6 @@ export const ProfilePicDiv = styled.div`
   background-image: url(${({ src }) => src});
   filter: blur(2px);
   -webkit-filter: blur(2px);
-`;
-
-export const HeadlineDiv = styled.div`
-  height: 90px;
-  width: 75%;
-  display: flex;
-  flex-direction: column;
-  margin-left: 25px;
-  text-align: left;
-`;
-
-export const Headline = styled.h1`
-  font-weight: 900;
-  font-size: 28px;
-  color: ${colors.fontPrimary};
 `;
 
 export const Address = styled.h3`
@@ -135,32 +101,6 @@ export const SubImage = styled.div`
   background-image: url(${({ src }) => src});
 `;
 
-export const MainSection = styled.section`
-  width: 100%;
-
-  margin-top: 7px;
-  display: flex;
-  justify-content: center;
-`;
-
-export const TextContentDiv = styled.div`
-  width: 65%;
-`;
-
-export const Card = styled.div`
-  width: 100%;
-  box-shadow: ${shadows.card};
-`;
-
-const InnerCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 export const AboutMe = styled(InnerCard)`
   height: 200px;
 `;
@@ -194,10 +134,6 @@ export const ReviewsBox = styled.div`
 
 export const ReviewsHeader = styled.div`
   display: flex;
-`;
-
-export const StarRate = styled(Rate)`
-  font-size: 16px;
 `;
 
 export const ReviewHeadline = styled.h4`
@@ -235,30 +171,6 @@ export const CalendarDiv = styled(InnerSideCard)`
   height: 400px;
 `;
 
-export const SubHeadline = styled.h2`
-  font-weight: 600;
-  font-size: 22px;
-  text-align: left;
-  color: ${colors.fontLightBlack};
-  margin-top: 5px;
-`;
-
-export const ParagraphHeadline = styled.h3`
-  font-size: 16px;
-  text-align: left;
-  font-weight: 400;
-  color: ${colors.fontLightBlack};
-  margin-top: 5px;
-`;
-
-export const Paragraph = styled.p`
-  font-size: 16px;
-  text-align: left;
-  font-weight: 300;
-  color: ${colors.fontLightBlack};
-  margin-top: 8px;
-`;
-
 export const List = styled.div`
   margin-top: 10px;
   display: flex;
@@ -270,4 +182,8 @@ export const ListItem = styled.li`
   margin-top: 8px;
   font-weight: 300;
   width: calc(100% / 3);
+`;
+
+export const TextContentDiv = styled.div`
+  width: 65%;
 `;

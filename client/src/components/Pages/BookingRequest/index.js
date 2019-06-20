@@ -16,13 +16,19 @@ import {
   HeaderDiv,
   InnerCard,
   Headline,
-  MainSection,
-  TextContentDiv,
-  AvailableHosting,
   SubHeadline,
   ParagraphHeadline,
   Paragraph,
   Card,
+  StarRate
+} from "../../Common/Profile/Profiles.style";
+
+import {
+  MainSection,
+  BookingDetailsCard,
+  BookingDetailsInnerCard,
+  ReviewsCard,
+  MoreAboutSection,
   JobTitle,
   ProfilePicDiv,
   SymbolDiv,
@@ -43,9 +49,7 @@ import {
   ReviewsHeader,
   ReviewsSection,
   ReviewHeadline,
-  ReviewText,
-  StarRate,
-  MoreReviewsLink
+  ReviewText
 } from "./BookingRequest.style";
 
 import "antd/dist/antd.css";
@@ -53,7 +57,7 @@ import "antd/dist/antd.css";
 import refer from "./../../../assets/refer.svg";
 import verified from "./../../../assets/verified.svg";
 
-import { Spin, Icon, Radio, Input, message } from "antd";
+import { Spin, Icon, Radio } from "antd";
 
 class BookingRequest extends Component {
   state = {
@@ -109,12 +113,14 @@ class BookingRequest extends Component {
     };
     return (
       <Wrapper>
+        {/* Backlink */}
         <LinkDiv>
           <BackLinkDiv>
             <Arrow />
             <BackLink to="/">back</BackLink>
           </BackLinkDiv>
         </LinkDiv>
+        {/* Header */}
         <Header>
           <ProfilePicDiv />
           {/* <ProfilePicDiv src={this.getProfilePic(profileImage)} /> */}
@@ -143,52 +149,49 @@ class BookingRequest extends Component {
             </BioContainer>
           </HeaderDiv>
         </Header>
+        {/* Main section */}
         <MainSection>
-          <TextContentDiv>
-            <Card>
-              <InnerCard>
-                <SubHeadline>Andrew’s request to stay</SubHeadline>
-                <BookingDetailsContainer>
-                  <BookingDetailsDiv>
-                    <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
-                    <BookingDetailsText>10.05.2019</BookingDetailsText>
-                  </BookingDetailsDiv>
-                  <BookingDetailsDiv>
-                    <BookingDetailsHeadline>End date</BookingDetailsHeadline>
-                    <BookingDetailsText>20.05.2019</BookingDetailsText>
-                  </BookingDetailsDiv>
-                  <BookingDetailsDiv>
-                    <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
-                    <BookingDetailsText>£245.00 </BookingDetailsText>
-                  </BookingDetailsDiv>
-                </BookingDetailsContainer>
-                <Paragraph>
-                  You can choose to receive full payment to your account, or
-                  donate the money received on this hosting to the PressPad
-                  fund. Find out more about the fund.
-                </Paragraph>
-                <RadioContainer>
-                  <Radio.Group
-                    onChange={this.onChange}
-                    value={this.state.value}
-                  >
-                    <Radio style={radioStyle} value={1}>
-                      Receive payment to my account{" "}
-                    </Radio>
-                    <Radio style={radioStyle} value={2}>
-                      Donate payment to the PressPad fund{" "}
-                    </Radio>
-                  </Radio.Group>
-                </RadioContainer>
-                <ButtonDiv>
-                  <Button>Accept Request</Button>
-                  <Button reject={true}>Reject Request</Button>
-                </ButtonDiv>
-              </InnerCard>
-            </Card>
-          </TextContentDiv>
-          <AvailableHosting>
-            <Card>
+          <BookingDetailsCard>
+            <BookingDetailsInnerCard>
+              <SubHeadline>Andrew’s request to stay</SubHeadline>
+              <BookingDetailsContainer>
+                <BookingDetailsDiv>
+                  <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
+                  <BookingDetailsText>10.05.2019</BookingDetailsText>
+                </BookingDetailsDiv>
+                <BookingDetailsDiv>
+                  <BookingDetailsHeadline>End date</BookingDetailsHeadline>
+                  <BookingDetailsText>20.05.2019</BookingDetailsText>
+                </BookingDetailsDiv>
+                <BookingDetailsDiv>
+                  <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
+                  <BookingDetailsText>£245.00 </BookingDetailsText>
+                </BookingDetailsDiv>
+              </BookingDetailsContainer>
+              <Paragraph>
+                You can choose to receive full payment to your account, or
+                donate the money received on this hosting to the PressPad fund.
+                Find out more about the fund.
+              </Paragraph>
+              <RadioContainer>
+                <Radio.Group onChange={this.onChange} value={this.state.value}>
+                  <Radio style={radioStyle} value={1}>
+                    Receive payment to my account{" "}
+                  </Radio>
+                  <Radio style={radioStyle} value={2}>
+                    Donate payment to the PressPad fund{" "}
+                  </Radio>
+                </Radio.Group>
+              </RadioContainer>
+              <ButtonDiv>
+                <Button>Accept Request</Button>
+                <Button reject={true}>Reject Request</Button>
+              </ButtonDiv>
+            </BookingDetailsInnerCard>
+          </BookingDetailsCard>
+
+          <MoreAboutSection>
+            <Card mt="30px" mh="450px">
               <InnerCard>
                 <SubHeadline>More about Andrew</SubHeadline>
                 <ParagraphHeadline>
@@ -206,9 +209,10 @@ class BookingRequest extends Component {
                 </Paragraph>
               </InnerCard>
             </Card>
-          </AvailableHosting>
+          </MoreAboutSection>
         </MainSection>
-        <Card>
+        {/* Review section */}
+        <ReviewsCard>
           <Reviews>
             <SubHeadline>Andrew has stayed with 2 hosts so far</SubHeadline>
             <ReviewsSection>
@@ -240,7 +244,7 @@ class BookingRequest extends Component {
               </ReviewsBox>
             </ReviewsSection>
           </Reviews>
-        </Card>
+        </ReviewsCard>
       </Wrapper>
     );
   }

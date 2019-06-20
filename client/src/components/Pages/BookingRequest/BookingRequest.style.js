@@ -1,64 +1,41 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-import { Rate } from "antd";
+import { colors, shadows } from "./../../../theme";
 
-import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
+import { InnerCard } from "../../Common/Profile/Profiles.style";
 
-import { shadows, colors } from "./../../../theme";
-
-export const Wrapper = styled.div`
-   {
-    width: 80%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-`;
-
-export const LinkDiv = styled.div`
-   {
-    margin-top: 15px;
-    height: 25px;
-  }
-`;
-export const BackLinkDiv = styled.div`
-   {
-    margin-left: -10px;
-    display: flex;
-    justify-content: flex-start;
-  }
-`;
-
-export const BackLink = styled(Link)`
-  color: ${colors.links};
-  text-decoration: none;
-  font-weight: 500;
-  line-height: 1;
-`;
-
-export const Arrow = styled(BackArrowIcon)`
-  width: 4vw;
-`;
-
-export const Header = styled.header`
-  margin-top: 15px;
+// Main Section
+export const MainSection = styled.section`
+  width: 100%;
+  margin-top: 7px;
+  border: 1px solid red;
   display: flex;
+  @media (max-width: 775.98px) {
+    margin-top: 0px;
+    flex-direction: column;
+  }
 `;
 
-export const HeaderDiv = styled.div`
-  height: 90px;
-  width: 75%;
+export const BookingDetailsCard = styled.div`
+  box-shadow: ${shadows.card};
+  margin-top: 30px;
+  min-height: 400px;
+  width: 65%;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+    margin-top: auto;
+    min-height: auto;
+  }
+`;
+
+export const BookingDetailsInnerCard = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 25px;
-  text-align: left;
-`;
-
-export const Headline = styled.h1`
-  font-weight: 900;
-  font-size: 28px;
-  color: ${colors.fontLightBlack};
+  justify-content: center;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const JobTitle = styled.h3`
@@ -67,10 +44,18 @@ export const JobTitle = styled.h3`
   font-style: italic;
   font-weight: 300;
   color: ${colors.fontLightBlack};
+
+  @media (max-width: 575.98px) {
+    text-align: left;
+  }
 `;
 
 export const SymbolDiv = styled.div`
   display: flex;
+
+  @media (max-width: 575.98px) {
+    flex-direction: column;
+  }
 `;
 
 export const SymbolContainer = styled.div`
@@ -102,40 +87,19 @@ export const SymbolHeadline = styled.h3`
   line-height: 2;
 `;
 
-export const MainSection = styled.section`
-  width: 100%;
-  margin-top: 7px;
-  display: flex;
-  justify-content: center;
-`;
-
-export const TextContentDiv = styled.div`
-  width: 65%;
-`;
-
 export const BioContainer = styled.div`
   max-width: 600px;
-`;
-
-export const Card = styled.div`
-  width: 100%;
-  box-shadow: ${shadows.card};
-  margin-top: 30px;
-  min-height: 400px;
-`;
-
-export const InnerCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 export const BookingDetailsContainer = styled.div`
   display: flex;
   padding-top: 20px;
+
+  @media (max-width: 575.98px) {
+    padding-top: 0px;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 export const BookingDetailsDiv = styled.div`
@@ -163,6 +127,11 @@ export const ButtonDiv = styled.div`
   text-align: left;
   margin-left: 20px;
   padding-top: 20px;
+
+  @media (max-width: 575.98px) {
+    margin-left: 0px;
+    text-align: center;
+  }
 `;
 
 export const Button = styled.button`
@@ -184,6 +153,9 @@ export const Button = styled.button`
   :focus, :hover {
     transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
   }
+  @media (max-width: 575.98px) {
+    margin-top: 10px;
+  }
 `;
 
 export const ProfilePicDiv = styled.div`
@@ -195,46 +167,54 @@ export const ProfilePicDiv = styled.div`
   background-size: cover;
   // background-image: url(${({ src }) => src});
 
+  @media (max-width: 575.98px) {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+   }
 `;
 
-export const SubHeadline = styled.h2`
-  font-weight: 600;
-  font-size: 22px;
-  text-align: left;
-  color: ${colors.fontLightBlack};
-  margin-top: 10px;
-`;
-
-export const ParagraphHeadline = styled.h3`
-  font-size: 16px;
-  text-align: left;
-  font-weight: 400;
-  color: ${colors.fontLightBlack};
-  margin-top: 5px;
-`;
-
-export const Paragraph = styled.p`
-  font-size: 16px;
-  text-align: left;
-  font-weight: 300;
-  color: ${colors.fontLightBlack};
-  margin-top: 8px;
-`;
-
-export const AvailableHosting = styled.div`
+export const MoreAboutSection = styled.section`
   width: 35%;
   margin-left: 15px;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+    margin-left: 0px;
+  }
+`;
+
+export const ReviewsCard = styled.div`
+  box-shadow: ${shadows.card};
+  margin-top: 30px;
+  min-height: 400px;
+
+  @media (max-width: 575.98px) {
+    margin-top: 0px;
+    min-height: 0px;
+  }
 `;
 
 export const Reviews = styled(InnerCard)`
   padding-top: 10px;
   width: 100%;
   margin-left: 15px;
+
+  @media (max-width: 575.98px) {
+    margin-left: 0px;
+    padding-top: 0px;
+    min-height: 0px;
+  }
 `;
 
 export const ReviewsSection = styled.div`
   padding-top: 20px;
   width: 98%;
+
+  @media (max-width: 575.98px) {
+    padding-top: 0px;
+    width: 100%;
+  }
 `;
 
 export const ReviewsBox = styled.div`
@@ -246,10 +226,9 @@ export const ReviewsBox = styled.div`
 
 export const ReviewsHeader = styled.div`
   display: flex;
-`;
-
-export const StarRate = styled(Rate)`
-  font-size: 16px;
+  @media (max-width: 575.98px) {
+    flex-direction: column;
+  }
 `;
 
 export const ReviewHeadline = styled.h4`
@@ -257,15 +236,13 @@ export const ReviewHeadline = styled.h4`
   font-weight: 500;
   line-height: 2;
   padding-right: 15px;
+
+  @media (max-width: 575.98px) {
+    padding-right: 5px;
+  }
 `;
 
 export const ReviewText = styled.p`
   font-weight: 300;
   font-size: 16px;
-`;
-
-export const MoreReviewsLink = styled(Link)`
-  text-align: left;
-  color: ${colors.links};
-  text-decoration: none;
 `;
