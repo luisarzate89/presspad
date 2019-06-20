@@ -32,6 +32,7 @@ const {
   SEARCH_PROFILES_URL,
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
+  GET_BOOKINGS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -59,7 +60,7 @@ router.post(HOST_PROFILE_URL, getHostProfile);
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
 
 // creates new booking request
-router.get("/bookings/:id", getUserBookings);
+router.get(GET_BOOKINGS_URL, getUserBookings);
 
 // search for available listings
 router.post(SEARCH_PROFILES_URL, searchProfiles);
