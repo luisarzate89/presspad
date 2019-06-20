@@ -71,6 +71,8 @@ module.exports = async (req, res, next) => {
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
+        console.log("STS", stats)
+
         const cleanStats = stats.map((host) => {
           const hostObj = {
             key: stats.indexOf(host) + 1,

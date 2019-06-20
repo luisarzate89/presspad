@@ -5,11 +5,19 @@ import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
 import Calendar from "./Calendar";
 import axios from "axios";
 
+// common components
+import Button from "./../../Common/Button/index";
+
 //styles
+
+import { colors } from "./../../../theme";
+
 import {
   Wrapper,
   LinkDiv,
   BackLinkDiv,
+  AdminTopDiv,
+  MultipleButtons,
   Arrow,
   BackToAdmin,
   BackLink,
@@ -129,7 +137,9 @@ class HostProfile extends Component {
     const { profileData, reviews, internBookings, adminView } = this.state;
     const { hideProfile } = this.props;
 
-    const { listing, profile } = profileData;
+    console.log(profileData);
+
+    const { listing, profile, name } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
 
     const { _id, availableDates, price } = listing;
@@ -140,10 +150,33 @@ class HostProfile extends Component {
       <Wrapper>
         <LinkDiv>
           {adminView ? (
-            <BackLinkDiv>
-              <Arrow />
-              <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
-            </BackLinkDiv>
+            <AdminTopDiv>
+              <BackLinkDiv>
+                <Arrow />
+                <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
+              </BackLinkDiv>
+              {profile && profile.verified ? (
+                <Button
+                  label="Unapprove profile"
+                  type="verification"
+                  color="red"
+                />
+              ) : (
+                <MultipleButtons>
+                  <Button
+                    label="Request changes"
+                    type="verification"
+                    color="orange"
+                    margin="0 1rem 0 0"
+                  />
+                  <Button
+                    label="Approve profile"
+                    type="verification"
+                    color="green"
+                  />
+                </MultipleButtons>
+              )}
+            </AdminTopDiv>
           ) : (
             <BackLinkDiv>
               <Arrow />
@@ -152,11 +185,19 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <ProfilePicDiv src={this.getProfilePic(profileImage)} />
+          <ProfilePicDiv
+            src={this.getProfilePic(profileImage)}
+            adminView={adminView}
+          />
           <HeadlineDiv>
-            <Headline>
-              A {jobTitle} at {organisation.name}
-            </Headline>
+            {adminView ? (
+              <Headline>{name}</Headline>
+            ) : (
+              <Headline>
+                A {jobTitle} at {organisation.name}
+              </Headline>
+            )}
+
             <Address>{`${listing.address.street}, ${
               listing.address.city
             }`}</Address>

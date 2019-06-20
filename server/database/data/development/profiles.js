@@ -46,6 +46,19 @@ module.exports = async () => {
       jobTitle: "Sports Writer",
       pressPass: "hilda-presspass.jpg",
     },
+    {
+      user: hosts[3],
+      verified: false,
+      bio:
+        "Hi my name is Simon. I am living a little bit far out of London and working with a great media & development agency.",
+      interests: "surfing, music",
+      organisation: {
+        name: "Yalla",
+        website: "www.yallacooperative.com",
+      },
+      jobTitle: "Content Writer",
+      pressPass: "simon-presspass.jpg",
+    },
   ];
 
   await Profile.create(hostProfiles);

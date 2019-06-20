@@ -111,6 +111,7 @@ export const ProfileWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 400px;
+  background-color: ${colors.blueGray};
 `;
 
 export const HostWrapper = styled.div`

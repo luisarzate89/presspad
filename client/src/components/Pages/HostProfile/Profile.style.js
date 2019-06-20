@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
 import { Rate } from "antd";
@@ -8,26 +8,33 @@ import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg"
 import { shadows, colors } from "./../../../theme";
 
 export const Wrapper = styled.div`
-   {
-    width: 80%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  width: 80%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const LinkDiv = styled.div`
-   {
-    margin-top: 15px;
-    height: 25px;
-  }
+  margin: 2rem 0;
+  height: 25px;
 `;
+
 export const BackLinkDiv = styled.div`
-   {
-    margin-left: -10px;
-    display: flex;
-    justify-content: flex-start;
-  }
+  margin-left: -10px;
+  display: flex;
+  justify-content: flex-start;
+`;
+
+export const AdminTopDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const MultipleButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 export const Arrow = styled(BackArrowIcon)`
@@ -53,6 +60,11 @@ export const Header = styled.header`
   display: flex;
 `;
 
+const blurPic = css`
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+`;
+
 export const ProfilePicDiv = styled.div`
   width: 90px;
   height: 90px;
@@ -61,8 +73,7 @@ export const ProfilePicDiv = styled.div`
   background-position: center center;
   background-size: cover;
   background-image: url(${({ src }) => src});
-  filter: blur(2px);
-  -webkit-filter: blur(2px);
+  ${props => !props.adminView && blurPic};
 `;
 
 export const HeadlineDiv = styled.div`
@@ -157,6 +168,7 @@ export const TextContentDiv = styled.div`
 export const Card = styled.div`
   width: 100%;
   box-shadow: ${shadows.card};
+  background-color: ${colors.white};
 `;
 
 const InnerCard = styled.div`
@@ -230,6 +242,8 @@ export const AvailableHosting = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   margin-left: 15px;
+  background-color: ${colors.white};
+  height: auto;
 `;
 
 const InnerSideCard = styled.div`
@@ -240,6 +254,7 @@ const InnerSideCard = styled.div`
 
 export const CalendarDiv = styled(InnerSideCard)`
   height: 400px;
+  background-color: ${colors.white};
 `;
 
 export const SubHeadline = styled.h2`
