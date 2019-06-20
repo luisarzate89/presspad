@@ -9,8 +9,13 @@ const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const searchProfiles = require("./../controllers/profile/searchProfiles");
+const newBookingRequest = require("./../controllers/newBookingRequest");
+const getUserBookings = require("./../controllers/getUserBookings");
+const adminStats = require("./../controllers/stats/adminStats");
 
 // IMPORT MIDDLEWARES
+const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
 const multer = require("./../middlewares/multer");
 const googleStorage = require("./../middlewares/googleStorage");
@@ -26,6 +31,10 @@ const {
   HOST_PROFILE_URL,
   HOST_COMPLETE_PROFILE,
   INTERN_COMPLETE_PROFILE,
+  SEARCH_PROFILES_URL,
+  BOOKING_REQUEST_URL,
+  ADMIN_STATS_URL,
+  GET_BOOKINGS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -58,6 +67,18 @@ router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
 router.post(HOST_PROFILE_URL, getHostProfile);
+
+// creates new booking request
+router.post(BOOKING_REQUEST_URL, newBookingRequest);
+
+// creates new booking request
+router.get(GET_BOOKINGS_URL, getUserBookings);
+
+// search for available listings
+router.post(SEARCH_PROFILES_URL, searchProfiles);
+
+// get stats for admin dashboard
+router.post(ADMIN_STATS_URL, authentication, adminStats);
 
 // USE CONTROLLERS
 router.post(LOGIN_URL, loginController);
