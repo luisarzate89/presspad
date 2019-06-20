@@ -12,6 +12,7 @@ const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
 const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
+const orgsDashboard = require("./../controllers/organisation/dashboard");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -33,6 +34,7 @@ const {
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
+  ORGS_DASHBOARD,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -73,5 +75,8 @@ router.post(LOGIN_URL, loginController);
 router.post(SIGNUP_URL, signUpController);
 router.post(CHECK_REFERRAL_URL, getUserByReferral);
 router.get(GET_ORGS_URL, getAllOrgs);
+
+// Orgs
+router.get(`${ORGS_DASHBOARD}/:id`, orgsDashboard);
 
 module.exports = router;
