@@ -46,20 +46,8 @@ const userSchema = new Schema({
     enum: ["admin", "organisation", "superhost", "host", "intern"],
     required: true,
   },
+  // if they are part of an organisation, the credits are stored in the orgs table
   credits: Number,
-  // this will be further developed further
-  plan: String,
-  budgetHolder: {
-    name: {
-      type: String,
-      trim: true,
-    },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
-  },
 });
 
 userSchema.pre("save", async function hashPassword() {

@@ -23,10 +23,10 @@ module.exports = async (req, res, next) => {
           const clientObj = {
             key: stats.indexOf(client) + 1,
             organisation: client.name,
-            totalCredits: client.userDetails.credits,
+            totalCredits: client.credits,
             creditsSpent: client.spentCredits,
             interns: client.numberOfInterns,
-            plan: client.userDetails.plan,
+            plan: client.plan,
             currentlyHosted: client.currentlyHosted,
             userId: client._id,
           };
