@@ -1,8 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 
-const User = require("../../database/models/User");
-
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
 
