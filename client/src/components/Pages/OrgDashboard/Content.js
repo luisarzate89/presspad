@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Avatar,
-  Input,
-  Checkbox,
-  Table,
-  Badge as AntdBadge
-} from "antd";
-
+import { Row, Col, Avatar, Table, Badge as AntdBadge, Icon } from "antd";
+import Update from "./Update";
+import { Link } from "react-router-dom";
 import {
   PageWrapper,
   ContentWrapper,
@@ -17,116 +10,108 @@ import {
   Section,
   SectionTitile,
   SectionWrapperContent,
-  Badge,
   UpdateList,
-  UpdateItem,
-  BlueSpan,
-  UpdateDate,
   ProfileImage,
   InfoTable,
   InfoTableRow,
   TD,
   TH,
   Card,
-  BlueLink
+  BlueLink,
+  InternsTableWrapper
 } from "./OrgDashboard.style";
+
+import { tagColors } from "./../../../theme";
+
+// import helpers
 
 import homeIcon from "./../../../assets/home-icon.svg";
 import invoiceIcon from "./../../../assets/invoice-icon.svg";
 import contantIcon from "./../../../assets/contact-icon.svg";
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: text => <a href="javascript:;">{text}</a>
-  },
-  {
-    title: "Emaile",
-    dataIndex: "email",
-    key: "email",
-    render: text => <a href="javascript:;">{text}</a>
-  },
-  {
-    title: "Spent credits",
-    dataIndex: "spentCredits",
-    key: "spentCredits"
-  },
-  {
-    title: "Available credits",
-    dataIndex: "availableCredits",
-    key: "availableCredits"
-  },
-  {
-    title: "Total credits",
-    dataIndex: "totalCredits",
-    key: "totalCredits"
-  },
+const columns = windowWidth => {
+  const columnsObject = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) =>
+        windowWidth <= 690 ? (
+          <Link to={`/interns/${record._id}`}>
+            <BlueLink>
+              <AntdBadge color={tagColors[record.status]} text={text} />
+            </BlueLink>
+          </Link>
+        ) : (
+          <Link to={`/interns/${record._id}`}>
+            <BlueLink>{text}</BlueLink>
+          </Link>
+        )
+    }
+  ];
+  if (windowWidth > 1110) {
+    columnsObject.push({
+      title: "Email",
+      dataIndex: "email",
+      key: "email"
+    });
+  }
 
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: status => <AntdBadge color="#108ee9" text={status} />
-  },
-  {
+  if (windowWidth > 400) {
+    columnsObject.push({
+      title: "Spent credits",
+      dataIndex: "spentCredits",
+      key: "spentCredits"
+    });
+  }
+
+  columnsObject.push({
+    title: "Available credits",
+    dataIndex: "credits",
+    key: "credits"
+  });
+
+  if (windowWidth > 800) {
+    columnsObject.push({
+      title: "Total credits",
+      dataIndex: "credits",
+      key: "totalCredits"
+    });
+  }
+  if (windowWidth > 690) {
+    columnsObject.push({
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: status => <AntdBadge color={tagColors[status]} text={status} />
+    });
+  }
+
+  columnsObject.push({
     title: "Action",
     key: "action",
-    render: (text, record) => (
-      <span>
-        <BlueLink>Add credits</BlueLink>
-      </span>
-    )
-  }
-];
+    render: (text, record) =>
+      windowWidth <= 590 ? (
+        <BlueLink>
+          <Icon type="plus" />
+        </BlueLink>
+      ) : (
+        <span>
+          <BlueLink>Add credits</BlueLink>
+        </span>
+      )
+  });
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    email: "test@gmail.com",
-    spentCredits: "15,218",
-    availableCredits: "248",
-    totalCredits: "18456",
-    address: "New York No. 1 Lake Park",
-    status: "active"
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    email: "test@gmail.com",
-    spentCredits: "15,218",
-    availableCredits: "248",
-    totalCredits: "18456",
-    address: "London No. 1 Lake Park",
-    status: "active"
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    email: "test@gmail.com",
-    spentCredits: "15,218",
-    availableCredits: "248",
-    totalCredits: "18456",
-    address: "Sidney No. 1 Lake Park",
-    status: "active"
-  }
-];
-
-const { TextArea } = Input;
-const CheckboxGroup = Checkbox.Group;
+  return columnsObject;
+};
 
 class Content extends Component {
   render() {
-    const {
-      handleAddProfile,
-      handelInputChange,
-      handleSubmit,
+    const { state, name, windowWidth } = this.props;
+    const { details, notifications, interns } = state;
 
-      state,
-      name
-    } = this.props;
+    const currentlyHosted = interns.filter(item => item.status === "At host")
+      .length;
 
     return (
       <PageWrapper>
@@ -137,6 +122,7 @@ class Content extends Component {
                 <Avatar
                   size="large"
                   icon="user"
+                  src={(details && details.logo) || undefined}
                   style={{
                     width: "80px",
                     height: "80px",
@@ -144,7 +130,8 @@ class Content extends Component {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "42px"
+                    fontSize: "42px",
+                    border: "1px solid rgba(0, 0, 0, 0.15)"
                   }}
                 />
               </Col>
@@ -170,22 +157,19 @@ class Content extends Component {
               }}
             >
               <Section style={{ marginBottom: "20px" }}>
-                <SectionWrapperContent>
+                <SectionWrapperContent style={{ minHeight: "200px" }}>
                   <SectionTitile>Your updates</SectionTitile>
-
                   <UpdateList>
-                    <UpdateItem>
-                      Andrew has matched with a <BlueSpan>host</BlueSpan> -{" "}
-                      <UpdateDate>just now</UpdateDate>
-                      <Badge>new</Badge>
-                    </UpdateItem>
+                    {notifications.map(item => (
+                      <Update item={item} />
+                    ))}
                   </UpdateList>
                 </SectionWrapperContent>
               </Section>
 
               <Section>
                 <Row gutter={20} type="flex" justify="start">
-                  <Col sm={24} lg={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: "auto" }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={invoiceIcon} alt="Invoices" />
@@ -193,7 +177,7 @@ class Content extends Component {
                       </Card>
                     </SectionWrapperContent>
                   </Col>
-                  <Col sm={24} lg={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: "auto" }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={homeIcon} alt="View Hosts" />
@@ -201,7 +185,7 @@ class Content extends Component {
                       </Card>
                     </SectionWrapperContent>
                   </Col>
-                  <Col sm={24} lg={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: "auto" }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={contantIcon} alt="Contact PressPad" />
@@ -214,29 +198,31 @@ class Content extends Component {
             </Col>
             <Col sm={24} lg={8}>
               <Section>
-                <SectionWrapperContent style={{ padding: "5px" }}>
-                  <ProfileImage src="https://dreamguys.co.in/preadmin/hospital/assets/img/placeholder.jpg" />
+                <SectionWrapperContent
+                  style={{ padding: "5px", height: "375px" }}
+                >
+                  <ProfileImage src={details && details.logo} />
 
                   <InfoTable>
                     <tbody>
-                      <InfoTableRow header>
+                      <InfoTableRow header className="header">
                         <TH position="left">Your plan:</TH>
-                        <TH position="center">BASIC</TH>
+                        <TH position="center">{details.plan}</TH>
                         <TH position="right">Upgrade</TH>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Available credits:</TD>
-                        <TD position="center">2,400</TD>
+                        <TD position="center">{details.credits}</TD>
                         <TD position="right">Purchase credits</TD>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Interns:</TD>
-                        <TD position="center">4</TD>
+                        <TD position="center">{interns.length}</TD>
                         <TD position="right">Add intern</TD>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Currently hosted:</TD>
-                        <TD position="center">2</TD>
+                        <TD position="center">{currentlyHosted}</TD>
                         <TD position="right" />
                       </InfoTableRow>
                     </tbody>
@@ -252,11 +238,15 @@ class Content extends Component {
             justify="start"
             style={{ marginTop: "20px" }}
           >
-            {/* Your updates col */}
             <Col sm={24}>
               <Section style={{ marginBottom: "20px" }}>
                 <SectionWrapperContent style={{ padding: 0 }}>
-                  <Table columns={columns} dataSource={data} />
+                  <InternsTableWrapper>
+                    <Table
+                      columns={columns(windowWidth)}
+                      dataSource={interns}
+                    />
+                  </InternsTableWrapper>
                 </SectionWrapperContent>
               </Section>
             </Col>

@@ -3,17 +3,10 @@ import { Link } from "react-router-dom";
 
 import { Table, Tag } from "antd";
 
-import { colors } from "./../../../theme";
+import { tagColors } from "./../../../theme";
 
 // import helpers
 import getUserId from "./../../../helpers/getUserId";
-
-//  set colours for tags in the table
-const tagColors = {
-  "Looking for host": colors.primary,
-  "At host": colors.green,
-  "Pending request": colors.orange
-};
 
 // const data = [
 //   {

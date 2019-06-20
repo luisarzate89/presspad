@@ -80,7 +80,7 @@ class Pages extends Component {
 
           <PrivateRoute
             exact
-            path={ORGANISATION_DASHBOARD_URL}
+            path={`${ORGANISATION_DASHBOARD_URL}/:orgId`}
             Component={OrganisationDashboard}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}

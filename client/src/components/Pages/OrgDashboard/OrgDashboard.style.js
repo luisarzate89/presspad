@@ -45,9 +45,13 @@ export const SectionWrapperContent = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.04);
   padding: 25px;
+  margin-bottom: 20px;
 `;
 
-export const UpdateList = styled.ul``;
+export const UpdateList = styled.ul`
+  list-style: none;
+`;
+
 export const UpdateItem = styled.li`
   font-family: Roboto;
   font-style: normal;
@@ -55,9 +59,11 @@ export const UpdateItem = styled.li`
   font-size: 16px;
   color: #393939;
 `;
+
 export const BlueSpan = styled.span`
   color: #00c7e9;
 `;
+
 export const UpdateDate = styled.span`
   font-style: italic;
   font-weight: 300;
@@ -79,6 +85,9 @@ export const Badge = styled.span`
 
 export const ProfileImage = styled.img`
   max-width: 100%;
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
 `;
 
 export const InfoTable = styled.table`
@@ -86,9 +95,7 @@ export const InfoTable = styled.table`
   border-spacing: 1em 0.5em;
 `;
 
-export const InfoTableRow = styled.tr`
-  color: green;
-`;
+export const InfoTableRow = styled.tr``;
 
 export const TD = styled.td`
   font-family: Roboto;
@@ -135,4 +142,20 @@ export const BlueLink = styled.a`
   text-align: center;
 
   color: #0ac7e7;
+`;
+
+export const InternsTableWrapper = styled.div`
+  tr,
+  td {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #2c2c2c;
+  }
+
+  .ant-table-thead tr {
+    background-color: transparent;
+  }
 `;
