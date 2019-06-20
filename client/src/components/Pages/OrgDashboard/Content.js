@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Table, Badge as AntdBadge, Icon } from "antd";
+import { Row, Col, Avatar, Table } from "antd";
+
 import Update from "./Update";
-import { Link } from "react-router-dom";
+import InternColumns from "./InternColumns";
+import DisabledPopOver from "../../Common/DisabledPopOver";
+
 import {
   PageWrapper,
   ContentWrapper,
@@ -21,87 +24,9 @@ import {
   InternsTableWrapper
 } from "./OrgDashboard.style";
 
-import { tagColors } from "./../../../theme";
-
-// import helpers
-
 import homeIcon from "./../../../assets/home-icon.svg";
 import invoiceIcon from "./../../../assets/invoice-icon.svg";
 import contantIcon from "./../../../assets/contact-icon.svg";
-
-const columns = windowWidth => {
-  const columnsObject = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text, record) =>
-        windowWidth <= 690 ? (
-          <Link to={`/interns/${record._id}`}>
-            <BlueLink>
-              <AntdBadge color={tagColors[record.status]} text={text} />
-            </BlueLink>
-          </Link>
-        ) : (
-          <BlueLink to={`/interns/${record._id}`}>{text}</BlueLink>
-        )
-    }
-  ];
-  if (windowWidth > 1110) {
-    columnsObject.push({
-      title: "Email",
-      dataIndex: "email",
-      key: "email"
-    });
-  }
-
-  if (windowWidth > 400) {
-    columnsObject.push({
-      title: "Spent credits",
-      dataIndex: "spentCredits",
-      key: "spentCredits"
-    });
-  }
-
-  columnsObject.push({
-    title: "Available credits",
-    dataIndex: "credits",
-    key: "credits"
-  });
-
-  if (windowWidth > 800) {
-    columnsObject.push({
-      title: "Total credits",
-      dataIndex: "credits",
-      key: "totalCredits"
-    });
-  }
-  if (windowWidth > 690) {
-    columnsObject.push({
-      title: "Status",
-      key: "status",
-      dataIndex: "status",
-      render: status => <AntdBadge color={tagColors[status]} text={status} />
-    });
-  }
-
-  columnsObject.push({
-    title: "Action",
-    key: "action",
-    render: (text, record) =>
-      windowWidth <= 590 ? (
-        <BlueLink>
-          <Icon type="plus" />
-        </BlueLink>
-      ) : (
-        <span>
-          <BlueLink>Add credits</BlueLink>
-        </span>
-      )
-  });
-
-  return columnsObject;
-};
 
 class Content extends Component {
   render() {
@@ -171,7 +96,9 @@ class Content extends Component {
                     <SectionWrapperContent>
                       <Card>
                         <img src={invoiceIcon} alt="Invoices" />
-                        <BlueLink>Invoices</BlueLink>
+                        <DisabledPopOver>
+                          <BlueLink>Invoices</BlueLink>
+                        </DisabledPopOver>
                       </Card>
                     </SectionWrapperContent>
                   </Col>
@@ -179,7 +106,9 @@ class Content extends Component {
                     <SectionWrapperContent>
                       <Card>
                         <img src={homeIcon} alt="View Hosts" />
-                        <BlueLink>View Hosts</BlueLink>
+                        <DisabledPopOver>
+                          <BlueLink>View Hosts</BlueLink>
+                        </DisabledPopOver>
                       </Card>
                     </SectionWrapperContent>
                   </Col>
@@ -187,7 +116,9 @@ class Content extends Component {
                     <SectionWrapperContent>
                       <Card>
                         <img src={contantIcon} alt="Contact PressPad" />
-                        <BlueLink>Contact PressPad</BlueLink>
+                        <DisabledPopOver>
+                          <BlueLink>Contact PressPad</BlueLink>
+                        </DisabledPopOver>
                       </Card>
                     </SectionWrapperContent>
                   </Col>
@@ -206,17 +137,23 @@ class Content extends Component {
                       <InfoTableRow header className="header">
                         <TH position="left">Your plan:</TH>
                         <TH position="center">{details.plan}</TH>
-                        <TH position="right">Upgrade</TH>
+                        <TH position="right">
+                          <DisabledPopOver>Upgrade</DisabledPopOver>
+                        </TH>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Available credits:</TD>
                         <TD position="center">{details.credits}</TD>
-                        <TD position="right">Purchase credits</TD>
+                        <TD position="right">
+                          <DisabledPopOver>Purchase credits</DisabledPopOver>
+                        </TD>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Interns:</TD>
                         <TD position="center">{interns.length}</TD>
-                        <TD position="right">Add intern</TD>
+                        <TD position="right">
+                          <DisabledPopOver>Add intern</DisabledPopOver>
+                        </TD>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Currently hosted:</TD>
@@ -241,7 +178,7 @@ class Content extends Component {
                 <SectionWrapperContent style={{ padding: 0 }}>
                   <InternsTableWrapper>
                     <Table
-                      columns={columns(windowWidth)}
+                      columns={InternColumns(windowWidth)}
                       dataSource={interns}
                     />
                   </InternsTableWrapper>

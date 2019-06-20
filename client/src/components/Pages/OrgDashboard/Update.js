@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { getStringTime } from "./../../../helpers";
 
-export default ({ item }) => {
+const Update = ({ item }) => {
   const { user, type, secondParty, createdAt, seen, _id } = item;
   const timeString = getStringTime(createdAt);
 
@@ -44,3 +44,5 @@ export default ({ item }) => {
       return null;
   }
 };
+
+export default Update;
