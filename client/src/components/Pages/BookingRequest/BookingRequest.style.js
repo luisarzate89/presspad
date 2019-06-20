@@ -46,7 +46,7 @@ export const Header = styled.header`
   display: flex;
 `;
 
-export const HeadlineDiv = styled.div`
+export const HeaderDiv = styled.div`
   height: 90px;
   width: 75%;
   display: flex;
@@ -108,24 +108,23 @@ export const MainSection = styled.section`
   display: flex;
   justify-content: center;
 `;
-const InnerSideCard = styled.div`
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-`;
-export const CalendarDiv = styled(InnerSideCard)`
-  height: 400px;
-`;
+
 export const TextContentDiv = styled.div`
   width: 65%;
+`;
+
+export const BioContainer = styled.div`
+  max-width: 600px;
 `;
 
 export const Card = styled.div`
   width: 100%;
   box-shadow: ${shadows.card};
+  margin-top: 30px;
+  min-height: 400px;
 `;
 
-const InnerCard = styled.div`
+export const InnerCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -134,8 +133,57 @@ const InnerCard = styled.div`
   margin-right: auto;
 `;
 
-export const BookingRequestDiv = styled(InnerCard)`
-  height: 200px;
+export const BookingDetailsContainer = styled.div`
+  display: flex;
+  padding-top: 20px;
+`;
+
+export const BookingDetailsDiv = styled.div`
+  width: 140px;
+  color: ${colors.fontLightBlack};
+  text-align: left;
+  color: ${colors.fontLightBlack};
+`;
+
+export const BookingDetailsHeadline = styled.h3`
+  font-weight: 500;
+  font-size: 16px;
+`;
+
+export const BookingDetailsText = styled.p`
+  font-weight: 300;
+  font-size: 25px;
+`;
+
+export const RadioContainer = styled.div`
+  text-align: left;
+`;
+
+export const ButtonDiv = styled.div`
+  text-align: left;
+  margin-left: 20px;
+  padding-top: 20px;
+`;
+
+export const Button = styled.button`
+  background: ${props => (props.reject ? `none` : `${colors.lightBlue}`)}
+  border-radius: 19px;
+  font-size: 16px;
+  color: ${props => (props.reject ? ` ${colors.orange}` : `${colors.white}`)};
+  border: ${props => (props.reject ? `1px solid ${colors.orange}` : `none`)};
+  padding: 0.3rem 1.5rem;
+  margin: 0;
+  margin-right: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out,
+  transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  :focus, :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
+  }
 `;
 
 export const ProfilePicDiv = styled.div`
@@ -154,7 +202,7 @@ export const SubHeadline = styled.h2`
   font-size: 22px;
   text-align: left;
   color: ${colors.fontLightBlack};
-  margin-top: 5px;
+  margin-top: 10px;
 `;
 
 export const ParagraphHeadline = styled.h3`
@@ -175,8 +223,49 @@ export const Paragraph = styled.p`
 
 export const AvailableHosting = styled.div`
   width: 35%;
+  margin-left: 15px;
+`;
+
+export const Reviews = styled(InnerCard)`
+  padding-top: 10px;
+  width: 100%;
+  margin-left: 15px;
+`;
+
+export const ReviewsSection = styled.div`
+  padding-top: 20px;
+  width: 98%;
+`;
+
+export const ReviewsBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  margin-left: 15px;
+  width: 100%;
+  text-align: left;
+`;
+
+export const ReviewsHeader = styled.div`
+  display: flex;
+`;
+
+export const StarRate = styled(Rate)`
+  font-size: 16px;
+`;
+
+export const ReviewHeadline = styled.h4`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2;
+  padding-right: 15px;
+`;
+
+export const ReviewText = styled.p`
+  font-weight: 300;
+  font-size: 16px;
+`;
+
+export const MoreReviewsLink = styled(Link)`
+  text-align: left;
+  color: ${colors.links};
+  text-decoration: none;
 `;

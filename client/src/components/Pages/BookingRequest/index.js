@@ -13,13 +13,12 @@ import {
   Arrow,
   BackLink,
   Header,
-  HeadlineDiv,
-  BookingRequestDiv,
+  HeaderDiv,
+  InnerCard,
   Headline,
   MainSection,
   TextContentDiv,
   AvailableHosting,
-  CalendarDiv,
   SubHeadline,
   ParagraphHeadline,
   Paragraph,
@@ -30,7 +29,23 @@ import {
   Symbol,
   SymbolHeadline,
   SymbolContainer,
-  IconDiv
+  IconDiv,
+  BioContainer,
+  BookingDetailsDiv,
+  BookingDetailsHeadline,
+  BookingDetailsText,
+  BookingDetailsContainer,
+  RadioContainer,
+  ButtonDiv,
+  Button,
+  Reviews,
+  ReviewsBox,
+  ReviewsHeader,
+  ReviewsSection,
+  ReviewHeadline,
+  ReviewText,
+  StarRate,
+  MoreReviewsLink
 } from "./BookingRequest.style";
 
 import "antd/dist/antd.css";
@@ -38,11 +53,12 @@ import "antd/dist/antd.css";
 import refer from "./../../../assets/refer.svg";
 import verified from "./../../../assets/verified.svg";
 
-import { Spin, Icon, message } from "antd";
+import { Spin, Icon, Radio, Input, message } from "antd";
 
 class BookingRequest extends Component {
   state = {
-    isLoading: true
+    isLoading: true,
+    value: 1
   };
 
   // functions
@@ -78,22 +94,31 @@ class BookingRequest extends Component {
       : require("./../../../assets/random-profile.jpg");
 
   // checks if lisitng image exists and goes to right folder
-
+  onChange = e => {
+    console.log("radio checked", e.target.value);
+    this.setState({
+      value: e.target.value
+    });
+  };
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Request" />;
-
+    const radioStyle = {
+      display: "block",
+      height: "30px",
+      lineHeight: "30px"
+    };
     return (
       <Wrapper>
         <LinkDiv>
           <BackLinkDiv>
             <Arrow />
-            <BackLink to="/">back to search results</BackLink>
+            <BackLink to="/">back</BackLink>
           </BackLinkDiv>
         </LinkDiv>
         <Header>
           <ProfilePicDiv />
           {/* <ProfilePicDiv src={this.getProfilePic(profileImage)} /> */}
-          <HeadlineDiv>
+          <HeaderDiv>
             <Headline>Andrew Langley</Headline>
             <JobTitle>Politics reporter</JobTitle>
             <SymbolDiv>
@@ -109,30 +134,62 @@ class BookingRequest extends Component {
                 </IconDiv>
               </SymbolContainer>
             </SymbolDiv>
-          </HeadlineDiv>
+            <BioContainer>
+              <Paragraph>
+                I work for a local newspaper, recently established a weekly
+                column on council affairs. Aiming to inform the local community
+                and inspire them to find the truth.
+              </Paragraph>
+            </BioContainer>
+          </HeaderDiv>
         </Header>
         <MainSection>
           <TextContentDiv>
             <Card>
-              <BookingRequestDiv>
+              <InnerCard>
                 <SubHeadline>Andrew’s request to stay</SubHeadline>
-                <ParagraphHeadline>
-                  StartDate, EndDate, Payment
-                </ParagraphHeadline>
+                <BookingDetailsContainer>
+                  <BookingDetailsDiv>
+                    <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
+                    <BookingDetailsText>10.05.2019</BookingDetailsText>
+                  </BookingDetailsDiv>
+                  <BookingDetailsDiv>
+                    <BookingDetailsHeadline>End date</BookingDetailsHeadline>
+                    <BookingDetailsText>20.05.2019</BookingDetailsText>
+                  </BookingDetailsDiv>
+                  <BookingDetailsDiv>
+                    <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
+                    <BookingDetailsText>£245.00 </BookingDetailsText>
+                  </BookingDetailsDiv>
+                </BookingDetailsContainer>
                 <Paragraph>
                   You can choose to receive full payment to your account, or
                   donate the money received on this hosting to the PressPad
                   fund. Find out more about the fund.
                 </Paragraph>
-              </BookingRequestDiv>
+                <RadioContainer>
+                  <Radio.Group
+                    onChange={this.onChange}
+                    value={this.state.value}
+                  >
+                    <Radio style={radioStyle} value={1}>
+                      Receive payment to my account{" "}
+                    </Radio>
+                    <Radio style={radioStyle} value={2}>
+                      Donate payment to the PressPad fund{" "}
+                    </Radio>
+                  </Radio.Group>
+                </RadioContainer>
+                <ButtonDiv>
+                  <Button>Accept Request</Button>
+                  <Button reject={true}>Reject Request</Button>
+                </ButtonDiv>
+              </InnerCard>
             </Card>
-            {/* {reviews.length > 0 && ( */}
-            <Card>Reviews</Card>
-            {/* )} */}
           </TextContentDiv>
           <AvailableHosting>
             <Card>
-              <CalendarDiv>
+              <InnerCard>
                 <SubHeadline>More about Andrew</SubHeadline>
                 <ParagraphHeadline>
                   Andrew’s favourite article this week is What Could Blockchain
@@ -147,10 +204,43 @@ class BookingRequest extends Component {
                   actual applications, Nicky manages to tell the story of how it
                   could do a lot of good to Georgians.”
                 </Paragraph>
-              </CalendarDiv>
+              </InnerCard>
             </Card>
           </AvailableHosting>
         </MainSection>
+        <Card>
+          <Reviews>
+            <SubHeadline>Andrew has stayed with 2 hosts so far</SubHeadline>
+            <ReviewsSection>
+              <ReviewsBox>
+                <ReviewsHeader>
+                  <ReviewHeadline>Jack, political analyst</ReviewHeadline>
+                  <StarRate disabled defaultValue={2} />
+                </ReviewsHeader>
+                <ReviewText>
+                  Andrew was a pleasure to host, he showed a lot of enthusiasm
+                  and passion. We only spent a week together but I could see us
+                  crossing paths in the future. He was a lovely guest, helped
+                  with keeping the entire place tidy and my dog seemed to have
+                  liked him very much!
+                </ReviewText>
+              </ReviewsBox>
+              <ReviewsBox>
+                <ReviewsHeader>
+                  <ReviewHeadline>Jack, political analyst</ReviewHeadline>
+                  <StarRate disabled defaultValue={2} />
+                </ReviewsHeader>
+                <ReviewText>
+                  Andrew was a pleasure to host, he showed a lot of enthusiasm
+                  and passion. We only spent a week together but I could see us
+                  crossing paths in the future. He was a lovely guest, helped
+                  with keeping the entire place tidy and my dog seemed to have
+                  liked him very much!
+                </ReviewText>
+              </ReviewsBox>
+            </ReviewsSection>
+          </Reviews>
+        </Card>
       </Wrapper>
     );
   }
