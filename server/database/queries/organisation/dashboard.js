@@ -3,43 +3,15 @@ const mongoose = require("mongoose");
 const Organisation = require("./../../models/Organisation");
 
 module.exports = (id) => {
-  // details
-  const b = Organisation.aggregate([
+  // Org details
+  const details = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
     },
-    //  {
-    //   $lookup: {
-    //     from: "users",
-    //     let: { orgId: "$_id" },
-    //     pipeline: [
-    //       {
-    //         $match: { $expr: { $eq: ["$$orgId", "$organisation"] } },
-    //       },
-    //     ],
-    //     as: "users",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     from: "notifications",
-    //     localField: "users._id",
-    //     foreignField: "user",
-    //     as: "notifications",
-    //   },
-    // },
-    // {
-    //   $lookup: {
-    //     from: "users",
-    //     localField: "notifications.secondParty",
-    //     foreignField: "_id",
-    //     as: "secondP",
-    //   },
-    // },
   ]);
 
-  // notifications
-  const c = Organisation.aggregate([
+  // interns notifications
+  const notifications = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
     },
@@ -103,106 +75,8 @@ module.exports = (id) => {
     },
   ]);
 
-
-  // const a = Organisation.aggregate([
-  //   {
-  //     $match: { _id: mongoose.Types.ObjectId(id) },
-  //   }, {
-  //     $lookup: {
-  //       from: "users",
-  //       let: { orgId: "$_id" },
-  //       pipeline: [
-  //         {
-  //           $match: { $expr: { $eq: ["$$orgId", "$organisation"] } },
-  //         },
-  //       ],
-  //       as: "users",
-  //     },
-  //   },
-  //   {
-  //     $facet: {
-  //       details: [
-  //         {
-  //           $project: {
-  //             users: 0,
-  //           },
-  //         },
-  //       ],
-  //       users: [
-  //         {
-  //           $project: {
-  //             "users.password": 0,
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             users: 1,
-  //           },
-  //         },
-  //       ],
-  //       notifications: [
-  //         {
-  //           $project: {
-  //             users: 1,
-  //             _id: 0,
-  //           },
-  //         }, {
-  //           $unwind: "$users",
-  //         },
-  //         {
-  //           $project: {
-  //             _id: "$users._id",
-  //             email: "$users.email",
-  //             name: "$users.name",
-  //           },
-  //         },
-  //         {
-  //           $lookup: {
-
-  //             from: "notifications",
-  //             let: { user: "$_id" },
-  //             pipeline: [
-  //               {
-  //                 $match: { $expr: { $and: [{ $eq: ["$$user", "$user"] }, { $eq: ["$private", false] }] } },
-  //               },
-  //             ],
-  //             as: "notification",
-  //           },
-  //         }, {
-  //           $unwind: "$notification",
-  //         }, {
-  //           $lookup: {
-  //             from: "users",
-  //             localField: "notification.secondParty",
-  //             foreignField: "_id",
-  //             as: "secondPartyInfo",
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             _id: "$notification._id",
-  //             new: "$notification.new",
-  //             newForOrg: "$notification.newForOrg",
-  //             type: "$notification.type",
-  //             createdAt: "$notification.createdAt",
-  //             user: {
-  //               _id: "$_id",
-  //               email: "$email",
-  //               name: "$name",
-  //             },
-  //             secondPartyInfo: {
-  //               _id: "$secondPartyInfo._id",
-  //               email: "$secondPartyInfo.email",
-  //               name: "$secondPartyInfo.name",
-  //               role: "$secondPartyInfo.role",
-  //             },
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // ]);
-  const a = Organisation.aggregate([
+  // interns details
+  const interns = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
     }, {
@@ -222,40 +96,96 @@ module.exports = (id) => {
     { $replaceRoot: { newRoot: "$users" } },
     {
       $lookup: {
-        from: "transactions ",
+        from: "transactions",
         localField: "_id",
         foreignField: "sender",
         as: "transactions",
       },
+    }, {
+
+      $lookup: {
+        from: "bookings",
+        localField: "_id",
+        foreignField: "user",
+        as: "bookings",
+      },
+
+    }, {
+      $addFields: {
+        spentCredits: { $sum: "$transactions.credits" },
+        totalCredits: { $sum: [{ $sum: "$transactions.credits" }, "$credits"] },
+        liveBookings: {
+          $size: {
+            $filter: {
+              input: "$bookings",
+              as: "booking",
+              cond: {
+                $and: [
+                  { $lte: ["$$booking.startDate", new Date()] },
+                  { $gte: ["$$booking.endDate", new Date()] },
+                ],
+              },
+            },
+          },
+        },
+        // get any pending bookings in the future
+        pendingBookings: {
+          $size: {
+            $filter: {
+              input: "$bookings",
+              as: "booking",
+              cond: {
+                $and: [
+                  { $gt: ["$$booking.startDate", new Date()] },
+                  { $eq: ["$$booking.status", "pending"] },
+                ],
+              },
+            },
+          },
+        },
+        // get any confirmed bookings in the future
+        confirmedBookings: {
+          $size: {
+            $filter: {
+              input: "$bookings",
+              as: "booking",
+              cond: {
+                $and: [
+                  { $gt: ["$$booking.startDate", new Date()] },
+                  { $eq: ["$$booking.status", "confirmed"] },
+                ],
+              },
+            },
+          },
+        },
+      },
+    }, {
+      $addFields: {
+        status: {
+          $cond: {
+            if: { $gte: ["$liveBookings", 0] },
+            then: "At host",
+            else:
+           {
+             $cond: {
+               if: { $gte: ["$pendingBookings", 0] },
+               then: "Pending request",
+               else:
+            {
+              $cond: {
+                if: { $gte: ["$confirmedBookings", 0] },
+                then: "Booking confirmed",
+                else:
+             "Looking for host",
+              },
+            },
+             },
+           },
+          },
+        },
+      },
     },
   ]);
 
-  return Promise.all([a, b, c]);
+  return Promise.all([details, notifications, interns]);
 };
-
-// "_id": "5d0a301b8d45d26eef1c594b",
-// "email": "simone@gmail.com",
-// "name": "Simon Dupree",
-// "notification": {
-//     "_id": "5d0a301b8d45d26eef1c596d",
-//     "new": true,
-//     "private": false,
-//     "newForOrg": true,
-//     "user": "5d0a301b8d45d26eef1c594b",
-//     "secondParty": "5d0a301a8d45d26eef1c5948",
-//     "type": "stayApproved",
-//     "createdAt": "2019-06-19T12:52:43.235Z",
-//     "updatedAt": "2019-06-19T12:52:43.235Z",
-//     "__v": 0
-// },
-// "secondPartyInfo": [
-//     {
-//         "_id": "5d0a301a8d45d26eef1c5948",
-//         "email": "eve@hello.com",
-//         "name": "Eve Richards",
-//         "password": "$2a$08$diBJpvEJsyoHJox16j7IZOBBuyJ0XafWUYJU6hzvFiChreDPoaWle",
-//         "role": "host",
-//         "referral": "5d0a301a8d45d26eef1c5946",
-//         "__v": 0
-//     }
-// ]
