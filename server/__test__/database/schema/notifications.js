@@ -38,7 +38,7 @@ describe("Test Notifications schema", () => {
     // stored values
     expect(storedNotification.type).toBe(notification.type);
     expect(storedNotification.private).toBe(notification.private);
-    expect(storedNotification.new).toBe(true);
+    expect(storedNotification.seen).toBe(false);
     done();
   });
 });
