@@ -55,6 +55,7 @@ module.exports = async () => {
     name: "Alexandra Lions",
     password: "123456",
     role: "superhost",
+    credits: 8200,
   };
 
   const storedSuperhost = await User.create(superhost);
@@ -67,6 +68,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 3200,
     },
     {
       email: "eve@hello.com",
@@ -74,6 +76,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 6100,
     },
     {
       email: "hilda@bbc.co.uk",
@@ -81,6 +84,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 3500,
     },
     {
       email: "simon@gmail.com",
@@ -88,6 +92,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 1700,
     },
   ];
 
