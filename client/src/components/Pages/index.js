@@ -11,6 +11,7 @@ import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
+import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
 import OrganisationDashboard from "./OrgDashboard";
 
@@ -23,8 +24,9 @@ import {
   DASHBOARD_URL,
   HOST_PROFILE,
   COMPLETE_PROFILE_URL,
-  HOSTS_URL,
-  ORGANISATION_DASHBOARD_URL
+  ORGANISATION_DASHBOARD_URL,
+  ADMIN_DASHBOARD_URL,
+  HOSTS_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -34,6 +36,14 @@ class Pages extends Component {
       <>
         <Switch>
           <Route path={HOME_URL} exact component={LandingPage} />
+
+          <PrivateRoute
+            path={HOST_PROFILE}
+            Component={HostProfile}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
           <Route path={HOST_PROFILE} component={HostProfile} />
           <Route
             exact
@@ -45,6 +55,15 @@ class Pages extends Component {
             exact
             path={DASHBOARD_URL}
             Component={Dashboard}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
+            path={ADMIN_DASHBOARD_URL}
+            Component={AdminDashboard}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const shortid = require("shortid");
 const User = require("../../models/User");
+const Booking = require("../../models/Booking");
 
 const { addOrg } = require("./organisation");
 
@@ -44,3 +45,48 @@ module.exports.addNewUser = async (userInfo) => {
     organisation,
   });
 };
+
+module.exports.getInternStatus = id => Booking.aggregate([
+  // get all the bookings for that intern
+  {
+    $match: { user: mongoose.Types.ObjectId(id) },
+  },
+  //  get only bookings that haven't ended yet
+  {
+    $match: { endDate: { $gt: new Date() } },
+  },
+  // return all the bookings that are either at host, confirmed or pending
+  {
+    $project: {
+      status: {
+        $switch: {
+          branches: [
+            {
+              case: {
+                $and: [
+                  { $lte: ["$startDate", new Date()] },
+                  { $gte: ["$endDate", new Date()] },
+                  { $eq: ["$status", "confirmed"] },
+                ],
+              },
+              then: "At host",
+            },
+            {
+              case: {
+                $and: [{ $gt: ["$startDate", new Date()] }, { $eq: ["$status", "pending"] }],
+              },
+              then: "Pending request",
+            },
+            {
+              case: {
+                $and: [{ $gt: ["$startDate", new Date()] }, { $eq: ["$status", "confirmed"] }],
+              },
+              then: "Booking confirmed",
+            },
+          ],
+          default: "Looking for host",
+        },
+      },
+    },
+  },
+]);

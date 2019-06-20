@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 //api
 import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
+import Calendar from "./Calendar";
 import axios from "axios";
 
 //styles
@@ -31,7 +32,6 @@ import {
   Reviews,
   AvailableHosting,
   CalendarDiv,
-  PricingDiv,
   SubHeadline,
   ParagraphHeadline,
   Paragraph,
@@ -44,10 +44,7 @@ import {
   StarRate,
   ReviewHeadline,
   ReviewText,
-  ReviewsSection,
-  PriceHeadline,
-  PriceLabel,
-  RequestBtn
+  ReviewsSection
 } from "./Profile.style";
 
 import "antd/dist/antd.css";
@@ -62,7 +59,8 @@ class HostProfile extends Component {
   state = {
     isLoading: true,
     profileData: null,
-    reviews: null
+    reviews: null,
+    internBookings: null
   };
 
   // functions
@@ -88,6 +86,11 @@ class HostProfile extends Component {
 
   componentWillMount() {
     this.axiosCall();
+
+    axios
+      .get(`/api/bookings/${this.props.id}`)
+      .then(result => this.setState({ internBookings: result.data }))
+      .catch(err => console.log(err));
   }
 
   // checks if profile image exists and returns src path
@@ -108,10 +111,14 @@ class HostProfile extends Component {
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
-    const { profileData, reviews } = this.state;
+    const { profileData, reviews, internBookings } = this.state;
 
     const { listing, profile } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
+
+    const { _id, availableDates, price } = listing;
+
+    const intern = this.props.id;
 
     return (
       <Wrapper>
@@ -206,12 +213,14 @@ class HostProfile extends Component {
                 <ParagraphHeadline>
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
+                <Calendar
+                  internId={intern}
+                  listingId={_id}
+                  availableDates={availableDates}
+                  internBookings={internBookings}
+                  price={price}
+                />
               </CalendarDiv>
-              <PricingDiv>
-                <PriceHeadline>Full price for period</PriceHeadline>
-                <PriceLabel>£245.00</PriceLabel>
-                <RequestBtn>Request Stay</RequestBtn>
-              </PricingDiv>
             </Card>
           </AvailableHosting>
         </MainSection>
