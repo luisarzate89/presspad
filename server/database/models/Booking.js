@@ -28,6 +28,14 @@ const bookingSchema = new Schema({
     default: "pending",
     required: true,
   },
+  payment: {
+    type: Number,
+    required: true,
+  },
+  payed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Booking = model("bookings", bookingSchema);

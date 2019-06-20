@@ -5,7 +5,7 @@ import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
-import { shadows, colors, borders } from "./../../../theme";
+import { shadows, colors } from "./../../../theme";
 
 export const Wrapper = styled.div`
    {
@@ -232,20 +232,8 @@ const InnerSideCard = styled.div`
 `;
 
 export const CalendarDiv = styled(InnerSideCard)`
-  height: 300px;
+  height: 400px;
 `;
-
-export const PricingDiv = styled(InnerSideCard)`
-  border-top: ${borders.divider}
-  height: 185px;
-`;
-
-export const PriceHeadline = styled(ReviewHeadline)`
-  text-align: left;
-  margin-top: 10px;
-`;
-export const PriceLabel = styled.h1``;
-export const RequestBtn = styled.button``;
 
 export const SubHeadline = styled.h2`
   font-weight: 600;

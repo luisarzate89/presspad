@@ -47,7 +47,7 @@ module.exports = async () => {
     },
     {
       listing: listings[2],
-      user: interns[3],
+      user: interns[2],
       startDate: "2019-10-14",
       endDate: "2019-11-16",
       payment: 300,

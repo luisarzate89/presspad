@@ -75,5 +75,6 @@ export const shadows = {
 // borders
 export const borders = {
   inputBox: `1px solid ${colors.graySecondary}`,
-  divider: `1px solid ${colors.lightGray}`
+  divider: `1px solid ${colors.lightGray}`,
+  lightDivider: "1px solid rgba(0, 0, 0, 0.1)"
 };
