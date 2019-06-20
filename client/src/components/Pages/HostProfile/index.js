@@ -11,6 +11,7 @@ import {
   LinkDiv,
   BackLinkDiv,
   Arrow,
+  BackToAdmin,
   BackLink,
   Header,
   ProfilePicDiv,
@@ -60,13 +61,16 @@ class HostProfile extends Component {
     isLoading: true,
     profileData: null,
     reviews: null,
-    internBookings: null
+    internBookings: null,
+    adminView: false
   };
 
   // functions
   axiosCall = () => {
-    //get user id
-    const id = window.location.href.split("/")[4];
+    //get user id either from id passed in props or if they've typed in the manual url
+    const { hostId } = this.props;
+
+    const id = hostId ? hostId : window.location.href.split("/")[4];
     const data = { userId: id };
     axios
       .post(API_HOST_PROFILE_URL, data)
@@ -84,13 +88,24 @@ class HostProfile extends Component {
       });
   };
 
+  // adminAxiosCall = () => {
+
+  // }
+
   componentWillMount() {
+    // check to see if this is the adminView from dashboard
+    const { adminView } = this.props;
+
+    this.setState({ adminView });
+
     this.axiosCall();
 
-    axios
-      .get(`/api/bookings/${this.props.id}`)
-      .then(result => this.setState({ internBookings: result.data }))
-      .catch(err => console.log(err));
+    if (!adminView) {
+      axios
+        .get(`/api/bookings/${this.props.id}`)
+        .then(result => this.setState({ internBookings: result.data }))
+        .catch(err => console.log(err));
+    }
   }
 
   // checks if profile image exists and returns src path
@@ -111,7 +126,8 @@ class HostProfile extends Component {
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
-    const { profileData, reviews, internBookings } = this.state;
+    const { profileData, reviews, internBookings, adminView } = this.state;
+    const { hideProfile } = this.props;
 
     const { listing, profile } = profileData;
     const { bio, jobTitle, organisation, profileImage } = profile;
@@ -123,10 +139,17 @@ class HostProfile extends Component {
     return (
       <Wrapper>
         <LinkDiv>
-          <BackLinkDiv>
-            <Arrow />
-            <BackLink to="/">back to search results</BackLink>
-          </BackLinkDiv>
+          {adminView ? (
+            <BackLinkDiv>
+              <Arrow />
+              <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
+            </BackLinkDiv>
+          ) : (
+            <BackLinkDiv>
+              <Arrow />
+              <BackLink to="/">back to search results</BackLink>
+            </BackLinkDiv>
+          )}
         </LinkDiv>
         <Header>
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />

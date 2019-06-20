@@ -34,6 +34,13 @@ export const Arrow = styled(BackArrowIcon)`
   width: 4vw;
 `;
 
+export const BackToAdmin = styled.div`
+  color: ${colors.links};
+  cursor: pointer;
+  font-weight: 500;
+  line-height: 1;
+`;
+
 export const BackLink = styled(Link)`
   color: ${colors.links};
   text-decoration: none;

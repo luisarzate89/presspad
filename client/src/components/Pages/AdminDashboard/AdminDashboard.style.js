@@ -49,6 +49,7 @@ export const MainSection = styled.div`
   display: flex;
   padding: 4rem 10rem;
   flex-direction: column;
+  position: relative;
 
   /* div {
     width: 100%;
@@ -97,12 +98,21 @@ export const ContentTitle = styled.h3`
   margin-top: 0;
   margin-bottom: 2rem;
   text-transform: capitalize;
+  display: ${props => props.hide && "none"};
 `;
 
-export const SearchWrapper = styled.div``;
+export const ProfileWrapper = styled.div`
+  z-index: 2;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+`;
 
-export const SearchInput = styled.input``;
-
-export const Filters = styled.input``;
-
-export const ResultsWrapper = styled.div``;
+export const HostWrapper = styled.div`
+  display: ${props => props.hide && "none"};
+`;

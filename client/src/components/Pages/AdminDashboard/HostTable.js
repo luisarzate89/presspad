@@ -42,7 +42,7 @@ export default class InternTable extends Component {
   // };
 
   render() {
-    const { getColumnSearchProps, data, loading } = this.props;
+    const { getColumnSearchProps, data, loading, showProfile } = this.props;
 
     const columns = [
       {
@@ -53,7 +53,12 @@ export default class InternTable extends Component {
         sorter: (a, b) => a.name - b.name,
         className: "nameCol",
         render: text => (
-          <Link to={`/hosts/${getUserId(data, text)}`}>{text}</Link>
+          <div
+            onClick={() => showProfile(getUserId(data, text))}
+            // to={`/hosts/${getUserId(data, text)}`}
+          >
+            {text}
+          </div>
         )
       },
       {
