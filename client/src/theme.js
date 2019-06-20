@@ -60,7 +60,7 @@ const colorCodes = {
 // general colors
 export const colors = {
   ...colorCodes,
-  primaryText: colorCodes.fontLigtBlack,
+  primaryText: colorCodes.fontLightBlack,
   links: colorCodes.secondary,
   placeholderText: colorCodes.graySecondary
 };

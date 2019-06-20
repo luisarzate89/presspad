@@ -9,13 +9,14 @@ const { API_CHECK_REFERRAL_URL } = require("../../../client/src/constants/apiRou
 const User = require("./../../database/models/User");
 
 describe("Testing for signup route", () => {
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     // build dummy data
     await buildDB();
+    done();
   });
 
-  afterAll(async () => {
-    await mongoose.disconnect();
+  afterAll(() => {
+    mongoose.disconnect();
   });
 
   test("test get referral details", async (done) => {

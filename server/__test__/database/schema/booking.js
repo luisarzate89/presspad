@@ -6,9 +6,10 @@ const Listing = require("../../../database/models/Listing");
 const buildDB = require("../../../database/data/test");
 
 describe("Test Booking schema", () => {
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     // build dummy data
     await buildDB();
+    done();
   });
 
   afterAll(() => {
