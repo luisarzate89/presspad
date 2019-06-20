@@ -34,8 +34,17 @@ module.exports = (id) => {
     {
       $lookup: {
         from: "notifications",
-        localField: "_id",
-        foreignField: "user",
+        let: { user: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [{ $eq: ["$$user", "$user"] },
+                  { $eq: ["$private", false] }],
+              },
+            },
+          },
+        ],
         as: "notifications",
       },
     },
@@ -60,15 +69,16 @@ module.exports = (id) => {
           organisation: { $arrayElemAt: ["$secondP.organisation", 0] },
         },
         user: {
-          _id: "_id",
-          name: "name",
-          email: "email",
-          role: "role",
-          organisation: "organisation",
+          _id: "$_id",
+          name: "$name",
+          email: "$email",
+          role: "$role",
+          organisation: "$organisation",
         },
-        new: "$notifications.new",
-        newForOrg: "$notifications.newForOrg",
-        type: "$notifications.user",
+        seen: "$notifications.seen",
+        _id: "$notifications._id",
+        seenForOrg: "$notifications.seenForOrg",
+        type: "$notifications.type",
         private: "$notifications.private",
         createdAt: "$notifications.createdAt",
       },
@@ -85,7 +95,12 @@ module.exports = (id) => {
         let: { orgId: "$_id" },
         pipeline: [
           {
-            $match: { $expr: { $eq: ["$$orgId", "$organisation"] } },
+            $match: {
+              $expr: {
+                $and: [{ $eq: ["$$orgId", "$organisation"] },
+                  { $ne: ["$role", "organisation"] }],
+              },
+            },
           },
         ],
         as: "users",
@@ -112,6 +127,7 @@ module.exports = (id) => {
 
     }, {
       $addFields: {
+        key: "$_id",
         spentCredits: { $sum: "$transactions.credits" },
         totalCredits: { $sum: [{ $sum: "$transactions.credits" }, "$credits"] },
         liveBookings: {
@@ -183,6 +199,13 @@ module.exports = (id) => {
            },
           },
         },
+      },
+    },
+    {
+      $project: {
+        bookings: 0,
+        transactions: 0,
+        password: 0,
       },
     },
   ]);

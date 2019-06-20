@@ -16,24 +16,24 @@ const notificationSchema = new Schema({
   // Notification type
   type: {
     type: String,
-    enum: ["message", "stayRequest", "stayRejected", "stayApproved", "stayCompleted", "completeProfileRemind", "receivedCredits"],
+    enum: ["message", "stayRequest", "stayRejected", "stayApproved", "stayCompleted", "completeProfileRemind", "receivedCredits", "getReview"],
     required: true,
   },
   // flag to store if the user saw this or not
-  new: {
+  seen: {
     type: Boolean,
     required: true,
-    default: true,
+    default: false,
   },
   // organsiasations can see some of the notifications for it's interns
   // if private then organisations cannot see this eg. "completeProfileRemind" type
   private: {
     type: Boolean,
     required: true,
-    default: true,
+    default: false,
   },
   // flag to store if the organisation saw this or not
-  newForOrg: {
+  seenForOrg: {
     type: Boolean,
     required: true,
     default: true,
