@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Input } from "antd";
+import { Row, Col, Avatar, Input, Icon } from "antd";
 
 import {
   PageWrapper,
@@ -173,6 +173,16 @@ class Content extends Component {
                             value={pressPassFileName}
                             placeholder="No file has been uploaded"
                             disabled={!!pressPassFileName}
+                            suffix={
+                              pressPassFileName ? (
+                                <Icon
+                                  type="check"
+                                  style={{ color: "green", fontSize: "18px" }}
+                                />
+                              ) : (
+                                undefined
+                              )
+                            }
                           />
                           <Error>{state.errors.pressPass}</Error>
                         </ErrorWrapper>
@@ -220,6 +230,16 @@ class Content extends Component {
                             value={photoIDFileName}
                             placeholder="No file has been uploaded"
                             disabled={!!photoIDFileName}
+                            suffix={
+                              photoIDFileName ? (
+                                <Icon
+                                  type="check"
+                                  style={{ color: "green", fontSize: "18px" }}
+                                />
+                              ) : (
+                                undefined
+                              )
+                            }
                           />
                           <Error>{state.errors.photoID}</Error>
                         </ErrorWrapper>
@@ -257,6 +277,16 @@ class Content extends Component {
                             value={offerLetterName}
                             placeholder="No file has been uploaded"
                             disabled={!!offerLetterName}
+                            suffix={
+                              offerLetterName ? (
+                                <Icon
+                                  type="check"
+                                  style={{ color: "green", fontSize: "18px" }}
+                                />
+                              ) : (
+                                undefined
+                              )
+                            }
                           />
                           <Error>{state.errors.offerLetter}</Error>
                         </ErrorWrapper>

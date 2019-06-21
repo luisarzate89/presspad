@@ -13,7 +13,13 @@ import {
   DASHBOARD_URL,
   MYPROFILE_URL
 } from "./../../../constants/apiRoutes";
+
 import USER_TYPES from "./../../../constants/userTypes";
+
+import {
+  HOST_COMPLETE_PROFILE_URL,
+  INTERN_COMPLETE_PROFILE_URL
+} from "./../../../constants/navRoutes";
 
 // STYLING
 import {
@@ -221,9 +227,13 @@ export default class SignUpPage extends Component {
         .post(API_SIGNUP_URL, { userInfo })
         .then(({ data }) => {
           this.props.handleChangeState({ ...data, isLoggedIn: true });
-          ["admin", "organisation"].includes(data.role)
-            ? this.props.history.push(DASHBOARD_URL)
-            : this.props.history.push(MYPROFILE_URL);
+          if (["admin", "organisation"].includes(data.role)) {
+            this.props.history.push(DASHBOARD_URL);
+          } else if (data.role === "intern") {
+            this.props.history.push(INTERN_COMPLETE_PROFILE_URL);
+          } else if (["host", "superhost"].includes(data.role)) {
+            this.props.history.push(HOST_COMPLETE_PROFILE_URL);
+          }
         })
         .catch(err => {
           this.setState({ msg: "error" });
