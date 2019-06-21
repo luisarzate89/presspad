@@ -8,8 +8,7 @@ import { InnerCard } from "../../Common/Profile/Profiles.style";
 export const MainSection = styled.section`
   width: 100%;
   margin-top: 7px;
-  border: 1px solid red;
-  display: flex;
+   display: flex;
   @media (max-width: 775.98px) {
     margin-top: 0px;
     flex-direction: column;

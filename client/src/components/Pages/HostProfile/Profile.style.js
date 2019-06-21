@@ -7,6 +7,7 @@ export const MainSection = styled.section`
   width: 100%;
   margin-top: 7px;
   display: flex;
+
   @media (max-width: 775.98px) {
     margin-top: 0px;
     flex-direction: column;
@@ -48,6 +49,10 @@ export const Address = styled.h3`
 export const SymbolDiv = styled.div`
   position: relative;
   width: 25%;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
 `;
 
 export const Symbol = styled.div`
@@ -64,6 +69,12 @@ export const ImageSection = styled.section`
   height: 400px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+    flex-direction: column;
+    padding-top: 20px;
+  }
 `;
 
 export const MainImageDiv = styled.div`
@@ -72,6 +83,10 @@ export const MainImageDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
 `;
 
 export const MainImage = styled.div`
@@ -91,6 +106,11 @@ export const SideImageDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-left: 5px;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+    margin-left: 0px;
+  }
 `;
 export const SubImage = styled.div`
   width: 100%;
@@ -103,25 +123,44 @@ export const SubImage = styled.div`
 
 export const AboutMe = styled(InnerCard)`
   height: 200px;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+  }
 `;
 
 export const OtherInfo = styled(InnerCard)`
   margin-top: 10px;
   height: 200px;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+  }
 `;
 
 export const PressPadOffer = styled(InnerCard)`
   margin-top: 10px;
   height: 300px;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+  }
 `;
 
 export const Reviews = styled(InnerCard)`
   margin-top: 10px;
-  height: 350px;
+  min-height: 380px;
+  @media (max-width: 775.98px) {
+    height: auto;
+  }
 `;
 
 export const ReviewsSection = styled.div`
   display: flex;
+
+  @media (max-width: 775.98px) {
+    flex-direction: column;
+  }
 `;
 
 export const ReviewsBox = styled.div`
@@ -130,10 +169,18 @@ export const ReviewsBox = styled.div`
   text-align: left;
   padding: 8px;
   width: 50%;
+
+  @media (max-width: 775.98px) {
+    padding: 0px;
+    width: 100%;
+  }
 `;
 
 export const ReviewsHeader = styled.div`
   display: flex;
+  @media (max-width: 575.98px) {
+    flex-direction: column;
+  }
 `;
 
 export const ReviewHeadline = styled.h4`
@@ -159,16 +206,30 @@ export const AvailableHosting = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   margin-left: 15px;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+    margin-left: 0;
+    padding-top: 20px;
+  }
 `;
 
 const InnerSideCard = styled.div`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
 `;
 
 export const CalendarDiv = styled(InnerSideCard)`
   height: 400px;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+  }
 `;
 
 export const List = styled.div`
@@ -176,14 +237,27 @@ export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: left;
+
+  @media (max-width: 775.98px) {
+    flex-direction: column;
+  }
 `;
 
 export const ListItem = styled.li`
   margin-top: 8px;
   font-weight: 300;
   width: calc(100% / 3);
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
 `;
 
 export const TextContentDiv = styled.div`
   width: 65%;
+
+  @media (max-width: 775.98px) {
+    padding-top: 20px;
+    width: 100%;
+  }
 `;
