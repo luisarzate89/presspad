@@ -8,7 +8,7 @@ import { InnerCard } from "../../Common/Profile/Profiles.style";
 export const MainSection = styled.section`
   width: 100%;
   margin-top: 7px;
-   display: flex;
+  display: flex;
   @media (max-width: 775.98px) {
     margin-top: 0px;
     flex-direction: column;
@@ -160,17 +160,16 @@ export const Button = styled.button`
 export const ProfilePicDiv = styled.div`
   width: 250px;
   height: 250px;
-  border: 1px solid;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  // background-image: url(${({ src }) => src});
+  background-image: url(${({ src }) => src});
 
   @media (max-width: 575.98px) {
     width: 150px;
     height: 150px;
     margin-bottom: 20px;
-   }
+  }
 `;
 
 export const MoreAboutSection = styled.section`

@@ -1,10 +1,10 @@
 // expect userID
-// responds with data obj: user info, profile, listings, reviews
+// responds with data obj: user info, profile, reviews
 
 const boom = require("boom");
 
 // QUERIES
-const { hostProfileData } = require("./../../database/queries/profile/hostProfile");
+const { internProfileData } = require("./../../database/queries/profile/internProfile");
 
 const { getUserReviews } = require("./../../database/queries/user/index");
 
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
   if (!userId) {
     return next(boom.badRequest("error loading profile"));
   }
-  const profileData = id => Promise.all([hostProfileData(id), getUserReviews(id)]);
+  const profileData = id => Promise.all([internProfileData(id), getUserReviews(id)]);
 
   return profileData(userId)
     .then((data) => {

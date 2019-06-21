@@ -69,14 +69,16 @@ module.exports = async () => {
       verification: {
         photoID: "simon-photoID.png",
         offerLetter: "simon-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
     {
@@ -94,14 +96,16 @@ module.exports = async () => {
       verification: {
         photoID: "joe-photoID.png",
         offerLetter: "joe-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
     {
@@ -119,14 +123,16 @@ module.exports = async () => {
       verification: {
         photoID: "ramy-photoID.png",
         offerLetter: "ramy-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
   ];

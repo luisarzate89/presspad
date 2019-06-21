@@ -65,18 +65,22 @@ module.exports = async () => {
         title: "A story about techno",
         author: "Raver Joseph",
         link: "www.guardian.com/1314141asfas",
+        description:
+          "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
         photoID: "simon-photoID.png",
         offerLetter: "simon-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
     {
@@ -90,18 +94,22 @@ module.exports = async () => {
         title: "French Nancy - good times",
         author: "Solo Chief",
         link: "www.fa.com/1314141as21421as",
+        description:
+          "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
         photoID: "joe-photoID.png",
         offerLetter: "joe-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
     {
@@ -115,18 +123,22 @@ module.exports = async () => {
         title: "MongoDB is for cool kids",
         author: "Professor Mongo",
         link: "www.fa.com/1314sada22s",
+        description:
+          "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
         photoID: "ramy-photoID.png",
         offerLetter: "ramy-offer-letter.jpg",
-        reference1: {
-          name: "Yalla Master",
-          contact: "014251521, hello@yalla.com",
-        },
-        reference2: {
-          name: "Mister Myagi",
-          contact: "Bricklane 102 London, mobile: 0125215215",
-        },
+        references: [
+          {
+            name: "Yalla Master",
+            contact: "014251521, hello@yalla.com",
+          },
+          {
+            name: "Mister Myagi",
+            contact: "Bricklane 102 London, mobile: 0125215215",
+          },
+        ],
       },
     },
   ];

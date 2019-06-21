@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const shortid = require("shortid");
 const User = require("../../models/User");
 const Booking = require("../../models/Booking");
+const Review = require("../../models/Review");
 
 const { addOrg } = require("./organisation");
 
@@ -90,3 +91,47 @@ module.exports.getInternStatus = id => Booking.aggregate([
     },
   },
 ]);
+
+module.exports.getUserReviews = userId => new Promise((resolve, reject) => {
+  Review.aggregate([
+    // match user
+    {
+      $match: { to: mongoose.Types.ObjectId(userId) },
+    },
+    // lookup user
+    {
+      $lookup: {
+        from: "users",
+        localField: "from",
+        foreignField: "_id",
+        as: "from_user",
+      },
+    },
+    {
+      $unwind: "$from_user",
+    },
+    {
+      $lookup: {
+        from: "profiles",
+        localField: "from",
+        foreignField: "user",
+        as: "from_profile",
+      },
+    },
+    {
+      $unwind: "$from_profile",
+    },
+    {
+      $project: {
+        _id: 0,
+        "from_user.name": 1,
+        "from_profile.jobTitle": 1,
+        message: 1,
+        createdAt: 1,
+        rating: 1,
+      },
+    },
+  ])
+    .then(response => resolve(response))
+    .catch(error => reject(error));
+});

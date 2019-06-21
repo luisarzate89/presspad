@@ -37,20 +37,14 @@ const profileSchema = new Schema({
     title: String,
     author: String,
     link: String,
+    description: String,
   },
   // later plan would be enum [basic, pro, custom...]
 
   verification: {
     photoID: String,
     offerLetter: String,
-    reference1: {
-      name: String,
-      contact: String,
-    },
-    reference2: {
-      name: String,
-      contact: String,
-    },
+    references: [],
   },
 });
 

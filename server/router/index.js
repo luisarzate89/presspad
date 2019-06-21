@@ -8,6 +8,7 @@ const getUserByReferral = require("./../controllers/user/getUserByReferral");
 const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
 const getUserBookings = require("./../controllers/getUserBookings");
@@ -33,6 +34,7 @@ const {
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
+  INTERN_PROFILE_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -55,6 +57,9 @@ router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
 router.post(HOST_PROFILE_URL, getHostProfile);
+
+// gets intern profile data
+router.post(INTERN_PROFILE_URL, getInternProfile);
 
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
