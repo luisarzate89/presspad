@@ -10,8 +10,7 @@ import {
   API_SIGNUP_URL,
   API_CHECK_REFERRAL_URL,
   API_GET_ORGS_URL,
-  DASHBOARD_URL,
-  MYPROFILE_URL
+  DASHBOARD_URL
 } from "./../../../constants/apiRoutes";
 
 import USER_TYPES from "./../../../constants/userTypes";
