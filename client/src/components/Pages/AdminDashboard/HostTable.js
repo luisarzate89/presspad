@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 import { Table, Tag } from "antd";
 import { colors } from "./../../../theme";
 
 // import helpers
 import getUserId from "./../../../helpers/getUserId";
+
+// styling
+import { NameLink } from "./AdminDashboard.style.js";
 
 //  set colours for tags in the table
 const tagColors = {
@@ -50,15 +52,12 @@ export default class InternTable extends Component {
         dataIndex: "name",
         key: "name",
         ...getColumnSearchProps("name"),
-        sorter: (a, b) => a.name - b.name,
+        sorter: (a, b) => a.name.localeCompare(b.name),
         className: "nameCol",
         render: text => (
-          <div
-            onClick={() => showProfile(getUserId(data, text))}
-            // to={`/hosts/${getUserId(data, text)}`}
-          >
+          <NameLink onClick={() => showProfile(getUserId(data, text))}>
             {text}
-          </div>
+          </NameLink>
         )
       },
       {
@@ -66,7 +65,7 @@ export default class InternTable extends Component {
         dataIndex: "city",
         key: "city",
         ...getColumnSearchProps("city"),
-        sorter: (a, b) => a.city - b.city
+        sorter: (a, b) => a.city.localeCompare(b.city)
       },
       {
         title: "Interns Hosted",
@@ -93,7 +92,6 @@ export default class InternTable extends Component {
         title: "Approval Status",
         dataIndex: "approvalStatus",
         key: "approvalStatus",
-        sorter: (a, b) => a.status - b.status,
         render: status => (
           <Tag color={tagColors[status]} key={status}>
             {status.toUpperCase()}

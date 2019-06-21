@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 
 //api
-import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
+import {
+  API_HOST_PROFILE_URL,
+  API_VERIFY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 import Calendar from "./Calendar";
 import axios from "axios";
 
@@ -9,8 +12,6 @@ import axios from "axios";
 import Button from "./../../Common/Button/index";
 
 //styles
-
-import { colors } from "./../../../theme";
 
 import {
   Wrapper,
@@ -70,7 +71,8 @@ class HostProfile extends Component {
     profileData: null,
     reviews: null,
     internBookings: null,
-    adminView: false
+    adminView: false,
+    profileId: null
   };
 
   // functions
@@ -131,16 +133,28 @@ class HostProfile extends Component {
 
   createAddress = (street, city) => `${street}, ${city}`;
 
+  // Admin function - approve/unapprove profile
+  verifyProfile = (profileId, bool) => {
+    axios
+      .post(API_VERIFY_PROFILE_URL, { profileId, verify: bool })
+      .then(() => this.axiosCall())
+      .catch(err => console.error(err));
+  };
+
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
     const { profileData, reviews, internBookings, adminView } = this.state;
     const { hideProfile } = this.props;
 
-    console.log(profileData);
-
-    const { listing, profile, name } = profileData;
-    const { bio, jobTitle, organisation, profileImage } = profile;
+    const { listing, profile, name, email } = profileData;
+    const {
+      bio,
+      jobTitle,
+      organisation,
+      profileImage,
+      _id: profileId
+    } = profile;
 
     const { _id, availableDates, price } = listing;
 
@@ -160,19 +174,23 @@ class HostProfile extends Component {
                   label="Unapprove profile"
                   type="verification"
                   color="red"
+                  onClick={() => this.verifyProfile(profileId, false)}
                 />
               ) : (
                 <MultipleButtons>
-                  <Button
-                    label="Request changes"
-                    type="verification"
-                    color="orange"
-                    margin="0 1rem 0 0"
-                  />
+                  <a href={`mailto:${email}`}>
+                    <Button
+                      label="Request changes"
+                      type="verification"
+                      color="orange"
+                      margin="0 1rem 0 0"
+                    />
+                  </a>
                   <Button
                     label="Approve profile"
                     type="verification"
                     color="green"
+                    onClick={() => this.verifyProfile(profileId, true)}
                   />
                 </MultipleButtons>
               )}

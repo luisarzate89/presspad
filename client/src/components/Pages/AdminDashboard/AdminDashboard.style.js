@@ -13,6 +13,10 @@ export const TopSection = styled.div`
   padding: 0 10rem;
 `;
 
+export const NameLink = styled.div`
+  cursor: pointer;
+`;
+
 export const Title = styled.h2`
   color: ${colors.primary};
   font-weight: 500;
@@ -38,7 +42,7 @@ export const MenuItem = styled.div`
     position: absolute;
     width: ${props => props.active && "100%"};
     left: 0;
-    bottom: -3px;
+    bottom: 0;
     border-bottom: 3px ${colors.secondary} solid;
   }
 `;

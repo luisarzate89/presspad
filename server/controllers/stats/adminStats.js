@@ -71,8 +71,6 @@ module.exports = async (req, res, next) => {
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
-        console.log("STS", stats)
-
         const cleanStats = stats.map((host) => {
           const hostObj = {
             key: stats.indexOf(host) + 1,
@@ -80,6 +78,7 @@ module.exports = async (req, res, next) => {
             city: host.listing.address.city,
             hosted: host.internsHosted,
             approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
+            profileId: host.profile[0]._id,
             userId: host._id,
           };
           return hostObj;

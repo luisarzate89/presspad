@@ -129,7 +129,9 @@ export default class AdminDashboard extends Component {
   };
 
   hideProfile = () => {
+    const { activeLink } = this.state;
     this.setState({ hostProfile: null });
+    this.selectSection(activeLink);
   };
 
   render() {
