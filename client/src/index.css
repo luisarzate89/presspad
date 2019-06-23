@@ -43,3 +43,7 @@ html {
   padding: 0;
   box-sizing: inherit;
 }
+
+.ant-avatar > img {
+  object-fit: cover;
+}
