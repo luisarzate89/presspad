@@ -11,5 +11,11 @@ module.exports = {
       { name: "offerImages2" },
       { name: "offerImages3" },
     ],
+    internCompleteProfile: [
+      { name: "profileImage" },
+      { name: "pressPass" },
+      { name: "offerLetter" },
+      { name: "photoIDFile" },
+    ],
   },
 };
