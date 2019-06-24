@@ -13,6 +13,10 @@ export const TopSection = styled.div`
   padding: 0 10rem;
 `;
 
+export const NameLink = styled.div`
+  cursor: pointer;
+`;
+
 export const Title = styled.h2`
   color: ${colors.primary};
   font-weight: 500;
@@ -38,7 +42,7 @@ export const MenuItem = styled.div`
     position: absolute;
     width: ${props => props.active && "100%"};
     left: 0;
-    bottom: -3px;
+    bottom: 0;
     border-bottom: 3px ${colors.secondary} solid;
   }
 `;
@@ -49,6 +53,7 @@ export const MainSection = styled.div`
   display: flex;
   padding: 4rem 10rem;
   flex-direction: column;
+  position: relative;
 
   /* div {
     width: 100%;
@@ -97,12 +102,22 @@ export const ContentTitle = styled.h3`
   margin-top: 0;
   margin-bottom: 2rem;
   text-transform: capitalize;
+  display: ${props => props.hide && "none"};
 `;
 
-export const SearchWrapper = styled.div``;
+export const ProfileWrapper = styled.div`
+  z-index: 2;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background-color: ${colors.blueGray};
+`;
 
-export const SearchInput = styled.input``;
-
-export const Filters = styled.input``;
-
-export const ResultsWrapper = styled.div``;
+export const HostWrapper = styled.div`
+  display: ${props => props.hide && "none"};
+`;

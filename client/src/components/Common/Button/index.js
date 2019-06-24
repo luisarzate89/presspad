@@ -9,6 +9,7 @@ const sharedStyles = css`
   text-decoration: none;
   outline: none;
   border: 0;
+  margin: ${props => props.margin || 0};
   color: ${colors.profileFontColor};
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   opacity: ${props => props.disabled && !props.loading && 0.3};
@@ -47,6 +48,11 @@ export const roundStyles = css`
   }
 `;
 
+export const squareStyles = css`
+  height: ${props => props.height || "35px"};
+  width: ${props => props.width || "158px"};
+`;
+
 export const primaryStyles = css`
   background-color: ${colors.primary};
   color: ${colors.white};
@@ -79,6 +85,8 @@ const StyledButton = styled.button`
   ${props => props.type === "cancel" && cancelStyles}
   ${props => props.type === "outline" && roundStyles}
   ${props => props.type === "outline" && outlineStyles}
+  ${props => props.type === "verification" && squareStyles}
+  ${props => props.type === "verification" && outlineStyles}
 `;
 
 const Button = ({ label, ...props }) => {

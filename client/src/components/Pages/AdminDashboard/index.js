@@ -7,6 +7,7 @@ import { Input, Button, Icon } from "antd";
 import ClientTable from "./ClientTable";
 import InternTable from "./InternTable";
 import HostTable from "./HostTable";
+import HostProfile from "./../HostProfile/index";
 
 // STYLING
 import {
@@ -16,7 +17,9 @@ import {
   DashboardMenu,
   MenuItem,
   MainSection,
-  ContentTitle
+  ContentTitle,
+  ProfileWrapper,
+  HostWrapper
 } from "./AdminDashboard.style";
 
 // API ROUTES
@@ -26,11 +29,17 @@ export default class AdminDashboard extends Component {
   state = {
     activeLink: "clients",
     loading: false,
-    data: []
+    data: [],
+    hostProfile: false
   };
 
   selectSection = section => {
-    this.setState({ activeLink: section, loading: true, data: [] });
+    this.setState({
+      activeLink: section,
+      loading: true,
+      data: [],
+      hostProfile: null
+    });
     axios
       .post(API_ADMIN_STATS_URL, { userType: section })
       .then(({ data }) => {
@@ -115,8 +124,18 @@ export default class AdminDashboard extends Component {
     this.setState({ searchText: "" });
   };
 
+  showProfile = userId => {
+    this.setState({ hostProfile: userId });
+  };
+
+  hideProfile = () => {
+    const { activeLink } = this.state;
+    this.setState({ hostProfile: null });
+    this.selectSection(activeLink);
+  };
+
   render() {
-    const { activeLink, loading, data } = this.state;
+    const { activeLink, loading, data, hostProfile } = this.state;
 
     return (
       <Wrapper>
@@ -137,14 +156,14 @@ export default class AdminDashboard extends Component {
             </MenuItem>
             <MenuItem
               onClick={() => this.selectSection("hosts")}
-              active={activeLink === "hosts"}
+              active={activeLink === "hosts" || hostProfile}
             >
               Hosts
             </MenuItem>
           </DashboardMenu>
         </TopSection>
         <MainSection>
-          <ContentTitle>Your {activeLink}</ContentTitle>
+          <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
           {activeLink === "clients" && (
             <ClientTable
               getColumnSearchProps={this.getColumnSearchProps}
@@ -160,11 +179,23 @@ export default class AdminDashboard extends Component {
             />
           )}
           {activeLink === "hosts" && (
-            <HostTable
-              getColumnSearchProps={this.getColumnSearchProps}
-              loading={loading}
-              data={data}
-            />
+            <HostWrapper hide={hostProfile}>
+              <HostTable
+                getColumnSearchProps={this.getColumnSearchProps}
+                loading={loading}
+                data={data}
+                showProfile={this.showProfile}
+              />
+            </HostWrapper>
+          )}
+          {hostProfile && (
+            <ProfileWrapper>
+              <HostProfile
+                hostId={hostProfile}
+                adminView={true}
+                hideProfile={this.hideProfile}
+              />
+            </ProfileWrapper>
           )}
           {/* <ContentTitle>Your Placeholder</ContentTitle>
           <SearchWrapper>

@@ -21,7 +21,7 @@ describe("Test Listing schema", () => {
 
   test("should store Listing schema correctly", async (done) => {
     const listings = await Listing.find();
-    expect(listings).toHaveLength(3);
+    expect(listings).toHaveLength(4);
     done();
   });
 

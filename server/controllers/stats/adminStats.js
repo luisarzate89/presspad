@@ -78,6 +78,7 @@ module.exports = async (req, res, next) => {
             city: host.listing.address.city,
             hosted: host.internsHosted,
             approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
+            profileId: host.profile[0]._id,
             userId: host._id,
           };
           return hostObj;

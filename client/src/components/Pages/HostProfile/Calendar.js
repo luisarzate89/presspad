@@ -125,6 +125,7 @@ class CalendarComponent extends Component {
 
   render() {
     const { price, noNights, bookingExists } = this.state;
+    const { adminView } = this.props;
 
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
@@ -159,7 +160,7 @@ class CalendarComponent extends Component {
           )}
           <RequestBtn
             onClick={this.handleClick}
-            disabled={noNights === 0 || noNights === null || bookingExists}
+            disabled={noNights === 0 || noNights === null || bookingExists || adminView }
           >
             Request Stay
           </RequestBtn>

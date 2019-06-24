@@ -45,7 +45,7 @@ export default class ClientTable extends Component {
         dataIndex: "organisation",
         key: "organisation",
         ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation - b.organisation,
+        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
         className: "orgCol"
       },
       {

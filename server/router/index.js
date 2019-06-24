@@ -13,6 +13,7 @@ const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
 const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
+const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
 
 // IMPORT MIDDLEWARES
@@ -36,6 +37,7 @@ const {
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
+  VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
 } = require("../../client/src/constants/apiRoutes");
 
@@ -69,6 +71,9 @@ router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
 router.post(HOST_PROFILE_URL, getHostProfile);
+
+// approve or reject profile
+router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);

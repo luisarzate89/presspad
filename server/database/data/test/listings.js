@@ -65,6 +65,23 @@ module.exports = async () => {
         { startDate: "2019-10-14", endDate: "2020-12-12" },
       ],
     },
+    {
+      user: hosts[3],
+      address: {
+        street: "28 Test Road",
+        borough: "Hackney",
+        city: "Manchester",
+        postcode: "M95EW",
+      },
+      description:
+        "We offer a single room for one person in our Manchester terraced house. The house is close to two tube stations that take you into Central London in less than 30 minutes. There are numerous shops, cafes, and takeaways in walking distance. Our house is safe and clean. This space is ideal for anyone visiting London on a budget.",
+      otherInfo: ["Parties not allowed", "Smoking", "Cleaning fee", "Often away"],
+      price: 35,
+      photos: [],
+      availableDates: [
+        { startDate: "2019-10-14", endDate: "2020-12-12" },
+      ],
+    },
   ];
   await Listing.create(listings);
 };
