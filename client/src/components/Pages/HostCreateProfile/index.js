@@ -121,7 +121,7 @@ class HostCreateProfile extends Component {
     image && reader.readAsDataURL(image);
   };
 
-  handelInputChange = ({ target }) => {
+  handleInputChange = ({ target }) => {
     const { value, name } = target;
     this.setState(
       { [name]: value },
@@ -336,7 +336,7 @@ class HostCreateProfile extends Component {
         id={id}
         handleOtherInfo={this.handleOtherInfo}
         handleAddProfile={this.handleAddProfile}
-        handelInputChange={this.handelInputChange}
+        handleInputChange={this.handleInputChange}
         handleSubmit={this.handleSubmit}
         disabledStartDate={this.disabledStartDate}
         disabledEndDate={this.disabledEndDate}
