@@ -70,7 +70,7 @@ class HostProfile extends Component {
     isLoading: true,
     profileData: null,
     reviews: null,
-    internBookings: null,
+    internBookings: [],
     adminView: false,
     profileId: null
   };
@@ -301,6 +301,7 @@ class HostProfile extends Component {
                   availableDates={availableDates}
                   internBookings={internBookings}
                   price={price}
+                  adminView={adminView}
                 />
               </CalendarDiv>
             </Card>
