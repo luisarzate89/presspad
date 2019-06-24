@@ -34,7 +34,8 @@ export const initialState = {
   name: null,
   email: null,
   isMounted: false,
-  role: null
+  role: null,
+  windowWidth: null
 };
 
 class App extends Component {
@@ -46,8 +47,20 @@ class App extends Component {
     this.setState({ ...data, isMounted: true });
   };
 
+  updateWindowDimensions = () => {
+    this.setState({
+      windowWidth: window.innerWidth
+    });
+  };
+
   componentDidMount() {
     this.getUserInfo();
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
   getUserInfo = () => {

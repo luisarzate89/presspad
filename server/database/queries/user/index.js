@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const User = require("../../models/User");
 const Booking = require("../../models/Booking");
 
@@ -91,4 +90,25 @@ module.exports.getInternStatus = id => Booking.aggregate([
       },
     },
   },
+]);
+
+module.exports.getUserOrg = userId => User.aggregate([
+  {
+    $match: {
+      _id: mongoose.Types.ObjectId(userId),
+    },
+  }, {
+    $lookup: {
+      from: "organisations",
+      localField: "organisation",
+      foreignField: "_id",
+      as: "organisation",
+    },
+  }, {
+    $addFields: {
+      organisation: {
+        $arrayElemAt: ["$organisation", 0],
+      },
+    },
+  }, { $replaceRoot: { newRoot: "$organisation" } },
 ]);

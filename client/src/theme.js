@@ -78,3 +78,10 @@ export const borders = {
   divider: `1px solid ${colors.lightGray}`,
   lightDivider: "1px solid rgba(0, 0, 0, 0.1)"
 };
+
+//  set colours for tags in the table
+export const tagColors = {
+  "Looking for host": colors.primary,
+  "At host": colors.green,
+  "Pending request": colors.orange
+};
