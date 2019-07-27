@@ -26,12 +26,18 @@ const profileSchema = new Schema({
     required: true,
   },
   pressPass: {
-    type: String,
-    required: true,
+    fileName: String,
+    isPrivate: {
+      type: Boolean,
+      default: true,
+    },
   },
   profileImage: {
-    type: String,
-    default: "",
+    fileName: String,
+    isPrivate: {
+      type: Boolean,
+      default: false,
+    },
   },
   favouriteArticle: {
     title: String,
@@ -41,8 +47,20 @@ const profileSchema = new Schema({
   // later plan would be enum [basic, pro, custom...]
 
   verification: {
-    photoID: String,
-    offerLetter: String,
+    photoID: {
+      fileName: String,
+      isPrivate: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    offerLetter: {
+      fileName: String,
+      isPrivate: {
+        type: Boolean,
+        default: true,
+      },
+    },
     reference1: {
       name: String,
       contact: String,
@@ -51,6 +69,10 @@ const profileSchema = new Schema({
       name: String,
       contact: String,
     },
+  },
+  badge: {
+    type: Boolean,
+    default: false,
   },
 });
 
