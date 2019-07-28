@@ -1,4 +1,4 @@
-const boom = require("boom")''
+const boom = require("boom");
 const { createReview } = require("../../database/queries/reviews");
 
 const reviewControllers
