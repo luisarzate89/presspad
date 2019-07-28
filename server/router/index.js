@@ -15,6 +15,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
+const { createReview } = require("../controllers/user/review");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -100,6 +101,6 @@ router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
 // Reviews
 router.route(REVIEW_URL)
-  .post(() => console.log('this is a post to reviews endpoint'))
+  .post(createReview);
 
 module.exports = router;
