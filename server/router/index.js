@@ -39,6 +39,7 @@ const {
   GET_BOOKINGS_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
+  REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -95,5 +96,10 @@ router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs
 router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
+
+
+// Reviews
+router.route(REVIEW_URL)
+  .post(() => console.log('this is a post to reviews endpoint'))
 
 module.exports = router;
