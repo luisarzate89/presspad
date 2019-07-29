@@ -46,7 +46,7 @@ const notificationSchema = new Schema({
   seenForOrg: {
     type: Boolean,
     required: true,
-    default: true,
+    default: false,
   },
 }, { timestamps: true });
 
