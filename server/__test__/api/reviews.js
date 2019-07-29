@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
 
-<<<<<<< HEAD
-=======
-const { API_REVIEW_URL } = require("./../../../client/src/constants/apiRoutes");
->>>>>>> f73fadc3f8850896ac121d1065c5464139ba2452
 const Review = require("./../../database/models/Review");
 const User = require("./../../database/models/User");
 const Notification = require("./../../database/models/Notification");
