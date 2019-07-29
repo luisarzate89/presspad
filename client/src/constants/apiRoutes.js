@@ -42,6 +42,9 @@ const API_VERIFY_PROFILE_URL = `${API_PREFIX}${VERIFY_PROFILE_URL}`;
 const ORGS_DASHBOARD = "/organisation-dashboard";
 const API_ORGS_DASHBOARD_URL = `${API_PREFIX}${ORGS_DASHBOARD}`;
 
+const REVIEW_URL = "/users/:id/reviews";
+const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
@@ -58,6 +61,7 @@ module.exports = {
   API_GET_BOOKINGS_URL,
   API_VERIFY_PROFILE_URL,
   API_ORGS_DASHBOARD_URL,
+  API_REVIEW_URL,
 
   // SERVER
   LOGIN_URL,
@@ -73,5 +77,6 @@ module.exports = {
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
   VERIFY_PROFILE_URL,
-  ORGS_DASHBOARD
+  ORGS_DASHBOARD,
+  REVIEW_URL
 };
