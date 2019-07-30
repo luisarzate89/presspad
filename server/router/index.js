@@ -101,6 +101,9 @@ router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
 // Reviews
 router.route(REVIEW_URL)
-  .post(createReview);
+  .post(
+    authentication,
+    createReview,
+  );
 
 module.exports = router;
