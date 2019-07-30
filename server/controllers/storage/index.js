@@ -6,7 +6,7 @@ exports.getUploadSignedURL = (req, res, next) => {
 
   getSignedUrl(bucketName, fileName, "write")
     .then(signedUrl => {
-      res.json({ signedUrl });
+      res.json({ signedUrl, bucketName });
     })
     .catch(err => {
       next(err);
