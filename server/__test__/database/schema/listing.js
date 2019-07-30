@@ -40,7 +40,20 @@ describe("Test Listing schema", () => {
         "Colourful artwork adorns the walls throughout this curated interior, designed by one of Londons premier architects. Find inspiration in an urban minimalist home with wood finishes, original details, and chic furnishings throughout.",
       otherInfo: ["Pets allowed", "No other flatmates", "LGBTQ friendly", "Often away"],
       price: 30,
-      photos: ["1livingroom.jpg", "1kitchen.jpg", "1bathroom.jpg"],
+      photos: [
+        {
+          fileName: "test-image-1.png",
+          isPrivate: false,
+        },
+        {
+          fileName: "test-image-2.png",
+          isPrivate: false,
+        },
+        {
+          fileName: "test-image-3.png",
+          isPrivate: false,
+        },
+      ],
       availableDates: [
         { startDate: "2019-05-16", endDate: "2019-07-16" },
         { startDate: "2019-09-14", endDate: "2019-10-12" },
