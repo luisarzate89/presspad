@@ -20,8 +20,8 @@ reviewControllers.createReview = async (req, res, next) => {
 
     // send a notification to the reviewee
     await createNotification({
-      user: to,
-      secondParty: from,
+      user: to, // gets the notification
+      secondParty: from, // sends the notification
       type: "getReview",
     });
     return res.json({ success: true });
