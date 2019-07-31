@@ -10,7 +10,7 @@ const { admin } = require("../config");
  * @return {string} v4 signed URL for uploading/ downloading a file
  */
 
-async function generateV4SignedUrl(bucketName, filename, action) {
+const generateV4SignedUrl = async (bucketName, filename, action) => {
   // Creates a client
   const storage = admin.storage();
 
@@ -34,7 +34,7 @@ async function generateV4SignedUrl(bucketName, filename, action) {
   return url;
 }
 
-function getPublicFileUrl(bucketName, fileName) {
+const getPublicFileUrl = (bucketName, fileName) => {
   const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
   return publicUrl;
 }

@@ -1,10 +1,10 @@
-const { getSignedUrl } = require('../../helpers/storageHelpers');
+const { generateV4SignedUrl } = require('../../helpers/storageHelpers');
 
-exports.getUploadSignedURL = (req, res, next) => {
-  const bucketName = process.env.storageBucket;
+const getUploadSignedURL = (req, res, next) => {
+  const { storageBucket: bucketName } = process.env;
   const { fileName } = req.query;
 
-  getSignedUrl(bucketName, fileName, "write")
+  generateV4SignedUrl(bucketName, fileName, "write")
     .then(signedUrl => {
       res.json({ signedUrl, bucketName });
     })
@@ -12,3 +12,5 @@ exports.getUploadSignedURL = (req, res, next) => {
       next(err);
     });
 };
+
+module.exports = { getUploadSignedURL };
