@@ -15,6 +15,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
+const { createReview } = require("../controllers/review");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -39,6 +40,7 @@ const {
   GET_BOOKINGS_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
+  REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -95,5 +97,13 @@ router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs
 router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
+
+
+// Reviews
+router.route(REVIEW_URL)
+  .post(
+    authentication,
+    createReview,
+  );
 
 module.exports = router;
