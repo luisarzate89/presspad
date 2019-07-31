@@ -34,4 +34,9 @@ async function generateV4SignedUrl(bucketName, filename, action) {
   return url;
 }
 
-module.exports = generateV4SignedUrl;
+function getPublicFileUrl(bucketName, fileName) {
+  const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+  return publicUrl;
+}
+
+module.exports = { generateV4SignedUrl, getPublicFileUrl };

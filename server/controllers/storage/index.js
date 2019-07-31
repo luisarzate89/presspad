@@ -1,4 +1,4 @@
-const getSignedUrl = require('../../helpers/getSignedUrl');
+const { getSignedUrl } = require('../../helpers/storageHelpers');
 
 exports.getUploadSignedURL = (req, res, next) => {
   const bucketName = process.env.storageBucket;
