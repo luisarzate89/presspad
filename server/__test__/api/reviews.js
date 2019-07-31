@@ -150,22 +150,23 @@ describe("Tests adding a review and creating a getReview notification", () => {
       to: "reviewee.id", // person receiving the review >> also the user in notification
       from: reviewer.id, // person sending the creating, also the secondParty in notification
       rating: 4,
-      message: "",
+      message: "this should crash server",
     };
     request(app)
       .post("/api/user/login")
       .send(loginData)
       .expect("Content-Type", /json/)
-      .expect(500)
+      .expect(200)
       .end((error, response) => {
         const token = response.headers["set-cookie"][0].split(";")[0];
+        if (error) return done(error);
 
         // Request should fail with a bad request error (code 400)
-        request(app)
+        return request(app)
           .post(`/api/users/${reviewer.id}/reviews`)
           .send(reviewData)
           .set("Cookie", [token])
-          .expect(400)
+          .expect(500)
           .expect("Content-Type", /json/)
           .end((err) => {
             if (err) return done(err);
