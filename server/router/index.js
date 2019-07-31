@@ -16,6 +16,7 @@ const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
 const { getUploadSignedURL } = require("../controllers/storage");
+const { createReview } = require("../controllers/review");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -41,6 +42,7 @@ const {
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
   UPLOAD_SIGNED_URL,
+  REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
@@ -100,5 +102,12 @@ router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
+
+// Reviews
+router.route(REVIEW_URL)
+  .post(
+    authentication,
+    createReview,
+  );
 
 module.exports = router;

@@ -44,6 +44,8 @@ const API_ORGS_DASHBOARD_URL = `${API_PREFIX}${ORGS_DASHBOARD}`;
 
 const UPLOAD_SIGNED_URL = "/upload/signed-url";
 const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
+const REVIEW_URL = "/users/:id/reviews";
+const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 
 module.exports = {
   // CLIENT
@@ -62,6 +64,7 @@ module.exports = {
   API_VERIFY_PROFILE_URL,
   API_ORGS_DASHBOARD_URL,
   API_UPLOAD_SIGNED_URL,
+  API_REVIEW_URL,
 
   // SERVER
   LOGIN_URL,
@@ -78,5 +81,6 @@ module.exports = {
   GET_BOOKINGS_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
-  UPLOAD_SIGNED_URL
+  UPLOAD_SIGNED_URL,
+  REVIEW_URL,
 };
