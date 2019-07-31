@@ -1,6 +1,6 @@
 const boom = require("boom");
-const { createReview } = require("../../database/queries/reviews");
-const { createNotification } = require("../../database/queries/notifications");
+const { createReview } = require("../../database/queries/review");
+const { createNotification } = require("../../database/queries/notification");
 
 const reviewControllers = {};
 module.exports = reviewControllers;
@@ -8,7 +8,6 @@ module.exports = reviewControllers;
 reviewControllers.createReview = async (req, res, next) => {
   const { to, rating, message } = req.body;
   const { id: from } = req.params;
-
   // VALIDATES USER INPUT
   if (!rating) return next(boom.badRequest("Please pick the number of stars"));
   if (!message) return next(boom.badRequest("Please add a review message"));
@@ -26,6 +25,7 @@ reviewControllers.createReview = async (req, res, next) => {
     });
     return res.json({ success: true });
   } catch (error) {
+    console.log(error);
     return next(boom.badImplementation());
   }
 };

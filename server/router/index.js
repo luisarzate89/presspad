@@ -15,7 +15,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
-const { createReview } = require("../controllers/user/reviews");
+const { createReview } = require("../controllers/review");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
