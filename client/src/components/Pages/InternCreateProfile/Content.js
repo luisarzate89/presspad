@@ -17,29 +17,43 @@ import {
   Error
 } from "./InternCreateProfile.style";
 
+import { ProgressRing, ProgressBar } from "../../Common/progress/";
+
 const { TextArea } = Input;
 
 class Content extends Component {
   render() {
     const {
-      handleAddFile,
       handleInputChange,
       handleSubmit,
       state,
+      directUploadToGoogle,
       name
     } = this.props;
 
-    const pressPassFileName = state.pressPass.file
-      ? state.pressPass.file.name
-      : "";
-
-    const photoIDFileName = state.photoIDFile.file
-      ? state.photoIDFile.file.name
-      : "";
-
-    const offerLetterName = state.offerLetter.file
-      ? state.offerLetter.file.name
-      : "";
+    const {
+      profileImage: {
+        dataUrl: profileImageDataUrl,
+        isLoading: isProfileImageLoading,
+        loading: profileImageLoading
+      },
+      pressPass: {
+        name: pressPassFileName,
+        loading: pressPassLoading,
+        isLoading: isPressPassLoading
+      },
+      photoIDFile: {
+        name: photoIDFileName,
+        loading: photoIDLoading,
+        isLoading: isPhotoIDLoading
+      },
+      offerLetter: {
+        name: offerLetterName,
+        loading: offerLetterLoading,
+        isLoading: isOfferLetterLoading
+      },
+      errors
+    } = state;
 
     return (
       <PageWrapper>
@@ -53,25 +67,37 @@ class Content extends Component {
                       textAlign: "center"
                     }}
                   >
-                    <Avatar
-                      size="large"
-                      icon="user"
-                      src={state.profileImage.dataUrl}
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        margin: "0 auto",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "42px",
-                        backgroundColor: state.errors.profileImage
-                          ? "red"
-                          : "none"
-                      }}
-                    />
+                    {/*neccesarry for ProgressRing*/}
+                    <div style={{ position: "relative", width: 86 }}>
+                      <ProgressRing
+                        radius={43}
+                        stroke={2}
+                        progress={profileImageLoading}
+                        style={{
+                          position: "absolute",
+                          zIndex: 1,
+                          left: 0,
+                          marginTop: -3
+                        }}
+                      />
+                      <Avatar
+                        size="large"
+                        icon="user"
+                        src={profileImageDataUrl}
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          margin: "0 auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "42px",
+                          backgroundColor: errors.profileImage ? "red" : "none"
+                        }}
+                      />
+                    </div>
                   </div>
-                  <Error>{state.errors.profileImage}</Error>
+                  <Error>{errors.profileImage}</Error>
                 </ErrorWrapper>
               </Col>
               <Col span={20}>
@@ -79,16 +105,21 @@ class Content extends Component {
                   Hi {name.split(" ")[0]}, please complete your profile
                 </HiText>
                 <HeaderButtonsWrapper>
-                  <UploadButton as="label" htmlFor="profileImage">
-                    Add profile photo
-                  </UploadButton>
+                  {isProfileImageLoading ? (
+                    <UploadButton disabled>Add profile photo</UploadButton>
+                  ) : (
+                    <UploadButton as="label" htmlFor="profileImage">
+                      Add profile photo
+                    </UploadButton>
+                  )}
                   <input
                     type="file"
                     id="profileImage"
                     name="profileImage"
-                    onChange={handleAddFile}
+                    onChange={directUploadToGoogle}
                     accept="image/*"
                     style={{ display: "none" }}
+                    data-is-private="false"
                   />
                   <UploadButton onClick={handleSubmit}>Submit</UploadButton>
                 </HeaderButtonsWrapper>
@@ -102,7 +133,7 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={14}>
                   <Label htmlFor="bio">Bio</Label>
-                  <ErrorWrapper error={state.errors.bio} marginBottom="40px">
+                  <ErrorWrapper error={errors.bio} marginBottom="40px">
                     <TextArea
                       name="bio"
                       onChange={handleInputChange}
@@ -111,11 +142,10 @@ class Content extends Component {
                       placeholder="Introduce yourself to interns"
                       value={state.bio}
                       style={{
-                        border: state.errors.bio ? "none" : "1px solid #d9d9d9"
+                        border: errors.bio ? "none" : "1px solid #d9d9d9"
                       }}
-                      border={false}
                     />
-                    <Error>{state.errors.bio}</Error>
+                    <Error>{errors.bio}</Error>
                   </ErrorWrapper>
                 </Col>
                 <Col xs={24} lg={10}>
@@ -134,22 +164,17 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="jobTitle">Job title</Label>
-                  <ErrorWrapper
-                    error={state.errors.jobTitle}
-                    marginBottom="20px"
-                  >
+                  <ErrorWrapper error={errors.jobTitle} marginBottom="20px">
                     <Input
                       id="jobTitle"
                       name="jobTitle"
                       onChange={handleInputChange}
                       value={state.jobTitle}
                       style={{
-                        border: state.errors.jobTitle
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                        border: errors.jobTitle ? "none" : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.jobTitle}</Error>
+                    <Error>{errors.jobTitle}</Error>
                   </ErrorWrapper>
                 </Col>
 
@@ -159,45 +184,52 @@ class Content extends Component {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Col xs={18} sm={18} lg={18}>
                         <ErrorWrapper
-                          error={state.errors.pressPass}
+                          error={errors.pressPass}
                           marginBottom="20px"
                         >
-                          <Input
-                            id="Press pass"
-                            style={{
-                              border: state.errors.pressPass
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
-                            }}
-                            value={pressPassFileName}
-                            placeholder="No file has been uploaded"
-                            disabled={!!pressPassFileName}
-                            suffix={
-                              pressPassFileName ? (
-                                <Icon
-                                  type="check"
-                                  style={{ color: "green", fontSize: "18px" }}
-                                />
-                              ) : (
-                                undefined
-                              )
-                            }
-                          />
-                          <Error>{state.errors.pressPass}</Error>
+                          <ProgressBar progress={pressPassLoading}>
+                            <Input
+                              id="Press pass"
+                              style={{
+                                border: errors.pressPass
+                                  ? "none"
+                                  : "1px solid #d9d9d9",
+                                display: "inline"
+                              }}
+                              value={pressPassFileName}
+                              placeholder="No file has been uploaded"
+                              disabled={!!pressPassFileName}
+                              suffix={
+                                pressPassFileName ? (
+                                  <Icon
+                                    type="check"
+                                    style={{ color: "green", fontSize: "18px" }}
+                                  />
+                                ) : (
+                                  undefined
+                                )
+                              }
+                            />
+                          </ProgressBar>
+                          <Error>{errors.pressPass}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={9} sm={9} lg={9}>
-                        <UploadText as="label" htmlFor="pressPass">
-                          browse file
-                          <input
-                            type="file"
-                            id="pressPass"
-                            onChange={handleAddFile}
-                            name="pressPass"
-                            style={{ display: "none" }}
-                          />
-                        </UploadText>
+                        {isPressPassLoading ? (
+                          <UploadText disabled>browse file</UploadText>
+                        ) : (
+                          <UploadText as="label" htmlFor="pressPass">
+                            browse file
+                            <input
+                              type="file"
+                              id="pressPass"
+                              onChange={directUploadToGoogle}
+                              name="pressPass"
+                              style={{ display: "none" }}
+                              data-is-private={true}
+                            />
+                          </UploadText>
+                        )}
                       </Col>
                     </div>
                   </Row>
@@ -216,45 +248,52 @@ class Content extends Component {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Col xs={20} sm={20} lg={20}>
                         <ErrorWrapper
-                          error={state.errors.PhotoID}
+                          error={errors.PhotoID}
                           marginBottom="20px"
                         >
-                          <Input
-                            id="PhotoID"
-                            style={{
-                              border: state.errors.PhotoID
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
-                            }}
-                            value={photoIDFileName}
-                            placeholder="No file has been uploaded"
-                            disabled={!!photoIDFileName}
-                            suffix={
-                              photoIDFileName ? (
-                                <Icon
-                                  type="check"
-                                  style={{ color: "green", fontSize: "18px" }}
-                                />
-                              ) : (
-                                undefined
-                              )
-                            }
-                          />
-                          <Error>{state.errors.photoID}</Error>
+                          <ProgressBar progress={photoIDLoading}>
+                            <Input
+                              id="PhotoID"
+                              style={{
+                                border: errors.PhotoID
+                                  ? "none"
+                                  : "1px solid #d9d9d9",
+                                display: "inline"
+                              }}
+                              value={photoIDFileName}
+                              placeholder="No file has been uploaded"
+                              disabled={!!photoIDFileName}
+                              suffix={
+                                photoIDFileName ? (
+                                  <Icon
+                                    type="check"
+                                    style={{ color: "green", fontSize: "18px" }}
+                                  />
+                                ) : (
+                                  undefined
+                                )
+                              }
+                            />
+                          </ProgressBar>
+                          <Error>{errors.photoID}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={9} sm={9} lg={9}>
-                        <UploadText as="label" htmlFor="photoID">
-                          browse file
-                          <input
-                            type="file"
-                            id="photoID"
-                            onChange={handleAddFile}
-                            name="photoIDFile"
-                            style={{ display: "none" }}
-                          />
-                        </UploadText>
+                        {isPhotoIDLoading ? (
+                          <UploadText disabled>browse file</UploadText>
+                        ) : (
+                          <UploadText as="label" htmlFor="photoID">
+                            browse file
+                            <input
+                              type="file"
+                              id="photoID"
+                              onChange={directUploadToGoogle}
+                              name="photoIDFile"
+                              style={{ display: "none" }}
+                              data-is-private={true}
+                            />
+                          </UploadText>
+                        )}
                       </Col>
                     </div>
                   </Row>
@@ -263,45 +302,52 @@ class Content extends Component {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Col xs={20} sm={20} lg={20}>
                         <ErrorWrapper
-                          error={state.errors.offerLetter}
+                          error={errors.offerLetter}
                           marginBottom="20px"
                         >
-                          <Input
-                            id="offerLetter2"
-                            style={{
-                              border: state.errors.offerLetter
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
-                            }}
-                            value={offerLetterName}
-                            placeholder="No file has been uploaded"
-                            disabled={!!offerLetterName}
-                            suffix={
-                              offerLetterName ? (
-                                <Icon
-                                  type="check"
-                                  style={{ color: "green", fontSize: "18px" }}
-                                />
-                              ) : (
-                                undefined
-                              )
-                            }
-                          />
-                          <Error>{state.errors.offerLetter}</Error>
+                          <ProgressBar progress={offerLetterLoading}>
+                            <Input
+                              id="offerLetter2"
+                              style={{
+                                border: errors.offerLetter
+                                  ? "none"
+                                  : "1px solid #d9d9d9",
+                                display: "inline"
+                              }}
+                              value={offerLetterName}
+                              placeholder="No file has been uploaded"
+                              disabled={!!offerLetterName}
+                              suffix={
+                                offerLetterName ? (
+                                  <Icon
+                                    type="check"
+                                    style={{ color: "green", fontSize: "18px" }}
+                                  />
+                                ) : (
+                                  undefined
+                                )
+                              }
+                            />
+                          </ProgressBar>
+                          <Error>{errors.offerLetter}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={9} sm={9} lg={9}>
-                        <UploadText as="label" htmlFor="offerLetter">
-                          browse file
-                          <input
-                            type="file"
-                            id="offerLetter"
-                            onChange={handleAddFile}
-                            name="offerLetter"
-                            style={{ display: "none" }}
-                          />
-                        </UploadText>
+                        {isOfferLetterLoading ? (
+                          <UploadText disabled>browse file</UploadText>
+                        ) : (
+                          <UploadText as="label" htmlFor="offerLetter">
+                            browse file
+                            <input
+                              type="file"
+                              id="offerLetter"
+                              onChange={directUploadToGoogle}
+                              name="offerLetter"
+                              data-is-private={true}
+                              style={{ display: "none" }}
+                            />
+                          </UploadText>
+                        )}
                       </Col>
                     </div>
                   </Row>
@@ -314,41 +360,41 @@ class Content extends Component {
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={state.errors.reference1Name}
+                          error={errors.reference1Name}
                           marginBottom="20px"
                         >
                           <Input
                             name="reference1Name"
                             onChange={handleInputChange}
-                            value={state.reference1Name}
+                            value={state.reference1.name}
                             placeholder="Name"
                             id="reference1Name"
                             style={{
-                              border: state.errors.reference1Name
+                              border: errors.reference1Name
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{state.errors.reference1Name}</Error>
+                          <Error>{errors.reference1Name}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={state.errors.reference1Contanct}
+                          error={errors.reference1Contanct}
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference1Contanct"
+                            name="reference1Contact"
                             onChange={handleInputChange}
-                            value={state.reference1Contanct}
+                            value={state.reference1.contact}
                             placeholder="Contact"
                             style={{
-                              border: state.errors.reference1Contanct
+                              border: errors.reference1Contanct
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{state.errors.reference1Contanct}</Error>
+                          <Error>{errors.reference1Contanct}</Error>
                         </ErrorWrapper>
                       </Col>
                     </Row>
@@ -362,41 +408,41 @@ class Content extends Component {
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={state.errors.reference2Name}
+                          error={errors.reference2Name}
                           marginBottom="20px"
                         >
                           <Input
                             name="reference2Name"
                             onChange={handleInputChange}
-                            value={state.reference2Name}
+                            value={state.reference2.name}
                             placeholder="Name"
                             id="reference2Name"
                             style={{
-                              border: state.errors.reference2Name
+                              border: errors.reference2Name
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{state.errors.reference2Name}</Error>
+                          <Error>{errors.reference2Name}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={state.errors.reference2Contanct}
+                          error={errors.reference2Contanct}
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference2Contanct"
+                            name="reference2Contact"
                             onChange={handleInputChange}
-                            value={state.reference2Contanct}
+                            value={state.reference2.contact}
                             placeholder="Contact"
                             style={{
-                              border: state.errors.reference2Contanct
+                              border: errors.reference2Contanct
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{state.errors.reference2Contanct}</Error>
+                          <Error>{errors.reference2Contanct}</Error>
                         </ErrorWrapper>
                       </Col>
                     </Row>
