@@ -48,7 +48,7 @@ const {
 // CONSTANTS
 const { multerFields } = require("./../constants");
 
-const { hostCompleteProfile, internCompleteProfile } = multerFields;
+const { hostCompleteProfile } = multerFields;
 
 // update host profile and create new offer
 router.post(
@@ -64,9 +64,6 @@ router.post(
 router.post(
   INTERN_COMPLETE_PROFILE,
   softAuthCheck,
-  multer(internCompleteProfile),
-  googleStorage(),
-  deleteFromServer(),
   internsCompleteProfile,
 );
 
