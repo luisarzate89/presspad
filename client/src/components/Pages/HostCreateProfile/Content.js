@@ -402,7 +402,7 @@ class Content extends Component {
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
                             progress={offerImages2Loading}
-                            style={{ height: "calc( (257px / 2) - 12.5px)" }}
+                            height="calc( (257px / 2) - 12.5px)"
                           >
                             <PhotoWrapper
                               small
@@ -433,7 +433,7 @@ class Content extends Component {
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
                             progress={offerImages3Loading}
-                            style={{ height: "calc( (257px / 2) - 12.5px)" }}
+                            height="calc( (257px / 2) - 12.5px)"
                           >
                             <PhotoWrapper
                               small

@@ -1,14 +1,16 @@
 import React from "react";
 import { Icon } from "antd";
+
+import { Bar, Wrapper } from "./ProgressBar.style";
 /**
  * Progress Bar appear at the bottom of a component.
  * @param {component} children The component that should be wrapped with the progressBar.
  * @param {number} progress The presentage of the progress bar.
  */
 
-const ProgressBar = ({ children, progress = 0, style }) => {
+const ProgressBar = ({ children, progress = 0, height, style }) => {
   return (
-    <div style={{ position: "relative", ...style }}>
+    <Wrapper height={height} style={style}>
       {progress === 100 && (
         <Icon
           type="check"
@@ -23,16 +25,8 @@ const ProgressBar = ({ children, progress = 0, style }) => {
         />
       )}
       {children}
-      <span
-        style={{
-          background: progress === 100 ? "green" : "blue",
-          height: 3,
-          display: "block",
-          width: `${progress}%`,
-          transition: "width 2s linear"
-        }}
-      />
-    </div>
+      <Bar progress={progress} />
+    </Wrapper>
   );
 };
 
