@@ -71,12 +71,10 @@ class BookingRequest extends Component {
   axiosCall = () => {
     //get user id
     // const id = window.location.href.split("/")[4];
-    const id = "5d0cc05651cea00688c0d374";
-    const data = { userId: id };
+
     axios
-      .post(API_INTERN_PROFILE_URL, data)
+      .post(API_INTERN_PROFILE_URL)
       .then(res => {
-        console.log(res);
         this.setState({
           isLoading: false,
           internData: res.data[0][0],
@@ -103,7 +101,6 @@ class BookingRequest extends Component {
 
   // checks if lisitng image exists and goes to right folder
   onChange = e => {
-    console.log("radio checked", e.target.value);
     this.setState({
       value: e.target.value
     });
@@ -130,6 +127,13 @@ class BookingRequest extends Component {
       height: "30px",
       lineHeight: "30px"
     };
+
+    const { reference1, reference2 } = verification;
+
+    const referencesLength =
+      ((reference1 && reference1.name && 1) || 0) +
+      ((reference2 && reference2.name && 1) || 0);
+
     return (
       <Wrapper>
         {/* Backlink */}
@@ -160,9 +164,7 @@ class BookingRequest extends Component {
 
               <SymbolContainer>
                 <Symbol src={referIcon} />
-                <SymbolHeadline>
-                  {verification.references.length} References
-                </SymbolHeadline>
+                <SymbolHeadline>{referencesLength} References</SymbolHeadline>
                 <IconDiv>
                   <Icon type="info-circle" />
                 </IconDiv>

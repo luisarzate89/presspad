@@ -9,7 +9,7 @@ const { internProfileData } = require("./../../database/queries/profile/internPr
 const { getUserReviews } = require("./../../database/queries/user/index");
 
 module.exports = async (req, res, next) => {
-  const { userId } = req.body;
+  const { user: { _id: userId } } = req;
 
   // check if user id is in request
   if (!userId) {

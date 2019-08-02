@@ -79,7 +79,7 @@ router.get(USER_URL, softAuthCheck, userInfo);
 router.post(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
-router.post(INTERN_PROFILE_URL, getInternProfile);
+router.post(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
 
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);

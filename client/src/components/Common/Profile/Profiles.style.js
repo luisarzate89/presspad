@@ -5,14 +5,12 @@ import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
-import { shadows, colors, breakpoints } from "../../../theme";
+import { shadows, colors } from "../../../theme";
 
 export const Wrapper = styled.div`
-   {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 
   @media (max-width: 575.98px) {
     width: 95%;
@@ -22,17 +20,13 @@ export const Wrapper = styled.div`
 // Backlink
 
 export const LinkDiv = styled.div`
-   {
-    margin-top: 15px;
-    height: 25px;
-  }
+  margin-top: 15px;
+  height: 25px;
 `;
 export const BackLinkDiv = styled.div`
-   {
-    margin-left: -10px;
-    display: flex;
-    justify-content: flex-start;
-  }
+  margin-left: -10px;
+  display: flex;
+  justify-content: flex-start;
 `;
 
 export const BackLink = styled(Link)`
@@ -124,4 +118,23 @@ export const Paragraph = styled.p`
   font-weight: 300;
   color: ${colors.fontLightBlack};
   margin-top: 8px;
+`;
+
+export const AdminTopDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const BackToAdmin = styled.div`
+  color: ${colors.links};
+  cursor: pointer;
+  font-weight: 500;
+  line-height: 1;
+`;
+
+export const MultipleButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
