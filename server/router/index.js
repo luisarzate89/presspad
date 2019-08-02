@@ -7,12 +7,15 @@ const signUpController = require("./../controllers/user/signup");
 const getUserByReferral = require("./../controllers/user/getUserByReferral");
 const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
+const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
 const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
+const verifyProfile = require("./../controllers/profile/verifyProfile");
+const orgsDashboard = require("./../controllers/organisation/dashboard");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -30,17 +33,20 @@ const {
   GET_ORGS_URL,
   HOST_PROFILE_URL,
   HOST_COMPLETE_PROFILE,
+  INTERN_COMPLETE_PROFILE,
   SEARCH_PROFILES_URL,
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
   INTERN_PROFILE_URL,
+  VERIFY_PROFILE_URL,
+  ORGS_DASHBOARD,
 } = require("../../client/src/constants/apiRoutes");
 
 // CONSTANTS
 const { multerFields } = require("./../constants");
 
-const { hostCompleteProfile } = multerFields;
+const { hostCompleteProfile, internCompleteProfile } = multerFields;
 
 // update host profile and create new offer
 router.post(
@@ -52,6 +58,16 @@ router.post(
   hostsCompleteProfile,
 );
 
+// update intern profile
+router.post(
+  INTERN_COMPLETE_PROFILE,
+  softAuthCheck,
+  multer(internCompleteProfile),
+  googleStorage(),
+  deleteFromServer(),
+  internsCompleteProfile,
+);
+
 // get user info from the cookie if it exists and send to front end
 router.get(USER_URL, softAuthCheck, userInfo);
 
@@ -60,6 +76,9 @@ router.post(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.post(INTERN_PROFILE_URL, getInternProfile);
+
+// approve or reject profile
+router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
@@ -78,5 +97,8 @@ router.post(LOGIN_URL, loginController);
 router.post(SIGNUP_URL, signUpController);
 router.post(CHECK_REFERRAL_URL, getUserByReferral);
 router.get(GET_ORGS_URL, getAllOrgs);
+
+// Orgs
+router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
 module.exports = router;

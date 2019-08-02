@@ -1,8 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 
-const User = require("../../database/models/User");
-
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
 
@@ -47,6 +45,8 @@ describe("Testing for get host profile route", () => {
             expect(result.body).toBeDefined();
             expect(result.body[0].key).toBe(1);
             expect(result.body[0].organisation).toBeDefined();
+            expect(result.body[0].totalCredits).toBeDefined();
+            expect(result.body[0].plan).toBeDefined();
             expect(result.body[0].currentlyHosted).toBeDefined();
             expect(result.body[0].creditsSpent).toBeDefined();
             expect(result.body[0].userId).toBeDefined();

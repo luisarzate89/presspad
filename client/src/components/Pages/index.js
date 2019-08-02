@@ -11,6 +11,7 @@ import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
 import HostProfile from "./HostProfile";
+import InternCreateProfile from "./InternCreateProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
 import BookingRequest from "./BookingRequest";
@@ -23,7 +24,8 @@ import {
   SIGNUP_ORG,
   DASHBOARD_URL,
   HOST_PROFILE,
-  COMPLETE_PROFILE_URL,
+  HOST_COMPLETE_PROFILE_URL,
+  INTERN_COMPLETE_PROFILE_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
   BOOKING_REQUEST_URL
@@ -32,12 +34,14 @@ import {
 class Pages extends Component {
   render() {
     const { handleChangeState, isLoggedIn } = this.props;
+
     return (
       <>
         <Switch>
           <Route path={HOME_URL} exact component={LandingPage} />
 
           <PrivateRoute
+            exact
             path={HOST_PROFILE}
             Component={HostProfile}
             handleChangeState={handleChangeState}
@@ -70,6 +74,15 @@ class Pages extends Component {
 
           <PrivateRoute
             exact
+            path={HOST_COMPLETE_PROFILE_URL}
+            Component={HostCreateProfile}
+            handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
             path={ADMIN_DASHBOARD_URL}
             Component={AdminDashboard}
             handleChangeState={handleChangeState}
@@ -79,8 +92,8 @@ class Pages extends Component {
 
           <PrivateRoute
             exact
-            path={COMPLETE_PROFILE_URL}
-            Component={HostCreateProfile}
+            path={INTERN_COMPLETE_PROFILE_URL}
+            Component={InternCreateProfile}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}

@@ -1,7 +1,7 @@
 const multer = require("multer");
 const boom = require("boom");
 
-
+// fieldsArray for filtering and validating the files
 module.exports = fieldsArray => (req, res, next) => {
   // storage config
   const storage = multer.diskStorage({
@@ -15,7 +15,20 @@ module.exports = fieldsArray => (req, res, next) => {
     },
   });
 
-  const upload = multer({ storage }).fields(fieldsArray);
+  const upload = multer({
+    storage,
+    fileFilter(fileReq, file, callback) {
+      const fileAllowed = fieldsArray.reduce((prev, curr) => {
+        if (curr.name === file.fieldname) {
+          return true;
+        }
+        return prev || false;
+      }, false);
+
+      // if the uploaded field not listed in the fieldsArray object return error
+      return callback(!fileAllowed ? true : null, true);
+    },
+  }).any();
 
   upload(req, res, (err) => {
     if (err) {

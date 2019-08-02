@@ -19,16 +19,14 @@ module.exports = () => async (req, res, next) => {
     const requests = [];
     const fieldsNames = [];
     // iterate through the files
-    const files = Object.keys(req.files);
-    files.forEach((file) => {
-      if (Object.prototype.hasOwnProperty.call(req.files, file)) {
-        // make an array of promises to upload the files
-        fieldsNames.push(file);
-        requests.push(bucket.upload(req.files[file][0].path, {
-          // Support for HTTP requests made with `Accept-Encoding: gzip`
-          gzip: true,
-        }));
-      }
+    req.files.forEach((file) => {
+      // make an array of promises to upload the files
+      fieldsNames.push(file);
+
+      requests.push(bucket.upload(file.path, {
+        // Support for HTTP requests made with `Accept-Encoding: gzip`
+        gzip: true,
+      }));
     });
 
     // upload the files array
@@ -46,11 +44,13 @@ module.exports = () => async (req, res, next) => {
 
     // get the urls at once
     const urls = await Promise.all(urlRequests);
+
     // add the url into the req.body as req.body.fieldName = url
     urls.forEach((url, index) => {
       const fieldName = fieldsNames[index];
+
       const [urlText] = url;
-      req.body[fieldName] = urlText;
+      req.body[fieldName.fieldname] = urlText;
     });
   } catch (error) {
     next(boom.badImplementation("Error while uploading files"));

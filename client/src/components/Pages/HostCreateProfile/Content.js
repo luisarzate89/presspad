@@ -26,7 +26,7 @@ class Content extends Component {
     const {
       handleOtherInfo,
       handleAddProfile,
-      handelInputChange,
+      handleInputChange,
       handleSubmit,
       disabledStartDate,
       disabledEndDate,
@@ -45,19 +45,31 @@ class Content extends Component {
         <ContentWrapper>
           <HeaderWrapper>
             <Row gutter={20} type="flex" justify="start">
-              <Col span={2}>
+              <Col xs={24} sm={4} lg={3}>
                 <ErrorWrapper>
-                  <Avatar
-                    size="large"
-                    icon="user"
-                    src={state.profileImage.dataUrl}
+                  <div
                     style={{
-                      backgroundColor: state.errors.profileImage
-                        ? "red"
-                        : "none",
-                      marginRight: "26px"
+                      textAlign: "center"
                     }}
-                  />
+                  >
+                    <Avatar
+                      size="large"
+                      icon="user"
+                      src={state.profileImage.dataUrl}
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        margin: "0 auto",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "42px",
+                        backgroundColor: state.errors.profileImage
+                          ? "red"
+                          : "none"
+                      }}
+                    />
+                  </div>
                   <Error>{state.errors.profileImage}</Error>
                 </ErrorWrapper>
               </Col>
@@ -92,7 +104,7 @@ class Content extends Component {
                   <ErrorWrapper error={state.errors.bio} marginBottom="40px">
                     <TextArea
                       name="bio"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       rows={7}
                       id="bio"
                       placeholder="Introduce yourself to interns"
@@ -109,7 +121,7 @@ class Content extends Component {
                   <Label htmlFor="interests">Interests</Label>
                   <TextArea
                     name="interests"
-                    onChange={handelInputChange}
+                    onChange={handleInputChange}
                     rows={7}
                     id={"interests"}
                     placeholder="Add some of your interests"
@@ -126,7 +138,7 @@ class Content extends Component {
                   >
                     <Input
                       name="organisationName"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.organisationName}
                       id="organisationName"
                       style={{
@@ -149,7 +161,7 @@ class Content extends Component {
                   >
                     <Input
                       name="organisationWebsite"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.organisationWebsite}
                       id="organisationWebsite"
                       style={{
@@ -173,7 +185,7 @@ class Content extends Component {
                     <Input
                       id="jobTitle"
                       name="jobTitle"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.jobTitle}
                       style={{
                         border: state.errors.jobTitle
@@ -235,78 +247,74 @@ class Content extends Component {
                 {/* Address */}
                 <Col xs={24} sm={24} lg={8}>
                   <Label htmlFor="addressline1">Address</Label>
-                  <ErrorWrapper
-                    error={state.errors.addressLine1}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressLine1"
                       placeholder="Street"
                       id="addressline1"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.addressLine1}
                       style={{
                         display: "inline",
-                        border: state.errors.addressline1
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                        border: state.errors.addressLine1
+                          ? "1px solid red"
+                          : "1px solid #dbdbdb"
                       }}
                     />
-                    <Error>{state.errors.addressLine1}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressLine1}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressLine2}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressLine2"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.addressLine2}
                       placeholder="Borough"
                       style={{
                         display: "inline",
                         border: state.errors.addressLine2
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressLine2}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressLine2}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressCity}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressCity"
                       value={state.addressCity}
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       placeholder="City"
                       style={{
                         display: "inline",
                         border: state.errors.addressCity
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressCity}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressCity}
+                    </Error>
                   </ErrorWrapper>
-                  <ErrorWrapper
-                    error={state.errors.addressPostCode}
-                    marginBottom="10px"
-                  >
+                  <ErrorWrapper marginBottom="10px">
                     <Input
                       name="addressPostCode"
                       value={state.addressPostCode}
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       placeholder="Postcode"
                       style={{
                         display: "inline",
                         border: state.errors.addressPostCode
-                          ? "none"
+                          ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.addressPostCode}</Error>
+                    <Error style={{ position: "relative" }}>
+                      {state.errors.addressPostCode}
+                    </Error>
                   </ErrorWrapper>
                 </Col>
                 <Col xs={24} sm={24} lg={16}>
@@ -427,7 +435,7 @@ class Content extends Component {
                       id="offerDescription"
                       rows={5}
                       name="offerDescription"
-                      onChange={handelInputChange}
+                      onChange={handleInputChange}
                       value={state.offerDescription}
                     />
                     <Error>{state.errors.offerDescription}</Error>

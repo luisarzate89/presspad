@@ -3,17 +3,10 @@ import { Link } from "react-router-dom";
 
 import { Table, Tag } from "antd";
 
-import { colors } from "./../../../theme";
+import { tagColors } from "./../../../theme";
 
 // import helpers
 import getUserId from "./../../../helpers/getUserId";
-
-//  set colours for tags in the table
-const tagColors = {
-  "Looking for host": colors.primary,
-  "At host": colors.green,
-  "Pending request": colors.orange
-};
 
 // const data = [
 //   {
@@ -48,7 +41,7 @@ export default class InternTable extends Component {
         dataIndex: "name",
         key: "name",
         ...getColumnSearchProps("name"),
-        sorter: (a, b) => a.name - b.name,
+        sorter: (a, b) => a.name.localeCompare(b.name),
         className: "nameCol",
         render: text => (
           <Link to={`/interns/${getUserId(data, text)}`}>{text}</Link>
@@ -59,7 +52,7 @@ export default class InternTable extends Component {
         dataIndex: "organisation",
         key: "organisation",
         ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation - b.organisation,
+        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
         className: "orgCol"
       },
       {
@@ -108,7 +101,6 @@ export default class InternTable extends Component {
         title: "Status",
         dataIndex: "status",
         key: "status",
-        sorter: (a, b) => a.status - b.status,
         render: status => (
           <Tag color={tagColors[status]} key={status}>
             {status.toUpperCase()}

@@ -32,3 +32,11 @@ export const getDateRangeFromArray = datesArray => {
 
   return avDatesArray;
 };
+
+/**
+ * return the time in words eg. 5 minutes ago, few seconds ago
+ * @param {Date} time moment time
+ */
+export const getStringTime = time => {
+  return moment(time).fromNow();
+};

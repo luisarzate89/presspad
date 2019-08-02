@@ -1,7 +1,5 @@
-const shortid = require("shortid");
 const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
-const OrgCodes = require("../../models/OrgCodes");
 
 module.exports = async () => {
   // organisation codes
@@ -23,8 +21,6 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisations[0],
-      plan: "basic",
-      credits: 500,
     },
     {
       email: "josephine@guardian.co.uk",
@@ -32,8 +28,6 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisations[1],
-      plan: "basic",
-      credits: 1500,
     },
     {
       email: "brian@bbc.co.uk",
@@ -41,8 +35,6 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisations[2],
-      plan: "basic",
-      credits: 750,
     },
     {
       email: "luise@afp.co.uk",
@@ -50,8 +42,6 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisations[3],
-      plan: "basic",
-      credits: 200,
     },
   ];
 
@@ -63,6 +53,7 @@ module.exports = async () => {
     name: "Alexandra Lions",
     password: "123456",
     role: "superhost",
+    credits: 8200,
   };
 
   const storedSuperhost = await User.create(superhost);
@@ -75,6 +66,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 3200,
     },
     {
       email: "eve@hello.com",
@@ -82,6 +74,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 6100,
     },
     {
       email: "hilda@bbc.co.uk",
@@ -89,6 +82,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 3500,
     },
     {
       email: "simon@gmail.com",
@@ -96,6 +90,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
+      credits: 1700,
     },
   ];
 

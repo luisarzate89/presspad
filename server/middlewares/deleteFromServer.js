@@ -6,13 +6,13 @@ module.exports = () => (req, res, next) => {
     return next();
   }
 
-  // iterate through the uploaded files and delelte them from the server
-  const files = Object.values(req.files);
+  // iterate through the uploaded files and delete them from the server
   try {
-    files.forEach((file) => {
-      const filePath = file[0].path;
+    req.files.forEach((file) => {
+      const filePath = file.path;
       return fs.unlink(filePath, (err) => {
         if (err) {
+          // eslint-disable-next-line no-console
           console.log(err);
         }
       });

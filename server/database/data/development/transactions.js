@@ -10,11 +10,13 @@ module.exports = async () => {
     {
       credits: 600,
       sender: orgs[0],
+      sendingOrganisation: orgs[0].organisation,
       recipient: interns[0],
     },
     {
       credits: 400,
       sender: orgs[1],
+      sendingOrganisation: orgs[1].organisation,
       recipient: interns[1],
     },
     {

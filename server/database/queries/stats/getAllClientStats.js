@@ -4,23 +4,6 @@ const { getInternStatus } = require("./../user/index");
 
 module.exports.getAllClientStats = async () => {
   const clientStats = await Organisation.aggregate([
-    // get all users relevant to this organisation
-    {
-      $lookup: {
-        from: "users",
-        localField: "_id",
-        foreignField: "organisation",
-        as: "userDetails",
-      },
-    },
-    {
-      $unwind: "$userDetails",
-    },
-    // get the user who represents this organisation
-    {
-      $match: { "userDetails.role": "organisation" },
-    },
-    // get all users relevant to this organisation
     {
       $lookup: {
         from: "users",
@@ -33,10 +16,8 @@ module.exports.getAllClientStats = async () => {
       $project: {
         _id: 1,
         name: 1,
-        "userDetails._id": 1,
-        "userDetails.email": 1,
-        "userDetails.plan": 1,
-        "userDetails.credits": 1,
+        plan: 1,
+        credits: 1,
         interns: {
           $filter: {
             input: "$users",
@@ -55,8 +36,8 @@ module.exports.getAllClientStats = async () => {
     {
       $lookup: {
         from: "transactions",
-        localField: "userDetails._id",
-        foreignField: "sender",
+        localField: "_id",
+        foreignField: "sendingOrganisation",
         as: "transactions",
       },
     },
@@ -64,10 +45,8 @@ module.exports.getAllClientStats = async () => {
       $project: {
         _id: 1,
         name: 1,
-        "userDetails._id": 1,
-        "userDetails.email": 1,
-        "userDetails.plan": 1,
-        "userDetails.credits": 1,
+        plan: 1,
+        credits: 1,
         "interns._id": 1,
         "interns.name": 1,
         numberOfInterns: 1,

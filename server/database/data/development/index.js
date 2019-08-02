@@ -11,6 +11,7 @@ const profiles = require("./profiles");
 const listings = require("./listings");
 const bookings = require("./bookings");
 const reviews = require("./reviews");
+const notifications = require("./notifications");
 const transactions = require("./transactions");
 
 const buildDevData = () => new Promise((resolve, reject) => {
@@ -25,6 +26,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await listings();
       await bookings();
       await reviews();
+      await notifications();
       await transactions();
     })
     .then(resolve)

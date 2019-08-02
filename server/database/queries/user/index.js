@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const shortid = require("shortid");
 const User = require("../../models/User");
 const Booking = require("../../models/Booking");
 const Review = require("../../models/Review");
@@ -8,7 +7,9 @@ const { addOrg } = require("./organisation");
 
 module.exports.findByEmail = email => User.findOne({ email: email.toLowerCase() });
 
-module.exports.getUserById = (id, withoutPassword) => (withoutPassword ? User.findById(id, { password: 0 }) : User.findById(id));
+module.exports.getUserById = (id, withoutPassword) => (withoutPassword
+  ? User.findById(id, { password: 0 })
+  : User.findById(id));
 
 module.exports.addNewUser = async (userInfo) => {
   const {
@@ -135,3 +136,25 @@ module.exports.getUserReviews = userId => new Promise((resolve, reject) => {
     .then(response => resolve(response))
     .catch(error => reject(error));
 });
+
+
+module.exports.getUserOrg = userId => User.aggregate([
+  {
+    $match: {
+      _id: mongoose.Types.ObjectId(userId),
+    },
+  }, {
+    $lookup: {
+      from: "organisations",
+      localField: "organisation",
+      foreignField: "_id",
+      as: "organisation",
+    },
+  }, {
+    $addFields: {
+      organisation: {
+        $arrayElemAt: ["$organisation", 0],
+      },
+    },
+  }, { $replaceRoot: { newRoot: "$organisation" } },
+]);

@@ -23,10 +23,10 @@ module.exports = async (req, res, next) => {
           const clientObj = {
             key: stats.indexOf(client) + 1,
             organisation: client.name,
-            totalCredits: client.userDetails.credits,
+            totalCredits: client.credits,
             creditsSpent: client.spentCredits,
             interns: client.numberOfInterns,
-            plan: client.userDetails.plan,
+            plan: client.plan,
             currentlyHosted: client.currentlyHosted,
             userId: client._id,
           };
@@ -78,6 +78,7 @@ module.exports = async (req, res, next) => {
             city: host.listing.address.city,
             hosted: host.internsHosted,
             approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
+            profileId: host.profile[0]._id,
             userId: host._id,
           };
           return hostObj;

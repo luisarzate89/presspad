@@ -40,7 +40,7 @@ describe("Tests for hostProfile queries", () => {
 
     await searchProfiles(data).then((results) => {
       expect(results).toBeDefined();
-      expect(results.length).toBe(2);
+      expect(results.length).toBe(3);
     });
     done();
   });

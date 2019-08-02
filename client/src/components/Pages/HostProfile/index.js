@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 
 //api
-import { API_HOST_PROFILE_URL } from "../../../constants/apiRoutes";
+import {
+  API_HOST_PROFILE_URL,
+  API_VERIFY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 import Calendar from "./Calendar";
 import axios from "axios";
 
+// common components
+import Button from "./../../Common/Button/index";
+
 //styles
+
 import {
   Wrapper,
   LinkDiv,
   BackLinkDiv,
+  AdminTopDiv,
+  MultipleButtons,
   Arrow,
+  BackToAdmin,
   BackLink,
   Header,
   HeaderDiv,
@@ -63,13 +73,17 @@ class HostProfile extends Component {
     isLoading: true,
     profileData: null,
     reviews: null,
-    internBookings: null
+    internBookings: [],
+    adminView: false,
+    profileId: null
   };
 
   // functions
   axiosCall = () => {
-    //get user id
-    const id = window.location.href.split("/")[4];
+    //get user id either from id passed in props or if they've typed in the manual url
+    const { hostId } = this.props;
+
+    const id = hostId ? hostId : window.location.href.split("/")[4];
     const data = { userId: id };
     axios
       .post(API_HOST_PROFILE_URL, data)
@@ -87,13 +101,24 @@ class HostProfile extends Component {
       });
   };
 
+  // adminAxiosCall = () => {
+
+  // }
+
   componentWillMount() {
+    // check to see if this is the adminView from dashboard
+    const { adminView } = this.props;
+
+    this.setState({ adminView });
+
     this.axiosCall();
 
-    axios
-      .get(`/api/bookings/${this.props.id}`)
-      .then(result => this.setState({ internBookings: result.data }))
-      .catch(err => console.log(err));
+    if (!adminView) {
+      axios
+        .get(`/api/bookings/${this.props.id}`)
+        .then(result => this.setState({ internBookings: result.data }))
+        .catch(err => console.log(err));
+    }
   }
 
   // checks if profile image exists and returns src path
@@ -111,13 +136,28 @@ class HostProfile extends Component {
 
   createAddress = (street, city) => `${street}, ${city}`;
 
+  // Admin function - approve/unapprove profile
+  verifyProfile = (profileId, bool) => {
+    axios
+      .post(API_VERIFY_PROFILE_URL, { profileId, verify: bool })
+      .then(() => this.axiosCall())
+      .catch(err => console.error(err));
+  };
+
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
-    const { profileData, reviews, internBookings } = this.state;
+    const { profileData, reviews, internBookings, adminView } = this.state;
+    const { hideProfile } = this.props;
 
-    const { listing, profile } = profileData;
-    const { bio, jobTitle, organisation, profileImage } = profile;
+    const { listing, profile, name, email } = profileData;
+    const {
+      bio,
+      jobTitle,
+      organisation,
+      profileImage,
+      _id: profileId
+    } = profile;
 
     const { _id, availableDates, price } = listing;
 
@@ -126,21 +166,65 @@ class HostProfile extends Component {
     return (
       <Wrapper>
         <LinkDiv>
-          <BackLinkDiv>
-            <Arrow />
-            <BackLink to="/">back to search results</BackLink>
-          </BackLinkDiv>
+          {adminView ? (
+            <AdminTopDiv>
+              <BackLinkDiv>
+                <Arrow />
+                <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
+              </BackLinkDiv>
+              {profile && profile.verified ? (
+                <Button
+                  label="Unapprove profile"
+                  type="verification"
+                  color="red"
+                  onClick={() => this.verifyProfile(profileId, false)}
+                />
+              ) : (
+                <MultipleButtons>
+                  <a href={`mailto:${email}`}>
+                    <Button
+                      label="Request changes"
+                      type="verification"
+                      color="orange"
+                      margin="0 1rem 0 0"
+                    />
+                  </a>
+                  <Button
+                    label="Approve profile"
+                    type="verification"
+                    color="green"
+                    onClick={() => this.verifyProfile(profileId, true)}
+                  />
+                </MultipleButtons>
+              )}
+            </AdminTopDiv>
+          ) : (
+            <BackLinkDiv>
+              <Arrow />
+              <BackLink to="/">back to search results</BackLink>
+            </BackLinkDiv>
+          )}
         </LinkDiv>
         <Header>
-          <ProfilePicDiv src={this.getProfilePic(profileImage)} />
+          <ProfilePicDiv
+            src={this.getProfilePic(profileImage)}
+            adminView={adminView}
+          />
+
           <HeaderDiv>
-            <Headline>
-              A {jobTitle} at {organisation.name}
-            </Headline>
-            <Address>{`${listing.address.street}, ${
-              listing.address.city
-            }`}</Address>
+            {adminView ? (
+              <Headline>{name}</Headline>
+            ) : (
+              <Headline>
+                A {jobTitle} at {organisation.name}
+              </Headline>
+            )}
+
+            <Address>
+              {`${listing.address.street}, ${listing.address.city}`}
+            </Address>
           </HeaderDiv>
+
           <SymbolDiv>
             {/* this needs to be dynamically rendered at some point */}
             <Symbol src={starSign} />
@@ -222,6 +306,7 @@ class HostProfile extends Component {
                   availableDates={availableDates}
                   internBookings={internBookings}
                   price={price}
+                  adminView={adminView}
                 />
               </CalendarDiv>
             </Card>

@@ -10,6 +10,7 @@ const listings = require("./listings");
 const bookings = require("./bookings");
 const reviews = require("./reviews");
 const transactions = require("./transactions");
+const notifications = require("./notifications");
 
 const buildTestData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -23,6 +24,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await listings();
       await bookings();
       await reviews();
+      await notifications();
       await transactions();
     })
     .then(resolve)

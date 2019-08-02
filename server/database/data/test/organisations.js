@@ -6,18 +6,26 @@ module.exports = async () => {
     {
       name: "Financial Times",
       code: shortid.generate(),
+      plan: "basic",
+      credits: 500,
     },
     {
       name: "The Guardian",
       code: shortid.generate(),
+      plan: "basic",
+      credits: 1500,
     },
     {
       name: "BBC",
       code: shortid.generate(),
+      plan: "basic",
+      credits: 750,
     },
     {
       name: "AFP",
       code: shortid.generate(),
+      plan: "basic",
+      credits: 200,
     },
   ];
 

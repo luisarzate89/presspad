@@ -40,6 +40,7 @@ module.exports.getAllHostStats = () => User.aggregate([
       name: 1,
       "listing.address.city": 1,
       "profile.verified": 1,
+      "profile._id": 1,
       // look up from bookings:
       // // any that were confirmed
       // // any that started before today's date
