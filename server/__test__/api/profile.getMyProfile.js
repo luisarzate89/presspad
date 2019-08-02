@@ -41,8 +41,10 @@ describe("Tests get profile data with the image urls form google cloud", () => {
             if (err) return done(err);
             expect(res).toBeDefined();
             expect(res.body).toBeDefined();
+            console.log(11, res.body);
 
             const { url } = res.body.profile.profileImage;
+            console.log(11, url)
             expect(url).toBeTruthy();
             expect(url).toBe(
               "https://storage.googleapis.com/presspad-4e1bd.appspot.com/adam-profile.jpg",
