@@ -18,6 +18,8 @@ import {
   Error
 } from "./HostCreateProfile.style";
 
+import { ProgressBar, ProgressRing } from "../../Common/progress";
+
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
 
@@ -25,7 +27,7 @@ class Content extends Component {
   render() {
     const {
       handleOtherInfo,
-      handleAddProfile,
+      directUploadToGoogle,
       handleInputChange,
       handleSubmit,
       disabledStartDate,
@@ -36,9 +38,35 @@ class Content extends Component {
       state,
       name
     } = this.props;
-    const pressPassFileName = state.pressPass.file
-      ? state.pressPass.file.name
-      : "";
+
+    const {
+      profileImage: {
+        dataUrl: profileImageDataUrl,
+        isLoading: isProfileImageLoading,
+        loading: profileImageLoading
+      },
+      pressPass: {
+        name: pressPassFileName,
+        loading: pressPassLoading,
+        isLoading: isPressPassLoading
+      },
+      offerImages1: {
+        dataUrl: offerImages1DataUrl,
+        loading: offerImages1Loading,
+        isLoading: isOfferImages1Loading
+      },
+      offerImages2: {
+        dataUrl: offerImages2DataUrl,
+        loading: offerImages2Loading,
+        isLoading: isOfferImages2Loading
+      },
+      offerImages3: {
+        dataUrl: offerImages3DataUrl,
+        loading: offerImages3Loading,
+        isLoading: isOfferImages3Loading
+      },
+      errors
+    } = state;
 
     return (
       <PageWrapper>
@@ -47,30 +75,38 @@ class Content extends Component {
             <Row gutter={20} type="flex" justify="start">
               <Col xs={24} sm={4} lg={3}>
                 <ErrorWrapper>
-                  <div
-                    style={{
-                      textAlign: "center"
-                    }}
-                  >
-                    <Avatar
-                      size="large"
-                      icon="user"
-                      src={state.profileImage.dataUrl}
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        margin: "0 auto",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "42px",
-                        backgroundColor: state.errors.profileImage
-                          ? "red"
-                          : "none"
-                      }}
-                    />
+                  <div style={{ textAlign: "center" }}>
+                    {/*neccesarry for ProgressRing*/}
+                    <div style={{ position: "relative", width: 86 }}>
+                      <ProgressRing
+                        radius={43}
+                        stroke={2}
+                        progress={profileImageLoading}
+                        style={{
+                          position: "absolute",
+                          zIndex: 1,
+                          left: 0,
+                          marginTop: -3
+                        }}
+                      />
+                      <Avatar
+                        size="large"
+                        icon="user"
+                        src={profileImageDataUrl}
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          margin: "0 auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "42px",
+                          backgroundColor: errors.profileImage ? "red" : "none"
+                        }}
+                      />
+                    </div>
                   </div>
-                  <Error>{state.errors.profileImage}</Error>
+                  <Error>{errors.profileImage}</Error>
                 </ErrorWrapper>
               </Col>
               <Col span={20}>
@@ -78,16 +114,21 @@ class Content extends Component {
                   Hi {name.split(" ")[0]}, please complete your profile
                 </HiText>
                 <HeaderButtonsWrapper>
-                  <UploadButton as="label" htmlFor="profileImage">
-                    Add profile photo
-                  </UploadButton>
+                  {isProfileImageLoading ? (
+                    <UploadButton disabled>Add profile photo</UploadButton>
+                  ) : (
+                    <UploadButton as="label" htmlFor="profileImage">
+                      Add profile photo
+                    </UploadButton>
+                  )}
                   <input
                     type="file"
                     id="profileImage"
                     name="profileImage"
-                    onChange={handleAddProfile}
+                    onChange={directUploadToGoogle}
                     accept="image/*"
                     style={{ display: "none" }}
+                    data-is-private="false"
                   />
                   <UploadButton onClick={handleSubmit}>Submit</UploadButton>
                 </HeaderButtonsWrapper>
@@ -101,7 +142,7 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={14}>
                   <Label htmlFor="bio">Bio</Label>
-                  <ErrorWrapper error={state.errors.bio} marginBottom="40px">
+                  <ErrorWrapper error={errors.bio} marginBottom="40px">
                     <TextArea
                       name="bio"
                       onChange={handleInputChange}
@@ -110,11 +151,10 @@ class Content extends Component {
                       placeholder="Introduce yourself to interns"
                       value={state.bio}
                       style={{
-                        border: state.errors.bio ? "none" : "1px solid #d9d9d9"
+                        border: errors.bio ? "none" : "1px solid #d9d9d9"
                       }}
-                      border={false}
                     />
-                    <Error>{state.errors.bio}</Error>
+                    <Error>{errors.bio}</Error>
                   </ErrorWrapper>
                 </Col>
                 <Col xs={24} lg={10}>
@@ -133,7 +173,7 @@ class Content extends Component {
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="organisationName">Organisation</Label>
                   <ErrorWrapper
-                    error={state.errors.organisationName}
+                    error={errors.organisationName}
                     marginBottom="20px"
                   >
                     <Input
@@ -142,12 +182,12 @@ class Content extends Component {
                       value={state.organisationName}
                       id="organisationName"
                       style={{
-                        border: state.errors.organisationName
+                        border: errors.organisationName
                           ? "none"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.organisationName}</Error>
+                    <Error>{errors.organisationName}</Error>
                   </ErrorWrapper>
                 </Col>
 
@@ -156,7 +196,7 @@ class Content extends Component {
                     Organisation website
                   </Label>
                   <ErrorWrapper
-                    error={state.errors.organisationWebsite}
+                    error={errors.organisationWebsite}
                     marginBottom="20px"
                   >
                     <Input
@@ -165,12 +205,12 @@ class Content extends Component {
                       value={state.organisationWebsite}
                       id="organisationWebsite"
                       style={{
-                        border: state.errors.organisationWebsite
+                        border: errors.organisationWebsite
                           ? "none"
                           : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.organisationWebsite}</Error>
+                    <Error>{errors.organisationWebsite}</Error>
                   </ErrorWrapper>
                 </Col>
               </Row>
@@ -178,22 +218,17 @@ class Content extends Component {
               <Row gutter={25} type="flex">
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="jobTitle">Job title</Label>
-                  <ErrorWrapper
-                    error={state.errors.jobTitle}
-                    marginBottom="20px"
-                  >
+                  <ErrorWrapper error={errors.jobTitle} marginBottom="20px">
                     <Input
                       id="jobTitle"
                       name="jobTitle"
                       onChange={handleInputChange}
                       value={state.jobTitle}
                       style={{
-                        border: state.errors.jobTitle
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                        border: errors.jobTitle ? "none" : "1px solid #d9d9d9"
                       }}
                     />
-                    <Error>{state.errors.jobTitle}</Error>
+                    <Error>{errors.jobTitle}</Error>
                   </ErrorWrapper>
                 </Col>
 
@@ -203,35 +238,42 @@ class Content extends Component {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Col xs={18} sm={18} lg={18}>
                         <ErrorWrapper
-                          error={state.errors.pressPass}
+                          error={errors.pressPass}
                           marginBottom="20px"
                         >
-                          <Input
-                            id="Press pass"
-                            style={{
-                              border: state.errors.pressPass
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
-                            }}
-                            value={pressPassFileName}
-                            placeholder="No file has been uploaded"
-                            disabled={!!pressPassFileName}
-                          />
-                          <Error>{state.errors.pressPass}</Error>
+                          <ProgressBar progress={pressPassLoading}>
+                            <Input
+                              id="Press pass"
+                              style={{
+                                border: errors.pressPass
+                                  ? "none"
+                                  : "1px solid #d9d9d9",
+                                display: "inline"
+                              }}
+                              value={pressPassFileName}
+                              placeholder="No file has been uploaded"
+                              disabled={!!pressPassFileName}
+                            />
+                          </ProgressBar>
+                          <Error>{errors.pressPass}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={9} sm={9} lg={9}>
-                        <UploadText as="label" htmlFor="pressPass">
-                          browse file
-                          <input
-                            type="file"
-                            id="pressPass"
-                            onChange={handleAddProfile}
-                            name="pressPass"
-                            style={{ display: "none" }}
-                          />
-                        </UploadText>
+                        {isPressPassLoading ? (
+                          <UploadText disabled>browse file</UploadText>
+                        ) : (
+                          <UploadText as="label" htmlFor="pressPass">
+                            browse file
+                            <input
+                              type="file"
+                              id="pressPass"
+                              onChange={directUploadToGoogle}
+                              name="pressPass"
+                              style={{ display: "none" }}
+                              data-is-private="true"
+                            />
+                          </UploadText>
+                        )}
                       </Col>
                     </div>
                   </Row>
@@ -256,13 +298,13 @@ class Content extends Component {
                       value={state.addressLine1}
                       style={{
                         display: "inline",
-                        border: state.errors.addressLine1
+                        border: errors.addressLine1
                           ? "1px solid red"
                           : "1px solid #dbdbdb"
                       }}
                     />
                     <Error style={{ position: "relative" }}>
-                      {state.errors.addressLine1}
+                      {errors.addressLine1}
                     </Error>
                   </ErrorWrapper>
                   <ErrorWrapper marginBottom="10px">
@@ -273,13 +315,13 @@ class Content extends Component {
                       placeholder="Borough"
                       style={{
                         display: "inline",
-                        border: state.errors.addressLine2
+                        border: errors.addressLine2
                           ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
                     <Error style={{ position: "relative" }}>
-                      {state.errors.addressLine2}
+                      {errors.addressLine2}
                     </Error>
                   </ErrorWrapper>
                   <ErrorWrapper marginBottom="10px">
@@ -290,7 +332,7 @@ class Content extends Component {
                       placeholder="City"
                       style={{
                         display: "inline",
-                        border: state.errors.addressCity
+                        border: errors.addressCity
                           ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
@@ -307,13 +349,13 @@ class Content extends Component {
                       placeholder="Postcode"
                       style={{
                         display: "inline",
-                        border: state.errors.addressPostCode
+                        border: errors.addressPostCode
                           ? "1px solid red"
                           : "1px solid #d9d9d9"
                       }}
                     />
                     <Error style={{ position: "relative" }}>
-                      {state.errors.addressPostCode}
+                      {errors.addressPostCode}
                     </Error>
                   </ErrorWrapper>
                 </Col>
@@ -321,22 +363,32 @@ class Content extends Component {
                   <Label>Photos</Label>
                   <Row gutter={25} type="flex">
                     <Col xs={24} sm={16} lg={16}>
-                      <PhotoWrapper
-                        imageSrc={state.offerImages1.dataUrl}
-                        error={state.errors.offerImages1}
-                      >
-                        <UploadButton as="label" htmlFor="offerImages1">
-                          Add photo
-                          <input
-                            type="file"
-                            id="offerImages1"
-                            onChange={handleAddProfile}
-                            name="offerImages1"
-                            accept="image/*"
-                            style={{ display: "none" }}
-                          />
-                        </UploadButton>
-                      </PhotoWrapper>
+                      <ErrorWrapper marginBottom="12.5px">
+                        <ProgressBar progress={offerImages1Loading}>
+                          <PhotoWrapper
+                            imageSrc={offerImages1DataUrl}
+                            error={errors.offerImages1}
+                          >
+                            {isOfferImages1Loading ? (
+                              <UploadButton disabled>Add photo</UploadButton>
+                            ) : (
+                              <UploadButton as="label" htmlFor="offerImages1">
+                                Add photo
+                                <input
+                                  type="file"
+                                  id="offerImages1"
+                                  onChange={directUploadToGoogle}
+                                  name="offerImages1"
+                                  accept="image/*"
+                                  style={{ display: "none" }}
+                                  data-is-private="false"
+                                />
+                              </UploadButton>
+                            )}
+                          </PhotoWrapper>
+                        </ProgressBar>
+                        <Error>{errors.offerImages1}</Error>
+                      </ErrorWrapper>
                     </Col>
                     <Col xs={24} sm={8} lg={8}>
                       <div
@@ -347,43 +399,67 @@ class Content extends Component {
                           height: "100%"
                         }}
                       >
-                        <PhotoWrapper
-                          small
-                          direction="bottom"
-                          imageSrc={state.offerImages2.dataUrl}
-                          error={state.errors.offerImages2}
-                        >
-                          <UploadButton as="label" htmlFor="offerImages2">
-                            Add photo
-                            <input
-                              type="file"
-                              id="offerImages2"
-                              onChange={handleAddProfile}
-                              name="offerImages2"
-                              accept="image/*"
-                              style={{ display: "none" }}
-                            />
-                          </UploadButton>
-                        </PhotoWrapper>
+                        <ErrorWrapper marginBottom="12.5px">
+                          <ProgressBar
+                            progress={offerImages2Loading}
+                            style={{ height: "calc( (257px / 2) - 12.5px)" }}
+                          >
+                            <PhotoWrapper
+                              small
+                              imageSrc={offerImages2DataUrl}
+                              error={errors.offerImages2}
+                            >
+                              {isOfferImages2Loading ? (
+                                <UploadButton disabled>Add photo</UploadButton>
+                              ) : (
+                                <UploadButton as="label" htmlFor="offerImages2">
+                                  Add photo
+                                  <input
+                                    type="file"
+                                    id="offerImages2"
+                                    onChange={directUploadToGoogle}
+                                    name="offerImages2"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    data-is-private="false"
+                                  />
+                                </UploadButton>
+                              )}
+                            </PhotoWrapper>
+                          </ProgressBar>
+                          <Error>{errors.offerImages2}</Error>
+                        </ErrorWrapper>
 
-                        <PhotoWrapper
-                          small
-                          direction="top"
-                          imageSrc={state.offerImages3.dataUrl}
-                          error={state.errors.offerImages3}
-                        >
-                          <UploadButton as="label" htmlFor="offerImages3">
-                            Add photo
-                            <input
-                              type="file"
-                              id="offerImages3"
-                              onChange={handleAddProfile}
-                              name="offerImages3"
-                              accept="image/*"
-                              style={{ display: "none" }}
-                            />
-                          </UploadButton>
-                        </PhotoWrapper>
+                        <ErrorWrapper marginBottom="12.5px">
+                          <ProgressBar
+                            progress={offerImages3Loading}
+                            style={{ height: "calc( (257px / 2) - 12.5px)" }}
+                          >
+                            <PhotoWrapper
+                              small
+                              imageSrc={offerImages3DataUrl}
+                              error={errors.offerImages3}
+                            >
+                              {isOfferImages3Loading ? (
+                                <UploadButton disabled>Add photo</UploadButton>
+                              ) : (
+                                <UploadButton as="label" htmlFor="offerImages3">
+                                  Add photo
+                                  <input
+                                    type="file"
+                                    id="offerImages3"
+                                    onChange={directUploadToGoogle}
+                                    name="offerImages3"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    data-is-private="false"
+                                  />
+                                </UploadButton>
+                              )}
+                            </PhotoWrapper>
+                          </ProgressBar>
+                          <Error>{errors.offerImages3}</Error>
+                        </ErrorWrapper>
                       </div>
                     </Col>
                   </Row>
@@ -427,7 +503,7 @@ class Content extends Component {
                 <Col xs={24} sm={24} lg={16}>
                   <Label htmlFor="offerDescription">Your neighbourhood</Label>
                   <ErrorWrapper
-                    error={state.errors.offerDescription}
+                    error={errors.offerDescription}
                     marginBottom="10px"
                   >
                     <TextArea
@@ -438,7 +514,7 @@ class Content extends Component {
                       onChange={handleInputChange}
                       value={state.offerDescription}
                     />
-                    <Error>{state.errors.offerDescription}</Error>
+                    <Error>{errors.offerDescription}</Error>
                   </ErrorWrapper>
                 </Col>
               </Row>
@@ -449,48 +525,46 @@ class Content extends Component {
                   <Row gutter={25} type="flex">
                     <Col xs={24} lg={12}>
                       {state.availableDates.map((item, index) => (
-                        <>
-                          <div key={index} style={{ marginBottom: "25px" }}>
-                            {index !== 0 && (
-                              <Divider
-                                style={{
-                                  marginTop: "25px",
-                                  background: "none"
-                                }}
-                              />
-                            )}
-                            <Col xs={24} sm={2}>
-                              <Label light>From</Label>
-                            </Col>
+                        <div key={index} style={{ marginBottom: "25px" }}>
+                          {index !== 0 && (
+                            <Divider
+                              style={{
+                                marginTop: "25px",
+                                background: "none"
+                              }}
+                            />
+                          )}
+                          <Col xs={24} sm={2}>
+                            <Label light>From</Label>
+                          </Col>
 
-                            <Col xs={24} sm={10}>
-                              <DatePicker
-                                disabledDate={value =>
-                                  disabledStartDate(index, value)
-                                }
-                                format="YYYY-MM-DD"
-                                value={item.startDate}
-                                placeholder="Start"
-                                onChange={value => onStartChange(index, value)}
-                              />
-                            </Col>
-                            <Col xs={24} sm={2}>
-                              <Label light>Until</Label>
-                            </Col>
-                            <Col xs={24} sm={10}>
-                              <DatePicker
-                                disabledDate={value =>
-                                  disabledEndDate(index, value)
-                                }
-                                format="YYYY-MM-DD"
-                                value={item.endDate}
-                                placeholder="End"
-                                onChange={value => onEndChange(index, value)}
-                                open={item.endOpen}
-                              />
-                            </Col>
-                          </div>
-                        </>
+                          <Col xs={24} sm={10}>
+                            <DatePicker
+                              disabledDate={value =>
+                                disabledStartDate(index, value)
+                              }
+                              format="YYYY-MM-DD"
+                              value={item.startDate}
+                              placeholder="Start"
+                              onChange={value => onStartChange(index, value)}
+                            />
+                          </Col>
+                          <Col xs={24} sm={2}>
+                            <Label light>Until</Label>
+                          </Col>
+                          <Col xs={24} sm={10}>
+                            <DatePicker
+                              disabledDate={value =>
+                                disabledEndDate(index, value)
+                              }
+                              format="YYYY-MM-DD"
+                              value={item.endDate}
+                              placeholder="End"
+                              onChange={value => onEndChange(index, value)}
+                              open={item.endOpen}
+                            />
+                          </Col>
+                        </div>
                       ))}
                     </Col>
                   </Row>
@@ -505,7 +579,7 @@ class Content extends Component {
                       >
                         + Add more
                       </UploadText>
-                      <Error>{state.errors.availableDates}</Error>
+                      <Error>{errors.availableDates}</Error>
                     </>
                   )}
                 </Col>

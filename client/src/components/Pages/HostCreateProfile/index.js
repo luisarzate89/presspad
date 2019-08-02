@@ -17,22 +17,40 @@ import {
 import Content from "./Content";
 
 const schema = Yup.object().shape({
-  profileImage: Yup.mixed().required("Required"),
-  offerImages1: Yup.mixed().required("Required"),
-  offerImages2: Yup.mixed().required("Required"),
-  offerImages3: Yup.mixed().required("Required"),
-
+  profileImage: Yup.object().shape({
+    name: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(true)
+  }),
   bio: Yup.string().required("Required"),
+  favouriteArticle: Yup.string(),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
     .url("Not a valid link")
     .required("Required"),
-  jobTitle: Yup.string().required("Required"),
-  pressPass: Yup.mixed().required("Required"),
+  jobTitle: Yup.string(),
+  pressPass: Yup.object().shape({
+    name: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(false)
+  }),
+
   addressLine1: Yup.string().required("Required"),
   addressLine2: Yup.string(),
   addressCity: Yup.string().required("Required"),
   addressPostCode: Yup.string().required("Required"),
+
+  offerImages1: Yup.object().shape({
+    name: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(true)
+  }),
+  offerImages2: Yup.object().shape({
+    name: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(true)
+  }),
+  offerImages3: Yup.object().shape({
+    name: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(true)
+  }),
+
   offerDescription: Yup.string().required("Required"),
   availableDates: Yup.mixed().test(
     "avialable-dates",
@@ -52,8 +70,10 @@ class HostCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
-      dataUrl: null,
-      file: null
+      name: "",
+      dataUrl: "",
+      loading: 0,
+      isLoading: false
     },
     bio: "",
     interests: "",
@@ -77,20 +97,28 @@ class HostCreateProfile extends Component {
     ],
 
     offerImages1: {
-      dataUrl: null,
-      file: null
+      loading: 0,
+      isLoading: false,
+      dataUrl: "",
+      name: ""
     },
     offerImages2: {
-      dataUrl: null,
-      file: null
+      loading: 0,
+      isLoading: false,
+      dataUrl: "",
+      name: ""
     },
     offerImages3: {
-      dataUrl: null,
-      file: null
+      loading: 0,
+      isLoading: false,
+      dataUrl: "",
+      name: ""
     },
     pressPass: {
-      dataUrl: null,
-      file: null
+      loading: 0,
+      isLoading: false,
+      dataUrl: "",
+      name: ""
     },
     errors: {}
   };
@@ -99,26 +127,82 @@ class HostCreateProfile extends Component {
     this.setState({ offerOtherInfo });
   };
 
-  handleAddProfile = ({ target }) => {
-    const { files, name } = target;
-    const image = files && files[0];
+  directUploadToGoogle = async e => {
+    const {
+      files: [image],
+      name,
+      dataset: { isPrivate }
+    } = e.target;
 
-    var reader = new FileReader();
+    const { id: userId } = this.props;
+    const { errors } = this.state;
 
-    reader.onload = () => {
-      var dataUrl = reader.result;
-      this.setState(
-        {
-          [name]: {
-            dataUrl,
-            file: image
-          }
+    if (!image) {
+      if (!this.state[name].name) {
+        return this.setState({
+          errors: { ...errors, [name]: "please upload a file" }
+        });
+      }
+      return;
+    }
+
+    if (image.size > 4e6) {
+      return this.setState({
+        errors: { ...errors, [name]: 'File too large, "max size 2MB"' }
+      });
+    }
+
+    // get signed url from google
+    try {
+      this.setState({
+        [name]: { ...this.state[name], loading: 0, isLoading: true }
+      });
+
+      const generatedName = `${userId}/${Date.now()}.${image.name}`;
+
+      const {
+        data: { signedUrl, bucketName }
+      } = await axios.get(`/api/upload/signed-url?fileName=${generatedName}`);
+
+      const headers = {
+        "Content-Type": "application/octet-stream"
+      };
+
+      let dataUrl = "";
+
+      if (isPrivate === "false") {
+        headers["x-goog-acl"] = "public-read";
+        dataUrl = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
+      }
+      await axios.put(signedUrl, image, {
+        headers,
+        onUploadProgress: progressEvent => {
+          const precent = (progressEvent.loaded / progressEvent.total) * 100;
+          this.setState({
+            [name]: {
+              loading: precent.toFixed(2),
+              isLoading: true
+            },
+            errors: { ...errors, [name]: "" }
+          });
+        }
+      });
+
+      this.setState({
+        [name]: {
+          dataUrl,
+          name: generatedName,
+          loading: 100,
+          isLoading: false
         },
-        () => this.state.attemptedToSubmit && this.updateErrors()
-      );
-    };
-
-    image && reader.readAsDataURL(image);
+        errors: { ...errors, [name]: "" }
+      });
+    } catch (error) {
+      message.error("something went wrong, try again later", 5);
+      this.setState({
+        [name]: { ...this.state[name], loading: 0, isLoading: false }
+      });
+    }
   };
 
   handleInputChange = ({ target }) => {
@@ -130,27 +214,10 @@ class HostCreateProfile extends Component {
   };
 
   validate = () => {
-    const {
-      profileImage,
-      pressPass,
-      offerImages1,
-      offerImages2,
-      offerImages3
-    } = this.state;
-
-    const state = {
-      ...this.state,
-      profileImage: profileImage.file,
-      pressPass: pressPass.dataUrl,
-      offerImages1: offerImages1.dataUrl,
-      offerImages2: offerImages2.dataUrl,
-      offerImages3: offerImages3.dataUrl
-    };
-
-    return schema.validate(state, { abortEarly: false }).catch(err => {
+    return schema.validate(this.state, { abortEarly: false }).catch(err => {
       const errors = {};
       err.inner.forEach(element => {
-        errors[element.path] = element.message;
+        errors[element.path.split(".")[0]] = element.message;
       });
 
       this.setState({ errors });
@@ -162,7 +229,6 @@ class HostCreateProfile extends Component {
   };
 
   handleSubmit = e => {
-    const form = new FormData();
     e.preventDefault();
     this.setState({ attemptedToSubmit: true });
     this.validate().then(res => {
@@ -185,36 +251,54 @@ class HostCreateProfile extends Component {
           }
         });
 
-        form.append("bio", this.state.bio);
-        form.append("interests", this.state.interests);
-        form.append("organisationName", this.state.organisationName);
-        form.append("organisationWebsite", this.state.organisationWebsite);
-        form.append("jobTitle", this.state.jobTitle);
-        form.append("addressLine1", this.state.addressLine1);
-        form.append("addressLine2", this.state.addressLine2);
-        form.append("addressCity", this.state.addressCity);
-        form.append("addressPostCode", this.state.addressPostCode);
-        form.append("offerDescription", this.state.offerDescription);
-        form.append(
-          "offerOtherInfo",
-          JSON.stringify(this.state.offerOtherInfo)
-        );
-        form.append(
-          "availableDates",
-          JSON.stringify(getValidDAtes(this.state.availableDates))
-        );
-        form.append("offerImages1", this.state.offerImages1.file);
-        form.append("offerImages2", this.state.offerImages2.file);
-        form.append("offerImages3", this.state.offerImages3.file);
-        form.append("pressPass", this.state.pressPass.file);
-        form.append("profileImage", this.state.profileImage.file);
+        const {
+          profileImage,
+          bio,
+          interests,
+          organisationName,
+          organisationWebsite,
+          jobTitle,
+          pressPass,
+          addressLine1,
+          addressLine2,
+          addressCity,
+          addressPostCode,
+          offerImages1,
+          offerImages2,
+          offerImages3,
+          offerOtherInfo,
+          offerDescription,
+          availableDates
+        } = this.state;
+
+        const formData = {
+          profileImage: { fileName: profileImage.name, isPrivate: false },
+          bio,
+          interests,
+          organisationName,
+          organisationWebsite,
+          jobTitle,
+          pressPass: { fileName: pressPass.name, isPrivate: true },
+          addressLine1,
+          addressLine2,
+          addressCity,
+          addressPostCode,
+          photos: [
+            { fileName: offerImages1.name, isPrivate: false },
+            { fileName: offerImages2.name, isPrivate: false },
+            { fileName: offerImages3.name, isPrivate: false }
+          ],
+          offerOtherInfo,
+          offerDescription, // your neighberhood
+          availableDates: getValidDAtes(availableDates)
+        };
 
         axios({
           method: "post",
           url: API_HOST_COMPLETE_PROFILE,
-          data: form,
+          data: formData,
           headers: {
-            "content-type": `multipart/form-data; boundary=${form._boundary}`
+            "content-type": "application/json"
           }
         })
           .then(({ data }) => {
@@ -335,7 +419,7 @@ class HostCreateProfile extends Component {
         name={name}
         id={id}
         handleOtherInfo={this.handleOtherInfo}
-        handleAddProfile={this.handleAddProfile}
+        directUploadToGoogle={this.directUploadToGoogle}
         handleInputChange={this.handleInputChange}
         handleSubmit={this.handleSubmit}
         disabledStartDate={this.disabledStartDate}
