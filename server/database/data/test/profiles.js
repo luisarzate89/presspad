@@ -21,7 +21,7 @@ module.exports = async () => {
         fileName: "adam-presspass.jpg",
       },
       profileImage: {
-        fileName: "https://i.ibb.co/FzL79hf/adam-profile.jpg",
+        fileName: "adam-profile.jpg",
       },
     },
     {
