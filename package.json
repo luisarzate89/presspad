@@ -29,8 +29,7 @@
     "test:current": "cross-env NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
-    "build:data:prd": "node server/database/data/production/index.js",
-    "a": "jest ./server/__test__/api/profile.getMyProfile.js"
+    "build:data:prd": "node server/database/data/production/index.js"
   },
   "devDependencies": {
     "codecov": "^3.5.0",
