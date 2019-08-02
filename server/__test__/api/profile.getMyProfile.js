@@ -83,6 +83,7 @@ describe("Tests get profile data with the image urls form google cloud", () => {
             const { profile, listing } = res.body;
             expect(profile).toBeTruthy();
             expect(listing).toBeTruthy();
+            expect(listing.photos).toBe([]);
             expect(res.body.profile.address.street).toBe("28 Test Road");
             return done();
           });
