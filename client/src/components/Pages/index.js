@@ -6,7 +6,6 @@ import PrivateRoute from "./../Common/PrivateRoute";
 
 import LandingPage from "./LandingPage";
 import HostCreateProfile from "./HostCreateProfile";
-
 import SignInPage from "./SignInPage";
 import SignUpPage from "./SignUpPage";
 import Dashboard from "./Dashboard";
@@ -15,6 +14,7 @@ import InternCreateProfile from "./InternCreateProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
 import BookingRequest from "./BookingRequest";
+import MyProfile from "./MyProfile";
 
 import {
   HOME_URL,
@@ -28,7 +28,8 @@ import {
   INTERN_COMPLETE_PROFILE_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
-  BOOKING_REQUEST_URL
+  BOOKING_REQUEST_URL,
+  MYPROFILE_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -95,6 +96,14 @@ class Pages extends Component {
             path={INTERN_COMPLETE_PROFILE_URL}
             Component={InternCreateProfile}
             handleChangeState={handleChangeState}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
+            path={MYPROFILE_URL}
+            Component={MyProfile}
             isLoggedIn={isLoggedIn}
             {...this.props}
           />

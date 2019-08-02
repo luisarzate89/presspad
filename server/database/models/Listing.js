@@ -27,8 +27,19 @@ const listingSchema = new Schema({
     required: true,
   },
   otherInfo: [String],
-  photos: [String],
-  availableDates: [{ _id: false, startDate: Date, endDate: Date }],
+  photos: [{
+    _id: { type: Schema.ObjectId, auto: true },
+    fileName: String,
+    isPrivate: {
+      type: Boolean,
+      default: false,
+    },
+  }],
+  availableDates: [{
+    _id: { type: Schema.ObjectId, auto: true },
+    startDate: Date,
+    endDate: Date,
+  }],
 });
 
 const Listing = model("listings", listingSchema);

@@ -16,7 +16,17 @@ const notificationSchema = new Schema({
   // Notification type
   type: {
     type: String,
-    enum: ["message", "stayRequest", "stayRejected", "stayApproved", "stayCompleted", "completeProfileRemind", "receivedCredits", "getReview"],
+    enum: [
+      "message",
+      "stayRequest",
+      "stayRejected",
+      "stayApproved",
+      "stayCompleted",
+      "completeProfileRemind",
+      "receivedCredits",
+      "getReview",
+      "giveReview",
+    ],
     required: true,
   },
   // flag to store if the user saw this or not
@@ -36,7 +46,7 @@ const notificationSchema = new Schema({
   seenForOrg: {
     type: Boolean,
     required: true,
-    default: true,
+    default: false,
   },
 }, { timestamps: true });
 
