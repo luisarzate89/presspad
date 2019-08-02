@@ -42,8 +42,14 @@ const API_VERIFY_PROFILE_URL = `${API_PREFIX}${VERIFY_PROFILE_URL}`;
 const ORGS_DASHBOARD = "/organisation-dashboard";
 const API_ORGS_DASHBOARD_URL = `${API_PREFIX}${ORGS_DASHBOARD}`;
 
-const MY_PROFILE = "/my-profile";
-const API_MY_PROFILE_URL = `${API_PREFIX}${MY_PROFILE}`;
+const MY_PROFILE_URL = "/my-profile";
+const API_MY_PROFILE_URL = `${API_PREFIX}${MY_PROFILE_URL}`;
+
+const UPLOAD_SIGNED_URL = "/upload/signed-url";
+const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
+
+const REVIEW_URL = "/users/:id/reviews";
+const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 
 module.exports = {
   // CLIENT
@@ -62,6 +68,8 @@ module.exports = {
   API_VERIFY_PROFILE_URL,
   API_ORGS_DASHBOARD_URL,
   API_MY_PROFILE_URL,
+  API_UPLOAD_SIGNED_URL,
+  API_REVIEW_URL,
 
   // SERVER
   LOGIN_URL,
@@ -78,5 +86,7 @@ module.exports = {
   GET_BOOKINGS_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
-  MY_PROFILE
+  MY_PROFILE_URL,
+  UPLOAD_SIGNED_URL,
+  REVIEW_URL
 };
