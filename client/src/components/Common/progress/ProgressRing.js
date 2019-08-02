@@ -3,7 +3,7 @@ import { Icon } from "antd";
 
 /**
  * ProgressRing from CSS-tricks website
- * https://css-tricks.com/building-progress-ring-
+ * https://css-tricks.com/building-progress-ring-quickly/
  * @param {number} radius The raduis of the ring
  * @param {number} stroke The width of the progress ring
  * @param {number} progress The percentage of the progress ring
