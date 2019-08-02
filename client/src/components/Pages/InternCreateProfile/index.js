@@ -10,23 +10,23 @@ import { HOSTS_URL } from "./../../../constants/navRoutes";
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
     name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
+    isPrivate: Yup.boolean().default(false)
   }),
   bio: Yup.string().required("Required"),
   favouriteArticle: Yup.string(),
   jobTitle: Yup.string(),
   pressPass: Yup.object().shape({
     name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(false)
+    isPrivate: Yup.boolean().default(true)
   }),
 
   photoIDFile: Yup.object().shape({
     name: Yup.string(),
-    isPrivate: Yup.boolean().default(false)
+    isPrivate: Yup.boolean().default(true)
   }),
   offerLetter: Yup.object().shape({
     name: Yup.string(),
-    isPrivate: Yup.boolean().default(false)
+    isPrivate: Yup.boolean().default(true)
   }),
   reference1: Yup.object().shape({
     name: Yup.string(),
@@ -43,6 +43,7 @@ export default class InternCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
+      name: "",
       loading: 0,
       isLoading: false,
       dataUrl: ""
@@ -53,14 +54,17 @@ export default class InternCreateProfile extends Component {
 
     pressPass: {
       loading: 0,
+      isLoading: false,
       name: ""
     },
     offerLetter: {
       loading: 0,
+      isLoading: false,
       name: ""
     },
     photoIDFile: {
       loading: 0,
+      isLoading: false,
       name: ""
     },
 
@@ -91,7 +95,7 @@ export default class InternCreateProfile extends Component {
 
     if (image.size > 4e6) {
       return this.setState({
-        errors: { ...errors, [name]: 'File too large, "max size 2MB"' }
+        errors: { ...errors, [name]: 'File too large, "max size 4MB"' }
       });
     }
 
@@ -141,7 +145,7 @@ export default class InternCreateProfile extends Component {
         errors: { ...errors, [name]: "" }
       });
     } catch (error) {
-      message.error("something went wrong, try again later");
+      message.error("something went wrong, try again later", 5);
       this.setState({
         [name]: { ...this.state[name], loading: 0, isLoading: false }
       });
@@ -225,9 +229,9 @@ export default class InternCreateProfile extends Component {
           bio,
           favouriteArticle,
           jobTitle,
-          pressPass: { fileName: pressPass.name, isPrivate: false },
-          photoIDFile: { fileName: photoIDFile.name, isPrivate: false },
-          offerLetter: { fileName: offerLetter.name, isPrivate: false },
+          pressPass: { fileName: pressPass.name, isPrivate: true },
+          photoIDFile: { fileName: photoIDFile.name, isPrivate: true },
+          offerLetter: { fileName: offerLetter.name, isPrivate: true },
           reference1,
           reference2
         };
