@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Input, Icon } from "antd";
+import { Row, Col, Avatar, Input } from "antd";
 
 import {
   PageWrapper,
