@@ -19,6 +19,11 @@ describe("Tests get profile data with the image urls form google cloud", () => {
     password: "123456",
   };
 
+  const host = {
+    email: "simon@gmail.com",
+    password: "123456",
+  };
+
   test("tests get Intern profile successfully", async (done) => {
     request(app)
       .post("/api/user/login")
@@ -30,8 +35,8 @@ describe("Tests get profile data with the image urls form google cloud", () => {
         if (error) return done(error);
 
         // Request should get the intern profile
-        // the profileImage, pressPass, verification[photoID]
-        // must contain a url from google cloud
+        // the profileImage must contain a url
+        // from google cloud
         request(app)
           .get("/api/my-profile")
           .set("Cookie", [token])
@@ -50,7 +55,38 @@ describe("Tests get profile data with the image urls form google cloud", () => {
             expect(res.body.profile.jobTitle).toBe("journalist");
             return done();
           });
+        return done();
       });
-      
+  }, 30000);
+
+
+  test("tests get Host profile successfully", async (done) => {
+    request(app)
+      .post("/api/user/login")
+      .send(host)
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .end((error, response) => {
+        const token = response.headers["set-cookie"][0].split(";")[0];
+        if (error) return done(error);
+
+        request(app)
+          .get("/api/my-profile")
+          .set("Cookie", [token])
+          .expect(200)
+          .expect("Content-Type", /json/)
+          .end(async (err, res) => {
+            if (err) return done(err);
+            expect(res).toBeDefined();
+            expect(res.body).toBeDefined();
+
+            const { profile, listing } = res.body;
+            expect(profile).toBeTruthy();
+            expect(listing).toBeTruthy();
+            expect(res.body.profile.address.street).toBe("28 Test Road");
+            return done();
+          });
+        return done();
+      });
   }, 30000);
 });
