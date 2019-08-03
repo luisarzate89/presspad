@@ -21,6 +21,7 @@ const { createReview } = require("../controllers/review");
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
+const validation = require("./../middlewares/validation");
 
 // API ROUTES
 const {
@@ -45,7 +46,8 @@ const {
 // update host profile and create new offer
 router.post(
   HOST_COMPLETE_PROFILE,
-  softAuthCheck,
+  authentication,
+  validation,
   hostsCompleteProfile,
 );
 
