@@ -15,10 +15,12 @@ const { getPublicFileUrl, generateV4SignedUrl } = require("../../helpers/storage
 const _generateUrl = async (photoRef) => {
   const { fileName, isPrivate } = photoRef;
   // check if the fileName is presented and not empty string
-  if (fileName && isPrivate) {
-    // add url property to the reference
-    photoRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
-  } else if (fileName && !isPrivate) {
+  if (fileName) {
+    if (isPrivate) {
+      // add url property to the reference
+      photoRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
+      return;
+    }
     photoRef.url = getPublicFileUrl(bucketName, fileName);
   }
 };
