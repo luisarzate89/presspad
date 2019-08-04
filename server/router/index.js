@@ -43,18 +43,20 @@ const {
   REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
 
+// add validation middleware
+router.use(validation);
+
 // update host profile and create new offer
 router.post(
   HOST_COMPLETE_PROFILE,
   authentication,
-  validation,
   hostsCompleteProfile,
 );
 
 // update intern profile
 router.post(
   INTERN_COMPLETE_PROFILE,
-  softAuthCheck,
+  authentication,
   internsCompleteProfile,
 );
 
