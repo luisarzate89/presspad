@@ -28,9 +28,9 @@ const validation = (req, res, next) => {
         };
         res.status(422).json(customError);
       });
+  } else {
+    next();
   }
-
-  next();
 };
 
 module.exports = validation;
