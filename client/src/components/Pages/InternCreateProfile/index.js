@@ -9,32 +9,65 @@ import { HOSTS_URL } from "./../../../constants/navRoutes";
 
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
-    name: Yup.string().required("Required"),
+    fileName: Yup.string().required("Required"),
     isPrivate: Yup.boolean().default(false)
   }),
   bio: Yup.string().required("Required"),
-  favouriteArticle: Yup.string(),
+  // Todo/ add this when we change the design to mach this.
+  // favouriteArticle: Yup.object().shape({
+  //   title: Yup.string(),
+  //   author: Yup.string(),
+  //   link: Yup.string()
+  // }),
   jobTitle: Yup.string(),
   pressPass: Yup.object().shape({
-    name: Yup.string().required("Required"),
+    fileName: Yup.string().required("Required"),
     isPrivate: Yup.boolean().default(true)
   }),
 
   photoIDFile: Yup.object().shape({
-    name: Yup.string(),
+    fileName: Yup.string(),
     isPrivate: Yup.boolean().default(true)
   }),
   offerLetter: Yup.object().shape({
-    name: Yup.string(),
+    fileName: Yup.string(),
     isPrivate: Yup.boolean().default(true)
   }),
   reference1: Yup.object().shape({
-    name: Yup.string(),
-    contact: Yup.string()
+    name: Yup.string().test("both required", "must fill both", function(name) {
+      const { contact } = this.parent;
+      if (contact && !name) {
+        return false;
+      }
+      return true;
+    }),
+    contact: Yup.string().test("both required", "must fill both", function(
+      contact
+    ) {
+      const { name } = this.parent;
+      if (name && !contact) {
+        return false;
+      }
+      return true;
+    })
   }),
   reference2: Yup.object().shape({
-    name: Yup.string(),
-    contact: Yup.string()
+    name: Yup.string().test("both required", "must fill both", function(name) {
+      const { contact } = this.parent;
+      if (contact && !name) {
+        return false;
+      }
+      return true;
+    }),
+    contact: Yup.string().test("both required", "must fill both", function(
+      contact
+    ) {
+      const { name } = this.parent;
+      if (name && !contact) {
+        return false;
+      }
+      return true;
+    })
   })
 });
 
@@ -43,7 +76,6 @@ export default class InternCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
-      name: "",
       loading: 0,
       isLoading: false,
       dataUrl: ""
@@ -54,18 +86,15 @@ export default class InternCreateProfile extends Component {
 
     pressPass: {
       loading: 0,
-      isLoading: false,
-      name: ""
+      isLoading: false
     },
     offerLetter: {
       loading: 0,
-      isLoading: false,
-      name: ""
+      isLoading: false
     },
     photoIDFile: {
       loading: 0,
-      isLoading: false,
-      name: ""
+      isLoading: false
     },
 
     reference1: { name: "", contact: "" },
@@ -138,7 +167,7 @@ export default class InternCreateProfile extends Component {
       this.setState({
         [name]: {
           dataUrl,
-          name: generatedName,
+          fileName: generatedName,
           loading: 100,
           isLoading: false
         },
@@ -182,7 +211,11 @@ export default class InternCreateProfile extends Component {
     return schema.validate(this.state, { abortEarly: false }).catch(err => {
       const errors = {};
       err.inner.forEach(element => {
-        errors[element.path.split(".")[0]] = element.message;
+        if (element.path.startsWith("reference")) {
+          errors[element.path.split(".").join("")] = element.message;
+        } else {
+          errors[element.path.split(".")[0]] = element.message;
+        }
       });
       this.setState({ errors });
     });
@@ -225,16 +258,45 @@ export default class InternCreateProfile extends Component {
         });
 
         const formData = {
-          profileImage: { fileName: profileImage.name, isPrivate: false },
-          bio,
-          favouriteArticle,
-          jobTitle,
-          pressPass: { fileName: pressPass.name, isPrivate: true },
-          photoIDFile: { fileName: photoIDFile.name, isPrivate: true },
-          offerLetter: { fileName: offerLetter.name, isPrivate: true },
-          reference1,
-          reference2
+          profileImage: { fileName: profileImage.fileName, isPrivate: false },
+          pressPass: { fileName: pressPass.fileName, isPrivate: false },
+          bio
         };
+
+        // Add optional fields if they exists
+        favouriteArticle && (formData.favouriteArticle = favouriteArticle);
+        jobTitle && (formData.jobTitle = jobTitle);
+        photoIDFile.fileName &&
+          (formData.pressPass = {
+            fileName: photoIDFile.fileName,
+            isPrivate: true
+          });
+        offerLetter.fileName &&
+          (formData.offerLetter = {
+            fileName: offerLetter.fileName,
+            isPrivate: true
+          });
+        reference1.name &&
+          (formData.reference1 = {
+            ...formData.reference1,
+            name: reference1.name
+          });
+        reference1.contact &&
+          (formData.reference1 = {
+            ...formData.reference1,
+            contact: reference1.contact
+          });
+        reference2.name &&
+          (formData.reference2 = {
+            ...formData.reference2,
+            name: reference2.name
+          });
+        reference2.contact &&
+          (formData.reference2 = {
+            ...formData.reference2,
+            contact: reference2.contact
+          });
+
         axios({
           method: "post",
           url: API_INTERN_COMPLETE_PROFILE,

@@ -330,7 +330,7 @@ class Content extends Component {
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={errors.reference1Name}
+                          error={errors.reference1name}
                           marginBottom="20px"
                         >
                           <Input
@@ -345,12 +345,12 @@ class Content extends Component {
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{errors.reference1Name}</Error>
+                          <Error>{errors.reference1name}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={errors.reference1Contanct}
+                          error={errors.reference1contact}
                           marginBottom="20px"
                         >
                           <Input
@@ -359,12 +359,12 @@ class Content extends Component {
                             value={state.reference1.contact}
                             placeholder="Contact"
                             style={{
-                              border: errors.reference1Contanct
+                              border: errors.reference1contact
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{errors.reference1Contanct}</Error>
+                          <Error>{errors.reference1contact}</Error>
                         </ErrorWrapper>
                       </Col>
                     </Row>
@@ -378,7 +378,7 @@ class Content extends Component {
                     <Row gutter={25} type="flex">
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={errors.reference2Name}
+                          error={errors.reference2name}
                           marginBottom="20px"
                         >
                           <Input
@@ -388,17 +388,17 @@ class Content extends Component {
                             placeholder="Name"
                             id="reference2Name"
                             style={{
-                              border: errors.reference2Name
+                              border: errors.reference2name
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{errors.reference2Name}</Error>
+                          <Error>{errors.reference2name}</Error>
                         </ErrorWrapper>
                       </Col>
                       <Col xs={24} sm={12}>
                         <ErrorWrapper
-                          error={errors.reference2Contanct}
+                          error={errors.reference2contact}
                           marginBottom="20px"
                         >
                           <Input
@@ -407,12 +407,12 @@ class Content extends Component {
                             value={state.reference2.contact}
                             placeholder="Contact"
                             style={{
-                              border: errors.reference2Contanct
+                              border: errors.reference2contact
                                 ? "none"
                                 : "1px solid #d9d9d9"
                             }}
                           />
-                          <Error>{errors.reference2Contanct}</Error>
+                          <Error>{errors.reference2contact}</Error>
                         </ErrorWrapper>
                       </Col>
                     </Row>
