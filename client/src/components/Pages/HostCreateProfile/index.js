@@ -18,19 +18,19 @@ import Content from "./Content";
 
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
+    fileName: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(false)
   }),
   bio: Yup.string().required("Required"),
-  favouriteArticle: Yup.string(),
+  interests: Yup.string(),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
     .url("Not a valid link")
     .required("Required"),
   jobTitle: Yup.string(),
   pressPass: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(false)
+    fileName: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(true)
   }),
 
   addressLine1: Yup.string().required("Required"),
@@ -39,16 +39,16 @@ const schema = Yup.object().shape({
   addressPostCode: Yup.string().required("Required"),
 
   offerImages1: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
+    fileName: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(false)
   }),
   offerImages2: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
+    fileName: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(false)
   }),
   offerImages3: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
+    fileName: Yup.string().required("Required"),
+    isPrivate: Yup.boolean().default(false)
   }),
 
   offerDescription: Yup.string().required("Required"),
@@ -70,7 +70,6 @@ class HostCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
-      name: "",
       dataUrl: "",
       loading: 0,
       isLoading: false
@@ -99,26 +98,22 @@ class HostCreateProfile extends Component {
     offerImages1: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      name: ""
+      dataUrl: ""
     },
     offerImages2: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      name: ""
+      dataUrl: ""
     },
     offerImages3: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      name: ""
+      dataUrl: ""
     },
     pressPass: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      name: ""
+      dataUrl: ""
     },
     errors: {}
   };
@@ -148,7 +143,7 @@ class HostCreateProfile extends Component {
 
     if (image.size > 4e6) {
       return this.setState({
-        errors: { ...errors, [name]: 'File too large, "max size 2MB"' }
+        errors: { ...errors, [name]: 'File too large, "max size 4MB"' }
       });
     }
 
@@ -191,7 +186,7 @@ class HostCreateProfile extends Component {
       this.setState({
         [name]: {
           dataUrl,
-          name: generatedName,
+          fileName: generatedName,
           loading: 100,
           isLoading: false
         },
@@ -272,26 +267,28 @@ class HostCreateProfile extends Component {
         } = this.state;
 
         const formData = {
-          profileImage: { fileName: profileImage.name, isPrivate: false },
+          profileImage: { fileName: profileImage.fileName, isPrivate: false },
           bio,
-          interests,
           organisationName,
           organisationWebsite,
-          jobTitle,
-          pressPass: { fileName: pressPass.name, isPrivate: true },
+          pressPass: { fileName: pressPass.fileName, isPrivate: true },
           addressLine1,
-          addressLine2,
           addressCity,
           addressPostCode,
           photos: [
-            { fileName: offerImages1.name, isPrivate: false },
-            { fileName: offerImages2.name, isPrivate: false },
-            { fileName: offerImages3.name, isPrivate: false }
+            { fileName: offerImages1.fileName, isPrivate: false },
+            { fileName: offerImages2.fileName, isPrivate: false },
+            { fileName: offerImages3.fileName, isPrivate: false }
           ],
           offerOtherInfo,
           offerDescription, // your neighberhood
           availableDates: getValidDAtes(availableDates)
         };
+
+        // add optional fields if existed
+        interests && (formData.interests = interests);
+        jobTitle && (formData.jobTitle = jobTitle);
+        addressLine2 && (formData.addressLine2 = addressLine2);
 
         axios({
           method: "post",
