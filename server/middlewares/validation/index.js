@@ -1,21 +1,24 @@
-const { HOST_COMPLETE_PROFILE } = require("../../../client/src/constants/apiRoutes");
+const { HOST_COMPLETE_PROFILE, INTERN_COMPLETE_PROFILE } = require("../../../client/src/constants/apiRoutes");
 const hostProfileSchema = require("./hostProfileSchema");
+const interProfileSchema = require("./interProfileSchema");
 
 // Schemas for each route
 const schemas = {
   [HOST_COMPLETE_PROFILE]: hostProfileSchema,
+  [INTERN_COMPLETE_PROFILE]: interProfileSchema,
 };
 
 // The supported methods for each route
 const methods = {
   [HOST_COMPLETE_PROFILE]: ["POST"],
+  [INTERN_COMPLETE_PROFILE]: ["POST"],
 };
 
 const validation = (req, res, next) => {
   const schema = schemas[req.path];
   const schemaSupportedMethods = methods[req.path];
 
-  if (schema && schemaSupportedMethods.includes(req.method)) {
+  if (schema && schemaSupportedMethods && schemaSupportedMethods.includes(req.method)) {
     schema.validate(req.body, { abortEarly: false, stripUnknown: true })
       .then((data) => {
         // if everything is validate, change the body to the modified version of it
