@@ -20,18 +20,10 @@ const hostProfileSchema = Joi.object({
   addressCity: Joi.string().required(),
   addressPostCode: Joi.string().required(),
 
-  offerImages1: Joi.object({
+  photos: Joi.array().items(Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(false),
-  }),
-  offerImages2: Joi.object({
-    fileName: Joi.string().required(),
-    isPrivate: Joi.boolean().default(false),
-  }),
-  offerImages3: Joi.object({
-    fileName: Joi.string().required(),
-    isPrivate: Joi.boolean().default(false),
-  }),
+  })),
 
   offerDescription: Joi.string().required(),
   availableDates: Joi.array().items(Joi.object({
