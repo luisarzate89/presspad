@@ -43,6 +43,7 @@ const profileSchema = new Schema({
     title: String,
     author: String,
     link: String,
+    description: String,
   },
   // later plan would be enum [basic, pro, custom...]
 

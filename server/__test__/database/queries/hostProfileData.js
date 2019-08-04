@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const buildDB = require("../../../database/data/test/index");
 
 // get query
-const { hostProfileData, hostReviews } = require("../../../database/queries/profile/hostProfile");
+const { hostProfileData } = require("../../../database/queries/profile/hostProfile");
 
 // get models
 const User = require("../../../database/models/User");
@@ -30,25 +30,6 @@ describe("Tests for hostProfile queries", () => {
   });
 
   test("Test host profile data query with invalid id", async (done) => {
-    await hostProfileData("123456").catch((err) => {
-      expect(err).toBeDefined();
-    });
-    done();
-  });
-
-  test("Test hostReviews query with valid id", async (done) => {
-    const hosts = await User.find({ role: "host" });
-
-    await hostReviews(hosts[0]._id).then((reviews) => {
-      expect(reviews).toBeDefined();
-      expect(reviews[0]).toBeDefined();
-      expect(reviews[0].from_user.name).toBeDefined();
-      expect(reviews[0].rating).toBeDefined();
-    });
-    done();
-  });
-
-  test("Test hostReviews query with invalid id", async (done) => {
     await hostProfileData("123456").catch((err) => {
       expect(err).toBeDefined();
     });

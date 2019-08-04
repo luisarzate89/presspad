@@ -9,6 +9,7 @@ const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
 const getUserBookings = require("./../controllers/getUserBookings");
@@ -39,6 +40,7 @@ const {
   BOOKING_REQUEST_URL,
   ADMIN_STATS_URL,
   GET_BOOKINGS_URL,
+  INTERN_PROFILE_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
   UPLOAD_SIGNED_URL,
@@ -75,6 +77,9 @@ router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
 router.post(HOST_PROFILE_URL, getHostProfile);
+
+// gets intern profile data
+router.post(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
 
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);

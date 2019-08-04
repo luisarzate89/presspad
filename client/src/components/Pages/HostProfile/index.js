@@ -23,9 +23,19 @@ import {
   BackToAdmin,
   BackLink,
   Header,
-  ProfilePicDiv,
-  HeadlineDiv,
+  HeaderDiv,
   Headline,
+  SubHeadline,
+  ParagraphHeadline,
+  Paragraph,
+  StarRate
+} from "../../Common/Profile/Profiles.style";
+
+import {
+  MainSection,
+  Card,
+  ProfilePicDiv,
+  TextContentDiv,
   Address,
   SymbolDiv,
   Symbol,
@@ -34,24 +44,17 @@ import {
   MainImage,
   SubImage,
   SideImageDiv,
-  MainSection,
-  TextContentDiv,
   AboutMe,
   OtherInfo,
   PressPadOffer,
   Reviews,
   AvailableHosting,
   CalendarDiv,
-  SubHeadline,
-  ParagraphHeadline,
-  Paragraph,
-  Card,
   List,
   ListItem,
   ReviewsBox,
   MoreReviewsLink,
   ReviewsHeader,
-  StarRate,
   ReviewHeadline,
   ReviewText,
   ReviewsSection
@@ -207,7 +210,8 @@ class HostProfile extends Component {
             src={this.getProfilePic(profileImage)}
             adminView={adminView}
           />
-          <HeadlineDiv>
+
+          <HeaderDiv>
             {adminView ? (
               <Headline>{name}</Headline>
             ) : (
@@ -216,10 +220,11 @@ class HostProfile extends Component {
               </Headline>
             )}
 
-            <Address>{`${listing.address.street}, ${
-              listing.address.city
-            }`}</Address>
-          </HeadlineDiv>
+            <Address>
+              {`${listing.address.street}, ${listing.address.city}`}
+            </Address>
+          </HeaderDiv>
+
           <SymbolDiv>
             {/* this needs to be dynamically rendered at some point */}
             <Symbol src={starSign} />
