@@ -1,11 +1,11 @@
 const { HOST_COMPLETE_PROFILE, INTERN_COMPLETE_PROFILE } = require("../../../client/src/constants/apiRoutes");
 const hostProfileSchema = require("./hostProfileSchema");
-const interProfileSchema = require("./interProfileSchema");
+const internProfileSchema = require("./internProfileSchema");
 
 // Schemas for each route
 const schemas = {
   [HOST_COMPLETE_PROFILE]: hostProfileSchema,
-  [INTERN_COMPLETE_PROFILE]: interProfileSchema,
+  [INTERN_COMPLETE_PROFILE]: internProfileSchema,
 };
 
 // The supported methods for each route

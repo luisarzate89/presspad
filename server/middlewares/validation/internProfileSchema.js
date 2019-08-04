@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const interProfileSchema = Joi.object({
+const internProfileSchema = Joi.object({
   profileImage: Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(false),
@@ -35,4 +35,4 @@ const interProfileSchema = Joi.object({
   }).and("name", "contact"),
 });
 
-module.exports = interProfileSchema;
+module.exports = internProfileSchema;
