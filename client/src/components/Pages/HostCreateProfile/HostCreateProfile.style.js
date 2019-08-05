@@ -69,31 +69,29 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   margin-bottom: 20px;
 `;
 
 export const PhotoWrapper = styled.div`
   background: #ffffff;
-border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
+  border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ small }) => (small ? "calc( 50% - 12.5px)" : "257px")};
-  
-  margin-${({ direction }) => direction}: 12.5px;
+  ${({ small }) => (small ? "height: 100%" : "height: 257px")};
+  ${({ direction }) => (direction ? `margin-${direction}: 12.5px;` : "")}
 
-  @media (max-width: 575.98px) { 
+  @media (max-width: 575.98px) {
     height: 257px;
     margin: 0;
-    margin-bottom:12.5px;
-   }
+  }
 
   background-repeat: no-repeat;
   background-size: cover;
   background-image: ${({ imageSrc }) =>
-    imageSrc ? `url(${imageSrc})` : "none"};
+    imageSrc ? `url("${imageSrc}")` : "none"};
 `;
 
 export const UploadButton = styled.button`
@@ -106,7 +104,7 @@ export const UploadButton = styled.button`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
 export const ErrorWrapper = styled.div`

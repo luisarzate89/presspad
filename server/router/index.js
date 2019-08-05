@@ -22,9 +22,7 @@ const { createReview } = require("../controllers/review");
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
-const multer = require("./../middlewares/multer");
-const googleStorage = require("./../middlewares/googleStorage");
-const deleteFromServer = require("./../middlewares/deleteFromServer");
+const validation = require("./../middlewares/validation");
 
 // API ROUTES
 const {
@@ -47,28 +45,20 @@ const {
   REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
 
-// CONSTANTS
-const { multerFields } = require("./../constants");
-
-const { hostCompleteProfile, internCompleteProfile } = multerFields;
+// add validation middleware
+router.use(validation);
 
 // update host profile and create new offer
 router.post(
   HOST_COMPLETE_PROFILE,
-  softAuthCheck,
-  multer(hostCompleteProfile),
-  googleStorage(),
-  deleteFromServer(),
+  authentication,
   hostsCompleteProfile,
 );
 
 // update intern profile
 router.post(
   INTERN_COMPLETE_PROFILE,
-  softAuthCheck,
-  multer(internCompleteProfile),
-  googleStorage(),
-  deleteFromServer(),
+  authentication,
   internsCompleteProfile,
 );
 

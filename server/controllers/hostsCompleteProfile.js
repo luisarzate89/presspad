@@ -31,9 +31,9 @@ module.exports = async (req, res, next) => {
         postcode: req.body.addressPostCode,
       },
       description: req.body.offerDescription,
-      otherInfo: JSON.parse(req.body.offerOtherInfo),
-      photos: [req.body.offerImages1, req.body.offerImages2, req.body.offerImages3],
-      availableDates: JSON.parse(req.body.availableDates),
+      otherInfo: req.body.offerOtherInfo,
+      photos: req.body.photos,
+      availableDates: req.body.availableDates,
     };
     const foundProfile = await findProfile(user._id);
 
