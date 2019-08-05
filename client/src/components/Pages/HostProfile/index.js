@@ -226,8 +226,8 @@ class HostProfile extends Component {
           </HeaderDiv>
 
           <SymbolDiv>
-            {/* this needs to be dynamically rendered at some point */}
-            <Symbol src={starSign} />
+            {/* this is the badge component */}
+            {this.state.profileData.profile.badge && <Symbol src={starSign} />}
           </SymbolDiv>
         </Header>
         <ImageSection>
