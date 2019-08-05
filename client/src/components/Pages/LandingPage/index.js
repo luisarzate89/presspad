@@ -103,29 +103,29 @@ class LandingPage extends Component {
                   not create a custom one and let your interns start their
                   search for a host and mentor.
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/organisation">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
                 <CardIcon src={hostFindMore} />
-                <CardTitle>Host</CardTitle>
+                <CardTitle>Intern</CardTitle>
                 <CardDescription>
                   Looking to learn more from industry professionals? If your
                   organisation is already a PressPad member, all you need to do
                   is ask to be invited. If they’re not, find out how you can
                   introduce them to PressPad.
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/intern">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
                 <CardIcon src={internFindMore} />
-                <CardTitle>Intern</CardTitle>
+                <CardTitle>Host</CardTitle>
                 <CardDescription>
                   Want to be a mentor and a host? At the moment, our hosting
                   programme works on referral only basis, but we’ll soon start
                   receiving applications. Sign up to our newsletter and we’ll
                   let you know..
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/host/">Get Started</CardButton>
               </FindMoreCard>
             </FindMoreWrapper>
           </div>
