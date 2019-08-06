@@ -5,8 +5,8 @@ const Listing = require("./../models/Listing");
 const createDatesArray = require("../../helpers/createDatesArray");
 
 // get all bookings of user
-module.exports.getUserBookings = async (userId) => {
-  const bookings = await Booking.find({ user: userId });
+module.exports.getUserBookings = async (intern) => {
+  const bookings = await Booking.find({ intern });
   const userBookingDates = bookings.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
     acc.push(dates);
@@ -21,10 +21,8 @@ module.exports.checkOtherBookingExists = async (userId, start, end) => {
   const userBookingDates = await this.getUserBookings(userId);
 
   const bookingRequestDates = createDatesArray(start, end);
-
   // check if any of the current booking request dates is included in users bookings
   const bookingDateFound = bookingRequestDates.some(date => userBookingDates.includes(date));
-
   return bookingDateFound ? { bookingExists: true } : { bookingExists: false };
 };
 
@@ -76,7 +74,8 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
       if (isSameStart && isSameEnd) {
         return [];
       }
-      // if booking starts on same day but booking endDate is before listing availab. -> store rest avail.
+      // if booking starts on same day but booking endDate is before listing availab.
+      //  -> store rest avail.
       if (isSameStart && moment(be).isBefore(le, "day")) {
         dates.startDate = moment(be)
           .add(1, "day")
@@ -84,7 +83,8 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
         dates.endDate = moment(le).format("YYYY-MM-DD");
         acc.push(dates);
       }
-      // if booking startDate is after listing startDate and booking endDate is same as listing endDate -> store beginning avail
+      // if booking startDate is after listing startDate and booking endDate
+      //  is same as listing endDate -> store beginning avail
       if (moment(bs).isAfter(ls, "day") && isSameEnd) {
         dates.startDate = moment(ls).format("YYYY-MM-DD");
         dates.endDate = moment(bs)
@@ -92,7 +92,8 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
           .format("YYYY-MM-DD");
         acc.push(dates);
       }
-      // if booking startDate is after listing startDate and booking endDate is before listing endDate -> store avail. before and after booking
+      // if booking startDate is after listing startDate and booking endDate
+      // is before listing endDate -> store avail. before and after booking
       if (moment(bs).isAfter(ls, "day") && moment(be).isBefore(le, "day")) {
         const dates1 = { startDate: 0, endDate: 0 };
         const dates2 = { startDate: 0, endDate: 0 };

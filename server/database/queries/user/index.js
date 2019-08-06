@@ -48,10 +48,10 @@ module.exports.addNewUser = async (userInfo) => {
   });
 };
 
-module.exports.getInternStatus = id => Booking.aggregate([
+module.exports.getInternStatus = internId => Booking.aggregate([
   // get all the bookings for that intern
   {
-    $match: { user: mongoose.Types.ObjectId(id) },
+    $match: { intern: mongoose.Types.ObjectId(internId) },
   },
   //  get only bookings that haven't ended yet
   {

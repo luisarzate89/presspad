@@ -29,11 +29,12 @@ describe("Testing for create new booking route", () => {
     const listing = await Listing.findOne({ user: hosts[0]._id });
 
     const data = {
-      user: interns[0]._id,
+      intern: interns[0]._id,
+      host: listing.user,
       listing: listing._id,
       startDate: "2019-07-01T00:00:00.000Z",
       endDate: "2019-07-04T00:00:00.000Z",
-      payment: 405,
+      price: 405,
     };
 
     request(app)
@@ -57,11 +58,12 @@ describe("Testing for create new booking route", () => {
     const listing = await Listing.findOne({ user: hosts[0]._id });
 
     const data = {
-      user: interns[0]._id,
+      intern: interns[0]._id,
+      host: listing.user,
       listing: listing._id,
       startDate: "2019-06-21T00:00:00.000Z",
       endDate: "2019-06-29T00:00:00.000Z",
-      payment: 405,
+      price: 405,
     };
 
     request(app)
