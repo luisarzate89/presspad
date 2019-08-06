@@ -19,6 +19,7 @@ const orgsDashboard = require("./../controllers/organisation/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
+const signOut = require("../controllers/user/signOut");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -30,6 +31,7 @@ const {
   LOGIN_URL,
   USER_URL,
   SIGNUP_URL,
+  SIGNOUT_URL,
   CHECK_REFERRAL_URL,
   GET_ORGS_URL,
   HOST_PROFILE_URL,
@@ -109,5 +111,9 @@ router.route(REVIEW_URL)
     authentication,
     createReview,
   );
+
+// Signout
+router.route(SIGNOUT_URL)
+  .get(signOut);
 
 module.exports = router;

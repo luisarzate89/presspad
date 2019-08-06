@@ -54,10 +54,14 @@ const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
 const REVIEW_URL = "/users/:id/reviews";
 const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 
+const SIGNOUT_URL = "/sign-out";
+const API_SIGNOUT_URL = `${API_PREFIX}${SIGNOUT_URL}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
   API_SIGNUP_URL,
+  API_SIGNOUT_URL,
   API_USER_URL,
   API_CHECK_REFERRAL_URL,
   API_GET_ORGS_URL,
@@ -78,6 +82,7 @@ module.exports = {
   // SERVER
   LOGIN_URL,
   SIGNUP_URL,
+  SIGNOUT_URL,
   USER_URL,
   CHECK_REFERRAL_URL,
   GET_ORGS_URL,
