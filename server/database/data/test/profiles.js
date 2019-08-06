@@ -17,8 +17,12 @@ module.exports = async () => {
         website: "www.fa.com",
       },
       jobTitle: "Journalist",
-      pressPass: "adam-presspass.jpg",
-      profileImage: "https://i.ibb.co/FzL79hf/adam-profile.jpg",
+      pressPass: {
+        fileName: "adam-presspass.jpg",
+      },
+      profileImage: {
+        fileName: "adam-profile.jpg",
+      },
     },
     {
       user: hosts[1],
@@ -31,7 +35,9 @@ module.exports = async () => {
         website: "www.reuters.com",
       },
       jobTitle: "Political Journalist",
-      pressPass: "eve-presspass.jpg",
+      pressPass: {
+        fileName: "eve-presspass.jpg",
+      },
     },
     {
       user: hosts[2],
@@ -44,7 +50,9 @@ module.exports = async () => {
         website: "www.guardian.co.uk",
       },
       jobTitle: "Sports Writer",
-      pressPass: "hilda-presspass.jpg",
+      pressPass: {
+        fileName: "hilda-presspass.jpg",
+      },
     },
     {
       user: hosts[3],
@@ -57,7 +65,9 @@ module.exports = async () => {
         website: "www.yallacooperative.com",
       },
       jobTitle: "Content Writer",
-      pressPass: "simon-presspass.jpg",
+      pressPass: {
+        fileName: "simon-presspass.jpg",
+      },
     },
   ];
 
@@ -73,7 +83,12 @@ module.exports = async () => {
       bio:
         "Hi I'm Simon and I'm starting an internship at the AFP any time soon. Would love to find a nice place to stay at.",
       jobTitle: "Journalist",
-      pressPass: "simon-presspass.jpg",
+      pressPass: {
+        fileName: "simon-presspass.jpg",
+      },
+      profileImage: {
+        fileName: "adam-profile.jpg",
+      },
       favouriteArticle: {
         title: "A story about techno",
         author: "Raver Joseph",
@@ -82,7 +97,9 @@ module.exports = async () => {
           "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
-        photoID: "simon-photoID.png",
+        photoID: {
+          fileName: "simon-photoID.png",
+        },
         offerLetter: "simon-offer-letter.jpg",
         reference1:
           {
@@ -102,7 +119,9 @@ module.exports = async () => {
       bio:
         "Hi I'm Joe and I'm starting an internship at the BBC. Would love to find an awesome place to stay at.",
       jobTitle: "Music Journalist",
-      pressPass: "joe-presspass.jpg",
+      pressPass: {
+        fileName: "joe-presspass.jpg",
+      },
       favouriteArticle: {
         title: "French Nancy - good times",
         author: "Solo Chief",
@@ -111,7 +130,9 @@ module.exports = async () => {
           "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
-        photoID: "joe-photoID.png",
+        photoID: {
+          fileName: "joe-photoID.png",
+        },
         offerLetter: "joe-offer-letter.jpg",
         reference1:
           {
@@ -131,7 +152,9 @@ module.exports = async () => {
       bio:
         "Hi I'm Ramy and I'm starting an internship at the FA. Would love to find an cosy place to stay at.",
       jobTitle: "Coding Journalist",
-      pressPass: "ramy-presspass.jpg",
+      pressPass: {
+        fileName: "ramy-presspass.jpg",
+      },
       favouriteArticle: {
         title: "MongoDB is for cool kids",
         author: "Professor Mongo",
@@ -140,7 +163,9 @@ module.exports = async () => {
           "I found Nicky’s article on blockchain in politics to be amazingly written. Not only does he unearth the most pressing issues blockchain could fix, but he also shows why it’s not happening yet. Blockchain is not a term you usually see in politics, but moving away from the buzzword and looking at the actual applications, Nicky manages to tell the story of how it could do a lot of good to Georgians.",
       },
       verification: {
-        photoID: "ramy-photoID.png",
+        photoID: {
+          fileName: "ramy-photoID.png",
+        },
         offerLetter: "ramy-offer-letter.jpg",
         reference1:
           {

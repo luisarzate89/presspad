@@ -16,6 +16,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
+const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 
@@ -41,6 +42,7 @@ const {
   INTERN_PROFILE_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
+  MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
 } = require("../../client/src/constants/apiRoutes");
@@ -94,6 +96,9 @@ router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs
 router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
+
+// GET MY PROFILE
+router.get(MY_PROFILE_URL, authentication, getMyProfile);
 
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);

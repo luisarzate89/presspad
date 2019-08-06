@@ -5,6 +5,7 @@
   },
   "extends": "airbnb",
   "rules": {
+    "linebreak-style":"off",
     "indent": ["error", 2],
     "quotes": ["error", "double"],
     "no-underscore-dangle": [0],

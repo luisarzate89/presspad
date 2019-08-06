@@ -22,18 +22,19 @@
     "build": "cd client && npm run build",
     "init:both": "npm i && npm run client:init",
     "coverage": "codecov",
-    "test:coverage": "NODE_ENV=test jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage --runInBand --detectOpenHandles --forceExit",
     "test:client": "cd client && npm test",
     "test:client:coverage": "NODE_ENV=test cd client && npm run test:coverage",
-    "test": "NODE_ENV=test npm run test:coverage && npm run test:client:coverage",
-    "test:current": "NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
+    "test": "cross-env NODE_ENV=test npm run test:coverage && npm run test:client:coverage",
+    "test:current": "cross-env NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
-    "build:data:dev": "NODE_ENV=dev node server/database/data/development/index.js",
+    "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
     "build:data:prd": "node server/database/data/production/index.js"
   },
   "devDependencies": {
     "codecov": "^3.5.0",
     "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -45,7 +46,8 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
     "jest": "24.7.1",
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -63,7 +65,6 @@
     "mongoose": "^5.5.8",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "shortid": "^2.2.14",
-    "supertest": "^4.0.2"
+    "shortid": "^2.2.14"
   }
 }
