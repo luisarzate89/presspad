@@ -1,4 +1,4 @@
-module.exports = (res, req, next) => {
+module.exports = (req, res, next) => {
   res
     .clearCookie("token")
     .json({ success: true });
