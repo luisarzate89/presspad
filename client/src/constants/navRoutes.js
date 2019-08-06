@@ -17,3 +17,4 @@ export const INTERN_COMPLETE_PROFILE_URL = "/intern-complete-profile";
 
 // sign in/out
 export const SIGNIN_URL = "/sign-in";
+export const SIGNOUT_URL = "/sign-out";
