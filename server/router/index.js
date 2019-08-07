@@ -114,6 +114,6 @@ router.route(REVIEW_URL)
 
 // Signout
 router.route(SIGNOUT_URL)
-  .delete(signOut);
+  .get(signOut);
 
 module.exports = router;
