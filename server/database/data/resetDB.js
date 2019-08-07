@@ -7,6 +7,7 @@ const Listing = require("../models/Listing");
 const Booking = require("../models/Booking");
 const Notification = require("../models/Notification");
 const Transaction = require("../models/Transaction");
+const Account = require("../models/Account");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -18,6 +19,7 @@ const resetDB = async () => {
   await Booking.deleteMany();
   await Notification.deleteMany();
   await Transaction.deleteMany();
+  await Account.deleteMany();
 };
 
 module.exports = resetDB;
