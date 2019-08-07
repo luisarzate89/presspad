@@ -17,6 +17,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
   dbConnection()
     .then(async () => {
       await resetDb();
+      await accounts();
       await organisations();
       await orgCodes();
       await users();
@@ -27,7 +28,6 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await reviews();
       await notifications();
       await transactions();
-      await accounts();
     })
     .then(resolve)
     .catch(reject);

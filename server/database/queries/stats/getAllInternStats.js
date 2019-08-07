@@ -37,7 +37,6 @@ module.exports.getAllInternStats = () => User.aggregate([
       _id: 1,
       name: 1,
       "organisation.name": 1,
-      credits: 1,
       // get all the credits they've spent to date
       spentCredits: { $sum: "$spendingTransactions.credits" },
       // get any bookings that cover today's date

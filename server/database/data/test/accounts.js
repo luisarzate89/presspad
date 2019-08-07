@@ -1,6 +1,6 @@
 const Account = require("./../../models/Account");
 
-module.exports = async () => {
+module.exports = () => {
   const accounts = [
     // Presspad account
     {
@@ -95,5 +95,5 @@ module.exports = async () => {
       currentBalance: 3500,
     },
   ];
-  await Account.create(accounts);
+  return Account.create(accounts);
 };

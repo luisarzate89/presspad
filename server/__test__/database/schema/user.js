@@ -3,6 +3,7 @@ const { compare } = require("bcryptjs");
 
 const User = require("../../../database/models/User");
 const buildDB = require("../../../database/data/test");
+const Account = require("./../../../database/models/Account");
 
 describe("Test User schema", () => {
   beforeAll(async () => {
@@ -20,11 +21,14 @@ describe("Test User schema", () => {
   });
 
   test("should User schema store correctly", async (done) => {
+    const accounts = await Account.find();
+
     const user = {
       name: "newUser",
       email: "new@user.test",
       password: "123456",
       role: "superhost",
+      account: accounts[8]._id,
     };
 
     const storedUser = await User.create(user);
@@ -34,6 +38,8 @@ describe("Test User schema", () => {
     expect(storedUser.name).toBe(user.name);
     expect(storedUser.email).toBe(user.email);
     expect(storedUser.role).toBe(user.role);
+    expect(storedUser.account).toBe(accounts[8]._id);
+
 
     // hashing password
     compare(user.password, storedUser.password).then((isTrue) => {
