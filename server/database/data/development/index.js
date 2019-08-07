@@ -14,6 +14,7 @@ const reviews = require("./reviews");
 const notifications = require("./notifications");
 const transactions = require("./transactions");
 const accounts = require("./accounts");
+const internalTransaction = require("./internalTransaction");
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -30,6 +31,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await notifications();
       await transactions();
       await accounts();
+      await internalTransaction();
     })
     .then(resolve)
     .catch(reject);
