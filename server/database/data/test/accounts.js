@@ -22,6 +22,18 @@ module.exports = async () => {
       donation: 0,
       currentBalance: 0,
     },
+    {
+      income: 3000,
+      withdrawal: 0,
+      donation: 0,
+      currentBalance: 0,
+    },
+    {
+      income: 1050,
+      withdrawal: 0,
+      donation: 0,
+      currentBalance: 0,
+    },
     // hosts accounts
     {
       income: 5000,
@@ -34,6 +46,24 @@ module.exports = async () => {
       withdrawal: 1000,
       donation: 500,
       currentBalance: 1000,
+    },
+    {
+      income: 4000,
+      withdrawal: 2000,
+      donation: 1000,
+      currentBalance: 1000,
+    },
+    {
+      income: 2500,
+      withdrawal: 1000,
+      donation: 500,
+      currentBalance: 1000,
+    },
+    {
+      income: 2800,
+      withdrawal: 1000,
+      donation: 500,
+      currentBalance: 1300,
     },
     // organisations accounts
     {
@@ -49,6 +79,20 @@ module.exports = async () => {
       donation: 0,
       couponsValue: 2000,
       currentBalance: 1500,
+    },
+    {
+      income: 6500,
+      withdrawal: 0,
+      donation: 0,
+      couponsValue: 2000,
+      currentBalance: 4500,
+    },
+    {
+      income: 4500,
+      withdrawal: 0,
+      donation: 0,
+      couponsValue: 1000,
+      currentBalance: 3500,
     },
   ];
   await Account.create(accounts);

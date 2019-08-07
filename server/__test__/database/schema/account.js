@@ -18,10 +18,11 @@ describe("Test Review schema", () => {
     expect(Account).toBeDefined();
   });
 
+
   test("should store Account schema correctly", async (done) => {
     const accounts = await Account.find();
-    // 1 admin + 2 interns + 2 hosts + 2 orgs
-    expect(accounts).toHaveLength(7);
+    // 1 admin + 4 interns + 5 hosts + 4 orgs
+    expect(accounts).toHaveLength(1 + 4 + 5 + 4);
     done();
   });
 
@@ -37,7 +38,7 @@ describe("Test Review schema", () => {
     const storedAccount = await Account.create(newAccountForOrg);
 
     const allAccounts = await Account.find();
-    expect(allAccounts).toHaveLength(7 + 1);
+    expect(allAccounts).toHaveLength((1 + 4 + 5 + 4) + 1);
 
     expect(storedAccount).toBeDefined();
     expect(storedAccount.income).toBe(2500);
