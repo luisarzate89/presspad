@@ -17,9 +17,6 @@ module.exports = async () => {
         website: "www.fa.com",
       },
       jobTitle: "Journalist",
-      pressPass: {
-        fileName: "adam-presspass.jpg",
-      },
       profileImage: {
         fileName: "adam-profile.jpg",
       },
@@ -35,9 +32,6 @@ module.exports = async () => {
         website: "www.reuters.com",
       },
       jobTitle: "Political Journalist",
-      pressPass: {
-        fileName: "eve-presspass.jpg",
-      },
     },
     {
       user: hosts[2],
@@ -50,9 +44,6 @@ module.exports = async () => {
         website: "www.guardian.co.uk",
       },
       jobTitle: "Sports Writer",
-      pressPass: {
-        fileName: "hilda-presspass.jpg",
-      },
     },
     {
       user: hosts[3],
@@ -65,9 +56,6 @@ module.exports = async () => {
         website: "www.yallacooperative.com",
       },
       jobTitle: "Content Writer",
-      pressPass: {
-        fileName: "simon-presspass.jpg",
-      },
     },
   ];
 
@@ -83,9 +71,6 @@ module.exports = async () => {
       bio:
         "Hi I'm Simon and I'm starting an internship at the AFP any time soon. Would love to find a nice place to stay at.",
       jobTitle: "Journalist",
-      pressPass: {
-        fileName: "simon-presspass.jpg",
-      },
       profileImage: {
         fileName: "adam-profile.jpg",
       },
@@ -119,9 +104,6 @@ module.exports = async () => {
       bio:
         "Hi I'm Joe and I'm starting an internship at the BBC. Would love to find an awesome place to stay at.",
       jobTitle: "Music Journalist",
-      pressPass: {
-        fileName: "joe-presspass.jpg",
-      },
       favouriteArticle: {
         title: "French Nancy - good times",
         author: "Solo Chief",
@@ -152,9 +134,6 @@ module.exports = async () => {
       bio:
         "Hi I'm Ramy and I'm starting an internship at the FA. Would love to find an cosy place to stay at.",
       jobTitle: "Coding Journalist",
-      pressPass: {
-        fileName: "ramy-presspass.jpg",
-      },
       favouriteArticle: {
         title: "MongoDB is for cool kids",
         author: "Professor Mongo",

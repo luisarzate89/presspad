@@ -18,7 +18,6 @@ module.exports = async (req, res, next) => {
         website: req.body.organisationWebsite,
       },
       jobTitle: req.body.jobTitle,
-      pressPass: req.body.pressPass,
       profileImage: req.body.profileImage,
     };
 

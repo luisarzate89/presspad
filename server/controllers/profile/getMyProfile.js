@@ -19,7 +19,7 @@ const _generateUrl = async (photoRef) => {
     if (isPrivate) {
       // add url property to the reference
       // eslint-disable-next-line no-param-reassign
-      photoRef.url = await generateV4SignedUrl({}, bucketName, fileName, "read");
+      photoRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
       return;
     }
     // eslint-disable-next-line no-param-reassign
@@ -40,8 +40,8 @@ const _getProfileBasedRole = async (_id, role, res) => {
   // you should check the object on the frontEnd
   if (!profile) return res.json({});
 
-  const { pressPass, profileImage, verification: { photoID } } = profile;
-  await Promise.all([_generateUrl(pressPass), _generateUrl(profileImage), _generateUrl(photoID)]);
+  const { profileImage, verification: { photoID } } = profile;
+  await Promise.all([_generateUrl(profileImage), _generateUrl(photoID)]);
 
   if (role === "host" || role === "superhost") {
     const listing = await getListing(_id).lean();

@@ -20,10 +20,6 @@ const schema = Yup.object().shape({
   //   link: Yup.string()
   // }),
   jobTitle: Yup.string(),
-  pressPass: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
-  }),
 
   photoIDFile: Yup.object().shape({
     fileName: Yup.string(),
@@ -84,10 +80,6 @@ export default class InternCreateProfile extends Component {
     favouriteArticle: "",
     jobTitle: "",
 
-    pressPass: {
-      loading: 0,
-      isLoading: false
-    },
     offerLetter: {
       loading: 0,
       isLoading: false
@@ -227,7 +219,6 @@ export default class InternCreateProfile extends Component {
       bio,
       favouriteArticle,
       jobTitle,
-      pressPass,
       offerLetter,
       photoIDFile,
       reference1,
@@ -259,18 +250,12 @@ export default class InternCreateProfile extends Component {
 
         const formData = {
           profileImage: { fileName: profileImage.fileName, isPrivate: false },
-          pressPass: { fileName: pressPass.fileName, isPrivate: false },
           bio
         };
 
         // Add optional fields if they exists
         favouriteArticle && (formData.favouriteArticle = favouriteArticle);
         jobTitle && (formData.jobTitle = jobTitle);
-        photoIDFile.fileName &&
-          (formData.pressPass = {
-            fileName: photoIDFile.fileName,
-            isPrivate: true
-          });
         offerLetter.fileName &&
           (formData.offerLetter = {
             fileName: offerLetter.fileName,

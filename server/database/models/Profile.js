@@ -25,13 +25,6 @@ const profileSchema = new Schema({
     lowercase: true,
     required: true,
   },
-  pressPass: {
-    fileName: String,
-    isPrivate: {
-      type: Boolean,
-      default: true,
-    },
-  },
   profileImage: {
     fileName: String,
     isPrivate: {
