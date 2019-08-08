@@ -1,6 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 import whiteLogo from "./../../../assets/white-presspad-logo.png";
 
@@ -12,8 +14,7 @@ import {
   MYPROFILE_URL,
   DASHBOARD_URL,
   HOSTS_URL,
-  SIGNIN_URL,
-  SIGNOUT_URL
+  SIGNIN_URL
 } from "../../../constants/navRoutes";
 
 import USER_TYPES from "./../../../constants/userTypes";
@@ -54,57 +55,82 @@ const MenuItem = styled(NavLink)`
   width: 100%;
 `;
 
-const Navbar = ({ isLoggedIn, userType }) => {
+// Button to allow signout to send request to the server
+const MenuButton = styled.button`
+  margin-left: 3rem;
+  text-decoration: none;
+  color: ${colors.white};
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+class Navbar extends Component {
   // RENDERING IS BASED ON KNOWING IF LOGGEDIN AND THE TYPE OF USER
 
-  return (
-    <Wrapper>
-      <NavLink to={HOME_URL}>
-        <Logo src={whiteLogo} alt="logo" />
-      </NavLink>
-      <Options>
-        {/* NOT LOGGED IN */}
-        {!isLoggedIn && (
-          <>
-            <MenuItem to={HOME_URL}>Home</MenuItem>
-            <MenuItem to={ABOUT_URL}>About</MenuItem>
-            <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
-            <MenuItem to={SIGNIN_URL}>Sign in</MenuItem>
-          </>
-        )}
+  menuButtonClick = async e => {
+    const signOutResult = await axios.get("api/sign-out");
+    signOutResult.data.success
+      ? this.props.history.push("/")
+      : Swal.fire({
+          title: "You have been signed out!",
+          type: "success",
+          confirmButtonText: "Continue"
+        });
+  };
 
-        {/* LOGGED IN  */}
-        {isLoggedIn && (
-          <>
-            <MenuItem to={DASHBOARD_URL}>Dashboard</MenuItem>
-            {userType === USER_TYPES.intern && (
-              <>
-                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
-                <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
-              </>
-            )}
-            {userType === USER_TYPES.host && (
-              <>
-                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
-              </>
-            )}
-            {userType === USER_TYPES.superhost && (
-              <>
-                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
-              </>
-            )}
-            {userType === USER_TYPES.organisation && (
-              <>
-                <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
-              </>
-            )}
+  render() {
+    const { isLoggedIn, userType } = this.props;
 
-            <MenuItem to={SIGNOUT_URL}>Sign out</MenuItem>
-          </>
-        )}
-      </Options>
-    </Wrapper>
-  );
-};
+    return (
+      <Wrapper>
+        <NavLink to={HOME_URL}>
+          <Logo src={whiteLogo} alt="logo" />
+        </NavLink>
+        <Options>
+          {/* NOT LOGGED IN */}
+          {!isLoggedIn && (
+            <>
+              <MenuItem to={HOME_URL}>Home</MenuItem>
+              <MenuItem to={ABOUT_URL}>About</MenuItem>
+              <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
+              <MenuItem to={SIGNIN_URL}>Sign in</MenuItem>
+            </>
+          )}
 
-export default Navbar;
+          {/* LOGGED IN  */}
+          {isLoggedIn && (
+            <>
+              <MenuItem to={DASHBOARD_URL}>Dashboard</MenuItem>
+              {userType === USER_TYPES.intern && (
+                <>
+                  <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+                  <MenuItem to={HOSTS_URL}>Hosts</MenuItem>
+                </>
+              )}
+              {userType === USER_TYPES.host && (
+                <>
+                  <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+                </>
+              )}
+              {userType === USER_TYPES.superhost && (
+                <>
+                  <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+                </>
+              )}
+              {userType === USER_TYPES.organisation && (
+                <>
+                  <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
+                </>
+              )}
+
+              <MenuButton onClick={this.menuButtonClick}>Sign out</MenuButton>
+            </>
+          )}
+        </Options>
+      </Wrapper>
+    );
+  }
+}
+
+export default withRouter(Navbar);
