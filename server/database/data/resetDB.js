@@ -9,6 +9,7 @@ const Notification = require("../models/Notification");
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
 const InternalTransaction = require("../models/InternalTransaction");
+const Coupon = require("../models/Coupon");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -22,6 +23,7 @@ const resetDB = async () => {
   await Transaction.deleteMany();
   await Account.deleteMany();
   await InternalTransaction.deleteMany();
+  await Coupon.deleteMany();
 };
 
 module.exports = resetDB;

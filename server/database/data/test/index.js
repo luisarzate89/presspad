@@ -13,6 +13,7 @@ const transactions = require("./transactions");
 const notifications = require("./notifications");
 const accounts = require("./accounts");
 const internalTransaction = require("./internalTransaction");
+const coupons = require("./coupons");
 
 const buildTestData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -20,8 +21,8 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await resetDb();
       await accounts();
       await organisations();
-      await orgCodes();
       await users();
+      await orgCodes();
       await referrals();
       await profiles();
       await listings();
@@ -30,6 +31,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await notifications();
       await transactions();
       await internalTransaction();
+      await coupons();
     })
     .then(resolve)
     .catch(reject);

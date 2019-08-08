@@ -15,6 +15,8 @@ const notifications = require("./notifications");
 const transactions = require("./transactions");
 const accounts = require("./accounts");
 const internalTransaction = require("./internalTransaction");
+const coupons = require("./coupons");
+
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -32,6 +34,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await transactions();
       await accounts();
       await internalTransaction();
+      await coupons();
     })
     .then(resolve)
     .catch(reject);
