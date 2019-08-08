@@ -45,7 +45,6 @@ describe("Testing for get host profile route", () => {
             expect(result.body).toBeDefined();
             expect(result.body[0].key).toBe(1);
             expect(result.body[0].organisation).toBeDefined();
-            expect(result.body[0].plan).toBeDefined();
             expect(result.body[0].currentlyHosted).toBeDefined();
             expect(result.body[0].creditsSpent).toBeDefined();
             expect(result.body[0].userId).toBeDefined();

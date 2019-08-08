@@ -18,9 +18,11 @@ const _generateUrl = async (photoRef) => {
   if (fileName) {
     if (isPrivate) {
       // add url property to the reference
-      photoRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
+      // eslint-disable-next-line no-param-reassign
+      photoRef.url = await generateV4SignedUrl({}, bucketName, fileName, "read");
       return;
     }
+    // eslint-disable-next-line no-param-reassign
     photoRef.url = getPublicFileUrl(bucketName, fileName);
   }
 };
@@ -53,7 +55,7 @@ const _getProfileBasedRole = async (_id, role, res) => {
 module.exports = async (req, res, next) => {
   const { _id, role } = req.user;
   try {
-    _getProfileBasedRole(_id, role, res);
+    await _getProfileBasedRole(_id, role, res);
   } catch (err) {
     next(boom.badImplementation(err));
   }

@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     // if not valid then clear and proceed as a user who's not logged in
     if (err) {
       res.clearCookie("token");
-      next();
+      return next();
     }
 
     // get the user Id from token

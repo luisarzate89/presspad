@@ -37,7 +37,7 @@ describe("Tests get profile data with the image urls form google cloud", () => {
         // Request should get the intern profile
         // the profileImage must contain a url
         // from google cloud
-        request(app)
+        return request(app)
           .get("/api/my-profile")
           .set("Cookie", [token])
           .expect(200)
@@ -55,7 +55,6 @@ describe("Tests get profile data with the image urls form google cloud", () => {
             expect(res.body.profile.jobTitle).toBe("journalist");
             return done();
           });
-        return done();
       });
   }, 30000);
 
@@ -70,12 +69,12 @@ describe("Tests get profile data with the image urls form google cloud", () => {
         const token = response.headers["set-cookie"][0].split(";")[0];
         if (error) return done(error);
 
-        request(app)
+        return request(app)
           .get("/api/my-profile")
           .set("Cookie", [token])
           .expect(200)
           .expect("Content-Type", /json/)
-          .end(async (err, res) => {
+          .end((err, res) => {
             if (err) return done(err);
             expect(res).toBeDefined();
             expect(res.body).toBeDefined();
@@ -83,11 +82,10 @@ describe("Tests get profile data with the image urls form google cloud", () => {
             const { profile, listing } = res.body;
             expect(profile).toBeTruthy();
             expect(listing).toBeTruthy();
-            expect(listing.photos).toBe([]);
-            expect(res.body.profile.address.street).toBe("28 Test Road");
+            expect(listing.photos).toHaveLength(0);
+            expect(listing.address.street).toBe("28 Test Road");
             return done();
           });
-        return done();
       });
   }, 30000);
 });
