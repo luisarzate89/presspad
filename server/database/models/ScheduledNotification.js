@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
-const notificationSchema = new Schema({
+const ScheduledNotificationSchema = new Schema({
   // the user who should get the notification
   user: {
     type: Schema.Types.ObjectId,
@@ -29,12 +29,6 @@ const notificationSchema = new Schema({
     ],
     required: true,
   },
-  // flag to store if the user saw this or not
-  seen: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   // organsiasations can see some of the notifications for it's interns
   // if private then organisations cannot see this eg. "completeProfileRemind" type
   private: {
@@ -42,15 +36,17 @@ const notificationSchema = new Schema({
     required: true,
     default: false,
   },
-  // flag to store if the organisation saw this or not
-  seenForOrg: {
-    type: Boolean,
+  dueDate: {
+    type: Date,
     required: true,
-    default: false,
+    validate: {
+      validator: value => Date.now() < value,
+      message: "Used Days is not an integer value",
+    },
   },
 },
 { timestamps: true });
 
-const Notification = model("notifications", notificationSchema);
+const ScheduledNotification = model("scheduledNotifications", ScheduledNotificationSchema);
 
-module.exports = Notification;
+module.exports = ScheduledNotification;

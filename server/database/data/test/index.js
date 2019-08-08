@@ -14,6 +14,7 @@ const notifications = require("./notifications");
 const accounts = require("./accounts");
 const internalTransaction = require("./internalTransaction");
 const coupons = require("./coupons");
+const scheduledNotifications = require("./scheduledNotifications");
 
 const buildTestData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -32,6 +33,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await transactions();
       await internalTransaction();
       await coupons();
+      await scheduledNotifications();
     })
     .then(resolve)
     .catch(reject);
