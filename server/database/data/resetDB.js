@@ -11,6 +11,7 @@ const Account = require("../models/Account");
 const InternalTransaction = require("../models/InternalTransaction");
 const Coupon = require("../models/Coupon");
 const ScheduledNotification = require("../models/ScheduledNotification");
+const ExternalTransaction = require("../models/ExternalTransaction");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -26,6 +27,7 @@ const resetDB = async () => {
   await InternalTransaction.deleteMany();
   await Coupon.deleteMany();
   await ScheduledNotification.deleteMany();
+  await ExternalTransaction.deleteMany();
 };
 
 module.exports = resetDB;
