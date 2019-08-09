@@ -18,6 +18,7 @@ const internalTransaction = require("./internalTransaction");
 const coupons = require("./coupons");
 const scheduledNotifications = require("./scheduledNotifications");
 const externalTransactions = require("./externalTransactions");
+const installments = require("./installments");
 
 
 const buildDevData = () => new Promise((resolve, reject) => {
@@ -39,6 +40,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await coupons();
       await scheduledNotifications();
       await externalTransactions();
+      await installments();
     })
     .then(resolve)
     .catch(reject);

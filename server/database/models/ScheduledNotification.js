@@ -41,7 +41,7 @@ const ScheduledNotificationSchema = new Schema({
     required: true,
     validate: {
       validator: value => Date.now() < value,
-      message: "Used Days is not an integer value",
+      message: "due date is in the past",
     },
   },
 },
