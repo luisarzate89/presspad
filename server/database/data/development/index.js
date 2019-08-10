@@ -21,6 +21,7 @@ const externalTransactions = require("./externalTransactions");
 const installments = require("./installments");
 const scheduledEmails = require("./scheduledEmails");
 const checklistQuestions = require("./checklistQuestions");
+const checklistAnswers = require("./checklistAnswers");
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -44,6 +45,7 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await installments();
       await scheduledEmails();
       await checklistQuestions();
+      await checklistAnswers();
     })
     .then(resolve)
     .catch(reject);
