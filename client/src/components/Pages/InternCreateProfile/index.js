@@ -220,7 +220,7 @@ export default class InternCreateProfile extends Component {
       favouriteArticle,
       jobTitle,
       offerLetter,
-      photoIDFile,
+      // photoIDFile,
       reference1,
       reference2
     } = this.state;

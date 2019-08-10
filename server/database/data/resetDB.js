@@ -13,6 +13,7 @@ const Coupon = require("../models/Coupon");
 const ScheduledNotification = require("../models/ScheduledNotification");
 const ExternalTransaction = require("../models/ExternalTransaction");
 const Installment = require("../models/Installment");
+const ScheduledEmail = require("../models/ScheduledEmail");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -30,6 +31,7 @@ const resetDB = async () => {
   await ScheduledNotification.deleteMany();
   await ExternalTransaction.deleteMany();
   await Installment.deleteMany();
+  await ScheduledEmail.deleteMany();
 };
 
 module.exports = resetDB;

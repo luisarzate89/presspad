@@ -42,10 +42,6 @@ describe("Test ScheduledNotification schema", () => {
     done();
   });
 
-  test("should ScheduledNotification schema be defined", async () => {
-    expect(ScheduledNotification).toBeDefined();
-  });
-
   test("should validation work correctly", async (done) => {
     // users
     const hosts = await User.find({ role: "host" });
