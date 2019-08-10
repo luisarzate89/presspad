@@ -18,6 +18,8 @@ const scheduledNotifications = require("./scheduledNotifications");
 const externalTransactions = require("./externalTransactions");
 const installments = require("./installments");
 const scheduledEmails = require("./scheduledEmails");
+const checklistQuestions = require("./checklistQuestions");
+
 
 const buildTestData = () => new Promise((resolve, reject) => {
   dbConnection()
@@ -40,6 +42,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await externalTransactions();
       await installments();
       await scheduledEmails();
+      await checklistQuestions();
     })
     .then(resolve)
     .catch(reject);
