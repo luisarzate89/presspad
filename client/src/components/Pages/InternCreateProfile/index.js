@@ -220,7 +220,7 @@ export default class InternCreateProfile extends Component {
       favouriteArticle,
       jobTitle,
       offerLetter,
-      // photoIDFile,
+      photoIDFile,
       reference1,
       reference2
     } = this.state;
@@ -256,6 +256,13 @@ export default class InternCreateProfile extends Component {
         // Add optional fields if they exists
         favouriteArticle && (formData.favouriteArticle = favouriteArticle);
         jobTitle && (formData.jobTitle = jobTitle);
+
+        photoIDFile.fileName &&
+          (formData.photoIDFile = {
+            fileName: photoIDFile.fileName,
+            isPrivate: true
+          });
+
         offerLetter.fileName &&
           (formData.offerLetter = {
             fileName: offerLetter.fileName,
