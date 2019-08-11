@@ -26,7 +26,7 @@ describe("Test Review schema", () => {
     done();
   });
 
-  test("should store a new Review correctly", async (done) => {
+  test("should create a new Account correctly", async (done) => {
     const newAccountForOrg = {
       income: 2500,
       withdrawal: 0,
