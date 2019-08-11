@@ -58,7 +58,6 @@ module.exports = async () => {
       password: "123456",
       role: "organisation",
       organisation: organisations[2]._id,
-      plan: "basic",
       account: orgAccount3._id,
     },
     {
