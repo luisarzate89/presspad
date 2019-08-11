@@ -15,6 +15,8 @@ const checklistQuestionSchema = new Schema({
     type: String,
     enum: ["host", "intern", "both"],
   },
+}, {
+  timestamps: true,
 });
 
 const ChecklistQuestion = model("checklistQuestions", checklistQuestionSchema);

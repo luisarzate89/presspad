@@ -34,6 +34,8 @@ const installmentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "internalTransactions",
   },
+}, {
+  timestamps: true,
 });
 
 const Installment = model("installments", installmentSchema);

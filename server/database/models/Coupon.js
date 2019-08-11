@@ -59,6 +59,10 @@ const couponSchema = new Schema({
   expirationDate: {
     type: Date,
     required: true,
+    validate: {
+      validator: value => Date.now() < value,
+      message: "expiration date is in the past",
+    },
   },
   // coupon's transactions history
   transactions: [{
@@ -80,6 +84,8 @@ const couponSchema = new Schema({
       ref: "internalTransactions",
     },
   }],
+}, {
+  timestamps: true,
 });
 
 const Coupon = model("coupons", couponSchema);

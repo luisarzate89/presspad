@@ -20,6 +20,8 @@ const organisationSchema = new Schema({
       default: false,
     },
   },
+}, {
+  timestamps: true,
 });
 
 const Organisation = model("organisations", organisationSchema);

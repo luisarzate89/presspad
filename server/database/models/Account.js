@@ -24,6 +24,7 @@ const accountSchema = new Schema({
   // the total values of the current coupons that the org created and didnt used yet
   couponsValue: {
     type: Number,
+    required: true,
     default: 0,
   },
   // current balance in the account
@@ -32,6 +33,8 @@ const accountSchema = new Schema({
     required: true,
     default: 0,
   },
+}, {
+  timestamps: true,
 });
 
 const Account = model("accounts", accountSchema);

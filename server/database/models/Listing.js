@@ -40,6 +40,8 @@ const listingSchema = new Schema({
     startDate: Date,
     endDate: Date,
   }],
+}, {
+  timestamps: true,
 });
 
 const Listing = model("listings", listingSchema);

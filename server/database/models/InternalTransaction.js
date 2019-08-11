@@ -26,6 +26,8 @@ const internalTransactionSchema = new Schema({
     type: Number,
     required: true,
   },
+}, {
+  timestamps: true,
 });
 
 const InternalTransaction = model("internalTransactions", internalTransactionSchema);

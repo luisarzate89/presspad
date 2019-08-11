@@ -13,6 +13,8 @@ const orgCodesSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "organisations",
   },
+}, {
+  timestamps: true,
 });
 
 const OrgCodes = model("orgCodes", orgCodesSchema);

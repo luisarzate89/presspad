@@ -68,6 +68,8 @@ const profileSchema = new Schema({
     type: Boolean,
     default: false,
   },
+}, {
+  timestamps: true,
 });
 
 const Profile = model("profiles", profileSchema);

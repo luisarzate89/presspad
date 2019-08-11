@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   const { role, organisation } = user;
 
   // check for user role
-  if (role !== "organisation") {
+  if (role !== "organisation" || !organisation) {
     return next(boom.unauthorized());
   }
 
