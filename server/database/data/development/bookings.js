@@ -52,7 +52,7 @@ module.exports = async () => {
     },
     {
       listing: listings[2],
-      user: interns[3],
+      intern: interns[3],
       host: listings[0].user,
       startDate: "2019-10-14",
       endDate: "2019-11-16",
