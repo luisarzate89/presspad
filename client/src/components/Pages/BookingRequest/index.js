@@ -90,7 +90,6 @@ class BookingRequest extends Component {
 
   componentWillMount() {
     this.axiosCall();
-    // console.log(this.props);
   }
 
   // checks if profile image exists and returns src path

@@ -47,7 +47,6 @@ export default class AdminDashboard extends Component {
       })
       .catch(err => {
         this.setState({ loading: false });
-        console.log(err);
       });
   };
 

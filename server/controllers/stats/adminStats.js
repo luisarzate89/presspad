@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
   const { userType } = req.body;
 
   if (userType === "clients") {
-    getAllClientStats()
+    return getAllClientStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
@@ -35,8 +35,8 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else if (userType === "interns") {
-    getAllInternStats()
+  } if (userType === "interns") {
+    return getAllInternStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
@@ -66,8 +66,8 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else if (userType === "hosts") {
-    getAllHostStats()
+  } if (userType === "hosts") {
+    return getAllHostStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
@@ -86,5 +86,5 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } else return next(boom.badRequest());
+  } return next(boom.badRequest());
 };

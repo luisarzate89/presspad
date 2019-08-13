@@ -31,7 +31,6 @@ describe("Test Profile schema", () => {
       user: interns[0],
       bio: "test",
       jobTitle: "Journalist",
-      pressPass: "simon-presspass.jpg",
     };
     const storedProfile = await Profile.create(newProfile);
     expect(storedProfile).toBeDefined();

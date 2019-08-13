@@ -10,11 +10,6 @@ const hostProfileSchema = Joi.object({
   organisationName: Joi.string().required(),
   organisationWebsite: Joi.string().uri().required(),
   jobTitle: Joi.string(),
-  pressPass: Joi.object({
-    fileName: Joi.string().required(),
-    isPrivate: Joi.boolean().default(true),
-  }).required(),
-
   addressLine1: Joi.string().required(),
   addressLine2: Joi.string(),
   addressCity: Joi.string().required(),

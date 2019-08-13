@@ -34,6 +34,8 @@ const transactionSchema = new Schema({
     type: String,
     enum: ["donated", "accepted"],
   },
+}, {
+  timestamps: true,
 });
 
 const Transaction = model("transactions", transactionSchema);

@@ -4,6 +4,7 @@ const Booking = require("../../models/Booking");
 const Review = require("../../models/Review");
 
 const { addOrg } = require("./organisation");
+const { createNewAccount } = require("../account");
 
 module.exports.findByEmail = email => User.findOne({ email: email.toLowerCase() });
 
@@ -18,7 +19,8 @@ module.exports.addNewUser = async (userInfo) => {
 
   if (role === "organisation") {
     const { organisation, logo } = userInfo;
-    const newOrg = await addOrg(organisation, logo);
+    const newAccount = await createNewAccount();
+    const newOrg = await addOrg(organisation, logo, newAccount._id);
     return User.create({
       email: email.toLowerCase(),
       name,
@@ -48,10 +50,10 @@ module.exports.addNewUser = async (userInfo) => {
   });
 };
 
-module.exports.getInternStatus = id => Booking.aggregate([
+module.exports.getInternStatus = internId => Booking.aggregate([
   // get all the bookings for that intern
   {
-    $match: { user: mongoose.Types.ObjectId(id) },
+    $match: { intern: mongoose.Types.ObjectId(internId) },
   },
   //  get only bookings that haven't ended yet
   {
@@ -156,5 +158,6 @@ module.exports.getUserOrg = userId => User.aggregate([
         $arrayElemAt: ["$organisation", 0],
       },
     },
-  }, { $replaceRoot: { newRoot: "$organisation" } },
+  },
+  { $replaceRoot: { newRoot: "$organisation" } },
 ]);

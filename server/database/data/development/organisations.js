@@ -1,35 +1,57 @@
 const shortid = require("shortid");
 const Organisation = require("../../models/Organisation");
+const Account = require("../../models/Account");
 
 module.exports = async () => {
+  const accounts = await Account.find();
+  const [,,,,, , , , , ,
+    orgAccount1,
+    orgAccount2,
+    orgAccount3,
+    orgAccount4,
+  ] = accounts;
+
+
   const organisations = [
     {
       name: "Financial Times",
       code: shortid.generate(),
       plan: "basic",
       credits: 500,
-      logo: "http://www.pcalp.com/wp-content/uploads/2016/10/Financial_Times_corporate_logo.svg_.png",
+      logo: {
+        fileName: "test.svg",
+      },
+      account: orgAccount1._id,
     },
     {
       name: "The Guardian",
       code: shortid.generate(),
       plan: "basic",
       credits: 1500,
-      logo: "http://planning.newsworks.org.uk/wp-content/uploads/2018/01/460x215-TheGuardian.png",
+      logo: {
+        fileName: "test.svg",
+      },
+      account: orgAccount2._id,
     },
     {
       name: "BBC",
       code: shortid.generate(),
       plan: "basic",
       credits: 750,
-      logo: "https://thenetwork-group.com/assets/files/2014/12/BBC-logo.jpg",
+      logo: {
+        fileName: "test.svg",
+      },
+      account: orgAccount3._id,
     },
     {
       name: "AFP",
       code: shortid.generate(),
       plan: "basic",
       credits: 200,
-      logo: "https://www.capitalfm.co.ke/news/files/2017/08/afp-logo.png",
+      logo: {
+        fileName: "test.svg",
+      },
+      account: orgAccount4._id,
     },
   ];
 

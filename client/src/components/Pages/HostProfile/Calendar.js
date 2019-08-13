@@ -78,13 +78,14 @@ class CalendarComponent extends Component {
 
   handleClick = () => {
     const { dates, price } = this.state;
-    const { internId, listingId } = this.props;
+    const { internId, listingId, hostId } = this.props;
     const data = {
       listing: listingId,
-      user: internId,
+      intern: internId,
+      host: hostId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
       endDate: moment(dates[1]).format("YYYY-MM-DD"),
-      payment: price
+      price: price
     };
 
     bookingRequest(API_BOOKING_REQUEST_URL, data)
@@ -160,7 +161,9 @@ class CalendarComponent extends Component {
           )}
           <RequestBtn
             onClick={this.handleClick}
-            disabled={noNights === 0 || noNights === null || bookingExists || adminView }
+            disabled={
+              noNights === 0 || noNights === null || bookingExists || adminView
+            }
           >
             Request Stay
           </RequestBtn>

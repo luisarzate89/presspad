@@ -32,16 +32,17 @@ describe("Test Booking schema", () => {
     const listings = await Listing.find();
 
     const newBooking = {
-      listing: listings[0],
-      user: interns[0],
+      listing: listings[0]._id,
+      intern: interns[0]._id,
+      host: listings[0].user,
       startDate: "2019-05-19",
       endDate: "2019-07-12",
-      payment: 235,
+      price: 235,
     };
 
     const storedBooking = await Booking.create(newBooking);
     expect(storedBooking).toBeDefined();
-    expect(storedBooking.user).toBe(newBooking.user);
+    expect(storedBooking.intern).toBe(newBooking.intern);
     done();
   });
 });

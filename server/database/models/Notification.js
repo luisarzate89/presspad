@@ -48,7 +48,8 @@ const notificationSchema = new Schema({
     required: true,
     default: false,
   },
-}, { timestamps: true });
+},
+{ timestamps: true });
 
 const Notification = model("notifications", notificationSchema);
 

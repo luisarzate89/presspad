@@ -25,13 +25,6 @@ const profileSchema = new Schema({
     lowercase: true,
     required: true,
   },
-  pressPass: {
-    fileName: String,
-    isPrivate: {
-      type: Boolean,
-      default: true,
-    },
-  },
   profileImage: {
     fileName: String,
     isPrivate: {
@@ -75,6 +68,8 @@ const profileSchema = new Schema({
     type: Boolean,
     default: false,
   },
+}, {
+  timestamps: true,
 });
 
 const Profile = model("profiles", profileSchema);

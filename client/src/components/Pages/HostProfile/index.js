@@ -148,7 +148,8 @@ class HostProfile extends Component {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
 
     const { profileData, reviews, internBookings, adminView } = this.state;
-    const { hideProfile } = this.props;
+    const { hideProfile, match } = this.props;
+    const { id: hostId } = match.params;
 
     const { listing, profile, name, email } = profileData;
     const {
@@ -302,6 +303,7 @@ class HostProfile extends Component {
                 </ParagraphHeadline>
                 <Calendar
                   internId={intern}
+                  hostId={hostId}
                   listingId={_id}
                   availableDates={availableDates}
                   internBookings={internBookings}
