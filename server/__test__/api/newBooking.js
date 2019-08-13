@@ -61,8 +61,8 @@ describe("Testing for create new booking route", () => {
       intern: interns[0]._id,
       host: listing.user,
       listing: listing._id,
-      startDate: "2019-06-21T00:00:00.000Z",
-      endDate: "2019-06-29T00:00:00.000Z",
+      startDate: Date.now() - 20 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
       price: 405,
     };
 
