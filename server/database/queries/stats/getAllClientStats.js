@@ -17,7 +17,6 @@ module.exports.getAllClientStats = async () => {
         _id: 1,
         name: 1,
         plan: 1,
-        credits: 1,
         interns: {
           $filter: {
             input: "$users",

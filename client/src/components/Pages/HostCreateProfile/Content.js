@@ -45,11 +45,6 @@ class Content extends Component {
         isLoading: isProfileImageLoading,
         loading: profileImageLoading
       },
-      pressPass: {
-        name: pressPassFileName,
-        loading: pressPassLoading,
-        isLoading: isPressPassLoading
-      },
       offerImages1: {
         dataUrl: offerImages1DataUrl,
         loading: offerImages1Loading,
@@ -230,53 +225,6 @@ class Content extends Component {
                     />
                     <Error>{errors.jobTitle}</Error>
                   </ErrorWrapper>
-                </Col>
-
-                <Col xs={24} sm={15} lg={12}>
-                  <Label htmlFor="Press pass">Press pass</Label>
-                  <Row gutter={25} type="flex">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Col xs={18} sm={18} lg={18}>
-                        <ErrorWrapper
-                          error={errors.pressPass}
-                          marginBottom="20px"
-                        >
-                          <ProgressBar progress={pressPassLoading}>
-                            <Input
-                              id="Press pass"
-                              style={{
-                                border: errors.pressPass
-                                  ? "none"
-                                  : "1px solid #d9d9d9",
-                                display: "inline"
-                              }}
-                              value={pressPassFileName}
-                              placeholder="No file has been uploaded"
-                              disabled={!!pressPassFileName}
-                            />
-                          </ProgressBar>
-                          <Error>{errors.pressPass}</Error>
-                        </ErrorWrapper>
-                      </Col>
-                      <Col xs={9} sm={9} lg={9}>
-                        {isPressPassLoading ? (
-                          <UploadText disabled>browse file</UploadText>
-                        ) : (
-                          <UploadText as="label" htmlFor="pressPass">
-                            browse file
-                            <input
-                              type="file"
-                              id="pressPass"
-                              onChange={directUploadToGoogle}
-                              name="pressPass"
-                              style={{ display: "none" }}
-                              data-is-private="true"
-                            />
-                          </UploadText>
-                        )}
-                      </Col>
-                    </div>
-                  </Row>
                 </Col>
               </Row>
             </SectionWrapperContent>

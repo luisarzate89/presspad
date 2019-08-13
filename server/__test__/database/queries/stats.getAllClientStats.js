@@ -20,8 +20,6 @@ describe("Test get all client stats query", () => {
       expect(response).toBeDefined();
       expect(response[0].interns).toBeDefined();
       expect(response[0].name).toBeDefined();
-      expect(response[0].plan).toBeDefined();
-      expect(response[0].credits).toBeDefined();
       done();
     });
   });

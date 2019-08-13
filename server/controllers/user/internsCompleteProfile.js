@@ -8,10 +8,10 @@ const {
 
 module.exports = async (req, res, next) => {
   const { user } = req;
-  const { profileImage, pressPass, bio } = req.body;
+  const { profileImage, bio } = req.body;
 
   // check for required fields
-  if (!profileImage || !pressPass || !bio) {
+  if (!profileImage || !bio) {
     return next(boom.badRequest("missed data"));
   }
 

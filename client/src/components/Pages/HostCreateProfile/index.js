@@ -28,11 +28,6 @@ const schema = Yup.object().shape({
     .url("Not a valid link")
     .required("Required"),
   jobTitle: Yup.string(),
-  pressPass: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(true)
-  }),
-
   addressLine1: Yup.string().required("Required"),
   addressLine2: Yup.string(),
   addressCity: Yup.string().required("Required"),
@@ -106,11 +101,6 @@ class HostCreateProfile extends Component {
       dataUrl: ""
     },
     offerImages3: {
-      loading: 0,
-      isLoading: false,
-      dataUrl: ""
-    },
-    pressPass: {
       loading: 0,
       isLoading: false,
       dataUrl: ""
@@ -253,7 +243,6 @@ class HostCreateProfile extends Component {
           organisationName,
           organisationWebsite,
           jobTitle,
-          pressPass,
           addressLine1,
           addressLine2,
           addressCity,
@@ -271,7 +260,6 @@ class HostCreateProfile extends Component {
           bio,
           organisationName,
           organisationWebsite,
-          pressPass: { fileName: pressPass.fileName, isPrivate: true },
           addressLine1,
           addressCity,
           addressPostCode,

@@ -7,6 +7,15 @@ const Listing = require("../models/Listing");
 const Booking = require("../models/Booking");
 const Notification = require("../models/Notification");
 const Transaction = require("../models/Transaction");
+const Account = require("../models/Account");
+const InternalTransaction = require("../models/InternalTransaction");
+const Coupon = require("../models/Coupon");
+const ScheduledNotification = require("../models/ScheduledNotification");
+const ExternalTransaction = require("../models/ExternalTransaction");
+const Installment = require("../models/Installment");
+const ScheduledEmail = require("../models/ScheduledEmail");
+const ChecklistQuestion = require("../models/ChecklistQuestion");
+const ChecklistAnswer = require("../models/ChecklistAnswer");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -18,6 +27,15 @@ const resetDB = async () => {
   await Booking.deleteMany();
   await Notification.deleteMany();
   await Transaction.deleteMany();
+  await Account.deleteMany();
+  await InternalTransaction.deleteMany();
+  await Coupon.deleteMany();
+  await ScheduledNotification.deleteMany();
+  await ExternalTransaction.deleteMany();
+  await Installment.deleteMany();
+  await ScheduledEmail.deleteMany();
+  await ChecklistQuestion.deleteMany();
+  await ChecklistAnswer.deleteMany();
 };
 
 module.exports = resetDB;

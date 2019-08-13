@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const bookingSchema = new Schema({
+  intern: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  host: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
   listing: {
     type: Schema.Types.ObjectId,
     ref: "listings",
-  },
-  // intern that requests booking
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
+    required: true,
   },
   startDate: {
     type: Date,
@@ -20,22 +26,28 @@ const bookingSchema = new Schema({
     type: Date,
     required: true,
   },
-  // bookings need to be confirmed or canceled by host
-  // tracking also canceled bookings might be a good idea ?
+  // bookings need to be confirmed or canceled by [host,intern,admin]
   status: {
     type: String,
     enum: ["pending", "confirmed", "canceled"],
     default: "pending",
     required: true,
   },
-  payment: {
+  price: {
     type: Number,
     required: true,
   },
-  payed: {
-    type: Boolean,
-    default: false,
+  payedAmount: {
+    type: Number,
+    default: 0,
   },
+  // user's ID who cancel the booking
+  canceledBy: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
+}, {
+  timestamps: true,
 });
 
 const Booking = model("bookings", bookingSchema);

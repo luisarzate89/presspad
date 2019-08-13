@@ -8,18 +8,19 @@ const {
 
 module.exports = async (req, res, next) => {
   const {
-    listing, user, startDate, endDate, payment,
+    listing, intern, host, startDate, endDate, price,
   } = req.body;
 
   const data = {
     listing,
-    user,
+    intern,
+    host,
     startDate,
     endDate,
-    payment,
+    price,
   };
 
-  const userHasBooking = await checkOtherBookingExists(user, startDate, endDate);
+  const userHasBooking = await checkOtherBookingExists(intern, startDate, endDate);
   const listingUnavailable = await checkIfListingAvailable(listing, startDate, endDate);
 
   // check if user already has booking request during requested dates
