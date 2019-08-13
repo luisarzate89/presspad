@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Avatar, Icon } from "antd";
 
+import Calendar from "../../Common/Calendar";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 import { ReactComponent as MapPin } from "./mapPin.svg";
 
@@ -31,6 +32,9 @@ export default function BookingSection(props) {
   const hostName = "Emily Banks";
   const bookingId = "5d518da69e22c80ff36603cd";
   const hostId = "5d518da59e22c80ff366039b";
+  const startDate = "2019-08-12T00:00:00.000Z";
+  const endDate = "2019-08-19T00:00:00.000Z";
+
   return (
     <>
       <HeaderWrapper>
@@ -106,7 +110,7 @@ export default function BookingSection(props) {
           </Col>
           <Col lg={8} md={10} sm={24}>
             <SectionWrapperContent style={{ minHeight: 390 }}>
-              <SectionTitle>Calendar</SectionTitle>
+              <Calendar startDate={startDate} endDate={endDate} />
             </SectionWrapperContent>
           </Col>
         </Row>
