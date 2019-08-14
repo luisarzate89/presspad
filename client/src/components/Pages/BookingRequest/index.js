@@ -73,7 +73,7 @@ class BookingRequest extends Component {
     // const id = window.location.href.split("/")[4];
 
     axios
-      .post(API_INTERN_PROFILE_URL)
+      .get(API_INTERN_PROFILE_URL)
       .then(res => {
         this.setState({
           isLoading: false,

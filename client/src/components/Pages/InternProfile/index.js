@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col, Avatar, Table } from "antd";
+import axios from "axios";
+import { API_INTERN_PROFILE_URL } from "../../../constants/apiRoutes";
 
 import {
   PageWrapper,
@@ -57,6 +59,16 @@ const columns = [
 const name = "Ramy Shurafa";
 
 class InternProfile extends Component {
+  componentDidMount() {
+    axios.get(API_INTERN_PROFILE_URL + "?expand=booking").then(res => {
+      console.log(res.data);
+      this.setState({
+        isLoading: false,
+        internData: res.data[0][0],
+        internReviews: res.data[1]
+      });
+    });
+  }
   render() {
     return (
       <PageWrapper>

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const User = require("../../../database/models/User");
+const Booking = require("../../../database/models/Booking");
 const Review = require("../../../database/models/Review");
 const buildDB = require("../../../database/data/test");
 
@@ -26,14 +26,16 @@ describe("Test Review schema", () => {
   });
 
   test("should store a new Review correctly", async (done) => {
-    const interns = await User.find({ role: "intern" });
-    const hosts = await User.find({ role: "host" });
+    const booking = await Booking.findOne();
+    const reviewee = booking.intern;
+    const reviewer = booking.host;
 
     const newReview = {
-      to: hosts[2],
-      from: interns[1],
+      to: reviewee,
+      from: reviewer,
       rating: 2,
       message: "testing msg",
+      booking: booking._id,
     };
 
     const storedReview = await Review.create(newReview);
