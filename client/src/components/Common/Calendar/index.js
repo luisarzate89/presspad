@@ -20,8 +20,11 @@ class CalendarComponent extends Component {
     bookingExists: false
   };
 
-  componentDidMount() {
-    const { startDate, endDate } = this.props;
+  static getDerivedStateFromProps(props, state) {
+    const { startDate, endDate } = props;
+    if (startDate === state.startDate && endDate === state.endDate) {
+      return null;
+    }
     const dates = [
       moment(startDate)
         .startOf("day") // reset the time to 00:00:00
@@ -31,10 +34,7 @@ class CalendarComponent extends Component {
         .toDate()
     ];
 
-    this.setState({
-      dates,
-      isLoading: false
-    });
+    return { ...state, startDate, endDate, dates, isLoading: false };
   }
 
   // disables calendar tiles (days)
