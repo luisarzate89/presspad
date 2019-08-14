@@ -8,7 +8,7 @@ import {
   HiText,
   HeaderButtonsWrapper,
   Section,
-  SectionTitile,
+  SectionTitle,
   SectionWrapperContent,
   Label,
   UploadText,
@@ -132,7 +132,7 @@ class Content extends Component {
           </HeaderWrapper>
 
           <Section>
-            <SectionTitile>About me</SectionTitile>
+            <SectionTitle>About me</SectionTitle>
             <SectionWrapperContent>
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={14}>
@@ -231,7 +231,7 @@ class Content extends Component {
           </Section>
           {/* Your PressPad offer */}
           <Section>
-            <SectionTitile>Your PressPad offer</SectionTitile>
+            <SectionTitle>Your PressPad offer</SectionTitle>
             <SectionWrapperContent>
               <Row gutter={25} type="flex">
                 {/* Address */}
