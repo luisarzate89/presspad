@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import BookingSection from "./BookingSection";
 import Update from "./Update";
@@ -9,46 +10,51 @@ import {
   UpdateList
 } from "../../Common/general";
 
+import { API_INTERN_DASHBOARD_URL } from "../../../constants/apiRoutes";
+
 export default class InternDashboard extends Component {
   state = {
-    notifications: []
+    bookings: [],
+    installments: [],
+    notifications: [],
+    name: "",
+    profileImage: ""
   };
 
-  componentDidMount() {
-    //ToDo fetch data from backend
-    this.setState({
-      notifications: [
-        {
-          createdAt: "2019-08-13T22:53:21.576Z",
-          private: false,
-          secondParty: {
-            _id: "5d533f61075a7725dc840106",
-            name: "Adam Appele",
-            email: "adam@gmail.com",
-            role: "host"
-          },
-          seen: false,
-          seenForOrg: false,
-          type: "completeProfileRemind",
-          user: {
-            _id: "5d533f61075a7725dc84010a",
-            name: "Mone Dupree",
-            email: "mone@gmail.com",
-            role: "intern",
-            organisation: "5d533f60075a7725dc8400fc"
-          },
-          _id: "5d533f61075a7725dc84013c"
+  async componentDidMount() {
+    const {
+      data: {
+        data: {
+          bookings,
+          installments,
+          notifications,
+          name,
+          profile: [{ profileImage }]
         }
-      ]
+      }
+    } = await axios.get(API_INTERN_DASHBOARD_URL);
+
+    this.setState({
+      bookings,
+      installments,
+      notifications,
+      name,
+      profileImage
     });
   }
 
   render() {
-    const bookingSectionData = {}; //from state
-    const { notifications } = this.state;
+    const {
+      notifications,
+      name,
+      profileImage,
+      bookings
+      // installments
+    } = this.state;
+
     return (
       <PageWrapper>
-        <BookingSection data={bookingSectionData} />
+        <BookingSection data={{ name, profileImage, bookings }} />
         <section>
           <SectionWrapperContent style={{ minHeight: 200 }}>
             <SectionTitle>Your updates</SectionTitle>

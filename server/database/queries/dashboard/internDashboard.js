@@ -49,7 +49,16 @@ const internDashboard = id => User.aggregate([
       from: "bookings",
       let: { intern: "$_id" },
       pipeline: [
-        { $match: { $expr: { $eq: ["$$intern", "$intern"] } } },
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["$$intern", "$intern"] },
+                { $ne: ["$status", "canceled"] },
+              ],
+            },
+          },
+        },
         // host name
         {
           $lookup: {
@@ -57,7 +66,26 @@ const internDashboard = id => User.aggregate([
             let: { host: "$host" },
             pipeline: [
               { $match: { $expr: { $eq: ["$$host", "$_id"] } } },
-              { $project: { name: 1 } },
+              // host profile
+              {
+                $lookup: {
+                  from: "profiles",
+                  let: { host: "$_id" },
+                  pipeline: [
+                    { $match: { $expr: { $eq: ["$$host", "$user"] } } },
+                  ],
+                  as: "profile",
+                },
+              },
+              {
+                $project: {
+                  name: 1,
+                  "profile.bio": 1,
+                  "profile.jobTitle": 1,
+                  "profile.organisation": 1,
+                  "profile.profileImage": 1,
+                },
+              },
             ],
             as: "host",
           },
