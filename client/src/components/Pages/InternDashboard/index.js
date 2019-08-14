@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import BookingSection from "./BookingSection";
+import PaymentsSection from "./PaymentsSection";
 import Update from "./Update";
 import { SectionTitle } from "./InternDashboard.style";
 import {
@@ -48,8 +49,8 @@ export default class InternDashboard extends Component {
       notifications,
       name,
       profileImage,
-      bookings
-      // installments
+      bookings,
+      installments
     } = this.state;
 
     return (
@@ -65,11 +66,7 @@ export default class InternDashboard extends Component {
             </UpdateList>
           </SectionWrapperContent>
         </section>
-        <section>
-          <SectionWrapperContent style={{ minHeight: 200 }}>
-            <SectionTitle>Your payments</SectionTitle>
-          </SectionWrapperContent>
-        </section>
+        <PaymentsSection data={installments} />
       </PageWrapper>
     );
   }

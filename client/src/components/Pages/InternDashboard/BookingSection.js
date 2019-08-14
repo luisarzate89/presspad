@@ -120,7 +120,7 @@ export default function BookingSection(props) {
                   </Row>
                   <Row type="flex" gutter={30}>
                     <Col>
-                      <BlueLink marginb="1.25rem" to={`/bookings/${bookingId}`}>
+                      <BlueLink marginb="1.25rem" to={`/booking/${bookingId}`}>
                         View booking
                       </BlueLink>
                     </Col>
