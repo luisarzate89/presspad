@@ -29,7 +29,7 @@ export default class InternDashboard extends Component {
           installments,
           notifications,
           name,
-          profile: [{ profileImage }]
+          profile: { profileImage }
         }
       }
     } = await axios.get(API_INTERN_DASHBOARD_URL);

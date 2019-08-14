@@ -12,18 +12,19 @@ const { storageBucket: bucketName } = require("../../config");
  */
 
 const _getProfileImageUrl = (profileRef) => {
-  const [{ profileImage }] = profileRef;
+  const { profileImage } = profileRef;
   if (profileImage.fileName) {
     // eslint-disable-next-line no-param-reassign
-    profileRef[0].profileImage = getPublicFileUrl(bucketName, profileImage.fileName);
+    profileRef.profileImage = getPublicFileUrl(bucketName, profileImage.fileName);
   } else {
     // eslint-disable-next-line no-param-reassign
-    profileRef[0].profileImage = "";
+    profileRef.profileImage = "";
   }
 };
 
 const internDashboard = async (req, res, next) => {
   const { _id: internId, role } = req.user;
+
   if (role !== "intern") {
     return next(boom.forbidden());
   }
@@ -35,7 +36,7 @@ const internDashboard = async (req, res, next) => {
     } = dashboardData;
 
     if (bookings[0]) {
-      const [{ host: [{ profile: hostProfile }] }] = bookings;
+      const [{ host: { profile: hostProfile } }] = bookings;
       _getProfileImageUrl(hostProfile);
     }
 

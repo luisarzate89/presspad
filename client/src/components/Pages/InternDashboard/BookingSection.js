@@ -29,15 +29,7 @@ export default function BookingSection(props) {
 
   // Assuming that the intern should only have one active booking,
   // active means either pending or confirmed.
-  // Flatten the booking obj.
-  const firstBooking = bookings[0] && {
-    ...bookings[0],
-    host: {
-      ...bookings[0].host[0],
-      profile: undefined,
-      ...bookings[0].host[0].profile[0]
-    }
-  };
+  const firstBooking = bookings[0];
 
   let jobTitle,
     bio,
@@ -51,13 +43,16 @@ export default function BookingSection(props) {
     endDate;
 
   if (firstBooking) {
-    const { host } = firstBooking;
-    jobTitle = host.jobTitle;
-    bio = host.bio;
-    hostName = host.name;
-    hostId = host._id;
-    hostProfileImage = host.profileImage;
-    organisationName = host.organisation.name;
+    const {
+      host: { profile }
+    } = firstBooking;
+
+    jobTitle = profile.jobTitle;
+    bio = profile.bio;
+    hostName = firstBooking.host.name;
+    hostId = firstBooking.host._id;
+    hostProfileImage = profile.profileImage;
+    organisationName = profile.organisation.name;
     bookingId = firstBooking._id;
     startDate = firstBooking.startDate;
     endDate = firstBooking.endDate;

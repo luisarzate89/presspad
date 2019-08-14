@@ -21,6 +21,7 @@ const internDashboard = id => User.aggregate([
       as: "profile",
     },
   },
+  { $unwind: "$profile" },
   // Intern notification
   {
     $lookup: {
@@ -28,6 +29,21 @@ const internDashboard = id => User.aggregate([
       let: { intern: "$_id" },
       pipeline: [
         { $match: { $expr: { $eq: ["$$intern", "$user"] } } },
+        // SecondParty name
+        {
+          $lookup: {
+            from: "users",
+            let: { secondParty: "$secondParty" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$$secondParty", "$_id"] } } },
+              {
+                $project: { name: 1 },
+              },
+            ],
+            as: "secondParty",
+          },
+        },
+        { $unwind: "$secondParty" },
       ],
       as: "notifications",
     },
@@ -77,6 +93,7 @@ const internDashboard = id => User.aggregate([
                   as: "profile",
                 },
               },
+              { $unwind: "$profile" },
               {
                 $project: {
                   name: 1,
@@ -90,6 +107,7 @@ const internDashboard = id => User.aggregate([
             as: "host",
           },
         },
+        { $unwind: "$host" },
       ],
       as: "bookings",
     },
