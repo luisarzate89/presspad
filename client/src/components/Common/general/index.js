@@ -46,3 +46,37 @@ export const BlueLink = styled(Link)`
   display: inline-block;
   margin-bottom: ${({ marginb }) => marginb};
 `;
+
+export const UpdateList = styled.ul`
+  list-style: none;
+`;
+
+export const Badge = styled.span`
+  background: #0ac7e7;
+  border-radius: 13px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 11px;
+  margin-left: 10px;
+  color: #ffffff;
+  padding: 0 6px;
+`;
+
+export const UpdateItem = styled.li`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #393939;
+`;
+
+export const BlueSpan = styled.span`
+  color: #00c7e9;
+`;
+
+export const UpdateDate = styled.span`
+  font-style: italic;
+  font-weight: 300;
+  color: #393939;
+`;
