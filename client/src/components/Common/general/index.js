@@ -67,8 +67,9 @@ export const UpdateItem = styled.li`
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   color: #393939;
+  margin-bottom: 0.5rem;
 `;
 
 export const BlueSpan = styled.span`

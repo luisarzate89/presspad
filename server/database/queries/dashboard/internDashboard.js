@@ -21,7 +21,9 @@ const internDashboard = id => User.aggregate([
       as: "profile",
     },
   },
-  { $unwind: "$profile" },
+  {
+    $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
+  },
   // Intern notification
   {
     $lookup: {
@@ -43,7 +45,9 @@ const internDashboard = id => User.aggregate([
             as: "secondParty",
           },
         },
-        { $unwind: "$secondParty" },
+        {
+          $unwind: { path: "$secondParty", preserveNullAndEmptyArrays: true },
+        },
       ],
       as: "notifications",
     },
@@ -93,7 +97,10 @@ const internDashboard = id => User.aggregate([
                   as: "profile",
                 },
               },
-              { $unwind: "$profile" },
+              {
+                $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
+              },
+
               {
                 $project: {
                   name: 1,
@@ -107,7 +114,9 @@ const internDashboard = id => User.aggregate([
             as: "host",
           },
         },
-        { $unwind: "$host" },
+        {
+          $unwind: { path: "$host", preserveNullAndEmptyArrays: true },
+        },
       ],
       as: "bookings",
     },

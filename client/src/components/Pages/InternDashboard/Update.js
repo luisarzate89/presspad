@@ -59,7 +59,7 @@ const Update = ({ item }) => {
 
     case "getReview":
       return (
-        <Link to={`/to/review/page`}>
+        <Link to={`/booking/:bookingId/review`}>
           <UpdateItem>
             You have received a new review from&nbsp;
             <BlueSpan>{secondParty.name}</BlueSpan> -&nbsp;
@@ -71,7 +71,7 @@ const Update = ({ item }) => {
 
     case "giveReview":
       return (
-        <Link to={`/to/review/page`}>
+        <Link to={`/booking/:bookingId/review`}>
           <UpdateItem>
             Please leave a review for&nbsp;
             <BlueSpan>{secondParty.name}</BlueSpan>&nbsp; -&nbsp;

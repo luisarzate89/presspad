@@ -25,13 +25,7 @@ export default class InternDashboard extends Component {
   async componentDidMount() {
     const {
       data: {
-        data: {
-          bookings,
-          installments,
-          notifications,
-          name,
-          profile: { profileImage }
-        }
+        data: { bookings, installments, notifications, name, profile }
       }
     } = await axios.get(API_INTERN_DASHBOARD_URL);
 
@@ -40,7 +34,7 @@ export default class InternDashboard extends Component {
       installments,
       notifications,
       name,
-      profileImage
+      profileImage: profile && profile.profileImage
     });
   }
 

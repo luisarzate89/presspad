@@ -91,7 +91,7 @@ export default function BookingSection(props) {
       <section>
         <Row gutter={20}>
           <Col lg={16} md={14} sm={24}>
-            <SectionWrapperContent style={{ minHeight: 390 }}>
+            <SectionWrapperContent style={{ minHeight: 420 }}>
               {!firstBooking ? (
                 <SectionTitle>You have no active bookings</SectionTitle>
               ) : (
@@ -108,6 +108,7 @@ export default function BookingSection(props) {
                   <Row type="flex">
                     <Image
                       src={hostProfileImage || randomProfile}
+                      onError={e => (e.target.src = randomProfile)}
                       alt="host profile image"
                     />
                     <HostInfo>
@@ -142,7 +143,7 @@ export default function BookingSection(props) {
             </SectionWrapperContent>
           </Col>
           <Col lg={8} md={10} sm={24}>
-            <SectionWrapperContent style={{ minHeight: 390 }}>
+            <SectionWrapperContent style={{ minHeight: 422 }}>
               <Calendar startDate={startDate} endDate={endDate} />
             </SectionWrapperContent>
           </Col>
