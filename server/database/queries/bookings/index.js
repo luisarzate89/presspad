@@ -1,8 +1,9 @@
 const moment = require("moment");
-const Booking = require("./../models/Booking");
-const Listing = require("./../models/Listing");
+const Booking = require(".//../../models/Booking");
+const Listing = require("./../../models/Listing");
 
-const createDatesArray = require("../../helpers/createDatesArray");
+const createDatesArray = require("../../../helpers/createDatesArray");
+const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
 
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {
@@ -126,3 +127,5 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
 
   return update;
 };
+
+module.exports.getInternBookingsWithReviews = getInternBookingsWithReviews;
