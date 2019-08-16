@@ -11,7 +11,11 @@ class InternProfile extends Component {
   };
   componentDidMount() {
     const { match } = this.props;
-    const { id } = match.params;
+    let id = match.params.id;
+    if (!id && match.path === "/my-profile") {
+      id = this.props.id;
+    }
+
     axios
       .get(`/api/interns/${id}/profile/?expand=bookings&expand=reviews`)
       .then(res => {
