@@ -70,7 +70,7 @@ router.post(
 router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
-router.post(HOST_PROFILE_URL, getHostProfile);
+router.get(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.post(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
