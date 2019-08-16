@@ -1,35 +1,6 @@
 import React, { Component } from "react";
 
-import { Table, Tag } from "antd";
-
-import { colors } from "./../../../theme";
-
-const tagColors = {
-  pro: colors.primary,
-  custom: colors.green,
-  basic: colors.gray
-};
-
-// const data = [
-//   {
-//     key: "1",
-//     organisation: "Financial Times",
-//     totalCredits: 1600,
-//     creditsSpent: 1200,
-//     interns: 5,
-//     currentlyHosted: 4,
-//     plan: "pro"
-//   },
-//   {
-//     key: "2",
-//     organisation: "The Guardian",
-//     totalCredits: 600,
-//     creditsSpent: 450,
-//     interns: 1,
-//     currentlyHosted: 3,
-//     plan: "basic"
-//   }
-// ];
+import { Table } from "antd";
 
 export default class ClientTable extends Component {
   state = {
