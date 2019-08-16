@@ -49,31 +49,6 @@ export default class ClientTable extends Component {
         className: "orgCol"
       },
       {
-        title: "Plan",
-        dataIndex: "plan",
-        key: "plan",
-        render: plan => (
-          <Tag color={tagColors[plan]} key={plan}>
-            {plan.toUpperCase()}
-          </Tag>
-        ),
-        filters: [
-          {
-            text: "Basic",
-            value: "basic"
-          },
-          {
-            text: "Custom",
-            value: "custom"
-          },
-          {
-            text: "Pro",
-            value: "pro"
-          }
-        ],
-        onFilter: (value, record) => record.plan.indexOf(value) === 0
-      },
-      {
         title: "Total Credits",
         dataIndex: "totalCredits",
         key: "totalCredits",
