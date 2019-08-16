@@ -12,6 +12,10 @@ const internProfileSchema = Joi.object({
     link: Joi.string(),
   }),
   jobTitle: Joi.string(),
+  organisation: Joi.object({
+    name: Joi.string(),
+    website: Joi.string().allow(""),
+  }),
   photoIDFile: Joi.object({
     fileName: Joi.string(),
     isPrivate: Joi.boolean().default(true),
