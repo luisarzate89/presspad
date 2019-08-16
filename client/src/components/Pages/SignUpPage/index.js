@@ -153,11 +153,6 @@ export default class SignUpPage extends Component {
       errors.emailError = "* Please enter your email";
     }
 
-    if (!fields.orgCode && userType === USER_TYPES.intern) {
-      formIsValid = false;
-      errors.orgCodeError = "* Please enter your unique code";
-    }
-
     if (!fields.organisation && userType === USER_TYPES.organisation) {
       formIsValid = false;
       errors.organisationError = "* Please enter your organisation";
@@ -242,11 +237,10 @@ export default class SignUpPage extends Component {
 
   render() {
     const { fields, errors, msg, referralError, referral } = this.state;
-    const { email, password, password2, name, orgCode, organisation } = fields;
+    const { email, password, password2, name, organisation } = fields;
     const {
       nameError,
       emailError,
-      orgCodeError,
       organisationError,
       passwordError,
       password2Error,
@@ -315,21 +309,6 @@ export default class SignUpPage extends Component {
             />
             <ErrorMsg>{emailError}</ErrorMsg>
           </InputDiv>
-          {userType === USER_TYPES.intern && (
-            <InputDiv>
-              <InputLabel htmlFor="orgCode">Organisation code</InputLabel>
-              <Input
-                placeholder="Enter your unique code"
-                name="orgCode"
-                id="orgCode"
-                type="text"
-                size="large"
-                onChange={onInputChange}
-                value={orgCode}
-              />
-              <ErrorMsg>{orgCodeError}</ErrorMsg>
-            </InputDiv>
-          )}
           {userType === USER_TYPES.organisation && (
             <InputDiv>
               <InputLabel htmlFor="organisation">Organisation</InputLabel>
