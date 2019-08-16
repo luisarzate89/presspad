@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
     }
 
     if (internId !== userId.toString() && role !== "admin") {
-      return next(boom.unauthorized());
+      return next(boom.forbidden());
     }
 
     // Basic profile
