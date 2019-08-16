@@ -23,6 +23,7 @@ const validation = (req, res, next) => {
       .then((data) => {
         // if everything is validate, change the body to the modified version of it
         req.body = data;
+        next();
       }).catch(() => {
         // maybe we should do this in an errror middleware next(error), then handle it there.
         const customError = {
