@@ -14,7 +14,7 @@ const { getInternBookingsWithReviews } = require("./../../database/queries/booki
 module.exports = async (req, res, next) => {
   try {
     const { id: internId } = req.params;
-    const { id: userId, role } = req.user;
+    const { _id: userId, role } = req.user;
     const { expand } = req.query;
 
     // check if user id is in request
@@ -30,11 +30,11 @@ module.exports = async (req, res, next) => {
     const dataParams = [{ userInfo: "single" }];
     const promisesArray = [internProfileData(internId)];
 
-    if (expand.includes("bookings") && expand.includes("reviews")) {
+    if (expand && expand.includes("bookings") && expand.includes("reviews")) {
     // get the intern's bookings and with reviews
       dataParams.push({ bookingsWithReviews: "array" });
       promisesArray.push(getInternBookingsWithReviews(internId));
-    } else if (expand.includes("reviews")) {
+    } else if (expand && expand.includes("reviews")) {
     // get the intern's reviews
       dataParams.push({ reviews: "array" });
       promisesArray.push(getUserReviews(internId));
