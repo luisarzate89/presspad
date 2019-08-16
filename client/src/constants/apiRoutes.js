@@ -45,7 +45,7 @@ const API_VERIFY_PROFILE_URL = `${API_PREFIX}${VERIFY_PROFILE_URL}`;
 const ORGS_DASHBOARD = "/organisation-dashboard";
 const API_ORGS_DASHBOARD_URL = `${API_PREFIX}${ORGS_DASHBOARD}`;
 
-const INTERN_DASHBOARD_URL = "/intern-dashboard";
+const INTERN_DASHBOARD_URL = "/intern/dashboard";
 const API_INTERN_DASHBOARD_URL = `${API_PREFIX}${INTERN_DASHBOARD_URL}`;
 
 const MY_PROFILE_URL = "/my-profile";

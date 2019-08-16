@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../../Common/general";
+import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../general";
 import { Link } from "react-router-dom";
 
-import { getStringTime } from "./../../../helpers";
+import { getStringTime } from "../../../helpers";
 
 const Update = ({ item }) => {
   const { type, secondParty, createdAt, seen } = item;

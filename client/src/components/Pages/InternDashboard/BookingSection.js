@@ -4,7 +4,7 @@ import { Row, Col, Avatar, Icon } from "antd";
 import { getStringTime } from "./../../../helpers";
 import Calendar from "../../Common/Calendar";
 import DisabledPopOver from "../../Common/DisabledPopOver";
-import { ReactComponent as MapPin } from "./mapPin.svg";
+import { ReactComponent as MapPin } from "../../../assets/mapPin.svg";
 import randomProfile from "../../../assets/random-profile.jpg";
 
 import {

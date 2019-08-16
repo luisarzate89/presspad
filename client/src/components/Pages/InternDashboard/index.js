@@ -3,7 +3,7 @@ import axios from "axios";
 
 import BookingSection from "./BookingSection";
 import PaymentsSection from "./PaymentsSection";
-import Update from "./Update";
+import Update from "../../Common/Update";
 import { SectionTitle } from "./InternDashboard.style";
 import {
   PageWrapper,
