@@ -28,6 +28,7 @@ module.exports.addNewUser = async (userInfo) => {
       password,
       role,
       organisation: newOrg,
+      account: newAccount._id,
     });
   }
 
@@ -39,7 +40,7 @@ module.exports.addNewUser = async (userInfo) => {
       password,
       role,
       referral,
-      organisation: newAccount._id,
+      account: newAccount._id,
     });
   }
   // assume it's intern at this point
@@ -48,7 +49,7 @@ module.exports.addNewUser = async (userInfo) => {
     name,
     password,
     role,
-    organisation: newAccount._id,
+    account: newAccount._id,
   });
 };
 
