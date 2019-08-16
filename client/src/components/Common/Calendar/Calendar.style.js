@@ -20,6 +20,8 @@ const classNames = {
   reactCalendarTileHasActive: ".react-calendar__tile--hasActive",
   reactCalendarTileActive: ".react-calendar__tile--active",
   reactCalendarSelectRange: ".react-calendar--selectRange",
+  reactCalendarTileRangeStart: ".react-calendar__tile--rangeStart",
+  reactCalendarTileRangeEnd: ".react-calendar__tile--rangeEnd",
   reactCalendarTileHover: ".react-calendar__tile--hover"
 };
 
@@ -141,14 +143,21 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
   ${classNames.reactCalendarTileActive} {
     background: ${colors.lightBlue};
     color: ${colors.white};
+    margin-bottom: 2px !important;
     :enabled:hover,
     :enabled:focus {
       background: #0ac7e7;
     }
   }
   ${classNames.reactCalendarSelectRange} ${classNames.reactCalendarTileHover} {
-    background-color: ${colors.lightBlue}
+    background-color: ${colors.lightBlue};
     color: ${colors.white};
+  }
+  ${classNames.reactCalendarTileRangeStart} {
+    border-radius: 50% 0 0 50%;
+  }
+  ${classNames.reactCalendarTileRangeEnd} {
+    border-radius: 0 50% 50% 0;
   }
 
 `;
@@ -176,8 +185,8 @@ export const PriceLabel = styled.h1`
 
 export const RequestBtn = styled.button`
   background: ${props =>
-    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`}
-    opacity: ${props => (props.disabled ? "0.7" : "")};
+    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`};
+  opacity: ${props => (props.disabled ? "0.7" : "")};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
@@ -187,14 +196,13 @@ export const RequestBtn = styled.button`
   text-decoration: none;
   cursor: pointer;
   text-align: center;
-  transition: background 250ms ease-in-out,
-  transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  :focus, :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
-
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
   }
 `;
 
