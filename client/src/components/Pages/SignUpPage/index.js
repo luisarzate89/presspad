@@ -57,11 +57,13 @@ export default class SignUpPage extends Component {
 
   // function to check if the host is using a valid referral link
   checkValidReferral = () => {
-    const referralId = ("hello", window.location.href.split("/")[5]);
-    axios
-      .post(API_CHECK_REFERRAL_URL, { referralId })
-      .then(referralUser => this.setState({ referral: referralUser.data }))
-      .catch(err => this.setState({ referralError: err }));
+    const referralId = this.props.match.params.referralCode;
+
+    if (referralId)
+      axios
+        .post(API_CHECK_REFERRAL_URL, { referralId })
+        .then(referralUser => this.setState({ referral: referralUser.data }))
+        .catch(err => this.setState({ referralError: err }));
   };
 
   // host checkbox function
@@ -211,7 +213,7 @@ export default class SignUpPage extends Component {
   onFormSubmit = e => {
     const { fields, userType, referral } = this.state;
     fields.role = userType;
-    if (userType === "host") fields.referral = referral.id;
+    if (userType === "host" && referral) fields.referral = referral.id;
     e.preventDefault();
     const isValid = this.validateForm();
     if (isValid) {
