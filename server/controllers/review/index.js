@@ -28,6 +28,6 @@ reviewControllers.createReview = async (req, res, next) => {
 
     return res.json({ success: true });
   } catch (error) {
-    return next(boom.badImplementation());
+    return next(boom.badImplementation(error));
   }
 };
