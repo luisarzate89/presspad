@@ -2,6 +2,7 @@
 // responds with data obj: user info, (profile |& reviews)
 
 const boom = require("boom");
+const mongoose = require("mongoose");
 
 const generateUrl = require("./../../helpers/generateFileURL");
 
@@ -20,6 +21,10 @@ module.exports = async (req, res, next) => {
     // check if user id is in request
     if (!internId) {
       return next(boom.badRequest("error loading profile"));
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(internId)) {
+      return next(boom.notFound());
     }
 
     if (internId !== userId.toString() && role !== "admin") {
@@ -77,6 +82,6 @@ module.exports = async (req, res, next) => {
 
     return res.json(formedData);
   } catch (error) {
-    return next(boom.badRequest("error loading profile"));
+    return next(boom.badImplementation("error loading profile"));
   }
 };

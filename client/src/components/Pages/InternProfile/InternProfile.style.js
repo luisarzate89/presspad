@@ -19,6 +19,7 @@ export const BackLinkDiv = styled.div`
   margin-top: 2rem;
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 50px;
 `;
 
 export const Arrow = styled(BackArrowIcon)`
@@ -34,7 +35,6 @@ export const BlueLink = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
   margin-bottom: 60px;
 `;
 
@@ -120,4 +120,22 @@ export const BookingsTableWrapper = styled.div`
   .ant-table-thead tr {
     background-color: transparent;
   }
+`;
+
+export const EditButton = styled(Link)`
+  background: #ffffff;
+  border: 1px solid #dbdbdb;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 25px;
+  color: #0ac7e7;
+  padding: 7px;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  margin-top: 2rem;
+  margin-left: auto;
+  display: block;
+  width: 110px;
+  text-align: center;
 `;

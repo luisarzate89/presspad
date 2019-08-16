@@ -6,23 +6,7 @@ import Content from "./Content";
 class InternProfile extends Component {
   state = {
     viewNumber: 3,
-    userInfo: {
-      name: "",
-      profile: {
-        favouriteArticle: {},
-        verification: {
-          reference1: {
-            name: "",
-            contact: ""
-          },
-          reference2: {
-            name: "",
-            contact: ""
-          }
-        }
-      },
-      organisation: {}
-    },
+    userInfo: {},
     bookingsWithReviews: []
   };
   componentDidMount() {
@@ -36,6 +20,14 @@ class InternProfile extends Component {
           userInfo: res.data.userInfo,
           bookingsWithReviews: res.data.bookingsWithReviews
         });
+      })
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return this.props.history.push("/404");
+        }
+        if (err.response && err.response.status === 500) {
+          return this.props.history.push("/500");
+        }
       });
   }
 
@@ -49,6 +41,7 @@ class InternProfile extends Component {
   };
 
   render() {
+    const { role } = this.props;
     const { userInfo, bookingsWithReviews, viewNumber } = this.state;
     const { name, profile = {}, organisation = {} } = userInfo;
 
@@ -98,7 +91,9 @@ class InternProfile extends Component {
         windowWidth={windowWidth}
         viewNumber={viewNumber}
         goBack={this.goBack}
+        profile={profile}
         handleViewMoreToggle={this.handleViewMoreToggle}
+        role={role}
       />
     );
   }
