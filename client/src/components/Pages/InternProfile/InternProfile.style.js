@@ -25,11 +25,12 @@ export const Arrow = styled(BackArrowIcon)`
   width: 4vw;
 `;
 
-export const BackLink = styled(Link)`
+export const BlueLink = styled.div`
   color: ${colors.links};
   text-decoration: none;
   font-weight: 500;
   line-height: 1;
+  cursor: pointer;
 `;
 
 export const HeaderWrapper = styled.div`
@@ -44,7 +45,6 @@ export const HiText = styled.h1`
   line-height: 35px;
   color: #07294a;
   margin-bottom: 0;
-  height: 100%;
   align-items: center;
 `;
 
@@ -92,7 +92,11 @@ export const FileDetails = styled(Details)`
   font-size: 16px;
   color: #0ac7e7;
   cursor: pointer;
+
+  ${({ a }) => a && "cursor: not-allowed !important ;"}
+  ${({ a }) => a && "pointer-events: all !important ;"}
 `;
+
 export const BoldSpan = styled.span`
   color: #393939;
   font-weight: normal;
@@ -107,12 +111,10 @@ export const BlueSpan = styled.span`
 export const BookingsTableWrapper = styled.div`
   tr,
   td {
-    font-family: Roboto;
     font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-    color: #2c2c2c;
+    font-weight: 300;
+    font-size: 16px;
+    color: #393939;
   }
 
   .ant-table-thead tr {
