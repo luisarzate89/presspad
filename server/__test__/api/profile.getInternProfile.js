@@ -6,8 +6,12 @@ const app = require("../../app");
 
 describe("Tests get intern's profile data", () => {
   beforeAll(async (done) => {
-    await buildDB();
-    done();
+    try {
+      await buildDB();
+      done();
+    } catch (err) {
+      done(err);
+    }
   });
 
   afterAll(async () => {

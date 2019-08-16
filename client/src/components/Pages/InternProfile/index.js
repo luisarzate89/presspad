@@ -25,9 +25,14 @@ class InternProfile extends Component {
         if (err.response && err.response.status === 404) {
           return this.props.history.push("/404");
         }
-        if (err.response && err.response.status === 500) {
-          return this.props.history.push("/500");
+        if (
+          (err.response && err.response.status === 401) ||
+          err.response.status === 403
+        ) {
+          return this.props.history.push("/unauthorized");
         }
+
+        return this.props.history.push("/500");
       });
   }
 
