@@ -73,7 +73,6 @@ describe("Test addNewUser query", () => {
     addNewUser(userInfo).then((newUser) => {
       expect(newUser).toBeDefined();
       expect(newUser.email).toBe(userInfo.email);
-      expect(newUser.organisation.id).toBe(org.id);
       done();
     });
   });
