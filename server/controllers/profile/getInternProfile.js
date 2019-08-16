@@ -82,6 +82,6 @@ module.exports = async (req, res, next) => {
 
     return res.json(formedData);
   } catch (error) {
-    return next(boom.badImplementation("error loading profile"));
+    return next(boom.badImplementation(error));
   }
 };
