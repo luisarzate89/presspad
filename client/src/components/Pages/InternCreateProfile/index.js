@@ -51,7 +51,7 @@ export default class InternCreateProfile extends Component {
               ...profile.profileImage
             },
             reference1: profile.verification.reference1,
-            reference2: profile.verification.reference1,
+            reference2: profile.verification.reference2,
             photoIDFile: {
               ...this.state.photoIDFile,
               ...profile.verification.photoID
