@@ -19,7 +19,11 @@ const schema = Yup.object().shape({
   //   author: Yup.string(),
   //   link: Yup.string()
   // }),
-  jobTitle: Yup.string(),
+  jobTitle: Yup.string().required("Required"),
+  organisation: Yup.object().shape({
+    name: Yup.string(),
+    website: Yup.string()
+  }),
 
   photoIDFile: Yup.object().shape({
     fileName: Yup.string(),
@@ -79,7 +83,7 @@ export default class InternCreateProfile extends Component {
     bio: "",
     favouriteArticle: "",
     jobTitle: "",
-
+    organisation: { name: "", website: "" },
     offerLetter: {
       loading: 0,
       isLoading: false
@@ -178,19 +182,17 @@ export default class InternCreateProfile extends Component {
   };
 
   handleInputChange = ({ target }) => {
-    const { value, name } = target;
-
-    let newState = { [name]: value };
-    if (name.startsWith("reference1") || name.startsWith("reference2")) {
-      const fieldName = name.replace(/reference\d/, "").toLowerCase();
-      const referenceNum = name.replace("reference", "")[0];
-
-      newState = {
-        [`reference${referenceNum}`]: {
-          ...this.state[`reference${referenceNum}`],
-          [fieldName]: value
-        }
-      };
+    const {
+      value,
+      name,
+      dataset: { parent }
+    } = target;
+    let newState;
+    if (parent) {
+      const parentData = this.state[parent];
+      newState = { [parent]: { ...parentData, [name]: value } };
+    } else {
+      newState = { [name]: value };
     }
 
     this.setState(
@@ -219,6 +221,7 @@ export default class InternCreateProfile extends Component {
       bio,
       favouriteArticle,
       jobTitle,
+      organisation,
       offerLetter,
       photoIDFile,
       reference1,
@@ -256,6 +259,7 @@ export default class InternCreateProfile extends Component {
         // Add optional fields if they exists
         favouriteArticle && (formData.favouriteArticle = favouriteArticle);
         jobTitle && (formData.jobTitle = jobTitle);
+        organisation && (formData.organisation = organisation);
 
         photoIDFile.fileName &&
           (formData.photoIDFile = {

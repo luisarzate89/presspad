@@ -16,6 +16,7 @@ import SearchHosts from "./SearchHosts";
 import BookingRequest from "./BookingRequest";
 import MyProfile from "./MyProfile";
 import AddReview from "./AddReview";
+import InternProfile from "./InternProfile";
 
 import {
   HOME_URL,
@@ -31,7 +32,8 @@ import {
   HOSTS_URL,
   BOOKING_REQUEST_URL,
   MYPROFILE_URL,
-  ADD_REVIWE_URL
+  ADD_REVIWE_URL,
+  INTERN_PROFILE
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -111,6 +113,15 @@ class Pages extends Component {
           />
 
           <PrivateRoute
+            exact
+            path={INTERN_PROFILE}
+            Component={InternProfile}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            exact
             path={ADD_REVIWE_URL}
             Component={AddReview}
             handleChangeState={handleChangeState}

@@ -26,10 +26,10 @@ module.exports.getAllInternStats = () => User.aggregate([
   // look up spent credits
   {
     $lookup: {
-      from: "transactions",
-      localField: "_id",
-      foreignField: "sender",
-      as: "spendingTransactions",
+      from: "accounts",
+      localField: "account",
+      foreignField: "_id",
+      as: "account",
     },
   },
   {
@@ -38,7 +38,7 @@ module.exports.getAllInternStats = () => User.aggregate([
       name: 1,
       "organisation.name": 1,
       // get all the credits they've spent to date
-      spentCredits: { $sum: "$spendingTransactions.credits" },
+      totalPayments: { $arrayElemAt: ["$account.income", 0] },
       // get any bookings that cover today's date
       liveBookings: {
         $size: {
