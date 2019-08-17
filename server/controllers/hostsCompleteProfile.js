@@ -41,13 +41,12 @@ module.exports = async (req, res, next) => {
       await updateUserProfile(user._id, profileData);
     } else {
       await createNewProfile(profileData);
+      // create new listing
+      await createNewListing(listingData);
     }
-
-    // create new listing
-    await createNewListing(listingData);
 
     res.json({ success: true });
   } catch (error) {
-    next(boom.badImplementation());
+    next(boom.badImplementation(error));
   }
 };

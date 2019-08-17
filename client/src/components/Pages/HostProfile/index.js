@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 
 //api
-import {
-  API_HOST_PROFILE_URL,
-  API_VERIFY_PROFILE_URL
-} from "../../../constants/apiRoutes";
+import { API_VERIFY_PROFILE_URL } from "../../../constants/apiRoutes";
 import Calendar from "./Calendar";
 import axios from "axios";
 
 // common components
 import Button from "./../../Common/Button/index";
+import ListingGallery from "../../Common/Profile/ListingGallery";
 
 //styles
 
@@ -39,11 +37,6 @@ import {
   Address,
   SymbolDiv,
   Symbol,
-  ImageSection,
-  MainImageDiv,
-  MainImage,
-  SubImage,
-  SideImageDiv,
   AboutMe,
   OtherInfo,
   PressPadOffer,
@@ -80,18 +73,13 @@ class HostProfile extends Component {
 
   // functions
   axiosCall = () => {
-    //get user id either from id passed in props or if they've typed in the manual url
-    const { hostId } = this.props;
-
-    const id = hostId ? hostId : window.location.href.split("/")[4];
-    const data = { userId: id };
+    const { id: hostId } = this.props.match.params;
     axios
-      .post(API_HOST_PROFILE_URL, data)
-      .then(res => {
+      .get(`/api/host/${hostId}`)
+      .then(({ data }) => {
         this.setState({
           isLoading: false,
-          profileData: res.data[0][0],
-          reviews: res.data[1]
+          profileData: data
         });
       })
       .catch(err => {
@@ -100,10 +88,6 @@ class HostProfile extends Component {
         message.error(error || "Something went wrong");
       });
   };
-
-  // adminAxiosCall = () => {
-
-  // }
 
   componentWillMount() {
     // check to see if this is the adminView from dashboard
@@ -122,15 +106,16 @@ class HostProfile extends Component {
   }
 
   // checks if profile image exists and returns src path
-  getProfilePic = img =>
-    img && img.length > 0
-      ? img
+  getProfilePic = img => {
+    return img && img.fileName
+      ? img.url
       : require("./../../../assets/random-profile.jpg");
+  };
 
   // checks if lisitng image exists and goes to right folder
   getListingPic = listingPic => {
-    return listingPic && listingPic.length > 0
-      ? listingPic
+    return listingPic && listingPic.fileName
+      ? listingPic.url
       : require("./../../../assets/listing-placeholder.jpg");
   };
 
@@ -145,22 +130,36 @@ class HostProfile extends Component {
   };
 
   render() {
+    // ToDo: replace this with skelaton antd
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
-
-    const { profileData, reviews, internBookings, adminView } = this.state;
+    const {
+      profileData: {
+        listing: {
+          _id,
+          availableDates,
+          price,
+          address,
+          photos,
+          otherInfo,
+          description
+        },
+        profile: {
+          bio,
+          jobTitle,
+          organisation,
+          profileImage,
+          _id: profileId,
+          verified
+        },
+        name,
+        email,
+        reviews
+      },
+      adminView,
+      internBookings
+    } = this.state;
     const { hideProfile, match } = this.props;
     const { id: hostId } = match.params;
-
-    const { listing, profile, name, email } = profileData;
-    const {
-      bio,
-      jobTitle,
-      organisation,
-      profileImage,
-      _id: profileId
-    } = profile;
-
-    const { _id, availableDates, price } = listing;
 
     const intern = this.props.id;
 
@@ -173,7 +172,7 @@ class HostProfile extends Component {
                 <Arrow />
                 <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
               </BackLinkDiv>
-              {profile && profile.verified ? (
+              {verified ? (
                 <Button
                   label="Unapprove profile"
                   type="verification"
@@ -221,9 +220,7 @@ class HostProfile extends Component {
               </Headline>
             )}
 
-            <Address>
-              {`${listing.address.street}, ${listing.address.city}`}
-            </Address>
+            <Address>{`${address.street}, ${address.city}`}</Address>
           </HeaderDiv>
 
           <SymbolDiv>
@@ -231,15 +228,12 @@ class HostProfile extends Component {
             {this.state.profileData.profile.badge && <Symbol src={starSign} />}
           </SymbolDiv>
         </Header>
-        <ImageSection>
-          <MainImageDiv>
-            <MainImage src={this.getListingPic(listing.photos[0])} />
-          </MainImageDiv>
-          <SideImageDiv>
-            <SubImage src={this.getListingPic(listing.photos[1])} />
-            <SubImage src={this.getListingPic(listing.photos[2])} />
-          </SideImageDiv>
-        </ImageSection>
+
+        <ListingGallery
+          img1={photos[0].url}
+          img2={photos[1].url}
+          img3={photos[2].url}
+        />
         <MainSection>
           <TextContentDiv>
             <Card>
@@ -255,7 +249,7 @@ class HostProfile extends Component {
               <OtherInfo>
                 <SubHeadline>Other Info</SubHeadline>
                 <List>
-                  {listing.otherInfo.map((li, i) => (
+                  {otherInfo.map((li, i) => (
                     <ListItem key={i}>{li}</ListItem>
                   ))}
                 </List>
@@ -265,10 +259,9 @@ class HostProfile extends Component {
               <PressPadOffer>
                 <SubHeadline>My PressPad Offer</SubHeadline>
                 <ParagraphHeadline>
-                  {listing.address.street}, {listing.address.city},{" "}
-                  {listing.address.postcode}
+                  {address.street}, {address.city}, {address.postcode}
                 </ParagraphHeadline>
-                <Paragraph>{listing.description}</Paragraph>
+                <Paragraph>{description}</Paragraph>
               </PressPadOffer>
             </Card>
             {reviews.length > 0 && (
@@ -281,8 +274,8 @@ class HostProfile extends Component {
                         <ReviewsHeader>
                           <StarRate disabled defaultValue={re.rating} />
                           <ReviewHeadline>
-                            {re.from_user.name.split(" ")[0]},{" "}
-                            {re.from_profile.jobTitle}
+                            {re.from.name.split(" ")[0]},{" "}
+                            {re.from.profile.jobTitle}
                           </ReviewHeadline>
                         </ReviewsHeader>
                         <ReviewText>{re.message}</ReviewText>

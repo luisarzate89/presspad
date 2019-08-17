@@ -15,7 +15,7 @@ const API_USER_URL = `${API_PREFIX}${USER_URL}`;
 const GET_ORGS_URL = "/user/get-all-orgs";
 const API_GET_ORGS_URL = `${API_PREFIX}${GET_ORGS_URL}`;
 
-const HOST_PROFILE_URL = "/host/";
+const HOST_PROFILE_URL = "/host/:id";
 const API_HOST_PROFILE_URL = `${API_PREFIX}${HOST_PROFILE_URL}`;
 
 const INTERN_PROFILE_URL = "/intern";
