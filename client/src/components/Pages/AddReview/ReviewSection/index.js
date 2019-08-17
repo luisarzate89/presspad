@@ -1,10 +1,11 @@
 import React from "react";
 import ReviewWrapper from "../Wrappers/ReviewWrapper";
+import ReviewForm from "./ReviewForm";
 
 const ReviewSection = () => {
   return (
       <ReviewWrapper>
-        <h1>ReviewSection</h1>
+        <ReviewForm />
         <h1>Kurwa</h1>
       </ReviewWrapper>
   );
