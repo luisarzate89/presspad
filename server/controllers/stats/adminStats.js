@@ -19,22 +19,11 @@ module.exports = async (req, res, next) => {
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
-        const cleanStats = stats.map((client) => {
-          const clientObj = {
-            key: stats.indexOf(client) + 1,
-            organisation: client.name,
-            totalCredits: client.credits,
-            creditsSpent: client.spentCredits,
-            interns: client.numberOfInterns,
-            plan: client.plan,
-            currentlyHosted: client.currentlyHosted,
-            userId: client._id,
-          };
-          return clientObj;
-        });
-        return res.json(cleanStats);
+        return res.json(stats);
       })
-      .catch(err => next(boom.badImplementation(err)));
+      .catch((err) => {
+        next(boom.badImplementation(err));
+      });
   } if (userType === "interns") {
     return getAllInternStats()
       .then((stats) => {
@@ -55,8 +44,7 @@ module.exports = async (req, res, next) => {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
             organisation: intern.organisation[0].name,
-            totalCredits: intern.credits || 0,
-            creditsSpent: intern.spentCredits || 0,
+            totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
           };
@@ -80,6 +68,8 @@ module.exports = async (req, res, next) => {
             approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
             profileId: host.profile[0]._id,
             userId: host._id,
+            totalIncome: host.totalIncome,
+            currentBalance: host.currentBalance,
           };
           return hostObj;
         });
