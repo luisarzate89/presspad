@@ -6,7 +6,9 @@ const reviewControllers = {};
 module.exports = reviewControllers;
 
 reviewControllers.createReview = async (req, res, next) => {
-  const { to, rating, message } = req.body;
+  const {
+    to, rating, message, booking,
+  } = req.body;
   const { id: from } = req.params;
   // VALIDATES USER INPUT
   if (!rating) return next(boom.badRequest("Please pick the number of stars"));
@@ -14,7 +16,7 @@ reviewControllers.createReview = async (req, res, next) => {
   try {
     // create a review
     await createReview({
-      to, from, rating, message,
+      to, from, rating, message, booking,
     });
 
     // send a notification to the reviewee
@@ -23,8 +25,9 @@ reviewControllers.createReview = async (req, res, next) => {
       secondParty: from, // sends the notification
       type: "getReview",
     });
+
     return res.json({ success: true });
   } catch (error) {
-    return next(boom.badImplementation());
+    return next(boom.badImplementation(error));
   }
 };
