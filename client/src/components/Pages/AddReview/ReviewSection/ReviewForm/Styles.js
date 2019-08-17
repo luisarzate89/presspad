@@ -1,16 +1,16 @@
 // repalce the button with styled component
 const ButtonStyle = { 
   width: "35%",
-  "min-width": "150px", 
+  minWidth: "150px", 
   margin: "3rem 0 0 0", 
-  "background-color": "#0AC7E7",
+  backgroundColor: "#0AC7E7",
   color: "#fff", 
   height: "3rem", 
-  "border-radius": "30px"
+  borderRadius: "30px"
 };
 
 const CheckboxStyle = { 
-  "font-weight": "650",
+  fontWeight: "650",
   color: "#000"
 };
 
