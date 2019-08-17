@@ -47,10 +47,11 @@ describe("Tests adding a review and creating a getReview notification", () => {
         const token = response.headers["set-cookie"][0].split(";")[0];
         if (error) return done(error);
 
+        
         // Request should create a document in Review collection
         // and a document in Notification collection.
         return request(app)
-          .post(`/api/users/${reviewer}/reviews`)
+          .post(`/api/booking/${booking.id}/review`)
           .send(reviewData)
           .set("Cookie", [token])
           .expect(200)
@@ -107,7 +108,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
         // Request should fail with a bad request error (code 400)
         request(app)
-          .post(`/api/users/${reviewer}/reviews`)
+          .post(`/api/booking/${booking.id}/review`)
           .send(reviewData)
           .send("Cookie", [token])
           .expect(400)
@@ -143,7 +144,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
         // Request should fail with a bad request error (code 400)
         request(app)
-          .post(`/api/users/${reviewer.id}/reviews`)
+          .post(`/api/booking/${booking.id}/review`)
           .send(reviewData)
           .set("Cookie", [token])
           .expect(400)
@@ -178,7 +179,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
         // Request should fail with a bad request error (code 400)
         return request(app)
-          .post(`/api/users/${reviewer.id}/reviews`)
+          .post(`/api/booking/${booking.id}/review`)
           .send(reviewData)
           .set("Cookie", [token])
           .expect(500)
@@ -205,7 +206,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
     // Request should fail the auth check with a bad request error (code 401)
     request(app)
-      .post(`/api/users/${reviewer}/reviews`)
+      .post(`/api/booking/${booking.id}/review`)
       .send(reviewData)
       .expect(401)
       .expect("Content-Type", /json/)
