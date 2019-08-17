@@ -15,6 +15,7 @@ import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
 import BookingRequest from "./BookingRequest";
 import MyProfile from "./MyProfile";
+import AddReview from "./AddReview";
 
 import {
   HOME_URL,
@@ -29,7 +30,8 @@ import {
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
   BOOKING_REQUEST_URL,
-  MYPROFILE_URL
+  MYPROFILE_URL,
+  ADD_REVIWE_URL
 } from "./../../constants/navRoutes";
 
 class Pages extends Component {
@@ -104,6 +106,14 @@ class Pages extends Component {
             exact
             path={MYPROFILE_URL}
             Component={MyProfile}
+            isLoggedIn={isLoggedIn}
+            {...this.props}
+          />
+
+          <PrivateRoute
+            path={ADD_REVIWE_URL}
+            Component={AddReview}
+            handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
