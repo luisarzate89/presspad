@@ -54,7 +54,7 @@ const API_MY_PROFILE_URL = `${API_PREFIX}${MY_PROFILE_URL}`;
 const UPLOAD_SIGNED_URL = "/upload/signed-url";
 const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
 
-const REVIEW_URL = "/users/:id/reviews";
+const REVIEW_URL = "/booking/:id/review";
 const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`; // this does not work in the frontend...
 
 const SIGNOUT_URL = "/sign-out";
