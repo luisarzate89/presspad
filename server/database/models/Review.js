@@ -22,6 +22,11 @@ const reviewSchema = new Schema(
       type: String,
       required: true,
     },
+    booking: {
+      type: Schema.Types.ObjectId,
+      ref: "bookings",
+      required: true,
+    },
   },
   { timestamps: true },
 );

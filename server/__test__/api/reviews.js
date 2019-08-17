@@ -5,6 +5,7 @@ const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
 
 const Review = require("./../../database/models/Review");
+const Booking = require("./../../database/models/Booking");
 const User = require("./../../database/models/User");
 const Notification = require("./../../database/models/Notification");
 
@@ -25,14 +26,16 @@ describe("Tests adding a review and creating a getReview notification", () => {
   };
 
   test("tests adding a review successfully", async (done) => {
-    const reviewee = await User.findOne({ name: "Michael Peters" });
-    const reviewer = await User.findOne({ name: "Josephine Doeski" });
+    const booking = await Booking.findOne();
+    const reviewee = booking.intern;
+    const reviewer = booking.host;
 
     const reviewData = {
-      to: reviewee.id, // person receiving the review >> also the user in notification
-      from: reviewer.id, // person sending the creating, also the secondParty in notification
+      to: reviewee, // person receiving the review >> also the user in notification
+      from: reviewer, // person sending the creating, also the secondParty in notification
       rating: 4,
       message: "Farah cannot use jest",
+      booking: booking._id,
     };
 
     request(app)
@@ -46,8 +49,8 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
         // Request should create a document in Review collection
         // and a document in Notification collection.
-        request(app)
-          .post(`/api/users/${reviewer.id}/reviews`)
+        return request(app)
+          .post(`/api/users/${reviewer}/reviews`)
           .send(reviewData)
           .set("Cookie", [token])
           .expect(200)
@@ -59,7 +62,12 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
             // find the newly created documents (in Review and Notification schema)
             const review = await Review.findOne({ to: reviewData.to });
-            const notification = await Notification.findOne({ secondParty: reviewData.from });
+            const [, notification] = await Notification.find(
+              {
+                secondParty: reviewData.from,
+                user: reviewData.to,
+              },
+            );
 
             // there should be a review and a notification entries.
             // fails if returned value is null
@@ -77,14 +85,16 @@ describe("Tests adding a review and creating a getReview notification", () => {
   }, 30000);
 
   test("check that input validation works as intended for rating", async (done) => {
-    const reviewee = await User.findOne({ name: "Michael Peters" });
-    const reviewer = await User.findOne({ name: "Josephine Doeski" });
+    const booking = await Booking.findOne();
+    const reviewee = booking.intern;
+    const reviewer = booking.host;
 
     const reviewData = {
-      to: reviewee.id, // person receiving the review >> also the user in notification
-      from: reviewer.id, // person sending the creating, also the secondParty in notification
+      to: reviewee, // person receiving the review >> also the user in notification
+      from: reviewer, // person sending the creating, also the secondParty in notification
       rating: "",
       message: "Farah cannot use jest",
+      booking: booking._id,
     };
 
     request(app)
@@ -97,7 +107,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
 
         // Request should fail with a bad request error (code 400)
         request(app)
-          .post(`/api/users/${reviewer.id}/reviews`)
+          .post(`/api/users/${reviewer}/reviews`)
           .send(reviewData)
           .send("Cookie", [token])
           .expect(400)
@@ -113,13 +123,16 @@ describe("Tests adding a review and creating a getReview notification", () => {
   test("check that input validation works as intended for message", async (done) => {
     const reviewee = await User.findOne({ name: "Michael Peters" });
     const reviewer = await User.findOne({ name: "Josephine Doeski" });
+    const booking = await Booking.findOne();
 
     const reviewData = {
       to: reviewee.id, // person receiving the review >> also the user in notification
       from: reviewer.id, // person sending the creating, also the secondParty in notification
       rating: 4,
       message: "",
+      booking: booking._id,
     };
+
     request(app)
       .post("/api/user/login")
       .send(loginData)
@@ -145,12 +158,14 @@ describe("Tests adding a review and creating a getReview notification", () => {
   // request should return a status code 500
   test("Server error is properly handled", async (done) => {
     const reviewer = await User.findOne({ name: "Josephine Doeski" });
+    const booking = await Booking.findOne();
 
     const reviewData = {
       to: "reviewee.id", // person receiving the review >> also the user in notification
       from: reviewer.id, // person sending the creating, also the secondParty in notification
       rating: 4,
       message: "this should crash server",
+      booking: booking._id,
     };
     request(app)
       .post("/api/user/login")
@@ -176,19 +191,21 @@ describe("Tests adding a review and creating a getReview notification", () => {
   }, 30000);
 
   test("check that only authenticated users will be able to add review", async (done) => {
-    const reviewee = await User.findOne({ name: "Michael Peters" });
-    const reviewer = await User.findOne({ name: "Josephine Doeski" });
+    const booking = await Booking.findOne();
+    const reviewee = booking.intern;
+    const reviewer = booking.host;
 
     const reviewData = {
-      to: reviewee.id, // person receiving the review >> also the user in notification
-      from: reviewer.id, // person sending the creating, also the secondParty in notification
+      to: reviewee, // person receiving the review >> also the user in notification
+      from: reviewer, // person sending the creating, also the secondParty in notification
       rating: 4,
       message: "I'm not even authenticated",
+      booking: booking._id,
     };
 
     // Request should fail the auth check with a bad request error (code 401)
     request(app)
-      .post(`/api/users/${reviewer.id}/reviews`)
+      .post(`/api/users/${reviewer}/reviews`)
       .send(reviewData)
       .expect(401)
       .expect("Content-Type", /json/)

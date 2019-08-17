@@ -16,6 +16,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
+const { internDashboard } = require("./../controllers/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
@@ -44,6 +45,7 @@ const {
   INTERN_PROFILE_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
+  INTERN_DASHBOARD_URL,
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
@@ -73,7 +75,7 @@ router.get(USER_URL, softAuthCheck, userInfo);
 router.post(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
-router.post(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
+router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
 
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
@@ -98,6 +100,8 @@ router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs
 router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
+
+router.get(INTERN_DASHBOARD_URL, authentication, internDashboard);
 
 // GET MY PROFILE
 router.get(MY_PROFILE_URL, authentication, getMyProfile);

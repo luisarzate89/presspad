@@ -4,10 +4,11 @@ export const ABOUT_URL = "/about";
 export const MYPROFILE_URL = "/my-profile";
 export const DASHBOARD_URL = "/dashboard";
 export const HOSTS_URL = "/hosts";
-export const HOST_PROFILE = `/hosts/:id`;
-export const INTERN_PROFILE = `/interns/:id`;
-export const ADMIN_DASHBOARD_URL = `/admin/dashboard`;
-export const BOOKING_REQUEST_URL = `/booking-request/`;
+export const HOST_PROFILE = "/hosts/:id";
+export const INTERN_PROFILE = "/interns/:id";
+export const ADMIN_DASHBOARD_URL = "/admin/dashboard";
+export const BOOKING_REQUEST_URL = "/booking-request/";
+
 // signing up process
 export const SIGNUP_INTERN = "/sign-up/intern";
 export const SIGNUP_HOST = `/sign-up/host/:referralCode?`;

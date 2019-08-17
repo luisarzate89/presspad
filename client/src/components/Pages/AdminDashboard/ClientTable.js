@@ -1,35 +1,6 @@
 import React, { Component } from "react";
 
-import { Table, Tag } from "antd";
-
-import { colors } from "./../../../theme";
-
-const tagColors = {
-  pro: colors.primary,
-  custom: colors.green,
-  basic: colors.gray
-};
-
-// const data = [
-//   {
-//     key: "1",
-//     organisation: "Financial Times",
-//     totalCredits: 1600,
-//     creditsSpent: 1200,
-//     interns: 5,
-//     currentlyHosted: 4,
-//     plan: "pro"
-//   },
-//   {
-//     key: "2",
-//     organisation: "The Guardian",
-//     totalCredits: 600,
-//     creditsSpent: 450,
-//     interns: 1,
-//     currentlyHosted: 3,
-//     plan: "basic"
-//   }
-// ];
+import { Table } from "antd";
 
 export default class ClientTable extends Component {
   state = {
@@ -47,31 +18,6 @@ export default class ClientTable extends Component {
         ...getColumnSearchProps("organisation"),
         sorter: (a, b) => a.organisation.localeCompare(b.organisation),
         className: "orgCol"
-      },
-      {
-        title: "Plan",
-        dataIndex: "plan",
-        key: "plan",
-        render: plan => (
-          <Tag color={tagColors[plan]} key={plan}>
-            {plan.toUpperCase()}
-          </Tag>
-        ),
-        filters: [
-          {
-            text: "Basic",
-            value: "basic"
-          },
-          {
-            text: "Custom",
-            value: "custom"
-          },
-          {
-            text: "Pro",
-            value: "pro"
-          }
-        ],
-        onFilter: (value, record) => record.plan.indexOf(value) === 0
       },
       {
         title: "Total Credits",
