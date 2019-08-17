@@ -13,6 +13,7 @@ import {
   ABOUT_URL,
   MYPROFILE_URL,
   DASHBOARD_URL,
+  ADMIN_DASHBOARD_URL,
   HOSTS_URL,
   SIGNIN_URL
 } from "../../../constants/navRoutes";
@@ -100,7 +101,15 @@ class Navbar extends Component {
           {/* LOGGED IN  */}
           {isLoggedIn && (
             <>
-              <MenuItem to={DASHBOARD_URL}>Dashboard</MenuItem>
+              <MenuItem
+                to={
+                  userType === USER_TYPES.admin
+                    ? ADMIN_DASHBOARD_URL
+                    : DASHBOARD_URL
+                }
+              >
+                Dashboard
+              </MenuItem>
               {userType === USER_TYPES.intern && (
                 <>
                   <MenuItem to={MYPROFILE_URL}>My profile</MenuItem>
