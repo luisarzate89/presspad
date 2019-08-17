@@ -7,6 +7,11 @@ module.exports.internProfileData = userId => new Promise((resolve, reject) => {
     {
       $match: { _id: mongoose.Types.ObjectId(userId) },
     },
+    {
+      $project: {
+        password: 0,
+      },
+    },
     // lookup profile
     {
       $lookup: {
@@ -14,6 +19,21 @@ module.exports.internProfileData = userId => new Promise((resolve, reject) => {
         localField: "_id",
         foreignField: "user",
         as: "profile",
+      },
+    },
+    // lookup organisation
+    {
+      $lookup: {
+        from: "organisations",
+        localField: "organisation",
+        foreignField: "_id",
+        as: "organisation",
+      },
+    },
+    {
+      $addFields: {
+        profile: { $arrayElemAt: ["$profile", 0] },
+        organisation: { $arrayElemAt: ["$organisation", 0] },
       },
     },
   ])

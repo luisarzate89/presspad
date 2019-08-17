@@ -89,6 +89,48 @@ export default class InternTable extends Component {
         sorter: (a, b) => a.hosted - b.hosted
       },
       {
+        title: "Current Balance",
+        dataIndex: "currentBalance",
+        key: "currentBalance",
+        filters: [
+          {
+            text: "< 500",
+            value: 500
+          },
+          {
+            text: "500-1000",
+            value: 1000
+          },
+          {
+            text: "> 1000",
+            value: 999999999999999999
+          }
+        ],
+        onFilter: (value, record) => record.currentBalance < value,
+        sorter: (a, b) => a.currentBalance - b.currentBalance
+      },
+      {
+        title: "Total Income",
+        dataIndex: "totalIncome",
+        key: "totalIncome",
+        filters: [
+          {
+            text: "< 500",
+            value: 500
+          },
+          {
+            text: "500-1000",
+            value: 1000
+          },
+          {
+            text: "> 1000",
+            value: 999999999999999999
+          }
+        ],
+        onFilter: (value, record) => record.totalIncome < value,
+        sorter: (a, b) => a.totalIncome - b.totalIncome
+      },
+      {
         title: "Approval Status",
         dataIndex: "approvalStatus",
         key: "approvalStatus",

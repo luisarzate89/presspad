@@ -17,9 +17,10 @@ module.exports.addNewUser = async (userInfo) => {
     email, name, password, role,
   } = userInfo;
 
+  const newAccount = await createNewAccount();
+
   if (role === "organisation") {
     const { organisation, logo } = userInfo;
-    const newAccount = await createNewAccount();
     const newOrg = await addOrg(organisation, logo, newAccount._id);
     return User.create({
       email: email.toLowerCase(),
@@ -27,8 +28,10 @@ module.exports.addNewUser = async (userInfo) => {
       password,
       role,
       organisation: newOrg,
+      account: newAccount._id,
     });
   }
+
   if (role === "host") {
     const { referral } = userInfo;
     return User.create({
@@ -37,16 +40,16 @@ module.exports.addNewUser = async (userInfo) => {
       password,
       role,
       referral,
+      account: newAccount._id,
     });
   }
   // assume it's intern at this point
-  const { organisation } = userInfo;
   return User.create({
     email: email.toLowerCase(),
     name,
     password,
     role,
-    organisation,
+    account: newAccount._id,
   });
 };
 

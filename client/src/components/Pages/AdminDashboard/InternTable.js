@@ -56,9 +56,9 @@ export default class InternTable extends Component {
         className: "orgCol"
       },
       {
-        title: "Total Credits",
-        dataIndex: "totalCredits",
-        key: "totalCredits",
+        title: "Total Payments",
+        dataIndex: "totalPayments",
+        key: "totalPayments",
         filters: [
           {
             text: "< 500",
@@ -73,29 +73,8 @@ export default class InternTable extends Component {
             value: 999999999999999999
           }
         ],
-        onFilter: (value, record) => record.totalCredits < value,
-        sorter: (a, b) => a.totalCredits - b.totalCredits
-      },
-      {
-        title: "Credits spent",
-        dataIndex: "creditsSpent",
-        key: "creditsSpent",
-        filters: [
-          {
-            text: "< 500",
-            value: 500
-          },
-          {
-            text: "500-1000",
-            value: 1000
-          },
-          {
-            text: "> 1000",
-            value: 999999999999999999
-          }
-        ],
-        onFilter: (value, record) => record.creditsSpent < value,
-        sorter: (a, b) => a.creditsSpent - b.creditsSpent
+        onFilter: (value, record) => record.totalPayments < value,
+        sorter: (a, b) => a.totalPayments - b.totalPayments
       },
       {
         title: "Status",

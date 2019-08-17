@@ -32,7 +32,7 @@ export const HiText = styled.h1`
 
 export const Section = styled.div``;
 
-export const SectionTitile = styled.h4`
+export const SectionTitle = styled.h4`
   margin: 20px auto;
   font-family: Roboto;
   font-style: normal;

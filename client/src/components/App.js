@@ -63,6 +63,10 @@ class App extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
+  resetState = () => {
+    this.setState(initialState);
+  };
+
   getUserInfo = () => {
     axios
       .get(API_USER_URL)
@@ -82,7 +86,11 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Navbar isLoggedIn={isLoggedIn} userType={role} />
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            userType={role}
+            resetState={this.resetState}
+          />
           <Pages
             handleChangeState={this.handleChangeState}
             isLoggedIn={isLoggedIn}
