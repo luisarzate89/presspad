@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
 
       if (storedUser.role !== "superhost") {
         return next(
-          boom.notAuthorized("That user does not have sufficient priveleges to refer you."),
+          boom.unauthorized("That user does not have sufficient priveleges to refer you."),
         );
       }
 

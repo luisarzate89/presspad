@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { message } from "antd";
 
 import whiteLogo from "./../../../assets/white-presspad-logo.png";
 
@@ -71,13 +71,12 @@ class Navbar extends Component {
 
   menuButtonClick = async e => {
     const signOutResult = await axios.get("api/sign-out");
-    signOutResult.data.success
-      ? this.props.history.push("/")
-      : Swal.fire({
-          title: "You have been signed out!",
-          type: "success",
-          confirmButtonText: "Continue"
-        });
+    if (signOutResult.data.success) {
+      this.props.resetState();
+      this.props.history.push("/");
+    } else {
+      message.error("Server Error, please try again!");
+    }
   };
 
   render() {
