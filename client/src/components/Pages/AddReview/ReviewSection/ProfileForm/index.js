@@ -1,5 +1,4 @@
 import React from "react"
-import { Link } from "react-router-dom";
 import ProfileWrapper from "../../Wrappers/ProfileWrapper";
 import ImageSide from "./ImageSide";
 import ProfileInfo from "./ProfileInfo";
