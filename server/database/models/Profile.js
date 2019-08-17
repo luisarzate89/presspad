@@ -7,10 +7,7 @@ const profileSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "users",
-      // make surre no duplicate with user id
       unique: true,
-      // drop any duplicate record
-      dropDups: true,
     },
     verified: {
       type: Boolean,
