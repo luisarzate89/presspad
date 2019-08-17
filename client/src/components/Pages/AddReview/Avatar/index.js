@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar } from "antd";
 import AvatarStyle from "./AvatarStyle";
-import AvatarWrapper from "./AvatarWrapper";
+import AvatarWrapper from "../Wrappers/AvatarWrapper";
 import Message from "./Message";
 
 const AvatarComponent = () => {
