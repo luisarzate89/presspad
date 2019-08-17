@@ -5,7 +5,10 @@ import axios from "axios";
 
 import schema from "./Schema";
 
-import { API_INTERN_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
+import {
+  API_INTERN_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 import { HOSTS_URL } from "./../../../constants/navRoutes";
 
 export default class InternCreateProfile extends Component {
@@ -15,7 +18,7 @@ export default class InternCreateProfile extends Component {
     profileImage: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      url: ""
     },
     bio: "",
     favouriteArticle: "",
@@ -35,6 +38,37 @@ export default class InternCreateProfile extends Component {
 
     errors: {}
   };
+
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile } }) => {
+        this.setState(
+          {
+            ...profile,
+            profileImage: {
+              ...this.state.profileImage,
+              ...profile.profileImage
+            },
+            reference1: profile.verification.reference1,
+            reference2: profile.verification.reference1,
+            photoIDFile: {
+              ...this.state.photoIDFile,
+              ...profile.verification.photoID
+            },
+            offerLetter: {
+              ...this.state.photoIDFile,
+              ...profile.verification.offerLetter
+            }
+          },
+          () => {
+            console.log("back", profile);
+            console.log("state", this.state);
+          }
+        );
+      })
+      .catch(err => message.error("internal server error"));
+  }
 
   directUploadToGoogle = async e => {
     const {
@@ -77,11 +111,11 @@ export default class InternCreateProfile extends Component {
         "Content-Type": "application/octet-stream"
       };
 
-      let dataUrl = "";
+      let url = "";
 
       if (isPrivate === "false") {
         headers["x-goog-acl"] = "public-read";
-        dataUrl = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
+        url = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
       await axios.put(signedUrl, image, {
         headers,
@@ -99,7 +133,7 @@ export default class InternCreateProfile extends Component {
 
       this.setState({
         [name]: {
-          dataUrl,
+          url,
           fileName: generatedName,
           loading: 100,
           isLoading: false
@@ -190,6 +224,7 @@ export default class InternCreateProfile extends Component {
 
         const formData = {
           profileImage: { fileName: profileImage.fileName, isPrivate: false },
+          verification: this.state.verification || {},
           bio
         };
 
@@ -199,34 +234,34 @@ export default class InternCreateProfile extends Component {
         organisation && (formData.organisation = organisation);
 
         photoIDFile.fileName &&
-          (formData.photoIDFile = {
+          (formData.verification.photoID = {
             fileName: photoIDFile.fileName,
             isPrivate: true
           });
 
         offerLetter.fileName &&
-          (formData.offerLetter = {
+          (formData.verification.offerLetter = {
             fileName: offerLetter.fileName,
             isPrivate: true
           });
         reference1.name &&
-          (formData.reference1 = {
-            ...formData.reference1,
+          (formData.verification.reference1 = {
+            ...formData.verification.reference1,
             name: reference1.name
           });
         reference1.contact &&
-          (formData.reference1 = {
-            ...formData.reference1,
+          (formData.verification.reference1 = {
+            ...formData.verification.reference1,
             contact: reference1.contact
           });
         reference2.name &&
-          (formData.reference2 = {
-            ...formData.reference2,
+          (formData.verification.reference2 = {
+            ...formData.verification.reference2,
             name: reference2.name
           });
         reference2.contact &&
-          (formData.reference2 = {
-            ...formData.reference2,
+          (formData.verification.reference2 = {
+            ...formData.verification.reference2,
             contact: reference2.contact
           });
 
