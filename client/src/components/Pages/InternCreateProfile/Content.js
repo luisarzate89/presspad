@@ -8,7 +8,7 @@ import {
   HiText,
   HeaderButtonsWrapper,
   Section,
-  SectionTitile,
+  SectionTitle,
   SectionWrapperContent,
   Label,
   UploadText,
@@ -123,7 +123,7 @@ class Content extends Component {
           </HeaderWrapper>
 
           <Section>
-            <SectionTitile>About me</SectionTitile>
+            <SectionTitle>About me</SectionTitle>
             <SectionWrapperContent>
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={14}>
@@ -156,7 +156,7 @@ class Content extends Component {
                 </Col>
               </Row>
 
-              <Row gutter={25} type="flex">
+              <Row gutter={25} type="flex" justify="space-between">
                 <Col xs={24} sm={12} lg={9}>
                   <Label htmlFor="jobTitle">Job title</Label>
                   <ErrorWrapper error={errors.jobTitle} marginBottom="20px">
@@ -172,12 +172,31 @@ class Content extends Component {
                     <Error>{errors.jobTitle}</Error>
                   </ErrorWrapper>
                 </Col>
+
+                <Col xs={24} sm={12} lg={9}>
+                  <Label htmlFor="organisation">Organisation Name</Label>
+                  <ErrorWrapper error={errors.organisation} marginBottom="20px">
+                    <Input
+                      id="organisation"
+                      name="name"
+                      data-parent="organisation"
+                      onChange={handleInputChange}
+                      value={state.organisation.name}
+                      style={{
+                        border: errors.organisation
+                          ? "none"
+                          : "1px solid #d9d9d9"
+                      }}
+                    />
+                    <Error>{errors.organisation}</Error>
+                  </ErrorWrapper>
+                </Col>
               </Row>
             </SectionWrapperContent>
           </Section>
 
           <Section>
-            <SectionTitile>Verify your details</SectionTitile>
+            <SectionTitle>Verify your details</SectionTitle>
             <SectionWrapperContent>
               <Row gutter={25} type="flex">
                 <Col xs={24} lg={12}>
@@ -282,11 +301,12 @@ class Content extends Component {
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference1Name"
+                            name="name"
                             onChange={handleInputChange}
                             value={state.reference1.name}
                             placeholder="Name"
                             id="reference1Name"
+                            data-parent="reference1"
                             style={{
                               border: errors.reference1Name
                                 ? "none"
@@ -302,10 +322,11 @@ class Content extends Component {
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference1Contact"
+                            name="contact"
                             onChange={handleInputChange}
                             value={state.reference1.contact}
                             placeholder="Contact"
+                            data-parent="reference1"
                             style={{
                               border: errors.reference1contact
                                 ? "none"
@@ -330,11 +351,12 @@ class Content extends Component {
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference2Name"
+                            name="name"
                             onChange={handleInputChange}
                             value={state.reference2.name}
                             placeholder="Name"
                             id="reference2Name"
+                            data-parent="reference2"
                             style={{
                               border: errors.reference2name
                                 ? "none"
@@ -350,10 +372,11 @@ class Content extends Component {
                           marginBottom="20px"
                         >
                           <Input
-                            name="reference2Contact"
+                            name="contact"
                             onChange={handleInputChange}
                             value={state.reference2.contact}
                             placeholder="Contact"
+                            data-parent="reference2"
                             style={{
                               border: errors.reference2contact
                                 ? "none"

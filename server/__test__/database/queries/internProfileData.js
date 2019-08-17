@@ -23,8 +23,8 @@ describe("Tests for internProfile queries", () => {
     await internProfileData(interns[0]._id).then((profileData) => {
       expect(profileData[0]).toBeDefined();
       expect(profileData[0].name).toBe(interns[0].name);
-      expect(profileData[0].profile[0]).toBeDefined();
-      expect(profileData[0].profile[0].bio).toBeDefined();
+      expect(profileData[0].profile).toBeDefined();
+      expect(profileData[0].profile.bio).toBeDefined();
     });
     done();
   });

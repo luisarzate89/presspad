@@ -1,31 +1,9 @@
 const boom = require("boom");
 const { getProfile } = require("../../database/queries/profile/getProfile");
 const { getListing } = require("../../database/queries/listing/getListing");
-const { storageBucket: bucketName } = require("../../config");
-const { getPublicFileUrl, generateV4SignedUrl } = require("../../helpers/storage");
 
-/**
- * get the image url from google cloud storage
- * the function edits the reference directly
- * @private
- * @param {Object} photoRef
- * @param {string} photoRef.fileName
- * @param {boolean} photoRef.isPrivate
- */
-const _generateUrl = async (photoRef) => {
-  const { fileName, isPrivate } = photoRef;
-  // check if the fileName is presented and not empty string
-  if (fileName) {
-    if (isPrivate) {
-      // add url property to the reference
-      // eslint-disable-next-line no-param-reassign
-      photoRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
-      return;
-    }
-    // eslint-disable-next-line no-param-reassign
-    photoRef.url = getPublicFileUrl(bucketName, fileName);
-  }
-};
+const generateUrl = require("./../../helpers/generateFileURL");
+
 
 /**
  * get the profile data adn the listing based on the role
@@ -41,11 +19,11 @@ const _getProfileBasedRole = async (_id, role, res) => {
   if (!profile) return res.json({});
 
   const { profileImage, verification: { photoID } } = profile;
-  await Promise.all([_generateUrl(profileImage), _generateUrl(photoID)]);
+  await Promise.all([generateUrl(profileImage), generateUrl(photoID)]);
 
   if (role === "host" || role === "superhost") {
     const listing = await getListing(_id).lean();
-    await Promise.all(listing.photos.map(_generateUrl));
+    await Promise.all(listing.photos.map(generateUrl));
     return res.json({ profile, listing });
   }
 
