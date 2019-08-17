@@ -8,7 +8,7 @@ import {
   HiText,
   HeaderButtonsWrapper,
   Section,
-  SectionTitile,
+  SectionTitle,
   SectionWrapperContent,
   Label,
   UploadText,
@@ -121,7 +121,7 @@ const Content = ({
         </HeaderWrapper>
 
         <Section>
-          <SectionTitile>About me</SectionTitile>
+          <SectionTitle>About me</SectionTitle>
           <SectionWrapperContent>
             <Row gutter={25} type="flex">
               <Col xs={24} lg={14}>
@@ -192,7 +192,7 @@ const Content = ({
         </Section>
 
         <Section>
-          <SectionTitile>Verify your details</SectionTitile>
+          <SectionTitle>Verify your details</SectionTitle>
           <SectionWrapperContent>
             <Row gutter={25} type="flex">
               <Col xs={24} lg={12}>
