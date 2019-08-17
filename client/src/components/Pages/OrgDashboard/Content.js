@@ -11,7 +11,7 @@ import {
   HeaderWrapper,
   HiText,
   Section,
-  SectionTitile,
+  SectionTitle,
   SectionWrapperContent,
   UpdateList,
   ProfileImage,
@@ -81,7 +81,7 @@ class Content extends Component {
             >
               <Section style={{ marginBottom: "20px" }}>
                 <SectionWrapperContent style={{ minHeight: "200px" }}>
-                  <SectionTitile>Your updates</SectionTitile>
+                  <SectionTitle>Your updates</SectionTitle>
                   <UpdateList>
                     {notifications.map(item => (
                       <Update item={item} />
