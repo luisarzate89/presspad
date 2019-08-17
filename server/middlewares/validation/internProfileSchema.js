@@ -10,6 +10,7 @@ const internProfileSchema = Joi.object({
     title: Joi.string(),
     author: Joi.string(),
     link: Joi.string(),
+    description: Joi.string(),
   }),
   jobTitle: Joi.string(),
   organisation: Joi.object({
