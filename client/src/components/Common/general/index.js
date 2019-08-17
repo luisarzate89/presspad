@@ -8,6 +8,9 @@ export const PageWrapper = styled.main`
   max-width: 1140px;
   width: 90%;
   margin: 0 auto;
+  @media (max-width: 575.98px) {
+    width: 95%;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
@@ -32,7 +35,17 @@ export const SectionWrapperContent = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.04);
   padding: 25px;
+  padding-left: 1.875rem;
   margin-bottom: 20px;
+`;
+
+export const SectionTitle = styled.h4`
+  margin: 20px 0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.56rem;
+  color: #353942;
 `;
 
 export const BlueLink = styled(Link)`
@@ -45,6 +58,7 @@ export const BlueLink = styled(Link)`
   color: #0ac7e7;
   display: inline-block;
   margin-bottom: ${({ marginb }) => marginb};
+  margin-left: ${({ marginl }) => marginl};
 `;
 
 export const UpdateList = styled.ul`
