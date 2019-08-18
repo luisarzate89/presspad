@@ -21,6 +21,7 @@ const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
+const { getBookingsWithUsers } = require("../controllers/Bookings");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -120,5 +121,8 @@ router.route(REVIEW_URL)
 // Signout
 router.route(SIGNOUT_URL)
   .get(signOut);
+
+router.route("/review-info/:bookingId")
+  .get(authentication, getBookingsWithUsers)
 
 module.exports = router;
