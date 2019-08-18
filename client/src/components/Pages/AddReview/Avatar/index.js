@@ -4,11 +4,19 @@ import AvatarStyle from "./AvatarStyle";
 import AvatarWrapper from "../Wrappers/AvatarWrapper";
 import Message from "./Message";
 
-const AvatarComponent = () => {
+const AvatarComponent = ({ reviewer, reviewed }) => {
+  const reviewerFirstName = reviewer ? reviewer.split(" ")[0] : null;
+  const reviewedFirstName = reviewed ? reviewed.split(" ")[0] : null;
   return (
     <AvatarWrapper>
       <Avatar style={AvatarStyle} />
-      <Message>Hi, Andrew! What do you think of Emily?</Message>
+      {
+        reviewerFirstName
+        && reviewedFirstName
+        && <Message>
+          Hi, {reviewerFirstName}! What do you think of {reviewedFirstName}?
+        </Message>
+      }
     </AvatarWrapper>
   );
 };

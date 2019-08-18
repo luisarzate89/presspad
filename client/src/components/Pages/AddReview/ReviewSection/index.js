@@ -3,11 +3,17 @@ import ReviewWrapper from "../Wrappers/ReviewWrapper";
 import ReviewForm from "./ReviewForm";
 import ProfileForm from "./ProfileForm";
 
-const ReviewSection = () => {
+const ReviewSection = ({
+  onTextAreaChange, onRatingChange, onButtonClick, reviewedInfo
+  }) => {
   return (
       <ReviewWrapper>
-        <ReviewForm />
-        <ProfileForm />
+        <ReviewForm
+          onRatingChange={onRatingChange}
+          onTextAreaChange={onTextAreaChange}
+          onButtonClick={onButtonClick}
+        />
+        <ProfileForm reviewedInfo={reviewedInfo} />
       </ReviewWrapper>
   );
 };
