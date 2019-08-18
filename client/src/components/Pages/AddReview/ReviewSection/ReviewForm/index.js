@@ -6,14 +6,15 @@ import ReviewFormWrapper from "../../Wrappers/ReviewFormWrapper";
 import ReviewFormHeaders from "./ReviewFormHeaders";
 import TextArea from "./TextArea";
 import { RateStyle, CheckboxStyle, ButtonStyle } from "./Styles"
-import { API_USER_URL } from "../../../../../constants/apiRoutes"
 
 class ReviewForm extends Component {
 
   state = {
     rating: null,
     message: "",
-    to: "",
+    to: "", // reviewed id
+    from: "", // reviewer id
+    booking: "", // booking id
   }
 
   /**
@@ -22,10 +23,7 @@ class ReviewForm extends Component {
    * will need a new backend query and controller to work properly
    */
   componentDidMount() {
-    axios.get(API_USER_URL)
-      .then(res => {
-        this.setState({ to: res.data.user.id })
-      })
+    // should request the current booking via params.
   }
 
   onRateChange = (rating) => {
@@ -36,6 +34,9 @@ class ReviewForm extends Component {
     this.setState({ message: value })
   }
 
+  /**
+   * this needs refactoring to have actual logic after the request is fired.
+   */
   onButtonClick = () => {
     axios.post(`api/users/${this.state.to}/reviews`, this.state)
     .then(res => console.log(res))
@@ -43,7 +44,6 @@ class ReviewForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <ReviewFormWrapper>
         <ReviewFormHeaders>Rating</ReviewFormHeaders>
