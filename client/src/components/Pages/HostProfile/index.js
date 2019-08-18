@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Spin, message } from "antd";
 
 //api
 import { API_VERIFY_PROFILE_URL } from "../../../constants/apiRoutes";
@@ -32,7 +33,7 @@ import {
 import {
   MainSection,
   Card,
-  ProfilePicDiv,
+  ProfilePic,
   TextContentDiv,
   Address,
   SymbolDiv,
@@ -56,10 +57,8 @@ import {
 import "antd/dist/antd.css";
 
 // images
-
 import starSign from "./../../../assets/star-sign-symbol.svg";
-
-import { Spin, message } from "antd";
+import profilePlaceholder from "../../../assets/random-profile.jpg";
 
 class HostProfile extends Component {
   state = {
@@ -67,12 +66,12 @@ class HostProfile extends Component {
     profileData: null,
     reviews: null,
     internBookings: [],
-    adminView: false,
+    adminView: this.props.adminView,
     profileId: null
   };
 
   // functions
-  axiosCall = () => {
+  getHostProfile = () => {
     const { id: hostId } = this.props.match.params;
     axios
       .get(`/api/host/${hostId}`)
@@ -89,14 +88,11 @@ class HostProfile extends Component {
       });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     // check to see if this is the adminView from dashboard
-    const { adminView } = this.props;
+    const { adminView } = this.state;
 
-    this.setState({ adminView });
-
-    this.axiosCall();
-
+    this.getHostProfile();
     if (!adminView) {
       axios
         .get(`/api/bookings/${this.props.id}`)
@@ -105,19 +101,8 @@ class HostProfile extends Component {
     }
   }
 
-  // checks if profile image exists and returns src path
-  getProfilePic = img => {
-    return img && img.fileName
-      ? img.url
-      : require("./../../../assets/random-profile.jpg");
-  };
-
-  // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic => {
-    return listingPic && listingPic.fileName
-      ? listingPic.url
-      : require("./../../../assets/listing-placeholder.jpg");
-  };
+  // Fallback placeholder if image didn't load
+  handleImageFail = ({ target }) => (target.src = profilePlaceholder);
 
   createAddress = (street, city) => `${street}, ${city}`;
 
@@ -130,7 +115,6 @@ class HostProfile extends Component {
   };
 
   render() {
-    // ToDo: replace this with skelaton antd
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
     const {
       profileData: {
@@ -158,10 +142,8 @@ class HostProfile extends Component {
       adminView,
       internBookings
     } = this.state;
-    const { hideProfile, match } = this.props;
+    const { hideProfile, match, id: currentUserId } = this.props;
     const { id: hostId } = match.params;
-
-    const intern = this.props.id;
 
     return (
       <Wrapper>
@@ -206,9 +188,10 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <ProfilePicDiv
-            src={this.getProfilePic(profileImage)}
+          <ProfilePic
+            src={profileImage || profilePlaceholder}
             adminView={adminView}
+            onError={this.handleImageFail}
           />
 
           <HeaderDiv>
@@ -230,9 +213,9 @@ class HostProfile extends Component {
         </Header>
 
         <ListingGallery
-          img1={photos[0].url}
-          img2={photos[1].url}
-          img3={photos[2].url}
+          img1={photos[0] && photos[0].url}
+          img2={photos[1] && photos[1].url}
+          img3={photos[2] && photos[2].url}
         />
         <MainSection>
           <TextContentDiv>
@@ -269,8 +252,8 @@ class HostProfile extends Component {
                 <Reviews>
                   <SubHeadline>Reviews</SubHeadline>
                   <ReviewsSection>
-                    {reviews.map((re, i) => (
-                      <ReviewsBox key={i}>
+                    {reviews.map(re => (
+                      <ReviewsBox key={re._id}>
                         <ReviewsHeader>
                           <StarRate disabled defaultValue={re.rating} />
                           <ReviewHeadline>
@@ -295,7 +278,7 @@ class HostProfile extends Component {
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
                 <Calendar
-                  internId={intern}
+                  currentUserId={currentUserId}
                   hostId={hostId}
                   listingId={_id}
                   availableDates={availableDates}

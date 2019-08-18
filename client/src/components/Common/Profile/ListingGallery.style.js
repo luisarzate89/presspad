@@ -36,6 +36,8 @@ export const MainImage = styled.img`
   display: block;
   width: 100%;
   height: 380px;
+  object-fit: cover;
+  object-position: center center;
 `;
 
 export const SideImageDiv = styled.div`
@@ -56,4 +58,6 @@ export const SubImage = styled.img`
   display: block;
   width: 100%;
   height: 185px;
+  object-fit: cover;
+  object-position: center center;
 `;

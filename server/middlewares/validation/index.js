@@ -14,12 +14,15 @@ const methods = {
   [INTERN_COMPLETE_PROFILE]: ["POST"],
 };
 
+const validate = (schema, dataObj) => schema
+  .validate(dataObj, { abortEarly: false, stripUnknown: true });
+
 const validation = (req, res, next) => {
   const schema = schemas[req.path];
   const schemaSupportedMethods = methods[req.path];
 
   if (schema && schemaSupportedMethods && schemaSupportedMethods.includes(req.method)) {
-    schema.validate(req.body, { abortEarly: false, stripUnknown: true })
+    validate(schema, req.body)
       .then((data) => {
         // if everything is validate, change the body to the modified version of it
         req.body = data;
@@ -37,4 +40,4 @@ const validation = (req, res, next) => {
   }
 };
 
-module.exports = validation;
+module.exports = { validation, validate };
