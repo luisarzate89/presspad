@@ -27,7 +27,6 @@ module.exports = async (req, res, next) => {
 
     const foundProfile = await findProfile(user._id);
 
-
     // update the intern profile
     if (foundProfile) {
       await updateUserProfile(user._id, profileData);
@@ -36,7 +35,7 @@ module.exports = async (req, res, next) => {
     }
 
     return res.json({ success: true });
-  } catch (error) {
-    return next(boom.badImplementation());
+  } catch (err) {
+    return next(boom.badImplementation(err));
   }
 };

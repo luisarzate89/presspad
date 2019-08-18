@@ -43,11 +43,11 @@ describe("Testing for get host profile route", () => {
           .end((error, result) => {
             expect(result).toBeDefined();
             expect(result.body).toBeDefined();
-            expect(result.body[0].key).toBe(1);
-            expect(result.body[0].organisation).toBeDefined();
+            console.log(result.body[0]);
+            expect(result.body[0].name).toBeDefined();
             expect(result.body[0].currentlyHosted).toBeDefined();
-            expect(result.body[0].creditsSpent).toBeDefined();
-            expect(result.body[0].userId).toBeDefined();
+            expect(result.body[0].currentBalance).toBeDefined();
+            expect(result.body[0]._id).toBeDefined();
             done(error);
           });
       });
@@ -79,7 +79,7 @@ describe("Testing for get host profile route", () => {
             expect(result).toBeDefined();
             expect(result.body).toBeDefined();
             expect(result.body[0].key).toBe(1);
-            expect(result.body[0].organisation).toBeDefined();
+            expect(result.body[0].name).toBeDefined();
             expect(result.body[0].name).toBeDefined();
             expect(result.body[0].status).toBeDefined();
             done(error);
