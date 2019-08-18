@@ -8,7 +8,7 @@ export const HOST_PROFILE = `/hosts/:id`;
 export const INTERN_PROFILE = `/interns/:id`;
 export const ADMIN_DASHBOARD_URL = `/admin/dashboard`;
 export const BOOKING_REQUEST_URL = `/booking-request/`;
-export const ADD_REVIWE_URL = `/add-review/`;
+export const ADD_REVIWE_URL = `/review-info/:id/`;
 
 // signing up process
 export const SIGNUP_INTERN = "/sign-up/intern";
