@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
       return res.send({ isComplete, verified });
     } catch (error) {
       if (error.name === "ValidationError") {
-        isComplete = true;
+        isComplete = false;
         return res.send({ isComplete, verified });
       }
       throw error;
