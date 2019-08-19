@@ -1,0 +1,38 @@
+import React from "react";
+import moment from "moment";
+
+import { Row } from "antd";
+
+import { BookingInfoWrapper, InfoText, InfoValue } from "./PaymentsPlan.style";
+import {
+  SectionWrapperContent,
+  SectionTitle,
+  PayButton
+} from "../../Common/general";
+const BookingInfo = props => {
+  const fullPrice = 300;
+  const remainPrince = 300;
+
+  return (
+    <SectionWrapperContent>
+      <BookingInfoWrapper>
+        <SectionTitle>Your Booking</SectionTitle>
+        <InfoText>You've booked your stay for</InfoText>
+        <InfoValue>
+          {moment().format("DD MMM")}&nbsp;-&nbsp;{moment().format("DD MMM")}
+        </InfoValue>
+        <InfoText>Full price for period</InfoText>
+        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <InfoText>Full price for period</InfoText>
+        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+      </BookingInfoWrapper>
+      <InfoText>Your next payment is due</InfoText>
+      <Row type="flex" justify="space-around">
+        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <PayButton>Pay £{remainPrince.toFixed(2)} now</PayButton>
+      </Row>
+    </SectionWrapperContent>
+  );
+};
+export default BookingInfo;

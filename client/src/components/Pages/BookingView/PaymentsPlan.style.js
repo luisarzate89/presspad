@@ -28,3 +28,21 @@ export const PaymentInfoRow = styled.div`
   height: 2.5rem;
   display: flex;
 `;
+
+export const BookingInfoWrapper = styled.div`
+  border-bottom: 1px solid ${colors.lightGray};
+  margin-bottom: 3.13rem;
+`;
+
+export const InfoText = styled.p`
+  font-weight: 500;
+  margin: 0 2rem;
+`;
+
+export const InfoValue = styled.span`
+  display: block;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.56rem;
+  margin-bottom: 2.5rem;
+`;

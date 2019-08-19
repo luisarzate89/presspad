@@ -118,6 +118,6 @@ export const PayButton = styled.button`
 
   :focus,
   :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
+    transform: ${props => (!props.disabled ? "scale(1.05)" : "")};
   }
 `;

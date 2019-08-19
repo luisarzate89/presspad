@@ -6,11 +6,10 @@ import listingPlaceholder from "../../../assets/listing-placeholder.jpg";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 import Checklist from "../../Common/Checklist";
 import PaymentsPlan from "./PaymentsPlan";
+import BookingInfo from "./BookingInfo";
 
 import {
   PageWrapper,
-  HeaderWrapper,
-  HiText,
   SectionWrapperContent,
   SectionTitle,
   BlueLink
@@ -145,9 +144,7 @@ export default class BookingView extends Component {
             <PaymentsPlan />
           </Col>
           <Col lg={8} md={10} sm={24}>
-            <SectionWrapperContent>
-              <SectionTitle>Your Booking</SectionTitle>
-            </SectionWrapperContent>
+            <BookingInfo />
           </Col>
         </Row>
       </PageWrapper>
