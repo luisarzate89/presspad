@@ -123,7 +123,6 @@ const Content = ({
           <SectionTitle>About me</SectionTitle>
           <SectionWrapperContent>
             <Row gutter={25} type="flex">
-              {/*  */}
               <Col xs={24} lg={12}>
                 <Label htmlFor="jobTitle">Job title</Label>
                 <ErrorWrapper error={errors.jobTitle} marginBottom="12px">
@@ -138,7 +137,7 @@ const Content = ({
                   />
                   <Error>{errors.jobTitle}</Error>
                 </ErrorWrapper>
-                {/*  */}
+
                 <Label htmlFor="organisation">Organisation name</Label>
                 <ErrorWrapper error={errors.organisation} marginBottom="12px">
                   <Input
@@ -153,7 +152,7 @@ const Content = ({
                   />
                   <Error>{errors.organisation}</Error>
                 </ErrorWrapper>
-                {/*  */}
+
                 <Label htmlFor="bio">Bio</Label>
                 <ErrorWrapper error={errors.bio}>
                   <TextArea
@@ -170,8 +169,6 @@ const Content = ({
                   <Error>{errors.bio}</Error>
                 </ErrorWrapper>
               </Col>
-
-              {/*  */}
 
               <Col xs={24} lg={12}>
                 <Row gutter={4}>
@@ -220,7 +217,7 @@ const Content = ({
                     </ErrorWrapper>
                   </Col>
                 </Row>
-                {/*  */}
+
                 <Label htmlFor="title">Article link</Label>
                 <ErrorWrapper error={errors.articleLink} marginBottom="12px">
                   <Input
@@ -236,7 +233,7 @@ const Content = ({
                   />
                   <Error>{errors.articleLink}</Error>
                 </ErrorWrapper>
-                {/*  */}
+
                 <Label htmlFor="favouriteArticle">Favourite article</Label>
                 <ErrorWrapper error={errors.articleDescription}>
                   <TextArea
@@ -257,7 +254,6 @@ const Content = ({
                 </ErrorWrapper>
               </Col>
             </Row>
-            {/*  */}
           </SectionWrapperContent>
         </Section>
 
