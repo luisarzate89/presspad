@@ -29,7 +29,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
     const booking = await Booking.findOne();
     const reviewee = booking.intern;
     const reviewer = booking.host;
-
+    console.log("booking", booking);
     const reviewData = {
       to: reviewee, // person receiving the review >> also the user in notification
       from: reviewer, // person sending the creating, also the secondParty in notification
