@@ -22,9 +22,9 @@ bookingsControllers.getBookingsWithUsers = async (req, res, next) => {
     populatedBooking.host.password = undefined;
     
     // only send the userId, bio and jobTitle from the profile
-    const { user, bio, jobTitle } = profile;
+    const { user, bio, jobTitle, profileImage } = profile;
 
-    res.json({ populatedBooking, bio, jobTitle, user })
+    res.json({ populatedBooking, bio, jobTitle, user, profileImage })
   } catch(error) {
     return next(boom.badImplementation(error));
   }
