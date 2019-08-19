@@ -4,12 +4,12 @@ import AvatarStyle from "./AvatarStyle";
 import AvatarWrapper from "../Wrappers/AvatarWrapper";
 import Message from "./Message";
 
-const AvatarComponent = ({ reviewer, reviewed }) => {
+const AvatarComponent = ({ reviewer, reviewed, profileImage }) => {
   const reviewerFirstName = reviewer ? reviewer.split(" ")[0] : null;
   const reviewedFirstName = reviewed ? reviewed.split(" ")[0] : null;
   return (
     <AvatarWrapper>
-      <Avatar style={AvatarStyle} />
+      <Avatar src={profileImage} style={AvatarStyle} />
       {
         reviewerFirstName
         && reviewedFirstName

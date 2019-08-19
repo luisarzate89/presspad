@@ -3,11 +3,11 @@ import ProfileWrapper from "../../Wrappers/ProfileWrapper";
 import ImageSide from "./ImageSide";
 import ProfileInfo from "./ProfileInfo";
 
-const ProfileForm = ({ reviewedInfo }) => {
+const ProfileForm = ({ reviewedInfo, profileImage, bookingId }) => {
   return (
     <ProfileWrapper>
       {/* renders the left side of the profile section */}
-      <ImageSide />
+      <ImageSide bookingId={bookingId} profileImage={profileImage} />
 
       {/* renders the right side of the profile section */}
       <ProfileInfo reviewedInfo={reviewedInfo} />

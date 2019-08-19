@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
+import randomProfile from "../../../assets/random-profile.jpg";
 import Avatar from "./Avatar";
 import CallForReview from "./CallForReview";
 import ComponentWrapper from "./Wrappers/ComponentWrapper";
@@ -26,8 +28,8 @@ class AddReview extends Component {
     // and return booking document populated with both host and intern documents.
     // will also return some information from the profile of the reviewed user.
     const bookingInformation = await axios.get(`/api/review-info/${id}`);
-    const { populatedBooking, bio, jobTitle, user } = bookingInformation.data;
-    
+    const { populatedBooking, bio, jobTitle, user, profileImage } = bookingInformation.data;
+    console.log(profileImage)
     // determine the reviewer and reviewed.
     if (user === populatedBooking.host.id) {
       this.setState({
@@ -66,26 +68,40 @@ class AddReview extends Component {
   onButtonClick = async () => {
     const { to, from, rating, message, booking } = this.state
     try {
-      const sentReview = await axios.post(`/api/booking/${this.state.booking}/review`, {
+      await axios.post(`/api/booking/${this.state.booking}/review`, {
         to, from, rating, message, booking
       })
-      console.log(sentReview.data)
+      // show success message to the user
+      Swal.fire({
+        type: 'success',
+        title: 'Review has been sent successfully!',
+      })
     } catch(error) {
       console.log(error.response)
+      Swal.fire({
+        type: 'error',
+        title: `${error.response.data.error}`,
+      })
     }
   }
 
   render() {
-    const { reviewerName, reviewedName, bio, jobTitle } = this.state;
+    const { reviewerName, reviewedName, bio, jobTitle, profileImage, booking } = this.state;
     return (
       <ComponentWrapper>
-        <Avatar reviewer={reviewerName} reviewed={reviewedName}/>
+        <Avatar
+          reviewer={reviewerName}
+          reviewed={reviewedName}
+          profileImage={randomProfile}
+        />
         <CallForReview reviewed={reviewedName} />
         <ReviewSection
           reviewedInfo={{ reviewedName, bio, jobTitle }}
-          onRatingChange={this.onRateChange}
+          onRatingChange={this.onRatingChange}
           onTextAreaChange={this.onTextAreaChange}
           onButtonClick={this.onButtonClick}
+          profileImage={profileImage || randomProfile}
+          bookingId={booking}
         />
       </ComponentWrapper>
     );

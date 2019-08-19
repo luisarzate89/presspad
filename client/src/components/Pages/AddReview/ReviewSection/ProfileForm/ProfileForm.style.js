@@ -26,7 +26,7 @@ const RevieweeTitle = styled.p`
 `
 
 const RevieweeBio = styled.p`
-  max-width: 300px;
+  max-width: 200px;
   margin: 2rem 0 0 0;
 `
 
