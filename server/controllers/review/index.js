@@ -17,8 +17,8 @@ reviewControllers.createReview = async (req, res, next) => {
   try {
     // validates that no review for current booking was created
     const existingReview = await findReviewByBooking(booking)
-    if (existingReview.length) 
-    return next(boom.badRequest("You have already submitted a review for this booking"));
+    if (existingReview.length)
+      return next(boom.badRequest("You have already submitted a review for this booking"));
 
     // create a review
     await createReview({
@@ -34,6 +34,7 @@ reviewControllers.createReview = async (req, res, next) => {
 
     return res.json({ success: true });
   } catch (error) {
+    console.log(error)
     return next(boom.badImplementation(error));
   }
 };
