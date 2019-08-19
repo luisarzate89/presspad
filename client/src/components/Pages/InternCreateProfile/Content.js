@@ -47,7 +47,6 @@ const Content = ({
     errors
   } = state;
 
-  console.log(offerLetterName);
   return (
     <PageWrapper>
       <ContentWrapper>
@@ -124,40 +123,10 @@ const Content = ({
           <SectionTitle>About me</SectionTitle>
           <SectionWrapperContent>
             <Row gutter={25} type="flex">
-              <Col xs={24} lg={14}>
-                <Label htmlFor="bio">Bio</Label>
-                <ErrorWrapper error={errors.bio} marginBottom="40px">
-                  <TextArea
-                    name="bio"
-                    onChange={handleInputChange}
-                    rows={7}
-                    id="bio"
-                    placeholder="Introduce yourself to interns"
-                    value={state.bio}
-                    style={{
-                      border: errors.bio ? "none" : "1px solid #d9d9d9"
-                    }}
-                  />
-                  <Error>{errors.bio}</Error>
-                </ErrorWrapper>
-              </Col>
-              <Col xs={24} lg={10}>
-                <Label htmlFor="favouriteArticle">Favourite article</Label>
-                <TextArea
-                  name="favouriteArticle"
-                  onChange={handleInputChange}
-                  rows={7}
-                  id="favouriteArticle"
-                  placeholder="Share a short description of a recent article you liked"
-                  style={{ marginBottom: "40px" }}
-                />
-              </Col>
-            </Row>
-
-            <Row gutter={25} type="flex" justify="space-between">
-              <Col xs={24} sm={12} lg={9}>
+              {/*  */}
+              <Col xs={24} lg={12}>
                 <Label htmlFor="jobTitle">Job title</Label>
-                <ErrorWrapper error={errors.jobTitle} marginBottom="20px">
+                <ErrorWrapper error={errors.jobTitle} marginBottom="12px">
                   <Input
                     id="jobTitle"
                     name="jobTitle"
@@ -169,11 +138,9 @@ const Content = ({
                   />
                   <Error>{errors.jobTitle}</Error>
                 </ErrorWrapper>
-              </Col>
-
-              <Col xs={24} sm={12} lg={9}>
-                <Label htmlFor="organisation">Organisation Name</Label>
-                <ErrorWrapper error={errors.organisation} marginBottom="20px">
+                {/*  */}
+                <Label htmlFor="organisation">Organisation name</Label>
+                <ErrorWrapper error={errors.organisation} marginBottom="12px">
                   <Input
                     id="organisation"
                     name="name"
@@ -186,8 +153,111 @@ const Content = ({
                   />
                   <Error>{errors.organisation}</Error>
                 </ErrorWrapper>
+                {/*  */}
+                <Label htmlFor="bio">Bio</Label>
+                <ErrorWrapper error={errors.bio}>
+                  <TextArea
+                    name="bio"
+                    onChange={handleInputChange}
+                    rows={6}
+                    id="bio"
+                    placeholder="Introduce yourself to interns"
+                    value={state.bio}
+                    style={{
+                      border: errors.bio ? "none" : "1px solid #d9d9d9"
+                    }}
+                  />
+                  <Error>{errors.bio}</Error>
+                </ErrorWrapper>
+              </Col>
+
+              {/*  */}
+
+              <Col xs={24} lg={12}>
+                <Row gutter={4}>
+                  <Col xs={24} lg={12}>
+                    <Label htmlFor="title">Article title</Label>
+                    <ErrorWrapper
+                      error={errors.articleTitle}
+                      marginBottom="12px"
+                    >
+                      <Input
+                        name="title"
+                        onChange={handleInputChange}
+                        id="title"
+                        placeholder="Article title"
+                        value={state.favouriteArticle.title}
+                        data-parent="favouriteArticle"
+                        style={{
+                          border: errors.articleTitle
+                            ? "none"
+                            : "1px solid #d9d9d9"
+                        }}
+                      />
+                      <Error>{errors.articleTitle}</Error>
+                    </ErrorWrapper>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Label htmlFor="title">Article author</Label>
+                    <ErrorWrapper
+                      error={errors.articleAuthor}
+                      marginBottom="12px"
+                    >
+                      <Input
+                        name="author"
+                        onChange={handleInputChange}
+                        id="author"
+                        placeholder="Article author"
+                        value={state.favouriteArticle.author}
+                        data-parent="favouriteArticle"
+                        style={{
+                          border: errors.articleAuthor
+                            ? "none"
+                            : "1px solid #d9d9d9"
+                        }}
+                      />
+                      <Error>{errors.articleAuthor}</Error>
+                    </ErrorWrapper>
+                  </Col>
+                </Row>
+                {/*  */}
+                <Label htmlFor="title">Article link</Label>
+                <ErrorWrapper error={errors.articleLink} marginBottom="12px">
+                  <Input
+                    name="link"
+                    onChange={handleInputChange}
+                    id="link"
+                    placeholder="Article link"
+                    value={state.favouriteArticle.link}
+                    data-parent="favouriteArticle"
+                    style={{
+                      border: errors.articleLink ? "none" : "1px solid #d9d9d9"
+                    }}
+                  />
+                  <Error>{errors.articleLink}</Error>
+                </ErrorWrapper>
+                {/*  */}
+                <Label htmlFor="favouriteArticle">Favourite article</Label>
+                <ErrorWrapper error={errors.articleDescription}>
+                  <TextArea
+                    name="description"
+                    onChange={handleInputChange}
+                    rows={6}
+                    id="favouriteArticle"
+                    value={state.favouriteArticle.description}
+                    data-parent="favouriteArticle"
+                    placeholder="Share a short description of a recent article you liked"
+                    style={{
+                      border: errors.articleDescription
+                        ? "none"
+                        : "1px solid #d9d9d9"
+                    }}
+                  />
+                  <Error>{errors.articleDescription}</Error>
+                </ErrorWrapper>
               </Col>
             </Row>
+            {/*  */}
           </SectionWrapperContent>
         </Section>
 
