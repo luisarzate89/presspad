@@ -40,7 +40,7 @@ describe("Testing for get host profile route", () => {
       });
   });
 
-  test.only("test with incorrect user id", async (done) => {
+  test("test with incorrect user id", (done) => {
     const data = { userId: "5ce66c1635c86b54fd6c732c" };
 
     request(app)
