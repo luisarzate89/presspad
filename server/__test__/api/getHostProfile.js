@@ -48,7 +48,7 @@ describe("Testing for get host profile route", () => {
       .expect("Content-Type", /json/)
       .expect(404)
       .end((err, res) => {
-        expect(res.body.error).toBe("Not Found");
+        expect(res.body.error).toBeDefined();
         done(err);
       });
   });
