@@ -19,7 +19,7 @@ describe("Test get all client stats query", () => {
     getAllInternStats().then((response) => {
       expect(response).toBeDefined();
       expect(response[0].name).toBeDefined();
-      expect(response[0].spentCredits).toBeDefined();
+      expect(response[0].totalPayments).toBeDefined();
       done();
     });
   });

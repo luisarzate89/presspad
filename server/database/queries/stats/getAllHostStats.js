@@ -35,12 +35,22 @@ module.exports.getAllHostStats = () => User.aggregate([
     },
   },
   {
+    $lookup: {
+      from: "accounts",
+      localField: "account",
+      foreignField: "_id",
+      as: "account",
+    },
+  },
+  {
     $project: {
       _id: 1,
       name: 1,
       "listing.address.city": 1,
       "profile.verified": 1,
       "profile._id": 1,
+      totalIncome: { $arrayElemAt: ["$account.income", 0] },
+      currentBalance: { $arrayElemAt: ["$account.currentBalance", 0] },
       // look up from bookings:
       // // any that were confirmed
       // // any that started before today's date

@@ -13,16 +13,16 @@ export default class ClientTable extends Component {
     const columns = [
       {
         title: "Organisation",
-        dataIndex: "organisation",
-        key: "organisation",
-        ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
+        dataIndex: "name",
+        key: "name",
+        ...getColumnSearchProps("name"),
+        sorter: (a, b) => a.name.localeCompare(b.name),
         className: "orgCol"
       },
       {
-        title: "Total Credits",
-        dataIndex: "totalCredits",
-        key: "totalCredits",
+        title: "Total Payments",
+        dataIndex: "totalPayments",
+        key: "totalPayments",
         filters: [
           {
             text: "< 500",
@@ -37,13 +37,13 @@ export default class ClientTable extends Component {
             value: 999999999999999999
           }
         ],
-        onFilter: (value, record) => record.totalCredits < value,
-        sorter: (a, b) => a.totalCredits - b.totalCredits
+        onFilter: (value, record) => record.totalPayments < value,
+        sorter: (a, b) => a.totalPayments - b.totalPayments
       },
       {
-        title: "Credits spent",
-        dataIndex: "creditsSpent",
-        key: "creditsSpent",
+        title: "Current Balance",
+        dataIndex: "currentBalance",
+        key: "currentBalance",
         filters: [
           {
             text: "< 500",
@@ -58,14 +58,14 @@ export default class ClientTable extends Component {
             value: 999999999999999999
           }
         ],
-        onFilter: (value, record) => record.creditsSpent < value,
-        sorter: (a, b) => a.creditsSpent - b.creditsSpent
+        onFilter: (value, record) => record.currentBalance < value,
+        sorter: (a, b) => a.currentBalance - b.currentBalance
       },
       {
         title: "Interns",
-        dataIndex: "interns",
-        key: "interns",
-        sorter: (a, b) => a.interns - b.interns
+        dataIndex: "numberOfInterns",
+        key: "numberOfInterns",
+        sorter: (a, b) => a.numberOfInterns - b.numberOfInterns
       },
       {
         title: "Currently hosted",
@@ -74,6 +74,7 @@ export default class ClientTable extends Component {
         sorter: (a, b) => a.currentlyHosted - b.currentlyHosted
       }
     ];
+
     return (
       <Table
         columns={columns}
@@ -81,6 +82,7 @@ export default class ClientTable extends Component {
         pagination={{ pageSize: 5 }}
         scroll={{ x: "100%" }}
         loading={loading}
+        rowKey={"_id"}
       />
     );
   }
