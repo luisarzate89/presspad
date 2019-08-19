@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { colors } from "../../../theme";
 
 export const PageWrapper = styled.main`
   padding-top: 4rem;
@@ -94,4 +95,29 @@ export const UpdateDate = styled.span`
   font-style: italic;
   font-weight: 300;
   color: #393939;
+`;
+
+export const PayButton = styled.button`
+  background: ${props =>
+    props.disabled ? colors.lightGray : colors.lightBlue};
+  opacity: ${props => (props.disabled ? "0.7" : "")};
+  border-radius: 17.5px;
+  font-size: 1rem;
+  color: ${colors.white};
+  border: none;
+  padding: 0.5rem 5rem;
+  margin: 0;
+  margin-top: ${({ mtop }) => (mtop ? mtop : "")};
+  margin-bottom: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
+  }
 `;
