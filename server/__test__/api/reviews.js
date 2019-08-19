@@ -10,13 +10,13 @@ const User = require("./../../database/models/User");
 const Notification = require("./../../database/models/Notification");
 
 describe("Tests adding a review and creating a getReview notification", () => {
-  beforeAll(async (done) => {
+  beforeEach(async (done) => {
     // build dummy data
     await buildDB();
     done();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await mongoose.disconnect();
   });
 
