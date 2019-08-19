@@ -4,7 +4,7 @@ const User = require("../../models/User");
 module.exports.hostProfileData = userId => User.aggregate([
   // match user
   {
-    $match: { _id: mongoose.Types.ObjectId(userId) },
+    $match: { _id: mongoose.Types.ObjectId(userId), role: "host" },
   },
   // lookup profile
   {
@@ -86,12 +86,6 @@ module.exports.hostProfileData = userId => User.aggregate([
             as: "from",
           },
         },
-        // {
-        //   $unwind: {
-        //     path: "$from",
-        //     preserveNullAndEmptyArrays: true,
-        //   },
-        // },
         {
           $addFields: {
             from: { $arrayElemAt: ["$from", 0] },

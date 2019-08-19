@@ -92,12 +92,12 @@ class CalendarComponent extends Component {
       price: price
     };
 
+    let message = "";
     try {
       const {
         data: { verified, isComplete }
       } = await axios.get(API_GET_INTERN_STATUS);
 
-      let message = "";
       if (!verified) {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
@@ -123,7 +123,13 @@ class CalendarComponent extends Component {
           });
       }
     } catch (err) {
-      console.log("err", err);
+      if (err.response.status === 404) {
+        message = err.response.data.error;
+        this.setState({
+          messageType: "error",
+          message
+        });
+      }
     }
   };
 

@@ -1,7 +1,7 @@
 const boom = require("boom");
 
 // queries
-const { getProfile } = require("../../database/queries/profile/getProfile");
+const { getProfileByRoleAndId } = require("../../database/queries/profile/getProfile");
 
 // validation
 const internCompleteProfileSchema = require("../../middlewares/validation/internCompleteProfileSchema");
@@ -12,13 +12,11 @@ const { validate } = require("../../middlewares/validation/index");
  * get the profile data adn the listing based on the role
  * @param {string} _id user id
  * @param {string} role user role
- * @param {object} res http response object
  */
 
-const _getProfileBasedRole = async (_id) => {
+const _getProfileBasedRole = async (_id, role) => {
   // use lean() or toJSON() to convert mongoose document to json
-  const profile = await getProfile(_id).lean();
-
+  const profile = await getProfileByRoleAndId(_id, role);
   return profile;
 };
 
@@ -28,8 +26,12 @@ module.exports = async (req, res, next) => {
     return next(boom.forbidden("Only interns can book a stay"));
   }
   try {
-    const profile = await _getProfileBasedRole(_id, role);
+    const profile = await _getProfileBasedRole(_id, "intern");
+    if (!profile.length) {
+      return next(boom.notFound("You have no profile"));
+    }
     const { verified } = profile;
+
     let isComplete = false;
     try {
       await validate(internCompleteProfileSchema, profile);
