@@ -74,7 +74,7 @@ router.post(
 router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
-router.get(HOST_PROFILE_URL, authentication, getHostProfile);
+router.get(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
