@@ -11,8 +11,7 @@ const internsCompleteProfile = require("./../controllers/user/internsCompletePro
 const getHostProfile = require("./../controllers/profile/getHostProfile");
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
-const newBookingRequest = require("./../controllers/newBookingRequest");
-const getUserBookings = require("./../controllers/getUserBookings");
+const { viewBooking, getUserBookings, newBookingRequest } = require("./../controllers/booking");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
@@ -40,8 +39,9 @@ const {
   INTERN_COMPLETE_PROFILE,
   SEARCH_PROFILES_URL,
   BOOKING_REQUEST_URL,
+  GET_USER_BOOKINGS_URL,
+  GET_BOOKING_URL,
   ADMIN_STATS_URL,
-  GET_BOOKINGS_URL,
   INTERN_PROFILE_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
@@ -83,8 +83,11 @@ router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
 
-// creates new booking request
-router.get(GET_BOOKINGS_URL, getUserBookings);
+// view booking by id
+router.get(GET_BOOKING_URL, viewBooking);
+
+// get all user bookings
+router.get(GET_USER_BOOKINGS_URL, getUserBookings);
 
 // search for available listings
 router.post(SEARCH_PROFILES_URL, searchProfiles);

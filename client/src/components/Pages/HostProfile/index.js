@@ -115,7 +115,7 @@ class HostProfile extends Component {
 
     if (!adminView) {
       axios
-        .get(`/api/bookings/${this.props.id}`)
+        .get(`/api/intern/${this.props.id}/bookings`)
         .then(result => this.setState({ internBookings: result.data }))
         .catch(err => console.log(err));
     }
