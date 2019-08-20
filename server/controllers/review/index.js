@@ -7,7 +7,7 @@ module.exports = reviewControllers;
 
 reviewControllers.createReview = async (req, res, next) => {
   const {
-    to, rating, message, from
+    to, rating, message, from,
   } = req.body;
 
   const { id: booking } = req.params;
@@ -16,9 +16,10 @@ reviewControllers.createReview = async (req, res, next) => {
   if (!message) return next(boom.badRequest("Please add a review message"));
   try {
     // validates that no review for current booking was created
-    const existingReview = await findReviewByBooking(booking)
-    if (existingReview.length)
+    const existingReview = await findReviewByBooking(booking);
+    if (existingReview.length) {
       return next(boom.badRequest("You have already submitted a review for this booking"));
+    }
 
     // create a review
     await createReview({

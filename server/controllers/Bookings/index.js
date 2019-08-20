@@ -1,3 +1,5 @@
+const boom = require("boom");
+
 const getBookingWithUsers = require("../../database/queries/bookings/getBookingWithUsers");
 const { getProfile } = require("../../database/queries/profile/getProfile");
 
@@ -13,19 +15,18 @@ bookingsControllers.getBookingsWithUsers = async (req, res, next) => {
 
     // get the profile of the person being reviewed
     const profile = populatedBooking.intern.id === currentUser
-    ? await getProfile(populatedBooking.host.id)
-    : await getProfile(populatedBooking.intern.id)
+      ? await getProfile(populatedBooking.host.id)
+      : await getProfile(populatedBooking.intern.id);
 
-    // removes passwords from intern and host objects
-    // delete does not work with mongoose unless .toObject() method is called on it
-    populatedBooking.intern.password = undefined;
-    populatedBooking.host.password = undefined;
-    
     // only send the userId, bio and jobTitle from the profile
-    const { user, bio, jobTitle, profileImage } = profile;
+    const {
+      user, bio, jobTitle, profileImage,
+    } = profile;
 
-    res.json({ populatedBooking, bio, jobTitle, user, profileImage })
-  } catch(error) {
+    return res.json({
+      populatedBooking, bio, jobTitle, user, profileImage,
+    });
+  } catch (error) {
     return next(boom.badImplementation(error));
   }
 };
