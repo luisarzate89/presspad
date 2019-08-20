@@ -50,6 +50,7 @@ const {
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
+  BOOKING_REVIEW_INFO_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -122,7 +123,7 @@ router.route(REVIEW_URL)
 router.route(SIGNOUT_URL)
   .get(signOut);
 
-router.route("/review-info/:bookingId")
+router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers)
 
 module.exports = router;

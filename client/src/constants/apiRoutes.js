@@ -55,12 +55,12 @@ const UPLOAD_SIGNED_URL = "/upload/signed-url";
 const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
 
 const REVIEW_URL = "/booking/:id/review";
-const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`; // this does not work in the frontend...
+const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 
 const SIGNOUT_URL = "/sign-out";
 const API_SIGNOUT_URL = `${API_PREFIX}${SIGNOUT_URL}`;
 
-const BOOKING_REVIEW_INFO_URL = "/review-info/:id";
+const BOOKING_REVIEW_INFO_URL = "/review-info/:bookingId";
 const API_BOOKING_REVIEW_INFO_URL = `${API_PREFIX}${BOOKING_REVIEW_INFO_URL}`;
 
 
