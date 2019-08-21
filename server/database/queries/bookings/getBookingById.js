@@ -24,14 +24,20 @@ module.exports = (bookingId, userType) => Booking.aggregate([
             pipeline: [
               { $match: { $expr: { $eq: ["$$host", "$user"] } } },
               {
-                $project: { verification: 0, user: 0 },
+                $project: { verification: 0, user: 0, interests: 0 },
               },
             ],
             as: "userProfile",
           },
         },
         {
-          $project: { otherInfo: 0, description: 0, user: 0 },
+          $unwind: {
+            path: "$userProfile",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $project: { address: 1, photos: 1, userProfile: 1 },
         },
       ],
       as: "listing",
@@ -69,8 +75,15 @@ module.exports = (bookingId, userType) => Booking.aggregate([
             let: { questionId: "$question" },
             pipeline: [
               { $match: { $expr: { $eq: ["$$questionId", "$_id"] } } },
+              { $project: { text: 1 } },
             ],
             as: "question",
+          },
+        },
+        {
+          $unwind: {
+            path: "$question",
+            preserveNullAndEmptyArrays: true,
           },
         },
       ],
@@ -81,9 +94,9 @@ module.exports = (bookingId, userType) => Booking.aggregate([
   {
     $lookup: {
       from: "installments",
-      let: { internId: "$intern" },
+      let: { bookingId: "$_id" },
       pipeline: [
-        { $match: { $expr: { $eq: ["$$internId", "$intern"] } } },
+        { $match: { $expr: { $eq: ["$$bookingId", "$booking"] } } },
       ],
       as: "installments",
     },
