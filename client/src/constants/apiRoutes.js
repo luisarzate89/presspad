@@ -63,6 +63,9 @@ const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 const SIGNOUT_URL = "/sign-out";
 const API_SIGNOUT_URL = `${API_PREFIX}${SIGNOUT_URL}`;
 
+const COUPON_URL = "/coupon";
+const API_COUPON_URL = `${API_PREFIX}${COUPON_URL}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
@@ -86,6 +89,7 @@ module.exports = {
   API_MY_PROFILE_URL,
   API_UPLOAD_SIGNED_URL,
   API_REVIEW_URL,
+  API_COUPON_URL,
 
   // SERVER
   LOGIN_URL,
@@ -108,5 +112,6 @@ module.exports = {
   INTERN_DASHBOARD_URL,
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
-  REVIEW_URL
+  REVIEW_URL,
+  COUPON_URL
 };

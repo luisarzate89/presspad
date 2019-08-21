@@ -20,6 +20,7 @@ const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
+const { getCouponInfo } = require("../controllers/coupon");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -49,6 +50,7 @@ const {
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
+  COUPON_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -118,6 +120,10 @@ router.route(REVIEW_URL)
     authentication,
     createReview,
   );
+
+// Coupons
+router.route(COUPON_URL)
+  .get(authentication, getCouponInfo);
 
 // Signout
 router.route(SIGNOUT_URL)
