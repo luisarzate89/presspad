@@ -24,11 +24,6 @@ export const InputDiv = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const PaymentInfoRow = styled.div`
-  height: 2.5rem;
-  display: flex;
-`;
-
 export const BookingInfoWrapper = styled.div`
   border-bottom: 1px solid ${colors.lightGray};
   margin-bottom: 3.13rem;
