@@ -1,12 +1,5 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  width: 80%;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 export const ImageSection = styled.section`
   margin-top: 15px;
   height: 400px;
