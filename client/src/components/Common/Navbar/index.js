@@ -70,7 +70,7 @@ class Navbar extends Component {
   // RENDERING IS BASED ON KNOWING IF LOGGEDIN AND THE TYPE OF USER
 
   menuButtonClick = async e => {
-    const signOutResult = await axios.get("api/sign-out");
+    const signOutResult = await axios.get("/api/sign-out");
     if (signOutResult.data.success) {
       this.props.resetState();
       this.props.history.push("/");
