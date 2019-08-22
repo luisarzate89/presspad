@@ -22,11 +22,11 @@ const BookingInfo = props => {
           {moment().format("DD MMM")}&nbsp;-&nbsp;{moment().format("DD MMM")}
         </InfoValue>
         <InfoText>Full price for period</InfoText>
-        <InfoValue mbottom="2.5rem" align="center">
+        <InfoValue mbottom="2.5rem" align="center" light>
           £{fullPrice.toFixed(2)}
         </InfoValue>
-        <InfoText>Full price for period</InfoText>
-        <InfoValue mbottom="2.5rem" align="center">
+        <InfoText>So far you’ve paid</InfoText>
+        <InfoValue mbottom="2.5rem" align="center" light>
           £{fullPrice.toFixed(2)}
         </InfoValue>
       </BookingInfoWrapper>
