@@ -12,23 +12,6 @@ const tagColors = {
   Approved: colors.green
 };
 
-// const data = [
-//   {
-//     key: "1",
-//     name: "Simon Dupree",
-//     city: "London",
-//     hosted: 7,
-//     approvalStatus: "Approved"
-//   },
-//   {
-//     key: "2",
-//     name: "Reda Haq",
-//     city: "Manchester",
-//     hosted: 5,
-//     approvalStatus: "Waiting for approval"
-//   }
-// ];
-
 export default class HostTable extends Component {
   state = {
     searchText: ""
