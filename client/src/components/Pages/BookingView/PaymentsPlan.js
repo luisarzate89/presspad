@@ -6,7 +6,12 @@ import axios from "axios";
 import { createInstallments, getDiscountDays, calculatePrice } from "./helpers";
 import CouponCode from "./CouponCode";
 
-import { InfoMessage, TabPanWrapper } from "./PaymentsPlan.style";
+import {
+  InfoMessage,
+  TabPanWrapper,
+  InfoText,
+  InfoValue
+} from "./PaymentsPlan.style";
 import {
   SectionWrapperContent,
   SectionTitle,
@@ -175,13 +180,22 @@ class PaymentsPlan extends Component {
         <SectionTitle>Choose payment plan</SectionTitle>
         <Row gutter={30}>
           <Col sm={15} xs={24}>
-            <Row>
-              <span>Total price: </span>
-              <span>{totalPrice.toFixed(2)}</span>
+            <Row type="flex" align="middle">
+              <Col span={12}>
+                <InfoText>Total price: </InfoText>
+              </Col>
+
+              <Col span={12}>
+                <InfoValue light>{totalPrice.toFixed(2)}</InfoValue>
+              </Col>
             </Row>
-            <Row>
-              <span>Remaining price: </span>
-              <span>{remainPrice.toFixed(2)}</span>
+            <Row type="flex" align="middle">
+              <Col span={12}>
+                <InfoText>Remaining price: </InfoText>
+              </Col>
+              <Col span={12}>
+                <InfoValue light>{remainPrice.toFixed(2)}</InfoValue>
+              </Col>
             </Row>
           </Col>
           <Col sm={9} xs={24}>

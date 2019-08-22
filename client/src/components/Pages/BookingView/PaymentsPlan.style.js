@@ -13,6 +13,7 @@ export const TabPanWrapper = styled.div`
   margin: 0 auto;
   text-align: center;
 `;
+
 export const InputLabel = styled.label`
   font-size: 1rem;
   color: ${colors.fontLightBlack};
@@ -36,10 +37,11 @@ export const InfoText = styled.p`
 
 export const InfoValue = styled.span`
   display: block;
-  text-align: center;
+  text-align: ${({ align }) => align};
   font-weight: 800;
   font-size: 1.56rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: ${({ mbottom }) => mbottom};
+  opacity: ${({ light }) => (light ? 0.7 : "")};
 `;
 
 export const ErrorMsg = styled.p`

@@ -18,18 +18,26 @@ const BookingInfo = props => {
       <BookingInfoWrapper>
         <SectionTitle>Your Booking</SectionTitle>
         <InfoText>You've booked your stay for</InfoText>
-        <InfoValue>
+        <InfoValue mbottom="2.5rem" align="center">
           {moment().format("DD MMM")}&nbsp;-&nbsp;{moment().format("DD MMM")}
         </InfoValue>
         <InfoText>Full price for period</InfoText>
-        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <InfoValue mbottom="2.5rem" align="center">
+          £{fullPrice.toFixed(2)}
+        </InfoValue>
         <InfoText>Full price for period</InfoText>
-        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <InfoValue mbottom="2.5rem" align="center">
+          £{fullPrice.toFixed(2)}
+        </InfoValue>
       </BookingInfoWrapper>
       <InfoText>Your next payment is due</InfoText>
       <Row type="flex" justify="space-around">
-        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
-        <InfoValue>£{fullPrice.toFixed(2)}</InfoValue>
+        <InfoValue mbottom="2.5rem" align="center">
+          £{fullPrice.toFixed(2)}
+        </InfoValue>
+        <InfoValue mbottom="2.5rem" align="center">
+          £{fullPrice.toFixed(2)}
+        </InfoValue>
         <PayButton>Pay £{remainPrince.toFixed(2)} now</PayButton>
       </Row>
     </SectionWrapperContent>
