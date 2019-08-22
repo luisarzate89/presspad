@@ -33,7 +33,7 @@ const sharedStyles = css`
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background: ${colors.transGray};
+    background: ${({ nobgc }) => (nobgc ? "none" : colors.transGray)};
     box-shadow: none;
   }
 `;
@@ -64,8 +64,8 @@ export const secondaryStyles = css`
 `;
 
 export const cancelStyles = css`
-  background-color: ${colors.orange};
-  color: ${colors.white};
+  background: ${({ nobgc }) => (nobgc ? "none" : colors.orange)};
+  color: ${({ nobgc }) => (nobgc ? colors.blue : colors.white)};
 `;
 
 export const outlineStyles = css`
@@ -79,7 +79,7 @@ const StyledButton = styled.button`
   ${sharedStyles};
   ${props => props.type === "primary" && roundStyles}
   ${props => props.type === "primary" && primaryStyles}
-  ${props => props.type === "secondary" && roundStyles}
+  ${props => props.type === "secondary" && secondaryStyles}
   ${props => props.type === "secondary" && roundStyles}
   ${props => props.type === "cancel" && roundStyles}
   ${props => props.type === "cancel" && cancelStyles}

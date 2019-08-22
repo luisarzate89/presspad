@@ -29,7 +29,7 @@ export default function BookingSection(props) {
     startDate,
     endDate,
     title,
-    role
+    userRole
   } = props;
 
   return (
@@ -69,14 +69,14 @@ export default function BookingSection(props) {
                     </BlueLink>
                   </Col>
                   <Col>
-                    <BlueLink marginb="1.25rem" to={`/${role}/${userId}`}>
+                    <BlueLink marginb="1.25rem" to={`/${userRole}/${userId}`}>
                       View profile
                     </BlueLink>
                   </Col>
                   <Col>
                     <DisabledPopOver>
                       <BlueLink marginb="1.25rem" to="#">
-                        Message {role}
+                        Message {userRole}
                       </BlueLink>
                     </DisabledPopOver>
                   </Col>

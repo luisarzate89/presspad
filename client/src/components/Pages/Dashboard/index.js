@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import OrgDashboard from "./../OrgDashboard";
 import InternDashboard from "./../InternDashboard";
+import HostDashboard from "./../HostDashboard";
 
 export default class Dashboard extends Component {
   render() {
@@ -12,6 +13,10 @@ export default class Dashboard extends Component {
 
       case "intern":
         return <InternDashboard {...this.props} />;
+
+      case "host":
+        return <HostDashboard {...this.props} />;
+
       default:
         return (
           <div>

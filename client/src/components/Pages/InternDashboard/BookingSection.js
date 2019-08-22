@@ -86,6 +86,7 @@ export default function BookingSectionWrapper(props) {
         timeString={timeString}
         profileImage={hostProfileImage || randomProfile}
         title={title}
+        userRole={"intern"}
       />
     </>
   );
