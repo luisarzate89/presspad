@@ -41,3 +41,9 @@ export const InfoValue = styled.span`
   font-size: 1.56rem;
   margin-bottom: 2.5rem;
 `;
+
+export const ErrorMsg = styled.p`
+  color: ${colors.red};
+  margin-top: 0.1rem;
+  margin-left: 0.5rem;
+`;

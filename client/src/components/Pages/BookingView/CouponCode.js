@@ -1,79 +1,67 @@
-import React, { Component } from "react";
-import axios from "axios";
-import moment from "moment";
-import { Row, Col, Input } from "antd";
+import React from "react";
 
-import { InputLabel } from "./PaymentsPlan.style";
+import { Row, Col, Input, Skeleton } from "antd";
 
-class CouponCode extends Component {
-  state = {
-    couponCode: "",
-    couponDays: 0,
-    couponRate: 0,
-    isLoading: null
-  };
-  PaymentInfoRow = ({ data: { key, value } }) => {
-    return (
-      <Row
-        style={{ height: "2.3rem", borderBottom: "1px solid #d9d9d9" }}
-        type="flex"
-        align="middle"
-      >
-        <Col offset={1} span={14}>
-          {key}:&nbsp;
-        </Col>
-        <Col span={9} style={{ color: "rgba(0, 0, 0, 0.5)", fontWeight: 600 }}>
-          {value}
-        </Col>
-      </Row>
-    );
-  };
+import { InputLabel, ErrorMsg } from "./PaymentsPlan.style";
 
-  handleChange = e => {
-    const code = e.target.value;
-    if (!code || typeof code !== "string" || code.length < 6) {
-      this.setState({ couponCode: code });
-    } else {
-      this.setState({ couponCode: code }, () => {
-        // axios.get()
-      });
-    }
-  };
+const PaymentInfoRow = ({ data: { key, value } }) => {
+  return (
+    <Row
+      style={{ height: "2.3rem", borderBottom: "1px solid #d9d9d9" }}
+      type="flex"
+      align="middle"
+    >
+      <Col offset={1} span={14}>
+        {key}:&nbsp;
+      </Col>
+      <Col span={9} style={{ color: "rgba(0, 0, 0, 0.5)", fontWeight: 600 }}>
+        {value}
+      </Col>
+    </Row>
+  );
+};
 
-  render() {
-    const { PaymentInfoRow } = this;
-    const { couponCode, couponDays, couponRate } = this.state;
-    const { startDate, endDate, couponDiscount } = this.props;
+const CouponCode = props => {
+  const {
+    couponCode,
+    discountDays,
+    discountRate,
+    isLoading,
+    handleCouponChange,
+    couponDiscount,
+    error
+  } = props;
 
-    const totalDays =
-      moment(endDate)
-        .startOf("day")
-        .diff(moment(startDate).startOf("day"), "day") + 1;
-    // console.log(totalDays);
-    return (
-      <>
-        <Row type="flex">
-          <Input
-            name="couponCode"
-            type="text"
-            id="couponCode"
-            value={couponCode}
-            size="large"
-            onChange={this.handleChange}
-            addonBefore={
-              <InputLabel htmlFor="couponCode">Coupon code:</InputLabel>
-            }
+  return (
+    <>
+      <Input
+        name="couponCode"
+        type="text"
+        id="couponCode"
+        value={couponCode}
+        size="large"
+        onChange={handleCouponChange}
+        addonBefore={<InputLabel htmlFor="couponCode">Coupon code:</InputLabel>}
+      />
+      {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
+      {isLoading ? <Skeleton paragraph={{ rows: 0 }} /> : ""}
+      {!error && isLoading === false ? (
+        <>
+          <PaymentInfoRow
+            data={{ key: "Discount Days", value: discountDays }}
           />
-        </Row>
-        <PaymentInfoRow data={{ key: "Coupon Days", value: 14 }} />
-        <PaymentInfoRow data={{ key: "Discounted Days", value: totalDays }} />
-        <PaymentInfoRow data={{ key: "Discount", value: "50%" }} />
-        <PaymentInfoRow
-          data={{ key: "Discount amount", value: `£${couponDiscount}` }}
-        />
-      </>
-    );
-  }
-}
+          <PaymentInfoRow
+            data={{ key: "Discount", value: `${discountRate}%` }}
+          />
+          <PaymentInfoRow
+            data={{ key: "Discount amount", value: `£${couponDiscount}` }}
+          />
+        </>
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
 
 export default CouponCode;
