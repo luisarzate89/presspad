@@ -1,5 +1,5 @@
 const Coupon = require("../../models/Coupon");
 
-const getCouponInfo = code => Coupon.findOne({ code }, { transactions: 0 });
+const getCoupons = (query, queryProject) => Coupon.find(query, queryProject);
 
-module.exports = { getCouponInfo };
+module.exports = { getCoupons };

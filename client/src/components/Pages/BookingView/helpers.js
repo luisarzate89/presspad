@@ -1,4 +1,7 @@
-const moment = require("moment");
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
 
 /**
  * Create installments array
@@ -30,4 +33,49 @@ export const createInstallments = (netAmount, startDate, endDate) => {
     { key: 2, dueDate: secondDueDate, amount: secondPay },
     { key: 3, dueDate: thirdDueDate, amount: thirdPay }
   ];
+};
+
+/**
+ * get the intersection range between booking and coupon ranges
+ * @param {Object} param0 {bookingStart, bookingEnd, couponStart, couponEnd}
+ */
+export const getIntersectRange = ({
+  bookingStart,
+  bookingEnd,
+  couponStart,
+  couponEnd
+}) => {
+  const bookingRange = moment.range(moment(bookingStart), moment(bookingEnd));
+  const couponRange = moment.range(moment(couponStart), moment(couponEnd));
+  return bookingRange.intersect(couponRange);
+};
+
+/**
+ * get the discount days giving the booking range and the coupon range
+ * @param {Object} dates {bookingStart, bookingEnd, couponStart, couponEnd}
+ */
+export const getDiscountDays = dates => {
+  const intersectRange = getIntersectRange(dates);
+
+  if (!intersectRange) return { discountDays: 0 };
+
+  // reset the time to 00:00 to calculate the start and the end day of the range
+  intersectRange.start.startOf("day");
+
+  const discountDays = intersectRange.diff("day") + 1;
+
+  return { discountDays, discountRange: intersectRange };
+};
+
+/**
+ * calculate the price giving range of dates
+ * @param {import("moment-range").MomentRange} range
+ */
+export const calculatePrice = range => {
+  if (!range) return 0;
+  range.start.startOf("day");
+  range.end.add(1, "day");
+  const weeks = range.diff("weeks");
+  const days = range.diff("days") % 7;
+  return weeks * 150 + days * 20;
 };

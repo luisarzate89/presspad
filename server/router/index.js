@@ -20,7 +20,7 @@ const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
-const { getCouponInfo } = require("../controllers/coupon");
+const { getCoupons } = require("../controllers/coupon");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -123,7 +123,7 @@ router.route(REVIEW_URL)
 
 // Coupons
 router.route(COUPON_URL)
-  .get(authentication, getCouponInfo);
+  .get(authentication, getCoupons);
 
 // Signout
 router.route(SIGNOUT_URL)

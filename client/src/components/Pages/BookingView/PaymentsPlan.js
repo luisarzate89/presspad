@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { Row, Col, Tabs, Table, Skeleton } from "antd";
+import axios from "axios";
 
-import { createInstallments } from "./helpers";
+import { createInstallments, getDiscountDays, calculatePrice } from "./helpers";
 import CouponCode from "./CouponCode";
 
 import { InfoMessage, TabPanWrapper } from "./PaymentsPlan.style";
@@ -11,6 +12,8 @@ import {
   SectionTitle,
   PayButton
 } from "../../Common/general";
+
+import { API_COUPON_URL } from "../../../constants/apiRoutes";
 
 const { TabPane } = Tabs;
 
@@ -29,7 +32,12 @@ const columns = [
 
 class PaymentsPlan extends Component {
   state = {
-    couponDiscount: 0
+    couponCode: "",
+    discountDays: 0,
+    discountRate: 0,
+    couponDiscount: 0,
+    isCouponLoading: null,
+    error: ""
   };
 
   renderPaymentsInstallment = () => {
@@ -56,7 +64,77 @@ class PaymentsPlan extends Component {
     );
   };
 
-  handleCouponChange = val => this.setState({ couponDiscount: val });
+  handleCouponChange = async e => {
+    const code = e.target.value;
+    // only send requests if the code is valid
+    if (
+      !code ||
+      typeof code !== "string" ||
+      code.length < 7 ||
+      code.length > 14
+    ) {
+      this.setState({ couponCode: code });
+    } else {
+      this.setState(
+        {
+          couponCode: code,
+          isCouponLoading: true,
+          error: false
+        },
+        async () => {
+          try {
+            const {
+              data: {
+                data: [couponInfo]
+              }
+            } = await axios.get(`${API_COUPON_URL}?code=${code}`);
+
+            const {
+              startDate: couponStart,
+              endDate: couponEnd,
+              discountRate
+            } = couponInfo;
+
+            const {
+              data: { startDate, endDate }
+            } = this.props;
+
+            const { discountDays, discountRange } = getDiscountDays({
+              bookingStart: startDate,
+              bookingEnd: endDate,
+              couponStart,
+              couponEnd
+            });
+            this.setState(prevState => {
+              const newState = {
+                discountDays,
+                discountRate,
+                couponDiscount:
+                  (calculatePrice(discountRange) * discountRate) / 100,
+                isCouponLoading: false,
+                error: false
+              };
+              if (discountDays === 0) {
+                newState.error =
+                  "the coupon is expired or doesn't cover this booking period";
+              }
+              return newState;
+            });
+          } catch (error) {
+            let errorMsg = "something went wrong";
+            if (error.response && error.response.status === 404) {
+              errorMsg = "wrong code ..";
+            }
+            this.setState({
+              isCouponLoading: false,
+              error: errorMsg,
+              couponDiscount: 0
+            });
+          }
+        }
+      );
+    }
+  };
 
   render() {
     const {
@@ -80,7 +158,14 @@ class PaymentsPlan extends Component {
     }
 
     // If there is no installments
-    const { couponDiscount } = this.state;
+    const {
+      couponCode,
+      couponDiscount,
+      discountDays,
+      discountRate,
+      isCouponLoading,
+      error
+    } = this.state;
     const remainPrice = totalPrice - couponDiscount;
 
     const newInstallments = createInstallments(remainPrice, startDate, endDate);
@@ -101,10 +186,15 @@ class PaymentsPlan extends Component {
           </Col>
           <Col sm={9} xs={24}>
             <CouponCode
+              couponCode={couponCode}
+              discountDays={discountDays}
+              discountRate={discountRate}
               startDate={startDate}
               endDate={endDate}
+              isLoading={isCouponLoading}
               couponDiscount={couponDiscount}
-              handleChange={this.handleCouponChange}
+              error={error}
+              handleCouponChange={this.handleCouponChange}
             />
           </Col>
         </Row>

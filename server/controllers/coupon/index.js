@@ -1,3 +1,3 @@
-const getCouponInfo = require("./getCouponInfo");
+const getCoupons = require("./getCoupons");
 
-module.exports = { getCouponInfo };
+module.exports = { getCoupons };
