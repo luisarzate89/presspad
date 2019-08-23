@@ -101,4 +101,15 @@ module.exports = (bookingId, userType) => Booking.aggregate([
       as: "installments",
     },
   },
+  // Get intern coupons
+  {
+    $lookup: {
+      from: "coupons",
+      let: { internId: "$intern", bookingId: "$_id" },
+      pipeline: [
+        { $match: { $expr: { $eq: ["$$internId", "$intern"] } } },
+      ],
+      as: "coupons",
+    },
+  },
 ]);

@@ -21,7 +21,17 @@ module.exports = async (req, res, next) => {
 
     await Promise.all(waitingAsync);
 
-    // genrate photoimageurl
+    // filter coupons
+    booking[0].coupons = booking[0].coupons.filter((coupon) => {
+      for (let i = 0; i < coupon.transactions.length; i += 1) {
+        const transactionBooking = coupon.transactions[i].booking;
+
+        if (transactionBooking.toString() === booking[0]._id.toString()) {
+          return true;
+        }
+      }
+      return false;
+    });
     return res.json({ data: booking[0] });
   } catch (error) {
     return next(error);
