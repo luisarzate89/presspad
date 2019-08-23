@@ -18,8 +18,15 @@ const _getProfileBasedRole = async (_id, role, res) => {
   // you should check the object on the frontEnd
   if (!profile) return res.json({});
 
-  const { profileImage, verification: { photoID } } = profile;
-  await Promise.all([generateUrl(profileImage), generateUrl(photoID)]);
+  const {
+    profileImage,
+    verification: { photoID, offerLetter },
+  } = profile;
+  await Promise.all([
+    generateUrl(profileImage),
+    generateUrl(photoID),
+    generateUrl(offerLetter),
+  ]);
 
   if (role === "host" || role === "superhost") {
     const listing = await getListing(_id).lean();

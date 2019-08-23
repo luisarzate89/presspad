@@ -200,14 +200,20 @@ class HostCreateProfile extends Component {
   };
 
   validate = () => {
-    return schema.validate(this.state, { abortEarly: false }).catch(err => {
-      const errors = {};
-      err.inner.forEach(element => {
-        errors[element.path.split(".")[0]] = element.message;
-      });
+    return schema
+      .validate(this.state, { abortEarly: false })
+      .then(res => {
+        this.setState({ errors: {} });
+        return res;
+      })
+      .catch(err => {
+        const errors = {};
+        err.inner.forEach(element => {
+          errors[element.path.split(".")[0]] = element.message;
+        });
 
-      this.setState({ errors });
-    });
+        this.setState({ errors });
+      });
   };
 
   updateErrors = async () => {
