@@ -31,7 +31,10 @@ module.exports.hostProfileData = userId => User.aggregate([
     },
   },
   {
-    $unwind: "$listing",
+    $unwind: {
+      path: "$listing",
+      preserveNullAndEmptyArrays: true,
+    },
   },
   {
     $lookup: {
@@ -86,12 +89,6 @@ module.exports.hostProfileData = userId => User.aggregate([
             as: "from",
           },
         },
-        // {
-        //   $unwind: {
-        //     path: "$from",
-        //     preserveNullAndEmptyArrays: true,
-        //   },
-        // },
         {
           $addFields: {
             from: { $arrayElemAt: ["$from", 0] },
