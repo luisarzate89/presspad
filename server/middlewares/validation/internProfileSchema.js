@@ -10,28 +10,31 @@ const internProfileSchema = Joi.object({
     title: Joi.string(),
     author: Joi.string(),
     link: Joi.string(),
+    description: Joi.string(),
   }),
   jobTitle: Joi.string(),
   organisation: Joi.object({
     name: Joi.string(),
     website: Joi.string().allow(""),
   }),
-  photoIDFile: Joi.object({
-    fileName: Joi.string(),
-    isPrivate: Joi.boolean().default(true),
+  verification: Joi.object({
+    photoID: Joi.object({
+      fileName: Joi.string(),
+      isPrivate: Joi.boolean().default(true),
+    }),
+    offerLetter: Joi.object({
+      fileName: Joi.string(),
+      isPrivate: Joi.boolean().default(true),
+    }),
+    reference1: Joi.object({
+      name: Joi.string(),
+      contact: Joi.string(),
+    }).and("name", "contact"),
+    reference2: Joi.object({
+      name: Joi.string(),
+      contact: Joi.string(),
+    }).and("name", "contact"),
   }),
-  offerLetter: Joi.object({
-    fileName: Joi.string(),
-    isPrivate: Joi.boolean().default(true),
-  }),
-  reference1: Joi.object({
-    name: Joi.string(),
-    contact: Joi.string(),
-  }).and("name", "contact"),
-  reference2: Joi.object({
-    name: Joi.string(),
-    contact: Joi.string(),
-  }).and("name", "contact"),
 });
 
 module.exports = internProfileSchema;
