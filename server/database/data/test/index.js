@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const dbConnect = require("../../dbConnection");
 const resetDb = require("./../resetDB");
 
@@ -52,6 +53,7 @@ const buildTestData = connection => new Promise((resolve, reject) => {
         await checklistAnswers();
       } catch (err) {
         console.log("err during building the test db, try again", err);
+        throw err;
       }
     })
     .then(resolve)

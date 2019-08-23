@@ -9,6 +9,7 @@ const resetDB = async () => {
     await Promise.all(promises);
   } catch (err) {
     console.log("Error during resting the db, try again", err);
+    throw err;
   }
 };
 
