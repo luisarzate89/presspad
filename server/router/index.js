@@ -16,7 +16,7 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
-const { internDashboard } = require("./../controllers/dashboard");
+const { internDashboard, hostDashboard } = require("./../controllers/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
@@ -51,6 +51,7 @@ const {
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
   BOOKING_REVIEW_INFO_URL,
+  HOST_DASHBOARD_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -111,6 +112,9 @@ router.get(MY_PROFILE_URL, authentication, getMyProfile);
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 
+// get HOST dashboard data
+router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
+
 
 // Reviews
 router.route(REVIEW_URL)
@@ -124,6 +128,6 @@ router.route(SIGNOUT_URL)
   .get(signOut);
 
 router.route(BOOKING_REVIEW_INFO_URL)
-  .get(authentication, getBookingsWithUsers)
+  .get(authentication, getBookingsWithUsers);
 
 module.exports = router;
