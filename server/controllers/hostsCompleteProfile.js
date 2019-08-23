@@ -12,7 +12,7 @@ const { updateListing } = require("../database/queries/listing");
 
 module.exports = async (req, res, next) => {
   const { user } = req;
-  
+
   if (user.role !== "host") {
     return next(boom.forbidden("only host can update his profile"));
   }
@@ -46,7 +46,6 @@ module.exports = async (req, res, next) => {
 
     // update the host profile
     if (foundProfile) {
-
       const session = await mongoose.startSession();
       session.startTransaction();
 

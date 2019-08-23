@@ -5,7 +5,7 @@ const Profile = require("../../models/Profile");
 const getProfile = id => Profile.findOne({ user: id });
 
 const getProfileByRoleAndId = (id, role) => Profile.aggregate([
-  { $match: { user: mongoose.Types.ObjectId("5d5ab1d470bc683624f3e6f0") } },
+  { $match: { user: mongoose.Types.ObjectId(id) } },
   {
     $lookup: {
       from: "users",
@@ -15,7 +15,7 @@ const getProfileByRoleAndId = (id, role) => Profile.aggregate([
     },
   },
   { $match: { "user.role": role } },
-  { $project: { "user.name": 1 } },
+  { $project: { "user.name": 1, verified: 1 } },
 ]);
 
 

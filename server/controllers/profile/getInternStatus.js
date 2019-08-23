@@ -15,7 +15,6 @@ const { validate } = require("../../middlewares/validation/index");
  */
 
 const _getProfileBasedRole = async (_id, role) => {
-  // use lean() or toJSON() to convert mongoose document to json
   const profile = await getProfileByRoleAndId(_id, role);
   return profile;
 };
@@ -26,9 +25,8 @@ module.exports = async (req, res, next) => {
     return next(boom.forbidden("Only interns can book a stay"));
   }
   try {
-    const profile = await _getProfileBasedRole(_id, "intern");
-    console.log('profile', profile)
-    if (!profile.length) {
+    const [profile] = await _getProfileBasedRole(_id, "intern");
+    if (!profile) {
       return next(boom.notFound("You have no profile"));
     }
     const { verified } = profile;

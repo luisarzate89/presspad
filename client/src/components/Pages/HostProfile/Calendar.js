@@ -97,7 +97,6 @@ class CalendarComponent extends Component {
       const {
         data: { verified, isComplete }
       } = await axios.get(API_GET_INTERN_STATUS);
-
       if (!verified) {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
@@ -105,7 +104,6 @@ class CalendarComponent extends Component {
       }
 
       this.setState({ message, messageType: "error" });
-
       if (verified && isComplete) {
         bookingRequest(API_BOOKING_REQUEST_URL, data)
           .then(res => {
@@ -126,8 +124,7 @@ class CalendarComponent extends Component {
       if (err && err.response && err.response.status === 404) {
         this.setState({
           messageType: "error",
-          message:
-            "You need to have a profile in order to be able to book stay"
+          message: "You need to have a profile in order to be able to book stay"
         });
       }
     }
