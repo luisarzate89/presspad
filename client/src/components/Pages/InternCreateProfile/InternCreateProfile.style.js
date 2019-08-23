@@ -96,7 +96,7 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const Error = styled.p`
-  position: absolute;
+  position: ${({ block }) => (block ? "block" : "absolute")};
   top: 100%;
   color: red;
   font-size: 12px;

@@ -165,24 +165,30 @@ export default class InternCreateProfile extends Component {
       newState = { [name]: value };
     }
 
-    this.setState(
-      newState,
-      () => this.state.attemptedToSubmit && this.updateErrors()
-    );
+    this.setState(newState, () => {
+      this.state.attemptedToSubmit && this.updateErrors();
+    });
   };
 
   validate = () => {
-    return schema.validate(this.state, { abortEarly: false }).catch(err => {
-      const errors = {};
-      err.inner.forEach(element => {
-        if (element.path.startsWith("reference")) {
-          errors[element.path.split(".").join("")] = element.message;
-        } else {
-          errors[element.path.split(".")[0]] = element.message;
-        }
+    return schema
+      .validate(this.state, { abortEarly: false })
+      .then(res => {
+        this.setState({ errors: {} });
+        return res;
+      })
+      .catch(err => {
+        const errors = {};
+        err.inner.forEach(element => {
+          if (element.path.includes(".")) {
+            const newMessage = element.message.split(".").join(" ");
+            errors[element.path.split(".").join("")] = newMessage;
+          } else {
+            errors[element.path.split(".")[0]] = element.message;
+          }
+        });
+        this.setState({ errors });
       });
-      this.setState({ errors });
-    });
   };
 
   handleSubmit = e => {

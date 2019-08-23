@@ -139,7 +139,10 @@ const Content = ({
                 </ErrorWrapper>
 
                 <Label htmlFor="organisation">Organisation name</Label>
-                <ErrorWrapper error={errors.organisation} marginBottom="12px">
+                <ErrorWrapper
+                  error={errors.organisationname}
+                  marginBottom="12px"
+                >
                   <Input
                     id="organisation"
                     name="name"
@@ -147,10 +150,12 @@ const Content = ({
                     onChange={handleInputChange}
                     value={state.organisation.name}
                     style={{
-                      border: errors.organisation ? "none" : "1px solid #d9d9d9"
+                      border: errors.organisationname
+                        ? "none"
+                        : "1px solid #d9d9d9"
                     }}
                   />
-                  <Error>{errors.organisation}</Error>
+                  <Error>{errors.organisationname}</Error>
                 </ErrorWrapper>
 
                 <Label htmlFor="bio">Bio</Label>
@@ -175,7 +180,7 @@ const Content = ({
                   <Col xs={24} lg={12}>
                     <Label htmlFor="title">Article title</Label>
                     <ErrorWrapper
-                      error={errors.articleTitle}
+                      error={errors.favouriteArticletitle}
                       marginBottom="12px"
                     >
                       <Input
@@ -191,13 +196,13 @@ const Content = ({
                             : "1px solid #d9d9d9"
                         }}
                       />
-                      <Error>{errors.articleTitle}</Error>
                     </ErrorWrapper>
+                    <Error block>{errors.favouriteArticletitle}</Error>
                   </Col>
                   <Col xs={24} lg={12}>
                     <Label htmlFor="title">Article author</Label>
                     <ErrorWrapper
-                      error={errors.articleAuthor}
+                      error={errors.favouriteArticleauthor}
                       marginBottom="12px"
                     >
                       <Input
@@ -208,18 +213,21 @@ const Content = ({
                         value={state.favouriteArticle.author}
                         data-parent="favouriteArticle"
                         style={{
-                          border: errors.articleAuthor
+                          border: errors.favouriteArticleauthor
                             ? "none"
                             : "1px solid #d9d9d9"
                         }}
                       />
-                      <Error>{errors.articleAuthor}</Error>
                     </ErrorWrapper>
+                    <Error block>{errors.favouriteArticleauthor}</Error>
                   </Col>
                 </Row>
 
                 <Label htmlFor="title">Article link</Label>
-                <ErrorWrapper error={errors.articleLink} marginBottom="12px">
+                <ErrorWrapper
+                  error={errors.favouriteArticlelink}
+                  marginBottom="12px"
+                >
                   <Input
                     name="link"
                     onChange={handleInputChange}
@@ -228,14 +236,16 @@ const Content = ({
                     value={state.favouriteArticle.link}
                     data-parent="favouriteArticle"
                     style={{
-                      border: errors.articleLink ? "none" : "1px solid #d9d9d9"
+                      border: errors.favouriteArticlelink
+                        ? "none"
+                        : "1px solid #d9d9d9"
                     }}
                   />
-                  <Error>{errors.articleLink}</Error>
                 </ErrorWrapper>
+                <Error block>{errors.favouriteArticlelink}</Error>
 
                 <Label htmlFor="favouriteArticle">Favourite article</Label>
-                <ErrorWrapper error={errors.articleDescription}>
+                <ErrorWrapper error={errors.favouriteArticledescription}>
                   <TextArea
                     name="description"
                     onChange={handleInputChange}
@@ -245,13 +255,13 @@ const Content = ({
                     data-parent="favouriteArticle"
                     placeholder="Share a short description of a recent article you liked"
                     style={{
-                      border: errors.articleDescription
+                      border: errors.favouriteArticledescription
                         ? "none"
                         : "1px solid #d9d9d9"
                     }}
                   />
-                  <Error>{errors.articleDescription}</Error>
                 </ErrorWrapper>
+                <Error block>{errors.favouriteArticledescription}</Error>
               </Col>
             </Row>
           </SectionWrapperContent>
