@@ -123,7 +123,14 @@ class CalendarComponent extends Component {
           });
       }
     } catch (err) {
-      console.log("err", err);
+      if (err && err.response && err.response.status === 404) {
+        this.setState({
+          messageType: "error",
+          message:
+            "You need to have a profile in order to be able to book stay"
+        });
+      }
+      console.log("err", err.response);
     }
   };
 

@@ -29,6 +29,9 @@ module.exports = async (req, res, next) => {
   }
   try {
     const profile = await _getProfileBasedRole(_id, role);
+    if (!profile) {
+      return next(boom.notFound('User does not have a prfile'))
+    }
     const { verified } = profile;
     let isComplete = false;
     try {
