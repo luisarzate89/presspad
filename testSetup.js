@@ -18,10 +18,6 @@ beforeAll(async (done) => {
   }
 });
 
-beforeEach(async (done) => {
-  done();
-});
-
 afterAll(async (done) => {
   await mongoose.disconnect();
   done();
