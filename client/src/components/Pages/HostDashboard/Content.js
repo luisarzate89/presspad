@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Col,
   Row,
@@ -9,8 +10,11 @@ import {
   InputNumber,
   Input
 } from "antd";
+import { getStringTime } from "./../../../helpers";
+
 import Update from "./../../Common/Update";
 import Button from "./../../Common/Button";
+import randomProfile from "../../../assets/random-profile.jpg";
 
 import {
   PageWrapper,
@@ -37,18 +41,19 @@ import BookingsColumns from "./BookingsColumns";
 
 const Content = ({
   windowWidth,
+  name,
   viewNumber,
   bankName,
   bankSortCode,
   bankNumber,
-  income,
-  donation,
-  withdraw,
   bookings,
   updates,
   withdrawModalOpen,
   donateModalOpen,
-  daysLeftToNextGuest,
+  nextGuest,
+  nextGuestProfile,
+  nextBooking,
+  account,
 
   handleViewMoreToggle,
   handleBlurNumberInput,
@@ -85,24 +90,35 @@ const Content = ({
             </Col>
             <Col span={20}>
               <HiText>
-                Hi {"name".split(" ")[0]}, your next guest is arriving in{" "}
-                <BoldTitle>{daysLeftToNextGuest} days</BoldTitle>.
+                Hi {name.split(" ")[0]}, your next guest is arriving in{" "}
+                <BoldTitle>
+                  {" "}
+                  {getStringTime(nextBooking.startDate)} days
+                </BoldTitle>
+                .
               </HiText>
             </Col>
           </Row>
         </HeaderWrapper>
         <BookingSection
-          jobTitle={"jobTitle"}
-          bio={"bio"}
-          name={"hostName"}
-          userId={"hostId"}
-          organisationName={"organisationName"}
-          bookingId={"bookingId"}
-          startDate={Date.now()}
-          endDate={Date.now() + 15000000000}
-          timeString={"timeString"}
-          profileImage={"hostProfileImage || randomProfile"}
-          title={"title"}
+          jobTitle={nextGuestProfile.jobTitle}
+          bio={nextGuestProfile.bio}
+          name={nextGuest.hostName}
+          userId={nextGuest._id}
+          organisationName={
+            (nextGuestProfile.organisation &&
+              nextGuestProfile.organisation.name) ||
+            "N/A"
+          }
+          bookingId={nextBooking._id}
+          startDate={nextBooking.endDate}
+          endDate={nextBooking.startDate}
+          profileImage={
+            (nextGuestProfile.profileImage &&
+              nextGuestProfile.profileImage.url) ||
+            randomProfile
+          }
+          title={"Your next guest"}
           userRole={"intern"}
         />
         <section>
@@ -121,40 +137,42 @@ const Content = ({
         </section>
         <Row gutter={20} type="flex" justify="start">
           <Col lg={24} xl={16} sm={24}>
-            <section>
-              <SectionWrapperContent style={{ minHeight: 357 }}>
-                <SectionTitle>Your bookings</SectionTitle>
-                {bookings > 0 ? (
-                  <BookingsTableWrapper>
-                    <Table
-                      columns={BookingsColumns(windowWidth)}
-                      dataSource={bookings.slice(0, viewNumber)}
-                      rowKey={"_id"}
-                      pagination={false}
-                    />
-                    {bookings.length > 3 && (
-                      <BlueLink
-                        onClick={handleViewMoreToggle}
-                        style={{ marginTop: "2rem", textAlign: "center" }}
-                      >
-                        {viewNumber ? "View more" : "View less"}
-                      </BlueLink>
-                    )}
-                  </BookingsTableWrapper>
-                ) : (
-                  <Empty description="This intern has no bookings yet" />
-                )}
-              </SectionWrapperContent>
-            </section>
+            <SectionWrapperContent
+              style={{ minHeight: 357, height: "calc(100% - 20px)" }}
+            >
+              <SectionTitle>Your bookings</SectionTitle>
+              {bookings.length > 0 ? (
+                <BookingsTableWrapper>
+                  <Table
+                    columns={BookingsColumns(windowWidth)}
+                    dataSource={bookings.slice(0, viewNumber)}
+                    rowKey={"_id"}
+                    pagination={false}
+                  />
+                  {bookings.length > 3 && (
+                    <BlueLink
+                      onClick={handleViewMoreToggle}
+                      style={{ marginTop: "2rem", textAlign: "center" }}
+                    >
+                      {viewNumber ? "View more" : "View less"}
+                    </BlueLink>
+                  )}
+                </BookingsTableWrapper>
+              ) : (
+                <Empty description="This intern has no bookings yet" />
+              )}
+            </SectionWrapperContent>
           </Col>
           <Col xl={8} lg={24} md={24} sm={24}>
             <SectionWrapperContent style={{ minHeight: 357 }}>
               <ListItem>How much you’ve earned so far</ListItem>
-              <Number blue>£{income}</Number>
+              <Number blue>£{account.income}</Number>
               <ListItem>How much you’ve donated</ListItem>
-              <Number>£{donation}</Number>
+              <Number>£{account.donation}</Number>
+              <ListItem>How much you’ve withdrew</ListItem>
+              <Number>£{account.withdrawal}</Number>
               <ListItem>How much you can withdraw</ListItem>
-              <Number>£{withdraw}</Number>
+              <Number>£{account.currentBalance}</Number>
               <ButtonsWrapper>
                 <Button
                   label="Withdraw funds"
@@ -191,13 +209,17 @@ const Content = ({
             </ModalDescription>
             <div>
               <ModalDescription bold>Funds available: </ModalDescription>
-              <ModalDescription bold>£900.00 </ModalDescription>
+              <ModalDescription bold>
+                £{account.currentBalance}{" "}
+              </ModalDescription>
             </div>
 
             <InputNumber
               onBlur={handleBlurNumberInput}
               onFocus={handleFocusNumberInput}
-              defaultValue={1000}
+              defaultValue={account.currentBalance}
+              max={account.currentBalance}
+              min={0}
               size="large"
               style={{ width: "140px" }}
               formatter={value =>
@@ -235,7 +257,7 @@ const Content = ({
           </ModalDescription>
           <div>
             <ModalDescription bold>Funds available: </ModalDescription>
-            <ModalDescription bold>£900.00 </ModalDescription>
+            <ModalDescription bold>£{account.currentBalance} </ModalDescription>
           </div>
 
           <Row
@@ -310,7 +332,9 @@ const Content = ({
               <InputNumber
                 onBlur={handleBlurNumberInput}
                 onFocus={handleFocusNumberInput}
-                defaultValue={1000}
+                defaultValue={account.currentBalance}
+                max={account.currentBalance}
+                min={0}
                 size="large"
                 style={{ width: "140px" }}
                 formatter={value =>

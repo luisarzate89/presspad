@@ -21,12 +21,10 @@ export const HiText = styled.h1`
   font-family: Roboto;
   font-weight: 500;
   font-size: 30px;
-  line-height: 35px;
+  padding: 0.5rem 0;
   color: #07294a;
   margin-bottom: 0;
   align-items: center;
-  height: 100%;
-  display: flex;
 `;
 
 export const BoldTitle = styled.span`

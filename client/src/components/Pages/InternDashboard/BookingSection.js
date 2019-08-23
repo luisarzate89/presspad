@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Avatar, Icon } from "antd";
+import { Row, Col, Avatar } from "antd";
 
 import { getStringTime } from "./../../../helpers";
 import randomProfile from "../../../assets/random-profile.jpg";

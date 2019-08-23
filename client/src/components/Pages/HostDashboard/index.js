@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import Content from "./Content";
+import { API_HOST_DASHBOARD_URL } from "./../../../constants/apiRoutes";
 
 class HostProfile extends Component {
   state = {
+    name: "",
+    nextGuest: {},
+    nextBooking: {},
+    nextGuestProfile: {},
+    account: {},
     isNumberInputActive: false,
     // number of rows to be visible in the bookings table
     viewNumber: 3,
@@ -11,8 +18,6 @@ class HostProfile extends Component {
     donateValue: 0,
     // the amount of money that user want to withdraw
     withdrawValue: 0,
-    // next guist is arriving in
-    daysLeftToNextGuest: 10,
     // withdraw details
     bankName: null,
     bankSortCode: null,
@@ -20,9 +25,6 @@ class HostProfile extends Component {
     //
     //
     // Values came from api request
-    income: "2,145.00",
-    donation: "2,145.00",
-    withdraw: "2,145.00",
     bookings: [],
     updates: [],
 
@@ -30,15 +32,30 @@ class HostProfile extends Component {
     withdrawModalOpen: false,
     donateModalOpen: false
   };
-  componentDidMount() {
+  async componentDidMount() {
+    const { data } = await axios.get(API_HOST_DASHBOARD_URL);
+    const {
+      name,
+      notifications,
+      bookings = [],
+      profile = {},
+      account = {}
+    } = data;
+    const nextGuest = bookings[0] && bookings[0].intern;
+    const { profile: nextGuestProfile = {} } = nextGuest;
+    this.setState({
+      name,
+      updates: notifications,
+      bookings,
+      profile,
+      nextGuest,
+      nextGuestProfile,
+      nextBooking: bookings[0] || {},
+      account
+    });
+
     document.addEventListener("keypress", e => {
       const { isNumberInputActive } = this.state;
-      // let key = e.key && Number(e.key);
-      // if (isNaN(key) || e.key === null) {
-      //   console.log("is not numeric");
-      // } else {
-      //   console.log("is numeric");
-      // }
       const numbers = [
         1,
         2,
@@ -108,33 +125,35 @@ class HostProfile extends Component {
   render() {
     const { windowWidth } = this.props;
     const {
+      name,
+      nextGuest,
+      nextGuestProfile,
       bankName,
       bankSortCode,
       bankNumber,
-      income,
-      donation,
-      withdraw,
       bookings,
       updates,
       withdrawModalOpen,
       donateModalOpen,
-      daysLeftToNextGuest
+      nextBooking,
+      account
     } = this.state;
     return (
       <Content
-        // Props & state
+        // Props & state\
         windowWidth={windowWidth}
+        name={name}
         bankName={bankName}
         bankSortCode={bankSortCode}
         bankNumber={bankNumber}
-        income={income}
-        donation={donation}
-        withdraw={withdraw}
         bookings={bookings}
         updates={updates}
         withdrawModalOpen={withdrawModalOpen}
         donateModalOpen={donateModalOpen}
-        daysLeftToNextGuest={daysLeftToNextGuest}
+        nextGuest={nextGuest}
+        nextGuestProfile={nextGuestProfile}
+        nextBooking={nextBooking}
+        account={account}
         // Functions
         handleBlurNumberInput={this.handleBlurNumberInput}
         handleFocusNumberInput={this.handleFocusNumberInput}

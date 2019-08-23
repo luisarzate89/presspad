@@ -35,7 +35,7 @@ export default function BookingSection(props) {
   return (
     <>
       <section>
-        <Row gutter={20}>
+        <Row gutter={20} type="flex">
           <Col lg={16} md={14} sm={24}>
             <SectionWrapperContent style={{ minHeight: 420 }}>
               <>
@@ -85,7 +85,9 @@ export default function BookingSection(props) {
             </SectionWrapperContent>
           </Col>
           <Col lg={8} md={10} sm={24}>
-            <SectionWrapperContent style={{ minHeight: 422 }}>
+            <SectionWrapperContent
+              style={{ minHeight: 422, height: "calc(100% - 20px)" }}
+            >
               <Calendar startDate={startDate} endDate={endDate} />
             </SectionWrapperContent>
           </Col>
