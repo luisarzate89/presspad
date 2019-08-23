@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "jest": {
-    "testRegex": "__test__/database/schema/*",
+    "testRegex": "__test__/*",
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
       "**/*.js",
@@ -33,6 +33,7 @@
     "test:current": "cross-env NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
+    "build:data:test": "cross-env NODE_ENV=test node server/database/data/test/index.js",
     "build:data:prd": "node server/database/data/production/index.js"
   },
   "devDependencies": {

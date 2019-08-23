@@ -51,13 +51,20 @@ const buildTestData = connection => new Promise((resolve, reject) => {
         await scheduledEmails();
         await checklistQuestions();
         await checklistAnswers();
-      } catch (err) {
-        console.log("err during building the test db, try again", err);
-        throw err;
+      } catch (error) {
+        console.log("err", error);
       }
     })
     .then(resolve)
     .catch(reject);
 });
+
+// buildTestData().then(() => {
+//   // eslint-disable-next-line no-console
+//   console.log("Done!: Dev DB has been built successfully");
+//   // close the connection after build
+//   mongoose.disconnect();
+// });
+
 
 module.exports = buildTestData;
