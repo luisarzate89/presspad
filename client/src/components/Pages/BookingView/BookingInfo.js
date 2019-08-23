@@ -5,7 +5,12 @@ import { Row, Skeleton } from "antd";
 
 import { getFirstUnpaidInstallment, calculatePrice } from "./helpers";
 
-import { BookingInfoWrapper, InfoText, InfoValue } from "./PaymentsPlan.style";
+import {
+  BookingInfoWrapper,
+  InfoText,
+  InfoValue,
+  ErrorMsg
+} from "./PaymentsPlan.style";
 import {
   SectionWrapperContent,
   SectionTitle,
@@ -18,6 +23,7 @@ const BookingInfo = props => {
     price: fullPrice,
     payedAmount,
     startDate,
+    status,
     endDate,
     installments,
     couponDiscount,
@@ -56,18 +62,24 @@ const BookingInfo = props => {
             <InfoValue mbottom="2.5rem" align="center" light>
               £{fullPrice.toFixed(2)}
             </InfoValue>
-            <InfoText>Coupon discounts</InfoText>
-            <InfoValue mbottom="2.5rem" align="center" light>
-              £{discounts.toFixed(2)}
-            </InfoValue>
-            <InfoText>So far you’ve paid</InfoText>
-            <InfoValue mbottom="2.5rem" align="center" light>
-              £{payedAmount.toFixed(2)}
-            </InfoValue>
+            {status === "confirmed" ? (
+              <>
+                <InfoText>Coupon discounts</InfoText>
+                <InfoValue mbottom="2.5rem" align="center" light>
+                  £{discounts.toFixed(2)}
+                </InfoValue>
+                <InfoText>So far you’ve paid</InfoText>
+                <InfoValue mbottom="2.5rem" align="center" light>
+                  £{payedAmount.toFixed(2)}
+                </InfoValue>
+              </>
+            ) : (
+              ""
+            )}
           </>
         )}
       </BookingInfoWrapper>
-      {isLoading === false && installments[0] && (
+      {isLoading === false && installments[0] && status === "confirmed" && (
         <>
           <InfoText>Your next payment is due</InfoText>
           <Row type="flex" justify="space-around">
@@ -82,6 +94,11 @@ const BookingInfo = props => {
             </PayButton>
           </Row>
         </>
+      )}
+      {status !== "confirmed" ? (
+        <ErrorMsg>Your booking status is {status}</ErrorMsg>
+      ) : (
+        ""
       )}
     </SectionWrapperContent>
   );

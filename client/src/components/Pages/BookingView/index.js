@@ -236,7 +236,7 @@ export default class BookingView extends Component {
     return (
       <PageWrapper>
         <Header>
-          {/* loading stuff */}
+          {/* ToDo add loading skeleton */}
           <Row type="flex">
             <ProfilePicDiv
               src={(profileImage && profileImage.url) || randomProfile}
@@ -261,7 +261,7 @@ export default class BookingView extends Component {
         </Header>
         <ListingGallery {...listingPhotos} isLoading={isLoading} />
         <Row gutter={24}>
-          {/* loading stuff */}
+          {/* ToDo add loading skeleton */}
           <Col lg={16} md={14} sm={24}>
             <section>
               <SectionWrapperContent style={{ minHeight: 200 }}>
@@ -287,19 +287,25 @@ export default class BookingView extends Component {
                 </DisabledPopOver>
               </Row>
             </section>
-            <Checklist
-              checklistObj={checklistObj}
-              handleChange={this.handleChecklistChange}
-            />
-            <PaymentsPlan
-              handleCouponChange={this.handleCouponChange}
-              data={{
-                installments,
-                isLoading,
-                ...bookingInfo,
-                couponInfo
-              }}
-            />
+            {bookingInfo.status === "confirmed" ? (
+              <>
+                <Checklist
+                  checklistObj={checklistObj}
+                  handleChange={this.handleChecklistChange}
+                />
+                <PaymentsPlan
+                  handleCouponChange={this.handleCouponChange}
+                  data={{
+                    installments,
+                    isLoading,
+                    ...bookingInfo,
+                    couponInfo
+                  }}
+                />
+              </>
+            ) : (
+              ""
+            )}
           </Col>
           <Col lg={8} md={10} sm={24}>
             <BookingInfo
