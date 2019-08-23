@@ -15,6 +15,8 @@
     ]
   },
   "proxy": "http://localhost:8080",
+  "nodemonConfig": {
+    "watch": ["./server","./package.json", "./client/src/constants"] },
   "scripts": {
     "start": "node ./server/index.js",
     "dev": "concurrently --kill-others-on-fail \"cd client && npm start\" \"nodemon ./server/index.js\"",
