@@ -20,6 +20,7 @@ const installments = require("./installments");
 const scheduledEmails = require("./scheduledEmails");
 const checklistQuestions = require("./checklistQuestions");
 const checklistAnswers = require("./checklistAnswers");
+const withdrawRequests = require("./withdrawRequests");
 
 
 const buildTestData = () => new Promise((resolve, reject) => {
@@ -45,6 +46,7 @@ const buildTestData = () => new Promise((resolve, reject) => {
       await scheduledEmails();
       await checklistQuestions();
       await checklistAnswers();
+      await withdrawRequests();
     })
     .then(resolve)
     .catch(reject);

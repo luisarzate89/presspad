@@ -16,6 +16,7 @@ const Installment = require("../models/Installment");
 const ScheduledEmail = require("../models/ScheduledEmail");
 const ChecklistQuestion = require("../models/ChecklistQuestion");
 const ChecklistAnswer = require("../models/ChecklistAnswer");
+const WithdrawRequest = require("../models/WithdrawRequest");
 
 const resetDB = async () => {
   await Organisation.deleteMany();
@@ -36,6 +37,7 @@ const resetDB = async () => {
   await ScheduledEmail.deleteMany();
   await ChecklistQuestion.deleteMany();
   await ChecklistAnswer.deleteMany();
+  await WithdrawRequest.deleteMany();
 };
 
 module.exports = resetDB;
