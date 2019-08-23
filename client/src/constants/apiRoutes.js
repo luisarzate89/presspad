@@ -57,11 +57,15 @@ const API_MY_PROFILE_URL = `${API_PREFIX}${MY_PROFILE_URL}`;
 const UPLOAD_SIGNED_URL = "/upload/signed-url";
 const API_UPLOAD_SIGNED_URL = `${API_PREFIX}${UPLOAD_SIGNED_URL}`;
 
-const REVIEW_URL = "/users/:id/reviews";
+const REVIEW_URL = "/booking/:id/review";
 const API_REVIEW_URL = `${API_PREFIX}${REVIEW_URL}`;
 
 const SIGNOUT_URL = "/sign-out";
 const API_SIGNOUT_URL = `${API_PREFIX}${SIGNOUT_URL}`;
+
+const BOOKING_REVIEW_INFO_URL = "/review-info/:bookingId";
+const API_BOOKING_REVIEW_INFO_URL = `${API_PREFIX}${BOOKING_REVIEW_INFO_URL}`;
+
 
 module.exports = {
   // CLIENT
@@ -86,6 +90,7 @@ module.exports = {
   API_UPLOAD_SIGNED_URL,
   API_REVIEW_URL,
   API_GET_INTERN_STATUS,
+  API_BOOKING_REVIEW_INFO_URL,
 
   // SERVER
   LOGIN_URL,
@@ -108,5 +113,6 @@ module.exports = {
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
-  GET_INTERN_STATUS
+  GET_INTERN_STATUS,
+  BOOKING_REVIEW_INFO_URL,
 };
