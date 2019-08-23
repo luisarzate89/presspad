@@ -232,8 +232,8 @@ class HostProfile extends Component {
               <OtherInfo>
                 <SubHeadline>Other Info</SubHeadline>
                 <List>
-                  {otherInfo.map((li, i) => (
-                    <ListItem key={i}>{li}</ListItem>
+                  {otherInfo.map(li => (
+                    <ListItem key={li}>{li}</ListItem>
                   ))}
                 </List>
               </OtherInfo>
