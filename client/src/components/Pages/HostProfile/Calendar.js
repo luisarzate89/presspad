@@ -92,12 +92,12 @@ class CalendarComponent extends Component {
       price: price
     };
 
+    let message = "";
     try {
       const {
         data: { verified, isComplete }
       } = await axios.get(API_GET_INTERN_STATUS);
 
-      let message = "";
       if (!verified) {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
@@ -130,7 +130,6 @@ class CalendarComponent extends Component {
             "You need to have a profile in order to be able to book stay"
         });
       }
-      console.log("err", err.response);
     }
   };
 

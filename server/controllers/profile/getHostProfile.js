@@ -21,7 +21,7 @@ const getHostProfile = async (req, res, next) => {
 
     const [hostProfile] = await hostProfileData(hostId);
 
-    if (!hostProfile || !hostProfile.profile) {
+    if (!hostProfile || !hostProfile.profile || !hostProfile.listing) {
       return next(boom.notFound("User has no profile"));
     }
 
