@@ -9,6 +9,14 @@ import ListingGallery from "../../Common/Profile/ListingGallery";
 import PaymentsPlan from "./PaymentsPlan";
 import BookingInfo from "./BookingInfo";
 
+import { getDiscountDays, calculatePrice } from "./helpers";
+
+import {
+  API_GET_BOOKING_URL,
+  API_COUPON_URL
+} from "../../../constants/apiRoutes";
+import { Error404, Error500 } from "../../../constants/navRoutes";
+
 import {
   PageWrapper,
   SectionWrapperContent,
@@ -29,9 +37,6 @@ import {
 
 import starSign from "./../../../assets/star-sign-symbol.svg";
 
-import { API_GET_BOOKING_URL } from "../../../constants/apiRoutes";
-import { Error404, Error500 } from "../../../constants/navRoutes";
-
 export default class BookingView extends Component {
   state = {
     checklistObj: {},
@@ -41,6 +46,15 @@ export default class BookingView extends Component {
       photos: []
     },
     bookingInfo: {},
+    couponInfo: {
+      couponCode: "",
+      discountDays: 0,
+      discountRate: 0,
+      couponDiscount: 0,
+      isCouponLoading: null,
+      error: ""
+    },
+    coupons: [],
     isLoading: null
   };
 
@@ -61,7 +75,8 @@ export default class BookingView extends Component {
             payedAmount,
             status,
             startDate,
-            endDate
+            endDate,
+            coupons
           }
         }
       } = await axios.get(getBookingUrl);
@@ -75,6 +90,7 @@ export default class BookingView extends Component {
         installments,
         listing,
         bookingInfo: { price, payedAmount, status, startDate, endDate },
+        coupons,
         isLoading: false
       });
     } catch (error) {
@@ -112,6 +128,87 @@ export default class BookingView extends Component {
     }
   };
 
+  handleCouponChange = async e => {
+    const code = e.target.value;
+    // only send requests if the code is valid
+    if (
+      !code ||
+      typeof code !== "string" ||
+      code.length < 7 ||
+      code.length > 14
+    ) {
+      this.setState({
+        couponInfo: { ...this.state.couponInfo, couponCode: code }
+      });
+    } else {
+      this.setState(
+        {
+          couponInfo: {
+            ...this.state.couponInfo,
+            couponCode: code,
+            isCouponLoading: true,
+            error: false
+          }
+        },
+        async () => {
+          try {
+            const {
+              data: {
+                data: [couponInfo]
+              }
+            } = await axios.get(`${API_COUPON_URL}?code=${code}`);
+
+            const {
+              startDate: couponStart,
+              endDate: couponEnd,
+              discountRate
+            } = couponInfo;
+
+            const {
+              bookingInfo: { startDate, endDate }
+            } = this.state;
+
+            const { discountDays, discountRange } = getDiscountDays({
+              bookingStart: startDate,
+              bookingEnd: endDate,
+              couponStart,
+              couponEnd
+            });
+            this.setState(prevState => {
+              const newCouponState = {
+                ...this.state.couponInfo,
+                discountDays,
+                discountRate,
+                couponDiscount:
+                  (calculatePrice(discountRange) * discountRate) / 100,
+                isCouponLoading: false,
+                error: false
+              };
+              if (discountDays === 0) {
+                newCouponState.error =
+                  "the coupon is expired or doesn't cover this booking period";
+              }
+              return { couponInfo: newCouponState };
+            });
+          } catch (error) {
+            let errorMsg = "something went wrong";
+            if (error.response && error.response.status === 404) {
+              errorMsg = "wrong code ..";
+            }
+            this.setState({
+              couponInfo: {
+                ...this.state.couponInfo,
+                isCouponLoading: false,
+                error: errorMsg,
+                couponDiscount: 0
+              }
+            });
+          }
+        }
+      );
+    }
+  };
+
   render() {
     const {
       listing: {
@@ -121,9 +218,13 @@ export default class BookingView extends Component {
       },
       checklistObj,
       installments,
+      coupons,
+      couponInfo,
       isLoading,
       bookingInfo
     } = this.state;
+
+    const bookingId = this.props.match.params.id;
 
     const listingPhotos = {};
     if (photos[0]) {
@@ -191,11 +292,26 @@ export default class BookingView extends Component {
               handleChange={this.handleChecklistChange}
             />
             <PaymentsPlan
-              data={{ installments: [], isLoading, ...bookingInfo }}
+              handleCouponChange={this.handleCouponChange}
+              data={{
+                installments,
+                isLoading,
+                ...bookingInfo,
+                couponInfo
+              }}
             />
           </Col>
           <Col lg={8} md={10} sm={24}>
-            <BookingInfo isLoading={isLoading} />
+            <BookingInfo
+              isLoading={isLoading}
+              data={{
+                bookingId,
+                ...bookingInfo,
+                installments,
+                coupons,
+                couponDiscount: couponInfo.couponDiscount
+              }}
+            />
           </Col>
         </Row>
       </PageWrapper>

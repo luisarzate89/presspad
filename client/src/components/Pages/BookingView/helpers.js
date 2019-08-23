@@ -73,9 +73,40 @@ export const getDiscountDays = dates => {
  */
 export const calculatePrice = range => {
   if (!range) return 0;
-  range.start.startOf("day");
-  range.end.add(1, "day");
-  const weeks = range.diff("weeks");
-  const days = range.diff("days") % 7;
+  let weeks, days;
+  if (typeof range === "number") {
+    weeks = Math.trunc(range / 7);
+    days = range % 7;
+  } else {
+    range.start.startOf("day");
+    range.end.add(1, "day");
+    weeks = range.diff("weeks");
+    days = range.diff("days") % 7;
+  }
   return weeks * 150 + days * 20;
+};
+
+/**
+ * get the first unpaid installment
+ * @param {Array} installments
+ */
+export const getFirstUnpaidInstallment = installments => {
+  if (!installments || !Array.isArray(installments) || !installments[0])
+    return undefined;
+
+  let firstUnpaidInstallment;
+  installments.forEach(installment => {
+    if (!installment.transaction) {
+      if (!firstUnpaidInstallment) {
+        firstUnpaidInstallment = installment;
+      } else {
+        const { dueDate } = installment;
+        const { dueDate: firstDueDate } = firstUnpaidInstallment;
+        if (moment(dueDate).isBefore(firstDueDate)) {
+          firstUnpaidInstallment = installment;
+        }
+      }
+    }
+  });
+  return firstUnpaidInstallment;
 };
