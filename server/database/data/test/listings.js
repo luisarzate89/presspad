@@ -2,7 +2,7 @@ const User = require("../../models/User");
 const Listing = require("../../models/Listing");
 
 module.exports = async () => {
-  const hosts = await User.find({ role: "host" });
+  const hosts = await User.find({ role: "host" }).sort({ name: 1 });
 
   const listings = [
     {

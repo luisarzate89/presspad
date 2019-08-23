@@ -21,7 +21,13 @@ module.exports = async () => {
     orgAccount4,
   ] = accounts;
   // organisation codes
-  const organisations = await Organisation.find();
+  // const organisations = await Organisation.find();
+
+  const BBC = await Organisation.findOne({ name: "BBC" });
+  const FTimes = await Organisation.findOne({ name: "Financial Times" });
+  const Guardian = await Organisation.findOne({ name: "The Guardian" });
+  const AFP = await Organisation.findOne({ name: "AFP" });
+
   // create admin
   const admin = {
     email: "mark@presspad.co.uk",
@@ -39,7 +45,7 @@ module.exports = async () => {
       name: "Michael Peters",
       password: "123456",
       role: "organisation",
-      organisation: organisations[0]._id,
+      organisation: FTimes._id,
       plan: "basic",
       account: orgAccount1._id,
     },
@@ -48,7 +54,7 @@ module.exports = async () => {
       name: "Josephine Doeski",
       password: "123456",
       role: "organisation",
-      organisation: organisations[1]._id,
+      organisation: Guardian._id,
       plan: "basic",
       account: orgAccount2._id,
     },
@@ -57,7 +63,7 @@ module.exports = async () => {
       name: "Brian Meyer",
       password: "123456",
       role: "organisation",
-      organisation: organisations[2]._id,
+      organisation: BBC._id,
       account: orgAccount3._id,
     },
     {
@@ -65,7 +71,7 @@ module.exports = async () => {
       name: "Luise Michaels",
       password: "123456",
       role: "organisation",
-      organisation: organisations[3]._id,
+      organisation: AFP._id,
       plan: "basic",
       account: orgAccount4._id,
     },
@@ -130,7 +136,7 @@ module.exports = async () => {
       name: "Mone Dupree",
       password: "123456",
       role: "intern",
-      organisation: organisations[0]._id,
+      organisation: BBC._id,
       account: internsAccount1._id,
     },
     {
@@ -138,7 +144,7 @@ module.exports = async () => {
       name: "Newby French",
       password: "123456",
       role: "intern",
-      organisation: organisations[0]._id,
+      organisation: AFP._id,
       account: internsAccount2._id,
     },
     {
@@ -146,7 +152,7 @@ module.exports = async () => {
       name: "Joe The Friel",
       password: "123456",
       role: "intern",
-      organisation: organisations[1]._id,
+      organisation: Guardian._id,
       account: internsAccount3._id,
     },
     {
@@ -154,7 +160,7 @@ module.exports = async () => {
       name: "Ramy Rambo",
       password: "123456",
       role: "intern",
-      organisation: organisations[2]._id,
+      organisation: FTimes._id,
       account: internsAccount4._id,
     },
   ];

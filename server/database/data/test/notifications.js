@@ -4,8 +4,8 @@ const Notification = require("../../models/Notification");
 
 module.exports = async () => {
   // users
-  const hosts = await User.find({ role: "host" });
-  const interns = await User.find({ role: "intern" });
+  const hosts = await User.find({ role: "host" }).sort({ name: 1 });
+  const interns = await User.find({ role: "intern" }).sort({ name: 1 });
 
   // create notifications
   const notifications = [

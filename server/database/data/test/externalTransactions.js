@@ -2,12 +2,8 @@ const ExternalTransaction = require("../../models/ExternalTransaction");
 const User = require("../../models/User");
 
 module.exports = async () => {
-  const users = await User.find();
-  const [,
-    orgAdmin1, orgAdmin2, orgAdmin3,,
-    host1,
-    host2,,,,
-  ] = users;
+  const [host1, host2] = await User.find({ role: "host" }).sort({ name: 1 });
+  const [orgAdmin1, orgAdmin2, orgAdmin3] = await User.find({ role: "organisation" }).sort({ name: 1 });
 
   const externalTransactions = [
     // organisations
