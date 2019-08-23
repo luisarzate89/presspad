@@ -1,4 +1,4 @@
-const dbConnection = require("../../dbConnection");
+const dbConnect = require("../../dbConnection");
 const resetDb = require("./../resetDB");
 
 const organisations = require("./organisations");
@@ -22,29 +22,37 @@ const checklistQuestions = require("./checklistQuestions");
 const checklistAnswers = require("./checklistAnswers");
 
 
-const buildTestData = () => new Promise((resolve, reject) => {
+const buildTestData = connection => new Promise((resolve, reject) => {
+  let dbConnection = dbConnect;
+  if (connection) {
+    dbConnection = connection;
+  }
   dbConnection()
     .then(async () => {
-      await resetDb();
-      await accounts();
-      await organisations();
-      await users();
-      await orgCodes();
-      await referrals();
-      await profiles();
-      await listings();
-      await bookings();
-      await reviews();
-      await notifications();
-      await transactions();
-      await internalTransaction();
-      await coupons();
-      await scheduledNotifications();
-      await externalTransactions();
-      await installments();
-      await scheduledEmails();
-      await checklistQuestions();
-      await checklistAnswers();
+      try {
+        await resetDb();
+        await accounts();
+        await organisations();
+        await users();
+        await orgCodes();
+        await referrals();
+        await profiles();
+        await listings();
+        await bookings();
+        await reviews();
+        await notifications();
+        await transactions();
+        await internalTransaction();
+        await coupons();
+        await scheduledNotifications();
+        await externalTransactions();
+        await installments();
+        await scheduledEmails();
+        await checklistQuestions();
+        await checklistAnswers();
+      } catch (err) {
+        console.log("err during building the test db, try again", err);
+      }
     })
     .then(resolve)
     .catch(reject);

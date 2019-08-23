@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 // read the config file
 require("dotenv").config();
 
+mongoose.Promise = global.Promise;
+
 let mongoURI = process.env.MONGO_URI;
 
 if (process.env.NODE_ENV === "test") {
