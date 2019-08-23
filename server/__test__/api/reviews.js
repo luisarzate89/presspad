@@ -71,7 +71,6 @@ describe("Tests adding a review and creating a getReview notification", () => {
                 type: "getReview",
               },
             );
-            console.log(notification)
             // there should be a review and a notification entries.
             // fails if returned value is null
             expect(review).toBeTruthy();
