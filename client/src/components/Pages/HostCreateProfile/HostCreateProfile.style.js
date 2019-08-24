@@ -114,6 +114,7 @@ export const ErrorWrapper = styled.div`
   border-radius: 4px;
   position: relative;
 `;
+
 export const Error = styled.p`
   position: absolute;
   top: 100%;

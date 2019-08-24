@@ -102,9 +102,9 @@ const ButtonSpinner = ({ color }) => {
   return <Spin indicator={antIcon} style={{ marginRight: ".5rem" }} />;
 };
 
-const Button = ({ label, loading, ...props }) => {
+const Button = ({ label, loading, disabled, ...props }) => {
   return (
-    <StyledButton aria-label={label} {...props} disabled={loading}>
+    <StyledButton aria-label={label} {...props} disabled={disabled || loading}>
       {loading && <ButtonSpinner color={"#FFFFFF"} />}
       {label}
     </StyledButton>

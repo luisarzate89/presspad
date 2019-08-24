@@ -33,13 +33,16 @@ import {
   ModalContentWrapper,
   ModalDescription,
   Label,
-  BoldTitle
+  BoldTitle,
+  Error,
+  ErrorWrapper
 } from "./HostDashboard.style";
 
 import BookingSection from "./../../Common/BookingSection";
 import BookingsColumns from "./BookingsColumns";
 
 const Content = ({
+  // props and state
   windowWidth,
   name,
   viewNumber,
@@ -55,7 +58,9 @@ const Content = ({
   nextBooking,
   account,
   apiLoading,
+  errors,
 
+  // functions
   handleViewMoreToggle,
   handleBlurNumberInput,
   handleFocusNumberInput,
@@ -63,7 +68,8 @@ const Content = ({
   handleInpuChange,
   handleOpenModal,
   handleCloseModals,
-  handleSubmitDonate
+  handleSubmitDonate,
+  handleSubmitWithdrawRequest
 }) => {
   return (
     <PageWrapper className="wrapper">
@@ -182,6 +188,9 @@ const Content = ({
                   style={{ width: "135px" }}
                   onClick={handleOpenModal}
                   name="withdrawModalOpen"
+                  disabled={
+                    !account.currentBalance || !account.currentBalance > 0
+                  }
                 />
                 <Button
                   label="Donate funds"
@@ -189,6 +198,9 @@ const Content = ({
                   style={{ width: "135px" }}
                   onClick={handleOpenModal}
                   name="donateModalOpen"
+                  disabled={
+                    !account.currentBalance || !account.currentBalance > 0
+                  }
                 />
               </ButtonsWrapper>
             </SectionWrapperContent>
@@ -215,21 +227,28 @@ const Content = ({
                 £{account.currentBalance}{" "}
               </ModalDescription>
             </div>
-
-            <InputNumber
-              onBlur={handleBlurNumberInput}
-              onFocus={handleFocusNumberInput}
-              defaultValue={account.currentBalance}
-              max={account.currentBalance}
-              min={0}
-              size="large"
-              style={{ width: "140px" }}
-              formatter={value =>
-                `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={value => value.replace(/£\s?|(,*)/g, "")}
-              onChange={value => handleNumberChange("donateValue", value)}
-            />
+            <ErrorWrapper>
+              <InputNumber
+                onBlur={handleBlurNumberInput}
+                onFocus={handleFocusNumberInput}
+                defaultValue={account.currentBalance}
+                max={account.currentBalance}
+                min={0}
+                size="large"
+                style={{
+                  width: "140px",
+                  border: errors.donateValue
+                    ? "1px solid red"
+                    : "1px solid #d9d9d9"
+                }}
+                formatter={value =>
+                  `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/£\s?|(,*)/g, "")}
+                onChange={value => handleNumberChange("donateValue", value)}
+              />
+              <Error>{errors.donateValue}</Error>
+            </ErrorWrapper>
             <Button
               label="Donate funds"
               type="secondary"
@@ -269,18 +288,24 @@ const Content = ({
             type="flex"
             justify="center"
             align="middle"
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              marginBottom: errors.bankName ? "20px" : 0
+            }}
           >
             <Col span={10}>
               <Label>Bank name</Label>
             </Col>
             <Col span={12}>
-              <Input
-                size="large"
-                name="bankName"
-                value={bankName}
-                onChange={handleInpuChange}
-              />
+              <ErrorWrapper error={errors.bankName}>
+                <Input
+                  size="large"
+                  name="bankName"
+                  value={bankName}
+                  onChange={handleInpuChange}
+                />
+                <Error>{errors.bankName}</Error>
+              </ErrorWrapper>
             </Col>
           </Row>
           <Row
@@ -288,18 +313,24 @@ const Content = ({
             type="flex"
             justify="center"
             align="middle"
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              marginBottom: errors.bankSortCode ? "20px" : 0
+            }}
           >
             <Col span={10}>
               <Label>Account sort code</Label>
             </Col>
             <Col span={12}>
-              <Input
-                size="large"
-                name="bankSortCode"
-                value={bankSortCode}
-                onChange={handleInpuChange}
-              />
+              <ErrorWrapper error={errors.bankSortCode}>
+                <Input
+                  size="large"
+                  name="bankSortCode"
+                  value={bankSortCode}
+                  onChange={handleInpuChange}
+                />
+                <Error>{errors.bankSortCode}</Error>
+              </ErrorWrapper>
             </Col>
           </Row>
           <Row
@@ -307,18 +338,24 @@ const Content = ({
             type="flex"
             justify="center"
             align="middle"
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              marginBottom: errors.bankNumber ? "20px" : 0
+            }}
           >
             <Col span={10}>
               <Label>Account number</Label>
             </Col>
             <Col span={12}>
-              <Input
-                size="large"
-                name="bankNumber"
-                value={bankNumber}
-                onChange={handleInpuChange}
-              />
+              <ErrorWrapper error={errors.bankNumber}>
+                <Input
+                  size="large"
+                  name="bankNumber"
+                  value={bankNumber}
+                  onChange={handleInpuChange}
+                />
+                <Error>{errors.bankNumber}</Error>
+              </ErrorWrapper>
             </Col>
           </Row>
 
@@ -327,26 +364,37 @@ const Content = ({
             type="flex"
             justify="center"
             align="middle"
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              marginBottom: errors.withdrawValue ? "20px" : 0
+            }}
           >
             <Col span={10}>
               <Label>Amount</Label>
             </Col>
             <Col span={12}>
-              <InputNumber
-                onBlur={handleBlurNumberInput}
-                onFocus={handleFocusNumberInput}
-                defaultValue={account.currentBalance}
-                max={account.currentBalance}
-                min={0}
-                size="large"
-                style={{ width: "140px" }}
-                formatter={value =>
-                  `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                parser={value => value.replace(/£\s?|(,*)/g, "")}
-                onChange={value => handleNumberChange("withdrawValue", value)}
-              />{" "}
+              <ErrorWrapper>
+                <InputNumber
+                  onBlur={handleBlurNumberInput}
+                  onFocus={handleFocusNumberInput}
+                  defaultValue={account.currentBalance}
+                  max={account.currentBalance}
+                  min={0}
+                  size="large"
+                  style={{
+                    width: "140px",
+                    border: errors.withdrawValue
+                      ? "1px solid red"
+                      : "1px solid #d9d9d9"
+                  }}
+                  formatter={value =>
+                    `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }
+                  parser={value => value.replace(/£\s?|(,*)/g, "")}
+                  onChange={value => handleNumberChange("withdrawValue", value)}
+                />
+                <Error>{errors.withdrawValue}</Error>
+              </ErrorWrapper>
             </Col>
           </Row>
 
@@ -354,6 +402,7 @@ const Content = ({
             label="Donate funds"
             type="secondary"
             style={{ width: "135px" }}
+            onClick={handleSubmitWithdrawRequest}
             loading={apiLoading}
           />
           <Button

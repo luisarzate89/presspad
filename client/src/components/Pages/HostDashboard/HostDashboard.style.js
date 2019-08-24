@@ -145,3 +145,19 @@ export const Label = styled.label`
   width: 100%;
   display: inline-block;
 `;
+
+export const Error = styled.p`
+  position: absolute;
+  top: 100%;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+`;
+
+export const ErrorWrapper = styled.div`
+  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  margin-bottom: ${({ marginBottom }) => marginBottom};
+
+  border-radius: 4px;
+  position: relative;
+`;

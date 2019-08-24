@@ -5,8 +5,11 @@ import { message } from "antd";
 import Content from "./Content";
 import {
   API_HOST_DASHBOARD_URL,
-  API_DONATION_URL
+  API_DONATION_URL,
+  API_WITHDRAW_REQUEST_URL
 } from "./../../../constants/apiRoutes";
+
+import { withdrawSchema, donateSchema } from "./schemas";
 
 class HostProfile extends Component {
   state = {
@@ -15,19 +18,20 @@ class HostProfile extends Component {
     nextBooking: {},
     nextGuestProfile: {},
     account: {},
+    errors: {},
     isNumberInputActive: false,
+    attemptedToSubmit: false,
     // number of rows to be visible in the bookings table
     viewNumber: 3,
     // the amount of money that user want to donate
-    donateValue: 0,
+    donateValue: null,
     // the amount of money that user want to withdraw
-    withdrawValue: 0,
+    withdrawValue: null,
     // withdraw details
     bankName: null,
     bankSortCode: null,
     bankNumber: null,
-    //
-    //
+
     // Values came from api request
     bookings: [],
     updates: [],
@@ -94,7 +98,9 @@ class HostProfile extends Component {
       nextGuest,
       nextGuestProfile,
       nextBooking: bookings[0] || {},
-      account
+      account,
+      donateValue: account.currentBalance,
+      withdrawValue: account.currentBalance
     });
   };
 
@@ -107,12 +113,23 @@ class HostProfile extends Component {
   };
 
   handleNumberChange = (name, value) => {
-    this.setState({ [name]: value });
+    const { attemptedToSubmit, withdrawModalOpen } = this.state;
+
+    this.setState({ [name]: value }, () => {
+      if (attemptedToSubmit) {
+        this.validate(withdrawModalOpen ? withdrawSchema : donateSchema);
+      }
+    });
   };
 
   handleInpuChange = e => {
+    const { attemptedToSubmit, withdrawModalOpen } = this.state;
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      if (attemptedToSubmit) {
+        this.validate(withdrawModalOpen ? withdrawSchema : donateSchema);
+      }
+    });
   };
 
   handleViewMoreToggle = () => {
@@ -128,29 +145,82 @@ class HostProfile extends Component {
   handleCloseModals = () => {
     this.setState({
       withdrawModalOpen: false,
-      donateModalOpen: false
+      donateModalOpen: false,
+      errors: {},
+      attemptedToSubmit: false
     });
   };
 
   handleSubmitDonate = () => {
-    // if(amount > 0)
     const { donateValue } = this.state;
-    this.setState({ apiLoading: true }, () => {
-      axios
-        .post(API_DONATION_URL, { amount: donateValue })
-        .then(() => {
-          this.setState({ apiLoading: false });
-          this.handleCloseModals();
-          message.success(
-            `Done!, You have successfully donated by £${donateValue}`
-          );
-          this.fetchData();
-        })
-        .catch(() => {
-          message.error(`Error!, something went wrong`);
-          this.setState({ apiLoading: false });
-        });
+    this.setState({ attemptedToSubmit: true }, () => {
+      this.validate(donateSchema).then(res => {
+        res &&
+          this.setState({ apiLoading: true }, () => {
+            axios
+              .post(API_DONATION_URL, { amount: donateValue })
+              .then(() => {
+                this.setState({ apiLoading: false });
+                this.handleCloseModals();
+                message.success(
+                  `Done!, You have successfully donated by £${donateValue}`
+                );
+                this.fetchData();
+              })
+              .catch(() => {
+                message.error(`Error!, something went wrong`);
+                this.setState({ apiLoading: false });
+              });
+          });
+      });
     });
+  };
+
+  handleSubmitWithdrawRequest = () => {
+    const { withdrawValue, bankName, bankSortCode, bankNumber } = this.state;
+    this.setState({ attemptedToSubmit: true }, () => {
+      this.validate(withdrawSchema).then(res => {
+        res &&
+          this.setState({ apiLoading: true }, () => {
+            axios
+              .post(API_WITHDRAW_REQUEST_URL, {
+                amount: withdrawValue,
+                bankName,
+                bankSortCode,
+                bankNumber
+              })
+              .then(() => {
+                this.setState({ apiLoading: false });
+                this.handleCloseModals();
+                message.success(
+                  `Done!, You have requested to withdraw £${withdrawValue}`
+                );
+                this.fetchData();
+              })
+              .catch(() => {
+                message.error(`Error!, something went wrong`);
+                this.setState({ apiLoading: false });
+              });
+          });
+      });
+    });
+  };
+
+  validate = schema => {
+    const { account } = this.state;
+    return schema(account.currentBalance)
+      .validate(this.state, { abortEarly: false })
+      .then(res => {
+        this.setState({ errors: {} });
+        return res;
+      })
+      .catch(err => {
+        const errors = {};
+        err.inner.forEach(element => {
+          errors[element.path.split(".")[0]] = element.message;
+        });
+        this.setState({ errors });
+      });
   };
 
   render() {
@@ -168,7 +238,8 @@ class HostProfile extends Component {
       donateModalOpen,
       nextBooking,
       account,
-      apiLoading
+      apiLoading,
+      errors
     } = this.state;
     return (
       <Content
@@ -187,6 +258,7 @@ class HostProfile extends Component {
         nextBooking={nextBooking}
         account={account}
         apiLoading={apiLoading}
+        errors={errors}
         // Functions
         handleBlurNumberInput={this.handleBlurNumberInput}
         handleFocusNumberInput={this.handleFocusNumberInput}
@@ -196,6 +268,7 @@ class HostProfile extends Component {
         handleOpenModal={this.handleOpenModal}
         handleCloseModals={this.handleCloseModals}
         handleSubmitDonate={this.handleSubmitDonate}
+        handleSubmitWithdrawRequest={this.handleSubmitWithdrawRequest}
       />
     );
   }
