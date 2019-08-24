@@ -2,7 +2,8 @@ const boom = require("boom");
 
 const { hostDonateToPresspad } = require("../../database/queries/payments");
 
-module.exports = async (req, res, next) => {
+
+const hostDonation = async (req, res, next) => {
   const { amount } = req.body;
   const { role, account, _id } = req.user;
 
@@ -22,3 +23,5 @@ module.exports = async (req, res, next) => {
     return next(boom.badImplementation());
   }
 };
+
+module.exports = hostDonation;
