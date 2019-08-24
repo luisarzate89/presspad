@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Row, Col, message } from "antd";
+import { Elements } from "react-stripe-elements";
 
 import randomProfile from "../../../assets/random-profile.jpg";
 import DisabledPopOver from "../../Common/DisabledPopOver";
@@ -8,8 +9,14 @@ import Checklist from "../../Common/Checklist";
 import ListingGallery from "../../Common/Profile/ListingGallery";
 import PaymentsPlan from "./PaymentsPlan";
 import BookingInfo from "./BookingInfo";
+import PayNowModal from "./PayNowModal";
 
-import { getDiscountDays, calculatePrice } from "./helpers";
+import {
+  getDiscountDays,
+  calculatePrice,
+  createInstallments,
+  getFirstUnpaidInstallment
+} from "./helpers";
 
 import {
   API_GET_BOOKING_URL,
@@ -41,6 +48,7 @@ export default class BookingView extends Component {
   state = {
     checklistObj: {},
     installments: [],
+    newInstallments: [],
     listing: {
       userProfile: { organisation: {}, profileImage: {} },
       photos: []
@@ -55,6 +63,8 @@ export default class BookingView extends Component {
       error: ""
     },
     coupons: [],
+    payNow: false,
+    upfront: true,
     isLoading: null
   };
 
@@ -105,6 +115,10 @@ export default class BookingView extends Component {
         .error("something went wrong", 4)
         .then(() => this.props.history.push(Error500));
     }
+  }
+
+  componentDidUpdate() {
+    // if ()
   }
 
   handleChecklistChange = async e => {
@@ -209,6 +223,9 @@ export default class BookingView extends Component {
     }
   };
 
+  handlePayNowClick = payNow => this.setState({ payNow });
+  handlePaymentMethod = upfront => this.setState({ upfront });
+
   render() {
     const {
       listing: {
@@ -221,7 +238,9 @@ export default class BookingView extends Component {
       coupons,
       couponInfo,
       isLoading,
-      bookingInfo
+      bookingInfo,
+      payNow,
+      upfront
     } = this.state;
 
     const bookingId = this.props.match.params.id;
@@ -232,9 +251,36 @@ export default class BookingView extends Component {
       listingPhotos.img2 = photos[1].url;
       listingPhotos.img3 = photos[2].url;
     }
+    let firstUnpaidInstallment;
+    if (installments[0]) {
+      firstUnpaidInstallment = getFirstUnpaidInstallment(installments);
+      // const firstUnpaidInstallment = getFirstUnpaidInstallment(installments);
+    }
+
+    let newInstallments = [];
+    const { price, startDate, endDate } = bookingInfo;
+    const { couponDiscount } = couponInfo;
+    const netAmount = price - couponDiscount;
+    if (!installments[0]) {
+      newInstallments = createInstallments(
+        netAmount,
+        startDate,
+        endDate,
+        upfront
+      );
+    }
 
     return (
       <PageWrapper>
+        <Elements>
+          <PayNowModal
+            paymentInfo={
+              installments[0] ? firstUnpaidInstallment : newInstallments
+            }
+            visible={payNow}
+            handlePayNowClick={this.handlePayNowClick}
+          />
+        </Elements>
         <Header>
           {/* ToDo add loading skeleton */}
           <Row type="flex">
@@ -294,9 +340,13 @@ export default class BookingView extends Component {
                   handleChange={this.handleChecklistChange}
                 />
                 <PaymentsPlan
+                  handlePaymentMethod={this.handlePaymentMethod}
+                  handlePayNowClick={this.handlePayNowClick}
+                  handleNewInstallments={this.handleNewInstallments}
                   handleCouponChange={this.handleCouponChange}
                   data={{
                     installments,
+                    newInstallments,
                     isLoading,
                     ...bookingInfo,
                     couponInfo
@@ -310,10 +360,12 @@ export default class BookingView extends Component {
           <Col lg={8} md={10} sm={24}>
             <BookingInfo
               isLoading={isLoading}
+              handlePayNowClick={this.handlePayNowClick}
               data={{
                 bookingId,
                 ...bookingInfo,
                 installments,
+                firstUnpaidInstallment,
                 coupons,
                 couponDiscount: couponInfo.couponDiscount
               }}

@@ -3,7 +3,7 @@ import moment from "moment";
 
 import { Row, Skeleton } from "antd";
 
-import { getFirstUnpaidInstallment, calculatePrice } from "./helpers";
+import { calculatePrice } from "./helpers";
 
 import {
   BookingInfoWrapper,
@@ -17,7 +17,7 @@ import {
   PayButton
 } from "../../Common/general";
 const BookingInfo = props => {
-  const { isLoading, data } = props;
+  const { isLoading, data, handlePayNowClick } = props;
   const {
     bookingId,
     price: fullPrice,
@@ -26,6 +26,7 @@ const BookingInfo = props => {
     status,
     endDate,
     installments,
+    firstUnpaidInstallment,
     couponDiscount,
     coupons
   } = data;
@@ -44,7 +45,6 @@ const BookingInfo = props => {
         });
     });
   }
-  const firstUnpaidInstallment = getFirstUnpaidInstallment(installments);
 
   return (
     <SectionWrapperContent>
@@ -89,7 +89,7 @@ const BookingInfo = props => {
             <InfoValue mbottom="2.5rem" align="center">
               £{firstUnpaidInstallment.amount.toFixed(2)}
             </InfoValue>
-            <PayButton>
+            <PayButton onClick={() => handlePayNowClick(true)}>
               Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
             </PayButton>
           </Row>

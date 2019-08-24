@@ -2,7 +2,6 @@ import React from "react";
 import moment from "moment";
 import { Row, Col, Tabs, Table, Skeleton } from "antd";
 
-import { createInstallments } from "./helpers";
 import CouponCode from "./CouponCode";
 
 import {
@@ -53,9 +52,23 @@ const renderPaymentsInstallment = installments => {
     </SectionWrapperContent>
   );
 };
-const PaymentsPlan = ({ data, handleCouponChange }) => {
+
+const PaymentsPlan = ({
+  data,
+  handleCouponChange,
+  handlePayNowClick,
+  handlePaymentMethod
+}) => {
+  const handleTabChange = activeKey => {
+    if (activeKey === "1") {
+      handlePaymentMethod(true);
+    } else {
+      handlePaymentMethod(false);
+    }
+  };
   const {
     installments,
+    newInstallments: propsInstallments,
     isLoading,
     startDate,
     endDate,
@@ -85,8 +98,6 @@ const PaymentsPlan = ({ data, handleCouponChange }) => {
     error
   } = couponInfo;
   const remainPrice = totalPrice - couponDiscount;
-
-  const newInstallments = createInstallments(remainPrice, startDate, endDate);
 
   return (
     <SectionWrapperContent>
@@ -126,10 +137,21 @@ const PaymentsPlan = ({ data, handleCouponChange }) => {
         </Col>
       </Row>
       <Row>
-        <Tabs tabBarStyle={{ textAlign: "center" }} defaultActiveKey="2">
+        <Tabs
+          tabBarStyle={{ textAlign: "center" }}
+          defaultActiveKey="1"
+          onChange={handleTabChange}
+        >
           <TabPane tab="Pay up front" key="1">
             <TabPanWrapper>
-              <PayButton mtop="2rem">
+              <InfoMessage>
+                {moment().isAfter(endDate)
+                  ? `This booking has ended at ${moment(endDate).format(
+                      "DD MMM YYYY"
+                    )}`
+                  : "You must pay to finalize the booking"}
+              </InfoMessage>
+              <PayButton mtop="2rem" onClick={() => handlePayNowClick(true)}>
                 Pay £{remainPrice.toFixed(2)} now
               </PayButton>
             </TabPanWrapper>
@@ -138,13 +160,21 @@ const PaymentsPlan = ({ data, handleCouponChange }) => {
             <TabPanWrapper>
               <Table
                 columns={columns}
-                dataSource={newInstallments}
+                dataSource={propsInstallments[0] ? propsInstallments : []}
                 pagination={false}
               />
               <InfoMessage>
-                You must pay the first installment to finalize the booking
+                {moment().isAfter(endDate)
+                  ? `This booking has ended at ${moment(endDate).format(
+                      "DD MMM YYYY"
+                    )}`
+                  : "You must pay the first installment to finalize the booking"}
               </InfoMessage>
-              <PayButton>Pay £{newInstallments[0].amount} now</PayButton>
+              {propsInstallments[0] && (
+                <PayButton onClick={() => handlePayNowClick(true)}>
+                  Pay £{propsInstallments[0].amount} now
+                </PayButton>
+              )}
             </TabPanWrapper>
           </TabPane>
         </Tabs>

@@ -8,25 +8,38 @@ const moment = extendMoment(Moment);
  * @param {number} netAmount the remaining amount that the intern has to pay
  * @param {Date} startDate booking starting date
  * @param {Date} endDate booking ending date
+ * @param {boolean} upfront true if pay upfront
  * @returns {Array}
  */
-export const createInstallments = (netAmount, startDate, endDate) => {
+export const createInstallments = (netAmount, startDate, endDate, upfront) => {
+  if (upfront) {
+    return {
+      key: 1,
+      dueDate: moment().isBefore(moment(startDate).subtract(7, "day"))
+        ? moment(startDate)
+            .subtract(7, "day")
+            .toISOString()
+        : moment().toISOString(),
+      amount: netAmount
+    };
+  }
+  if (moment().isAfter(endDate)) return [];
+
   // split payemnts amount
   const firstPay = Math.round((netAmount / 3) * 100, 2) / 100;
   const secondPay = Math.round(((netAmount - firstPay) / 2) * 100, 2) / 100;
   const thirdPay = netAmount - firstPay - secondPay;
 
   // split payments dueDate
-  //Todo think more about this
   const firstDueDate = moment().isBefore(moment(startDate).subtract(7, "day"))
-    ? moment(startDate).subtract(7, "day")
-    : moment();
-  const secondDueDate = moment(startDate).add(
-    Math.round(moment(endDate).diff(startDate, "days") / 2),
-    "day"
-  );
+    ? moment(startDate)
+        .subtract(7, "day")
+        .toISOString()
+    : moment().toISOString();
+  const secondDueDate = moment(startDate)
+    .add(Math.round(moment(endDate).diff(startDate, "days") / 2), "day")
+    .toISOString();
   const thirdDueDate = endDate;
-  // console.log(moment().isBefore(firstDueDate));
 
   return [
     { key: 1, dueDate: firstDueDate, amount: firstPay },
