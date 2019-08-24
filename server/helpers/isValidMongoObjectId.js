@@ -10,6 +10,6 @@ const isValidMongoObjectId = (id) => {
     return false;
   }
   return false;
-}
+};
 
 module.exports = { isValidMongoObjectId };

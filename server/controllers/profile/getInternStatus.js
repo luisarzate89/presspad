@@ -24,26 +24,22 @@ module.exports = async (req, res, next) => {
   if (role !== "intern") {
     return next(boom.forbidden("Only interns can book a stay"));
   }
+  let isComplete = false;
+  let verified;
   try {
     const [profile] = await _getProfileBasedRole(_id, "intern");
     if (!profile) {
       return next(boom.notFound("You have no profile"));
     }
-    const { verified } = profile;
-
-    let isComplete = false;
-    try {
-      await validate(internCompleteProfileSchema, profile);
-      isComplete = true;
-      return res.send({ isComplete, verified });
-    } catch (error) {
-      if (error.name === "ValidationError") {
-        isComplete = false;
-        return res.send({ isComplete, verified });
-      }
-      throw error;
-    }
+    // eslint-disable-next-line prefer-destructuring
+    verified = profile.verified;
+    await validate(internCompleteProfileSchema, profile);
+    isComplete = true;
+    return res.send({ isComplete, verified });
   } catch (err) {
+    if (err.name === "ValidationError") {
+      return res.send({ isComplete, verified });
+    }
     return next(boom.badImplementation(err));
   }
 };

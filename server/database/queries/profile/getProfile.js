@@ -15,8 +15,11 @@ const getProfileByRoleAndId = (id, role) => Profile.aggregate([
     },
   },
   { $match: { "user.role": role } },
-  { $project: { "user.name": 1, verified: 1 } },
+  {
+    $project: {
+      "user.password": 0, "user.email": 0, "user.organisation": 0, "user.account": 0, "user.role": 0,
+    },
+  },
 ]);
-
 
 module.exports = { getProfile, getProfileByRoleAndId };
