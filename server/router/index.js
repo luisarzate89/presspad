@@ -21,6 +21,7 @@ const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getCoupons } = require("../controllers/coupon");
+const { getBookingsWithUsers } = require("../controllers/Bookings");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -51,6 +52,7 @@ const {
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
   COUPON_URL,
+  BOOKING_REVIEW_INFO_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -114,6 +116,7 @@ router.get(MY_PROFILE_URL, authentication, getMyProfile);
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 
+
 // Reviews
 router.route(REVIEW_URL)
   .post(
@@ -128,5 +131,8 @@ router.route(COUPON_URL)
 // Signout
 router.route(SIGNOUT_URL)
   .get(signOut);
+
+router.route(BOOKING_REVIEW_INFO_URL)
+  .get(authentication, getBookingsWithUsers);
 
 module.exports = router;
