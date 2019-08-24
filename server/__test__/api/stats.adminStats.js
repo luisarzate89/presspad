@@ -43,7 +43,6 @@ describe("Testing for get host profile route", () => {
           .end((error, result) => {
             expect(result).toBeDefined();
             expect(result.body).toBeDefined();
-            console.log(result.body[0]);
             expect(result.body[0].name).toBeDefined();
             expect(result.body[0].currentlyHosted).toBeDefined();
             expect(result.body[0].currentBalance).toBeDefined();

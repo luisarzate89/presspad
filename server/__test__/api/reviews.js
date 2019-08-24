@@ -48,7 +48,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
         const token = response.headers["set-cookie"][0].split(";")[0];
         if (error) return done(error);
 
-        
+
         // Request should create a document in Review collection
         // and a document in Notification collection.
         return request(app)
@@ -71,7 +71,6 @@ describe("Tests adding a review and creating a getReview notification", () => {
                 type: "getReview",
               },
             );
-            console.log(notification)
             // there should be a review and a notification entries.
             // fails if returned value is null
             expect(review).toBeTruthy();
@@ -119,7 +118,6 @@ describe("Tests adding a review and creating a getReview notification", () => {
           });
       });
   }, 30000);
-
 
   test("check that input validation works as intended for message", async (done) => {
     const reviewee = await User.findOne({ name: "Michael Peters" });
