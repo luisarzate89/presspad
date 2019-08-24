@@ -22,6 +22,7 @@ const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
+const hostDonation = require("../controllers/paymenys/hostDonation");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -52,6 +53,7 @@ const {
   REVIEW_URL,
   BOOKING_REVIEW_INFO_URL,
   HOST_DASHBOARD_URL,
+  DONATION_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -115,6 +117,8 @@ router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 // get HOST dashboard data
 router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 
+// host donate to presspad
+router.post(DONATION_URL, authentication, hostDonation);
 
 // Reviews
 router.route(REVIEW_URL)

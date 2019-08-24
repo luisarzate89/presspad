@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Spin, Icon } from "antd";
 
 import { colors } from "../../../theme";
 
@@ -89,9 +90,22 @@ const StyledButton = styled.button`
   ${props => props.type === "verification" && outlineStyles}
 `;
 
-const Button = ({ label, ...props }) => {
+const ButtonSpinner = ({ color }) => {
+  // antd spinner for the submit button
+  const antIcon = (
+    <Icon
+      type="loading"
+      style={{ fontSize: 24, color: color || "white" }}
+      spin
+    />
+  );
+  return <Spin indicator={antIcon} style={{ marginRight: ".5rem" }} />;
+};
+
+const Button = ({ label, loading, ...props }) => {
   return (
-    <StyledButton aria-label={label} {...props}>
+    <StyledButton aria-label={label} {...props} disabled={loading}>
+      {loading && <ButtonSpinner color={"#FFFFFF"} />}
       {label}
     </StyledButton>
   );

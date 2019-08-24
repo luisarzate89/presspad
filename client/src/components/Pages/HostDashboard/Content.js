@@ -54,6 +54,7 @@ const Content = ({
   nextGuestProfile,
   nextBooking,
   account,
+  apiLoading,
 
   handleViewMoreToggle,
   handleBlurNumberInput,
@@ -61,7 +62,8 @@ const Content = ({
   handleNumberChange,
   handleInpuChange,
   handleOpenModal,
-  handleCloseModals
+  handleCloseModals,
+  handleSubmitDonate
 }) => {
   return (
     <PageWrapper className="wrapper">
@@ -232,6 +234,8 @@ const Content = ({
               label="Donate funds"
               type="secondary"
               style={{ width: "135px" }}
+              onClick={handleSubmitDonate}
+              loading={apiLoading}
             />
             <Button
               label="Cancel"
@@ -350,6 +354,7 @@ const Content = ({
             label="Donate funds"
             type="secondary"
             style={{ width: "135px" }}
+            loading={apiLoading}
           />
           <Button
             label="Cancel"

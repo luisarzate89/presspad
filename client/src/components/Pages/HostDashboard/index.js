@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { message } from "antd";
 
 import Content from "./Content";
-import { API_HOST_DASHBOARD_URL } from "./../../../constants/apiRoutes";
+import {
+  API_HOST_DASHBOARD_URL,
+  API_DONATION_URL
+} from "./../../../constants/apiRoutes";
 
 class HostProfile extends Component {
   state = {
@@ -30,9 +34,48 @@ class HostProfile extends Component {
 
     // MODALS
     withdrawModalOpen: false,
-    donateModalOpen: false
+    donateModalOpen: false,
+    apiLoading: false
   };
   async componentDidMount() {
+    this.fetchData();
+    document.addEventListener("keypress", e => {
+      const { isNumberInputActive } = this.state;
+      const numbers = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        0,
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "0",
+        ".",
+        ","
+      ];
+      if (!numbers.includes(e.key) && isNumberInputActive) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keypress", () => {});
+  }
+
+  fetchData = async () => {
     const { data } = await axios.get(API_HOST_DASHBOARD_URL);
     const {
       name,
@@ -53,40 +96,7 @@ class HostProfile extends Component {
       nextBooking: bookings[0] || {},
       account
     });
-
-    document.addEventListener("keypress", e => {
-      const { isNumberInputActive } = this.state;
-      const numbers = [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        ".",
-        ","
-      ];
-      if (!numbers.includes(e.key) && isNumberInputActive) {
-        e.preventDefault();
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keypress", () => {});
-  }
+  };
 
   handleBlurNumberInput = () => {
     this.setState({ isNumberInputActive: false });
@@ -122,6 +132,27 @@ class HostProfile extends Component {
     });
   };
 
+  handleSubmitDonate = () => {
+    // if(amount > 0)
+    const { donateValue } = this.state;
+    this.setState({ apiLoading: true }, () => {
+      axios
+        .post(API_DONATION_URL, { amount: donateValue })
+        .then(() => {
+          this.setState({ apiLoading: false });
+          this.handleCloseModals();
+          message.success(
+            `Done!, You have successfully donated by £${donateValue}`
+          );
+          this.fetchData();
+        })
+        .catch(() => {
+          message.error(`Error!, something went wrong`);
+          this.setState({ apiLoading: false });
+        });
+    });
+  };
+
   render() {
     const { windowWidth } = this.props;
     const {
@@ -136,7 +167,8 @@ class HostProfile extends Component {
       withdrawModalOpen,
       donateModalOpen,
       nextBooking,
-      account
+      account,
+      apiLoading
     } = this.state;
     return (
       <Content
@@ -154,6 +186,7 @@ class HostProfile extends Component {
         nextGuestProfile={nextGuestProfile}
         nextBooking={nextBooking}
         account={account}
+        apiLoading={apiLoading}
         // Functions
         handleBlurNumberInput={this.handleBlurNumberInput}
         handleFocusNumberInput={this.handleFocusNumberInput}
@@ -162,6 +195,7 @@ class HostProfile extends Component {
         handleViewMoreToggle={this.handleViewMoreToggle}
         handleOpenModal={this.handleOpenModal}
         handleCloseModals={this.handleCloseModals}
+        handleSubmitDonate={this.handleSubmitDonate}
       />
     );
   }
