@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
-import { Spin, Alert } from "antd";
+import { Spin, Alert, Icon } from "antd";
 import { createDatesArray, getDateRangeFromArray } from "../../../helpers";
 
 import {
@@ -46,7 +46,8 @@ class CalendarComponent extends Component {
     price: 0,
     bookingExists: false,
     message: "",
-    messageType: ""
+    messageType: "",
+    isBooking: false
   };
 
   componentDidMount() {
@@ -66,7 +67,9 @@ class CalendarComponent extends Component {
     this.setState({
       dates,
       noNights: countDays(dates),
-      price: calculatePrice(dates)
+      price: calculatePrice(dates),
+      message: "",
+      messageType: ""
     });
     // check if booking exists and update state
     this.bookingFound(dates, internBookings);
@@ -94,6 +97,7 @@ class CalendarComponent extends Component {
 
     let message = "";
     try {
+      this.setState({ isBooking: true });
       const {
         data: { verified, isComplete }
       } = await axios.get(API_GET_INTERN_STATUS);
@@ -109,11 +113,13 @@ class CalendarComponent extends Component {
           .then(res => {
             this.setState({
               message: "Booking request sent successfully",
-              messageType: "success"
+              messageType: "success",
+              isBooking: false
             });
           })
           .catch(error => {
             this.setState({
+              isBooking: false,
               messageType: "error",
               message:
                 "It seems like you have already requested a booking during those dates. You can only make one request at a time."
@@ -123,6 +129,7 @@ class CalendarComponent extends Component {
     } catch (err) {
       if (err && err.response && err.response.status === 404) {
         this.setState({
+          isBooking: false,
           messageType: "error",
           message: "You need to have a profile in order to be able to book stay"
         });
@@ -157,7 +164,8 @@ class CalendarComponent extends Component {
       bookingExists,
       message,
       messageType,
-      isLoading
+      isLoading,
+      isBooking
     } = this.state;
     const { adminView } = this.props;
 
@@ -193,9 +201,23 @@ class CalendarComponent extends Component {
           <RequestBtn
             onClick={this.handleClick}
             disabled={
-              noNights === 0 || noNights === null || bookingExists || adminView
+              noNights === 0 ||
+              noNights === null ||
+              bookingExists ||
+              adminView ||
+              isBooking
             }
           >
+            <Spin
+              spinning={isBooking}
+              indicator={
+                <Icon
+                  type="loading"
+                  style={{ fontSize: 24, marginRight: "8px", color: "white" }}
+                  spin
+                />
+              }
+            />
             Request Stay
           </RequestBtn>
         </PricingDiv>

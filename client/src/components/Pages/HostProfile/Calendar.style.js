@@ -175,25 +175,24 @@ export const PriceLabel = styled.h1`
 
 export const RequestBtn = styled.button`
   background: ${props =>
-    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`}
-    opacity: ${props => (props.disabled ? "0.7" : "")};
+    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`};
+  opacity: ${props => (props.disabled ? "0.7" : "")};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
   border: none;
-  padding: 0.5rem 5rem;
+  padding: 0.5rem 4rem;
   margin: 0;
   text-decoration: none;
   cursor: pointer;
   text-align: center;
-  transition: background 250ms ease-in-out,
-  transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  :focus, :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
-
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
   }
 `;
 
