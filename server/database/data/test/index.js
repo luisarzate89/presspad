@@ -52,19 +52,21 @@ const buildTestData = connection => new Promise((resolve, reject) => {
         await checklistQuestions();
         await checklistAnswers();
       } catch (error) {
-        console.log("err", error);
+        console.log("err in building the database", error);
       }
     })
     .then(resolve)
     .catch(reject);
 });
 
-// buildTestData().then(() => {
-//   // eslint-disable-next-line no-console
-//   console.log("Done!: Dev DB has been built successfully");
-//   // close the connection after build
-//   mongoose.disconnect();
-// });
+if (process.env.NODE_ENV === "build") {
+  buildTestData().then(() => {
+    // eslint-disable-next-line no-console
+    console.log("Done!: Dev DB has been built successfully");
+    // close the connection after build
+    mongoose.disconnect();
+  });
+}
 
 
 module.exports = buildTestData;

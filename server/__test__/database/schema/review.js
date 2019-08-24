@@ -21,7 +21,7 @@ describe("Test Review schema", () => {
 
   test("should store Review schema correctly", async (done) => {
     const reviews = await Review.find();
-    expect(reviews).toHaveLength(3);
+    expect(reviews).toHaveLength(2);
     done();
   });
 

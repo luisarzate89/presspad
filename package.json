@@ -27,13 +27,14 @@
     "init:both": "npm i && npm run client:init",
     "coverage": "codecov",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test:clearCache": "cross-env NODE_ENV=test jest --clearCache",
     "test:client": "cd client && npm test",
     "test:client:coverage": "NODE_ENV=test cd client && npm run test:coverage",
     "test": "cross-env NODE_ENV=test npm run test:coverage && npm run test:client:coverage",
     "test:current": "cross-env NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
-    "build:data:test": "cross-env NODE_ENV=test node server/database/data/test/index.js",
+    "build:data:test": "cross-env NODE_ENV=build node server/database/data/test/index.js",
     "build:data:prd": "node server/database/data/production/index.js"
   },
   "devDependencies": {

@@ -16,6 +16,14 @@ module.exports = async () => {
       price: 300,
     },
     {
+      listing: listings[0],
+      intern: interns[1],
+      host: listings[0].user,
+      startDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      price: 436,
+    },
+    {
       listing: listings[1],
       intern: interns[0],
       host: listings[1].user,
@@ -52,7 +60,7 @@ module.exports = async () => {
     },
     {
       listing: listings[2],
-      intern: interns[3],
+      intern: interns[1],
       host: listings[2].user,
       startDate: Date.now() + 10 * 24 * 60 * 60 * 1000,
       endDate: Date.now() + 15 * 24 * 60 * 60 * 1000,

@@ -10,13 +10,13 @@ module.exports = async () => {
   // create notifications
   const notifications = [
     {
-      user: interns[0],
+      user: interns[1], // mone
       secondParty: hosts[0],
       type: "stayApproved",
       private: false,
     }, {
       user: hosts[0],
-      secondParty: interns[0],
+      secondParty: interns[1],
       type: "stayRequest",
       private: false,
     }, {
@@ -24,7 +24,7 @@ module.exports = async () => {
       type: "completeProfileRemind",
       private: true,
     }, {
-      user: interns[0],
+      user: interns[1],
       secondParty: hosts[1],
       type: "stayApproved",
       private: false,

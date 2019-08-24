@@ -6,13 +6,6 @@ module.exports = async () => {
 
   const reviews = [
     {
-      to: bookings[0].intern,
-      from: bookings[0].host,
-      rating: 4,
-      message: "My stay was perfect!",
-      booking: bookings[0]._id,
-    },
-    {
       to: bookings[1].intern,
       from: bookings[1].host,
       rating: 5,

@@ -19,7 +19,7 @@ describe("Testing for organisation dashboard data", () => {
 
   test("test with an organisation user's role", (done) => {
     const loginData = {
-      email: "michael@financialtimes.co.uk",
+      email: "brian@bbc.co.uk",
       password: "123456",
     };
 
@@ -42,7 +42,7 @@ describe("Testing for organisation dashboard data", () => {
 
             const [details, notifications, interns] = result.body;
             expect(details).toBeDefined();
-            expect(details[0].name).toBe("Financial Times");
+            expect(details[0].name).toBe("BBC");
 
             expect(notifications).toBeDefined();
             expect(notifications).toHaveLength(2);
@@ -50,7 +50,7 @@ describe("Testing for organisation dashboard data", () => {
             expect(notifications[0].user).toBeDefined();
 
             expect(interns).toBeDefined();
-            expect(interns).toHaveLength(2);
+            expect(interns).toHaveLength(1);
             expect(interns[0].status).toBeDefined();
             expect(interns[0].totalCredits).toBeDefined();
             done(error);
