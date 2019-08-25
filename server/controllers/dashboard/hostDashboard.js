@@ -23,7 +23,6 @@ const hostDashboard = async (req, res, next) => {
 
     if (profile && profile.profileImage) generateFileURL(profile.profileImage);
 
-    console.log(dashboardData);
     return res.json({ ...dashboardData });
   } catch (err) {
     return next(err);

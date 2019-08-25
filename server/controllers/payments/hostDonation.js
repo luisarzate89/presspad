@@ -20,7 +20,6 @@ const hostDonation = async (req, res, next) => {
     });
     return res.json(results);
   } catch (error) {
-    console.log(error);
     return next(boom.badImplementation(error));
   }
 };
