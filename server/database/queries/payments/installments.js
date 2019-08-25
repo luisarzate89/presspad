@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const Installment = require("../../models/Installment");
 
 /**
@@ -34,4 +36,14 @@ const createInstallments = (installments, bookingId, internId, hostId, session) 
   return Installment.insertMany([installments], { session });
 };
 
-module.exports = { createInstallments };
+/**
+ * Update paid installment by adding transaction Id, This should work inside a transaction session
+ * @param {string} installmentId
+ * @param {string} transactionId
+ * @param {session} session
+ */
+const updatePaidInstallment = (installmentId, transactionId, session) => Installment.updateOne(
+  { _id: mongoose.Types.ObjectId(installmentId) }, { transaction: transactionId }, { session },
+);
+
+module.exports = { createInstallments, updatePaidInstallment };

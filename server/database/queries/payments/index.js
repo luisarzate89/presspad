@@ -1,5 +1,7 @@
-const { createInstallments } = require("./installments");
+const { createInstallments, updatePaidInstallment } = require("./installments");
 const { createExternalTransaction } = require("./externalTransactions");
 const { createInternalTransaction } = require("./internalTransactions");
 
-module.exports = { createInstallments, createExternalTransaction, createInternalTransaction };
+module.exports = {
+  createInstallments, updatePaidInstallment, createExternalTransaction, createInternalTransaction,
+};
