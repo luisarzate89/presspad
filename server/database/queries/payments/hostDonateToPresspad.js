@@ -12,7 +12,7 @@ const hostDonateToPresspad = async ({
     session.startTransaction();
 
     const presspadAdmin = await User.findOne({ role: "admin" }).session(session);
-    InternalTransaction.create([{
+    await InternalTransaction.create([{
       from: fromAccount,
       to: presspadAdmin.account,
       amount,
@@ -50,8 +50,6 @@ const hostDonateToPresspad = async ({
     // check if the donated account didnt deduct more than what it has
     const updatedDonatedAccount = await Account.findById(fromAccount).session(session);
     if (updatedDonatedAccount.currentBalance < 0) {
-      await session.abortTransaction();
-      session.endSession();
       throw new Error("Can't donate more than what you have");
     }
     await session.commitTransaction();

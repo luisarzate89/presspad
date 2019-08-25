@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === "test") {
 
 
 // create DB connection
-const dbConnection = () => mongoose.connect(mongoURI, {
+const dbConnection = atlasLink => mongoose.connect(atlasLink || mongoURI, {
   useNewUrlParser: true,
   useCreateIndex: true,
 });

@@ -23,8 +23,8 @@ const checklistAnswers = require("./checklistAnswers");
 const withdrawRequests = require("./withdrawRequests");
 
 
-const buildTestData = () => new Promise((resolve, reject) => {
-  dbConnection()
+const buildTestData = atlasLink => new Promise((resolve, reject) => {
+  dbConnection(atlasLink)
     .then(async () => {
       await resetDb();
       await accounts();
