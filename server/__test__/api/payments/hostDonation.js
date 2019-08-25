@@ -14,9 +14,9 @@ describe("Testing for host donate to presspad account route", () => {
   beforeAll(async (done) => {
     // 1 minute for each test becuase it runs on atlas
     jest.setTimeout(60000);
-    const atlasLink = process.env.MONGOURI_ATLAS;
+
     // build dummy data
-    await buildDB(atlasLink);
+    await buildDB(true);
     done();
   });
 

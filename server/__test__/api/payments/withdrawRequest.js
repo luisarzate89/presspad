@@ -12,11 +12,8 @@ const { API_WITHDRAW_REQUEST_URL } = require("../../../../client/src/constants/a
 
 describe("Testing for host makeing withdraw request", () => {
   beforeAll(async (done) => {
-    // 1 minute for each test becuase it runs on atlas
-    jest.setTimeout(60000);
-    const atlasLink = process.env.MONGOURI_ATLAS;
     // build dummy data
-    await buildDB(atlasLink);
+    await buildDB();
     done();
   });
 
