@@ -126,8 +126,7 @@ describe("Testing for host donate to presspad account route", () => {
             const transaction = await InternalTransaction.findOne({
               user: adam._id, from: adam.account, to: admin.account, amount,
             });
-            expect(transaction).toBeDefined();
-            expect(transaction).toBeTruthy();
+            expect(transaction).toBeFalsy();
             return done(error);
           });
       });
