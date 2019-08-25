@@ -19,6 +19,7 @@ const withdrawRequestSchema = new Schema({
   amount: {
     type: Number,
     required: true,
+    min: 0.01,
   },
   bankName: {
     type: String,
