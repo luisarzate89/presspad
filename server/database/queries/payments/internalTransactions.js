@@ -14,7 +14,7 @@ const InternalTransaction = require("../../models/InternalTransaction");
  */
 const createInternalTransaction = async (userId, fromAccount, toAccount, amount, type, session) => {
   const internaltransaction = InternalTransaction.create([{
-    user: userId, from: fromAccount, to: toAccount, amount,
+    user: userId, from: fromAccount, to: toAccount, amount, type,
   }], { session });
 
   let bulkWriteArr;
