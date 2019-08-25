@@ -24,7 +24,7 @@ const externalTransactionSchema = new Schema({
     type: String,
     enum: ["deposite", "withdraw"],
   },
-  stripInfo: Object,
+  stripeInfo: Object,
 }, {
   timestamps: true,
 });
