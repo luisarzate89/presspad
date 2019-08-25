@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "jest": {
-    "testRegex": "__test__/*",
+    "testRegex": "__test__/database/schema/*",
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
       "**/*.js",
