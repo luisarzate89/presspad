@@ -22,8 +22,8 @@ const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
-const hostDonation = require("../controllers/paymenys/hostDonation");
-const withdrawRequest = require("../controllers/paymenys/withdrawRequest");
+const hostDonation = require("../controllers/payments/hostDonation");
+const withdrawRequest = require("../controllers/payments/withdrawRequest");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
