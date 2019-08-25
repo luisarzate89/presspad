@@ -118,6 +118,14 @@ const hostDashboard = id => User.aggregate([
     $unwind: { path: "$account", preserveNullAndEmptyArrays: true },
   },
   {
+    $lookup: {
+      from: "withdrawRequests",
+      localField: "_id",
+      foreignField: "user",
+      as: "withdrawRequests",
+    },
+  },
+  {
     $project: {
       password: 0,
     },

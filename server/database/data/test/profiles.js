@@ -63,16 +63,17 @@ module.exports = async () => {
 
   // add interns
   const interns = await User.find({ role: "intern" }).sort({ name: 1 });
+  const [joe, mone, , ramy] = interns;
 
   const internProfiles = [
     {
-      user: interns[0],
+      user: mone,
       verified: true,
       bio:
-        "Hi I'm Simon and I'm starting an internship at the AFP any time soon. Would love to find a nice place to stay at.",
+        "Hi I'm Mone and I'm starting an internship at the AFP any time soon. Would love to find a nice place to stay at.",
       jobTitle: "Journalist",
       profileImage: {
-        fileName: "adam-profile.jpg",
+        fileName: "mone-profile.jpg",
       },
       favouriteArticle: {
         title: "A story about techno",
@@ -83,9 +84,9 @@ module.exports = async () => {
       },
       verification: {
         photoID: {
-          fileName: "simon-photoID.png",
+          fileName: "mone-photoID.png",
         },
-        offerLetter: "simon-offer-letter.jpg",
+        offerLetter: "mone-offer-letter.jpg",
         reference1:
           {
             name: "Yalla Master",
@@ -99,11 +100,14 @@ module.exports = async () => {
       },
     },
     {
-      user: interns[1],
+      user: joe,
       verified: true,
       bio:
         "Hi I'm Joe and I'm starting an internship at the BBC. Would love to find an awesome place to stay at.",
       jobTitle: "Music Journalist",
+      profileImage: {
+        fileName: "joe-image.jpg",
+      },
       favouriteArticle: {
         title: "French Nancy - good times",
         author: "Solo Chief",
@@ -129,11 +133,14 @@ module.exports = async () => {
       },
     },
     {
-      user: interns[2],
+      user: ramy,
       verified: true,
       bio:
         "Hi I'm Ramy and I'm starting an internship at the FA. Would love to find an cosy place to stay at.",
       jobTitle: "Coding Journalist",
+      profileImage: {
+        fileName: "ramy-image.jpg",
+      },
       favouriteArticle: {
         title: "MongoDB is for cool kids",
         author: "Professor Mongo",

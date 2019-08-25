@@ -57,13 +57,13 @@ describe("Testing for intern dashboard route", () => {
             expect(notifications[0].user).toBeDefined();
 
             expect(installments).toBeDefined();
-            expect(installments).toHaveLength(4);
+            expect(installments).toHaveLength(3);
             expect(installments[0].booking).toBeDefined();
             expect(installments[0].amount).toBeDefined();
             expect(installments[0].dueDate).toBeDefined();
 
             expect(bookings).toBeDefined();
-            expect(bookings).toHaveLength(2);
+            expect(bookings).toHaveLength(4);
             expect(bookings[0].status).toBeDefined();
             expect(bookings[0].startDate).toBeDefined();
             expect(bookings[0].endDate).toBeDefined();

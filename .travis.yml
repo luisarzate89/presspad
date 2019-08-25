@@ -9,9 +9,11 @@ cache:
     - node_modules
 
 env:
-  - MONGODB=4.0.0
+  global:
+    - MONGODB=4.0.0
+    - MONGOURIATLAS=mongodb+srv://abd:123@localhost-yaadf.mongodb.net/atlas-test?retryWrites=true&w=majority
 
-matrix:
+  matrix:
   fast_finish: true
 
 install:

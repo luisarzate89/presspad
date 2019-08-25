@@ -14,14 +14,14 @@ describe("Testing for host donate to presspad account route", () => {
   beforeAll(async (done) => {
     // 1 minute for each test becuase it runs on atlas
     jest.setTimeout(60000);
-
     // build dummy data
     await buildDB(true);
     done();
   });
 
-  afterAll(() => {
-    mongoose.disconnect();
+  afterAll(async (done) => {
+    await mongoose.disconnect();
+    done();
   });
 
   test("test with correct details", (done) => {
