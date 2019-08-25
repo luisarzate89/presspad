@@ -2,16 +2,9 @@ const Booking = require("../../models/Booking");
 const Review = require("../../models/Review");
 
 module.exports = async () => {
-  const bookings = await Booking.find();
+  const bookings = await Booking.find({ status: "confirmed" }).sort({ price: 1 });
 
   const reviews = [
-    {
-      to: bookings[0].intern,
-      from: bookings[0].host,
-      rating: 4,
-      message: "My stay was perfect!",
-      booking: bookings[0]._id,
-    },
     {
       to: bookings[1].intern,
       from: bookings[1].host,

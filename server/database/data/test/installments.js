@@ -3,9 +3,10 @@ const Booking = require("../../models/Booking");
 const InternalTransaction = require("../../models/InternalTransaction");
 
 module.exports = async () => {
-  const bookings = await Booking.find();
+  const bookings = await Booking.find({ status: "confirmed" }).sort({ price: 1 });
+  // this might need some improve
   const internalTransaction1 = await InternalTransaction.findOne({ user: bookings[0].intern });
-  const internalTransaction2 = await InternalTransaction.findOne({ user: bookings[1].intern });
+  const internalTransaction2 = await InternalTransaction.findOne({ user: bookings[2].intern });
 
   const installments = [
     // 3 installments for one booking

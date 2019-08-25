@@ -1,4 +1,5 @@
-const dbConnection = require("../../dbConnection");
+const mongoose = require("mongoose");
+const dbConnect = require("../../dbConnection");
 const resetDb = require("./../resetDB");
 
 const organisations = require("./organisations");
@@ -22,32 +23,50 @@ const checklistQuestions = require("./checklistQuestions");
 const checklistAnswers = require("./checklistAnswers");
 
 
-const buildTestData = () => new Promise((resolve, reject) => {
+const buildTestData = connection => new Promise((resolve, reject) => {
+  let dbConnection = dbConnect;
+  if (connection) {
+    dbConnection = connection;
+  }
   dbConnection()
     .then(async () => {
-      await resetDb();
-      await accounts();
-      await organisations();
-      await users();
-      await orgCodes();
-      await referrals();
-      await profiles();
-      await listings();
-      await bookings();
-      await reviews();
-      await notifications();
-      await transactions();
-      await internalTransaction();
-      await coupons();
-      await scheduledNotifications();
-      await externalTransactions();
-      await installments();
-      await scheduledEmails();
-      await checklistQuestions();
-      await checklistAnswers();
+      try {
+        await resetDb();
+        await accounts();
+        await organisations();
+        await users();
+        await orgCodes();
+        await referrals();
+        await profiles();
+        await listings();
+        await bookings();
+        await reviews();
+        await notifications();
+        await transactions();
+        await internalTransaction();
+        await coupons();
+        await scheduledNotifications();
+        await externalTransactions();
+        await installments();
+        await scheduledEmails();
+        await checklistQuestions();
+        await checklistAnswers();
+      } catch (error) {
+        console.log("err in building the database", error);
+      }
     })
     .then(resolve)
     .catch(reject);
 });
+
+if (process.env.NODE_ENV === "build") {
+  buildTestData().then(() => {
+    // eslint-disable-next-line no-console
+    console.log("Done!: Dev DB has been built successfully");
+    // close the connection after build
+    mongoose.disconnect();
+  });
+}
+
 
 module.exports = buildTestData;
