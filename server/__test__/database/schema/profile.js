@@ -26,6 +26,7 @@ describe("Test Profile schema", () => {
   });
 
   test("should store a new Profile correctly", async (done) => {
+    await Profile.collection.dropIndexes();
     const interns = await User.find({ role: "intern" });
     const newProfile = {
       user: interns[0],

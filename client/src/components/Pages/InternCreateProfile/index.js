@@ -1,75 +1,15 @@
 import React, { Component } from "react";
 import Content from "./Content";
 import { Modal, Spin, Alert, message } from "antd";
-import * as Yup from "yup";
 import axios from "axios";
 
-import { API_INTERN_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
+import schema from "./Schema";
+
+import {
+  API_INTERN_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 import { HOSTS_URL } from "./../../../constants/navRoutes";
-
-const schema = Yup.object().shape({
-  profileImage: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
-    isPrivate: Yup.boolean().default(false)
-  }),
-  bio: Yup.string().required("Required"),
-  // Todo/ add this when we change the design to mach this.
-  // favouriteArticle: Yup.object().shape({
-  //   title: Yup.string(),
-  //   author: Yup.string(),
-  //   link: Yup.string()
-  // }),
-  jobTitle: Yup.string().required("Required"),
-  organisation: Yup.object().shape({
-    name: Yup.string(),
-    website: Yup.string()
-  }),
-
-  photoIDFile: Yup.object().shape({
-    fileName: Yup.string(),
-    isPrivate: Yup.boolean().default(true)
-  }),
-  offerLetter: Yup.object().shape({
-    fileName: Yup.string(),
-    isPrivate: Yup.boolean().default(true)
-  }),
-  reference1: Yup.object().shape({
-    name: Yup.string().test("both required", "must fill both", function(name) {
-      const { contact } = this.parent;
-      if (contact && !name) {
-        return false;
-      }
-      return true;
-    }),
-    contact: Yup.string().test("both required", "must fill both", function(
-      contact
-    ) {
-      const { name } = this.parent;
-      if (name && !contact) {
-        return false;
-      }
-      return true;
-    })
-  }),
-  reference2: Yup.object().shape({
-    name: Yup.string().test("both required", "must fill both", function(name) {
-      const { contact } = this.parent;
-      if (contact && !name) {
-        return false;
-      }
-      return true;
-    }),
-    contact: Yup.string().test("both required", "must fill both", function(
-      contact
-    ) {
-      const { name } = this.parent;
-      if (name && !contact) {
-        return false;
-      }
-      return true;
-    })
-  })
-});
 
 export default class InternCreateProfile extends Component {
   state = {
@@ -78,10 +18,15 @@ export default class InternCreateProfile extends Component {
     profileImage: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      url: ""
     },
     bio: "",
-    favouriteArticle: "",
+    favouriteArticle: {
+      title: "",
+      author: "",
+      link: "",
+      description: ""
+    },
     jobTitle: "",
     organisation: { name: "", website: "" },
     offerLetter: {
@@ -98,6 +43,31 @@ export default class InternCreateProfile extends Component {
 
     errors: {}
   };
+
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile } }) => {
+        this.setState({
+          ...profile,
+          profileImage: {
+            ...this.state.profileImage,
+            ...profile.profileImage
+          },
+          reference1: profile.verification.reference1,
+          reference2: profile.verification.reference2,
+          photoIDFile: {
+            ...this.state.photoIDFile,
+            ...profile.verification.photoID
+          },
+          offerLetter: {
+            ...this.state.photoIDFile,
+            ...profile.verification.offerLetter
+          }
+        });
+      })
+      .catch(err => message.error("internal server error"));
+  }
 
   directUploadToGoogle = async e => {
     const {
@@ -140,11 +110,11 @@ export default class InternCreateProfile extends Component {
         "Content-Type": "application/octet-stream"
       };
 
-      let dataUrl = "";
+      let url = "";
 
       if (isPrivate === "false") {
         headers["x-goog-acl"] = "public-read";
-        dataUrl = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
+        url = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
       await axios.put(signedUrl, image, {
         headers,
@@ -162,7 +132,7 @@ export default class InternCreateProfile extends Component {
 
       this.setState({
         [name]: {
-          dataUrl,
+          url,
           fileName: generatedName,
           loading: 100,
           isLoading: false
@@ -195,24 +165,30 @@ export default class InternCreateProfile extends Component {
       newState = { [name]: value };
     }
 
-    this.setState(
-      newState,
-      () => this.state.attemptedToSubmit && this.updateErrors()
-    );
+    this.setState(newState, () => {
+      this.state.attemptedToSubmit && this.updateErrors();
+    });
   };
 
   validate = () => {
-    return schema.validate(this.state, { abortEarly: false }).catch(err => {
-      const errors = {};
-      err.inner.forEach(element => {
-        if (element.path.startsWith("reference")) {
-          errors[element.path.split(".").join("")] = element.message;
-        } else {
-          errors[element.path.split(".")[0]] = element.message;
-        }
+    return schema
+      .validate(this.state, { abortEarly: false })
+      .then(res => {
+        this.setState({ errors: {} });
+        return res;
+      })
+      .catch(err => {
+        const errors = {};
+        err.inner.forEach(element => {
+          if (element.path.includes(".")) {
+            const newMessage = element.message.split(".").join(" ");
+            errors[element.path.split(".").join("")] = newMessage;
+          } else {
+            errors[element.path.split(".")[0]] = element.message;
+          }
+        });
+        this.setState({ errors });
       });
-      this.setState({ errors });
-    });
   };
 
   handleSubmit = e => {
@@ -253,6 +229,7 @@ export default class InternCreateProfile extends Component {
 
         const formData = {
           profileImage: { fileName: profileImage.fileName, isPrivate: false },
+          verification: this.state.verification || {},
           bio
         };
 
@@ -262,34 +239,34 @@ export default class InternCreateProfile extends Component {
         organisation && (formData.organisation = organisation);
 
         photoIDFile.fileName &&
-          (formData.photoIDFile = {
+          (formData.verification.photoID = {
             fileName: photoIDFile.fileName,
             isPrivate: true
           });
 
         offerLetter.fileName &&
-          (formData.offerLetter = {
+          (formData.verification.offerLetter = {
             fileName: offerLetter.fileName,
             isPrivate: true
           });
         reference1.name &&
-          (formData.reference1 = {
-            ...formData.reference1,
+          (formData.verification.reference1 = {
+            ...formData.verification.reference1,
             name: reference1.name
           });
         reference1.contact &&
-          (formData.reference1 = {
-            ...formData.reference1,
+          (formData.verification.reference1 = {
+            ...formData.verification.reference1,
             contact: reference1.contact
           });
         reference2.name &&
-          (formData.reference2 = {
-            ...formData.reference2,
+          (formData.verification.reference2 = {
+            ...formData.verification.reference2,
             name: reference2.name
           });
         reference2.contact &&
-          (formData.reference2 = {
-            ...formData.reference2,
+          (formData.verification.reference2 = {
+            ...formData.verification.reference2,
             contact: reference2.contact
           });
 

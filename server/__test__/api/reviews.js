@@ -119,7 +119,6 @@ describe("Tests adding a review and creating a getReview notification", () => {
       });
   }, 30000);
 
-
   test("check that input validation works as intended for message", async (done) => {
     const reviewee = await User.findOne({ name: "Michael Peters" });
     const reviewer = await User.findOne({ name: "Josephine Doeski" });
