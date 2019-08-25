@@ -128,7 +128,7 @@ describe("Testing for host donate to presspad account route", () => {
             });
             expect(transaction).toBeDefined();
             expect(transaction).toBeTruthy();
-            return done();
+            return done(error);
           });
       });
   });
