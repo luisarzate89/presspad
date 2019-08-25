@@ -10,7 +10,7 @@ const withdrawRequest = async (req, res, next) => {
   const { role, account, _id } = req.user;
 
   // check for user role
-  if (role !== "host") {
+  if (role !== "host" && role !== "superhost") {
     return next(boom.unauthorized());
   }
 

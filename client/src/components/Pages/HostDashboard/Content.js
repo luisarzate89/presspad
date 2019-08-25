@@ -39,7 +39,7 @@ import {
 } from "./HostDashboard.style";
 
 import BookingSection from "./../../Common/BookingSection";
-import BookingsColumns from "./BookingsColumns";
+import { bookingsColumns, withdrawRequestsColumns } from "./TablesColumns";
 
 const Content = ({
   // props and state
@@ -58,6 +58,7 @@ const Content = ({
   nextBooking,
   account,
   apiLoading,
+  withdrawRequests,
   errors,
 
   // functions
@@ -98,37 +99,49 @@ const Content = ({
             </Col>
             <Col span={20}>
               <HiText>
-                Hi {name.split(" ")[0]}, your next guest is arriving in{" "}
-                <BoldTitle>
-                  {" "}
-                  {getStringTime(nextBooking.startDate)} days
-                </BoldTitle>
-                .
+                Hi {name.split(" ")[0]}
+                {Object.keys(nextBooking).length > 0 && (
+                  <>
+                    , your next guest is arriving in{" "}
+                    <BoldTitle>
+                      {" "}
+                      {getStringTime(nextBooking.startDate)}
+                    </BoldTitle>
+                    .
+                  </>
+                )}
               </HiText>
             </Col>
           </Row>
         </HeaderWrapper>
-        <BookingSection
-          jobTitle={nextGuestProfile.jobTitle}
-          bio={nextGuestProfile.bio}
-          name={nextGuest.hostName}
-          userId={nextGuest._id}
-          organisationName={
-            (nextGuestProfile.organisation &&
-              nextGuestProfile.organisation.name) ||
-            "N/A"
-          }
-          bookingId={nextBooking._id}
-          startDate={nextBooking.endDate}
-          endDate={nextBooking.startDate}
-          profileImage={
-            (nextGuestProfile.profileImage &&
-              nextGuestProfile.profileImage.url) ||
-            randomProfile
-          }
-          title={"Your next guest"}
-          userRole={"intern"}
-        />
+        {Object.keys(nextBooking).length > 0 ? (
+          <BookingSection
+            jobTitle={nextGuestProfile.jobTitle}
+            bio={nextGuestProfile.bio}
+            name={nextGuest.hostName}
+            userId={nextGuest._id}
+            organisationName={
+              (nextGuestProfile.organisation &&
+                nextGuestProfile.organisation.name) ||
+              "N/A"
+            }
+            bookingId={nextBooking._id}
+            startDate={nextBooking.endDate}
+            endDate={nextBooking.startDate}
+            profileImage={
+              (nextGuestProfile.profileImage &&
+                nextGuestProfile.profileImage.url) ||
+              randomProfile
+            }
+            title={"Your next guest"}
+            userRole={"intern"}
+          />
+        ) : (
+          <SectionWrapperContent style={{ minHeight: 200 }}>
+            <SectionTitle>Your next guest</SectionTitle>
+            <Empty description="No upcoming guests" />
+          </SectionWrapperContent>
+        )}
         <section>
           <SectionWrapperContent style={{ minHeight: 200 }}>
             <SectionTitle>Your updates</SectionTitle>
@@ -144,7 +157,7 @@ const Content = ({
           </SectionWrapperContent>
         </section>
         <Row gutter={20} type="flex" justify="start">
-          <Col lg={24} xl={16} sm={24}>
+          <Col lg={24} xl={16} xs={24} sm={24}>
             <SectionWrapperContent
               style={{ minHeight: 357, height: "calc(100% - 20px)" }}
             >
@@ -152,7 +165,7 @@ const Content = ({
               {bookings.length > 0 ? (
                 <BookingsTableWrapper>
                   <Table
-                    columns={BookingsColumns(windowWidth)}
+                    columns={bookingsColumns(windowWidth)}
                     dataSource={bookings.slice(0, viewNumber)}
                     rowKey={"_id"}
                     pagination={false}
@@ -167,11 +180,11 @@ const Content = ({
                   )}
                 </BookingsTableWrapper>
               ) : (
-                <Empty description="This intern has no bookings yet" />
+                <Empty description="You have no bookings yet" />
               )}
             </SectionWrapperContent>
           </Col>
-          <Col xl={8} lg={24} md={24} sm={24}>
+          <Col xl={8} lg={24} md={24} xs={24}>
             <SectionWrapperContent style={{ minHeight: 357 }}>
               <ListItem>How much you’ve earned so far</ListItem>
               <Number blue>£{account.income}</Number>
@@ -206,6 +219,33 @@ const Content = ({
             </SectionWrapperContent>
           </Col>
         </Row>
+        <Col sm={24} xs={24}>
+          <SectionWrapperContent
+            style={{ minHeight: 357, height: "calc(100% - 20px)" }}
+          >
+            <SectionTitle>Your Withdraw Requests</SectionTitle>
+            {withdrawRequests.length > 0 ? (
+              <BookingsTableWrapper>
+                <Table
+                  columns={withdrawRequestsColumns(windowWidth)}
+                  dataSource={withdrawRequests.slice(0, viewNumber)}
+                  rowKey={"_id"}
+                  pagination={false}
+                />
+                {bookings.length > 3 && (
+                  <BlueLink
+                    onClick={handleViewMoreToggle}
+                    style={{ marginTop: "2rem", textAlign: "center" }}
+                  >
+                    {viewNumber ? "View more" : "View less"}
+                  </BlueLink>
+                )}
+              </BookingsTableWrapper>
+            ) : (
+              <Empty description="You didn't make any withdraw request" />
+            )}
+          </SectionWrapperContent>
+        </Col>
       </ContentWrapper>
       <div>
         <Modal

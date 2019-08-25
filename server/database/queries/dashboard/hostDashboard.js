@@ -10,6 +10,14 @@ const User = require("../../models/User");
  */
 const hostDashboard = id => User.aggregate([
   { $match: { _id: mongoose.Types.ObjectId(id) } },
+  {
+    $lookup: {
+      from: "withdrawrequests",
+      localField: "_id",
+      foreignField: "user",
+      as: "withdrawRequests",
+    },
+  },
   // Host profile
   {
     $lookup: {
@@ -116,14 +124,6 @@ const hostDashboard = id => User.aggregate([
   },
   {
     $unwind: { path: "$account", preserveNullAndEmptyArrays: true },
-  },
-  {
-    $lookup: {
-      from: "withdrawRequests",
-      localField: "_id",
-      foreignField: "user",
-      as: "withdrawRequests",
-    },
   },
   {
     $project: {

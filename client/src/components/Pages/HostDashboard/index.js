@@ -35,6 +35,7 @@ class HostProfile extends Component {
     // Values came from api request
     bookings: [],
     updates: [],
+    withdrawRequests: [],
 
     // MODALS
     withdrawModalOpen: false,
@@ -86,9 +87,10 @@ class HostProfile extends Component {
       notifications,
       bookings = [],
       profile = {},
-      account = {}
+      account = {},
+      withdrawRequests
     } = data;
-    const nextGuest = bookings[0] && bookings[0].intern;
+    const nextGuest = (bookings[0] && bookings[0].intern) || {};
     const { profile: nextGuestProfile = {} } = nextGuest;
     this.setState({
       name,
@@ -100,7 +102,8 @@ class HostProfile extends Component {
       nextBooking: bookings[0] || {},
       account,
       donateValue: account.currentBalance,
-      withdrawValue: account.currentBalance
+      withdrawValue: account.currentBalance,
+      withdrawRequests
     });
   };
 
@@ -239,7 +242,8 @@ class HostProfile extends Component {
       nextBooking,
       account,
       apiLoading,
-      errors
+      errors,
+      withdrawRequests
     } = this.state;
     return (
       <Content
@@ -258,6 +262,7 @@ class HostProfile extends Component {
         nextBooking={nextBooking}
         account={account}
         apiLoading={apiLoading}
+        withdrawRequests={withdrawRequests}
         errors={errors}
         // Functions
         handleBlurNumberInput={this.handleBlurNumberInput}

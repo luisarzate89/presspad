@@ -15,6 +15,7 @@ export default class Dashboard extends Component {
         return <InternDashboard {...this.props} />;
 
       case "host":
+      case "superhost":
         return <HostDashboard {...this.props} />;
 
       default:

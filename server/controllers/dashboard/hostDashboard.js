@@ -6,7 +6,7 @@ const generateFileURL = require("./../../helpers/generateFileURL");
 const hostDashboard = async (req, res, next) => {
   const { _id: hostId, role } = req.user;
 
-  if (role !== "host") {
+  if (role !== "host" && role !== "superhost") {
     return next(boom.forbidden());
   }
   try {
