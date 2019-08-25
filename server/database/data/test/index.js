@@ -58,4 +58,12 @@ const buildTestData = useAtlas => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+// buildTestData().then(() => {
+//   // eslint-disable-next-line no-console
+//   console.log("Done!: Dev DB has been built successfully");
+//   // close the connection after build
+//   mongoose.disconnect();
+// });
+
+
 module.exports = buildTestData;

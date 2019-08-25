@@ -3,7 +3,7 @@ const Profile = require("../../models/Profile");
 
 module.exports = async () => {
   // add hosts
-  const hosts = await User.find({ role: "host" });
+  const hosts = await User.find({ role: "host" }).sort({ name: 1 });
 
   const hostProfiles = [
     {
@@ -62,7 +62,7 @@ module.exports = async () => {
   await Profile.create(hostProfiles);
 
   // add interns
-  const interns = await User.find({ role: "intern" });
+  const interns = await User.find({ role: "intern" }).sort({ name: 1 });
 
   const internProfiles = [
     {

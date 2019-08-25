@@ -3,25 +3,25 @@ const ChecklistAnswers = require("../../models/ChecklistAnswer");
 const Booking = require("../../models/Booking");
 
 module.exports = async () => {
-  const bookings = await Booking.find();
-  const checklistQuestions = await ChecklistQuestion.find();
+  const bookings = await Booking.findOne({ status: "confirmed" }).sort({ price: 1 });
+  const checklistQuestions = await ChecklistQuestion.find().sort({ text: 1 });
 
   const checklistAnswers = [
     {
-      user: bookings[0].intern,
+      user: bookings.intern,
       question: checklistQuestions[0]._id,
       isChecked: true,
-      booking: bookings[0]._id,
+      booking: bookings._id,
     }, {
-      user: bookings[0].host,
+      user: bookings.host,
       question: checklistQuestions[1]._id,
       isChecked: true,
-      booking: bookings[0]._id,
+      booking: bookings._id,
     }, {
-      user: bookings[0].intern,
+      user: bookings.intern,
       question: checklistQuestions[2]._id,
       isChecked: true,
-      booking: bookings[0]._id,
+      booking: bookings._id,
     },
   ];
 
