@@ -1,3 +1,4 @@
 const findAnswersByBookingDate = require("./findAnswersByBookingDate");
+const findAllQuestions = require("./findAllQuestions");
 
-module.exports = { findAnswersByBookingDate };
+module.exports = { findAnswersByBookingDate, findAllQuestions };
