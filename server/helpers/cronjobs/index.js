@@ -1,9 +1,9 @@
 const cron = require("node-cron");
-const BookingsList = require("./mailChecklist");
+const mailTask = require("./mailCron");
 
-const cronJobs = async () => {  
-  console.log(await BookingsList());
-  return cron.schedule("* * * * * *", () => {
+const cronJobs = async () => {
+  return cron.schedule("1 1 3 * * *", () => {
+    await mailTask();
     console.log("hello, cron")
   });
 };

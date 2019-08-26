@@ -14,7 +14,7 @@
   * create an html list.
   */
 
-const { findAnswersByBookingDate } = require("../../database/queries/checkList/index");
+const { findAnswersByBookingDate } = require("../../../database/queries/checkList/index");
 
 const BookingsList = async () => {
   try {
@@ -37,7 +37,7 @@ const BookingsList = async () => {
        *        id: "booking.id",
        *        startDate: "booking.startDate",
        *        endDate: "booking.endDate"  
-    *         },
+        *     },
        *      host: "host email",  this one will need the name as well!
        *      intern: "intern email",
        *      answerList: [array of answer texts]
@@ -50,8 +50,14 @@ const BookingsList = async () => {
         startDate: answer.booking.startDate,
         endDate: answer.booking.endDate,
       };
-      mailingObject[answer.booking.id].host = answer.booking.host.email;
-      mailingObject[answer.booking.id].intern = answer.booking.intern.email;
+      mailingObject[answer.booking.id].host = {
+        email: answer.booking.host.email,
+        name: answer.booking.host.name,
+      };
+      mailingObject[answer.booking.id].intern = {
+        email: answer.booking.intern.email,
+        name: answer.booking.host.name,
+      };
       mailingObject[answer.booking.id].answerList.push(answer.question.text);
     });
     return mailingObject;
