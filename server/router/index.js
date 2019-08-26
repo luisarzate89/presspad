@@ -22,6 +22,7 @@ const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getCoupons } = require("../controllers/coupon");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
+const { internPayment } = require("../controllers/payments");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -53,6 +54,7 @@ const {
   REVIEW_URL,
   COUPON_URL,
   BOOKING_REVIEW_INFO_URL,
+  INTERN_PAYMENT_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -134,5 +136,9 @@ router.route(SIGNOUT_URL)
 
 router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers);
+
+// payments
+router.route(INTERN_PAYMENT_URL)
+  .post(authentication, internPayment);
 
 module.exports = router;

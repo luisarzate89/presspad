@@ -67,7 +67,9 @@ exports.getIntersectRange = getIntersectRange;
 
 /**
  * get the discount days giving the booking range and the coupon range
- * @param {Object} dates {bookingStart, bookingEnd, couponStart, couponEnd}
+ * discountDays = discountDays"from intersectRange" - usedDays.
+ * discountRange have all range that intersect with the booking
+ * @param {Object} dates {bookingStart, bookingEnd, couponStart, couponEnd, usedDays}
  */
 exports.getDiscountDays = (dates) => {
   const intersectRange = getIntersectRange(dates);
@@ -77,7 +79,7 @@ exports.getDiscountDays = (dates) => {
   // reset the time to 00:00 to calculate the start and the end day of the range
   intersectRange.start.startOf("day");
 
-  const discountDays = intersectRange.diff("day") + 1;
+  const discountDays = intersectRange.diff("day") + 1 - dates.usedDays;
 
   return { discountDays, discountRange: intersectRange };
 };

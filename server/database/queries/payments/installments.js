@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const Installment = require("../../models/Installment");
+const Booking = require("../../models/Booking");
 
 /**
  * Insert installments (BE AWARE this modify the installments[Array | Object] reference)
@@ -38,12 +39,25 @@ const createInstallments = (installments, bookingId, internId, hostId, session) 
 
 /**
  * Update paid installment by adding transaction Id, This should work inside a transaction session
+ * also update payedAmount in the booking collection
  * @param {string} installmentId
  * @param {string} transactionId
+ * @param {string} bookingId
+ * @param {number} amount amount that used in this transaction
  * @param {session} session
  */
-const updatePaidInstallment = (installmentId, transactionId, session) => Installment.updateOne(
-  { _id: mongoose.Types.ObjectId(installmentId) }, { transaction: transactionId }, { session },
-);
+const updatePaidInstallment = async (installmentId, transactionId, bookingId, amount, session) => {
+  const installment = Installment.updateOne(
+    { _id: installmentId }, { transaction: transactionId }, { session },
+  );
+  const booking = Booking.updateOne(
+    { _id: mongoose.Types.ObjectId(bookingId) },
+    { $inc: { payedAmount: amount } },
+    { session },
+  );
+
+  const [updatedInstallment] = await Promise.all([installment, booking]);
+  return updatedInstallment;
+};
 
 module.exports = { createInstallments, updatePaidInstallment };

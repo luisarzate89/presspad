@@ -25,7 +25,9 @@ describe("Tests for updatePaidInstallment queries", () => {
   test("Test updatePaidInstallment", async (done) => {
     const [installment] = await Installment.find({ transaction: null });
 
-    const { host: hostId, intern: internId, amount } = installment;
+    const {
+      host: hostId, intern: internId, amount, booking,
+    } = installment;
     const [intern] = await User.find({ _id: internId });
     const [host] = await User.find({ _id: hostId });
 
@@ -35,7 +37,7 @@ describe("Tests for updatePaidInstallment queries", () => {
       to: host.account,
       amount,
     });
-    const result = await updatePaidInstallment(installment._id, internalTransaction._id);
+    const result = await updatePaidInstallment(installment._id, internalTransaction._id, booking, amount);
 
     const [updatedInstallment] = await Installment.find({ _id: installment._id });
 

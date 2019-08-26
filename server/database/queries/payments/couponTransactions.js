@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 
-const Account = require("../../models/Account");
+const User = require("../../models/User");
 const Coupon = require("../../models/Coupon");
+const Booking = require("../../models/Booking");
 
+/**
+ * Update couponTransaction "Coupon.transactions",
+ * Must be done inside a database transaction session
+ * @param {string} userId Intern who used the coupon
+ * @param {string} couponId
+ * @param {string} transactionId
+ * @param {string} bookingId
+ * @param {string} usedDays
+ * @param {number} amount
+ * @param {session} session Transaction session
+ */
 const updateCouponTransaction = async (
-  userId, couponId, transactionId, bookingId, usedDays, session,
+  userId, couponId, transactionId, bookingId, usedDays, amount, session,
 ) => {
   const updatedCoupon = await Coupon.updateOne(
     { _id: mongoose.Types.ObjectId(couponId) }, {
@@ -17,7 +29,13 @@ const updateCouponTransaction = async (
     { session },
   );
 
-  await Account.updateOne(
+  await Booking.updateOne(
+    { _id: mongoose.Types.ObjectId(bookingId) },
+    { $inc: { payedAmount: amount } },
+    { session },
+  );
+
+  await User.updateOne(
     { _id: mongoose.Types.ObjectId(userId) },
     { organisation: updatedCoupon.organisation },
     { session },
