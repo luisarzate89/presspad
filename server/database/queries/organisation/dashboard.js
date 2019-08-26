@@ -1,12 +1,24 @@
 const mongoose = require("mongoose");
 
 const Organisation = require("./../../models/Organisation");
+const Coupon = require("./../../models/Coupon");
 
 module.exports = (id) => {
   // Org details
   const details = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
+    }, {
+      $lookup: {
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "account",
+      },
+    }, {
+      $addFields: {
+        account: { $arrayElemAt: ["$account", 0] },
+      },
     },
   ]);
 
@@ -85,51 +97,41 @@ module.exports = (id) => {
     },
   ]);
 
-  // interns details
-  const interns = Organisation.aggregate([
+  // coupons details
+  const coupons = Coupon.aggregate([
     {
-      $match: { _id: mongoose.Types.ObjectId(id) },
+      $match: {
+        $expr: {
+          $and: [
+            { $eq: ["$organisation", mongoose.Types.ObjectId(id)] },
+            // { $lte: ["$startDate", new Date()] },
+            // { $gt: ["$endDate", new Date()] },
+          ],
+        },
+      },
     }, {
       $lookup: {
         from: "users",
-        let: { orgId: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [{ $eq: ["$$orgId", "$organisation"] },
-                  { $ne: ["$role", "organisation"] }],
-              },
-            },
-          },
-        ],
-        as: "users",
+        localField: "intern",
+        foreignField: "_id",
+        as: "intern",
       },
     }, {
-      $unwind: "$users",
+      $addFields: {
+        intern: { $arrayElemAt: ["$intern", 0] },
+      },
     },
-    { $replaceRoot: { newRoot: "$users" } },
     {
-      $lookup: {
-        from: "transactions",
-        localField: "_id",
-        foreignField: "sender",
-        as: "transactions",
-      },
-    }, {
-
       $lookup: {
         from: "bookings",
         localField: "_id",
         foreignField: "user",
         as: "bookings",
       },
-
-    }, {
+    },
+    {
       $addFields: {
         key: "$_id",
-        spentCredits: { $sum: "$transactions.credits" },
-        totalCredits: { $sum: [{ $sum: "$transactions.credits" }, "$credits"] },
         liveBookings: {
           $size: {
             $filter: {
@@ -175,7 +177,8 @@ module.exports = (id) => {
           },
         },
       },
-    }, {
+    },
+    {
       $addFields: {
         status: {
           $cond: {
@@ -203,12 +206,10 @@ module.exports = (id) => {
     },
     {
       $project: {
-        bookings: 0,
-        transactions: 0,
-        password: 0,
+        "intern.password": 0,
       },
     },
   ]);
 
-  return Promise.all([details, notifications, interns]);
+  return Promise.all([details, notifications, coupons]);
 };

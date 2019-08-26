@@ -139,7 +139,7 @@ export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #0ac7e7;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
 `;
 
 export const InternsTableWrapper = styled.div`

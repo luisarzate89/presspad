@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
       return next(boom.notFound());
     }
 
-    if (internId !== userId.toString() && role !== "admin") {
+    if (internId !== userId.toString() && role !== "admin" && role !== "organisation") {
       return next(boom.forbidden());
     }
 

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col, Avatar, Table } from "antd";
+import moment from "moment";
 
 import Update from "./Update";
-import InternColumns from "./InternColumns";
+import CouponsColumns from "./CouponsColumns";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 
 import {
@@ -31,11 +32,16 @@ import contantIcon from "./../../../assets/contact-icon.svg";
 class Content extends Component {
   render() {
     const { state, name, windowWidth } = this.props;
-    const { details, notifications, interns } = state;
+    const { details, notifications, account, coupons } = state;
 
-    const currentlyHosted = interns.filter(item => item.status === "At host")
+    const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
 
+    const liveCoupons = coupons.filter(
+      item =>
+        moment(item.endDate).valueOf() > Date.now() &&
+        moment(item.startDate).valueOf() <= Date.now()
+    ).length;
     return (
       <PageWrapper>
         <ContentWrapper>
@@ -128,33 +134,36 @@ class Content extends Component {
             <Col sm={24} lg={8}>
               <Section>
                 <SectionWrapperContent
-                  style={{ padding: "5px", height: "375px" }}
+                  style={{ padding: "5px", height: "393px" }}
                 >
                   <ProfileImage src={details && details.logo} />
 
                   <InfoTable>
                     <tbody>
                       <InfoTableRow header className="header">
-                        <TH position="left">Your plan:</TH>
-                        <TH position="center">{details.plan}</TH>
+                        <TH position="left">Available funds:</TH>
+                        <TH position="center">
+                          {(account && account.currentBalance) || 0}
+                        </TH>
                         <TH position="right">
-                          <DisabledPopOver>Upgrade</DisabledPopOver>
+                          <DisabledPopOver>Add funds</DisabledPopOver>
                         </TH>
                       </InfoTableRow>
                       <InfoTableRow>
-                        <TD position="left">Available credits:</TD>
-                        <TD position="center">{details.credits}</TD>
+                        <TD position="left">Live Discount codes:</TD>
+                        <TD position="center">{liveCoupons || 0}</TD>
                         <TD position="right">
-                          <DisabledPopOver>Purchase credits</DisabledPopOver>
+                          <DisabledPopOver>Add codes</DisabledPopOver>
                         </TD>
                       </InfoTableRow>
+
                       <InfoTableRow>
-                        <TD position="left">Interns:</TD>
-                        <TD position="center">{interns.length}</TD>
-                        <TD position="right">
-                          <DisabledPopOver>Add intern</DisabledPopOver>
+                        <TD position="left">Your Active Codes values:</TD>
+                        <TD position="center">
+                          {(account && account.couponsValue) || 0}
                         </TD>
                       </InfoTableRow>
+
                       <InfoTableRow>
                         <TD position="left">Currently hosted:</TD>
                         <TD position="center">{currentlyHosted}</TD>
@@ -178,8 +187,8 @@ class Content extends Component {
                 <SectionWrapperContent style={{ padding: 0 }}>
                   <InternsTableWrapper>
                     <Table
-                      columns={InternColumns(windowWidth)}
-                      dataSource={interns}
+                      columns={CouponsColumns(windowWidth)}
+                      dataSource={coupons}
                     />
                   </InternsTableWrapper>
                 </SectionWrapperContent>

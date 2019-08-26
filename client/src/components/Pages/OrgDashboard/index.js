@@ -9,18 +9,21 @@ class OrganizationDashboard extends Component {
   state = {
     details: {},
     notifications: [],
-    interns: [],
+    coupons: [],
+    account: {},
     loaded: false
   };
 
   componentDidMount() {
     axios.get(API_ORGS_DASHBOARD_URL).then(res => {
-      const [details, notifications, interns] = res.data;
+      const [details, notifications, coupons] = res.data;
 
+      const { account } = details[0];
       this.setState({
         details: details[0] || {},
         notifications,
-        interns,
+        account,
+        coupons,
         loaded: true
       });
     });

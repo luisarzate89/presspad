@@ -56,12 +56,20 @@ const couponSchema = new Schema({
       message: "Used Days is not an integer value",
     },
   },
-  expirationDate: {
+  startDate: {
     type: Date,
     required: true,
     validate: {
       validator: value => Date.now() < value,
       message: "expiration date is in the past",
+    },
+  },
+  endDate: {
+    type: Date,
+    required: true,
+    validate: {
+      validator: value => Date.now() < value,
+      message: "end date is in the past",
     },
   },
   // coupon's transactions history
