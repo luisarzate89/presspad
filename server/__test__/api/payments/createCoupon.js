@@ -1,26 +1,25 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 
-const User = require("../../database/models/User");
-const Coupon = require("../../database/models/Coupon");
-const Account = require("../../database/models/Account");
+const User = require("../../../database/models/User");
+const Coupon = require("../../../database/models/Coupon");
+const Account = require("../../../database/models/Account");
 
-const buildDB = require("./../../database/data/test/index");
-const app = require("./../../app");
+const buildDB = require("../../../database/data/test/index");
+const app = require("../../../app");
 
 describe("Testing for create Coupon route", () => {
-  beforeAll(async () => {
+  beforeAll(async (done) => {
+    // 1 minute for each test becuase it runs on atlas
+    jest.setTimeout(60000);
     // build dummy data
-    await buildDB();
+    await buildDB(true);
+    done();
   });
+
 
   afterAll(async () => {
     await mongoose.disconnect();
-  });
-
-  beforeEach(async () => {
-    // build dummy data
-    await buildDB();
   });
 
 
@@ -41,7 +40,7 @@ describe("Testing for create Coupon route", () => {
       discountRate: 50,
       // coupon for 10 days = 150 + 3 * 20 = 210
       startDate: Date.now() + 20 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() + 29 * 24 * 60 * 60 * 1000,
       intern: intern._id,
     };
 
@@ -68,11 +67,13 @@ describe("Testing for create Coupon route", () => {
             const orgAccountAfter = await Account.findById(orgAdmin.account);
 
             // coupon for 10 days = 150 + 3 * 20 = 210
+            // 210 * 50% = 105
             expect(res).toBeDefined();
             expect(res.body.code).toBeDefined();
             expect(newCoupon.days).toBe(10);
-            expect(orgAccountAfter.currentBalance).toBe(orgAccountBefore.currentBalance - 210);
-            expect(orgAccountAfter.couponsValue).toBe(orgAccountBefore.couponsValue + 210);
+
+            expect(orgAccountAfter.currentBalance).toBe(orgAccountBefore.currentBalance - 105);
+            expect(orgAccountAfter.couponsValue).toBe(orgAccountBefore.couponsValue + 105);
 
             return done();
           });

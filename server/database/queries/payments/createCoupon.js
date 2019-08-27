@@ -31,7 +31,6 @@ const createCoupon = async ({
       usedDays,
       intern,
     }], { session });
-    console.log({ organisationAccount }, "------------");
     await Account.updateOne({
       _id: mongoose.Types.ObjectId(organisationAccount),
     }, {
