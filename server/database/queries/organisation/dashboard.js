@@ -182,17 +182,17 @@ module.exports = (id) => {
       $addFields: {
         status: {
           $cond: {
-            if: { $gte: ["$liveBookings", 0] },
+            if: { $gt: ["$liveBookings", 0] },
             then: "At host",
             else:
            {
              $cond: {
-               if: { $gte: ["$pendingBookings", 0] },
+               if: { $gt: ["$pendingBookings", 0] },
                then: "Pending request",
                else:
             {
               $cond: {
-                if: { $gte: ["$confirmedBookings", 0] },
+                if: { $gt: ["$confirmedBookings", 0] },
                 then: "Booking confirmed",
                 else:
              "Looking for host",
