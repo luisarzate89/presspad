@@ -81,7 +81,7 @@ exports.getDiscountDays = (dates) => {
 
   const discountDays = intersectRange.diff("day") + 1 - dates.usedDays;
 
-  return { discountDays, discountRange: intersectRange };
+  return { discountDays };
 };
 
 /**

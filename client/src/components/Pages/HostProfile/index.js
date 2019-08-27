@@ -3,7 +3,8 @@ import React, { Component } from "react";
 //api
 import {
   API_HOST_PROFILE_URL,
-  API_VERIFY_PROFILE_URL
+  API_VERIFY_PROFILE_URL,
+  API_GET_USER_BOOKINGS_URL
 } from "../../../constants/apiRoutes";
 import Calendar from "./Calendar";
 import axios from "axios";
@@ -115,7 +116,8 @@ class HostProfile extends Component {
 
     if (!adminView) {
       axios
-        .get(`/api/intern/${this.props.id}/bookings`)
+        .get(API_GET_USER_BOOKINGS_URL.replace(":id", this.props.id))
+        // .get(`/api/intern/${this.props.id}/bookings`)
         .then(result => this.setState({ internBookings: result.data }))
         .catch(err => console.log(err));
     }
