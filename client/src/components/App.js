@@ -64,12 +64,13 @@ class App extends Component {
         stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
       });
     } else {
-      document.querySelector("#stripe-js").addEventListener("load", () => {
-        // Create Stripe instance once Stripe.js loads
-        this.setState({
-          stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+      document.querySelector("#stripe-js") &&
+        document.querySelector("#stripe-js").addEventListener("load", () => {
+          // Create Stripe instance once Stripe.js loads
+          this.setState({
+            stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+          });
         });
-      });
     }
   }
 
