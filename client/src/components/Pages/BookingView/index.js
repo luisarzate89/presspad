@@ -86,7 +86,9 @@ export default class BookingView extends Component {
             status,
             startDate,
             endDate,
-            coupons
+            coupons,
+            intern: internId,
+            _id: bookingId
           }
         }
       } = await axios.get(getBookingUrl);
@@ -99,12 +101,20 @@ export default class BookingView extends Component {
         checklistObj,
         installments,
         listing,
-        bookingInfo: { price, payedAmount, status, startDate, endDate },
+        bookingInfo: {
+          price,
+          payedAmount,
+          status,
+          startDate,
+          endDate,
+          internId,
+          bookingId
+        },
         coupons,
         isLoading: false
       });
     } catch (error) {
-      if (error.response.status === 404) {
+      if (error.response && error.response.status === 404) {
         message.destroy();
         return message
           .error("booking not found", 4)
@@ -115,10 +125,6 @@ export default class BookingView extends Component {
         .error("something went wrong", 4)
         .then(() => this.props.history.push(Error500));
     }
-  }
-
-  componentDidUpdate() {
-    // if ()
   }
 
   handleChecklistChange = async e => {
@@ -175,18 +181,20 @@ export default class BookingView extends Component {
             const {
               startDate: couponStart,
               endDate: couponEnd,
-              discountRate
+              discountRate,
+              usedDays
             } = couponInfo;
 
             const {
               bookingInfo: { startDate, endDate }
             } = this.state;
 
-            const { discountDays, discountRange } = getDiscountDays({
+            const { discountDays } = getDiscountDays({
               bookingStart: startDate,
               bookingEnd: endDate,
               couponStart,
-              couponEnd
+              couponEnd,
+              usedDays
             });
             this.setState(prevState => {
               const newCouponState = {
@@ -194,7 +202,7 @@ export default class BookingView extends Component {
                 discountDays,
                 discountRate,
                 couponDiscount:
-                  (calculatePrice(discountRange) * discountRate) / 100,
+                  (calculatePrice(discountDays) * discountRate) / 100,
                 isCouponLoading: false,
                 error: false
               };
@@ -254,7 +262,6 @@ export default class BookingView extends Component {
     let firstUnpaidInstallment;
     if (installments[0]) {
       firstUnpaidInstallment = getFirstUnpaidInstallment(installments);
-      // const firstUnpaidInstallment = getFirstUnpaidInstallment(installments);
     }
 
     let newInstallments = [];
@@ -270,13 +277,19 @@ export default class BookingView extends Component {
       );
     }
 
+    const paymentInfo = installments[0]
+      ? firstUnpaidInstallment
+      : newInstallments;
+
     return (
       <PageWrapper>
         <Elements>
           <PayNowModal
-            paymentInfo={
-              installments[0] ? firstUnpaidInstallment : newInstallments
+            couponInfo={
+              couponInfo.error ? { ...couponInfo, couponCode: "" } : couponInfo
             }
+            bookingInfo={bookingInfo}
+            paymentInfo={paymentInfo}
             visible={payNow}
             handlePayNowClick={this.handlePayNowClick}
           />

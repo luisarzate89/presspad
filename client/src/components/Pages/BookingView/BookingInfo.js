@@ -11,11 +11,13 @@ import {
   InfoValue,
   ErrorMsg
 } from "./PaymentsPlan.style";
+
 import {
   SectionWrapperContent,
   SectionTitle,
   PayButton
 } from "../../Common/general";
+
 const BookingInfo = props => {
   const { isLoading, data, handlePayNowClick } = props;
   const {
@@ -79,22 +81,27 @@ const BookingInfo = props => {
           </>
         )}
       </BookingInfoWrapper>
-      {isLoading === false && installments[0] && status === "confirmed" && (
-        <>
-          <InfoText>Your next payment is due</InfoText>
-          <Row type="flex" justify="space-around">
-            <InfoValue mbottom="2.5rem" align="center">
-              {moment(firstUnpaidInstallment.dueDate).format("DD MMM")}
-            </InfoValue>
-            <InfoValue mbottom="2.5rem" align="center">
-              £{firstUnpaidInstallment.amount.toFixed(2)}
-            </InfoValue>
-            <PayButton onClick={() => handlePayNowClick(true)}>
-              Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
-            </PayButton>
-          </Row>
-        </>
-      )}
+      {isLoading === false &&
+        installments[0] &&
+        status === "confirmed" &&
+        firstUnpaidInstallment && (
+          <>
+            <InfoText>Your next payment is due</InfoText>
+            <Row type="flex" justify="space-around">
+              <InfoValue mbottom="2.5rem" align="center">
+                {moment(firstUnpaidInstallment.dueDate).format("DD MMM")}
+              </InfoValue>
+              <InfoValue mbottom="2.5rem" align="center">
+                £
+                {firstUnpaidInstallment.amount &&
+                  firstUnpaidInstallment.amount.toFixed(2)}
+              </InfoValue>
+              <PayButton onClick={() => handlePayNowClick(true)}>
+                Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
+              </PayButton>
+            </Row>
+          </>
+        )}
       {status !== "confirmed" ? (
         <ErrorMsg>Your booking status is {status}</ErrorMsg>
       ) : (
