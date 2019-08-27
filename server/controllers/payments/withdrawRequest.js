@@ -11,7 +11,7 @@ const withdrawRequest = async (req, res, next) => {
 
   // check for user role
   if (role !== "host" && role !== "superhost") {
-    return next(boom.unauthorized());
+    return next(boom.forbidden());
   }
 
   try {

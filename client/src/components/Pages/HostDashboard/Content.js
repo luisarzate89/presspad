@@ -249,11 +249,8 @@ const Content = ({
       </ContentWrapper>
       <div>
         <Modal
-          // title="Basic Modal"
           footer={false}
-          // width={600}
           visible={donateModalOpen}
-          // onOk={this.handleOk}
           onCancel={handleCloseModals}
         >
           <ModalContentWrapper>
@@ -309,8 +306,6 @@ const Content = ({
       <Modal
         visible={withdrawModalOpen}
         footer={false}
-        // width={600}
-        // onOk={this.handleOk}
         onCancel={handleCloseModals}
       >
         <ModalContentWrapper>
