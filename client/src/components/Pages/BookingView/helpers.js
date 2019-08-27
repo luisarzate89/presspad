@@ -77,14 +77,14 @@ export const getDiscountDays = dates => {
   // reset the time to 00:00 to calculate the start and the end day of the range
   intersectRange.start.startOf("day");
 
-  const discountDays = intersectRange.diff("day") + 1 - Number(dates.usedDays);
+  const discountDays = intersectRange.diff("day") + 1;
 
   return { discountDays };
 };
 
 /**
  * calculate the price giving range of dates
- * @param {import("moment-range").MomentRange} range
+ * @param {import("moment-range").MomentRange} range moment-range OR number
  */
 export const calculatePrice = range => {
   if (!range) return 0;
