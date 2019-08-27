@@ -3,7 +3,9 @@ const Account = require("../../models/Account");
 
 module.exports = async () => {
   const accounts = await Account.find();
+
   const [,,,,, , , , , ,
+
     orgAccount1,
     orgAccount2,
     orgAccount3,

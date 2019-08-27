@@ -5,21 +5,21 @@ const InternalTransaction = require("../../models/InternalTransaction");
 const Coupon = require("../../models/Coupon");
 
 module.exports = async () => {
-  const organisations = await Organisation.find();
-  const interns = await User.find({ role: "intern" });
-  const organisationsAdmins = await User.find({ role: "organisation" });
-  const booking = await Booking.findOne({ intern: interns[0]._id });
+  const BBC = await Organisation.findOne({ name: "BBC" });
+  const intern = await User.findOne({ role: "intern", organisation: BBC._id }).sort({ name: 1 });
+  const bbcAdmin1 = await User.findOne({ role: "organisation", organisation: BBC._id }).sort({ name: 1 });
+  const booking = await Booking.findOne({ intern: intern._id }).sort({ createdAt: 1 });
   const internalTransaction = await InternalTransaction.findOne(
-    { user: organisationsAdmins[0]._id },
-  );
+    { user: bbcAdmin1._id },
+  ).sort({ amount: 1 });
 
   const coupons = [
     {
-      organisation: organisations[0]._id,
-      organisationAccount: organisations[0].account,
-      intern: interns[0]._id,
-      internName: interns[0].name,
-      createdBy: organisationsAdmins[0]._id,
+      organisation: BBC._id,
+      organisationAccount: BBC.account,
+      intern: intern._id,
+      internName: intern.name,
+      createdBy: bbcAdmin1._id,
       discountRate: 50,
       days: 10,
       usedDays: 5,
@@ -32,10 +32,10 @@ module.exports = async () => {
       }],
     },
     {
-      organisation: organisations[0]._id,
-      organisationAccount: organisations[0].account,
+      organisation: BBC._id,
+      organisationAccount: BBC.account,
       internName: "User didn't register yet",
-      createdBy: organisationsAdmins[0]._id,
+      createdBy: bbcAdmin1._id,
       discountRate: 70,
       days: 15,
       usedDays: 0,

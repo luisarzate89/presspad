@@ -23,7 +23,7 @@ describe("Test Booking schema", () => {
 
   test("should store Booking schema correctly", async (done) => {
     const bookings = await Booking.find();
-    expect(bookings).toHaveLength(6);
+    expect(bookings).toHaveLength(7);
     done();
   });
 

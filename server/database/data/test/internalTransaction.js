@@ -1,17 +1,15 @@
 const InternalTransaction = require("./../../models/InternalTransaction");
 const User = require("./../../models/User");
+const Organisation = require("../../models/Organisation");
+
 
 module.exports = async () => {
-  const users = await User.find();
-  const [
-    admin,
-    orgAdmin1,,,,
-    host1,
-    host2,,,,
-    intern1,
-    intern2,,
-    intern4,
-  ] = users;
+  const BBC = await Organisation.findOne({ name: "BBC" });
+
+  const admin = await User.findOne({ role: "admin" }).sort({ name: 1 });
+  const [host1, host2] = await User.find({ role: "host" }).sort({ name: 1 });
+  const [intern1, intern2, intern4] = await User.find({ role: "intern" }).sort({ name: 1 });
+  const orgAdmin1 = await User.findOne({ role: "organisation", organisation: BBC._id }).sort({ name: 1 });
 
   const internalTransactions = [
     // intern to host
@@ -26,7 +24,7 @@ module.exports = async () => {
       user: intern1._id,
       from: intern1.account,
       to: host2.account,
-      amount: 1200,
+      amount: 1400,
       type: "installment",
     },
     {
@@ -80,7 +78,7 @@ module.exports = async () => {
       from: host1.account,
       // to presspad account
       to: admin.account,
-      amount: 900,
+      amount: 920,
       type: "donation",
     },
     {
