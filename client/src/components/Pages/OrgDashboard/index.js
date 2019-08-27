@@ -29,7 +29,8 @@ class OrganizationDashboard extends Component {
     addedNewInternName: null,
     isNumberInputActive: false,
     discountRate: 0,
-    code: null
+    code: null,
+    errors: {}
   };
 
   componentDidMount() {
@@ -111,7 +112,10 @@ class OrganizationDashboard extends Component {
             })
             .then(({ data }) => {
               const { code } = data;
-              this.setState({ code, apiLoading: false });
+              this.setState({
+                code,
+                apiLoading: false
+              });
             })
             .catch(() => {
               this.setState({ apiLoading: false });
@@ -167,9 +171,18 @@ class OrganizationDashboard extends Component {
   };
 
   onChange = (field, value) => {
-    this.setState({
-      [field]: value
-    });
+    const { attemptedToSubmit } = this.state;
+
+    this.setState(
+      {
+        [field]: value
+      },
+      () => {
+        if (attemptedToSubmit) {
+          this.validate();
+        }
+      }
+    );
   };
 
   onStartChange = value => {
@@ -190,21 +203,37 @@ class OrganizationDashboard extends Component {
   };
 
   onSelectInternChange = ({ key, label }) => {
-    const { addedNewInternName } = this.state;
-    this.setState({
-      internName: label || addedNewInternName,
-      internId: key === "removeIt" ? null : key,
-      addedNewInternName: null
-    });
+    const { addedNewInternName, attemptedToSubmit } = this.state;
+    this.setState(
+      {
+        internName: label || addedNewInternName,
+        internId: key === "removeIt" ? null : key,
+        addedNewInternName: null
+      },
+      () => {
+        if (attemptedToSubmit) {
+          this.validate();
+        }
+      }
+    );
   };
 
   onInternSearch = value => {
+    const { attemptedToSubmit } = this.state;
+
     value &&
-      this.setState({
-        addedNewInternName: value,
-        internId: null,
-        internName: value
-      });
+      this.setState(
+        {
+          addedNewInternName: value,
+          internId: null,
+          internName: value
+        },
+        () => {
+          if (attemptedToSubmit) {
+            this.validate();
+          }
+        }
+      );
   };
 
   handleBlurNumberInput = () => {
@@ -246,7 +275,7 @@ class OrganizationDashboard extends Component {
         { abortEarly: false }
       )
       .then(res => {
-        this.setState({ errors: {} });
+        this.setState({ errors: {}, attemptedToSubmit: true });
         return res;
       })
       .catch(err => {
@@ -254,7 +283,7 @@ class OrganizationDashboard extends Component {
         err.inner.forEach(element => {
           errors[element.path.split(".")[0]] = element.message;
         });
-        this.setState({ errors });
+        this.setState({ errors, attemptedToSubmit: true });
       });
   };
 

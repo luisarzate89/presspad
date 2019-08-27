@@ -42,16 +42,16 @@ import {
   Error,
   ErrorWrapper
 } from "./OrgDashboard.style";
+import { colors } from "./../../../theme";
 
 import homeIcon from "./../../../assets/home-icon.svg";
 import invoiceIcon from "./../../../assets/invoice-icon.svg";
 import contantIcon from "./../../../assets/contact-icon.svg";
-const errors = {};
 const { Option } = Select;
 
 class Content extends Component {
   render() {
-    const { startValue, endValue, endOpen } = this.props.state;
+    const { startValue, endValue, endOpen, errors } = this.props.state;
 
     const {
       state,
@@ -286,47 +286,57 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.withdrawValue ? "20px" : 0
+                    marginBottom:
+                      errors.internName || errors.internId ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
                     <Label>Intern:</Label>
                   </Col>
                   <Col span={12}>
-                    <Select
-                      labelInValue
-                      placeholder={"Select your Intern"}
-                      onSelect={onSelectInternChange}
-                      showSearch
-                      onSearch={onInternSearch}
-                      filterOption={handleFilterInInterns}
-                      style={{
-                        width: "100%"
-                      }}
-                      size="large"
-                      optionLabelProp="label"
-                    >
-                      {state.interns &&
-                        internsWithNewOne.map(item => (
-                          <Option
-                            value={item._id}
-                            key={item._id}
-                            label={item.name}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between"
-                              }}
+                    <ErrorWrapper>
+                      <Select
+                        labelInValue
+                        placeholder={"Select your Intern"}
+                        onSelect={onSelectInternChange}
+                        showSearch
+                        onSearch={onInternSearch}
+                        filterOption={handleFilterInInterns}
+                        style={{
+                          width: "100%",
+                          border:
+                            errors.internName || errors.internId
+                              ? "1px solid red"
+                              : "1px solid #d9d9d9"
+                        }}
+                        optionLabelProp="label"
+                      >
+                        {state.interns &&
+                          internsWithNewOne.map(item => (
+                            <Option
+                              value={item._id}
+                              key={item._id}
+                              label={item.name}
                             >
-                              {item.name}
-                              {item._id !== "removeIt" && (
-                                <Icon type="user" style={{ color: "green" }} />
-                              )}
-                            </div>
-                          </Option>
-                        ))}
-                    </Select>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between"
+                                }}
+                              >
+                                {item.name}
+                                {item._id !== "removeIt" && (
+                                  <Icon
+                                    type="user"
+                                    style={{ color: colors.lightBlue }}
+                                  />
+                                )}
+                              </div>
+                            </Option>
+                          ))}
+                      </Select>
+                      <Error>{errors.internName || errors.internId}</Error>
+                    </ErrorWrapper>
                   </Col>
                 </Row>
 
@@ -339,21 +349,30 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.withdrawValue ? "20px" : 0
+                    marginBottom: errors.startDate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
                     <Label>Start Date:</Label>
                   </Col>
                   <Col span={12}>
-                    <DatePicker
-                      disabledDate={disabledStartDate}
-                      format="YYYY-MM-DD"
-                      value={startValue}
-                      placeholder="Start Date"
-                      onChange={onStartChange}
-                      onOpenChange={handleStartOpenChange}
-                    />
+                    <ErrorWrapper>
+                      <DatePicker
+                        disabledDate={disabledStartDate}
+                        format="YYYY-MM-DD"
+                        value={startValue}
+                        placeholder="Start Date"
+                        onChange={onStartChange}
+                        onOpenChange={handleStartOpenChange}
+                        style={{
+                          width: "100%",
+                          border: errors.startDate
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9"
+                        }}
+                      />
+                      <Error>{errors.startDate}</Error>
+                    </ErrorWrapper>
                   </Col>
                 </Row>
 
@@ -364,22 +383,31 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.withdrawValue ? "20px" : 0
+                    marginBottom: errors.endDate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
                     <Label>End Date:</Label>
                   </Col>
                   <Col span={12}>
-                    <DatePicker
-                      disabledDate={disabledEndDate}
-                      format="YYYY-MM-DD"
-                      value={endValue}
-                      placeholder="End Date"
-                      onChange={onEndChange}
-                      open={endOpen}
-                      onOpenChange={handleEndOpenChange}
-                    />
+                    <ErrorWrapper>
+                      <DatePicker
+                        disabledDate={disabledEndDate}
+                        format="YYYY-MM-DD"
+                        value={endValue}
+                        placeholder="End Date"
+                        onChange={onEndChange}
+                        open={endOpen}
+                        onOpenChange={handleEndOpenChange}
+                        style={{
+                          width: "100%",
+                          border: errors.endDate
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9"
+                        }}
+                      />
+                      <Error>{errors.endDate}</Error>
+                    </ErrorWrapper>
                   </Col>
                 </Row>
 
@@ -392,7 +420,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.withdrawValue ? "20px" : 0
+                    marginBottom: errors.discountRate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
@@ -409,7 +437,7 @@ class Content extends Component {
                         size="large"
                         style={{
                           width: "140px",
-                          border: errors.discount
+                          border: errors.discountRate
                             ? "1px solid red"
                             : "1px solid #d9d9d9"
                         }}
@@ -419,7 +447,7 @@ class Content extends Component {
                         parser={value => value.replace(/%\s?|(,*)/g, "")}
                         onChange={handleDiscountChange}
                       />
-                      <Error>{errors.discount}</Error>
+                      <Error>{errors.discountRate}</Error>
                     </ErrorWrapper>
                   </Col>
                 </Row>
@@ -451,7 +479,9 @@ class Content extends Component {
               >
                 <div style={{ maxWidth: "200px" }}>
                   <ModalDescription bold>Created Code: </ModalDescription>
-                  <ModalDescription>{state.code}</ModalDescription>
+                  <ModalDescription bold style={{ color: colors.lightBlue }}>
+                    {state.code}
+                  </ModalDescription>
                 </div>
               </Row>
             )}
