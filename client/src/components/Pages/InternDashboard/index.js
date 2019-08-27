@@ -55,7 +55,7 @@ export default class InternDashboard extends Component {
             <SectionTitle>Your updates</SectionTitle>
             <UpdateList>
               {notifications.map(item => (
-                <Update item={item} key={item._id} />
+                <Update item={item} key={item._id} userRole="intern" />
               ))}
             </UpdateList>
           </SectionWrapperContent>

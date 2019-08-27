@@ -14,10 +14,6 @@ describe("Testing for login route", () => {
     await mongoose.disconnect();
   });
 
-  beforeEach(async () => {
-    // build dummy data
-    await buildDB();
-  });
 
   test("test with correct email", (done) => {
     const data = {

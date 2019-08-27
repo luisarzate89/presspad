@@ -32,6 +32,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     font-family: Roboto;
     line-height: 1.125em;
     pointer-events: none;
+
     *,
     *:before,
     *:after {
@@ -55,6 +56,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
 
     button {
       min-width: 50px;
+      pointer-events: all;
       background: none;
     }
 
