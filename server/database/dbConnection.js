@@ -7,6 +7,7 @@ mongoose.Promise = global.Promise;
 
 let mongoURI = process.env.MONGO_URI;
 
+const mongoURIAtlas = process.env.MONGOURI_ATLAS;
 if (process.env.NODE_ENV === "test") {
   // change mongoURI to testing database URI
   mongoURI = process.env.MONGOURI_TEST;
@@ -15,10 +16,13 @@ if (process.env.NODE_ENV === "test") {
   mongoURI = process.env.MONGO_URI_PROD;
 }
 
-// create DB connection
-const dbConnection = () => mongoose.connect(mongoURI, {
+
+/**
+ * create DB connection
+ * @param {Boolean} useAtlas - true to use atlas DB
+ */
+const dbConnection = useAtlas => mongoose.connect(useAtlas ? mongoURIAtlas : mongoURI, {
   useNewUrlParser: true,
   useCreateIndex: true,
 });
-
 module.exports = dbConnection;

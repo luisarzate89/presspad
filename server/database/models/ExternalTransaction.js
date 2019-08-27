@@ -19,6 +19,7 @@ const externalTransactionSchema = new Schema({
   amount: {
     type: Number,
     required: true,
+    min: 0.01,
   },
   type: {
     type: String,

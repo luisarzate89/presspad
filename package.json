@@ -13,10 +13,7 @@
       "!**/server/app.js",
       "!**/coverage/**"
     ],
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./testSetup.js"
-    ]
+    "testEnvironment": "node"
   },
   "proxy": "http://localhost:8080",
   "scripts": {
