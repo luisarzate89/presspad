@@ -50,9 +50,6 @@ describe("Testing for organisation dashboard data", () => {
             expect(notifications[0].user).toBeDefined();
 
             expect(interns).toBeDefined();
-            expect(interns).toHaveLength(1);
-            expect(interns[0].status).toBeDefined();
-            expect(interns[0].totalCredits).toBeDefined();
             done(error);
           });
       });

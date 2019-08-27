@@ -5,8 +5,7 @@ const generateFileURL = require("./../../helpers/generateFileURL");
 
 module.exports = async (req, res, next) => {
   const { user } = req;
-  const { role, organisation, account } = user;
-  console.log(account);
+  const { role, organisation } = user;
 
   // check for user role
   if (role !== "organisation" || !organisation) {
