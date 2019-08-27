@@ -5,10 +5,11 @@ const generateFileUrl = require("../../helpers/generateFileURL");
 
 module.exports = async (req, res, next) => {
   const { id: bookingId } = req.params;
-  const userType = "intern"; // Todo make it dynamic
+  const { role: userType } = req.user;
+
   try {
     if (!ObjectId.isValid(bookingId) || !ObjectId(bookingId) === bookingId) {
-      return next(new Error("invalid ObjectId"));
+      return next(boom.badData("invalid ObjectId"));
     }
     const booking = await getBookingById(bookingId, userType).exec();
     if (!booking[0]) {
@@ -34,6 +35,6 @@ module.exports = async (req, res, next) => {
     });
     return res.json({ data: booking[0] });
   } catch (error) {
-    return next(error);
+    return next(boom.badImplementation(error));
   }
 };

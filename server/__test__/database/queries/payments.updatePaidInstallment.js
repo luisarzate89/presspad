@@ -36,8 +36,11 @@ describe("Tests for updatePaidInstallment queries", () => {
       from: intern.account,
       to: host.account,
       amount,
+      type: "installment",
     });
-    const result = await updatePaidInstallment(installment._id, internalTransaction._id, booking, amount);
+    const result = await updatePaidInstallment(
+      installment._id, internalTransaction._id, booking, amount,
+    );
 
     const [updatedInstallment] = await Installment.find({ _id: installment._id });
 

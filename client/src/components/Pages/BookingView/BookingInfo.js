@@ -75,9 +75,7 @@ const BookingInfo = props => {
                   £{payedAmount.toFixed(2)}
                 </InfoValue>
               </>
-            ) : (
-              ""
-            )}
+            ) : null}
           </>
         )}
       </BookingInfoWrapper>
@@ -104,9 +102,7 @@ const BookingInfo = props => {
         )}
       {status !== "confirmed" ? (
         <ErrorMsg>Your booking status is {status}</ErrorMsg>
-      ) : (
-        ""
-      )}
+      ) : null}
     </SectionWrapperContent>
   );
 };

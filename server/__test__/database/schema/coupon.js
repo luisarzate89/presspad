@@ -44,7 +44,8 @@ describe("Test Coupon schema", () => {
       discountRate: 50,
       days: 10,
       usedDays: 5,
-      expirationDate: Date.now() + 25 * 24 * 60 * 60 * 1000, // after 25 days from now
+      startDate: Date.now() + 5 * 24 * 60 * 60 * 1000, // after 5 days from now
+      endDate: Date.now() + 25 * 24 * 60 * 60 * 1000, // after 25 days from now
       transactions: [{
         usedDays: 5,
         booking: booking._id,

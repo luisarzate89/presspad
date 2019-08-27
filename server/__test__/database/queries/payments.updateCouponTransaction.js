@@ -41,7 +41,7 @@ describe("Tests for updateCouponTransaction queries", () => {
     });
 
     const result = await updateCouponTransaction(
-      intern._id, coupon._id, internalTransaction._id, booking._id, 5,
+      intern._id, coupon._id, internalTransaction._id, booking._id, 5, amount,
     );
 
     const [updatedCoupon] = await Coupon.find({ _id: coupon._id });

@@ -18,7 +18,7 @@ const Booking = require("../../models/Booking");
 const updateCouponTransaction = async (
   userId, couponId, transactionId, bookingId, usedDays, amount, session,
 ) => {
-  const updatedCoupon = await Coupon.updateOne(
+  await Coupon.updateOne(
     { _id: mongoose.Types.ObjectId(couponId) }, {
       $inc: { usedDays },
       $push: {
@@ -34,6 +34,8 @@ const updateCouponTransaction = async (
     { $inc: { payedAmount: amount } },
     { session },
   );
+
+  const updatedCoupon = await Coupon.findById(couponId);
 
   await User.updateOne(
     { _id: mongoose.Types.ObjectId(userId) },

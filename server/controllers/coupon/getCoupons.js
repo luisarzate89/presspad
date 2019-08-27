@@ -22,6 +22,6 @@ module.exports = async (req, res, next) => {
     }
     return res.json({ data: coupon });
   } catch (error) {
-    return next(error);
+    return next(boom.badImplementation(error));
   }
 };
