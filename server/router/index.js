@@ -90,7 +90,7 @@ router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
 
 // view booking by id
-router.get(GET_BOOKING_URL, viewBooking);
+router.get(GET_BOOKING_URL, authentication, viewBooking);
 
 // get all user bookings
 router.get(GET_USER_BOOKINGS_URL, getUserBookings);
