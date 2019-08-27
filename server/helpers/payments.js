@@ -99,7 +99,6 @@ exports.calculatePrice = (range) => {
     weeks = range.diff("weeks");
     days = range.diff("days") % 7;
   }
-  console.log({ weeks, days });
   return weeks * 150 + days * 20;
 };
 
