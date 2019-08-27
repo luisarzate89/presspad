@@ -15,19 +15,23 @@
   */
 
 const { findAnswersByBookingDate } = require("../../../database/queries/checkList/index");
+const getTargetDate = require("../../dateHelper");
 
 const BookingsList = async () => {
   try {
-    const answers = await findAnswersByBookingDate();
+    const oneWeek = getTargetDate(1);
+    const twoWeeks = getTargetDate(2);
+    const threeWeeks = getTargetDate(3);
 
+    const answers = await findAnswersByBookingDate(oneWeek, twoWeeks, threeWeeks);
+    
+    // const answers = await findAnswersByBookingDate(); // use this for testing until we properly mock the data.
     // initial objects to mutate inside the coming loop.
-    const answerList = [];
     const mailingObject = {};
+    const answerList = []; // this will be inside the mailingObject
     answers.forEach(answer => {
-      /**
-       * must validate that the answer is for a booking that is within the target date. Not done yet
-       */
-      
+      console.log(oneWeek.getTime());
+      if (!answer.booking) return;
       /**
        * groups all answers by booking.
        * mailingObject should look like:
@@ -43,8 +47,9 @@ const BookingsList = async () => {
        *      answerList: [array of answer texts]
        *    }
        *  }
-       */
-      mailingObject[answer.booking.id] = { answerList };
+       */                                        
+
+      mailingObject[answer.booking.id] = { answerList }; // mailingObject: { "booking.id": { answerList: [] } }
       mailingObject[answer.booking.id].booking = {
         id: answer.booking.id,
         startDate: answer.booking.startDate,
