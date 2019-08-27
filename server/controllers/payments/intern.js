@@ -141,10 +141,13 @@ const internPayment = async (req, res, next) => {
     } catch (error) {
       await session.abortTransaction();
       await session.endSession();
-      throw new Error(error);
+      throw error;
     }
   } catch (error) {
-    next(error);
+    if (error.statusCode === 402) {
+      return next(boom.paymentRequired(error.message));
+    }
+    next(boom.badImplementation(error));
   }
 };
 

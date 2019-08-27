@@ -295,7 +295,6 @@ export default class BookingView extends Component {
           />
         </Elements>
         <Header>
-          {/* ToDo add loading skeleton */}
           <Row type="flex">
             <ProfilePicDiv
               src={(profileImage && profileImage.url) || randomProfile}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Modal, Button, message } from "antd";
+import { Modal, Button, message, Skeleton } from "antd";
 import { injectStripe, CardElement } from "react-stripe-elements";
 import { withRouter } from "react-router-dom";
 
@@ -42,7 +42,7 @@ class PayNowModal extends Component {
             paymentIntent: result.paymentIntent
           }
         );
-        this.handleServerResponse(paymentResult);
+        await this.handleServerResponse(paymentResult);
       }
     } else {
       // payment successful
@@ -79,8 +79,17 @@ class PayNowModal extends Component {
         await this.handleServerResponse(paymentResult);
       }
     } catch (error) {
+      if (error.response && error.response.status === 402) {
+        return this.setState({
+          error: error.response.data.error,
+          isLoading: false
+        });
+      }
       message.error("something went wrong", 5);
-      this.setState({ error: "something went wrong try again later" });
+      this.setState({
+        error: "something went wrong try again later",
+        isLoading: false
+      });
     }
   };
 
@@ -89,7 +98,7 @@ class PayNowModal extends Component {
   };
 
   renderPaymentMethod = () => {
-    const { error, success } = this.state;
+    const { error, success, isLoading } = this.state;
     const { paymentInfo, stripe } = this.props;
 
     if (!paymentInfo) {
@@ -128,12 +137,19 @@ class PayNowModal extends Component {
             onReady={this.handleReady}
             style={{ base: { fontSize: "17px" } }}
           />
+          <Skeleton
+            loading={isLoading}
+            title={false}
+            active
+            paragraph={{ rows: 1, width: "95%" }}
+          />
         </CardWrapper>
         {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
         <Button
           type="primary"
           style={{ margin: "2.5rem auto 0", display: "block" }}
           onClick={this.handleSubmit}
+          disabled={isLoading}
         >
           Pay £{amount}&nbsp;now
         </Button>
