@@ -24,13 +24,30 @@ const BookingsList = async () => {
     const threeWeeks = getTargetDate(3);
 
     const answers = await findAnswersByBookingDate(oneWeek, twoWeeks, threeWeeks);
-    
     // const answers = await findAnswersByBookingDate(); // use this for testing until we properly mock the data.
+    
     // initial objects to mutate inside the coming loop.
     const mailingObject = {};
     const answerList = []; // this will be inside the mailingObject
     answers.forEach(answer => {
-      console.log(oneWeek.getTime());
+      // times to properly mark each mailing object for sending the correct email text. 
+      const timeTable = {
+        oneWeek: {
+          startDate: oneWeek.getTime(),
+          endDate: oneWeek.getTime() + 24 * 60 * 59 * 1000
+        },
+        twoWeeks: {
+          startDate: twoWeeks.getTime(),
+          endDate: twoWeeks.getTime() + 24 * 60 * 59 * 1000
+        },
+        threeWeeks: {
+          startDate: threeWeeks.getTime(),
+          endDate: threeWeeks.getTime() + 24 * 60 * 59 * 1000
+        }
+      };
+
+      let dueDate; // date to tell which email text to send.
+
       if (!answer.booking) return;
       /**
        * groups all answers by booking.
@@ -41,15 +58,21 @@ const BookingsList = async () => {
        *        id: "booking.id",
        *        startDate: "booking.startDate",
        *        endDate: "booking.endDate"  
-        *     },
+      *       },
        *      host: "host email",  this one will need the name as well!
        *      intern: "intern email",
        *      answerList: [array of answer texts]
        *    }
        *  }
-       */                                        
+       */
+      if (answer.booking.startDate >= timeTable.oneWeek.startDate 
+        && answer.booking.startDate < timeTable.oneWeek.endDate) dueDate = 1 ;
+      if (answer.booking.startDate >= timeTable.twoWeeks.startDate 
+        && answer.booking.startDate < timeTable.twoWeeks.endDate) dueDate = 2 ;
+      if (answer.booking.startDate >= timeTable.threeWeeks.startDate 
+        && answer.booking.startDate < timeTable.threeWeeks.endDate) dueDate = 3 ;
 
-      mailingObject[answer.booking.id] = { answerList }; // mailingObject: { "booking.id": { answerList: [] } }
+      mailingObject[answer.booking.id] = { answerList, dueDate }; // mailingObject: { "booking.id": { answerList: [] } }
       mailingObject[answer.booking.id].booking = {
         id: answer.booking.id,
         startDate: answer.booking.startDate,
