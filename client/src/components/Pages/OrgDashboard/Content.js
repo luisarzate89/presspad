@@ -1,11 +1,23 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Table } from "antd";
+import {
+  Row,
+  Col,
+  Avatar,
+  Table,
+  Modal,
+  Select,
+  InputNumber,
+  DatePicker,
+  Empty,
+  Icon
+} from "antd";
 import moment from "moment";
+import Button from "./../../Common/Button";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
 import DisabledPopOver from "../../Common/DisabledPopOver";
-
+import randomProfile from "../../../assets/listing-placeholder.jpg";
 import {
   PageWrapper,
   ContentWrapper,
@@ -22,21 +34,53 @@ import {
   TH,
   Card,
   BlueLink,
-  InternsTableWrapper
+  InternsTableWrapper,
+  ModalTitle,
+  ModalContentWrapper,
+  ModalDescription,
+  Label,
+  Error,
+  ErrorWrapper
 } from "./OrgDashboard.style";
 
 import homeIcon from "./../../../assets/home-icon.svg";
 import invoiceIcon from "./../../../assets/invoice-icon.svg";
 import contantIcon from "./../../../assets/contact-icon.svg";
+const errors = {};
+const { Option } = Select;
 
 class Content extends Component {
   render() {
-    const { state, name, windowWidth } = this.props;
+    const { startValue, endValue, endOpen } = this.props.state;
+
+    const {
+      state,
+      name,
+      windowWidth,
+      onEndChange,
+      handleStartOpenChange,
+      handleEndOpenChange,
+      disabledEndDate,
+      onStartChange,
+      disabledStartDate,
+      onSelectInternChange,
+      handleOpenModal,
+      handleFilterInInterns,
+      onInternSearch,
+      handleBlurNumberInput,
+      handleFocusNumberInput,
+      handleDiscountChange,
+      handleCloseModals,
+      handleSubmitCreateCoupon
+    } = this.props;
     const { details, notifications, account, coupons } = state;
 
     const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
 
+    const internsWithNewOne = state.addedNewInternName
+      ? [...state.interns, { _id: "removeIt", name: state.addedNewInternName }]
+      : state.interns;
     const liveCoupons = coupons.filter(
       item =>
         moment(item.endDate).valueOf() > Date.now() &&
@@ -51,7 +95,9 @@ class Content extends Component {
                 <Avatar
                   size="large"
                   icon="user"
-                  src={(details && details.logo) || undefined}
+                  src={
+                    (details && details.logo && details.logo.url) || undefined
+                  }
                   style={{
                     width: "80px",
                     height: "80px",
@@ -89,9 +135,13 @@ class Content extends Component {
                 <SectionWrapperContent style={{ minHeight: "200px" }}>
                   <SectionTitle>Your updates</SectionTitle>
                   <UpdateList>
-                    {notifications.map(item => (
-                      <Update item={item} />
-                    ))}
+                    {notifications && notifications.length > 0 ? (
+                      notifications.map(item => (
+                        <Update key={item._id} item={item} />
+                      ))
+                    ) : (
+                      <Empty description="No Updates" />
+                    )}
                   </UpdateList>
                 </SectionWrapperContent>
               </Section>
@@ -136,7 +186,12 @@ class Content extends Component {
                 <SectionWrapperContent
                   style={{ padding: "5px", height: "393px" }}
                 >
-                  <ProfileImage src={details && details.logo} />
+                  <ProfileImage
+                    src={
+                      (details && details.logo && details.logo.url) || undefined
+                    }
+                    onError={e => (e.target.src = randomProfile)}
+                  />
 
                   <InfoTable>
                     <tbody>
@@ -153,12 +208,23 @@ class Content extends Component {
                         <TD position="left">Live Discount codes:</TD>
                         <TD position="center">{liveCoupons || 0}</TD>
                         <TD position="right">
-                          <DisabledPopOver>Add codes</DisabledPopOver>
+                          {account.currentBalance > 0 ? (
+                            <BlueLink onClick={handleOpenModal}>
+                              Add codes
+                            </BlueLink>
+                          ) : (
+                            <DisabledPopOver
+                              title="No Enough Fund"
+                              message="Add More Funds"
+                            >
+                              Add codes
+                            </DisabledPopOver>
+                          )}
                         </TD>
                       </InfoTableRow>
 
                       <InfoTableRow>
-                        <TD position="left">Your Active Codes values:</TD>
+                        <TD position="left">Your Codes values:</TD>
                         <TD position="center">
                           {(account && account.couponsValue) || 0}
                         </TD>
@@ -196,6 +262,201 @@ class Content extends Component {
             </Col>
           </Row>
         </ContentWrapper>
+        <Modal
+          visible={state.isCouponModalOpen}
+          onCancel={handleCloseModals}
+          footer={false}
+        >
+          <ModalContentWrapper>
+            <ModalTitle>Create Coupon</ModalTitle>
+            <div>
+              <ModalDescription bold>Funds available: </ModalDescription>
+              <ModalDescription bold>
+                £{account.currentBalance}{" "}
+              </ModalDescription>
+            </div>
+            {/* ------------------------------------------ */}
+            {/* ----------------Select the user----------- */}
+            {!state.code ? (
+              <>
+                <Row
+                  gutter={8}
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0
+                  }}
+                >
+                  <Col span={8}>
+                    <Label>Intern:</Label>
+                  </Col>
+                  <Col span={12}>
+                    <Select
+                      labelInValue
+                      placeholder={"Select your Intern"}
+                      onSelect={onSelectInternChange}
+                      showSearch
+                      onSearch={onInternSearch}
+                      filterOption={handleFilterInInterns}
+                      style={{
+                        width: "100%"
+                      }}
+                      size="large"
+                      optionLabelProp="label"
+                    >
+                      {state.interns &&
+                        internsWithNewOne.map(item => (
+                          <Option
+                            value={item._id}
+                            key={item._id}
+                            label={item.name}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between"
+                              }}
+                            >
+                              {item.name}
+                              {item._id !== "removeIt" && (
+                                <Icon type="user" style={{ color: "green" }} />
+                              )}
+                            </div>
+                          </Option>
+                        ))}
+                    </Select>
+                  </Col>
+                </Row>
+
+                {/* ------------------------------------- */}
+                {/* ----------- dates ranges ------------ */}
+                <Row
+                  gutter={8}
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0
+                  }}
+                >
+                  <Col span={8}>
+                    <Label>Start Date:</Label>
+                  </Col>
+                  <Col span={12}>
+                    <DatePicker
+                      disabledDate={disabledStartDate}
+                      format="YYYY-MM-DD"
+                      value={startValue}
+                      placeholder="Start Date"
+                      onChange={onStartChange}
+                      onOpenChange={handleStartOpenChange}
+                    />
+                  </Col>
+                </Row>
+
+                <Row
+                  gutter={8}
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0
+                  }}
+                >
+                  <Col span={8}>
+                    <Label>End Date:</Label>
+                  </Col>
+                  <Col span={12}>
+                    <DatePicker
+                      disabledDate={disabledEndDate}
+                      format="YYYY-MM-DD"
+                      value={endValue}
+                      placeholder="End Date"
+                      onChange={onEndChange}
+                      open={endOpen}
+                      onOpenChange={handleEndOpenChange}
+                    />
+                  </Col>
+                </Row>
+
+                {/* ----------------------------------- */}
+                {/* ---------- discount % ------------- */}
+                <Row
+                  gutter={8}
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0
+                  }}
+                >
+                  <Col span={8}>
+                    <Label>Discount:</Label>
+                  </Col>
+                  <Col span={12}>
+                    <ErrorWrapper>
+                      <InputNumber
+                        value={state.discountRate}
+                        onBlur={handleBlurNumberInput}
+                        onFocus={handleFocusNumberInput}
+                        max={100}
+                        min={0}
+                        size="large"
+                        style={{
+                          width: "140px",
+                          border: errors.discount
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9"
+                        }}
+                        formatter={value =>
+                          `% ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={value => value.replace(/%\s?|(,*)/g, "")}
+                        onChange={handleDiscountChange}
+                      />
+                      <Error>{errors.discount}</Error>
+                    </ErrorWrapper>
+                  </Col>
+                </Row>
+                <Button
+                  label="Create Coupon"
+                  type="secondary"
+                  style={{ width: "135px", marginTop: "2rem" }}
+                  onClick={handleSubmitCreateCoupon}
+                  loading={state.apiLoading}
+                />
+                <Button
+                  label="Cancel"
+                  type="cancel"
+                  nobgc
+                  style={{ width: "135px" }}
+                  onClick={handleCloseModals}
+                />
+              </>
+            ) : (
+              <Row
+                gutter={30}
+                type="flex"
+                justify="space-around"
+                align="middle"
+                style={{
+                  width: "100%",
+                  marginBottom: errors.withdrawValue ? "20px" : 0
+                }}
+              >
+                <div style={{ maxWidth: "200px" }}>
+                  <ModalDescription bold>Created Code: </ModalDescription>
+                  <ModalDescription>{state.code}</ModalDescription>
+                </div>
+              </Row>
+            )}
+          </ModalContentWrapper>
+        </Modal>
       </PageWrapper>
     );
   }

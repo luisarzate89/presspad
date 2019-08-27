@@ -83,5 +83,6 @@ export const borders = {
 export const tagColors = {
   "Looking for host": colors.primary,
   "At host": colors.green,
-  "Pending request": colors.orange
+  "Pending request": colors.orange,
+  new: colors.lightGray
 };

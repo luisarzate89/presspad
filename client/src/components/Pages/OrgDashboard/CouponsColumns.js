@@ -39,8 +39,6 @@ export default windowWidth => {
 
   columnsObject.push({
     title: "Total potential cost",
-    dataIndex: "code",
-    key: "code",
     render: (_, row) => (
       <span>
         £{moment(row.endDate).diff(moment(row.startDate), "days") * 20}
@@ -85,7 +83,12 @@ export default windowWidth => {
       title: "Status",
       key: "status",
       dataIndex: "status",
-      render: status => <Badge color={tagColors[status]} text={status} />
+      render: (status, record) => {
+        if (!record.intern || !record.intern || !record.intern._id) {
+          return <Badge color={tagColors.new} text={"Didn't Sign up yet"} />;
+        }
+        return <Badge color={tagColors[status]} text={status} />;
+      }
     });
   }
 

@@ -63,6 +63,11 @@ const API_SIGNOUT_URL = `${API_PREFIX}${SIGNOUT_URL}`;
 const BOOKING_REVIEW_INFO_URL = "/review-info/:bookingId";
 const API_BOOKING_REVIEW_INFO_URL = `${API_PREFIX}${BOOKING_REVIEW_INFO_URL}`;
 
+const COUPONS_URL = "/coupons";
+const API_COUPONS_URL = `${API_PREFIX}${COUPONS_URL}`;
+
+const INTERNS_URL = "/interns";
+const API_INTERNS_URL = `${API_PREFIX}${INTERNS_URL}`;
 
 module.exports = {
   // CLIENT
@@ -87,6 +92,8 @@ module.exports = {
   API_UPLOAD_SIGNED_URL,
   API_REVIEW_URL,
   API_BOOKING_REVIEW_INFO_URL,
+  API_COUPONS_URL,
+  API_INTERNS_URL,
 
   // SERVER
   LOGIN_URL,
@@ -110,4 +117,6 @@ module.exports = {
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
   BOOKING_REVIEW_INFO_URL,
+  COUPONS_URL,
+  INTERNS_URL
 };
