@@ -34,8 +34,7 @@ describe("Testing for get host profile route", () => {
         expect(res.body.name).toBe(host.name);
         expect(res.body.listing).toBeDefined();
         expect(res.body.profile).toBeDefined();
-        expect(res.body.reviews[0].message).toBeDefined();
-        expect(res.body.reviews[0].from).toBeDefined();
+        expect(res.body.reviews).toBeDefined();
         done(err);
       });
   });
