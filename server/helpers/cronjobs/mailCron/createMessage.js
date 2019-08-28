@@ -11,7 +11,8 @@ const createMessage = (options) => {
     subject: "",
     html: "",
   };
-  const startDate = `${options.booking.startDate.substring(0, 10)} at ${options.booking.startDate.substring(11, 19)}`;
+  console.log(options.booking.startDate)
+  const startDate = `${options.booking.startDate.toString().substring(0, 15)} at ${options.booking.startDate.toString().substring(16, 25)}`;
   if (options.dueDate === 1) {
     messageDetails.subject = "Reminder: Booking starts in one week";
     messageDetails.html = `<p>Hello, ${options.host.name}, ${options.intern.name}! <br> This is a reminder that your booking is scheduled to start in one week from now, on <span style="font-weight=650;">${startDate}</span>. See below the booking checklist.</p>`;
