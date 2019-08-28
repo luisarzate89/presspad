@@ -1,19 +1,3 @@
-/**
- * TODO: find all bookings within required date
- */
-
- /**
-  * start from checklist answers
-  * populate with bookings
-  * if date is valid:
-  * create an object inside the query to return a list of objects from the get go
-  * the object.intern, object.host are ids
-  * the object.checklist is the checklist
-  * send one mail thread that includes the intern and the host with the checklist
-  * >>> just iterate over the list, in each we get the id and shit and then we iterate over the list to 
-  * create an html list.
-  */
-
 const { findAnswersByBookingDate } = require("../../../database/queries/checkList/index");
 const getTargetDate = require("../../dateHelper");
 
@@ -30,7 +14,7 @@ const BookingsList = async () => {
     const mailingObject = {};
     const answerList = []; // this will be inside the mailingObject
     answers.forEach(answer => {
-      // times to properly mark each mailing object. Bookings are due in either 1, 2 or 3 weeks. 
+      // specifies times to properly mark each mailing object. Bookings are due in either 1, 2 or 3 weeks. 
       const timeTable = {
         oneWeek: {
           startDate: oneWeek.getTime(),
@@ -73,6 +57,7 @@ const BookingsList = async () => {
       if (answer.booking.startDate >= timeTable.threeWeeks.startDate 
         && answer.booking.startDate < timeTable.threeWeeks.endDate) dueDate = 3 ;
       
+      // starts populating the mailing object to look like the comment above.
       mailingObject[answer.booking.id] = { answerList, dueDate };
 
       mailingObject[answer.booking.id].booking = {

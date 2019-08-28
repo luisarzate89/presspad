@@ -10,6 +10,7 @@ const categorizeAnsweredQuestions = async (answerList) => {
   const answerTable = {};
 
   answerList.forEach(answer => {
+    // add the answer to the table with a truthy fulfilled key.
     answerTable[answer] = {
       text: answer,
       fulfilled: true,
@@ -18,12 +19,13 @@ const categorizeAnsweredQuestions = async (answerList) => {
   try {
     const questionList = await findAllQuestions();
     questionList.forEach(question => {
+      // add the answer to the table with a falsy fulfilled key.
       if (!answerTable[question.text]) answerTable[question.text] = {
         text: question.text,
       };
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
   return answerTable;
 };
@@ -39,7 +41,7 @@ const htmlGenerator = (answerTable) => {
   const startingTag = "<ul>";
   const closingTag = "</ul>";
   let list = ""
-  
+
   const answerList = Object.values(answerTable);
   answerList.forEach(answer => {
     if (answer.fulfilled) {
