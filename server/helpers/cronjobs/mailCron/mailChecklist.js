@@ -30,7 +30,7 @@ const BookingsList = async () => {
     const mailingObject = {};
     const answerList = []; // this will be inside the mailingObject
     answers.forEach(answer => {
-      // times to properly mark each mailing object for sending the correct email text. 
+      // times to properly mark each mailing object. Bookings are due in either 1, 2 or 3 weeks. 
       const timeTable = {
         oneWeek: {
           startDate: oneWeek.getTime(),
@@ -52,40 +52,45 @@ const BookingsList = async () => {
       /**
        * groups all answers by booking.
        * mailingObject should look like:
-       *  {
-       *    "booking.id": {
-       *      booking: {
-       *        id: "booking.id",
-       *        startDate: "booking.startDate",
-       *        endDate: "booking.endDate"  
-      *       },
-       *      host: "host email",  this one will need the name as well!
-       *      intern: "intern email",
-       *      answerList: [array of answer texts]
-       *    }
-       *  }
+       * {
+            answerList: [ 'Sign the contract', 'tidy up the listing'],
+            dueDate: 1,
+            booking: {
+              id: '5d62753f6fc81f03fc8c4860',
+              startDate: "2019-07-26T11:47:11.303Z",
+              endDate: "2019-08-10T11:47:11.303Z"
+            },                                                          
+            host: { email: 'farah.zaqout@gmail.com', name: 'Farah Appele' },     
+            intern: { email: 'farah.zaqout.1@gmail.com', name: 'Adam Zaqout' }    
+         }
        */
+
+      // add a due date (in weeks) to each key of the mailing object.
       if (answer.booking.startDate >= timeTable.oneWeek.startDate 
         && answer.booking.startDate < timeTable.oneWeek.endDate) dueDate = 1 ;
       if (answer.booking.startDate >= timeTable.twoWeeks.startDate 
         && answer.booking.startDate < timeTable.twoWeeks.endDate) dueDate = 2 ;
       if (answer.booking.startDate >= timeTable.threeWeeks.startDate 
         && answer.booking.startDate < timeTable.threeWeeks.endDate) dueDate = 3 ;
+      
+      mailingObject[answer.booking.id] = { answerList, dueDate };
 
-      mailingObject[answer.booking.id] = { answerList, dueDate }; // mailingObject: { "booking.id": { answerList: [] } }
       mailingObject[answer.booking.id].booking = {
         id: answer.booking.id,
         startDate: answer.booking.startDate,
         endDate: answer.booking.endDate,
       };
+
       mailingObject[answer.booking.id].host = {
         email: answer.booking.host.email,
         name: answer.booking.host.name,
       };
+
       mailingObject[answer.booking.id].intern = {
         email: answer.booking.intern.email,
         name: answer.booking.host.name,
       };
+
       mailingObject[answer.booking.id].answerList.push(answer.question.text);
     });
     return mailingObject;
