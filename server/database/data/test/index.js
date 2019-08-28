@@ -21,14 +21,11 @@ const installments = require("./installments");
 const scheduledEmails = require("./scheduledEmails");
 const checklistQuestions = require("./checklistQuestions");
 const checklistAnswers = require("./checklistAnswers");
+const withdrawRequests = require("./withdrawRequests");
 
 
-const buildTestData = connection => new Promise((resolve, reject) => {
-  let dbConnection = dbConnect;
-  if (connection) {
-    dbConnection = connection;
-  }
-  dbConnection()
+const buildTestData = useAtlas => new Promise((resolve, reject) => {
+  dbConnect(useAtlas)
     .then(async () => {
       try {
         await resetDb();
@@ -51,8 +48,10 @@ const buildTestData = connection => new Promise((resolve, reject) => {
         await scheduledEmails();
         await checklistQuestions();
         await checklistAnswers();
-      } catch (error) {
-        console.log("err in building the database", error);
+        await withdrawRequests();
+      } catch (err) {
+        console.log("err during building the test db, try again", err);
+        throw err;
       }
     })
     .then(resolve)

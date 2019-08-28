@@ -40,3 +40,22 @@ export const getDateRangeFromArray = datesArray => {
 export const getStringTime = time => {
   return moment(time).fromNow();
 };
+
+/**
+ * calculate the price giving range of dates
+ * @param {import("moment-range").MomentRange} range
+ */
+export const calculatePrice = range => {
+  if (!range) return 0;
+  let weeks, days;
+  if (typeof range === "number") {
+    weeks = Math.trunc(range / 7);
+    days = range % 7;
+  } else {
+    range.start.startOf("day");
+    range.end.add(1, "day");
+    weeks = range.diff("weeks");
+    days = range.diff("days") % 7;
+  }
+  return weeks * 150 + days * 20;
+};
