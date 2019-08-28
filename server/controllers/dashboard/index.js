@@ -1,3 +1,7 @@
 const internDashboard = require("./internDashboard");
+const hostDashboard = require("./hostDashboard");
 
-module.exports = { internDashboard };
+module.exports = {
+  internDashboard,
+  hostDashboard,
+};

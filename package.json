@@ -12,7 +12,8 @@
       "!**/client/**",
       "!**/server/app.js",
       "!**/coverage/**"
-    ]
+    ],
+    "testEnvironment": "node"
   },
   "proxy": "http://localhost:8080",
   "scripts": {
@@ -23,12 +24,14 @@
     "init:both": "npm i && npm run client:init",
     "coverage": "codecov",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test:clearCache": "cross-env NODE_ENV=test jest --clearCache",
     "test:client": "cd client && npm test",
     "test:client:coverage": "NODE_ENV=test cd client && npm run test:coverage",
     "test": "cross-env NODE_ENV=test npm run test:coverage && npm run test:client:coverage",
     "test:current": "cross-env NODE_ENV=test jest server/__test__/api/reviews.js --runInBand --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
+    "build:data:test": "cross-env NODE_ENV=build node server/database/data/test/index.js",
     "build:data:prd": "node server/database/data/production/index.js"
   },
   "devDependencies": {
@@ -62,6 +65,7 @@
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "moment-range": "^4.0.2",
     "mongoose": "^5.5.8",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",

@@ -1,5 +1,4 @@
 const request = require("supertest");
-const mongoose = require("mongoose");
 
 const buildDB = require("./../../database/data/test/index");
 const app = require("./../../app");
@@ -10,14 +9,9 @@ const User = require("./../../database/models/User");
 const Notification = require("./../../database/models/Notification");
 
 describe("Tests adding a review and creating a getReview notification", () => {
-  beforeAll(async (done) => {
+  beforeEach(async () => {
     // build dummy data
     await buildDB();
-    done();
-  });
-
-  afterAll(async () => {
-    await mongoose.disconnect();
   });
 
   const loginData = {
@@ -26,8 +20,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
   };
 
   test("tests adding a review successfully", async (done) => {
-    const bookingList = await Booking.find();
-    const booking = bookingList[4];
+    const booking = await Booking.findOne({ status: "confirmed", price: "100" }).sort({ price: 1 });
     const reviewee = booking.intern;
     const reviewer = booking.host;
 
@@ -69,6 +62,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
                 type: "getReview",
               },
             );
+
             // there should be a review and a notification entries.
             // fails if returned value is null
             expect(review).toBeTruthy();
@@ -83,9 +77,8 @@ describe("Tests adding a review and creating a getReview notification", () => {
   }, 30000);
 
   test("check that input validation works as intended for rating", async (done) => {
-    const booking = await Booking.findOne();
-    const internId = booking.intern;
-    const hostId = booking.host;
+    const booking = await Booking.findOne({ status: "confirmed", price: "100" }).sort({ price: 1 });
+    const { intern: internId, host: hostId } = booking;
 
     const reviewData = {
       to: hostId, // person receiving the review >> also the user in notification
@@ -120,7 +113,7 @@ describe("Tests adding a review and creating a getReview notification", () => {
   test("check that input validation works as intended for message", async (done) => {
     const reviewee = await User.findOne({ name: "Michael Peters" });
     const reviewer = await User.findOne({ name: "Josephine Doeski" });
-    const booking = await Booking.findOne();
+    const booking = await Booking.findOne({ status: "confirmed", price: "100" }).sort({ price: 1 });
 
     const reviewData = {
       to: reviewer.id, // person receiving the review >> also the user in notification
@@ -153,9 +146,8 @@ describe("Tests adding a review and creating a getReview notification", () => {
   }, 30000);
 
   test("check that only authenticated users will be able to add review", async (done) => {
-    const booking = await Booking.findOne();
-    const reviewee = booking.intern;
-    const reviewer = booking.host;
+    const booking = await Booking.findOne({ status: "confirmed", price: "100" }).sort({ price: 1 });
+    const { intern: reviewee, host: reviewer } = booking;
 
     const reviewData = {
       to: reviewer, // person receiving the review >> also the user in notification

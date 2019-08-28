@@ -44,7 +44,7 @@ const internDashboard = async (req, res, next) => {
 
     return res.json({ data: dashboardData });
   } catch (err) {
-    return next(err);
+    return next(boom.badImplementation(err));
   }
 };
 

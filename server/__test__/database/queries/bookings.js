@@ -23,7 +23,7 @@ describe("Tests for booking queries", () => {
   });
 
   test("Test check other booking request query with duplicate booking request", async (done) => {
-    const interns = await User.find({ role: "intern" });
+    const interns = await User.find({ role: "intern" }).sort({ name: 1, email: 1 });
     // get bookings made by intern
     const bookings = await Booking.find({ intern: interns[0]._id });
     expect(bookings).toBeDefined();

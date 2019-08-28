@@ -4,7 +4,7 @@ const Organisation = require("../../models/Organisation");
 
 module.exports = async () => {
   // organisations
-  const organisations = await Organisation.find();
+  const organisations = await Organisation.find().sort({ name: 1 });
 
   // create orgCodes
   const orgCodes = [

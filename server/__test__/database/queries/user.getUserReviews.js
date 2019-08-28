@@ -19,9 +19,9 @@ describe("Tests for getUserReviews query", () => {
   });
 
   test("Test getUserReviews query with valid id", async (done) => {
-    const hosts = await User.find({ role: "host" });
+    const hosts = await User.findOne({ email: "hilda@bbc.co.uk" });
 
-    await getUserReviews(hosts[0]._id).then((reviews) => {
+    await getUserReviews(hosts._id).then((reviews) => {
       expect(reviews).toBeDefined();
       expect(reviews[0]).toBeDefined();
       expect(reviews[0].from_user.name).toBeDefined();

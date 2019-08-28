@@ -49,9 +49,7 @@ describe("Tests get profile data with the image urls form google cloud", () => {
 
             const { url } = res.body.profile.profileImage;
             expect(url).toBeTruthy();
-            expect(url).toBe(
-              "https://storage.googleapis.com/presspad-4e1bd.appspot.com/adam-profile.jpg",
-            );
+            expect(url).toMatch(/https:\/\/storage.googleapis.com\/*\/*.*/);
             expect(res.body.profile.jobTitle).toBe("journalist");
             return done();
           });

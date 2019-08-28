@@ -18,6 +18,7 @@ import {
   SIGNIN_URL
 } from "../../../constants/navRoutes";
 
+import { API_SIGNOUT_URL } from "./../../../constants/apiRoutes";
 import USER_TYPES from "./../../../constants/userTypes";
 
 const Wrapper = styled.div`
@@ -70,10 +71,10 @@ class Navbar extends Component {
   // RENDERING IS BASED ON KNOWING IF LOGGEDIN AND THE TYPE OF USER
 
   menuButtonClick = async e => {
-    const signOutResult = await axios.get("api/sign-out");
+    const signOutResult = await axios.get(API_SIGNOUT_URL);
     if (signOutResult.data.success) {
       this.props.resetState();
-      this.props.history.push("/");
+      this.props.history.push(HOME_URL);
     } else {
       message.error("Server Error, please try again!");
     }

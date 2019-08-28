@@ -6,14 +6,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const router = require("./router");
-const dbConnection = require("./database/dbConnection");
 
 const app = express();
 
 require("dotenv").config();
-
-// connect to DB
-dbConnection();
 
 const port = process.env.PORT || 8080;
 app.set("port", port);
