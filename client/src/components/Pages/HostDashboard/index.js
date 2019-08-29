@@ -30,7 +30,7 @@ class HostProfile extends Component {
     // withdraw details
     bankName: null,
     bankSortCode: null,
-    bankNumber: null,
+    accountNumber: null,
 
     // Values came from api request
     bookings: [],

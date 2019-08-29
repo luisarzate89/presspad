@@ -46,7 +46,7 @@ describe("Testing for host makeing withdraw request", () => {
           amount,
           bankName: "bankName",
           bankSortCode: "bankSortCode",
-          bankNumber: "bankNumber",
+          accountNumber: "accountNumber",
         };
         const withdrawRequestsBefore = await WithdrawRequest.find();
 
