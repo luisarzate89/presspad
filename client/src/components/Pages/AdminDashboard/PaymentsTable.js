@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Table, Tag } from "antd";
+// import { Link } from "react-router-dom";
+import { Table, /*Tag*/ } from "antd";
 
-import { tagColors } from "./../../../theme";
+// import { tagColors } from "./../../../theme";
 
 // this isn't even the shape of the object anymore.
 const dataSource = [
