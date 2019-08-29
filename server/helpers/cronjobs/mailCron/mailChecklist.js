@@ -9,7 +9,6 @@ const BookingsList = async () => {
 
     const answers = await findAnswersByBookingDate(oneWeek, twoWeeks, threeWeeks);
     // const answers = await findAnswersByBookingDate(); // use this for testing until we properly mock the data.
-    
     // initial objects to mutate inside the coming loop.
     const mailingObject = {};
     const answerList = []; // this will be inside the mailingObject
@@ -73,10 +72,12 @@ const BookingsList = async () => {
 
       mailingObject[answer.booking.id].intern = {
         email: answer.booking.intern.email,
-        name: answer.booking.host.name,
+        name: answer.booking.intern.name,
       };
-
-      mailingObject[answer.booking.id].answerList.push(answer.question.text);
+      mailingObject[answer.booking.id].answerList.push({ 
+        text: answer.question.text,
+        for: answer.question.for
+      });
     });
     return mailingObject;
   } catch (error) {

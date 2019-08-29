@@ -7,12 +7,12 @@ const { findAllQuestions } = require("../../../database/queries/checkList");
  * @return {object} returns a table with answered question having a truthy "fulfilled" key
  */
 const categorizeAnsweredQuestions = async (answerList) => {
-  const answerTable = {};
-
+  const categorizedQuestions = {};
   answerList.forEach(answer => {
     // add the answer to the table with a truthy fulfilled key.
-    answerTable[answer] = {
-      text: answer,
+    categorizedQuestions[answer.text] = {
+      text: answer.text,
+      for: answer.for,
       fulfilled: true,
     };
   });
@@ -20,38 +20,64 @@ const categorizeAnsweredQuestions = async (answerList) => {
     const questionList = await findAllQuestions();
     questionList.forEach(question => {
       // add the answer to the table with a falsy fulfilled key.
-      if (!answerTable[question.text]) answerTable[question.text] = {
+      if (!categorizedQuestions[question.text]) categorizedQuestions[question.text] = {
         text: question.text,
+        for: question.for,      
       };
     });
   } catch (error) {
     console.log(error);
   }
-  return answerTable;
+  return categorizedQuestions;
 };
 
 /**
- * @param {object} answerTable all question texts
+ * @param {object} categorizedQuestions all question texts
  * the answered ones are marked with a truthy "fulfilled" key.
  * @returns {string} returns an html string to be injected into the message.
  */
 
-const htmlGenerator = (answerTable) => {
-  const htmlHeader=`<h3 style="color: black; font-size: 20px;">Booking Checklist:</h3>`
-  const startingTag = "<ul>";
+const htmlGenerator = ({ categorizedQuestions, names }) => {
+  const internHeader=`<h3 style="color: black; font-size: 20px;">${names.intern} Checklist:</h3>`
+  const hostHeader=`<h3 style="color: black; font-size: 20px;">${names.host} Checklist:</h3>`
+  const openingTag = "<ul>";
   const closingTag = "</ul>";
-  let list = ""
+  let internList = ""
+  let hostList = ""
 
-  const answerList = Object.values(answerTable);
+  const answerList = Object.values(categorizedQuestions);
   answerList.forEach(answer => {
-    if (answer.fulfilled) {
-      list+= `<li style="color: green; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10004;</span> ${answer.text}</li>`;
-    }
-    if (!answer.fulfilled) {
-      list += `<li style="color: red; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10005;</span> ${answer.text}</li>`;
+    // intern html injection
+    if (answer.for === "intern") {
+      if (answer.fulfilled) {
+        internList += `<li style="color: green; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10004;</span> ${answer.text}</li>`;
+      }
+      if (!answer.fulfilled) {
+        internList += `<li style="color: red; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10005;</span> ${answer.text}</li>`;
+      }
+      // host html injection
     } 
+    if (answer.for === "host") {
+      if (answer.fulfilled) {
+        hostList += `<li style="color: green; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10004;</span> ${answer.text}</li>`;
+      }
+      if (!answer.fulfilled) {
+        hostList += `<li style="color: red; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10005;</span> ${answer.text}</li>`;
+      } 
+    }
+    if (answer.for === "both") {
+      if (answer.fulfilled) {
+        hostList += `<li style="color: green; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10004;</span> ${answer.text}</li>`;
+        internList += `<li style="color: green; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10004;</span> ${answer.text}</li>`;
+      }
+      if (!answer.fulfilled) {
+        hostList += `<li style="color: red; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10005;</span> ${answer.text}</li>`;
+        internList += `<li style="color: red; list-style: none; font-size: 16px; font-weight: 650;"><span>&#10005;</span> ${answer.text}</li>`;
+      } 
+    }
   });
-  return `${htmlHeader}${startingTag}${list}${closingTag}`
+  const htmlString = `${internHeader}${openingTag}${internList}${closingTag}${hostHeader}${openingTag}${hostList}${closingTag}`
+  return htmlString;
 }
 
 module.exports = { categorizeAnsweredQuestions, htmlGenerator };

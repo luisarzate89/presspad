@@ -11,7 +11,6 @@ const createMessage = (options) => {
     subject: "",
     html: "",
   };
-  console.log(options.booking.startDate)
   const startDate = `${options.booking.startDate.toString().substring(0, 15)} at ${options.booking.startDate.toString().substring(16, 25)}`;
   if (options.dueDate === 1) {
     messageDetails.subject = "Reminder: Booking starts in one week";
