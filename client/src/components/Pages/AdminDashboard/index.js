@@ -159,6 +159,12 @@ export default class AdminDashboard extends Component {
             >
               Hosts
             </MenuItem>
+            <MenuItem
+              onClick={() => this.selectSection("payments")}
+              active={activeLink === "payments" || hostProfile} // change here
+            >
+              Payments
+            </MenuItem>
           </DashboardMenu>
         </TopSection>
         <MainSection>
