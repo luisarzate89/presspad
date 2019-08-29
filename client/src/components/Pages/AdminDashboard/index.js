@@ -8,6 +8,7 @@ import ClientTable from "./ClientTable";
 import InternTable from "./InternTable";
 import HostTable from "./HostTable";
 import HostProfile from "./../HostProfile/index";
+import PaymentsTable from "./PaymentsTable";
 
 // STYLING
 import {
@@ -186,6 +187,16 @@ export default class AdminDashboard extends Component {
           {activeLink === "hosts" && (
             <HostWrapper hide={hostProfile}>
               <HostTable
+                getColumnSearchProps={this.getColumnSearchProps}
+                loading={loading}
+                data={data}
+                showProfile={this.showProfile}
+              />
+            </HostWrapper>
+          )}
+          {activeLink === "payments" && (
+            <HostWrapper hide={hostProfile}>
+              <PaymentsTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
                 data={data}

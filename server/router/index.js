@@ -16,12 +16,16 @@ const getUserBookings = require("./../controllers/getUserBookings");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
-const { internDashboard } = require("./../controllers/dashboard");
+const { internDashboard, hostDashboard } = require("./../controllers/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
+const { createCoupon } = require("../controllers/coupons");
+const getAllInterns = require("../controllers/user/getAllInterns");
+const hostDonation = require("../controllers/payments/hostDonation");
+const withdrawRequest = require("../controllers/payments/withdrawRequest");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -51,6 +55,11 @@ const {
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
   BOOKING_REVIEW_INFO_URL,
+  COUPONS_URL,
+  INTERNS_URL,
+  HOST_DASHBOARD_URL,
+  DONATION_URL,
+  WITHDRAW_REQUEST_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -111,6 +120,22 @@ router.get(MY_PROFILE_URL, authentication, getMyProfile);
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 
+// ORG create a coupon
+router.post(COUPONS_URL, authentication, createCoupon);
+
+// admin || org get all interns
+router.get(INTERNS_URL, authentication, getAllInterns);
+
+// get HOST dashboard data
+router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
+
+// host donate to presspad
+router.post(DONATION_URL, authentication, hostDonation);
+
+
+// host request to withdraw money
+router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
+
 
 // Reviews
 router.route(REVIEW_URL)
@@ -124,6 +149,6 @@ router.route(SIGNOUT_URL)
   .get(signOut);
 
 router.route(BOOKING_REVIEW_INFO_URL)
-  .get(authentication, getBookingsWithUsers)
+  .get(authentication, getBookingsWithUsers);
 
 module.exports = router;

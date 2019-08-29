@@ -38,6 +38,7 @@ const colorCodes = {
   red: "#EA5254",
   orange: "#E8841F",
   green: "#5BAF93",
+  blue: "#0A7AE7",
 
   // fontcolors
   fontPrimary: "#07294A",
@@ -83,5 +84,6 @@ export const borders = {
 export const tagColors = {
   "Looking for host": colors.primary,
   "At host": colors.green,
-  "Pending request": colors.orange
+  "Pending request": colors.orange,
+  new: colors.lightGray
 };

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const shortid = require("shortid");
+const moment = require("moment");
 
 const { Schema, model } = mongoose;
 
@@ -56,12 +57,20 @@ const couponSchema = new Schema({
       message: "Used Days is not an integer value",
     },
   },
-  expirationDate: {
+  startDate: {
+    type: Date,
+    required: true,
+    validate: {
+      validator: value => moment().startOf("day").valueOf() < value,
+      message: "expiration date is in the past",
+    },
+  },
+  endDate: {
     type: Date,
     required: true,
     validate: {
       validator: value => Date.now() < value,
-      message: "expiration date is in the past",
+      message: "end date is in the past",
     },
   },
   // coupon's transactions history
