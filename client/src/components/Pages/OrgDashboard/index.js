@@ -30,6 +30,7 @@ class OrganizationDashboard extends Component {
     isNumberInputActive: false,
     discountRate: 0,
     code: null,
+    showAddFunds: true,
     errors: {}
   };
 
@@ -287,13 +288,16 @@ class OrganizationDashboard extends Component {
       });
   };
 
+  handlePayNowClick = show => this.setState({ showAddFunds: show });
+
   render() {
-    const { name, windowWidth } = this.props;
+    const { name, windowWidth, stripe } = this.props;
 
     return (
       <Content
         name={name}
         windowWidth={windowWidth}
+        stripe={stripe}
         state={this.state}
         onEndChange={this.onEndChange}
         handleStartOpenChange={this.handleStartOpenChange}
@@ -311,6 +315,7 @@ class OrganizationDashboard extends Component {
         handleDiscountChange={this.handleDiscountChange}
         handleCloseModals={this.handleCloseModals}
         handleSubmitCreateCoupon={this.handleSubmitCreateCoupon}
+        handlePayNowClick={this.handlePayNowClick}
       />
     );
   }

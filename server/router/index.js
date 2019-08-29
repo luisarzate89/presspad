@@ -26,6 +26,7 @@ const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const withdrawRequest = require("../controllers/payments/withdrawRequest");
+const { orgPayment } = require("../controllers/payments/index");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -60,6 +61,7 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  ORG_PAYMENT_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -135,6 +137,9 @@ router.post(DONATION_URL, authentication, hostDonation);
 
 // host request to withdraw money
 router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
+
+// organisation add funds
+router.post(ORG_PAYMENT_URL, authentication, orgPayment);
 
 
 // Reviews

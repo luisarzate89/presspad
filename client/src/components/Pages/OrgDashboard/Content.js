@@ -12,10 +12,13 @@ import {
   Icon
 } from "antd";
 import moment from "moment";
+import { Elements } from "react-stripe-elements";
+
 import Button from "./../../Common/Button";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
+import AddFundsModal from "./AddFundsModal";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 import randomProfile from "../../../assets/listing-placeholder.jpg";
 import {
@@ -71,9 +74,11 @@ class Content extends Component {
       handleFocusNumberInput,
       handleDiscountChange,
       handleCloseModals,
-      handleSubmitCreateCoupon
+      handleSubmitCreateCoupon,
+      handlePayNowClick,
+      stripe
     } = this.props;
-    const { details, notifications, account, coupons } = state;
+    const { details, notifications, account, coupons, showAddFunds } = state;
 
     const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
@@ -88,6 +93,14 @@ class Content extends Component {
     ).length;
     return (
       <PageWrapper>
+        <Elements>
+          <AddFundsModal
+            handlePayNowClick={handlePayNowClick}
+            showAddFunds={showAddFunds}
+            account={account}
+            stripe={stripe}
+          />
+        </Elements>
         <ContentWrapper>
           <HeaderWrapper>
             <Row gutter={20} type="flex" justify="start">
