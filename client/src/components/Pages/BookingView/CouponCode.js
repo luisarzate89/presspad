@@ -45,7 +45,7 @@ const CouponCode = props => {
       />
       {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
       {isLoading ? <Skeleton paragraph={{ rows: 0 }} /> : ""}
-      {!error && isLoading === false ? (
+      {!error && isLoading === false && couponCode && (
         <>
           <PaymentInfoRow
             data={{ key: "Discount Days", value: discountDays }}
@@ -57,8 +57,6 @@ const CouponCode = props => {
             data={{ key: "Discount amount", value: `£${couponDiscount}` }}
           />
         </>
-      ) : (
-        ""
       )}
     </>
   );

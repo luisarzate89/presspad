@@ -150,6 +150,17 @@ export default class BookingView extends Component {
 
   handleCouponChange = async e => {
     const code = e.target.value;
+    if (!code) {
+      return this.setState({
+        couponInfo: {
+          ...this.state.couponInfo,
+          isCouponLoading: false,
+          couponDiscount: 0,
+          couponCode: "",
+          error: ""
+        }
+      });
+    }
     // only send requests if the code is valid
     if (
       !code ||
