@@ -69,8 +69,8 @@ class HostProfile extends Component {
     profileData: null,
     reviews: null,
     internBookings: [],
-    adminView: this.props.adminView,
-    profileId: null
+    profileId: null,
+    adminApprovedProfile: false
   };
 
   // functions
@@ -81,7 +81,8 @@ class HostProfile extends Component {
       .then(({ data }) => {
         this.setState({
           isLoading: false,
-          profileData: data
+          profileData: data,
+          adminApprovedProfile: data.profile.verified
         });
       })
       .catch(err => {
@@ -92,11 +93,10 @@ class HostProfile extends Component {
   };
 
   componentDidMount() {
-    // check to see if this is the adminView from dashboard
-    const { adminView } = this.state;
+    const { role } = this.props;
 
     this.getHostProfile();
-    if (!adminView) {
+    if (role !== "admin") {
       axios
         .get(API_GET_USER_BOOKINGS_URL.replace(":id", this.props.id))
         .then(result => this.setState({ internBookings: result.data }))
@@ -113,7 +113,7 @@ class HostProfile extends Component {
   verifyProfile = (profileId, bool) => {
     axios
       .post(API_VERIFY_PROFILE_URL, { profileId, verify: bool })
-      .then(() => this.axiosCall())
+      .then(() => this.setState({ adminApprovedProfile: bool }))
       .catch(err => console.error(err));
   };
 
@@ -130,34 +130,27 @@ class HostProfile extends Component {
           otherInfo,
           description
         },
-        profile: {
-          bio,
-          jobTitle,
-          organisation,
-          profileImage,
-          _id: profileId,
-          verified
-        },
+        profile: { bio, jobTitle, organisation, profileImage, _id: profileId },
         name,
         email,
         reviews
       },
-      adminView,
-      internBookings
+      internBookings,
+      adminApprovedProfile
     } = this.state;
-    const { hideProfile, match, id: currentUserId } = this.props;
+    const { hideProfile, match, id: currentUserId, role } = this.props;
     const { id: hostId } = match.params;
 
     return (
       <Wrapper>
         <LinkDiv>
-          {adminView ? (
+          {role === "admin" ? (
             <AdminTopDiv>
               <BackLinkDiv>
                 <Arrow />
                 <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
               </BackLinkDiv>
-              {verified ? (
+              {adminApprovedProfile ? (
                 <Button
                   label="Unapprove profile"
                   type="verification"
@@ -193,12 +186,12 @@ class HostProfile extends Component {
         <Header>
           <ProfilePic
             src={profileImage || profilePlaceholder}
-            adminView={adminView}
+            adminView={role === "admin"}
             onError={this.handleImageFail}
           />
 
           <HeaderDiv>
-            {adminView ? (
+            {role === "admin" ? (
               <Headline>{name}</Headline>
             ) : (
               <Headline>
@@ -287,7 +280,7 @@ class HostProfile extends Component {
                   availableDates={availableDates}
                   internBookings={internBookings}
                   price={price}
-                  adminView={adminView}
+                  adminView={role === "admin"}
                 />
               </CalendarDiv>
             </Card>
