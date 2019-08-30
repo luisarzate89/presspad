@@ -1,4 +1,6 @@
 const boom = require("boom");
+const mongoose = require("mongoose");
+
 const {
   updateUserProfile,
   findProfile,
@@ -6,8 +8,14 @@ const {
 } = require("./../database/queries/profiles");
 const { createNewListing } = require("./../database/queries/listings");
 
+const { updateListing } = require("../database/queries/listing");
+
 module.exports = async (req, res, next) => {
   const { user } = req;
+
+  if (user.role !== "host") {
+    return next(boom.forbidden("only host can update his profile"));
+  }
   try {
     const profileData = {
       user: user._id,
@@ -38,16 +46,38 @@ module.exports = async (req, res, next) => {
 
     // update the host profile
     if (foundProfile) {
-      await updateUserProfile(user._id, profileData);
-    } else {
-      await createNewProfile(profileData);
-    }
+      const session = await mongoose.startSession();
+      session.startTransaction();
 
-    // create new listing
-    await createNewListing(listingData);
+      try {
+        await updateUserProfile(user._id, profileData, session);
+        await updateListing(user._id, listingData, session);
+
+        await session.commitTransaction();
+        session.endSession();
+      } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
+        throw err;
+      }
+    } else {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        await createNewProfile(profileData, session);
+        await createNewListing(listingData, session);
+        await session.commitTransaction();
+        await session.endSession();
+      } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
+        throw err;
+      }
+    }
 
     res.json({ success: true });
   } catch (error) {
-    next(boom.badImplementation());
+    next(boom.badImplementation(error));
   }
 };

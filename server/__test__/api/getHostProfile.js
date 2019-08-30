@@ -22,49 +22,30 @@ describe("Testing for get host profile route", () => {
   });
 
   test("test with correct user id", async (done) => {
-    const host = await User.findOne({ role: "host" });
-
-    const data = { userId: host._id };
+    const host = await User.findOne({ email: "adam@gmail.com" });
 
     request(app)
-      .post("/api/host")
-      .send(data)
+      .get(`/api/host/${host._id}`)
       .expect("Content-Type", /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body).toBeDefined();
-        // // this test will be changed totally on the other request
-        // expect(res.body[0][0].name).toBe(host.name);
-        // expect(res.body[0][0].listing).toBeDefined();
-        // expect(res.body[0][0].profile).toBeDefined();
-        // expect(res.body[1]).toBeDefined();
-        // expect(res.body[1][0].from_user.name).toBeDefined();
-        // expect(res.body[1][0].message).toBeDefined();
+        expect(res.body.name).toBe(host.name);
+        expect(res.body.listing).toBeDefined();
+        expect(res.body.profile).toBeDefined();
+        expect(res.body.reviews).toBeDefined();
         done(err);
       });
   });
 
-  test("test with incorrect user id", async (done) => {
+  test("test with incorrect user id", (done) => {
     const data = { userId: "5ce66c1635c86b54fd6c732c" };
 
     request(app)
-      .post("/api/host")
-      .send(data)
+      .get(`/api/host/${data.userId}`)
       .expect("Content-Type", /json/)
       .expect(404)
-      .end((err, res) => {
-        expect(res.body.error).toBeDefined();
-        done(err);
-      });
-  });
-
-  test("test with no user id", async (done) => {
-    request(app)
-      .post("/api/host")
-      .send("hello")
-      .expect("Content-Type", /json/)
-      .expect(400)
       .end((err, res) => {
         expect(res.body.error).toBeDefined();
         done(err);

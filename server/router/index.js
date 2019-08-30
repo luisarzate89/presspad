@@ -21,6 +21,7 @@ const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
+const getInternStatus = require("../controllers/profile/getInternStatus");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
 const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
@@ -30,7 +31,7 @@ const withdrawRequest = require("../controllers/payments/withdrawRequest");
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
-const validation = require("./../middlewares/validation");
+const { validation } = require("./../middlewares/validation");
 
 // API ROUTES
 const {
@@ -54,6 +55,7 @@ const {
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
+  GET_INTERN_STATUS,
   BOOKING_REVIEW_INFO_URL,
   COUPONS_URL,
   INTERNS_URL,
@@ -83,13 +85,16 @@ router.post(
 router.get(USER_URL, softAuthCheck, userInfo);
 
 // gets hosts profile data
-router.post(HOST_PROFILE_URL, getHostProfile);
+router.get(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
 
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
+
+// check if user profile verfied and has coplete profile
+router.get(GET_INTERN_STATUS, authentication, getInternStatus);
 
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
