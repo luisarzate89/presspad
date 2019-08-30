@@ -18,6 +18,7 @@ const installmentSchema = new Schema({
   amount: {
     type: Number,
     required: true,
+    min: 0.01,
   },
   dueDate: {
     type: Date,

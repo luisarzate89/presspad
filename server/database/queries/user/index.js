@@ -164,3 +164,5 @@ module.exports.getUserOrg = userId => User.aggregate([
   },
   { $replaceRoot: { newRoot: "$organisation" } },
 ]);
+
+module.exports.getAllInterns = () => User.find({ role: "intern" }, { password: 0 });

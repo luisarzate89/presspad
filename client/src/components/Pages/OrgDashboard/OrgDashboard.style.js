@@ -139,7 +139,7 @@ export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #0ac7e7;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
 `;
 
 export const InternsTableWrapper = styled.div`
@@ -156,4 +156,58 @@ export const InternsTableWrapper = styled.div`
   .ant-table-thead tr {
     background-color: transparent;
   }
+`;
+
+export const ModalTitle = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 35px;
+  color: #07294a;
+`;
+
+export const ModalContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem;
+  justify-content: space-between;
+  & > * {
+    margin-top: 0.75rem;
+  }
+`;
+
+export const ModalDescription = styled.span`
+  font-style: normal;
+  font-weight: ${({ bold }) => (bold ? "bold" : 300)};
+  font-size: ${({ large }) => (large ? "25px" : "16px")};
+  line-height: 25px;
+  color: #393939;
+`;
+
+export const Label = styled.label`
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 25px;
+  color: #393939;
+  text-align: right;
+  width: 100%;
+  display: inline-block;
+`;
+
+export const Error = styled.p`
+  position: absolute;
+  top: 100%;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+`;
+
+export const ErrorWrapper = styled.div`
+  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  margin-bottom: ${({ marginBottom }) => marginBottom};
+  border-radius: 4px;
+  position: relative;
 `;
