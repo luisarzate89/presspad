@@ -123,10 +123,6 @@ export default class AdminDashboard extends Component {
     this.setState({ searchText: "" });
   };
 
-  showProfile = userId => {
-    this.setState({ hostProfile: userId });
-  };
-
   hideProfile = () => {
     const { activeLink } = this.state;
     this.setState({ hostProfile: null });
@@ -183,7 +179,6 @@ export default class AdminDashboard extends Component {
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
                 data={data}
-                showProfile={this.showProfile}
               />
             </HostWrapper>
           )}
@@ -196,14 +191,6 @@ export default class AdminDashboard extends Component {
               />
             </ProfileWrapper>
           )}
-          {/* <ContentTitle>Your Placeholder</ContentTitle>
-          <SearchWrapper>
-            <SearchInput />
-            <Filters />
-          </SearchWrapper>
-          <ResultsWrapper>
-            <div>TABLE FROM ANTD TO GO HERE</div>
-          </ResultsWrapper> */}
         </MainSection>
       </Wrapper>
     );

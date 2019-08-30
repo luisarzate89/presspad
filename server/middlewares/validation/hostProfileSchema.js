@@ -21,6 +21,7 @@ const hostProfileSchema = Joi.object({
   })),
 
   offerDescription: Joi.string().required(),
+  offerOtherInfo: Joi.array().items(Joi.string()),
   availableDates: Joi.array().items(Joi.object({
     startDate: Joi.date(),
     endDate: Joi.date(),

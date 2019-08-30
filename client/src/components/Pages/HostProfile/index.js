@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { Spin, message } from "antd";
 
 //api
 import {
-  API_HOST_PROFILE_URL,
   API_VERIFY_PROFILE_URL,
   API_GET_USER_BOOKINGS_URL
 } from "../../../constants/apiRoutes";
@@ -11,6 +11,7 @@ import axios from "axios";
 
 // common components
 import Button from "./../../Common/Button/index";
+import ListingGallery from "../../Common/Profile/ListingGallery";
 
 //styles
 
@@ -35,16 +36,11 @@ import {
 import {
   MainSection,
   Card,
-  ProfilePicDiv,
+  ProfilePic,
   TextContentDiv,
   Address,
   SymbolDiv,
   Symbol,
-  ImageSection,
-  MainImageDiv,
-  MainImage,
-  SubImage,
-  SideImageDiv,
   AboutMe,
   OtherInfo,
   PressPadOffer,
@@ -64,10 +60,8 @@ import {
 import "antd/dist/antd.css";
 
 // images
-
 import starSign from "./../../../assets/star-sign-symbol.svg";
-
-import { Spin, message } from "antd";
+import profilePlaceholder from "../../../assets/random-profile.jpg";
 
 class HostProfile extends Component {
   state = {
@@ -75,24 +69,19 @@ class HostProfile extends Component {
     profileData: null,
     reviews: null,
     internBookings: [],
-    adminView: false,
+    adminView: this.props.adminView,
     profileId: null
   };
 
   // functions
-  axiosCall = () => {
-    //get user id either from id passed in props or if they've typed in the manual url
-    const { hostId } = this.props;
-
-    const id = hostId ? hostId : window.location.href.split("/")[4];
-    const data = { userId: id };
+  getHostProfile = () => {
+    const { id: hostId } = this.props.match.params;
     axios
-      .post(API_HOST_PROFILE_URL, data)
-      .then(res => {
+      .get(`/api/host/${hostId}`)
+      .then(({ data }) => {
         this.setState({
           isLoading: false,
-          profileData: res.data[0][0],
-          reviews: res.data[1]
+          profileData: data
         });
       })
       .catch(err => {
@@ -102,18 +91,11 @@ class HostProfile extends Component {
       });
   };
 
-  // adminAxiosCall = () => {
-
-  // }
-
-  componentWillMount() {
+  componentDidMount() {
     // check to see if this is the adminView from dashboard
-    const { adminView } = this.props;
+    const { adminView } = this.state;
 
-    this.setState({ adminView });
-
-    this.axiosCall();
-
+    this.getHostProfile();
     if (!adminView) {
       axios
         .get(API_GET_USER_BOOKINGS_URL.replace(":id", this.props.id))
@@ -122,18 +104,8 @@ class HostProfile extends Component {
     }
   }
 
-  // checks if profile image exists and returns src path
-  getProfilePic = img =>
-    img && img.length > 0
-      ? img
-      : require("./../../../assets/random-profile.jpg");
-
-  // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic => {
-    return listingPic && listingPic.length > 0
-      ? listingPic
-      : require("./../../../assets/listing-placeholder.jpg");
-  };
+  // Fallback placeholder if image didn't load
+  handleImageFail = ({ target }) => (target.src = profilePlaceholder);
 
   createAddress = (street, city) => `${street}, ${city}`;
 
@@ -147,23 +119,34 @@ class HostProfile extends Component {
 
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
-
-    const { profileData, reviews, internBookings, adminView } = this.state;
-    const { hideProfile, match } = this.props;
-    const { id: hostId } = match.params;
-
-    const { listing, profile, name, email } = profileData;
     const {
-      bio,
-      jobTitle,
-      organisation,
-      profileImage,
-      _id: profileId
-    } = profile;
-
-    const { _id, availableDates, price } = listing;
-
-    const intern = this.props.id;
+      profileData: {
+        listing: {
+          _id,
+          availableDates,
+          price,
+          address,
+          photos,
+          otherInfo,
+          description
+        },
+        profile: {
+          bio,
+          jobTitle,
+          organisation,
+          profileImage,
+          _id: profileId,
+          verified
+        },
+        name,
+        email,
+        reviews
+      },
+      adminView,
+      internBookings
+    } = this.state;
+    const { hideProfile, match, id: currentUserId } = this.props;
+    const { id: hostId } = match.params;
 
     return (
       <Wrapper>
@@ -174,7 +157,7 @@ class HostProfile extends Component {
                 <Arrow />
                 <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
               </BackLinkDiv>
-              {profile && profile.verified ? (
+              {verified ? (
                 <Button
                   label="Unapprove profile"
                   type="verification"
@@ -208,9 +191,10 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <ProfilePicDiv
-            src={this.getProfilePic(profileImage)}
+          <ProfilePic
+            src={profileImage || profilePlaceholder}
             adminView={adminView}
+            onError={this.handleImageFail}
           />
 
           <HeaderDiv>
@@ -222,9 +206,7 @@ class HostProfile extends Component {
               </Headline>
             )}
 
-            <Address>
-              {`${listing.address.street}, ${listing.address.city}`}
-            </Address>
+            <Address>{`${address.street}, ${address.city}`}</Address>
           </HeaderDiv>
 
           <SymbolDiv>
@@ -232,15 +214,12 @@ class HostProfile extends Component {
             {this.state.profileData.profile.badge && <Symbol src={starSign} />}
           </SymbolDiv>
         </Header>
-        <ImageSection>
-          <MainImageDiv>
-            <MainImage src={this.getListingPic(listing.photos[0])} />
-          </MainImageDiv>
-          <SideImageDiv>
-            <SubImage src={this.getListingPic(listing.photos[1])} />
-            <SubImage src={this.getListingPic(listing.photos[2])} />
-          </SideImageDiv>
-        </ImageSection>
+
+        <ListingGallery
+          img1={photos[0] && photos[0].url}
+          img2={photos[1] && photos[1].url}
+          img3={photos[2] && photos[2].url}
+        />
         <MainSection>
           <TextContentDiv>
             <Card>
@@ -256,8 +235,8 @@ class HostProfile extends Component {
               <OtherInfo>
                 <SubHeadline>Other Info</SubHeadline>
                 <List>
-                  {listing.otherInfo.map((li, i) => (
-                    <ListItem key={i}>{li}</ListItem>
+                  {otherInfo.map(li => (
+                    <ListItem key={li}>{li}</ListItem>
                   ))}
                 </List>
               </OtherInfo>
@@ -266,10 +245,9 @@ class HostProfile extends Component {
               <PressPadOffer>
                 <SubHeadline>My PressPad Offer</SubHeadline>
                 <ParagraphHeadline>
-                  {listing.address.street}, {listing.address.city},{" "}
-                  {listing.address.postcode}
+                  {address.street}, {address.city}, {address.postcode}
                 </ParagraphHeadline>
-                <Paragraph>{listing.description}</Paragraph>
+                <Paragraph>{description}</Paragraph>
               </PressPadOffer>
             </Card>
             {reviews.length > 0 && (
@@ -277,13 +255,13 @@ class HostProfile extends Component {
                 <Reviews>
                   <SubHeadline>Reviews</SubHeadline>
                   <ReviewsSection>
-                    {reviews.map((re, i) => (
-                      <ReviewsBox key={i}>
+                    {reviews.map(re => (
+                      <ReviewsBox key={re._id}>
                         <ReviewsHeader>
                           <StarRate disabled defaultValue={re.rating} />
                           <ReviewHeadline>
-                            {re.from_user.name.split(" ")[0]},{" "}
-                            {re.from_profile.jobTitle}
+                            {re.from.name.split(" ")[0]},{" "}
+                            {re.from.profile.jobTitle}
                           </ReviewHeadline>
                         </ReviewsHeader>
                         <ReviewText>{re.message}</ReviewText>
@@ -303,7 +281,7 @@ class HostProfile extends Component {
                   Choose a slot to view price and request a stay with this host
                 </ParagraphHeadline>
                 <Calendar
-                  internId={intern}
+                  currentUserId={currentUserId}
                   hostId={hostId}
                   listingId={_id}
                   availableDates={availableDates}

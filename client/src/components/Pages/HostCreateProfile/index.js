@@ -47,6 +47,7 @@ const schema = Yup.object().shape({
   }),
 
   offerDescription: Yup.string().required("Required"),
+  offerOtherInfo: Yup.array(),
   availableDates: Yup.mixed().test(
     "avialable-dates",
     "Must select avialable dates",

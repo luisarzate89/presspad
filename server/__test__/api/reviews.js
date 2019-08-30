@@ -40,7 +40,6 @@ describe("Tests adding a review and creating a getReview notification", () => {
       .end((error, response) => {
         const token = response.headers["set-cookie"][0].split(";")[0];
         if (error) return done(error);
-
         // Request should create a document in Review collection
         // and a document in Notification collection.
         return request(app)

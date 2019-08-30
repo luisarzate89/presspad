@@ -1,10 +1,8 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-
 import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
-
 import { shadows, colors } from "../../../theme";
 
 export const Wrapper = styled.div`
@@ -18,11 +16,11 @@ export const Wrapper = styled.div`
 `;
 
 // Backlink
-
 export const LinkDiv = styled.div`
   margin-top: 15px;
   height: 25px;
 `;
+
 export const BackLinkDiv = styled.div`
   margin-left: -10px;
   display: flex;
@@ -41,7 +39,6 @@ export const Arrow = styled(BackArrowIcon)`
 `;
 
 // Header
-
 export const Header = styled.header`
   margin-top: 15px;
   /* display: flex; */
