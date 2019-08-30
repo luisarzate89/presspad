@@ -19,7 +19,7 @@ const internPayment = async (req, res, next) => {
   } = req.body;
 
   try {
-    const [booking] = await getBookingById(bookingId);
+    const [booking] = await getBookingById(bookingId, "intern");
     // check for Authorization
     if (!req.user) return next(boom.forbidden("req.user undefined"));
     if (req.user.role !== "intern") return next(boom.forbidden("user is not an Intern"));

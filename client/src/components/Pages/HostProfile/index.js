@@ -185,7 +185,7 @@ class HostProfile extends Component {
         </LinkDiv>
         <Header>
           <ProfilePic
-            src={profileImage || profilePlaceholder}
+            src={profileImage.url || profilePlaceholder}
             adminView={role === "admin"}
             onError={this.handleImageFail}
           />
