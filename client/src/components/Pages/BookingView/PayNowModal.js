@@ -21,7 +21,7 @@ class PayNowModal extends Component {
   };
 
   handleServerResponse = async response => {
-    const { paymentInfo, couponInfo, bookingInfo } = this.props;
+    const { paymentInfo, couponInfo, bookingId } = this.props;
     if (response.error) {
       this.setState({ error: response.error.message, isLoading: false });
     } else if (response.requires_action) {
@@ -35,10 +35,9 @@ class PayNowModal extends Component {
         const { data: paymentResult } = await axios.post(
           API_INTERN_PAYMENT_URL,
           {
-            sessionId: response.sessionId,
             paymentInfo,
             couponInfo,
-            bookingInfo,
+            bookingId,
             paymentIntent: result.paymentIntent
           }
         );
@@ -53,7 +52,7 @@ class PayNowModal extends Component {
   handleSubmit = async () => {
     try {
       const { cardElement } = this.state;
-      const { paymentInfo, stripe, couponInfo, bookingInfo } = this.props;
+      const { paymentInfo, stripe, couponInfo, bookingId } = this.props;
 
       // start payment proccess
       this.setState({ isLoading: true });
@@ -71,7 +70,7 @@ class PayNowModal extends Component {
           {
             paymentInfo,
             paymentMethod,
-            bookingInfo,
+            bookingId,
             couponInfo
           }
         );

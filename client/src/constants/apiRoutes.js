@@ -30,7 +30,7 @@ const API_INTERN_COMPLETE_PROFILE = `${API_PREFIX}${INTERN_COMPLETE_PROFILE}`;
 const BOOKING_REQUEST_URL = "/new-booking";
 const API_BOOKING_REQUEST_URL = `${API_PREFIX}${BOOKING_REQUEST_URL}`;
 
-const GET_USER_BOOKINGS_URL = "/intern/:id/bookings";
+const GET_USER_BOOKINGS_URL = "/interns/:id/bookings";
 const API_GET_USER_BOOKINGS_URL = `${API_PREFIX}${GET_USER_BOOKINGS_URL}`;
 
 const GET_BOOKING_URL = "/bookings/:id";
@@ -48,7 +48,7 @@ const API_VERIFY_PROFILE_URL = `${API_PREFIX}${VERIFY_PROFILE_URL}`;
 const ORGS_DASHBOARD = "/organisation-dashboard";
 const API_ORGS_DASHBOARD_URL = `${API_PREFIX}${ORGS_DASHBOARD}`;
 
-const INTERN_DASHBOARD_URL = "/intern/dashboard";
+const INTERN_DASHBOARD_URL = "/interns/dashboard";
 const API_INTERN_DASHBOARD_URL = `${API_PREFIX}${INTERN_DASHBOARD_URL}`;
 
 const MY_PROFILE_URL = "/my-profile";
@@ -69,7 +69,7 @@ const API_COUPON_URL = `${API_PREFIX}${COUPON_URL}`;
 const BOOKING_REVIEW_INFO_URL = "/review-info/:bookingId";
 const API_BOOKING_REVIEW_INFO_URL = `${API_PREFIX}${BOOKING_REVIEW_INFO_URL}`;
 
-const INTERN_PAYMENT_URL = "/intern/payment";
+const INTERN_PAYMENT_URL = "/interns/payment";
 const API_INTERN_PAYMENT_URL = `${API_PREFIX}${INTERN_PAYMENT_URL}`;
 
 module.exports = {

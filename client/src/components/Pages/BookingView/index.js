@@ -288,7 +288,7 @@ export default class BookingView extends Component {
             couponInfo={
               couponInfo.error ? { ...couponInfo, couponCode: "" } : couponInfo
             }
-            bookingInfo={bookingInfo}
+            bookingId={bookingInfo.bookingId}
             paymentInfo={paymentInfo}
             visible={payNow}
             handlePayNowClick={this.handlePayNowClick}

@@ -13,14 +13,15 @@ const { getFirstUnpaidInstallment } = require("../../helpers/payments");
 const internTransaction = async (session, paymentInfo, booking, stripeInfo, amount, coupon) => {
   const { _id: bookingId, intern, host } = booking;
 
-  const { account: internAccount } = await getUserById(intern, true);
-  const { account: hostAccount } = await getUserById(host, true);
+  const [
+    { account: internAccount },
+    { account: hostAccount },
+  ] = await Promise.all([getUserById(intern, true), getUserById(host, true)]);
 
   // check if new installments
   if (Array.isArray(paymentInfo) || !paymentInfo._id) {
     // create installments
     const installments = await createInstallments(paymentInfo, bookingId, intern, host, session);
-
     // create external transaction
     await createExternalTransaction(intern, internAccount, amount, stripeInfo, "deposite", session);
 

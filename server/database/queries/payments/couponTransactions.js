@@ -18,7 +18,7 @@ const Booking = require("../../models/Booking");
 const updateCouponTransaction = async (
   userId, couponId, transactionId, bookingId, usedDays, amount, session,
 ) => {
-  await Coupon.updateOne(
+  const updatedCoupon = await Coupon.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(couponId) }, {
       $inc: { usedDays },
       $push: {
@@ -26,22 +26,22 @@ const updateCouponTransaction = async (
       },
       intern: userId,
     },
-    { session },
+    { session, new: true },
   );
 
-  await Booking.updateOne(
-    { _id: mongoose.Types.ObjectId(bookingId) },
-    { $inc: { payedAmount: amount } },
-    { session },
-  );
+  await Promise.all([
+    Booking.updateOne(
+      { _id: mongoose.Types.ObjectId(bookingId) },
+      { $inc: { payedAmount: amount } },
+      { session },
+    ),
+    User.updateOne(
+      { _id: mongoose.Types.ObjectId(userId) },
+      { organisation: updatedCoupon.organisation },
+      { session },
+    ),
+  ]);
 
-  const updatedCoupon = await Coupon.findById(couponId);
-
-  await User.updateOne(
-    { _id: mongoose.Types.ObjectId(userId) },
-    { organisation: updatedCoupon.organisation },
-    { session },
-  );
 
   return updatedCoupon;
 };

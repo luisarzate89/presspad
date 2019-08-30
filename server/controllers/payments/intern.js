@@ -13,19 +13,17 @@ const {
   createInstallments, compareInstallments, getFirstUnpaidInstallment,
 } = require("../../helpers/payments");
 
-// eslint-disable-next-line consistent-return
 const internPayment = async (req, res, next) => {
   const {
-    paymentMethod, paymentIntent, paymentInfo, couponInfo, bookingInfo,
+    paymentMethod, paymentIntent, paymentInfo, couponInfo, bookingId,
   } = req.body;
 
-  // check for Authorization
-  if (!req.user) return next(boom.forbidden("req.user undefined"));
-  if (req.user.role !== "intern") return next(boom.forbidden("user is not an Intern"));
-  if (req.user._id.toString() !== bookingInfo.internId) return next(boom.forbidden("user didn't match booking.internId"));
-
   try {
-    const [booking] = await getBookingById(bookingInfo.bookingId);
+    const [booking] = await getBookingById(bookingId);
+    // check for Authorization
+    if (!req.user) return next(boom.forbidden("req.user undefined"));
+    if (req.user.role !== "intern") return next(boom.forbidden("user is not an Intern"));
+    if (req.user._id.toString() !== booking.intern.toString()) return next(boom.forbidden("user didn't match booking.internId"));
 
     // check if the booking is confirmed
     if (booking.status !== "confirmed") return next(boom.badData("booking is not confirmed"));
@@ -147,7 +145,7 @@ const internPayment = async (req, res, next) => {
     if (error.statusCode === 402) {
       return next(boom.paymentRequired(error.message));
     }
-    next(boom.badImplementation(error));
+    return next(boom.badImplementation(error));
   }
 };
 

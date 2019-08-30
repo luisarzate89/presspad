@@ -42,7 +42,7 @@ const BookingInfo = props => {
       coupon.transactions &&
         coupon.transactions.forEach(transaction => {
           if (transaction.booking === bookingId) {
-            discounts += calculatePrice(15);
+            discounts += calculatePrice(transaction.usedDays);
           }
         });
     });
