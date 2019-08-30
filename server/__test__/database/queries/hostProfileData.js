@@ -19,7 +19,7 @@ describe("Tests for hostProfile queries", () => {
   });
 
   test("Test hostProfile query with valid id", async (done) => {
-    const hosts = await User.find({ role: "host" });
+    const hosts = await User.find({ email: "adam@gmail.com" });
     await hostProfileData(hosts[0]._id).then((profileData) => {
       expect(profileData).toBeDefined();
       expect(profileData[0].email).toBe(hosts[0].email);
@@ -30,7 +30,7 @@ describe("Tests for hostProfile queries", () => {
   });
 
   test("Test host profile data query with invalid id", async (done) => {
-    await hostProfileData("123456").catch((err) => {
+    await hostProfileData("5ce66c1635c86b54fd6c732c").catch((err) => {
       expect(err).toBeDefined();
     });
     done();
