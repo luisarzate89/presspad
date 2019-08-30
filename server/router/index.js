@@ -88,8 +88,6 @@ router.post(
 // get user info from the cookie if it exists and send to front end
 router.get(USER_URL, softAuthCheck, userInfo);
 
-// gets hosts profile data
-router.get(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
@@ -140,6 +138,9 @@ router.get(INTERNS_URL, authentication, getAllInterns);
 
 // get HOST dashboard data
 router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
+
+// gets hosts profile data
+router.get(HOST_PROFILE_URL, getHostProfile);
 
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);

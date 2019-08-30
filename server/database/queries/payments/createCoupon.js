@@ -38,7 +38,7 @@ const createCoupon = async ({
         currentBalance: -1 * amount,
         couponsValue: amount,
       },
-    });
+    }, { session });
     await session.commitTransaction();
     await session.endSession();
 

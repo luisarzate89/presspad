@@ -81,7 +81,7 @@ const API_COUPONS_URL = `${API_PREFIX}${COUPONS_URL}`;
 const INTERNS_URL = "/interns";
 const API_INTERNS_URL = `${API_PREFIX}${INTERNS_URL}`;
 
-const HOST_DASHBOARD_URL = "/host/dasboard";
+const HOST_DASHBOARD_URL = "/host/dashboard";
 const API_HOST_DASHBOARD_URL = `${API_PREFIX}${HOST_DASHBOARD_URL}`;
 
 const DONATION_URL = "/payments/donate";
