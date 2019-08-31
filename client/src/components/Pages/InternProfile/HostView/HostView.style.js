@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows } from "./../../../../theme";
 
-import { InnerCard } from "../../Common/Profile/Profiles.style";
+import { InnerCard } from "../../../Common/Profile/Profiles.style";
 
 // Main Section
 export const MainSection = styled.section`

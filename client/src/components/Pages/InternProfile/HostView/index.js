@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 //api
-import { API_INTERN_PROFILE_URL } from "../../../constants/apiRoutes";
+import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
 
 import axios from "axios";
 
@@ -21,7 +21,7 @@ import {
   Paragraph,
   Card,
   StarRate
-} from "../../Common/Profile/Profiles.style";
+} from "../../../Common/Profile/Profiles.style";
 
 import {
   MainSection,
@@ -50,16 +50,16 @@ import {
   ReviewsSection,
   ReviewHeadline,
   ReviewText
-} from "./BookingRequest.style";
+} from "./HostView.style";
 
 import "antd/dist/antd.css";
 
-import referIcon from "./../../../assets/refer.svg";
-import verifiedIcon from "./../../../assets/verified.svg";
+import referIcon from "./../../../../assets/refer.svg";
+import verifiedIcon from "./../../../../assets/verified.svg";
 
 import { Spin, Icon, Radio, message } from "antd";
 
-class BookingRequest extends Component {
+class HostView extends Component {
   state = {
     isLoading: true,
     value: 1,
@@ -69,12 +69,12 @@ class BookingRequest extends Component {
 
   // functions
   axiosCall = () => {
-    //get user id
-    // const id = window.location.href.split("/")[4];
-
+    const { id: internId } = this.props.match.params;
+    console.log(internId);
     axios
-      .get(`${API_INTERN_PROFILE_URL}/?expand=reviews`)
+      .get(`/api/interns/${internId}/profile`)
       .then(res => {
+        console.log(res.data);
         this.setState({
           isLoading: false,
           internData: res.data[0][0],
@@ -96,7 +96,7 @@ class BookingRequest extends Component {
   getProfilePic = img =>
     img && img.length > 0
       ? img
-      : require("./../../../assets/random-profile.jpg");
+      : require("./../../../../assets/random-profile.jpg");
 
   // checks if lisitng image exists and goes to right folder
   onChange = e => {
@@ -261,4 +261,4 @@ class BookingRequest extends Component {
   }
 }
 
-export default BookingRequest;
+export default HostView;

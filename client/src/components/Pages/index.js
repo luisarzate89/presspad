@@ -13,7 +13,6 @@ import HostProfile from "./HostProfile";
 import InternCreateProfile from "./InternCreateProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
-import BookingRequest from "./BookingRequest";
 import MyProfile from "./MyProfile";
 import AddReview from "./AddReview";
 import InternProfile from "./InternProfile";
@@ -30,7 +29,6 @@ import {
   INTERN_COMPLETE_PROFILE_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
-  BOOKING_REQUEST_URL,
   MYPROFILE_URL,
   ADD_REVIWE_URL,
   INTERN_PROFILE
@@ -54,13 +52,13 @@ class Pages extends Component {
             {...this.props}
           />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             path={BOOKING_REQUEST_URL}
             Component={BookingRequest}
             handleChangeState={handleChangeState}
             isLoggedIn={isLoggedIn}
             {...this.props}
-          />
+          /> */}
 
           <Route
             exact
