@@ -35,6 +35,7 @@ describe("Test InternalTransaction schema", () => {
       from: intern.account,
       to: host.account,
       amount: 900,
+      type: "installment",
     };
 
     const storedTransaction = await InternalTransaction.create(newInternalTransaction);

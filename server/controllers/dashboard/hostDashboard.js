@@ -25,7 +25,7 @@ const hostDashboard = async (req, res, next) => {
 
     return res.json({ ...dashboardData });
   } catch (err) {
-    return next(err);
+    return next(boom.badImplementation(err));
   }
 };
 

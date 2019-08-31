@@ -31,7 +31,6 @@ module.exports = (req, res, next) => {
         // put the user info in the req to be accessed in the next middlewares
         req.user = user;
         return next();
-      })
-      .catch(() => next(boom.badImplementation()));
+      });
   }).catch(() => next(boom.badImplementation()));
 };
