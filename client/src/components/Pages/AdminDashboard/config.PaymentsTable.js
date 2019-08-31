@@ -18,14 +18,11 @@ const createDataSource = (array) => {
    * make sure to get the hostname rather than id
    * convert paid status to checkbox that changes its checked state based on payment status
    */ 
-  let counter = 0;
   return array.map(item => {
-    counter += 1;
     const dataItem = {
-      key: counter.toString(),
+      key: item.id,
       host: item.user.name,
       amount: item.amount.toString(),
-      dueDate: item.dueDate,
       paid: <CheckBoxJsx paymentStatus={item.status} />,
       bank: item.bankName,
       account: item.accountNumber,
@@ -47,11 +44,6 @@ const columns = [
     title: 'Amount',
     dataIndex: 'amount',
     key: 'amount',
-  },
-  {
-    title: 'Due Date',
-    dataIndex: 'dueDate',
-    key: 'dueDate',
   },
   {
     title: 'Paid',
