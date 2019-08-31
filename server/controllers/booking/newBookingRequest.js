@@ -4,7 +4,7 @@ const {
   checkIfListingAvailable,
   createNewBooking,
   updateListingAvailability,
-} = require("../database/queries/bookings");
+} = require("../../database/queries/bookings");
 
 module.exports = async (req, res, next) => {
   const {

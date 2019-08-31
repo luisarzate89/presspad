@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
-import Swal from "sweetalert2";
-import { Spin, Alert } from "antd";
+import { Spin, Alert, Icon } from "antd";
 import { createDatesArray, getDateRangeFromArray } from "../../../helpers";
 
-import { API_BOOKING_REQUEST_URL } from "../../../constants/apiRoutes";
+import {
+  API_BOOKING_REQUEST_URL,
+  API_GET_INTERN_STATUS
+} from "../../../constants/apiRoutes";
 
 import {
   CalendarWrapper,
@@ -42,7 +44,10 @@ class CalendarComponent extends Component {
     dates: new Date(),
     noNights: null,
     price: 0,
-    bookingExists: false
+    bookingExists: false,
+    message: "",
+    messageType: "",
+    isBooking: false
   };
 
   componentDidMount() {
@@ -62,7 +67,9 @@ class CalendarComponent extends Component {
     this.setState({
       dates,
       noNights: countDays(dates),
-      price: calculatePrice(dates)
+      price: calculatePrice(dates),
+      message: "",
+      messageType: ""
     });
     // check if booking exists and update state
     this.bookingFound(dates, internBookings);
@@ -76,37 +83,58 @@ class CalendarComponent extends Component {
     return !avDates.includes(date); // Block day tiles only
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const { dates, price } = this.state;
-    const { internId, listingId, hostId } = this.props;
+    const { currentUserId, listingId, hostId } = this.props;
     const data = {
       listing: listingId,
-      intern: internId,
+      intern: currentUserId,
       host: hostId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
       endDate: moment(dates[1]).format("YYYY-MM-DD"),
       price: price
     };
 
-    bookingRequest(API_BOOKING_REQUEST_URL, data)
-      .then(res =>
-        Swal.fire({
-          type: "success",
-          title: "Booking request sent",
-          showConfirmButton: false,
-          timer: 2500
-        })
-      )
-      .then(() => window.location.reload())
+    let message = "";
+    try {
+      this.setState({ isBooking: true });
+      const {
+        data: { verified, isComplete }
+      } = await axios.get(API_GET_INTERN_STATUS);
+      if (!verified) {
+        message = "You can't make a request until you get verified";
+      } else if (!isComplete) {
+        message = "You need to complete your profile";
+      }
 
-      .catch(error => {
-        const response = error.response;
-        return Swal.fire({
-          type: "error",
-          title: "Oops...",
-          text: response.data.error
+      this.setState({ message, messageType: "error" });
+      if (verified && isComplete) {
+        bookingRequest(API_BOOKING_REQUEST_URL, data)
+          .then(res => {
+            this.setState({
+              message: "Booking request sent successfully",
+              messageType: "success",
+              isBooking: false
+            });
+          })
+          .catch(error => {
+            this.setState({
+              isBooking: false,
+              messageType: "error",
+              message:
+                "It seems like you have already requested a booking during those dates. You can only make one request at a time."
+            });
+          });
+      }
+    } catch (err) {
+      if (err && err.response && err.response.status === 404) {
+        this.setState({
+          isBooking: false,
+          messageType: "error",
+          message: "You need to have a profile in order to be able to book stay"
         });
-      });
+      }
+    }
   };
 
   bookingFound = (selectedDates, existingBookingDates) => {
@@ -120,15 +148,28 @@ class CalendarComponent extends Component {
     // if no booking selected or dates are already part of exiting user bookings
     // disable request btn
     return bookingDatesFound
-      ? this.setState({ bookingExists: true })
+      ? this.setState({
+          bookingExists: true,
+          messageType: "error",
+          message:
+            "It seems like you have already requested a booking during those dates. You can only make one request at a time."
+        })
       : this.setState({ bookingExists: false });
   };
 
   render() {
-    const { price, noNights, bookingExists } = this.state;
+    const {
+      price,
+      noNights,
+      bookingExists,
+      message,
+      messageType,
+      isLoading,
+      isBooking
+    } = this.state;
     const { adminView } = this.props;
 
-    if (this.state.isLoading) return <Spin tip="Loading Profile" />;
+    if (isLoading) return <Spin tip="Loading Profile" />;
 
     return (
       <div>
@@ -151,20 +192,32 @@ class CalendarComponent extends Component {
         <PricingDiv>
           <PriceHeadline>Full price for period</PriceHeadline>
           <PriceLabel>£{price}</PriceLabel>
-          {bookingExists && (
+
+          {message && (
             <ErrorDiv>
-              <Alert
-                message="It seems like you have already requested a booking during those dates. You can only make one request at a time."
-                type="error"
-              />
+              <Alert message={message} type={messageType} />
             </ErrorDiv>
           )}
           <RequestBtn
             onClick={this.handleClick}
             disabled={
-              noNights === 0 || noNights === null || bookingExists || adminView
+              noNights === 0 ||
+              noNights === null ||
+              bookingExists ||
+              adminView ||
+              isBooking
             }
           >
+            <Spin
+              spinning={isBooking}
+              indicator={
+                <Icon
+                  type="loading"
+                  style={{ fontSize: 24, marginRight: "8px", color: "white" }}
+                  spin
+                />
+              }
+            />
             Request Stay
           </RequestBtn>
         </PricingDiv>

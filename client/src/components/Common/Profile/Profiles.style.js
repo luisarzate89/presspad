@@ -1,10 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-
 import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
-
 import { shadows, colors } from "../../../theme";
 
 export const Wrapper = styled.div`
@@ -18,11 +16,11 @@ export const Wrapper = styled.div`
 `;
 
 // Backlink
-
 export const LinkDiv = styled.div`
   margin-top: 15px;
   height: 25px;
 `;
+
 export const BackLinkDiv = styled.div`
   margin-left: -10px;
   display: flex;
@@ -41,21 +39,20 @@ export const Arrow = styled(BackArrowIcon)`
 `;
 
 // Header
-
 export const Header = styled.header`
   margin-top: 15px;
-  display: flex;
+  /* display: flex; */
 
   @media (max-width: 575.98px) {
-    flex-direction: column;
-    align-items: center;
+    /* flex-direction: column;
+    align-items: center; */
   }
 `;
 
 export const HeaderDiv = styled.div`
   height: 90px;
   width: 75%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   margin-left: 25px;
   text-align: left;
@@ -137,4 +134,103 @@ export const MultipleButtons = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+`;
+
+export const SymbolDiv = styled.div`
+  position: relative;
+  width: 25%;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
+`;
+
+export const Symbol = styled.div`
+  width: 38px;
+  height: 50px;
+  background-image: url(${({ src }) => src});
+  right: 0;
+  bottom: 0;
+  position: absolute;
+`;
+
+const blurPic = css`
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+`;
+
+export const ProfilePicDiv = styled.div`
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-image: url(${({ src }) => src});
+  ${props => !props.adminView && blurPic};
+`;
+
+export const Address = styled.h3`
+  font-size: 16px;
+  color: ${colors.fontLightBlack};
+  margin-top: auto;
+`;
+
+// Images Section
+
+export const ImageSection = styled.section`
+  margin-top: 15px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 775.98px) {
+    height: auto;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+`;
+
+export const MainImageDiv = styled.div`
+  width: 65%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+  }
+`;
+
+export const MainImage = styled.div`
+  width: 100%;
+  height: 380px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(${({ src }) => src});
+`;
+
+export const SideImageDiv = styled.div`
+  width: 35%;
+  height: 380px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5px;
+
+  @media (max-width: 775.98px) {
+    width: 100%;
+    margin-left: 0px;
+  }
+`;
+export const SubImage = styled.div`
+  width: 100%;
+  height: 185px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(${({ src }) => src});
 `;

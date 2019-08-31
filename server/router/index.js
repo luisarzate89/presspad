@@ -11,8 +11,7 @@ const internsCompleteProfile = require("./../controllers/user/internsCompletePro
 const getHostProfile = require("./../controllers/profile/getHostProfile");
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
-const newBookingRequest = require("./../controllers/newBookingRequest");
-const getUserBookings = require("./../controllers/getUserBookings");
+const { viewBooking, getUserBookings, newBookingRequest } = require("./../controllers/booking");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
@@ -21,7 +20,10 @@ const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
+const { getCoupons } = require("../controllers/coupon");
+const getInternStatus = require("../controllers/profile/getInternStatus");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
+const { internPayment } = require("../controllers/payments");
 const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
@@ -30,7 +32,7 @@ const withdrawRequest = require("../controllers/payments/withdrawRequest");
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
-const validation = require("./../middlewares/validation");
+const { validation } = require("./../middlewares/validation");
 
 // API ROUTES
 const {
@@ -45,8 +47,9 @@ const {
   INTERN_COMPLETE_PROFILE,
   SEARCH_PROFILES_URL,
   BOOKING_REQUEST_URL,
+  GET_USER_BOOKINGS_URL,
+  GET_BOOKING_URL,
   ADMIN_STATS_URL,
-  GET_BOOKINGS_URL,
   INTERN_PROFILE_URL,
   VERIFY_PROFILE_URL,
   ORGS_DASHBOARD,
@@ -54,7 +57,10 @@ const {
   MY_PROFILE_URL,
   UPLOAD_SIGNED_URL,
   REVIEW_URL,
+  COUPON_URL,
+  GET_INTERN_STATUS,
   BOOKING_REVIEW_INFO_URL,
+  INTERN_PAYMENT_URL,
   COUPONS_URL,
   INTERNS_URL,
   HOST_DASHBOARD_URL,
@@ -82,8 +88,6 @@ router.post(
 // get user info from the cookie if it exists and send to front end
 router.get(USER_URL, softAuthCheck, userInfo);
 
-// gets hosts profile data
-router.post(HOST_PROFILE_URL, getHostProfile);
 
 // gets intern profile data
 router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
@@ -91,11 +95,17 @@ router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 
+// check if user profile verfied and has coplete profile
+router.get(GET_INTERN_STATUS, authentication, getInternStatus);
+
 // creates new booking request
 router.post(BOOKING_REQUEST_URL, newBookingRequest);
 
-// creates new booking request
-router.get(GET_BOOKINGS_URL, getUserBookings);
+// view booking by id
+router.get(GET_BOOKING_URL, authentication, viewBooking);
+
+// get all user bookings
+router.get(GET_USER_BOOKINGS_URL, getUserBookings);
 
 // search for available listings
 router.post(SEARCH_PROFILES_URL, searchProfiles);
@@ -129,6 +139,9 @@ router.get(INTERNS_URL, authentication, getAllInterns);
 // get HOST dashboard data
 router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 
+// gets hosts profile data
+router.get(HOST_PROFILE_URL, getHostProfile);
+
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);
 
@@ -144,11 +157,19 @@ router.route(REVIEW_URL)
     createReview,
   );
 
+// Coupons
+router.route(COUPON_URL)
+  .get(authentication, getCoupons);
+
 // Signout
 router.route(SIGNOUT_URL)
   .get(signOut);
 
 router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers);
+
+// payments
+router.route(INTERN_PAYMENT_URL)
+  .post(authentication, internPayment);
 
 module.exports = router;

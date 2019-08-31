@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import { Table, Tag } from "antd";
 import { colors } from "./../../../theme";
 
 // import helpers
 import getUserId from "./../../../helpers/getUserId";
-
-// styling
-import { NameLink } from "./AdminDashboard.style.js";
 
 //  set colours for tags in the table
 const tagColors = {
@@ -15,36 +12,13 @@ const tagColors = {
   Approved: colors.green
 };
 
-// const data = [
-//   {
-//     key: "1",
-//     name: "Simon Dupree",
-//     city: "London",
-//     hosted: 7,
-//     approvalStatus: "Approved"
-//   },
-//   {
-//     key: "2",
-//     name: "Reda Haq",
-//     city: "Manchester",
-//     hosted: 5,
-//     approvalStatus: "Waiting for approval"
-//   }
-// ];
-
-export default class InternTable extends Component {
+export default class HostTable extends Component {
   state = {
     searchText: ""
   };
 
-  // // user the name of the user to grab their id
-  // getUserId = (users, text) => {
-  //   const user = users.filter(user => user.name === text);
-  //   return user[0].userId;
-  // };
-
   render() {
-    const { getColumnSearchProps, data, loading, showProfile } = this.props;
+    const { getColumnSearchProps, data, loading } = this.props;
 
     const columns = [
       {
@@ -55,9 +29,7 @@ export default class InternTable extends Component {
         sorter: (a, b) => a.name.localeCompare(b.name),
         className: "nameCol",
         render: text => (
-          <NameLink onClick={() => showProfile(getUserId(data, text))}>
-            {text}
-          </NameLink>
+          <Link to={`/hosts/${getUserId(data, text)}`}>{text}</Link>
         )
       },
       {
@@ -136,7 +108,7 @@ export default class InternTable extends Component {
         key: "approvalStatus",
         render: status => (
           <Tag color={tagColors[status]} key={status}>
-            {status.toUpperCase()}
+            {status && status.toUpperCase()}
           </Tag>
         ),
         filters: [
