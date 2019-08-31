@@ -9,6 +9,7 @@ const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const hostViewInternProfile = require("./../controllers/profile/hostViewInternProfile");
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const newBookingRequest = require("./../controllers/newBookingRequest");
@@ -66,6 +67,15 @@ const {
 
 // add validation middleware
 router.use(validation);
+
+
+// Host view intern profile
+router.get(INTERN_PROFILE_URL, authentication, hostViewInternProfile);
+
+
+// get HOST dashboard data
+router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
+
 
 // update host profile and create new offer
 router.post(
@@ -131,8 +141,6 @@ router.post(COUPONS_URL, authentication, createCoupon);
 // admin || org get all interns
 router.get(INTERNS_URL, authentication, getAllInterns);
 
-// get HOST dashboard data
-router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);

@@ -4,7 +4,10 @@ const Listing = require("./../../models/Listing");
 
 const createDatesArray = require("../../../helpers/createDatesArray");
 const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
+const getNextPendingBooking = require("./getNextPendingBooking");
 
+
+module.exports.getNextPendingBooking = getNextPendingBooking;
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {
   const bookings = await Booking.find({ intern });
