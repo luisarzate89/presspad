@@ -76,7 +76,7 @@ export default function BookingSection(props) {
                   <Col>
                     <DisabledPopOver>
                       <BlueLink marginb="1.25rem" to="#">
-                        Message {userRole}
+                        Message {name && name.split(" ")[0]}
                       </BlueLink>
                     </DisabledPopOver>
                   </Col>

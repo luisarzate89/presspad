@@ -27,6 +27,12 @@ const internalTransactionSchema = new Schema({
     required: true,
     min: 0.01,
   },
+  // type of transaction
+  type: {
+    type: Schema.Types.String,
+    required: true,
+    enum: ["installment", "couponTransaction", "donation"],
+  },
 }, {
   timestamps: true,
 });

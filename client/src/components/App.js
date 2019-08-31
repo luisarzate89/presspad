@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StripeProvider } from "react-stripe-elements";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 
@@ -35,7 +36,8 @@ export const initialState = {
   email: null,
   isMounted: false,
   role: null,
-  windowWidth: null
+  windowWidth: null,
+  stripe: null
 };
 
 class App extends Component {
@@ -57,6 +59,19 @@ class App extends Component {
     this.getUserInfo();
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
+    if (window.Stripe) {
+      this.setState({
+        stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+      });
+    } else {
+      document.querySelector("#stripe-js") &&
+        document.querySelector("#stripe-js").addEventListener("load", () => {
+          // Create Stripe instance once Stripe.js loads
+          this.setState({
+            stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+          });
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -81,23 +96,25 @@ class App extends Component {
   };
 
   render() {
-    const { isLoggedIn, role } = this.state;
+    const { isLoggedIn, role, stripe } = this.state;
 
     return (
-      <Router>
-        <div className="App">
-          <Navbar
-            isLoggedIn={isLoggedIn}
-            userType={role}
-            resetState={this.resetState}
-          />
-          <Pages
-            handleChangeState={this.handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.state}
-          />
-        </div>
-      </Router>
+      <StripeProvider stripe={stripe}>
+        <Router>
+          <div className="App">
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              userType={role}
+              resetState={this.resetState}
+            />
+            <Pages
+              handleChangeState={this.handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.state}
+            />
+          </div>
+        </Router>
+      </StripeProvider>
     );
   }
 }

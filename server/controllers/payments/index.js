@@ -1,3 +1,4 @@
 const orgPayment = require("./organisation");
+const internPayment = require("./intern");
 
-module.exports = { orgPayment };
+module.exports = { internPayment, orgPayment };

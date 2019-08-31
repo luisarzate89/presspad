@@ -17,6 +17,7 @@ const hostDonateToPresspad = async ({
       to: presspadAdmin.account,
       amount,
       user: userId,
+      type: "donation",
     }], { session });
 
 
