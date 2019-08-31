@@ -5,7 +5,6 @@ export const ImageSection = styled.section`
   height: 400px;
   display: flex;
   align-items: center;
-
   @media (max-width: 775.98px) {
     height: auto;
     flex-direction: column;
@@ -19,7 +18,6 @@ export const MainImageDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   @media (max-width: 775.98px) {
     width: 100%;
   }
@@ -41,7 +39,6 @@ export const SideImageDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-left: 5px;
-
   @media (max-width: 775.98px) {
     width: 100%;
     margin-left: 0px;

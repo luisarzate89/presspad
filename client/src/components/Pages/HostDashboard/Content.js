@@ -118,7 +118,7 @@ const Content = ({
           <BookingSection
             jobTitle={nextGuestProfile.jobTitle}
             bio={nextGuestProfile.bio}
-            name={nextGuest.hostName}
+            name={nextGuest.name}
             userId={nextGuest._id}
             organisationName={
               (nextGuestProfile.organisation &&

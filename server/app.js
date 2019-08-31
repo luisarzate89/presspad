@@ -41,6 +41,11 @@ app.use((req, res, next) => {
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  // print out the eror to the console in test mood
+  if (process.env.NODE_ENV === "test") {
+    console.error(err);
+  }
+
   // send the error object
   if (err.isBoom) {
     // for boom errors
