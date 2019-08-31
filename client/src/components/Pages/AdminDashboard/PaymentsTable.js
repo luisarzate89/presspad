@@ -20,7 +20,7 @@ class PaymentsTable extends Component {
       const dataSourceArray = createDataSource(withdrawRequestList);
       this.setState({ dataSource: dataSourceArray });
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }
 

@@ -20,10 +20,10 @@ const createDataSource = (array) => {
    */ 
   return array.map(item => {
     const dataItem = {
-      key: item.id,
+      key: item._id,
       host: item.user.name,
       amount: item.amount.toString(),
-      paid: <CheckBoxJsx paymentStatus={item.status} />,
+      paid: <CheckBoxJsx key={item._id} paymentStatus={item.status} />,
       bank: item.bankName,
       account: item.accountNumber,
       sortCode: item.bankSortCode,
