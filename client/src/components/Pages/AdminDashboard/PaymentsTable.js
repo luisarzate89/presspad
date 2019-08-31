@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Table, /*Tag*/ } from "antd";
+import axios from "axios";
 
+import { columns, createDataSource } from "./config.PaymentsTable";
 // import { tagColors } from "./../../../theme";
+import {API_FIND_WITHDRAW_REQUESTS_URL} from "../../../constants/apiRoutes"
 
 // this isn't even the shape of the object anymore.
 const dataSource = [
   {
     key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
+    host: 'Miske',
+    amount: 'Miske',
+    dueDate: 'Msike',
+    paid: 'Miske',
+    bank: 'Miske',
+    account: 32,
+    sortCode: '10 Downing Street',
   },
   {
     key: '2',
@@ -20,61 +27,27 @@ const dataSource = [
   },
 ];
 
-// temporary: these should come from the state.
-const columns = [
-  {
-    title: 'Host',
-    dataIndex: 'host',
-    key: 'host',
-  },
-  {
-    title: 'Amount',
-    dataIndex: 'amount',
-    key: 'amount',
-  },
-  {
-    title: 'Due Date',
-    dataIndex: 'dueDate',
-    key: 'dueDate',
-  },
-  {
-    title: 'Paid',
-    dataIndex: 'paid',
-    key: 'paid',
-  },
-  {
-    title: 'Bank Name',
-    dataIndex: 'bank',
-    key: 'bank',
-  },
-  {
-    title: 'Account Number',
-    dataIndex: 'account',
-    key: 'account',
-  },
-  {
-    title: 'Sort Code',
-    dataIndex: 'sortCode',
-    key: 'sortCode',
-  },
-];
-
 class PaymentsTable extends Component {
-/**
- * need to create a table.
- */
-
-  state = {};
+  // columns are declared on the class field so they can't be accidentially changed with setState.
+  columns = columns;
+  state = {
+    dataSource,
+  };
   async componentDidMount() {
-    /**
-     * fetch payment data from the server.
-     */
-    console.log('component has mounted');
+    // receives an array of withdraw requests
+    try {
+      const result = await axios.get(API_FIND_WITHDRAW_REQUESTS_URL);
+      const withdrawRequestList = result.data;
+      const dataSourceArray = createDataSource(withdrawRequestList);
+      this.setState({ dataSource: dataSourceArray });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
     return (
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={this.state.dataSource} columns={this.columns} />
     );
   }
 }
