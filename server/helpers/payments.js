@@ -84,7 +84,7 @@ exports.getDiscountDays = (dates) => {
 
 /**
  * calculate the price giving range of dates
- * @param {import("moment-range").MomentRange} range
+ * @param {import("moment-range").MomentRange} range moment range OR number
  */
 exports.calculatePrice = (range) => {
   if (!range) return 0;

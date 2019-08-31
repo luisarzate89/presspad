@@ -108,7 +108,7 @@ export default class HostTable extends Component {
         key: "approvalStatus",
         render: status => (
           <Tag color={tagColors[status]} key={status}>
-            {status.toUpperCase()}
+            {status && status.toUpperCase()}
           </Tag>
         ),
         filters: [
