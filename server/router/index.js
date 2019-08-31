@@ -27,6 +27,9 @@ const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const withdrawRequest = require("../controllers/payments/withdrawRequest");
 
+// controller for admin to view all withdraw requests in presspad
+const viewWithdrawRequests = require("../controllers/withdrawRequests");
+
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
 const softAuthCheck = require("./../middlewares/softAuthCheck");
@@ -60,6 +63,7 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  FIND_WITHDRAW_REQUESTS_URL
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -150,5 +154,8 @@ router.route(SIGNOUT_URL)
 
 router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers);
+
+router.route(FIND_WITHDRAW_REQUESTS_URL)
+    .get(authentication, viewWithdrawRequests);
 
 module.exports = router;
