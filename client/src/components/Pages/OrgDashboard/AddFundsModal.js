@@ -13,8 +13,13 @@ import {
 import { injectStripe, CardElement } from "react-stripe-elements";
 import { withRouter } from "react-router-dom";
 
-import { CardWrapper, PaymentModalTitle } from "./AddFundsModal.style";
+import {
+  CardWrapper,
+  PaymentModalTitle,
+  InfoMessage
+} from "./AddFundsModal.style";
 import { Label } from "./OrgDashboard.style";
+
 import { API_ORG_PAYMENT_URL } from "../../../constants/apiRoutes";
 
 class AddFundsModal extends Component {
@@ -22,7 +27,8 @@ class AddFundsModal extends Component {
     error: "",
     isLoading: false,
     success: false,
-    amount: 0
+    amount: 0,
+    availableFunds: 0
   };
 
   handleServerResponse = async response => {
@@ -45,14 +51,21 @@ class AddFundsModal extends Component {
       }
     } else {
       // payment successful
+      // ToDo: update available funds state
       this.setState({ isLoading: false, success: true });
     }
   };
 
   handleSubmit = async () => {
     try {
-      const { cardElement } = this.state;
+      const { cardElement, amount } = this.state;
       const { stripe } = this.props;
+
+      if (!amount) {
+        return this.setState({
+          error: "you need to specify the amount you want to add"
+        });
+      }
 
       // start payment proccess
       this.setState({ isLoading: true });
@@ -86,7 +99,12 @@ class AddFundsModal extends Component {
     }
   };
 
-  handleAmountChange = val => this.setState({ amount: val });
+  handleAmountChange = val => {
+    const {
+      account: { currentBalance }
+    } = this.props;
+    this.setState({ amount: val, availableFunds: currentBalance + val });
+  };
 
   handleReady = element => this.setState({ cardElement: element });
 
@@ -104,16 +122,11 @@ class AddFundsModal extends Component {
 
     if (success) {
       return (
-        <>
-          <Alert type="success" message="Your payment proccesed successful" />
-          <Button
-            type="link"
-            onClick={() => this.props.history.push("/dashboard")}
-            style={{ marginTop: "2rem" }}
-          >
-            back to dashboard
-          </Button>
-        </>
+        <Alert
+          style={{ marginTop: "1rem" }}
+          type="success"
+          message="Your payment proccesed successful"
+        />
       );
     }
     return (
@@ -155,11 +168,11 @@ class AddFundsModal extends Component {
         footer={null}
       >
         <PaymentModalTitle>Add funds</PaymentModalTitle>
-        <Row gutter={8} type="flex" justify="start" align="middle">
-          <Col span={8}>
+        <Row gutter={8} type="flex" align="middle">
+          <Col span={6}>
             <Label>Amount:</Label>
           </Col>
-          <Col span={12}>
+          <Col span={8} offset={1}>
             <InputNumber
               value={amount}
               autoFocus
@@ -181,6 +194,12 @@ class AddFundsModal extends Component {
               parser={value => value.toString().replace(/\D/g, "")}
               onChange={this.handleAmountChange}
             />
+          </Col>
+          <Col span={9}>
+            <InfoMessage>
+              funds:&nbsp;
+              {this.state.availableFunds || this.props.account.currentBalance}
+            </InfoMessage>
           </Col>
         </Row>
         {this.renderPaymentMethod()}

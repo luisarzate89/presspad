@@ -214,7 +214,9 @@ class Content extends Component {
                           {(account && account.currentBalance) || 0}
                         </TH>
                         <TH position="right">
-                          <DisabledPopOver>Add funds</DisabledPopOver>
+                          <BlueLink onClick={() => handlePayNowClick(true)}>
+                            Add funds
+                          </BlueLink>
                         </TH>
                       </InfoTableRow>
                       <InfoTableRow>
