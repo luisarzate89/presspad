@@ -11,30 +11,36 @@ module.exports = async (req, res, next) => {
   try {
     const { id: internId } = req.params;
     const { role, id: hostId } = req.user;
-    console.log(hostId);
     // check for role
     if (role !== "host" && role !== "superhost") {
       return next(boom.forbidden());
     }
+
+    if (!mongoose.Types.ObjectId.isValid(internId)) {
+      return next(boom.notFound());
+    }
+
     // get intern's basic profile data
-
-    console.log(1);
     const _profileData = internProfileData(internId);
-    console.log(2);
+    // get intern review
     const _internReviews = getUserReviews(internId);
-
-    console.log(3);
     // get the intern-host most upcoming booking with status 'status = pending'
     const _nextPendingBooking = getNextPendingBooking({ internId, hostId });
-    console.log(4);
 
     const [profileData, internReviews, nextPendingBooking] = await Promise.all(
       [_profileData, _internReviews, _nextPendingBooking],
     );
-    console.log(nextPendingBooking);
-    return res.json({ profile: profileData, reviews: internReviews, booking: nextPendingBooking[0] });
+
+    if (profileData[0].profile && profileData[0].profile.profileImage) {
+      await generateUrl(profileData[0].profile.profileImage);
+    }
+
+    return res.json({
+      internData: profileData[0],
+      reviews: internReviews,
+      nextBooking: nextPendingBooking[0],
+    });
   } catch (error) {
-    console.log(error);
     return next(boom.badImplementation(error));
   }
 };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 //api
 import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
@@ -64,21 +65,21 @@ class HostView extends Component {
     isLoading: true,
     value: 1,
     internData: null,
-    internReviews: null
+    reviews: null
   };
 
   // functions
   axiosCall = () => {
     const { id: internId } = this.props.match.params;
-    console.log(internId);
     axios
       .get(`/api/interns/${internId}/profile`)
-      .then(res => {
-        console.log(res.data);
+      .then(({ data }) => {
+        const { internData, reviews, nextBooking } = data;
         this.setState({
           isLoading: false,
-          internData: res.data[0][0],
-          internReviews: res.data[1]
+          internData,
+          reviews,
+          nextBooking
         });
       })
       .catch(err => {
@@ -98,16 +99,17 @@ class HostView extends Component {
       ? img
       : require("./../../../../assets/random-profile.jpg");
 
-  // checks if lisitng image exists and goes to right folder
-  onChange = e => {
+  onRadioChange = e => {
     this.setState({
       value: e.target.value
     });
   };
+
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Request" />;
 
-    const { internData, internReviews } = this.state;
+    const { internData, reviews, nextBooking } = this.state;
+
     const { name, profile } = internData;
 
     const {
@@ -117,7 +119,7 @@ class HostView extends Component {
       profileImage,
       verification,
       verified
-    } = profile[0];
+    } = profile;
 
     const { author, link, title, description } = favouriteArticle;
 
@@ -143,7 +145,7 @@ class HostView extends Component {
           </BackLinkDiv>
         </LinkDiv>
         {/* Header */}
-        <Header>
+        <Header flex>
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeaderDiv>
             <Headline>{name}</Headline>
@@ -182,15 +184,24 @@ class HostView extends Component {
               <BookingDetailsContainer>
                 <BookingDetailsDiv>
                   <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
-                  <BookingDetailsText>10.05.2019</BookingDetailsText>
+                  <BookingDetailsText>
+                    {moment(nextBooking.startDate).format("DD.MM.YYYY")}
+                  </BookingDetailsText>
                 </BookingDetailsDiv>
                 <BookingDetailsDiv>
                   <BookingDetailsHeadline>End date</BookingDetailsHeadline>
-                  <BookingDetailsText>20.05.2019</BookingDetailsText>
+                  <BookingDetailsText>
+                    {moment(nextBooking.endDate).format("DD.MM.YYYY")}
+                  </BookingDetailsText>
                 </BookingDetailsDiv>
                 <BookingDetailsDiv>
                   <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
-                  <BookingDetailsText>£245.00 </BookingDetailsText>
+                  <BookingDetailsText>
+                    £
+                    {parseFloat(
+                      Math.round(nextBooking.price * 100) / 100
+                    ).toFixed(2)}{" "}
+                  </BookingDetailsText>
                 </BookingDetailsDiv>
               </BookingDetailsContainer>
               <Paragraph>
@@ -199,18 +210,23 @@ class HostView extends Component {
                 Find out more about the fund.
               </Paragraph>
               <RadioContainer>
-                <Radio.Group onChange={this.onChange} value={this.state.value}>
-                  <Radio style={radioStyle} value={1}>
+                <Radio.Group
+                  onChange={this.onRadioChange}
+                  value={this.state.value}
+                >
+                  <Radio style={radioStyle} value={"toMe"}>
                     Receive payment to my account{" "}
                   </Radio>
-                  <Radio style={radioStyle} value={2}>
+                  <Radio style={radioStyle} value={"toPresspad"}>
                     Donate payment to the PressPad fund{" "}
                   </Radio>
                 </Radio.Group>
               </RadioContainer>
               <ButtonDiv>
-                <Button>Accept Request</Button>
-                <Button reject={true}>Reject Request</Button>
+                <Button onClick={this.handleAccept}>Accept Request</Button>
+                <Button reject={true} onClick={this.handleReject}>
+                  Reject Request
+                </Button>
               </ButtonDiv>
             </BookingDetailsInnerCard>
           </BookingDetailsCard>
@@ -231,15 +247,15 @@ class HostView extends Component {
           </MoreAboutSection>
         </MainSection>
         {/* Review section */}
-        {internReviews.length > 0 && (
+        {reviews.length > 0 && (
           <ReviewsCard>
             <Reviews>
               <SubHeadline>
-                {name.split(" ")[0]} has stayed with {internReviews.length}{" "}
-                {internReviews.length === 1 ? "host" : "hosts"} so far
+                {name.split(" ")[0]} has stayed with {reviews.length}{" "}
+                {reviews.length === 1 ? "host" : "hosts"} so far
               </SubHeadline>
               <ReviewsSection>
-                {internReviews.map((re, i) => (
+                {reviews.map((re, i) => (
                   <ReviewsBox key={i}>
                     <ReviewsHeader>
                       <ReviewHeadline>

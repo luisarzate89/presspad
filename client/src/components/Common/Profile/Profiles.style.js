@@ -41,7 +41,7 @@ export const Arrow = styled(BackArrowIcon)`
 // Header
 export const Header = styled.header`
   margin-top: 15px;
-  /* display: flex; */
+  display: ${({ flex }) => (flex ? "flex" : "static")};
 
   @media (max-width: 575.98px) {
     /* flex-direction: column;
