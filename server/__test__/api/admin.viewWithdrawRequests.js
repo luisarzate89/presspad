@@ -55,7 +55,7 @@ describe("Testing for get host profile route", () => {
         });
     });
   }, 30000);
-  
+    
   test("Other users are unable to view all withdrawal requests", async (done) => {
     const admin = await User.findOne({ role: "host" });
     const loginData = {
