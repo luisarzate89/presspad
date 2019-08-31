@@ -68,15 +68,13 @@ const blurPic = css`
   -webkit-filter: blur(2px);
 `;
 
-export const ProfilePicDiv = styled.div`
+export const ProfilePic = styled.img`
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-image: url(${({ src }) => src});
-  ${props => !props.adminView && blurPic};
+  object-fit: cover;
+  object-position: center center;
+  ${props => !props.adminView && blurPic}
 `;
 
 export const Address = styled.h3`
