@@ -1,6 +1,6 @@
 const transporter = require("./transporter");
 
-const mailTransporter = transporter(proces.env.MAIL_TRANSPORTER);
+const mailTransporter = transporter(process.env.MAIL_TRANSPORTER);
 
 /**
  * wraps the nodemailer api into a promise.
