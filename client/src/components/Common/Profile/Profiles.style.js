@@ -7,6 +7,7 @@ import { shadows, colors } from "../../../theme";
 
 export const Wrapper = styled.div`
   width: 80%;
+  padding-bottom: 5rem;
   margin-left: auto;
   margin-right: auto;
 
@@ -42,8 +43,10 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   margin-top: 15px;
   display: ${({ flex }) => (flex ? "flex" : "static")};
+  margin-bottom: 25px;
 
   @media (max-width: 575.98px) {
+    margin-bottom: 0px;
     /* flex-direction: column;
     align-items: center; */
   }

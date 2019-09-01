@@ -125,7 +125,7 @@ export const RadioContainer = styled.div`
 export const ButtonDiv = styled.div`
   text-align: left;
   margin-left: 20px;
-  padding-top: 20px;
+  padding: 30px 0;
 
   @media (max-width: 575.98px) {
     margin-left: 0px;
@@ -175,6 +175,7 @@ export const ProfilePicDiv = styled.div`
 export const MoreAboutSection = styled.section`
   width: 35%;
   margin-left: 15px;
+  min-width: 300px;
 
   @media (max-width: 775.98px) {
     width: 100%;
@@ -185,7 +186,6 @@ export const MoreAboutSection = styled.section`
 export const ReviewsCard = styled.div`
   box-shadow: ${shadows.card};
   margin-top: 30px;
-  min-height: 400px;
 
   @media (max-width: 575.98px) {
     margin-top: 0px;

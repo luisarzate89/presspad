@@ -247,14 +247,21 @@ class HostView extends Component {
         </Header>
         {/* Main section */}
         <MainSection>
-          {false && (
+          {nextBooking ? (
             <BookingRequestSection
               name={name}
               nextBooking={nextBooking}
               apiLoading={apiLoading}
               moneyGoTo={moneyGoTo}
               action={action}
+              onRadioChange={this.onRadioChange}
+              handleAccept={this.handleAccept}
+              handleReject={this.handleReject}
             />
+          ) : (
+            reviews.length > 0 && (
+              <ReviewSection name={name} reviews={reviews} />
+            )
           )}
           <MoreAboutSection>
             <Card mt="30px" mh="450px">
@@ -272,7 +279,9 @@ class HostView extends Component {
           </MoreAboutSection>
         </MainSection>
         {/* Review section */}
-        {reviews.length > 0 && <ReviewSection name={name} reviews={reviews} />}
+        {reviews.length > 0 && nextBooking && (
+          <ReviewSection name={name} reviews={reviews} />
+        )}
       </Wrapper>
     );
   }
@@ -282,7 +291,7 @@ export default HostView;
 
 const ReviewSection = ({ name, reviews }) => {
   return (
-    <ReviewsCard>
+    <ReviewsCard style={{ width: "100%" }}>
       <Reviews>
         <SubHeadline>
           {name.split(" ")[0]} has stayed with {reviews.length}{" "}
@@ -312,7 +321,10 @@ const BookingRequestSection = ({
   nextBooking,
   apiLoading,
   moneyGoTo,
-  action
+  action,
+  onRadioChange,
+  handleAccept,
+  handleReject
 }) => {
   return (
     <BookingDetailsCard>
@@ -345,7 +357,7 @@ const BookingRequestSection = ({
           about the fund.
         </Paragraph>
         <RadioContainer>
-          <Radio.Group onChange={this.onRadioChange} value={moneyGoTo}>
+          <Radio.Group onChange={onRadioChange} value={moneyGoTo}>
             <Radio style={radioStyle} value={"host"}>
               Receive payment to my account{" "}
             </Radio>
@@ -355,17 +367,13 @@ const BookingRequestSection = ({
           </Radio.Group>
         </RadioContainer>
         <ButtonDiv>
-          <Button onClick={this.handleAccept} disabled={apiLoading}>
+          <Button onClick={handleAccept} disabled={apiLoading}>
             {apiLoading && action === "accept" && (
               <ButtonSpinner color={"#FFFFFF"} />
             )}
             Accept Request
           </Button>
-          <Button
-            reject={true}
-            onClick={this.handleReject}
-            disabled={apiLoading}
-          >
+          <Button reject={true} onClick={handleReject} disabled={apiLoading}>
             {apiLoading && action === "reject" && (
               <ButtonSpinner color={"#FFFFFF"} />
             )}
