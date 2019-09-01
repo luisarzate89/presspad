@@ -84,12 +84,14 @@ const Content = ({
                         alignItems: "center",
                         justifyContent: "center",
                         fontSize: "42px",
-                        backgroundColor: errors.profileImage ? "red" : "none"
+                        backgroundColor: errors.profileImagefileName
+                          ? "red"
+                          : "none"
                       }}
                     />
                   </div>
                 </div>
-                <Error>{errors.profileImage}</Error>
+                <Error>{errors.profileImagefileName}</Error>
               </ErrorWrapper>
             </Col>
             <Col span={20}>
@@ -130,7 +132,7 @@ const Content = ({
                     id="jobTitle"
                     name="jobTitle"
                     onChange={handleInputChange}
-                    value={state.jobTitle}
+                    value={state.jobTitle || ""}
                     style={{
                       border: errors.jobTitle ? "none" : "1px solid #d9d9d9"
                     }}
@@ -148,7 +150,7 @@ const Content = ({
                     name="name"
                     data-parent="organisation"
                     onChange={handleInputChange}
-                    value={state.organisation.name}
+                    value={state.organisation.name || ""}
                     style={{
                       border: errors.organisationname
                         ? "none"
@@ -166,7 +168,7 @@ const Content = ({
                     rows={6}
                     id="bio"
                     placeholder="Introduce yourself to interns"
-                    value={state.bio}
+                    value={state.bio || ""}
                     style={{
                       border: errors.bio ? "none" : "1px solid #d9d9d9"
                     }}
@@ -188,7 +190,7 @@ const Content = ({
                         onChange={handleInputChange}
                         id="title"
                         placeholder="Article title"
-                        value={state.favouriteArticle.title}
+                        value={state.favouriteArticle.title || ""}
                         data-parent="favouriteArticle"
                         style={{
                           border: errors.articleTitle
@@ -210,7 +212,7 @@ const Content = ({
                         onChange={handleInputChange}
                         id="author"
                         placeholder="Article author"
-                        value={state.favouriteArticle.author}
+                        value={state.favouriteArticle.author || ""}
                         data-parent="favouriteArticle"
                         style={{
                           border: errors.favouriteArticleauthor
@@ -233,7 +235,7 @@ const Content = ({
                     onChange={handleInputChange}
                     id="link"
                     placeholder="Article link"
-                    value={state.favouriteArticle.link}
+                    value={state.favouriteArticle.link || ""}
                     data-parent="favouriteArticle"
                     style={{
                       border: errors.favouriteArticlelink
@@ -251,7 +253,7 @@ const Content = ({
                     onChange={handleInputChange}
                     rows={6}
                     id="favouriteArticle"
-                    value={state.favouriteArticle.description}
+                    value={state.favouriteArticle.description || ""}
                     data-parent="favouriteArticle"
                     placeholder="Share a short description of a recent article you liked"
                     style={{
@@ -330,7 +332,7 @@ const Content = ({
                                 : "1px solid #d9d9d9",
                               display: "inline"
                             }}
-                            value={offerLetterName}
+                            value={offerLetterName || ""}
                             placeholder="No file has been uploaded"
                             disabled={!!offerLetterName}
                           />
@@ -372,7 +374,7 @@ const Content = ({
                         <Input
                           name="name"
                           onChange={handleInputChange}
-                          value={state.reference1.name}
+                          value={state.reference1.name || ""}
                           placeholder="Name"
                           id="reference1Name"
                           data-parent="reference1"
@@ -393,7 +395,7 @@ const Content = ({
                         <Input
                           name="contact"
                           onChange={handleInputChange}
-                          value={state.reference1.contact}
+                          value={state.reference1.contact || ""}
                           placeholder="Contact"
                           data-parent="reference1"
                           style={{
@@ -422,7 +424,7 @@ const Content = ({
                         <Input
                           name="name"
                           onChange={handleInputChange}
-                          value={state.reference2.name}
+                          value={state.reference2.name || ""}
                           placeholder="Name"
                           id="reference2Name"
                           data-parent="reference2"
@@ -443,7 +445,7 @@ const Content = ({
                         <Input
                           name="contact"
                           onChange={handleInputChange}
-                          value={state.reference2.contact}
+                          value={state.reference2.contact || ""}
                           placeholder="Contact"
                           data-parent="reference2"
                           style={{

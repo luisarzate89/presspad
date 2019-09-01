@@ -9,7 +9,7 @@ import {
   API_INTERN_COMPLETE_PROFILE,
   API_MY_PROFILE_URL
 } from "../../../constants/apiRoutes";
-import { HOSTS_URL } from "./../../../constants/navRoutes";
+import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
 export default class InternCreateProfile extends Component {
   state = {
@@ -18,7 +18,8 @@ export default class InternCreateProfile extends Component {
     profileImage: {
       loading: 0,
       isLoading: false,
-      url: ""
+      url: "",
+      fileName: ""
     },
     bio: "",
     favouriteArticle: {
@@ -48,23 +49,31 @@ export default class InternCreateProfile extends Component {
     axios
       .get(API_MY_PROFILE_URL)
       .then(({ data: { profile } }) => {
-        this.setState({
-          ...profile,
-          profileImage: {
-            ...this.state.profileImage,
-            ...profile.profileImage
-          },
-          reference1: profile.verification.reference1,
-          reference2: profile.verification.reference2,
-          photoIDFile: {
-            ...this.state.photoIDFile,
-            ...profile.verification.photoID
-          },
-          offerLetter: {
-            ...this.state.photoIDFile,
-            ...profile.verification.offerLetter
-          }
-        });
+        if (profile) {
+          this.setState({
+            ...profile,
+            profileImage: {
+              ...this.state.profileImage,
+              ...profile.profileImage
+            },
+            reference1: {
+              ...this.state.reference1,
+              ...profile.verification.reference1
+            },
+            reference2: {
+              ...this.state.reference2,
+              ...profile.verification.reference2
+            },
+            photoIDFile: {
+              ...this.state.photoIDFile,
+              ...profile.verification.photoID
+            },
+            offerLetter: {
+              ...this.state.photoIDFile,
+              ...profile.verification.offerLetter
+            }
+          });
+        }
       })
       .catch(err => message.error("internal server error"));
   }
@@ -291,7 +300,7 @@ export default class InternCreateProfile extends Component {
               ),
 
               onOk: () => {
-                this.props.history.push(HOSTS_URL);
+                this.props.history.push(DASHBOARD_URL);
               },
               type: "success"
             });
