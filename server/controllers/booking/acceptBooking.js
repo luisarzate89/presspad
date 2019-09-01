@@ -1,5 +1,6 @@
 const boom = require("boom");
 const { hostAcceptBookingById } = require("../../database/queries/bookings");
+const { createNotification } = require("./../../database/queries/notification");
 
 const acceptBooking = async (req, res, next) => {
   const { id: bookingId } = req.params;
@@ -11,7 +12,17 @@ const acceptBooking = async (req, res, next) => {
       return next(boom.forbidden());
     }
 
-    await hostAcceptBookingById({ bookingId, hostId, moneyGoTo });
+    const updatedBookingRequest = await hostAcceptBookingById({ bookingId, hostId, moneyGoTo });
+
+    // create a notification for intern
+    // to inform him that his/her request accepted
+    await createNotification({
+      private: false,
+      user: updatedBookingRequest.intern,
+      secondParty: updatedBookingRequest.host,
+      type: "stayApproved",
+    });
+
     return res.json({});
   } catch (error) {
     return next(boom.badRequest(error));

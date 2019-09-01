@@ -5,6 +5,7 @@ const app = require("./../../app");
 const buildDB = require("../../database/data/test/index");
 const User = require("./../../database/models/User");
 const Booking = require("./../../database/models/Booking");
+const Notification = require("./../../database/models/Notification");
 
 const { API_ACCEPT_BOOKING_URL } = require("../../../client/src/constants/apiRoutes");
 
@@ -29,6 +30,11 @@ describe("Testing host accepting booking route", () => {
       password: "123456",
     };
 
+    const notificationsBefore = await Notification.find({
+      type: "stayApproved",
+      user: bookingRequest.intern,
+    });
+
     request(app)
       .post("/api/user/login")
       .send(loginData)
@@ -49,8 +55,12 @@ describe("Testing host accepting booking route", () => {
             expect(result).toBeDefined();
 
             const acceptedRequest = await Booking.findById(bookingRequest._id);
+            const notificationsAfter = await Notification.find({ type: "stayApproved", user: bookingRequest.intern });
+
 
             expect(acceptedRequest.status).toBe("confirmed");
+            // notification must be sent to intern
+            expect(notificationsAfter.length).toBe(notificationsBefore.length + 1);
             done();
           });
       });
