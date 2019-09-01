@@ -32,7 +32,9 @@ class AddFundsModal extends Component {
   };
 
   handleServerResponse = async response => {
-    const { paymentInfo } = this.props;
+    const { amount } = this.state;
+    const { account } = this.props;
+
     if (response.error) {
       this.setState({ error: response.error.message, isLoading: false });
     } else if (response.requires_action) {
@@ -44,7 +46,8 @@ class AddFundsModal extends Component {
       } else {
         // The card action has been handled, confirm it on the server
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
-          paymentInfo,
+          account,
+          amount,
           paymentIntent: result.paymentIntent
         });
         await this.handleServerResponse(paymentResult);
@@ -59,7 +62,7 @@ class AddFundsModal extends Component {
   handleSubmit = async () => {
     try {
       const { cardElement, amount } = this.state;
-      const { stripe } = this.props;
+      const { stripe, account } = this.props;
 
       if (!amount) {
         return this.setState({
@@ -79,7 +82,9 @@ class AddFundsModal extends Component {
         this.setState({ error: error.message, isLoading: false });
       } else {
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
-          paymentMethod
+          paymentMethod,
+          amount,
+          account
         });
 
         await this.handleServerResponse(paymentResult);
