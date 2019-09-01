@@ -18,6 +18,17 @@ module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) => Boo
   },
 );
 
+module.exports.hostRejectBookingById = ({ bookingId, hostId }) => Booking.updateOne(
+  //  filter
+  { _id: bookingId, host: hostId },
+  // update date
+  {
+    status: "canceled",
+    canceledBy: hostId,
+  },
+);
+
+
 module.exports.getNextPendingBooking = getNextPendingBooking;
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {

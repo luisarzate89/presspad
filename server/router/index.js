@@ -13,7 +13,11 @@ const hostViewInternProfile = require("./../controllers/profile/hostViewInternPr
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
 const {
-  viewBooking, getUserBookings, newBookingRequest, acceptBooking,
+  viewBooking,
+  getUserBookings,
+  newBookingRequest,
+  acceptBooking,
+  rejectBooking,
 } = require("./../controllers/booking");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
@@ -70,6 +74,7 @@ const {
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
   ACCEPT_BOOKING_URL,
+  REJECT_BOOKING_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -78,6 +83,9 @@ router.use(validation);
 
 // accept booking by id
 router.patch(ACCEPT_BOOKING_URL, authentication, acceptBooking);
+
+// accept booking by id
+router.patch(REJECT_BOOKING_URL, authentication, rejectBooking);
 
 
 // Host view intern profile
