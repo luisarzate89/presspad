@@ -134,7 +134,7 @@ export const ButtonDiv = styled.div`
 `;
 
 export const Button = styled.button`
-  background: ${props => (props.reject ? `none` : `${colors.lightBlue}`)}
+  background: ${props => (props.reject ? `none` : `${colors.lightBlue}`)};
   border-radius: 19px;
   font-size: 16px;
   color: ${props => (props.reject ? ` ${colors.orange}` : `${colors.white}`)};
@@ -145,12 +145,12 @@ export const Button = styled.button`
   text-decoration: none;
   cursor: pointer;
   text-align: center;
-  transition: background 250ms ease-in-out,
-  transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
-  :focus, :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
   }
   @media (max-width: 575.98px) {
     margin-top: 10px;

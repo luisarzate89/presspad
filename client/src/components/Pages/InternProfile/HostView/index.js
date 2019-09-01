@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-
-//api
-import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
-
+import { Modal, Spin, Icon, Radio, message } from "antd";
 import axios from "axios";
 
 //styles
@@ -57,13 +54,18 @@ import "antd/dist/antd.css";
 
 import referIcon from "./../../../../assets/refer.svg";
 import verifiedIcon from "./../../../../assets/verified.svg";
+import { ButtonSpinner } from "./../../../Common/Button";
 
-import { Spin, Icon, Radio, message } from "antd";
-
+const { confirm } = Modal;
+const radioStyle = {
+  display: "block",
+  height: "30px",
+  lineHeight: "30px"
+};
 class HostView extends Component {
   state = {
     isLoading: true,
-    value: 1,
+    moneyGoTo: "host",
     internData: null,
     reviews: null
   };
@@ -101,14 +103,87 @@ class HostView extends Component {
 
   onRadioChange = e => {
     this.setState({
-      value: e.target.value
+      moneyGoTo: e.target.value
+    });
+  };
+
+  handleAccept = () => {
+    const {
+      nextBooking,
+      moneyGoTo,
+      internData: { name }
+    } = this.state;
+    try {
+      this.setState({ apiLoading: true, action: "accept" }, async () => {
+        await axios.patch(`/api/bookings/${nextBooking._id}/accept`, {
+          moneyGoTo
+        });
+
+        this.setState({ apiLoading: false });
+
+        Modal.success({
+          title: "Done!",
+          content: `You successfully accepted ${name.split(" ")[0]}'s request`,
+          onOk: () => this.axiosCall()
+        });
+      });
+    } catch (err) {
+      this.setState({ apiLoading: false });
+
+      const error =
+        err.response && err.response.data && err.response.data.error;
+      message.error(error || "Something went wrong");
+    }
+  };
+
+  handleReject = () => {
+    const {
+      nextBooking,
+      internData: { name }
+    } = this.state;
+    confirm({
+      title: "Are you sure?",
+      content: `Reject ${name.split(" ")[0]}'s booking request?`,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => {
+        this.setState({ apiLoading: true, action: "reject" }, async () => {
+          try {
+            await axios.patch(`/api/bookings/${nextBooking._id}/reject`);
+
+            this.setState({ apiLoading: false });
+
+            Modal.success({
+              title: "Done!",
+              content: `You successfully rejected ${
+                name.split(" ")[0]
+              }'s request`,
+              onOk: () => this.axiosCall()
+            });
+          } catch (err) {
+            this.setState({ apiLoading: false });
+
+            const error =
+              err.response && err.response.data && err.response.data.error;
+            message.error(error || "Something went wrong");
+          }
+        });
+      }
     });
   };
 
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Request" />;
 
-    const { internData, reviews, nextBooking } = this.state;
+    const {
+      internData,
+      reviews,
+      nextBooking,
+      moneyGoTo,
+      apiLoading,
+      action
+    } = this.state;
 
     const { name, profile } = internData;
 
@@ -122,12 +197,6 @@ class HostView extends Component {
     } = profile;
 
     const { author, link, title, description } = favouriteArticle;
-
-    const radioStyle = {
-      display: "block",
-      height: "30px",
-      lineHeight: "30px"
-    };
 
     const { reference1, reference2 } = verification;
 
@@ -178,59 +247,15 @@ class HostView extends Component {
         </Header>
         {/* Main section */}
         <MainSection>
-          <BookingDetailsCard>
-            <BookingDetailsInnerCard>
-              <SubHeadline>{name.split(" ")[0]}’s request to stay</SubHeadline>
-              <BookingDetailsContainer>
-                <BookingDetailsDiv>
-                  <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
-                  <BookingDetailsText>
-                    {moment(nextBooking.startDate).format("DD.MM.YYYY")}
-                  </BookingDetailsText>
-                </BookingDetailsDiv>
-                <BookingDetailsDiv>
-                  <BookingDetailsHeadline>End date</BookingDetailsHeadline>
-                  <BookingDetailsText>
-                    {moment(nextBooking.endDate).format("DD.MM.YYYY")}
-                  </BookingDetailsText>
-                </BookingDetailsDiv>
-                <BookingDetailsDiv>
-                  <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
-                  <BookingDetailsText>
-                    £
-                    {parseFloat(
-                      Math.round(nextBooking.price * 100) / 100
-                    ).toFixed(2)}{" "}
-                  </BookingDetailsText>
-                </BookingDetailsDiv>
-              </BookingDetailsContainer>
-              <Paragraph>
-                You can choose to receive full payment to your account, or
-                donate the money received on this hosting to the PressPad fund.
-                Find out more about the fund.
-              </Paragraph>
-              <RadioContainer>
-                <Radio.Group
-                  onChange={this.onRadioChange}
-                  value={this.state.value}
-                >
-                  <Radio style={radioStyle} value={"toMe"}>
-                    Receive payment to my account{" "}
-                  </Radio>
-                  <Radio style={radioStyle} value={"toPresspad"}>
-                    Donate payment to the PressPad fund{" "}
-                  </Radio>
-                </Radio.Group>
-              </RadioContainer>
-              <ButtonDiv>
-                <Button onClick={this.handleAccept}>Accept Request</Button>
-                <Button reject={true} onClick={this.handleReject}>
-                  Reject Request
-                </Button>
-              </ButtonDiv>
-            </BookingDetailsInnerCard>
-          </BookingDetailsCard>
-
+          {false && (
+            <BookingRequestSection
+              name={name}
+              nextBooking={nextBooking}
+              apiLoading={apiLoading}
+              moneyGoTo={moneyGoTo}
+              action={action}
+            />
+          )}
           <MoreAboutSection>
             <Card mt="30px" mh="450px">
               <InnerCard>
@@ -247,34 +272,107 @@ class HostView extends Component {
           </MoreAboutSection>
         </MainSection>
         {/* Review section */}
-        {reviews.length > 0 && (
-          <ReviewsCard>
-            <Reviews>
-              <SubHeadline>
-                {name.split(" ")[0]} has stayed with {reviews.length}{" "}
-                {reviews.length === 1 ? "host" : "hosts"} so far
-              </SubHeadline>
-              <ReviewsSection>
-                {reviews.map((re, i) => (
-                  <ReviewsBox key={i}>
-                    <ReviewsHeader>
-                      <ReviewHeadline>
-                        {" "}
-                        {re.from_user.name.split(" ")[0]},{" "}
-                        {re.from_profile.jobTitle}
-                      </ReviewHeadline>
-                      <StarRate disabled defaultValue={re.rating} />
-                    </ReviewsHeader>
-                    <ReviewText>{re.message}</ReviewText>
-                  </ReviewsBox>
-                ))}
-              </ReviewsSection>
-            </Reviews>
-          </ReviewsCard>
-        )}
+        {reviews.length > 0 && <ReviewSection name={name} reviews={reviews} />}
       </Wrapper>
     );
   }
 }
 
 export default HostView;
+
+const ReviewSection = ({ name, reviews }) => {
+  return (
+    <ReviewsCard>
+      <Reviews>
+        <SubHeadline>
+          {name.split(" ")[0]} has stayed with {reviews.length}{" "}
+          {reviews.length === 1 ? "host" : "hosts"} so far
+        </SubHeadline>
+        <ReviewsSection>
+          {reviews.map((re, i) => (
+            <ReviewsBox key={i}>
+              <ReviewsHeader>
+                <ReviewHeadline>
+                  {" "}
+                  {re.from_user.name.split(" ")[0]}, {re.from_profile.jobTitle}
+                </ReviewHeadline>
+                <StarRate disabled defaultValue={re.rating} />
+              </ReviewsHeader>
+              <ReviewText>{re.message}</ReviewText>
+            </ReviewsBox>
+          ))}
+        </ReviewsSection>
+      </Reviews>
+    </ReviewsCard>
+  );
+};
+
+const BookingRequestSection = ({
+  name,
+  nextBooking,
+  apiLoading,
+  moneyGoTo,
+  action
+}) => {
+  return (
+    <BookingDetailsCard>
+      <BookingDetailsInnerCard>
+        <SubHeadline>{name.split(" ")[0]}’s request to stay</SubHeadline>
+        <BookingDetailsContainer>
+          <BookingDetailsDiv>
+            <BookingDetailsHeadline>Start date</BookingDetailsHeadline>
+            <BookingDetailsText>
+              {moment(nextBooking.startDate).format("DD.MM.YYYY")}
+            </BookingDetailsText>
+          </BookingDetailsDiv>
+          <BookingDetailsDiv>
+            <BookingDetailsHeadline>End date</BookingDetailsHeadline>
+            <BookingDetailsText>
+              {moment(nextBooking.endDate).format("DD.MM.YYYY")}
+            </BookingDetailsText>
+          </BookingDetailsDiv>
+          <BookingDetailsDiv>
+            <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
+            <BookingDetailsText>
+              £
+              {parseFloat(Math.round(nextBooking.price * 100) / 100).toFixed(2)}{" "}
+            </BookingDetailsText>
+          </BookingDetailsDiv>
+        </BookingDetailsContainer>
+        <Paragraph>
+          You can choose to receive full payment to your account, or donate the
+          money received on this hosting to the PressPad fund. Find out more
+          about the fund.
+        </Paragraph>
+        <RadioContainer>
+          <Radio.Group onChange={this.onRadioChange} value={moneyGoTo}>
+            <Radio style={radioStyle} value={"host"}>
+              Receive payment to my account{" "}
+            </Radio>
+            <Radio style={radioStyle} value={"presspad"}>
+              Donate payment to the PressPad fund{" "}
+            </Radio>
+          </Radio.Group>
+        </RadioContainer>
+        <ButtonDiv>
+          <Button onClick={this.handleAccept} disabled={apiLoading}>
+            {apiLoading && action === "accept" && (
+              <ButtonSpinner color={"#FFFFFF"} />
+            )}
+            Accept Request
+          </Button>
+          <Button
+            reject={true}
+            onClick={this.handleReject}
+            disabled={apiLoading}
+          >
+            {apiLoading && action === "reject" && (
+              <ButtonSpinner color={"#FFFFFF"} />
+            )}
+            Reject Request
+          </Button>
+        </ButtonDiv>
+      </BookingDetailsInnerCard>
+    </BookingDetailsCard>
+  );
+};
