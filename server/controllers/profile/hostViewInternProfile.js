@@ -12,8 +12,9 @@ module.exports = async (req, res, next) => {
     const { id: internId } = req.params;
     const { role, id: hostId } = req.user;
     // check for role
+    // go to next route
     if (role !== "host" && role !== "superhost") {
-      return next(boom.forbidden());
+      return next();
     }
 
     if (!mongoose.Types.ObjectId.isValid(internId)) {
