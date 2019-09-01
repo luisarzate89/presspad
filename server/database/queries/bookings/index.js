@@ -8,6 +8,16 @@ const getNextPendingBooking = require("./getNextPendingBooking");
 const getBookingById = require("./getBookingById");
 
 
+module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) => Booking.updateOne(
+  //  filter
+  { _id: bookingId, host: hostId },
+  // update date
+  {
+    status: "confirmed",
+    moneyGoTo,
+  },
+);
+
 module.exports.getNextPendingBooking = getNextPendingBooking;
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {
