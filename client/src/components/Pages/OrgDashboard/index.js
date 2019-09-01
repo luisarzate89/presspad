@@ -290,6 +290,9 @@ class OrganizationDashboard extends Component {
 
   handlePayNowClick = show => this.setState({ showAddFunds: show });
 
+  handleAccountUpdate = account =>
+    this.setState({ account, showAddFunds: false });
+
   render() {
     const { name, windowWidth, stripe } = this.props;
 
@@ -316,6 +319,7 @@ class OrganizationDashboard extends Component {
         handleCloseModals={this.handleCloseModals}
         handleSubmitCreateCoupon={this.handleSubmitCreateCoupon}
         handlePayNowClick={this.handlePayNowClick}
+        handleAccountUpdate={this.handleAccountUpdate}
       />
     );
   }

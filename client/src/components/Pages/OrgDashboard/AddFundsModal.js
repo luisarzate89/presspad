@@ -32,8 +32,8 @@ class AddFundsModal extends Component {
   };
 
   handleServerResponse = async response => {
-    const { amount } = this.state;
-    const { account } = this.props;
+    const { amount, availableFunds } = this.state;
+    const { account, handleAccountUpdate } = this.props;
 
     if (response.error) {
       this.setState({ error: response.error.message, isLoading: false });
@@ -54,8 +54,10 @@ class AddFundsModal extends Component {
       }
     } else {
       // payment successful
-      // ToDo: update available funds state
-      this.setState({ isLoading: false, success: true });
+      const newAccount = { ...account, currentBalance: availableFunds };
+      this.setState({ isLoading: false, success: true }, () => {
+        setTimeout(() => handleAccountUpdate(newAccount), 2000);
+      });
     }
   };
 
@@ -108,7 +110,10 @@ class AddFundsModal extends Component {
     const {
       account: { currentBalance }
     } = this.props;
-    this.setState({ amount: val, availableFunds: currentBalance + val });
+    this.setState({
+      amount: val,
+      availableFunds: currentBalance + Number(val)
+    });
   };
 
   handleReady = element => this.setState({ cardElement: element });
@@ -191,12 +196,12 @@ class AddFundsModal extends Component {
               formatter={value =>
                 `£${value
                   .toString()
-                  .replace(/\D/g, "")
+                  .replace(/[^\d.]/g, "")
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   .replace(/^0/, "")
-                  .replace(/^,/, "")}`
+                  .replace(/^,/, "") || 0}`
               }
-              parser={value => value.toString().replace(/\D/g, "")}
+              parser={value => value.toString().replace(/[^\d.]/g, "") || 0}
               onChange={this.handleAmountChange}
             />
           </Col>

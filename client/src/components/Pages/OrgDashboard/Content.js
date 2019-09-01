@@ -76,6 +76,7 @@ class Content extends Component {
       handleCloseModals,
       handleSubmitCreateCoupon,
       handlePayNowClick,
+      handleAccountUpdate,
       stripe
     } = this.props;
     const { details, notifications, account, coupons, showAddFunds } = state;
@@ -95,6 +96,7 @@ class Content extends Component {
       <PageWrapper>
         <Elements>
           <AddFundsModal
+            handleAccountUpdate={handleAccountUpdate}
             handlePayNowClick={handlePayNowClick}
             showAddFunds={showAddFunds}
             account={account}
