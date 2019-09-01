@@ -1,6 +1,6 @@
 const transporter = require("./transporter");
 
-const gmailTransporter = transporter("gmail");
+const mailTransporter = transporter(proces.env.MAIL_TRANSPORTER);
 
 /**
  * wraps the nodemailer api into a promise.
@@ -14,7 +14,11 @@ const gmailTransporter = transporter("gmail");
  */
 
 const sendMail = (options) => new Promise((resolve, reject) => {
-  gmailTransporter.sendMail(options, (err, res) => {
+  if (!mailTransporter) {
+    throw("mailHelper error: mailTransporter is not defined. Add the proper env variable");
+  };
+
+  mailTransporter.sendMail(options, (err, res) => {
     if (err) return reject(err);
     return resolve(res);
   });
