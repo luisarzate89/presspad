@@ -30,7 +30,7 @@ class OrganizationDashboard extends Component {
     isNumberInputActive: false,
     discountRate: 0,
     code: null,
-    showAddFunds: true,
+    showAddFunds: false,
     errors: {}
   };
 
