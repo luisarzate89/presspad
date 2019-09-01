@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Content from "./Content";
+import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
 
 class InternProfile extends Component {
   state = {
@@ -17,7 +18,12 @@ class InternProfile extends Component {
     }
 
     axios
-      .get(`/api/interns/${id}/profile/?expand=bookings&expand=reviews`)
+      .get(
+        `${API_INTERN_PROFILE_URL.replace(
+          ":id",
+          id
+        )}?expand=bookings&expand=reviews`
+      )
       .then(res => {
         this.setState({
           isLoading: false,

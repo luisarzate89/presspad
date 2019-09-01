@@ -173,7 +173,7 @@ export const ProfilePicDiv = styled.div`
 `;
 
 export const MoreAboutSection = styled.section`
-  width: 35%;
+  width: ${({ fullwidth }) => (fullwidth ? "100%" : "35%")};
   margin-left: 15px;
   min-width: 300px;
 

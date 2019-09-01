@@ -3,6 +3,8 @@ import moment from "moment";
 import { Modal, Spin, Icon, Radio, message } from "antd";
 import axios from "axios";
 
+import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
+
 //styles
 import {
   Wrapper,
@@ -74,7 +76,12 @@ class HostView extends Component {
   axiosCall = () => {
     const { id: internId } = this.props.match.params;
     axios
-      .get(`/api/interns/${internId}/profile`)
+      .get(
+        `${API_INTERN_PROFILE_URL.replace(
+          ":id",
+          internId
+        )}?expand=bookings&expand=reviews`
+      )
       .then(({ data }) => {
         const { internData, reviews, nextBooking } = data;
         this.setState({
@@ -263,7 +270,9 @@ class HostView extends Component {
               <ReviewSection name={name} reviews={reviews} />
             )
           )}
-          <MoreAboutSection>
+          <MoreAboutSection
+            fullwidth={!reviews || (!reviews.length > 0 && !nextBooking)}
+          >
             <Card mt="30px" mh="450px">
               <InnerCard>
                 <SubHeadline>More about {name.split(" ")[0]}</SubHeadline>
