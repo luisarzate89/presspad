@@ -80,7 +80,7 @@ describe("Testing for get host profile route", () => {
             expect(response.body).toBeDefined();
             expect(Array.isArray(response.body)).toBe(false);
             expect(response.body.message).toBeDefined();
-            expect(response.body.message).toBe("Forbidden");
+            expect(response.body.message).toBe("Forbidden: Only admin can access this route");
             return done();
           });
       });
