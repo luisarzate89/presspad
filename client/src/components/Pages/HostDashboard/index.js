@@ -30,7 +30,7 @@ class HostProfile extends Component {
     // withdraw details
     bankName: null,
     bankSortCode: null,
-    bankNumber: null,
+    accountNumber: null,
 
     // Values came from api request
     bookings: [],
@@ -180,7 +180,7 @@ class HostProfile extends Component {
   };
 
   handleSubmitWithdrawRequest = () => {
-    const { withdrawValue, bankName, bankSortCode, bankNumber } = this.state;
+    const { withdrawValue, bankName, bankSortCode, accountNumber } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(withdrawSchema).then(res => {
         res &&
@@ -190,7 +190,7 @@ class HostProfile extends Component {
                 amount: withdrawValue,
                 bankName,
                 bankSortCode,
-                bankNumber
+                accountNumber
               })
               .then(() => {
                 this.setState({ apiLoading: false });
@@ -234,7 +234,7 @@ class HostProfile extends Component {
       nextGuestProfile,
       bankName,
       bankSortCode,
-      bankNumber,
+      accountNumber,
       bookings,
       updates,
       withdrawModalOpen,
@@ -252,7 +252,7 @@ class HostProfile extends Component {
         name={name}
         bankName={bankName}
         bankSortCode={bankSortCode}
-        bankNumber={bankNumber}
+        accountNumber={accountNumber}
         bookings={bookings}
         updates={updates}
         withdrawModalOpen={withdrawModalOpen}

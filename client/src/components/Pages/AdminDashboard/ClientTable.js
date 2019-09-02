@@ -17,7 +17,7 @@ export default class ClientTable extends Component {
         key: "name",
         ...getColumnSearchProps("name"),
         sorter: (a, b) => a.name.localeCompare(b.name),
-        className: "orgCol"
+        className: "mainCol"
       },
       {
         title: "Total Payments",

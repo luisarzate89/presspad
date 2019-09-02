@@ -6,7 +6,7 @@ const withdrawSchema = Joi.object({
     .required("Required"),
   bankSortCode: Joi.string()
     .required("Required"),
-  bankNumber: Joi.string()
+  accountNumber: Joi.string()
     .required("Required"),
   amount: Joi.number()
     .required("Required")
