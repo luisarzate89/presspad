@@ -304,6 +304,13 @@ class Content extends Component {
               </ModalDescription>
             </div>
 
+            {account.currentBalance - potentialCost < 0 && (
+              <div>
+                {/* @todo show the popup for add funds */}
+                <DisabledPopOver>Add funds</DisabledPopOver>
+              </div>
+            )}
+
             {/* ------------------------------------------ */}
             {/* ----------------Select the user----------- */}
             {!state.code ? (
