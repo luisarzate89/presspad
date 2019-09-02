@@ -28,6 +28,7 @@ const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const withdrawRequest = require("../controllers/payments/withdrawRequest");
+const { orgPayment } = require("../controllers/payments/index");
 
 // controller for admin to view all withdraw requests in presspad
 const viewWithdrawRequests = require("../controllers/withdrawRequests");
@@ -69,6 +70,7 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  ORG_PAYMENT_URL,
   FIND_WITHDRAW_REQUESTS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
@@ -152,6 +154,9 @@ router.post(DONATION_URL, authentication, hostDonation);
 
 // host request to withdraw money
 router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
+
+// organisation add funds
+router.post(ORG_PAYMENT_URL, authentication, orgPayment);
 
 
 // Reviews

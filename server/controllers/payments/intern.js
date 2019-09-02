@@ -5,7 +5,7 @@ const boom = require("boom");
 const { getBookingById } = require("../../database/queries/bookings");
 const { getCoupons } = require("../../database/queries/coupon");
 
-const generatePaymentResponse = require("./generateInternPaymentResponse");
+const generatePaymentResponse = require("./generatePaymentResponse");
 const internTransaction = require("./internTransaction");
 
 const {
@@ -122,7 +122,7 @@ const internPayment = async (req, res, next) => {
       } else if (paymentIntent) {
         intent = await stripe.paymentIntents.confirm(paymentIntent.id);
       } else {
-        throw new Error("no payment object from the client");
+        throw boom.badData("no payment object from the client");
       }
 
       const response = await generatePaymentResponse(intent);
