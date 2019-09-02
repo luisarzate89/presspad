@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const shortid = require("shortid");
+const moment = require("moment");
 
 const { Schema, model } = mongoose;
 
@@ -60,7 +61,7 @@ const couponSchema = new Schema({
     type: Date,
     required: true,
     validate: {
-      validator: value => Date.now() < value,
+      validator: value => moment().startOf("day") <= value,
       message: "start date is in the past",
     },
   },
@@ -68,7 +69,7 @@ const couponSchema = new Schema({
     type: Date,
     required: true,
     validate: {
-      validator: value => Date.now() < value,
+      validator: value => moment().startOf("day") <= value,
       message: "end date is in the past",
     },
   },
