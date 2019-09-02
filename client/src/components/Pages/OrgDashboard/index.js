@@ -29,7 +29,9 @@ class OrganizationDashboard extends Component {
     addedNewInternName: null,
     isNumberInputActive: false,
     discountRate: 0,
+    discountPrice: 0,
     code: null,
+    addCouponLoading: false,
     showAddFunds: false,
     errors: {}
   };
@@ -126,18 +128,17 @@ class OrganizationDashboard extends Component {
     });
   };
 
-  handleOpenModal = () => {
-    const { internsLoaded } = this.state;
-    !internsLoaded
-      ? axios.get(API_INTERNS_URL).then(res => {
-          this.setState({
-            interns: res.data,
-            internsLoaded,
-            isCouponModalOpen: true,
-            code: null
-          });
-        })
-      : this.setState({ isCouponModalOpen: true, code: null });
+  handleOpenModal = async () => {
+    this.setState({ addCouponLoading: true });
+
+    const { data: interns } = await axios.get(API_INTERNS_URL);
+
+    this.setState({
+      interns,
+      addCouponLoading: false,
+      isCouponModalOpen: true,
+      code: null
+    });
   };
 
   handleCloseModals = () => {
@@ -172,11 +173,29 @@ class OrganizationDashboard extends Component {
   };
 
   onChange = (field, value) => {
-    const { attemptedToSubmit } = this.state;
+    const {
+      attemptedToSubmit,
+      startValue,
+      endValue,
+      discountRate
+    } = this.state;
+
+    const rangeObj = { startValue, endValue };
+    // update start and end values with the recent changes
+    rangeObj[field] = value;
+
+    let discountPrice = 0;
+    if (rangeObj.startValue && rangeObj.endValue && discountRate) {
+      const daysPrice = calculatePrice(
+        moment.range(rangeObj.startValue, rangeObj.endValue)
+      );
+      discountPrice = (daysPrice * discountRate) / 100;
+    }
 
     this.setState(
       {
-        [field]: value
+        [field]: value,
+        discountPrice
       },
       () => {
         if (attemptedToSubmit) {
@@ -246,9 +265,15 @@ class OrganizationDashboard extends Component {
   };
 
   handleDiscountChange = value => {
-    const { attemptedToSubmit } = this.state;
+    const { attemptedToSubmit, startValue, endValue } = this.state;
 
-    this.setState({ discountRate: value }, () => {
+    let discountPrice = 0;
+    if (startValue && endValue) {
+      discountPrice =
+        (calculatePrice(moment.range(startValue, endValue)) * Number(value)) /
+        100;
+    }
+    this.setState({ discountRate: value, discountPrice }, () => {
       if (attemptedToSubmit) {
         this.validate();
       }

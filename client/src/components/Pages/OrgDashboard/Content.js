@@ -9,7 +9,8 @@ import {
   InputNumber,
   DatePicker,
   Empty,
-  Icon
+  Icon,
+  Skeleton
 } from "antd";
 import moment from "moment";
 import { Elements } from "react-stripe-elements";
@@ -54,8 +55,6 @@ const { Option } = Select;
 
 class Content extends Component {
   render() {
-    const { startValue, endValue, endOpen, errors } = this.props.state;
-
     const {
       state,
       name,
@@ -79,7 +78,19 @@ class Content extends Component {
       handleAccountUpdate,
       stripe
     } = this.props;
-    const { details, notifications, account, coupons, showAddFunds } = state;
+
+    const {
+      details,
+      notifications,
+      account,
+      coupons,
+      showAddFunds,
+      startValue,
+      endValue,
+      endOpen,
+      errors,
+      discountPrice
+    } = state;
 
     const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
@@ -226,9 +237,21 @@ class Content extends Component {
                         <TD position="center">{liveCoupons || 0}</TD>
                         <TD position="right">
                           {account.currentBalance > 0 ? (
-                            <BlueLink onClick={handleOpenModal}>
-                              Add codes
-                            </BlueLink>
+                            <>
+                              <BlueLink>
+                                <Skeleton
+                                  loading={state.addCouponLoading}
+                                  title={false}
+                                  active
+                                  paragraph={{ rows: 1, width: "95%" }}
+                                />
+                              </BlueLink>
+                              {!state.addCouponLoading && (
+                                <BlueLink onClick={handleOpenModal}>
+                                  Add codes
+                                </BlueLink>
+                              )}
+                            </>
                           ) : (
                             <DisabledPopOver
                               title="No Enough Fund"
@@ -468,6 +491,10 @@ class Content extends Component {
                     </ErrorWrapper>
                   </Col>
                 </Row>
+                <div>
+                  <ModalDescription bold>Coupon cost: </ModalDescription>
+                  <ModalDescription bold>£{discountPrice} </ModalDescription>
+                </div>
                 <Button
                   label="Create Coupon"
                   type="secondary"
