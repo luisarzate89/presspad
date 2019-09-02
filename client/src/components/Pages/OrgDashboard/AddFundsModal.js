@@ -22,14 +22,16 @@ import { Label } from "./OrgDashboard.style";
 
 import { API_ORG_PAYMENT_URL } from "../../../constants/apiRoutes";
 
+const initialState = {
+  error: "",
+  isLoading: false,
+  success: false,
+  amount: 0,
+  availableFunds: 0
+};
+
 class AddFundsModal extends Component {
-  state = {
-    error: "",
-    isLoading: false,
-    success: false,
-    amount: 0,
-    availableFunds: 0
-  };
+  state = { ...initialState };
 
   handleServerResponse = async response => {
     const { amount, availableFunds } = this.state;
@@ -56,7 +58,13 @@ class AddFundsModal extends Component {
       // payment successful
       const newAccount = { ...account, currentBalance: availableFunds };
       this.setState({ isLoading: false, success: true }, () => {
-        setTimeout(() => handleAccountUpdate(newAccount), 2000);
+        setTimeout(
+          () =>
+            this.setState({ ...initialState }, () =>
+              handleAccountUpdate(newAccount)
+            ),
+          2000
+        );
       });
     }
   };
@@ -167,13 +175,17 @@ class AddFundsModal extends Component {
     );
   };
 
-  render() {
+  handleCancel = () => {
     const { handlePayNowClick } = this.props;
+    this.setState({ ...initialState }, () => handlePayNowClick(false));
+  };
+
+  render() {
     const { amount } = this.state;
     return (
       <Modal
         visible={this.props.showAddFunds}
-        onCancel={() => handlePayNowClick(false)}
+        onCancel={this.handleCancel}
         bodyStyle={{ minHeight: 300 }}
         footer={null}
       >
