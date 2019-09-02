@@ -13,6 +13,7 @@ import {
 } from "antd";
 import moment from "moment";
 import Button from "./../../Common/Button";
+import { calculatePrice } from "./../../../helpers";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
@@ -51,8 +52,7 @@ const { Option } = Select;
 
 class Content extends Component {
   render() {
-    const { startValue, endValue, endOpen, errors } = this.props.state;
-
+    let potentialCost;
     const {
       state,
       name,
@@ -73,7 +73,25 @@ class Content extends Component {
       handleCloseModals,
       handleSubmitCreateCoupon
     } = this.props;
-    const { details, notifications, account, coupons } = state;
+
+    const {
+      details,
+      notifications,
+      account,
+      coupons,
+      discountRate,
+      startValue,
+      endValue,
+      endOpen,
+      errors
+    } = state;
+
+    if (startValue && endValue) {
+      const range = moment.range(startValue, endValue);
+
+      // price after discount
+      potentialCost = (calculatePrice(range) * discountRate) / 100;
+    }
 
     const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
@@ -275,6 +293,17 @@ class Content extends Component {
                 £{account.currentBalance}{" "}
               </ModalDescription>
             </div>
+
+            <div>
+              <ModalDescription bold>Potential Cost: </ModalDescription>
+              <ModalDescription
+                bold
+                red={account.currentBalance - potentialCost < 0}
+              >
+                £{potentialCost || "0"}{" "}
+              </ModalDescription>
+            </div>
+
             {/* ------------------------------------------ */}
             {/* ----------------Select the user----------- */}
             {!state.code ? (
@@ -451,12 +480,14 @@ class Content extends Component {
                     </ErrorWrapper>
                   </Col>
                 </Row>
+
                 <Button
                   label="Create Coupon"
                   type="secondary"
                   style={{ width: "135px", marginTop: "2rem" }}
                   onClick={handleSubmitCreateCoupon}
                   loading={state.apiLoading}
+                  disabled={account.currentBalance - potentialCost < 0}
                 />
                 <Button
                   label="Cancel"

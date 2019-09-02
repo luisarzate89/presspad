@@ -94,7 +94,8 @@ class OrganizationDashboard extends Component {
     } = this.state;
 
     const range = moment.range(startValue, endValue);
-    const price = calculatePrice(range);
+    // price after discount
+    const price = (calculatePrice(range) * discountRate) / 100;
     if (account.currentBalance - price < 0) {
       return message.error("No Enough Money!");
     }
