@@ -1,16 +1,15 @@
-const { findAllWithdrawRequests } = require("../../database/queries/withdrawRequest");
 const boom = require("boom");
+const { findAllWithdrawRequests } = require("../../database/queries/withdrawRequest");
 
 const findWithdrawRequests = async (req, res, next) => {
   try {
     // only admin is allowed to view all withdrawal requests on presspad.
-    if (req.user.role !== "admin") return res.status(403).json({ message: "Forbidden" });
+    if (req.user.role !== "admin") return next(boom.forbidden("Forbidden: Only admin access this route"));
     const withdrawRequests = await findAllWithdrawRequests();
     return res.json(withdrawRequests);
   } catch (error) {
-    console.log(error); // for debugging only. Remove before final push.
-    next(boom.badImplementation(error));
-  };
+    return next(boom.badImplementation(error));
+  }
 };
 
 module.exports = findWithdrawRequests;

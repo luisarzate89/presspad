@@ -69,7 +69,7 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
-  FIND_WITHDRAW_REQUESTS_URL
+  FIND_WITHDRAW_REQUESTS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -173,7 +173,7 @@ router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers);
 
 router.route(FIND_WITHDRAW_REQUESTS_URL)
-    .get(authentication, viewWithdrawRequests);
+  .get(authentication, viewWithdrawRequests);
 
 // payments
 router.route(INTERN_PAYMENT_URL)

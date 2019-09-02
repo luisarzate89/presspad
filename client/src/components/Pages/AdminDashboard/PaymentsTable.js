@@ -3,13 +3,13 @@ import { Table } from "antd";
 import axios from "axios";
 
 import { columns, createDataSource } from "./config.PaymentsTable";
-import {API_FIND_WITHDRAW_REQUESTS_URL} from "../../../constants/apiRoutes"
+import { API_FIND_WITHDRAW_REQUESTS_URL } from "../../../constants/apiRoutes";
 
 class PaymentsTable extends Component {
   // columns are declared on the class field so they can't be accidentially changed with setState.
   columns = columns;
   state = {
-    dataSource: null,
+    dataSource: null
   };
 
   async componentDidMount() {
@@ -25,9 +25,7 @@ class PaymentsTable extends Component {
   }
 
   render() {
-    return (
-      <Table dataSource={this.state.dataSource} columns={this.columns} />
-    );
+    return <Table dataSource={this.state.dataSource} columns={this.columns} />;
   }
 }
 
