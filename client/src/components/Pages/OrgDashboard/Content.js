@@ -110,9 +110,10 @@ class Content extends Component {
       : state.interns;
     const liveCoupons = coupons.filter(
       item =>
-        moment(item.endDate).valueOf() > Date.now() &&
-        moment(item.startDate).valueOf() <= Date.now()
+        moment(item.endDate).valueOf() > moment().valueOf() &&
+        moment(item.startDate).valueOf() <= moment().valueOf()
     ).length;
+
     return (
       <PageWrapper>
         <Elements>
@@ -338,8 +339,9 @@ class Content extends Component {
 
             {account.currentBalance - potentialCost < 0 && (
               <div>
-                {/* @todo show the popup for add funds */}
-                <DisabledPopOver>Add funds</DisabledPopOver>
+                <BlueLink onClick={() => handlePayNowClick(true)}>
+                  Add funds
+                </BlueLink>
               </div>
             )}
 

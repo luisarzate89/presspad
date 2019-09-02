@@ -37,18 +37,7 @@ class OrganizationDashboard extends Component {
   };
 
   componentDidMount() {
-    axios.get(API_ORGS_DASHBOARD_URL).then(res => {
-      const [details, notifications, coupons] = res.data;
-
-      const { account } = details[0];
-      this.setState({
-        details: details[0] || {},
-        notifications,
-        account,
-        coupons,
-        loaded: true
-      });
-    });
+    this.fetchOrgData();
 
     document.addEventListener("keypress", e => {
       const { isNumberInputActive } = this.state;
@@ -86,6 +75,28 @@ class OrganizationDashboard extends Component {
     document.removeEventListener("keypress", () => {});
   }
 
+  fetchOrgData = () => {
+    axios
+      .get(API_ORGS_DASHBOARD_URL)
+      .then(res => {
+        const [details, notifications, coupons] = res.data;
+
+        const { account } = details[0];
+        this.setState({
+          details: details[0] || {},
+          notifications,
+          account,
+          coupons,
+          loaded: true
+        });
+      })
+      .catch(err => {
+        const error =
+          err.response && err.response.data && err.response.data.error;
+        message.error(error || "Something went wrong");
+      });
+  };
+
   handleSubmitCreateCoupon = () => {
     const {
       internName,
@@ -120,6 +131,8 @@ class OrganizationDashboard extends Component {
                 code,
                 apiLoading: false
               });
+              // update organisation data
+              this.fetchOrgData();
             })
             .catch(() => {
               this.setState({ apiLoading: false });
@@ -130,21 +143,28 @@ class OrganizationDashboard extends Component {
   };
 
   handleOpenModal = async () => {
-    this.setState({ addCouponLoading: true });
+    try {
+      this.setState({ addCouponLoading: true });
 
-    const { data: interns } = await axios.get(API_INTERNS_URL);
+      const { data: interns } = await axios.get(API_INTERNS_URL);
 
-    this.setState({
-      interns,
-      addCouponLoading: false,
-      isCouponModalOpen: true,
-      code: null
-    });
+      this.setState({
+        interns,
+        addCouponLoading: false,
+        isCouponModalOpen: true,
+        code: null
+      });
+    } catch (err) {
+      const error =
+        err.response && err.response.data && err.response.data.error;
+      message.error(error || "Something went wrong");
+    }
   };
 
   handleCloseModals = () => {
     this.setState({ isCouponModalOpen: false });
   };
+
   handleFilterInInterns = (input, option) =>
     option.props.label.includes(input.toLowerCase());
 
