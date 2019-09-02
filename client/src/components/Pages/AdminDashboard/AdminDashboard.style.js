@@ -81,7 +81,7 @@ export const MainSection = styled.div`
   }
 
   /* styling of organisation field */
-  .orgCol {
+  .mainCol {
     font-weight: 900 !important;
   }
 

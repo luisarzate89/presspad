@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, shadows } from "../../../theme";
+import { colors, shadows, borders } from "../../../theme";
 
 export const InfoMessage = styled.p`
   color: #a5a3a3;
@@ -44,18 +44,22 @@ export const InfoValue = styled.span`
   opacity: ${({ light }) => (light ? 0.7 : "")};
 `;
 
-export const ErrorMsg = styled.p`
-  color: ${colors.red};
-  margin-top: 0.1rem;
-  margin-left: 0.5rem;
-`;
-
 export const CardWrapper = styled.div`
-  margin: 1rem 2rem;
-  padding: 0.5rem;
-  border-radius: 0.2rem;
-  box-shadow: ${shadows.card};
-  background-color: ${colors.white};
+  .StripeElement {
+    margin: 1.5rem 2rem;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    box-shadow: ${shadows.card};
+    background-color: ${colors.white};
+    border: ${borders.stripeBorder};
+  }
+  .StripeElement--focus {
+    box-shadow: ${shadows.stripeBorder};
+  }
+  .StripeElement--invalid {
+    border: ${borders.error};
+    box-shadow: none;
+  }
 `;
 
 export const PaymentModalTitle = styled.h2`

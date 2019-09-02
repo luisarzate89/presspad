@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Row, Col, Input, Skeleton } from "antd";
+import { Row, Col, Input, Skeleton, Alert } from "antd";
 
-import { InputLabel, ErrorMsg } from "./PaymentsPlan.style";
+import { InputLabel } from "./PaymentsPlan.style";
 
 const PaymentInfoRow = ({ data: { key, value } }) => {
   return (
@@ -43,7 +43,7 @@ const CouponCode = props => {
         onChange={handleCouponChange}
         addonBefore={<InputLabel htmlFor="couponCode">Coupon code:</InputLabel>}
       />
-      {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
+      {error ? <Alert type="error" message={error} /> : ""}
       {isLoading ? <Skeleton paragraph={{ rows: 0 }} /> : ""}
       {!error && isLoading === false && couponCode && (
         <>

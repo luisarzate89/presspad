@@ -45,6 +45,9 @@ const colorCodes = {
   fontBlack: "#313234",
   fontLightBlack: "#393939",
 
+  //borders
+  borderGray: "#d9d9d9",
+
   // general
   white: "#FFFFFF",
   grayWhite: "fbfbfb",
@@ -70,13 +73,16 @@ export const colors = {
 export const shadows = {
   main: "0px 0px 24px rgba(0, 0, 0, 0.04)",
   card: "0px 0px 24px rgba(0, 0, 0, 0.04)",
-  pic: "0px 2px 24px rgba(0, 0, 0, 0.215882)"
+  pic: "0px 2px 24px rgba(0, 0, 0, 0.215882)",
+  stripeBorder: "0px 0px 0px 2px rgba(24, 144, 255, 0.2)"
 };
 
 // borders
 export const borders = {
   inputBox: `1px solid ${colors.graySecondary}`,
   divider: `1px solid ${colors.lightGray}`,
+  stripeBorder: `1px solid ${colors.borderGray}`,
+  error: `1px solid ${colors.red}`,
   lightDivider: "1px solid rgba(0, 0, 0, 0.1)"
 };
 

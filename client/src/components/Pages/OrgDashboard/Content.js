@@ -9,14 +9,18 @@ import {
   InputNumber,
   DatePicker,
   Empty,
-  Icon
+  Icon,
+  Skeleton
 } from "antd";
 import moment from "moment";
+import { Elements } from "react-stripe-elements";
+
 import Button from "./../../Common/Button";
 import { calculatePrice } from "./../../../helpers";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
+import AddFundsModal from "./AddFundsModal";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 import randomProfile from "../../../assets/listing-placeholder.jpg";
 import {
@@ -71,7 +75,10 @@ class Content extends Component {
       handleFocusNumberInput,
       handleDiscountChange,
       handleCloseModals,
-      handleSubmitCreateCoupon
+      handleSubmitCreateCoupon,
+      handlePayNowClick,
+      handleAccountUpdate,
+      stripe
     } = this.props;
 
     const {
@@ -83,7 +90,9 @@ class Content extends Component {
       startValue,
       endValue,
       endOpen,
-      errors
+      errors,
+      showAddFunds,
+      discountPrice
     } = state;
 
     if (startValue && endValue) {
@@ -106,6 +115,15 @@ class Content extends Component {
     ).length;
     return (
       <PageWrapper>
+        <Elements>
+          <AddFundsModal
+            handleAccountUpdate={handleAccountUpdate}
+            handlePayNowClick={handlePayNowClick}
+            showAddFunds={showAddFunds}
+            account={account}
+            stripe={stripe}
+          />
+        </Elements>
         <ContentWrapper>
           <HeaderWrapper>
             <Row gutter={20} type="flex" justify="start">
@@ -219,7 +237,9 @@ class Content extends Component {
                           {(account && account.currentBalance) || 0}
                         </TH>
                         <TH position="right">
-                          <DisabledPopOver>Add funds</DisabledPopOver>
+                          <BlueLink onClick={() => handlePayNowClick(true)}>
+                            Add funds
+                          </BlueLink>
                         </TH>
                       </InfoTableRow>
                       <InfoTableRow>
@@ -227,9 +247,21 @@ class Content extends Component {
                         <TD position="center">{liveCoupons || 0}</TD>
                         <TD position="right">
                           {account.currentBalance > 0 ? (
-                            <BlueLink onClick={handleOpenModal}>
-                              Add codes
-                            </BlueLink>
+                            <>
+                              <BlueLink>
+                                <Skeleton
+                                  loading={state.addCouponLoading}
+                                  title={false}
+                                  active
+                                  paragraph={{ rows: 1, width: "95%" }}
+                                />
+                              </BlueLink>
+                              {!state.addCouponLoading && (
+                                <BlueLink onClick={handleOpenModal}>
+                                  Add codes
+                                </BlueLink>
+                              )}
+                            </>
                           ) : (
                             <DisabledPopOver
                               title="No Enough Fund"
@@ -487,6 +519,11 @@ class Content extends Component {
                     </ErrorWrapper>
                   </Col>
                 </Row>
+
+                <div>
+                  <ModalDescription bold>Coupon cost: </ModalDescription>
+                  <ModalDescription bold>£{discountPrice} </ModalDescription>
+                </div>
 
                 <Button
                   label="Create Coupon"

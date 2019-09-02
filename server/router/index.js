@@ -28,6 +28,10 @@ const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const withdrawRequest = require("../controllers/payments/withdrawRequest");
+const { orgPayment } = require("../controllers/payments/index");
+
+// controller for admin to view all withdraw requests in presspad
+const viewWithdrawRequests = require("../controllers/withdrawRequests");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
@@ -66,6 +70,8 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  ORG_PAYMENT_URL,
+  FIND_WITHDRAW_REQUESTS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -149,6 +155,9 @@ router.post(DONATION_URL, authentication, hostDonation);
 // host request to withdraw money
 router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
 
+// organisation add funds
+router.post(ORG_PAYMENT_URL, authentication, orgPayment);
+
 
 // Reviews
 router.route(REVIEW_URL)
@@ -167,6 +176,9 @@ router.route(SIGNOUT_URL)
 
 router.route(BOOKING_REVIEW_INFO_URL)
   .get(authentication, getBookingsWithUsers);
+
+router.route(FIND_WITHDRAW_REQUESTS_URL)
+  .get(authentication, viewWithdrawRequests);
 
 // payments
 router.route(INTERN_PAYMENT_URL)

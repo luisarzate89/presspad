@@ -1,16 +1,11 @@
 import React from "react";
 import moment from "moment";
 
-import { Row, Skeleton } from "antd";
+import { Row, Skeleton, Alert } from "antd";
 
 import { calculatePrice } from "./helpers";
 
-import {
-  BookingInfoWrapper,
-  InfoText,
-  InfoValue,
-  ErrorMsg
-} from "./PaymentsPlan.style";
+import { BookingInfoWrapper, InfoText, InfoValue } from "./PaymentsPlan.style";
 
 import {
   SectionWrapperContent,
@@ -101,7 +96,7 @@ const BookingInfo = props => {
           </>
         )}
       {status !== "confirmed" ? (
-        <ErrorMsg>Your booking status is {status}</ErrorMsg>
+        <Alert type="warning" message={`Your booking status is ${status}`} />
       ) : null}
     </SectionWrapperContent>
   );
