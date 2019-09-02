@@ -1,8 +1,8 @@
-const boom = require("boom");
 const mailCkecklist = require("./mailChecklist");
 const mailHelper = require("../../mailHelper");
 const createMessage = require("./createMessage");
 const { categorizeAnsweredQuestions, htmlGenerator } = require("./htmlGenerator");
+const { errorLogger, errorLogDir } = require("../../errorLogger");
 
 const mailTask = async () => {
   try {
@@ -18,10 +18,10 @@ const mailTask = async () => {
       });
       const message = createMessage({ ...booking, html });
       // sends an email to every booking's host and intern.
-      mailHelper(message);
+      await mailHelper(message);
     });
   } catch (error) {
-    throw boom.badData(error);
+    errorLogger(error, errorLogDir, __dirname);
   }
 };
 

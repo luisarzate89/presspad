@@ -1,5 +1,5 @@
 const moment = require("moment");
-const boom = require("boom");
+const { errorLogger, errorLogDir } = require("../errorLogger");
 
 /**
  * returns the date of one week/two weeks/ or three weeks from our current date.
@@ -10,10 +10,12 @@ const boom = require("boom");
 const getTargetDate = (numberOfWeeks) => {
   // input validation
   if (typeof numberOfWeeks !== "number") {
-    throw boom.badData("dateHelper/index.js: number of weeks must be a number");
+    const error = { error: "dateHelper error: number of weeks must be a number" };
+    return errorLogger(error, errorLogDir, __dirname);
   }
   if (numberOfWeeks > 3 || numberOfWeeks < 1) {
-    throw boom.badData("dateHelper/index.js: number of weeks must be an integer between 1 and 3");
+    const error = { error: "dateHelper error: number of weeks must be an integer between 1 and 3" };
+    return errorLogger(error, errorLogDir, __dirname);
   }
 
   // trims the curent date to only show the year, month and day.

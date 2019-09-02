@@ -1,5 +1,5 @@
-const boom = require("boom");
 const { findAllQuestions } = require("../../../database/queries/checkList");
+const { errorLogger, errorLogDir } = require("../../errorLogger");
 /**
  * gets all the answer and compares what is missing from the questions
  * to determine the styling in the message.
@@ -29,7 +29,7 @@ const categorizeAnsweredQuestions = async (answerList) => {
       }
     });
   } catch (error) {
-    throw boom.badData(error);
+    return errorLogger(error, errorLogDir, __dirname);
   }
   return categorizedQuestions;
 };

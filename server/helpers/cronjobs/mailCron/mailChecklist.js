@@ -1,6 +1,6 @@
-const boom = require("boom");
 const { findAnswersByBookingDate } = require("../../../database/queries/checkList/index");
 const getTargetDate = require("../../dateHelper");
+const { errorLogger, errorLogDir } = require("../../errorLogger");
 
 const BookingsList = async () => {
   try {
@@ -85,7 +85,7 @@ const BookingsList = async () => {
     });
     return mailingObject;
   } catch (error) {
-    throw boom.badData(error);
+    return errorLogger(error, errorLogDir, __dirname);
   }
 };
 
