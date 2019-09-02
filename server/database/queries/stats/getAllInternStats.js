@@ -14,15 +14,96 @@ module.exports.getAllInternStats = () => User.aggregate([
       as: "organisation",
     },
   },
-  // look up bookings for that user
   {
     $lookup: {
       from: "bookings",
-      localField: "_id",
-      foreignField: "user",
+      let: { intern: "$_id" },
+      pipeline: [
+        {
+          $match:
+          {
+            $expr:
+            {
+              $and: [
+                { $eq: ["$$intern", "$intern"] },
+              ],
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "installments",
+            let: { bookingId: "$_id" },
+            pipeline: [
+              {
+                $match:
+                {
+                  $expr:
+                  {
+                    $and: [
+                      { $eq: ["$booking", "$$bookingId"] },
+                      { $gte: ["$dueDate", new Date()] },
+                    ],
+                  },
+                },
+              },
+              {
+                $sort:
+                {
+                  dueDate: 1,
+                },
+              },
+            ],
+            as: "nextInstallment",
+          },
+        },
+      ],
       as: "bookings",
     },
   },
+  {
+    $unwind: { path: "$bookings", preserveNullAndEmptyArrays: true },
+  },
+
+  {
+    $unwind: { path: "$bookings.nextInstallment", preserveNullAndEmptyArrays: true },
+  },
+  {
+    $addFields: {
+      nextInstallment: "$bookings.nextInstallment",
+    },
+  }, {
+    $project: {
+      "bookings.nextInstallment": 0,
+    },
+  },
+  {
+    $sort:
+     { "nextInstallment.dueDate": 1 },
+  },
+
+  {
+    $group: {
+      _id: {
+        _id: "$_id",
+        name: "$name",
+        organisationName: { $arrayElemAt: ["$organisation.name", 0] },
+      },
+      bookings: { $push: "$bookings" },
+      nextInstallment: { $first: "$nextInstallment" },
+    },
+  },
+
+  {
+    $project: {
+      _id: "$_id._id",
+      name: "$_id.name",
+      organisationName: "$_id.organisationName",
+      bookings: "$bookings",
+      nextInstallment: "$nextInstallment",
+    },
+  },
+
   // look up spent credits
   {
     $lookup: {
@@ -33,12 +114,25 @@ module.exports.getAllInternStats = () => User.aggregate([
     },
   },
   {
+    $addFields: {
+      account: { $arrayElemAt: ["$account", 0] },
+    },
+  },
+  {
     $project: {
       _id: 1,
       name: 1,
-      "organisation.name": 1,
+      organisationName: 1,
+      nextInstallmentDueDate: "$nextInstallment.dueDate",
+      nextInstallmentPaid: {
+        $cond: [
+          { $ifNull: ["$nextInstallment.transaction", false] },
+          true,
+          false,
+        ],
+      },
       // get all the credits they've spent to date
-      totalPayments: { $arrayElemAt: ["$account.income", 0] },
+      totalPayments: "$account.income",
       // get any bookings that cover today's date
       liveBookings: {
         $size: {

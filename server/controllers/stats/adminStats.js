@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
-        const cleanStats = stats.map((intern) => {
+        const cleanStats = stats.map((intern, index) => {
           let status = "Looking for host";
 
           if (intern.liveBookings > 0) {
@@ -43,17 +43,21 @@ module.exports = async (req, res, next) => {
           const internObj = {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
-            organisation: intern.organisation[0].name,
+            organisation: intern.organisationName,
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
+            nextInstallmentDueDate: index > 1 && new Date().setDate(5 + index * 3),
+            nextInstallmentPaid: index > 1,
           };
           return internObj;
         });
 
         return res.json(cleanStats);
       })
-      .catch(err => next(boom.badImplementation(err)));
+      .catch((err) => {
+        next(boom.badImplementation(err));
+      });
   } if (userType === "hosts") {
     return getAllHostStats()
       .then((stats) => {
