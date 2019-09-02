@@ -16,7 +16,7 @@ module.exports = async () => {
       amount: 500,
       bankName: "bankName",
       bankSortCode: "bankSortCode",
-      bankNumber: "bankNumber",
+      accountNumber: "accountNumber",
     }, {
       user: host1._id,
       account: host1.account,
@@ -24,7 +24,7 @@ module.exports = async () => {
       amount: 200,
       bankName: "bankName2",
       bankSortCode: "bankSortCode2",
-      bankNumber: "bankNumber2",
+      accountNumber: "accountNumber2",
     }, {
       user: host2._id,
       account: host2.account,
@@ -32,7 +32,7 @@ module.exports = async () => {
       amount: 1000000,
       bankName: "bankName3",
       bankSortCode: "bankSortCode3",
-      bankNumber: "bankNumber3",
+      accountNumber: "accountNumber3",
     }, {
       user: host2._id,
       account: host2.account,
@@ -40,7 +40,7 @@ module.exports = async () => {
       amount: 100,
       bankName: "bankName4",
       bankSortCode: "bankSortCode4",
-      bankNumber: "bankNumber4",
+      accountNumber: "accountNumber4",
       // before one month at least
       createdAt: "2019-07-16",
     },

@@ -48,7 +48,7 @@ const Content = ({
   viewNumber,
   bankName,
   bankSortCode,
-  bankNumber,
+  accountNumber,
   bookings,
   updates,
   withdrawModalOpen,
@@ -118,7 +118,7 @@ const Content = ({
           <BookingSection
             jobTitle={nextGuestProfile.jobTitle}
             bio={nextGuestProfile.bio}
-            name={nextGuest.hostName}
+            name={nextGuest.name}
             userId={nextGuest._id}
             organisationName={
               (nextGuestProfile.organisation &&
@@ -375,21 +375,21 @@ const Content = ({
             align="middle"
             style={{
               width: "100%",
-              marginBottom: errors.bankNumber ? "20px" : 0
+              marginBottom: errors.accountNumber ? "20px" : 0
             }}
           >
             <Col span={10}>
               <Label>Account number</Label>
             </Col>
             <Col span={12}>
-              <ErrorWrapper error={errors.bankNumber}>
+              <ErrorWrapper error={errors.accountNumber}>
                 <Input
                   size="large"
-                  name="bankNumber"
-                  value={bankNumber}
+                  name="accountNumber"
+                  value={accountNumber}
                   onChange={handleInpuChange}
                 />
-                <Error>{errors.bankNumber}</Error>
+                <Error>{errors.accountNumber}</Error>
               </ErrorWrapper>
             </Col>
           </Row>

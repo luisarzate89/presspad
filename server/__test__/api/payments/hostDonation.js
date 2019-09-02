@@ -23,7 +23,6 @@ describe("Testing for host donate to presspad account route", () => {
     await mongoose.disconnect();
     done();
   });
-
   test("test with correct details", (done) => {
     // host credentials
     const loginData = {

@@ -4,6 +4,7 @@ const Listing = require("./../../models/Listing");
 
 const createDatesArray = require("../../../helpers/createDatesArray");
 const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
+const getBookingById = require("./getBookingById");
 
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {
@@ -129,3 +130,4 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
 };
 
 module.exports.getInternBookingsWithReviews = getInternBookingsWithReviews;
+module.exports.getBookingById = getBookingById;

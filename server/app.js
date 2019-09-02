@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const router = require("./router");
+const cronJobs = require("./helpers/cronjobs");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+cronJobs();
 
 app.use("/api", router);
 
@@ -41,6 +43,11 @@ app.use((req, res, next) => {
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  // print out the eror to the console in test mood
+  if (process.env.NODE_ENV === "test") {
+    console.error(err);
+  }
+
   // send the error object
   if (err.isBoom) {
     // for boom errors
