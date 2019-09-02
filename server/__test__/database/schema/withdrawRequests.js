@@ -34,7 +34,7 @@ describe("Test WithdrawRequest schema", () => {
       amount: 500,
       bankName: "bankName",
       bankSortCode: "bankSortCode",
-      bankNumber: "bankNumber",
+      accountNumber: "accountNumber",
     };
 
     const storedWithdrawRequest = await WithdrawRequest.create(newWithdrawRequest);

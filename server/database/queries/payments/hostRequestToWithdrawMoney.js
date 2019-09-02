@@ -5,7 +5,7 @@ const hostRequestToWithdrawMoney = async ({
   amount,
   bankName,
   bankSortCode,
-  bankNumber,
+  accountNumber,
   user,
   account: accountId,
 }) => {
@@ -17,7 +17,7 @@ const hostRequestToWithdrawMoney = async ({
     amount,
     bankName,
     bankSortCode,
-    bankNumber,
+    accountNumber,
     user,
     account: accountId,
   });
