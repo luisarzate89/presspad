@@ -31,7 +31,7 @@ const withdrawRequestSchema = new Schema({
     trim: true,
     required: true,
   },
-  bankNumber: {
+  accountNumber: {
     type: String,
     trim: true,
     required: true,

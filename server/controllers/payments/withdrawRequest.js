@@ -5,7 +5,7 @@ const { hostRequestToWithdrawMoney } = require("../../database/queries/payments"
 
 const withdrawRequest = async (req, res, next) => {
   const {
-    amount, bankName, bankSortCode, bankNumber,
+    amount, bankName, bankSortCode, accountNumber,
   } = req.body;
   const { role, account, _id } = req.user;
 
@@ -19,7 +19,7 @@ const withdrawRequest = async (req, res, next) => {
       amount,
       bankName,
       bankSortCode,
-      bankNumber,
+      accountNumber,
       user: _id,
       account,
     });

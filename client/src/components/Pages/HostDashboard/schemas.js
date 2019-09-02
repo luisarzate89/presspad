@@ -8,7 +8,7 @@ export const withdrawSchema = availableBalance =>
     bankSortCode: Yup.string()
       .typeError("must be a string")
       .required("Required"),
-    bankNumber: Yup.string()
+    accountNumber: Yup.string()
       .typeError("must be a string")
       .required("Required"),
     withdrawValue: Yup.number()

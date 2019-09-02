@@ -232,7 +232,8 @@ export default class SignUpPage extends Component {
           }
         })
         .catch(err => {
-          this.setState({ msg: "error" });
+          if (err.response)
+            this.setState({ msg: err.response.data.error });
         });
     }
   };

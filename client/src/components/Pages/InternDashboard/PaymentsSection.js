@@ -37,7 +37,7 @@ export default function PaymentsSection(props) {
   return (
     <section>
       <SectionWrapperContent style={{ minHeight: 200 }}>
-        <SectionTitle>Your payments</SectionTitle>
+        <SectionTitle>Your Payments</SectionTitle>
         <Table
           dataSource={props.data}
           columns={columns}
