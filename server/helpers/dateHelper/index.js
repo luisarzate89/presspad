@@ -21,10 +21,10 @@ const getTargetDate = (numberOfWeeks) => {
   // trims the curent date to only show the year, month and day.
   // allows us to perform the check from midnight to avoid including one more or one less day.
   const currentDate = moment().startOf("day").format("YYYY-MM-DD").toString(); // eg: 2019-08-22
-
   // returns the number of milliseconds in order to add the needed number of weeks for the check.
   const dateInMilliseconds = new Date(currentDate).getTime();
   const targetDate = new Date(dateInMilliseconds + (numberOfWeeks * 7 * 24 * 60 * 60 * 1000));
+
   return targetDate;
 };
 
