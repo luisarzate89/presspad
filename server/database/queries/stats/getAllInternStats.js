@@ -131,6 +131,7 @@ module.exports.getAllInternStats = () => User.aggregate([
           false,
         ],
       },
+      nextInstallmentAmount: "$nextInstallment.amount",
       // get all the credits they've spent to date
       totalPayments: "$account.income",
       // get any bookings that cover today's date

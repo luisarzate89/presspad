@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
 
-        const cleanStats = stats.map((intern, index) => {
+        const cleanStats = stats.map((intern) => {
           let status = "Looking for host";
 
           if (intern.liveBookings > 0) {
@@ -47,8 +47,9 @@ module.exports = async (req, res, next) => {
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
-            nextInstallmentDueDate: index > 1 && new Date().setDate(5 + index * 3),
-            nextInstallmentPaid: index > 1,
+            nextInstallmentDueDate: intern.nextInstallmentDueDate,
+            nextInstallmentPaid: intern.nextInstallmentPaid,
+            nextInstallmentAmount: intern.nextInstallmentAmount,
           };
           return internObj;
         });
