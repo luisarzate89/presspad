@@ -2,30 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import { Table, Tag } from "antd";
+import Highlighter from "react-highlight-words";
 
-import { tagColors } from "./../../../theme";
+import { tagColors, colors } from "./../../../theme";
 
 // import helpers
 import getUserId from "./../../../helpers/getUserId";
-
-// const data = [
-//   {
-//     key: "1",
-//     name: "Andrew Langley",
-//     organisation: "Financial Times",
-//     totalCredits: 700,
-//     creditsSpent: 300,
-//     status: "Looking for host"
-//   },
-//   {
-//     key: "2",
-//     name: "Claire Bonnay",
-//     organisation: "The Guardian",
-//     totalCredits: 600,
-//     creditsSpent: 450,
-//     status: "At host"
-//   }
-// ];
 
 export default class InternTable extends Component {
   state = {
@@ -33,7 +15,7 @@ export default class InternTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps, data, loading } = this.props;
+    const { getColumnSearchProps, data, loading, highlightVal } = this.props;
 
     const columns = [
       {
@@ -44,7 +26,14 @@ export default class InternTable extends Component {
         sorter: (a, b) => a.name.localeCompare(b.name),
         className: "nameCol",
         render: text => (
-          <Link to={`/interns/${getUserId(data, text)}`}>{text}</Link>
+          <Link to={`/interns/${getUserId(data, text)}`}>
+            <Highlighter
+              highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+              searchWords={[highlightVal]}
+              autoEscape={true}
+              textToHighlight={text}
+            />
+          </Link>
         )
       },
       {
@@ -53,7 +42,15 @@ export default class InternTable extends Component {
         key: "organisation",
         ...getColumnSearchProps("organisation"),
         sorter: (a, b) => a.organisation.localeCompare(b.organisation),
-        className: "orgCol"
+        className: "orgCol",
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text}
+          />
+        )
       },
       {
         title: "Total Payments",
@@ -74,7 +71,15 @@ export default class InternTable extends Component {
           }
         ],
         onFilter: (value, record) => record.totalPayments < value,
-        sorter: (a, b) => a.totalPayments - b.totalPayments
+        sorter: (a, b) => a.totalPayments - b.totalPayments,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Status",
@@ -82,7 +87,12 @@ export default class InternTable extends Component {
         key: "status",
         render: status => (
           <Tag color={tagColors[status]} key={status}>
-            {status.toUpperCase()}
+            <Highlighter
+              highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+              searchWords={[highlightVal]}
+              autoEscape={true}
+              textToHighlight={status.toUpperCase()}
+            />
           </Tag>
         ),
         filters: [

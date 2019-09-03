@@ -9,6 +9,7 @@ import InternTable from "./InternTable";
 import HostTable from "./HostTable";
 import HostProfile from "./../HostProfile/index";
 import PaymentsTable from "./PaymentsTable";
+import SearchBar from "../../Common/SearchBar";
 
 // STYLING
 import {
@@ -25,12 +26,15 @@ import {
 
 // API ROUTES
 import { API_ADMIN_STATS_URL } from "./../../../constants/apiRoutes";
+import { filterArray } from "../../../helpers";
 
 export default class AdminDashboard extends Component {
   state = {
     activeLink: "clients",
     loading: false,
     data: [],
+    filteredData: [],
+    highlightVal: "",
     hostProfile: false
   };
 
@@ -39,12 +43,13 @@ export default class AdminDashboard extends Component {
       activeLink: section,
       loading: true,
       data: [],
+      filteredData: [],
       hostProfile: null
     });
     axios
       .post(API_ADMIN_STATS_URL, { userType: section })
       .then(({ data }) => {
-        this.setState({ data, loading: false });
+        this.setState({ data, filteredData: data, loading: false });
       })
       .catch(err => {
         this.setState({ loading: false });
@@ -130,8 +135,19 @@ export default class AdminDashboard extends Component {
     this.selectSection(activeLink);
   };
 
+  handleSearchBar = ({ target: { value } }) => {
+    const filteredData = filterArray(this.state.data, value);
+    this.setState({ filteredData, highlightVal: value });
+  };
+
   render() {
-    const { activeLink, loading, data, hostProfile } = this.state;
+    const {
+      activeLink,
+      loading,
+      filteredData,
+      highlightVal,
+      hostProfile
+    } = this.state;
 
     return (
       <Wrapper>
@@ -166,18 +182,25 @@ export default class AdminDashboard extends Component {
         </TopSection>
         <MainSection>
           <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
+          <SearchBar
+            data={filteredData}
+            handleSearchBar={this.handleSearchBar}
+            highlightVal={highlightVal}
+          />
           {activeLink === "clients" && (
             <ClientTable
               getColumnSearchProps={this.getColumnSearchProps}
               loading={loading}
-              data={data}
+              data={filteredData}
+              highlightVal={highlightVal}
             />
           )}
           {activeLink === "interns" && (
             <InternTable
               getColumnSearchProps={this.getColumnSearchProps}
               loading={loading}
-              data={data}
+              data={filteredData}
+              highlightVal={highlightVal}
             />
           )}
           {activeLink === "hosts" && (
@@ -185,7 +208,8 @@ export default class AdminDashboard extends Component {
               <HostTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
-                data={data}
+                data={filteredData}
+                highlightVal={highlightVal}
               />
             </HostWrapper>
           )}
@@ -194,8 +218,9 @@ export default class AdminDashboard extends Component {
               <PaymentsTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
-                data={data}
+                data={filteredData}
                 showProfile={this.showProfile}
+                highlightVal={highlightVal}
               />
             </HostWrapper>
           )}

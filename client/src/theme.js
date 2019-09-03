@@ -39,6 +39,7 @@ const colorCodes = {
   orange: "#E8841F",
   green: "#5BAF93",
   blue: "#0A7AE7",
+  yellow: "#ffc069",
 
   // fontcolors
   fontPrimary: "#07294A",
