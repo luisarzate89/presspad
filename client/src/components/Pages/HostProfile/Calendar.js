@@ -167,7 +167,7 @@ class CalendarComponent extends Component {
       isLoading,
       isBooking
     } = this.state;
-    const { adminView } = this.props;
+    const { adminView, role } = this.props;
 
     if (isLoading) return <Spin tip="Loading Profile" />;
 
@@ -189,38 +189,40 @@ class CalendarComponent extends Component {
             }
           />
         </CalendarWrapper>
-        <PricingDiv>
-          <PriceHeadline>Full price for period</PriceHeadline>
-          <PriceLabel>£{price}</PriceLabel>
+        {role !== "host" && (
+          <PricingDiv>
+            <PriceHeadline>Full price for period</PriceHeadline>
+            <PriceLabel>£{price}</PriceLabel>
 
-          {message && (
-            <ErrorDiv>
-              <Alert message={message} type={messageType} />
-            </ErrorDiv>
-          )}
-          <RequestBtn
-            onClick={this.handleClick}
-            disabled={
-              noNights === 0 ||
-              noNights === null ||
-              bookingExists ||
-              adminView ||
-              isBooking
-            }
-          >
-            <Spin
-              spinning={isBooking}
-              indicator={
-                <Icon
-                  type="loading"
-                  style={{ fontSize: 24, marginRight: "8px", color: "white" }}
-                  spin
-                />
+            {message && (
+              <ErrorDiv>
+                <Alert message={message} type={messageType} />
+              </ErrorDiv>
+            )}
+            <RequestBtn
+              onClick={this.handleClick}
+              disabled={
+                noNights === 0 ||
+                noNights === null ||
+                bookingExists ||
+                adminView ||
+                isBooking
               }
-            />
-            Request Stay
-          </RequestBtn>
-        </PricingDiv>
+            >
+              <Spin
+                spinning={isBooking}
+                indicator={
+                  <Icon
+                    type="loading"
+                    style={{ fontSize: 24, marginRight: "8px", color: "white" }}
+                    spin
+                  />
+                }
+              />
+              Request Stay
+            </RequestBtn>
+          </PricingDiv>
+        )}
       </div>
     );
   }

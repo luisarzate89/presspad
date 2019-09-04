@@ -11,8 +11,7 @@ const MyProfile = props => {
   const { role } = props;
 
   if (role === "host" || role === "superhost") {
-    return <HostCreateProfile {...props} />;
-    // return <HostProfile {...props} />;
+    return <HostProfile {...props} />;
   }
 
   if (role === "intern") {

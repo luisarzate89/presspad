@@ -6,6 +6,9 @@ import {
   API_VERIFY_PROFILE_URL,
   API_GET_USER_BOOKINGS_URL
 } from "../../../constants/apiRoutes";
+
+import { HOST_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+
 import Calendar from "./Calendar";
 import axios from "axios";
 
@@ -191,7 +194,7 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <EditButton to={""}>Edit Profile</EditButton>
+          <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
           <ProfilePic
             src={profileImage.url || profilePlaceholder}
             adminView={role === "admin"}
@@ -284,6 +287,7 @@ class HostProfile extends Component {
                 <Calendar
                   currentUserId={currentUserId}
                   hostId={hostId}
+                  role={role}
                   listingId={_id}
                   availableDates={availableDates}
                   internBookings={internBookings}
