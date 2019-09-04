@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 
 import { DASHBOARD_URL } from "../../../constants/navRoutes";
 
-import HostCreateProfile from "../HostCreateProfile";
 import HostProfile from "../HostProfile";
 import InternProfile from "./../InternProfile";
 
