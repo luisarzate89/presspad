@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Modal, Button, message, Skeleton } from "antd";
+import { Modal, Button, message, Skeleton, Alert } from "antd";
 import { injectStripe, CardElement } from "react-stripe-elements";
 import { withRouter } from "react-router-dom";
 
 import {
   CardWrapper,
   PaymentModalTitle,
-  ErrorMsg,
   InfoMessage
 } from "./PaymentsPlan.style";
 
@@ -101,7 +100,7 @@ class PayNowModal extends Component {
     const { paymentInfo, stripe } = this.props;
 
     if (!paymentInfo) {
-      return <ErrorMsg>Something went wrong</ErrorMsg>;
+      return <Alert type="error" message="Something went wrong" />;
     }
     let amount;
     if (!Array.isArray(paymentInfo)) {
@@ -111,7 +110,7 @@ class PayNowModal extends Component {
     }
 
     if (!stripe) {
-      return <ErrorMsg>stripejs hasn't loaded yet</ErrorMsg>;
+      return <Alert type="error" message="stripejs hasn't loaded yet" />;
     }
 
     if (success) {
@@ -143,7 +142,7 @@ class PayNowModal extends Component {
             paragraph={{ rows: 1, width: "95%" }}
           />
         </CardWrapper>
-        {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
+        {error ? <Alert type="error" message={error} /> : ""}
         <Button
           type="primary"
           style={{ margin: "2.5rem auto 0", display: "block" }}
