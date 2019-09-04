@@ -115,11 +115,8 @@ class HostCreateProfile extends Component {
   componentDidMount() {
     axios
       .get(API_MY_PROFILE_URL)
-      // .then(({ data: { profile } }) => {
       .then(({ data: { profile, listing } }) => {
         if (profile) {
-          console.log(profile);
-          console.log(listing);
           this.setState({
             ...this.state,
             ...profile,
@@ -155,7 +152,7 @@ class HostCreateProfile extends Component {
           });
         }
       })
-      .catch();
+      .catch(err => message.error("Internal server error!"));
   }
 
   handleOtherInfo = offerOtherInfo => {
