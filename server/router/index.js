@@ -30,11 +30,10 @@ const signOut = require("../controllers/user/signOut");
 const { getCoupons } = require("../controllers/coupon");
 const getInternStatus = require("../controllers/profile/getInternStatus");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
-const { internPayment } = require("../controllers/payments");
+const { internPayment, withdrawRequest, confirmOrCancelWithdrawRequest } = require("../controllers/payments");
 const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
-const withdrawRequest = require("../controllers/payments/withdrawRequest");
 const { orgPayment } = require("../controllers/payments/index");
 
 // controller for admin to view all withdraw requests in presspad
@@ -77,6 +76,7 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  UPDATE_WITHDRAW_REQUEST_URL,
   ACCEPT_BOOKING_URL,
   REJECT_BOOKING_URL,
   ORG_PAYMENT_URL,
@@ -177,6 +177,9 @@ router.post(DONATION_URL, authentication, hostDonation);
 
 // host request to withdraw money
 router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
+
+// admin cancel or confirm request to withdraw money
+router.patch(UPDATE_WITHDRAW_REQUEST_URL, authentication, confirmOrCancelWithdrawRequest);
 
 // organisation add funds
 router.post(ORG_PAYMENT_URL, authentication, orgPayment);

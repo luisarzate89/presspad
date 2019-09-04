@@ -17,8 +17,9 @@ class PaymentsTable extends Component {
 
   handleConfirm = async (id, type) => {
     try {
-      await axios.get(
-        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace("id", id)};${type}`
+      await axios.patch(
+        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,
+        { type }
       );
       message.success(`The request have been ${type} successfully`);
 
