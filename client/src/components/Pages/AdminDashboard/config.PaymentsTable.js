@@ -1,13 +1,34 @@
 // config file for the antd table "PaymentsTable"
 import React from "react";
-import { Checkbox } from "antd";
+import { Icon, Button, Popconfirm } from "antd";
 
-const CheckBoxJsx = props => {
-  return props.paymentStatus === "transfered" ? (
-    <Checkbox disabled checked={true} />
-  ) : (
-    <Checkbox disabled checked={false} />
-  );
+import { colors } from "../../../theme";
+
+const CheckBoxJsx = ({ paymentStatus }) => {
+  switch (paymentStatus) {
+    case "transfered":
+      return (
+        <Icon type="check-circle" theme="twoTone" twoToneColor={colors.green} />
+      );
+    case "canceled":
+      return (
+        <Icon
+          type="close-circle"
+          theme="twoTone"
+          twoToneColor={colors.orange}
+        />
+      );
+    case "rejected":
+      return <Icon type="stop" theme="twoTone" twoToneColor={colors.red} />;
+    default:
+      return (
+        <Icon
+          type="info-circle"
+          theme="twoTone"
+          twoToneColor={colors.lightBlue}
+        />
+      );
+  }
 };
 
 /**
@@ -29,7 +50,7 @@ const createDataSource = array => {
   });
 };
 
-const columns = [
+const columns = handleClick => [
   {
     title: "Host",
     dataIndex: "host",
@@ -60,6 +81,29 @@ const columns = [
     title: "Sort Code",
     dataIndex: "sortCode",
     key: "sortCode"
+  },
+  {
+    dataIndex: "key",
+    render: (id, record) => (
+      <>
+        <Popconfirm
+          title={`Confirm transfer request to ${record.host}`}
+          onConfirm={() => handleClick(id, "transfered")}
+        >
+          <Button type="primary" ghost style={{ marginRight: "0.6rem" }}>
+            Transfered
+          </Button>
+        </Popconfirm>
+        <Popconfirm
+          title={`Cancel transfer request to ${record.host}`}
+          onConfirm={() => handleClick(id, "canceled")}
+        >
+          <Button type="danger" ghost>
+            Cancel
+          </Button>
+        </Popconfirm>
+      </>
+    )
   }
 ];
 
