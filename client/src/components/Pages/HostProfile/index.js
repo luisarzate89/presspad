@@ -54,7 +54,8 @@ import {
   ReviewsHeader,
   ReviewHeadline,
   ReviewText,
-  ReviewsSection
+  ReviewsSection,
+  EditButton
 } from "./Profile.style";
 
 import "antd/dist/antd.css";
@@ -75,7 +76,13 @@ class HostProfile extends Component {
 
   // functions
   getHostProfile = () => {
-    const { id: hostId } = this.props.match.params;
+    const { match } = this.props;
+    let hostId = match.params.id;
+    if (!hostId && match.path === "/my-profile") {
+      hostId = this.props.id;
+    }
+
+    // const { id: hostId } = this.props.match.params;
     axios
       .get(`/api/host/${hostId}`)
       .then(({ data }) => {
@@ -184,6 +191,7 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
+          <EditButton to={""}>Edit Profile</EditButton>
           <ProfilePic
             src={profileImage.url || profilePlaceholder}
             adminView={role === "admin"}
@@ -198,7 +206,6 @@ class HostProfile extends Component {
                 A {jobTitle} at {organisation.name}
               </Headline>
             )}
-
             <Address>{`${address.street}, ${address.city}`}</Address>
           </HeaderDiv>
 
@@ -206,6 +213,7 @@ class HostProfile extends Component {
             {/* this is the badge component */}
             {this.state.profileData.profile.badge && <Symbol src={starSign} />}
           </SymbolDiv>
+          {/* <button>Edit Profile</button> */}
         </Header>
 
         <ListingGallery

@@ -60,6 +60,7 @@ class Content extends Component {
         loading: offerImages3Loading,
         isLoading: isOfferImages3Loading
       },
+      interests,
       errors
     } = state;
 
@@ -159,6 +160,7 @@ class Content extends Component {
                     onChange={handleInputChange}
                     rows={7}
                     id={"interests"}
+                    value={interests}
                     placeholder="Add some of your interests"
                     style={{ marginBottom: "40px" }}
                   />

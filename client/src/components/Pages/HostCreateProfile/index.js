@@ -3,7 +3,10 @@ import { message, Modal, Spin, Alert } from "antd";
 import * as Yup from "yup";
 import axios from "axios";
 
-import { API_HOST_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
+import {
+  API_HOST_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 
 import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
@@ -108,6 +111,29 @@ class HostCreateProfile extends Component {
     },
     errors: {}
   };
+
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      // .then(({ data: { profile } }) => {
+      .then(({ data: { profile, listing } }) => {
+        if (profile) {
+          console.log(profile);
+          console.log(listing);
+          this.setState({
+            ...this.state,
+            ...profile,
+            organisationName: profile.organisation.name || "",
+            organisationWebsite: profile.organisation.website || "",
+            addressPostCode: listing.address.postcode || "",
+            addressCity: listing.address.city || "",
+            addressLine1: listing.address.street || "",
+            addressLine2: listing.address.borough || ""
+          });
+        }
+      })
+      .catch();
+  }
 
   handleOtherInfo = offerOtherInfo => {
     this.setState({ offerOtherInfo });

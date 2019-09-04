@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { DASHBOARD_URL } from "../../../constants/navRoutes";
 
 import HostCreateProfile from "../HostCreateProfile";
+import HostProfile from "../HostProfile";
 import InternProfile from "./../InternProfile";
 
 const MyProfile = props => {
@@ -11,6 +12,7 @@ const MyProfile = props => {
 
   if (role === "host" || role === "superhost") {
     return <HostCreateProfile {...props} />;
+    // return <HostProfile {...props} />;
   }
 
   if (role === "intern") {
