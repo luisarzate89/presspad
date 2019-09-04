@@ -41,10 +41,17 @@ const bookingSchema = new Schema({
     type: Number,
     default: 0,
   },
-  // user's ID who cancel the booking
+  // user's ID who canceled the booking
   canceledBy: {
     type: Schema.Types.ObjectId,
     ref: "users",
+  },
+  // when intern pay to booking, where should money go
+  moneyGoTo: {
+    type: String,
+    enum: ["presspad", "host"],
+    required: true,
+    default: "host",
   },
 }, {
   timestamps: true,

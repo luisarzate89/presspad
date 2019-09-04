@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
+import { ReactComponent as BackArrowIcon } from "../../../../assets/back-arrow.svg";
 import { Link } from "react-router-dom";
-import { colors } from "../../../theme";
+import { colors } from "../../../../theme";
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;

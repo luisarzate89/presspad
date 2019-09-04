@@ -17,8 +17,8 @@ const hostDashboard = async (req, res, next) => {
     } = dashboardData;
 
     if (bookings[0]) {
-      const [{ intern: { profile: { profileImage } } }] = bookings;
-      generateFileURL(profileImage);
+      const [{ intern: { profile: internProfile } }] = bookings;
+      if (internProfile && internProfile.profileImage) generateFileURL(internProfile.profileImage);
     }
 
     if (profile && profile.profileImage) generateFileURL(profile.profileImage);

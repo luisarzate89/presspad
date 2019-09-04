@@ -9,9 +9,16 @@ const getAllOrgs = require("./../controllers/user/getAllOrgs");
 const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
 const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
 const getHostProfile = require("./../controllers/profile/getHostProfile");
+const hostViewInternProfile = require("./../controllers/profile/hostViewInternProfile");
 const getInternProfile = require("./../controllers/profile/getInternProfile");
 const searchProfiles = require("./../controllers/profile/searchProfiles");
-const { viewBooking, getUserBookings, newBookingRequest } = require("./../controllers/booking");
+const {
+  viewBooking,
+  getUserBookings,
+  newBookingRequest,
+  acceptBooking,
+  rejectBooking,
+} = require("./../controllers/booking");
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
@@ -70,12 +77,30 @@ const {
   HOST_DASHBOARD_URL,
   DONATION_URL,
   WITHDRAW_REQUEST_URL,
+  ACCEPT_BOOKING_URL,
+  REJECT_BOOKING_URL,
   ORG_PAYMENT_URL,
   FIND_WITHDRAW_REQUESTS_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
 router.use(validation);
+
+
+// accept booking by id
+router.patch(ACCEPT_BOOKING_URL, authentication, acceptBooking);
+
+// accept booking by id
+router.patch(REJECT_BOOKING_URL, authentication, rejectBooking);
+
+
+// Host view intern profile
+router.get(INTERN_PROFILE_URL, authentication, hostViewInternProfile);
+
+
+// get HOST dashboard data
+router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
+
 
 // update host profile and create new offer
 router.post(
@@ -142,8 +167,6 @@ router.post(COUPONS_URL, authentication, createCoupon);
 // admin || org get all interns
 router.get(INTERNS_URL, authentication, getAllInterns);
 
-// get HOST dashboard data
-router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 
 // gets hosts profile data
 router.get(HOST_PROFILE_URL, getHostProfile);
