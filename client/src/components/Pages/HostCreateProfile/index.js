@@ -123,12 +123,35 @@ class HostCreateProfile extends Component {
           this.setState({
             ...this.state,
             ...profile,
+            profileImage: {
+              ...this.state.profileImage,
+              fileName: profile.profileImage.fileName,
+              dataUrl: profile.profileImage.url || ""
+            },
             organisationName: profile.organisation.name || "",
             organisationWebsite: profile.organisation.website || "",
             addressPostCode: listing.address.postcode || "",
             addressCity: listing.address.city || "",
             addressLine1: listing.address.street || "",
-            addressLine2: listing.address.borough || ""
+            addressLine2: listing.address.borough || "",
+            offerImages1: {
+              ...this.state.offerImages1,
+              fileName: listing.photos[0].fileName,
+              dataUrl: listing.photos[0].url || ""
+            },
+            offerImages2: {
+              ...this.state.offerImages2,
+              fileName: listing.photos[1].fileName,
+              dataUrl: listing.photos[1].url || ""
+            },
+            offerImages3: {
+              ...this.state.offerImages3,
+              fileName: listing.photos[2].fileName,
+              dataUrl: listing.photos[2].url || ""
+            },
+            offerOtherInfo: listing.otherInfo || [],
+            offerDescription: listing.description || "",
+            availableDates: listing.availableDates || []
           });
         }
       })

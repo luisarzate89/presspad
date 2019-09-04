@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Avatar, Divider, Input, Checkbox, DatePicker } from "antd";
+import moment from "moment";
 
 import {
   PageWrapper,
@@ -61,6 +62,7 @@ class Content extends Component {
         isLoading: isOfferImages3Loading
       },
       interests,
+      offerOtherInfo,
       errors
     } = state;
 
@@ -419,10 +421,10 @@ class Content extends Component {
                 <Col xs={24} sm={24} lg={8}>
                   {/* Other information */}
                   <Label htmlFor="Other information">Other information</Label>
-
                   <CheckboxGroup
                     style={{ width: "100%" }}
                     onChange={handleOtherInfo}
+                    value={offerOtherInfo}
                   >
                     <Row>
                       <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
@@ -494,7 +496,9 @@ class Content extends Component {
                                 disabledStartDate(index, value)
                               }
                               format="YYYY-MM-DD"
-                              value={item.startDate}
+                              value={
+                                item.startDate ? moment(item.startDate) : null
+                              }
                               placeholder="Start"
                               onChange={value => onStartChange(index, value)}
                             />
@@ -508,7 +512,7 @@ class Content extends Component {
                                 disabledEndDate(index, value)
                               }
                               format="YYYY-MM-DD"
-                              value={item.endDate}
+                              value={item.endDate ? moment(item.endDate) : null}
                               placeholder="End"
                               onChange={value => onEndChange(index, value)}
                               open={item.endOpen}
