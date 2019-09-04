@@ -53,7 +53,7 @@ const createCoupon = async ({
     }
 
     await session.commitTransaction();
-    await session.endSession();
+    session.endSession();
 
     return createdCoupon;
   } catch (error) {
