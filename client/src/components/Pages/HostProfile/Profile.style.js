@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { colors, shadows } from "./../../../theme";
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
+const classNames = {
+  reactCalendar: ".react-calendar",
+  reactCalendarNavigation: ".react-calendar__navigation"
+};
+
 export const MainSection = styled.section`
   width: 100%;
   margin-top: 7px;
@@ -268,7 +273,7 @@ export const AvailableHosting = styled.div`
   }
 `;
 
-const InnerSideCard = styled.div`
+const InnerSideCard = styled.div.attrs(classNames)`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -276,11 +281,24 @@ const InnerSideCard = styled.div`
   @media (max-width: 775.98px) {
     width: 100%;
   }
+
+  ${classNames.reactCalendar} {
+    pointer-events: ${props => (props.userRole === "host" ? "none" : null)};
+  }
+
+  ${classNames.reactCalendarNavigation} {
+    button {
+      min-width: 50px;
+      pointer-events: all;
+      background: none;
+    }
+  }
 `;
 
 export const CalendarDiv = styled(InnerSideCard)`
   height: 400px;
   background-color: ${colors.white};
+
   @media (max-width: 775.98px) {
     height: auto;
   }

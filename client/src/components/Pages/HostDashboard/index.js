@@ -243,7 +243,8 @@ class HostProfile extends Component {
       account,
       apiLoading,
       errors,
-      withdrawRequests
+      withdrawRequests,
+      profile
     } = this.state;
     return (
       <Content
@@ -261,6 +262,7 @@ class HostProfile extends Component {
         nextGuestProfile={nextGuestProfile}
         nextBooking={nextBooking}
         account={account}
+        profile={profile}
         apiLoading={apiLoading}
         withdrawRequests={withdrawRequests}
         errors={errors}

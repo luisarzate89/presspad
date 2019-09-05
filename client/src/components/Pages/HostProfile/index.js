@@ -286,11 +286,17 @@ class HostProfile extends Component {
           </TextContentDiv>
           <AvailableHosting>
             <Card>
-              <CalendarDiv>
-                <SubHeadline>Available hosting</SubHeadline>
-                <ParagraphHeadline>
-                  Choose a slot to view price and request a stay with this host
-                </ParagraphHeadline>
+              <CalendarDiv userRole="host">
+                <SubHeadline>Your available Dates</SubHeadline>
+                {role !== "host" && (
+                  <>
+                    <SubHeadline>Available hosting</SubHeadline>
+                    <ParagraphHeadline>
+                      Choose a slot to view price and request a stay with this
+                      host
+                    </ParagraphHeadline>
+                  </>
+                )}
                 <Calendar
                   currentUserId={currentUserId}
                   hostId={hostId}

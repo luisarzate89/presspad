@@ -146,10 +146,9 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     }
   }
   ${classNames.reactCalendarSelectRange} ${classNames.reactCalendarTileHover} {
-    background-color: ${colors.lightBlue}
+    background-color: ${colors.lightBlue};
     color: ${colors.white};
   }
-
 `;
 
 export const PricingDiv = styled.div`
