@@ -1,6 +1,6 @@
 // config file for the antd table "PaymentsTable"
 import React from "react";
-import { Icon, Button, Popconfirm } from "antd";
+import { Icon, Button, Popconfirm, Tooltip } from "antd";
 
 import { colors } from "../../../theme";
 
@@ -84,26 +84,33 @@ const columns = handleClick => [
   },
   {
     dataIndex: "key",
-    render: (id, record) => (
-      <>
-        <Popconfirm
-          title={`Confirm transfer request to ${record.host}`}
-          onConfirm={() => handleClick(id, "transfered")}
-        >
-          <Button type="primary" ghost style={{ marginRight: "0.6rem" }}>
-            Transfered
-          </Button>
-        </Popconfirm>
-        <Popconfirm
-          title={`Cancel transfer request to ${record.host}`}
-          onConfirm={() => handleClick(id, "canceled")}
-        >
-          <Button type="danger" ghost>
-            Cancel
-          </Button>
-        </Popconfirm>
-      </>
-    )
+    render: (id, record) => {
+      if (record.paid.props.paymentStatus !== "pending") return null;
+      return (
+        <>
+          <Popconfirm
+            title={`Confirm transfer request to ${record.host}`}
+            onConfirm={() => handleClick(id, "transfered")}
+          >
+            <Tooltip placement="top" title="Transfered">
+              <Button type="primary" ghost style={{ marginRight: "0.6rem" }}>
+                <Icon type="check" />
+              </Button>
+            </Tooltip>
+          </Popconfirm>
+          <Popconfirm
+            title={`Cancel transfer request to ${record.host}`}
+            onConfirm={() => handleClick(id, "canceled")}
+          >
+            <Tooltip placement="top" title="Cancel">
+              <Button type="danger" ghost>
+                <Icon type="close" />
+              </Button>
+            </Tooltip>
+          </Popconfirm>
+        </>
+      );
+    }
   }
 ];
 
