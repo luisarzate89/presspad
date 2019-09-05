@@ -79,21 +79,26 @@ class HostProfile extends Component {
 
   // functions
   getHostProfile = () => {
-    const { match } = this.props;
+    const { match, history } = this.props;
     let hostId = match.params.id;
     if (!hostId && match.path === "/my-profile") {
       hostId = this.props.id;
     }
 
-    // const { id: hostId } = this.props.match.params;
     axios
       .get(`/api/host/${hostId}`)
       .then(({ data }) => {
-        this.setState({
-          isLoading: false,
-          profileData: data,
-          adminApprovedProfile: data.profile.verified
-        });
+        if (data.profile) {
+          this.setState({
+            isLoading: false,
+            profileData: data,
+            adminApprovedProfile: data.profile.verified
+          });
+        } else {
+          message
+            .info("You don't have profile")
+            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
+        }
       })
       .catch(err => {
         const error =
@@ -194,12 +199,14 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
-          <ProfilePic
-            src={profileImage.url || profilePlaceholder}
-            adminView={role === "admin"}
-            onError={this.handleImageFail}
-          />
+          <AdminTopDiv>
+            <ProfilePic
+              src={profileImage.url || profilePlaceholder}
+              adminView={role === "admin"}
+              onError={this.handleImageFail}
+            />
+            <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
+          </AdminTopDiv>
 
           <HeaderDiv>
             {role === "admin" ? (

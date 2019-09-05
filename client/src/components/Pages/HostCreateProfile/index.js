@@ -69,6 +69,7 @@ class HostCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
+      fileName: "",
       dataUrl: "",
       loading: 0,
       isLoading: false
@@ -122,29 +123,32 @@ class HostCreateProfile extends Component {
             ...profile,
             profileImage: {
               ...this.state.profileImage,
-              fileName: profile.profileImage.fileName,
-              dataUrl: profile.profileImage.url || ""
+              ...profile.profileImage,
+              dataUrl: (profile.profileImage && profile.profileImage.url) || ""
             },
-            organisationName: profile.organisation.name || "",
-            organisationWebsite: profile.organisation.website || "",
-            addressPostCode: listing.address.postcode || "",
-            addressCity: listing.address.city || "",
-            addressLine1: listing.address.street || "",
-            addressLine2: listing.address.borough || "",
+            organisationName:
+              (profile.organisation && profile.organisation.name) || "",
+            organisationWebsite:
+              (profile.organisation && profile.organisation.website) || "",
+            addressPostCode:
+              (listing.address && listing.address.postcode) || "",
+            addressCity: (listing.address && listing.address.city) || "",
+            addressLine1: (listing.address && listing.address.street) || "",
+            addressLine2: (listing.address && listing.address.borough) || "",
             offerImages1: {
               ...this.state.offerImages1,
-              fileName: listing.photos[0].fileName,
-              dataUrl: listing.photos[0].url || ""
+              fileName: (listing.photos[0] && listing.photos[0].fileName) || "",
+              dataUrl: (listing.photos[0] && listing.photos[0].url) || ""
             },
             offerImages2: {
               ...this.state.offerImages2,
-              fileName: listing.photos[1].fileName,
-              dataUrl: listing.photos[1].url || ""
+              fileName: (listing.photos[1] && listing.photos[1].fileName) || "",
+              dataUrl: (listing.photos[1] && listing.photos[1].url) || ""
             },
             offerImages3: {
               ...this.state.offerImages3,
-              fileName: listing.photos[2].fileName,
-              dataUrl: listing.photos[2].url || ""
+              fileName: (listing.photos[2] && listing.photos[2].fileName) || "",
+              dataUrl: (listing.photos[2] && listing.photos[2].url) || ""
             },
             offerOtherInfo: listing.otherInfo || [],
             offerDescription: listing.description || "",

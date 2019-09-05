@@ -335,8 +335,6 @@ export const EditButton = styled(Link)`
   color: #0ac7e7;
   padding: 7px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  margin-top: 2rem;
-  margin-left: auto;
   display: block;
   width: 110px;
   text-align: center;
