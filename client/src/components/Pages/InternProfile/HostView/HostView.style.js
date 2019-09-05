@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows } from "./../../../../theme";
 
-import { InnerCard } from "../../Common/Profile/Profiles.style";
+import { InnerCard } from "../../../Common/Profile/Profiles.style";
 
 // Main Section
 export const MainSection = styled.section`
@@ -125,7 +125,7 @@ export const RadioContainer = styled.div`
 export const ButtonDiv = styled.div`
   text-align: left;
   margin-left: 20px;
-  padding-top: 20px;
+  padding: 30px 0;
 
   @media (max-width: 575.98px) {
     margin-left: 0px;
@@ -134,7 +134,7 @@ export const ButtonDiv = styled.div`
 `;
 
 export const Button = styled.button`
-  background: ${props => (props.reject ? `none` : `${colors.lightBlue}`)}
+  background: ${props => (props.reject ? `none` : `${colors.lightBlue}`)};
   border-radius: 19px;
   font-size: 16px;
   color: ${props => (props.reject ? ` ${colors.orange}` : `${colors.white}`)};
@@ -145,12 +145,12 @@ export const Button = styled.button`
   text-decoration: none;
   cursor: pointer;
   text-align: center;
-  transition: background 250ms ease-in-out,
-  transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
-  :focus, :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
   }
   @media (max-width: 575.98px) {
     margin-top: 10px;
@@ -173,8 +173,9 @@ export const ProfilePicDiv = styled.div`
 `;
 
 export const MoreAboutSection = styled.section`
-  width: 35%;
+  width: ${({ fullwidth }) => (fullwidth ? "100%" : "35%")};
   margin-left: 15px;
+  min-width: 300px;
 
   @media (max-width: 775.98px) {
     width: 100%;
@@ -185,7 +186,6 @@ export const MoreAboutSection = styled.section`
 export const ReviewsCard = styled.div`
   box-shadow: ${shadows.card};
   margin-top: 30px;
-  min-height: 400px;
 
   @media (max-width: 575.98px) {
     margin-top: 0px;

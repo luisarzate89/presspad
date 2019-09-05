@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Avatar, Table, Empty } from "antd";
 
-import { INTERN_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from "./../../../../constants/navRoutes";
 
 import {
   PageWrapper,

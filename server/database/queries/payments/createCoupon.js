@@ -31,16 +31,29 @@ const createCoupon = async ({
       usedDays,
       intern,
     }], { session });
-    await Account.updateOne({
+
+    const updatedOrgAccount = await Account.findOneAndUpdate({
       _id: mongoose.Types.ObjectId(organisationAccount),
     }, {
       $inc: {
         currentBalance: -1 * amount,
         couponsValue: amount,
       },
-    }, { session });
+    },
+    // options
+    {
+      session,
+      new: true,
+      useFindAndModify: false,
+    });
+
+    // check if the org account has positive balance
+    if (updatedOrgAccount.currentBalance < 0) {
+      throw new Error("No Enough money!");
+    }
+
     await session.commitTransaction();
-    await session.endSession();
+    session.endSession();
 
     return createdCoupon;
   } catch (error) {

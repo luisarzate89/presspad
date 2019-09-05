@@ -13,7 +13,6 @@ import HostProfile from "./HostProfile";
 import InternCreateProfile from "./InternCreateProfile";
 import AdminDashboard from "./AdminDashboard";
 import SearchHosts from "./SearchHosts";
-import BookingRequest from "./BookingRequest";
 import BookingView from "./BookingView";
 import MyProfile from "./MyProfile";
 import AddReview from "./AddReview";
@@ -31,7 +30,6 @@ import {
   INTERN_COMPLETE_PROFILE_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
-  BOOKING_REQUEST_URL,
   BOOKING_VIEW_URL,
   MYPROFILE_URL,
   ADD_REVIWE_URL,
@@ -46,7 +44,6 @@ class Pages extends Component {
       <>
         <Switch>
           <Route path={HOME_URL} exact component={LandingPage} />
-
           <PrivateRoute
             exact
             path={HOST_PROFILE}
@@ -55,26 +52,17 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
-          <PrivateRoute
-            path={BOOKING_REQUEST_URL}
-            Component={BookingRequest}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
           />
           <PrivateRoute
             path={BOOKING_VIEW_URL}
             Component={BookingView}
             {...this.props}
           />
-
           <Route
             exact
             path={HOSTS_URL}
             render={() => <SearchHosts isLoggedIn={isLoggedIn} />}
           />
-
           <PrivateRoute
             exact
             path={DASHBOARD_URL}
@@ -83,7 +71,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={HOST_COMPLETE_PROFILE_URL}
@@ -92,7 +79,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={ADMIN_DASHBOARD_URL}
@@ -101,7 +87,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={INTERN_COMPLETE_PROFILE_URL}
@@ -110,7 +95,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={MYPROFILE_URL}
@@ -118,7 +102,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={INTERN_PROFILE}
@@ -126,7 +109,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <PrivateRoute
             exact
             path={ADD_REVIWE_URL}
@@ -135,7 +117,6 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-
           <Route
             path={SIGNUP_INTERN}
             exact
