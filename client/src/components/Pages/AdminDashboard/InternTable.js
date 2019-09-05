@@ -62,7 +62,14 @@ export default class InternTable extends Component {
           moment(a.nextInstallmentDueDate || 0).valueOf() -
           moment(b.nextInstallmentDueDate || 0).valueOf(),
         className: "orgCol",
-        render: duedate => (duedate ? moment(duedate).format("DD MMM") : "-")
+        render: duedate => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={duedate ? moment(duedate).format("DD MMM") : "-"}
+          />
+        )
       },
       {
         title: "Next payment amount",
@@ -80,7 +87,15 @@ export default class InternTable extends Component {
                 ) : (
                   <Icon type="exclamation" style={{ color: "yellow" }} />
                 )}{" "}
-                £{nextInstallmentAmount}
+                <Highlighter
+                  highlightStyle={{
+                    backgroundColor: colors.yellow,
+                    padding: 0
+                  }}
+                  searchWords={[highlightVal]}
+                  autoEscape={true}
+                  textToHighlight={`£${nextInstallmentAmount}`}
+                />
               </>
             ) : (
               "-"

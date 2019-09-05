@@ -74,6 +74,8 @@ const filterFields = {
 
   // interns
   organisation: 1,
+  nextInstallmentAmount: 1,
+  nextInstallmentDueDate: 1,
 
   // hosts
   city: 1,
