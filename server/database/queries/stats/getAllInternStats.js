@@ -81,14 +81,24 @@ module.exports.getAllInternStats = () => User.aggregate([
     $sort:
      { "nextInstallment.dueDate": 1 },
   },
-
+  // look up spent credits
+  {
+    $lookup: {
+      from: "accounts",
+      localField: "account",
+      foreignField: "_id",
+      as: "account",
+    },
+  },
   {
     $group: {
       _id: {
         _id: "$_id",
         name: "$name",
+        totalPayments: { $arrayElemAt: ["$account.income", 0] },
         organisationName: { $arrayElemAt: ["$organisation.name", 0] },
       },
+      account: { $push: "$account" },
       bookings: { $push: "$bookings" },
       nextInstallment: { $first: "$nextInstallment" },
     },
@@ -101,21 +111,7 @@ module.exports.getAllInternStats = () => User.aggregate([
       organisationName: "$_id.organisationName",
       bookings: "$bookings",
       nextInstallment: "$nextInstallment",
-    },
-  },
-
-  // look up spent credits
-  {
-    $lookup: {
-      from: "accounts",
-      localField: "account",
-      foreignField: "_id",
-      as: "account",
-    },
-  },
-  {
-    $addFields: {
-      account: { $arrayElemAt: ["$account", 0] },
+      totalPayments: "$_id.totalPayments",
     },
   },
   {
@@ -133,7 +129,7 @@ module.exports.getAllInternStats = () => User.aggregate([
       },
       nextInstallmentAmount: "$nextInstallment.amount",
       // get all the credits they've spent to date
-      totalPayments: "$account.income",
+      totalPayments: 1,
       // get any bookings that cover today's date
       liveBookings: {
         $size: {
