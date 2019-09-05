@@ -5,7 +5,7 @@ const { updateCouponTransaction } = require("./couponTransactions");
 const hostDonateToPresspad = require("./hostDonateToPresspad");
 const createCoupon = require("./createCoupon");
 const hostRequestToWithdrawMoney = require("./hostRequestToWithdrawMoney");
-const confirmOrCancelWithdrawRequest = require("./confirmOrCancelWithdrawRequest");
+const { confirmOrCancelWithdrawRequest, getWithdrawRequestById } = require("./withdrawRequests");
 
 module.exports = {
   createInstallments,
@@ -17,4 +17,5 @@ module.exports = {
   hostDonateToPresspad,
   hostRequestToWithdrawMoney,
   confirmOrCancelWithdrawRequest,
+  getWithdrawRequestById,
 };

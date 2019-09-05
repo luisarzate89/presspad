@@ -1,19 +1,29 @@
 const mongoose = require("mongoose");
 const boom = require("boom");
 
-const { hostRequestToWithdrawMoney, confirmOrCancelWithdrawRequest: confirmOrCancelWithdrawRequestQuery } = require("../../database/queries/payments");
+const {
+  hostRequestToWithdrawMoney,
+  confirmOrCancelWithdrawRequest: confirmOrCancelWithdrawRequestQuery,
+  getWithdrawRequestById,
+} = require("../../database/queries/payments");
 
 const confirmOrCancelWithdrawRequest = async (req, res, next) => {
   const { id: withdrawId } = req.params;
   const { type } = req.body;
+  const { role } = req.user;
 
-  // Autherizations and checks
-
+  // Autherizations
+  if (role !== "admin") return next(boom.forbidden("only admin allow to confirm/cancel withdraw"));
   // validate the types [transfered, canceled]
-  // transfered only once, if type === transfered && status === transfered, do nothing
+  if (type !== "transfered" && type !== "canceled") return next(boom.badData("bad type value"));
+
 
   let session;
   try {
+    const { status } = await getWithdrawRequestById(withdrawId);
+
+    if (status !== "pending") return next(boom.forbidden("this operation only for pending withdraw requests"));
+
     // start a mongodb session
     session = await mongoose.startSession();
     // start transaction
@@ -24,15 +34,13 @@ const confirmOrCancelWithdrawRequest = async (req, res, next) => {
     await session.commitTransaction();
     session.endSession();
 
-    return res.json({ data: true });
+    return res.sendStatus(200);
   } catch (error) {
-    if (session) {
+    if (session && !session.hasEnded) {
       await session.abortTransaction();
-      await session.endSession();
+      session.endSession();
     }
-    if (error.statusCode === 402) {
-      return next(boom.paymentRequired(error.message));
-    }
+
     return next(boom.badImplementation(error));
   }
 };
