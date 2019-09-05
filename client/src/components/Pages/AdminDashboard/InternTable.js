@@ -53,7 +53,8 @@ export default class InternTable extends Component {
         dataIndex: "organisation",
         key: "organisation",
         ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
+        sorter: (a, b) =>
+          (a.organisation || "").localeCompare(b.organisation || ""),
         className: "orgCol"
       },
       {
