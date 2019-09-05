@@ -16,6 +16,7 @@ import moment from "moment";
 import { Elements } from "react-stripe-elements";
 
 import Button from "./../../Common/Button";
+import { calculatePrice } from "./../../../helpers";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
@@ -55,6 +56,7 @@ const { Option } = Select;
 
 class Content extends Component {
   render() {
+    let potentialCost;
     const {
       state,
       name,
@@ -84,13 +86,21 @@ class Content extends Component {
       notifications,
       account,
       coupons,
-      showAddFunds,
+      discountRate,
       startValue,
       endValue,
       endOpen,
       errors,
+      showAddFunds,
       discountPrice
     } = state;
+
+    if (startValue && endValue) {
+      const range = moment.range(startValue, endValue);
+
+      // price after discount
+      potentialCost = (calculatePrice(range) * discountRate) / 100;
+    }
 
     const currentlyHosted = coupons.filter(item => item.status === "At host")
       .length;
@@ -100,9 +110,10 @@ class Content extends Component {
       : state.interns;
     const liveCoupons = coupons.filter(
       item =>
-        moment(item.endDate).valueOf() > Date.now() &&
-        moment(item.startDate).valueOf() <= Date.now()
+        moment(item.endDate).valueOf() > moment().valueOf() &&
+        moment(item.startDate).valueOf() <= moment().valueOf()
     ).length;
+
     return (
       <PageWrapper>
         <Elements>
@@ -315,6 +326,25 @@ class Content extends Component {
                 £{account.currentBalance}{" "}
               </ModalDescription>
             </div>
+
+            <div>
+              <ModalDescription bold>Potential Cost: </ModalDescription>
+              <ModalDescription
+                bold
+                red={account.currentBalance - potentialCost < 0}
+              >
+                £{potentialCost || "0"}{" "}
+              </ModalDescription>
+            </div>
+
+            {account.currentBalance - potentialCost < 0 && (
+              <div>
+                <BlueLink onClick={() => handlePayNowClick(true)}>
+                  Add funds
+                </BlueLink>
+              </div>
+            )}
+
             {/* ------------------------------------------ */}
             {/* ----------------Select the user----------- */}
             {!state.code ? (
@@ -491,16 +521,19 @@ class Content extends Component {
                     </ErrorWrapper>
                   </Col>
                 </Row>
+
                 <div>
                   <ModalDescription bold>Coupon cost: </ModalDescription>
                   <ModalDescription bold>£{discountPrice} </ModalDescription>
                 </div>
+
                 <Button
                   label="Create Coupon"
                   type="secondary"
                   style={{ width: "135px", marginTop: "2rem" }}
                   onClick={handleSubmitCreateCoupon}
                   loading={state.apiLoading}
+                  disabled={account.currentBalance - potentialCost < 0}
                 />
                 <Button
                   label="Cancel"

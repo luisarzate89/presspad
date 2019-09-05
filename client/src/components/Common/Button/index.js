@@ -87,7 +87,7 @@ const StyledButton = styled.button`
   ${props => props.type === "verification" && outlineStyles}
 `;
 
-const ButtonSpinner = ({ color }) => {
+export const ButtonSpinner = ({ color }) => {
   // antd spinner for the submit button
   const antIcon = (
     <Icon

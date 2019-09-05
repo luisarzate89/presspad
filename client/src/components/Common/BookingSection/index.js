@@ -69,7 +69,7 @@ export default function BookingSection(props) {
                     </BlueLink>
                   </Col>
                   <Col>
-                    <BlueLink marginb="1.25rem" to={`/${userRole}/${userId}`}>
+                    <BlueLink marginb="1.25rem" to={`/${userRole}s/${userId}`}>
                       View profile
                     </BlueLink>
                   </Col>

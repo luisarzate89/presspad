@@ -35,7 +35,7 @@ const internDashboard = async (req, res, next) => {
       bookings,
     } = dashboardData;
 
-    if (bookings[0]) {
+    if (bookings[0] && bookings[0].host && bookings[0].host.profile) {
       const [{ host: { profile: hostProfile } }] = bookings;
       _getProfileImageUrl(hostProfile);
     }

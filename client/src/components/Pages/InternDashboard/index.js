@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import BookingSection from "./BookingSection";
+import BookingsTableSection from "./BookingsTableSection";
 import PaymentsSection from "./PaymentsSection";
 import Update from "../../Common/Update";
 import { SectionTitle } from "./InternDashboard.style";
@@ -46,6 +47,7 @@ export default class InternDashboard extends Component {
       bookings,
       installments
     } = this.state;
+    const { windowWidth } = this.props;
 
     return (
       <PageWrapper>
@@ -60,6 +62,7 @@ export default class InternDashboard extends Component {
             </UpdateList>
           </SectionWrapperContent>
         </section>
+        <BookingsTableSection data={bookings} windowWidth={windowWidth} />
         <PaymentsSection data={installments} />
       </PageWrapper>
     );

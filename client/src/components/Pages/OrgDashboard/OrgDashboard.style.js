@@ -183,7 +183,7 @@ export const ModalDescription = styled.span`
   font-weight: ${({ bold }) => (bold ? "bold" : 300)};
   font-size: ${({ large }) => (large ? "25px" : "16px")};
   line-height: 25px;
-  color: #393939;
+  color: ${({ red }) => (red ? "red" : "#393939")};
 `;
 
 export const Label = styled.label`

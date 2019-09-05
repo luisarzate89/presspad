@@ -94,3 +94,10 @@ export const tagColors = {
   "Pending request": colors.orange,
   new: colors.lightGray
 };
+
+//  set colours for tags in the table
+export const bookingStatus = {
+  pending: colors.orange,
+  confirmed: colors.green,
+  canceled: colors.red
+};

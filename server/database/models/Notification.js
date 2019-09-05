@@ -35,7 +35,7 @@ const notificationSchema = new Schema({
     required: true,
     default: false,
   },
-  // organsiasations can see some of the notifications for it's interns
+  // organisations can see some of the notifications for it's interns
   // if private then organisations cannot see this eg. "completeProfileRemind" type
   private: {
     type: Boolean,

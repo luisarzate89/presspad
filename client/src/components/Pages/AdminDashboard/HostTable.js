@@ -49,7 +49,7 @@ export default class HostTable extends Component {
         dataIndex: "city",
         key: "city",
         ...getColumnSearchProps("city"),
-        sorter: (a, b) => a.city.localeCompare(b.city),
+        sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
         render: text => (
           <Highlighter
             highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}

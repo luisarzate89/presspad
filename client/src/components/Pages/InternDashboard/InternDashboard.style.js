@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const SectionTitle = styled.h4`
   margin: 20px 0;
@@ -41,4 +42,14 @@ export const JopTitle = styled.span`
 export const Bio = styled.p`
   font-family: Roboto;
   color: #595959;
+`;
+
+export const BlueLink = styled(Link).attrs({ to: "#" })`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
 `;

@@ -4,8 +4,43 @@ const Listing = require("./../../models/Listing");
 
 const createDatesArray = require("../../../helpers/createDatesArray");
 const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
+const getNextPendingBooking = require("./getNextPendingBooking");
 const getBookingById = require("./getBookingById");
 
+
+module.exports.hostAcceptBookingById = ({
+  bookingId,
+  hostId,
+  moneyGoTo,
+}) => Booking.findOneAndUpdate(
+  //  filter
+  { _id: bookingId, host: hostId },
+  // update date
+  {
+    status: "confirmed",
+    moneyGoTo,
+  }, {
+    new: true,
+  },
+);
+
+module.exports.hostRejectBookingById = ({
+  bookingId,
+  hostId,
+}) => Booking.findOneAndUpdate(
+  //  filter
+  { _id: bookingId, host: hostId },
+  // update date
+  {
+    status: "canceled",
+    canceledBy: hostId,
+  }, {
+    new: true,
+  },
+);
+
+
+module.exports.getNextPendingBooking = getNextPendingBooking;
 // get all bookings of user
 module.exports.getUserBookings = async (intern) => {
   const bookings = await Booking.find({ intern });
