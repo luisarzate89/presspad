@@ -43,17 +43,22 @@ module.exports = async (req, res, next) => {
           const internObj = {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
-            organisation: intern.organisation[0].name,
+            organisation: intern.organisationName,
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
+            nextInstallmentDueDate: intern.nextInstallmentDueDate,
+            nextInstallmentPaid: intern.nextInstallmentPaid,
+            nextInstallmentAmount: intern.nextInstallmentAmount,
           };
           return internObj;
         });
 
         return res.json(cleanStats);
       })
-      .catch(err => next(boom.badImplementation(err)));
+      .catch((err) => {
+        next(boom.badImplementation(err));
+      });
   } if (userType === "hosts") {
     return getAllHostStats()
       .then((stats) => {

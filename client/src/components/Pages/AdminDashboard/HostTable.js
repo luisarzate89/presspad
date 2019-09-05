@@ -37,7 +37,7 @@ export default class HostTable extends Component {
         dataIndex: "city",
         key: "city",
         ...getColumnSearchProps("city"),
-        sorter: (a, b) => a.city.localeCompare(b.city)
+        sorter: (a, b) => (a.city || "").localeCompare(b.city || "")
       },
       {
         title: "Interns Hosted",
