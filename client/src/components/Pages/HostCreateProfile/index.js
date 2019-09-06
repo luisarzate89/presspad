@@ -118,6 +118,9 @@ class HostCreateProfile extends Component {
       .get(API_MY_PROFILE_URL)
       .then(({ data: { profile, listing } }) => {
         if (profile) {
+          //this need to be refactor and add check for profile and listing then
+          //add the data to new object after that assign it to the state
+          //also better solution to change the state to match the db
           this.setState({
             ...this.state,
             ...profile,
@@ -131,28 +134,61 @@ class HostCreateProfile extends Component {
             organisationWebsite:
               (profile.organisation && profile.organisation.website) || "",
             addressPostCode:
-              (listing.address && listing.address.postcode) || "",
-            addressCity: (listing.address && listing.address.city) || "",
-            addressLine1: (listing.address && listing.address.street) || "",
-            addressLine2: (listing.address && listing.address.borough) || "",
+              (listing && listing.address && listing.address.postcode) || "",
+            addressCity:
+              (listing && listing.address && listing.address.city) || "",
+            addressLine1:
+              (listing && listing.address && listing.address.street) || "",
+            addressLine2:
+              (listing && listing.address && listing.address.borough) || "",
             offerImages1: {
               ...this.state.offerImages1,
-              fileName: (listing.photos[0] && listing.photos[0].fileName) || "",
-              dataUrl: (listing.photos[0] && listing.photos[0].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].url) ||
+                ""
             },
             offerImages2: {
               ...this.state.offerImages2,
-              fileName: (listing.photos[1] && listing.photos[1].fileName) || "",
-              dataUrl: (listing.photos[1] && listing.photos[1].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].url) ||
+                ""
             },
             offerImages3: {
               ...this.state.offerImages3,
-              fileName: (listing.photos[2] && listing.photos[2].fileName) || "",
-              dataUrl: (listing.photos[2] && listing.photos[2].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].url) ||
+                ""
             },
-            offerOtherInfo: listing.otherInfo || [],
-            offerDescription: listing.description || "",
-            availableDates: listing.availableDates || []
+            offerOtherInfo: (listing && listing.otherInfo) || [],
+            offerDescription: (listing && listing.description) || "",
+            availableDates: (listing && listing.availableDates) || []
           });
         }
       })
