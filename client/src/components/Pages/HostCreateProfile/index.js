@@ -98,17 +98,20 @@ class HostCreateProfile extends Component {
     offerImages1: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     offerImages2: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     offerImages3: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     errors: {}
   };
@@ -156,7 +159,11 @@ class HostCreateProfile extends Component {
           });
         }
       })
-      .catch(err => message.error("Internal server error!"));
+      .catch(err => {
+        const error =
+          err.response && err.response.data && err.response.data.error;
+        message.error(error || "Something went wrong");
+      });
   }
 
   handleOtherInfo = offerOtherInfo => {
@@ -241,7 +248,17 @@ class HostCreateProfile extends Component {
     }
   };
 
-  deleteImageFromGoogel = async fileName => {};
+  deleteImageFromGoogel = async (fileName, indexToDelete) => {
+    const { offerImages1, offerImages2, offerImages3 } = this.state;
+    const listingPhotos = [offerImages1, offerImages2, offerImages3].filter(
+      (image, index) => index !== indexToDelete
+    );
+    const result = await axios.patch(API_HOST_COMPLETE_PROFILE, {
+      fileName,
+      listingPhotos
+    });
+    console.log("done ", result);
+  };
 
   handleInputChange = ({ target }) => {
     const { value, name } = target;
@@ -471,6 +488,7 @@ class HostCreateProfile extends Component {
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
+        deleteImageFromGoogel={this.deleteImageFromGoogel}
         state={this.state}
       />
     );

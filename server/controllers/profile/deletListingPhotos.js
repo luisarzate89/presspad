@@ -1,5 +1,7 @@
 const boom = require("boom");
 const Listing = require("../../database/models/Listing");
+const { deleteFile } = require("../../helpers/storage");
+const { storageBucket: bucketName } = require("../../config");
 
 const deleteListingPhotos = async (req, res, next) => {
   const { user } = req;
@@ -9,12 +11,16 @@ const deleteListingPhotos = async (req, res, next) => {
     return next(boom.forbidden("only host can update his profile"));
   }
 
-  // delete from firebase
   try {
-    const result = await Listing.deleteListingsPhotosQ(user._id, {
-      $set: { photos: req.body },
+    console.log(req.body);
+    await deleteFile(bucketName, req.body.fileName);
+    // deleteListingsPhotosQ
+    const result = await Listing.updateOne({ _id: user._id }, {
+      $set: { photos: req.body.listingPhotos },
     });
-    console.log(result);
+
+    console.log(1111, result);
+    res.json(result);
   } catch (error) {
     return next(boom.badImplementation(error));
   }
