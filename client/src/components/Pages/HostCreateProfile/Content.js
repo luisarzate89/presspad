@@ -48,16 +48,19 @@ class Content extends Component {
       },
       offerImages1: {
         dataUrl: offerImages1DataUrl,
+        fileName: offerImages1fileName,
         loading: offerImages1Loading,
         isLoading: isOfferImages1Loading
       },
       offerImages2: {
         dataUrl: offerImages2DataUrl,
+        fileName: offerImages2fileName,
         loading: offerImages2Loading,
         isLoading: isOfferImages2Loading
       },
       offerImages3: {
         dataUrl: offerImages3DataUrl,
+        fileName: offerImages3fileName,
         loading: offerImages3Loading,
         isLoading: isOfferImages3Loading
       },
@@ -324,17 +327,25 @@ class Content extends Component {
                             {isOfferImages1Loading ? (
                               <UploadButton disabled>Add photo</UploadButton>
                             ) : (
-                              <UploadButton as="label" htmlFor="offerImages1">
-                                Add photo
-                                <input
-                                  type="file"
-                                  id="offerImages1"
-                                  onChange={directUploadToGoogle}
-                                  name="offerImages1"
-                                  accept="image/*"
-                                  style={{ display: "none" }}
-                                  data-is-private="false"
-                                />
+                              <UploadButton
+                                onClick={offerImages1fileName =>
+                                  console.log(33333)
+                                }
+                                as="label"
+                                htmlFor="offerImages1"
+                              >
+                                Delete photo
+                                {!offerImages1DataUrl && (
+                                  <input
+                                    type="file"
+                                    id="offerImages1"
+                                    onChange={directUploadToGoogle}
+                                    name="offerImages1"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    data-is-private="false"
+                                  />
+                                )}
                               </UploadButton>
                             )}
                           </PhotoWrapper>
@@ -365,16 +376,18 @@ class Content extends Component {
                                 <UploadButton disabled>Add photo</UploadButton>
                               ) : (
                                 <UploadButton as="label" htmlFor="offerImages2">
-                                  Add photo
-                                  <input
-                                    type="file"
-                                    id="offerImages2"
-                                    onChange={directUploadToGoogle}
-                                    name="offerImages2"
-                                    accept="image/*"
-                                    style={{ display: "none" }}
-                                    data-is-private="false"
-                                  />
+                                  Delete photo
+                                  {!offerImages2DataUrl && (
+                                    <input
+                                      type="file"
+                                      id="offerImages2"
+                                      onChange={directUploadToGoogle}
+                                      name="offerImages2"
+                                      accept="image/*"
+                                      style={{ display: "none" }}
+                                      data-is-private="false"
+                                    />
+                                  )}
                                 </UploadButton>
                               )}
                             </PhotoWrapper>
@@ -396,16 +409,18 @@ class Content extends Component {
                                 <UploadButton disabled>Add photo</UploadButton>
                               ) : (
                                 <UploadButton as="label" htmlFor="offerImages3">
-                                  Add photo
-                                  <input
-                                    type="file"
-                                    id="offerImages3"
-                                    onChange={directUploadToGoogle}
-                                    name="offerImages3"
-                                    accept="image/*"
-                                    style={{ display: "none" }}
-                                    data-is-private="false"
-                                  />
+                                  Delete photo
+                                  {!offerImages3DataUrl && (
+                                    <input
+                                      type="file"
+                                      id="offerImages3"
+                                      onChange={directUploadToGoogle}
+                                      name="offerImages3"
+                                      accept="image/*"
+                                      style={{ display: "none" }}
+                                      data-is-private="false"
+                                    />
+                                  )}
                                 </UploadButton>
                               )}
                             </PhotoWrapper>

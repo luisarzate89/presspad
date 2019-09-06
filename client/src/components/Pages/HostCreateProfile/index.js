@@ -241,6 +241,8 @@ class HostCreateProfile extends Component {
     }
   };
 
+  deleteImageFromGoogel = async fileName => {};
+
   handleInputChange = ({ target }) => {
     const { value, name } = target;
     this.setState(
