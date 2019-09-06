@@ -9,6 +9,7 @@ const {
 const { createNewListing } = require("./../database/queries/listings");
 
 const { updateListing } = require("../database/queries/listing");
+const { getListing } = require("../database/queries/listing/getListing");
 
 module.exports = async (req, res, next) => {
   const { user } = req;
@@ -43,6 +44,7 @@ module.exports = async (req, res, next) => {
       availableDates: req.body.availableDates,
     };
     const foundProfile = await findProfile(user._id);
+    const foundHostListing = await getListing(user._id);
 
     // update the host profile
     if (foundProfile) {
@@ -51,7 +53,11 @@ module.exports = async (req, res, next) => {
 
       try {
         await updateUserProfile(user._id, profileData, session);
-        await updateListing(user._id, listingData, session);
+        if (foundHostListing) {
+          await updateListing(user._id, listingData, session);
+        } else {
+          await createNewListing(listingData, session);
+        }
 
         await session.commitTransaction();
         session.endSession();
