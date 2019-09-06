@@ -441,7 +441,7 @@ class HostCreateProfile extends Component {
       return prev || false;
     }, false);
 
-    if (emptyRanges) {
+    if (emptyRanges && availableDates.length > 0) {
       return message.warning("fill the previous ranges");
     }
 
@@ -452,6 +452,14 @@ class HostCreateProfile extends Component {
       endOpen: false
     });
     this.setState({ availableDates: newAvailableDates });
+  };
+
+  //remove dates
+  deleteDate = dateIndex => {
+    const availableDates = this.state.availableDates.filter(
+      (date, index) => index !== dateIndex
+    );
+    this.setState({ availableDates });
   };
 
   render() {
@@ -469,6 +477,7 @@ class HostCreateProfile extends Component {
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
+        deleteDate={this.deleteDate}
         state={this.state}
       />
     );
