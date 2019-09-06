@@ -286,8 +286,10 @@ class HostProfile extends Component {
           </TextContentDiv>
           <AvailableHosting>
             <Card>
-              <CalendarDiv userRole="host">
-                <SubHeadline>Your available Dates</SubHeadline>
+              <CalendarDiv userRole={role}>
+                {role === "host" && (
+                  <SubHeadline>Your available Dates</SubHeadline>
+                )}
                 {role !== "host" && (
                   <>
                     <SubHeadline>Available hosting</SubHeadline>

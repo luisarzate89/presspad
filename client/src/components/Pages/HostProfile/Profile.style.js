@@ -283,7 +283,7 @@ const InnerSideCard = styled.div.attrs(classNames)`
   }
 
   ${classNames.reactCalendar} {
-    pointer-events: ${props => (props.userRole === "host" ? "none" : null)};
+    pointer-events: ${props => (props.userRole === "host" ? "none" : "all")};
   }
 
   ${classNames.reactCalendarNavigation} {
