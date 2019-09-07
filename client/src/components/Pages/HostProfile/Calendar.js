@@ -189,7 +189,7 @@ class CalendarComponent extends Component {
             }
           />
         </CalendarWrapper>
-        {role !== "host" && (
+        {(role !== "host" || role !== "superhost") && (
           <PricingDiv>
             <PriceHeadline>Full price for period</PriceHeadline>
             <PriceLabel>£{price}</PriceLabel>
