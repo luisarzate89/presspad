@@ -6,6 +6,9 @@ import {
   API_VERIFY_PROFILE_URL,
   API_GET_USER_BOOKINGS_URL
 } from "../../../constants/apiRoutes";
+
+import { HOST_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+
 import Calendar from "./Calendar";
 import axios from "axios";
 
@@ -54,7 +57,8 @@ import {
   ReviewsHeader,
   ReviewHeadline,
   ReviewText,
-  ReviewsSection
+  ReviewsSection,
+  EditButton
 } from "./Profile.style";
 
 import "antd/dist/antd.css";
@@ -75,15 +79,26 @@ class HostProfile extends Component {
 
   // functions
   getHostProfile = () => {
-    const { id: hostId } = this.props.match.params;
+    const { match, history } = this.props;
+    let hostId = match.params.id;
+    if (!hostId && match.path === "/my-profile") {
+      hostId = this.props.id;
+    }
+
     axios
       .get(`/api/host/${hostId}`)
       .then(({ data }) => {
-        this.setState({
-          isLoading: false,
-          profileData: data,
-          adminApprovedProfile: data.profile.verified
-        });
+        if (data.profile) {
+          this.setState({
+            isLoading: false,
+            profileData: data,
+            adminApprovedProfile: data.profile.verified
+          });
+        } else {
+          message
+            .info("You don't have profile")
+            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
+        }
       })
       .catch(err => {
         const error =
@@ -184,11 +199,14 @@ class HostProfile extends Component {
           )}
         </LinkDiv>
         <Header>
-          <ProfilePic
-            src={profileImage.url || profilePlaceholder}
-            adminView={role === "admin"}
-            onError={this.handleImageFail}
-          />
+          <AdminTopDiv>
+            <ProfilePic
+              src={profileImage.url || profilePlaceholder}
+              adminView={role === "admin"}
+              onError={this.handleImageFail}
+            />
+            <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
+          </AdminTopDiv>
 
           <HeaderDiv>
             {role === "admin" ? (
@@ -198,7 +216,6 @@ class HostProfile extends Component {
                 A {jobTitle} at {organisation.name}
               </Headline>
             )}
-
             <Address>{`${address.street}, ${address.city}`}</Address>
           </HeaderDiv>
 
@@ -206,6 +223,7 @@ class HostProfile extends Component {
             {/* this is the badge component */}
             {this.state.profileData.profile.badge && <Symbol src={starSign} />}
           </SymbolDiv>
+          {/* <button>Edit Profile</button> */}
         </Header>
 
         <ListingGallery
@@ -268,14 +286,23 @@ class HostProfile extends Component {
           </TextContentDiv>
           <AvailableHosting>
             <Card>
-              <CalendarDiv>
-                <SubHeadline>Available hosting</SubHeadline>
-                <ParagraphHeadline>
-                  Choose a slot to view price and request a stay with this host
-                </ParagraphHeadline>
+              <CalendarDiv userRole={role}>
+                {role === "host" && (
+                  <SubHeadline>Your available Dates</SubHeadline>
+                )}
+                {role !== "host" && (
+                  <>
+                    <SubHeadline>Available hosting</SubHeadline>
+                    <ParagraphHeadline>
+                      Choose a slot to view price and request a stay with this
+                      host
+                    </ParagraphHeadline>
+                  </>
+                )}
                 <Calendar
                   currentUserId={currentUserId}
                   hostId={hostId}
+                  role={role}
                   listingId={_id}
                   availableDates={availableDates}
                   internBookings={internBookings}

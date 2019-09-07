@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Divider, Input, Checkbox, DatePicker } from "antd";
+import {
+  Row,
+  Col,
+  Avatar,
+  Divider,
+  Input,
+  Checkbox,
+  DatePicker,
+  Icon
+} from "antd";
+import moment from "moment";
 
 import {
   PageWrapper,
@@ -35,6 +45,7 @@ class Content extends Component {
       onEndChange,
       onStartChange,
       handleAddMoreRanges,
+      deleteDate,
       state,
       name
     } = this.props;
@@ -60,6 +71,8 @@ class Content extends Component {
         loading: offerImages3Loading,
         isLoading: isOfferImages3Loading
       },
+      interests,
+      offerOtherInfo,
       errors
     } = state;
 
@@ -159,6 +172,7 @@ class Content extends Component {
                     onChange={handleInputChange}
                     rows={7}
                     id={"interests"}
+                    value={interests}
                     placeholder="Add some of your interests"
                     style={{ marginBottom: "40px" }}
                   />
@@ -417,10 +431,10 @@ class Content extends Component {
                 <Col xs={24} sm={24} lg={8}>
                   {/* Other information */}
                   <Label htmlFor="Other information">Other information</Label>
-
                   <CheckboxGroup
                     style={{ width: "100%" }}
                     onChange={handleOtherInfo}
+                    value={offerOtherInfo}
                   >
                     <Row>
                       <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
@@ -486,13 +500,15 @@ class Content extends Component {
                             <Label light>From</Label>
                           </Col>
 
-                          <Col xs={24} sm={10}>
+                          <Col xs={24} sm={9}>
                             <DatePicker
                               disabledDate={value =>
                                 disabledStartDate(index, value)
                               }
                               format="YYYY-MM-DD"
-                              value={item.startDate}
+                              value={
+                                item.startDate ? moment(item.startDate) : null
+                              }
                               placeholder="Start"
                               onChange={value => onStartChange(index, value)}
                             />
@@ -500,36 +516,52 @@ class Content extends Component {
                           <Col xs={24} sm={2}>
                             <Label light>Until</Label>
                           </Col>
-                          <Col xs={24} sm={10}>
+                          <Col xs={24} sm={9}>
                             <DatePicker
                               disabledDate={value =>
                                 disabledEndDate(index, value)
                               }
                               format="YYYY-MM-DD"
-                              value={item.endDate}
+                              value={item.endDate ? moment(item.endDate) : null}
                               placeholder="End"
                               onChange={value => onEndChange(index, value)}
                               open={item.endOpen}
+                            />
+                          </Col>
+                          <Col
+                            xs={24}
+                            sm={2}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              height: "32px"
+                            }}
+                          >
+                            <Icon
+                              type="close"
+                              style={{ color: "#0ac7e7" }}
+                              onClick={() => deleteDate(index)}
                             />
                           </Col>
                         </div>
                       ))}
                     </Col>
                   </Row>
-                  {state.availableDates.length > 0 && (
-                    <>
-                      <UploadText
-                        style={{
-                          marginTop: "20px",
-                          display: "block"
-                        }}
-                        onClick={handleAddMoreRanges}
-                      >
-                        + Add more
-                      </UploadText>
-                      <Error>{errors.availableDates}</Error>
-                    </>
-                  )}
+                  <>
+                    <UploadText
+                      style={{
+                        marginTop: "20px",
+                        display: "block"
+                      }}
+                      onClick={handleAddMoreRanges}
+                    >
+                      {state.availableDates.length > 0
+                        ? "+ Add more"
+                        : "+ Add date"}
+                    </UploadText>
+                    <Error>{errors.availableDates}</Error>
+                  </>
                 </Col>
               </Row>
             </SectionWrapperContent>
