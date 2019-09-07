@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
 import { Tag } from "antd";
-import { getStringTime } from "./../../../helpers";
+import { Link } from "react-router-dom";
 
+import { BlueLink } from "./HostDashboard.style";
+import { getStringTime } from "./../../../helpers";
 import { colors } from "./../../../theme";
 
 const tagColors = {
@@ -66,7 +68,12 @@ export const bookingsColumns = windowWidth => {
     {
       title: "Itern",
       dataIndex: "intern.name",
-      key: "intern._id"
+      key: "intern._id",
+      render: (text, record) => (
+        <BlueLink>
+          <Link to={`/interns/${record.intern._id}`}>{text}</Link>
+        </BlueLink>
+      )
     },
     {
       title: "Start Date",
@@ -82,6 +89,11 @@ export const bookingsColumns = windowWidth => {
       dataIndex: "endDate",
       key: "endDate",
       render: text => moment(text).format("DD MMM YYYY")
+    });
+    columnsObject.push({
+      title: "Status",
+      dataIndex: "status",
+      key: "status"
     });
   }
 

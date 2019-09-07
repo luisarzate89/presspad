@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import { Table } from "antd";
+import Highlighter from "react-highlight-words";
+import { colors } from "../../../theme";
 
 export default class ClientTable extends Component {
   state = {
@@ -8,7 +10,7 @@ export default class ClientTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps, data, loading } = this.props;
+    const { getColumnSearchProps, data, loading, highlightVal } = this.props;
 
     const columns = [
       {
@@ -17,7 +19,15 @@ export default class ClientTable extends Component {
         key: "name",
         ...getColumnSearchProps("name"),
         sorter: (a, b) => a.name.localeCompare(b.name),
-        className: "mainCol"
+        className: "mainCol",
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text}
+          />
+        )
       },
       {
         title: "Total Payments",
@@ -38,7 +48,15 @@ export default class ClientTable extends Component {
           }
         ],
         onFilter: (value, record) => record.totalPayments < value,
-        sorter: (a, b) => a.totalPayments - b.totalPayments
+        sorter: (a, b) => a.totalPayments - b.totalPayments,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Current Balance",
@@ -59,19 +77,43 @@ export default class ClientTable extends Component {
           }
         ],
         onFilter: (value, record) => record.currentBalance < value,
-        sorter: (a, b) => a.currentBalance - b.currentBalance
+        sorter: (a, b) => a.currentBalance - b.currentBalance,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Interns",
         dataIndex: "numberOfInterns",
         key: "numberOfInterns",
-        sorter: (a, b) => a.numberOfInterns - b.numberOfInterns
+        sorter: (a, b) => a.numberOfInterns - b.numberOfInterns,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Currently hosted",
         dataIndex: "currentlyHosted",
         key: "currentlyHosted",
-        sorter: (a, b) => a.currentlyHosted - b.currentlyHosted
+        sorter: (a, b) => a.currentlyHosted - b.currentlyHosted,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       }
     ];
 
