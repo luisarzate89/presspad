@@ -320,7 +320,10 @@ class Content extends Component {
                   <Row gutter={25} type="flex">
                     <Col xs={24} sm={16} lg={16}>
                       <ErrorWrapper marginBottom="12.5px">
-                        <ProgressBar progress={offerImages1Loading}>
+                        <ProgressBar
+                          showCheck={offerImages1fileName ? true : false}
+                          progress={offerImages1Loading}
+                        >
                           <PhotoWrapper
                             imageSrc={offerImages1DataUrl}
                             error={errors.offerImages1}
@@ -369,6 +372,7 @@ class Content extends Component {
                       >
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
+                            showCheck={offerImages2fileName ? true : false}
                             progress={offerImages2Loading}
                             height="calc( (257px / 2) - 12.5px)"
                           >
@@ -415,6 +419,7 @@ class Content extends Component {
 
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
+                            showCheck={offerImages3fileName ? true : false}
                             progress={offerImages3Loading}
                             height="calc( (257px / 2) - 12.5px)"
                           >
