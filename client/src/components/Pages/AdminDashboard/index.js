@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Input, Button, Icon } from "antd";
+import { Input, Button, Icon, message } from "antd";
 
 // SUB COMPONENTS
 import ClientTable from "./ClientTable";
@@ -35,25 +35,48 @@ export default class AdminDashboard extends Component {
     data: [],
     filteredData: [],
     highlightVal: "",
-    hostProfile: false
+    hostProfile: false,
+    axiosSource: null
   };
 
   selectSection = section => {
-    this.setState({
-      activeLink: section,
-      loading: true,
-      data: [],
-      filteredData: [],
-      hostProfile: null
-    });
-    axios
-      .post(API_ADMIN_STATS_URL, { userType: section })
-      .then(({ data }) => {
-        this.setState({ data, filteredData: data, loading: false });
-      })
-      .catch(err => {
-        this.setState({ loading: false });
-      });
+    const { axiosSource } = this.state;
+
+    axiosSource && axiosSource.cancel("Cancel axios request");
+
+    this.setState(
+      {
+        activeLink: section,
+        loading: true,
+        data: [],
+        filteredData: [],
+        hostProfile: null,
+        axiosSource: axios.CancelToken.source()
+      },
+      () => {
+        const { axiosSource } = this.state;
+
+        axios
+          .post(
+            API_ADMIN_STATS_URL,
+            { userType: section },
+            { cancelToken: axiosSource.token }
+          )
+          .then(({ data }) => {
+            this.setState({ data, filteredData: data, loading: false });
+          })
+          .catch(err => {
+            let errorMsg = "Something went wrong";
+            if (err.response && err.response.status !== 500) {
+              errorMsg = err.response.data.error;
+            }
+            if (err.message !== "cancel axios request") {
+              message.error(errorMsg);
+            }
+            this.setState({ loading: false });
+          });
+      }
+    );
   };
 
   componentDidMount() {
