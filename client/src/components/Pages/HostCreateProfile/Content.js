@@ -333,7 +333,7 @@ class Content extends Component {
                             ) : (
                               <UploadButton
                                 onClick={() =>
-                                  deleteImageFromGoogel(offerImages1fileName, 0)
+                                  deleteImageFromGoogel(offerImages1fileName, 1)
                                 }
                                 as="label"
                                 htmlFor="offerImages1"
@@ -388,7 +388,7 @@ class Content extends Component {
                                   onClick={() =>
                                     deleteImageFromGoogel(
                                       offerImages2fileName,
-                                      1
+                                      2
                                     )
                                   }
                                   as="label"
@@ -435,7 +435,7 @@ class Content extends Component {
                                   onClick={() =>
                                     deleteImageFromGoogel(
                                       offerImages3fileName,
-                                      2
+                                      3
                                     )
                                   }
                                   as="label"

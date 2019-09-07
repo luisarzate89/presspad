@@ -257,8 +257,8 @@ class HostCreateProfile extends Component {
 
       this.setState({
         ...this.state,
-        [`offerImages${indexToDelete + 1}`]: {
-          ...this.state[`offerImages${indexToDelete + 1}`],
+        [`offerImages${indexToDelete}`]: {
+          ...this.state[`offerImages${indexToDelete}`],
           fileName: "",
           dataUrl: ""
         }
