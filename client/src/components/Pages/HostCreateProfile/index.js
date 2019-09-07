@@ -248,16 +248,26 @@ class HostCreateProfile extends Component {
     }
   };
 
-  deleteImageFromGoogel = async (fileName, indexToDelete) => {
-    const { offerImages1, offerImages2, offerImages3 } = this.state;
-    const listingPhotos = [offerImages1, offerImages2, offerImages3].filter(
-      (image, index) => index !== indexToDelete
-    );
-    const result = await axios.patch(API_HOST_COMPLETE_PROFILE, {
-      fileName,
-      listingPhotos
-    });
-    console.log("done ", result);
+  deleteImageFromGoogel = async (fileNameTobeDeleted, indexToDelete) => {
+    if (!fileNameTobeDeleted) return;
+    try {
+      await axios.patch(API_HOST_COMPLETE_PROFILE, {
+        fileNameTobeDeleted
+      });
+
+      this.setState({
+        ...this.state,
+        [`offerImages${indexToDelete + 1}`]: {
+          ...this.state[`offerImages${indexToDelete + 1}`],
+          fileName: "",
+          dataUrl: ""
+        }
+      });
+    } catch (err) {
+      const error =
+        err.response && err.response.data && err.response.data.error;
+      message.error(error || "Something went wrong");
+    }
   };
 
   handleInputChange = ({ target }) => {
