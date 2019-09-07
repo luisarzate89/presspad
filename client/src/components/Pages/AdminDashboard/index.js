@@ -70,7 +70,7 @@ export default class AdminDashboard extends Component {
             if (err.response && err.response.status !== 500) {
               errorMsg = err.response.data.error;
             }
-            if (err.message !== "cancel axios request") {
+            if (err.message !== "Cancel axios request") {
               message.error(errorMsg);
             }
             this.setState({ loading: false });
