@@ -27,14 +27,19 @@ const acceptBooking = async (req, res, next) => {
     const bookingDetails = await getBookingWithUsers(bookingId);
 
 
-    await Promise.all([
-      // send email to intern
-      requestAcceptedToIntern(bookingDetails),
-      // send email to admin
-      requestAcceptedToAdmin(bookingDetails),
+    let promiseArray = [
       // create a notification for intern
       createNotification(notification),
-    ]);
+    ];
+
+    if (process.env.NODE_ENV === "production") {
+      promiseArray = [...promiseArray, // send email to intern
+        requestAcceptedToIntern(bookingDetails),
+        // send email to admin
+        requestAcceptedToAdmin(bookingDetails),
+      ];
+    }
+    await Promise.all(promiseArray);
 
     return res.json({});
   } catch (error) {

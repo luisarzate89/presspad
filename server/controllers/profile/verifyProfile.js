@@ -12,7 +12,8 @@ module.exports = async (req, res, next) => {
   try {
     await approveRejectProfile(profileId, verify);
     // if admin approved host's profile
-    if (verify) {
+
+    if (verify && process.env.NODE_ENV === "production") {
       // get host details
       const [host] = await getUserDataByProfileId(profileId);
       // send email to host

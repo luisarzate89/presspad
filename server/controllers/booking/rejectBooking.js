@@ -28,10 +28,15 @@ const rejectBooking = async (req, res, next) => {
     const bookingDetails = await getBookingWithUsers(bookingId);
 
 
-    await Promise.all([
+    const promiseArray = [
       createNotification(notification),
-      requestRejectedToIntern(bookingDetails),
-    ]);
+    ];
+
+    if (process.env.NODE_ENV === "production") {
+      promiseArray.push(requestRejectedToIntern(bookingDetails));
+    }
+
+    await Promise.all(promiseArray);
 
 
     return res.json({});
