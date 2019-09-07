@@ -367,9 +367,9 @@ class HostCreateProfile extends Component {
         };
 
         // add optional fields if existed
-        interests && (formData.interests = interests);
-        jobTitle && (formData.jobTitle = jobTitle);
-        addressLine2 && (formData.addressLine2 = addressLine2);
+        formData.interests = interests || " ";
+        formData.jobTitle = jobTitle || " ";
+        formData.addressLine2 = addressLine2 || " ";
 
         axios({
           method: "post",
