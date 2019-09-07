@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
-import { Table, Tag } from "antd";
+import { Table, Tag, Icon } from "antd";
 
 import { tagColors } from "./../../../theme";
 
@@ -52,8 +53,44 @@ export default class InternTable extends Component {
         dataIndex: "organisation",
         key: "organisation",
         ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
+        sorter: (a, b) =>
+          (a.organisation || "").localeCompare(b.organisation || ""),
         className: "orgCol"
+      },
+      {
+        title: "Next Payment Due Date",
+        dataIndex: "nextInstallmentDueDate",
+        key: "nextInstallmentDueDate",
+        sorter: (a, b) =>
+          moment(a.nextInstallmentDueDate || 0).valueOf() -
+          moment(b.nextInstallmentDueDate || 0).valueOf(),
+        className: "orgCol",
+        render: duedate => (duedate ? moment(duedate).format("DD MMM") : "-")
+      },
+      {
+        title: "Next payment amount",
+        dataIndex: "nextInstallmentAmount",
+        key: "nextInstallmentAmount",
+        sorter: (a, b) =>
+          a.nextInstallmentAmount || 0 - b.nextInstallmentAmount || 0,
+        className: "orgCol",
+        render: (nextInstallmentAmount, record) => {
+          if (record.nextInstallmentDueDate) {
+            return nextInstallmentAmount ? (
+              <>
+                {record.nextInstallmentPaid ? (
+                  <Icon type="check" style={{ color: "green" }} />
+                ) : (
+                  <Icon type="exclamation" style={{ color: "yellow" }} />
+                )}{" "}
+                £{nextInstallmentAmount}
+              </>
+            ) : (
+              "-"
+            );
+          }
+          return "-";
+        }
       },
       {
         title: "Total Payments",
