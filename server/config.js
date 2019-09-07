@@ -30,3 +30,7 @@ admin.initializeApp({
 });
 
 module.exports.admin = admin;
+
+module.exports.email = process.env.EMAIL;
+module.exports.pass = process.env.MAIL_PASSWORD;
+module.exports.domain = process.env.DOMAIN;
