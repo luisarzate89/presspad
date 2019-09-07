@@ -16,13 +16,12 @@ const requestAcceptedToIntern = (options) => {
     <p>Hi <span style="font-weight=700;">${internName}</span>.</p>
     <p><span style="font-weight=700;">Congratulations</span>: your booking request with ${hostName} has been accepted.</p>
     <p><a href="${domain}/booking/${options._id}">Select your payment method to confirme your booking<a></p>
-
   `;
 
   const messageDetails = {
     from: email,
     to: options.intern.email,
-    subject: `${hostName} has accepted your request to stay with him.`,
+    subject: `${hostName} has accepted your request to stay.`,
     html,
   };
 
