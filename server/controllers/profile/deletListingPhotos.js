@@ -9,12 +9,25 @@ const deleteListingPhotos = async (req, res, next) => {
     body: { fileNameTobeDeleted },
   } = req;
 
-  if (user.role !== "host") {
+  if (!["host", "superhost"].includes(user.role)) {
     return next(boom.forbidden("only host can update his profile"));
   }
 
   try {
-    await deleteFile(bucketName, fileNameTobeDeleted);
+    try {
+      /*
+      this will result on undefined with sucess 
+      and 404 not found error
+      */
+      await deleteFile(bucketName, fileNameTobeDeleted);
+    } catch (err) {
+      /*
+      catching the error here if it is 404 don't 
+      do anything and continue with the rest of code
+      */
+      if(err.code !== 404)
+        throw err;
+    }
     const result = await deleteListingPhotoQ(user._id, fileNameTobeDeleted);
     return res.json(result);
   } catch (error) {

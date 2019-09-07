@@ -14,7 +14,7 @@ const { getListing } = require("../database/queries/listing/getListing");
 module.exports = async (req, res, next) => {
   const { user } = req;
 
-  if (user.role !== "host") {
+  if (!["host", "superhost"].includes(user.role)) {
     return next(boom.forbidden("only host can update his profile"));
   }
   try {
