@@ -59,3 +59,79 @@ export const calculatePrice = range => {
   }
   return weeks * 150 + days * 20;
 };
+
+// fields to filter based on them
+const filterFields = {
+  // common
+  name: 1,
+  status: 1,
+  totalPayments: 1,
+  currentBalance: 1,
+
+  // clients
+  numberOfInterns: 1,
+  currentlyHosted: 1,
+
+  // interns
+  organisation: 1,
+  nextInstallmentAmount: 1,
+  nextInstallmentDueDate: 1,
+
+  // hosts
+  city: 1,
+  hosted: 1,
+  totalIncome: 1,
+  approvalStatus: 1,
+
+  // payments
+  user: 1,
+  amount: 1,
+  bankName: 1,
+  accountNumber: 1,
+  bankSortCode: 1
+};
+
+/**
+ * search an object and return boalean based on searchVal
+ * @private
+ * @param {object} obj
+ * @param {string} searchVal
+ * @returns {boolean}
+ */
+const _filterObj = (obj, searchVal) =>
+  Object.keys(obj).some(key => {
+    const _val = obj[key];
+    if (typeof _val === "object") {
+      return _filterObj(_val, searchVal);
+    }
+    if (filterFields[key]) {
+      return _val
+        .toString()
+        .toLowerCase()
+        .includes(searchVal.toLowerCase());
+    }
+    return false;
+  });
+
+/**
+ * search an Array based on searchVal and return new filtered array
+ * @private
+ * @param {Array} arr
+ * @param {string} searchVal
+ * @returns {Array}
+ */
+const _filterArray = (arr, searchVal) =>
+  arr.filter(item => {
+    if (Array.isArray(item)) {
+      return _filterArray(item, searchVal);
+    }
+    return _filterObj(item, searchVal);
+  });
+
+/**
+ * Filter an Array based on search value
+ * @param {Array} array source array
+ * @param {string} searchVal search value
+ * @returns {Array}
+ */
+export const filterArray = (array, searchVal) => _filterArray(array, searchVal);

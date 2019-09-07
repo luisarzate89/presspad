@@ -19,6 +19,7 @@ module.exports.hostAcceptBookingById = ({
   {
     status: "confirmed",
     moneyGoTo,
+    confirmDate: moment.utc(),
   }, {
     new: true,
   },

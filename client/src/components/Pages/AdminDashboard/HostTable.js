@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table, Tag } from "antd";
+import Highlighter from "react-highlight-words";
+
 import { colors } from "./../../../theme";
 
 // import helpers
@@ -18,7 +20,7 @@ export default class HostTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps, data, loading } = this.props;
+    const { getColumnSearchProps, data, loading, highlightVal } = this.props;
 
     const columns = [
       {
@@ -29,7 +31,17 @@ export default class HostTable extends Component {
         sorter: (a, b) => a.name.localeCompare(b.name),
         className: "nameCol",
         render: text => (
-          <Link to={`/hosts/${getUserId(data, text)}`}>{text}</Link>
+          <Link to={`/hosts/${getUserId(data, text)}`}>
+            <Highlighter
+              highlightStyle={{
+                backgroundColor: colors.yellow,
+                padding: 0
+              }}
+              searchWords={[highlightVal]}
+              autoEscape={true}
+              textToHighlight={text}
+            />
+          </Link>
         )
       },
       {
@@ -37,7 +49,15 @@ export default class HostTable extends Component {
         dataIndex: "city",
         key: "city",
         ...getColumnSearchProps("city"),
-        sorter: (a, b) => a.city.localeCompare(b.city)
+        sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text}
+          />
+        )
       },
       {
         title: "Interns Hosted",
@@ -58,7 +78,15 @@ export default class HostTable extends Component {
           }
         ],
         onFilter: (value, record) => record.hosted < value,
-        sorter: (a, b) => a.hosted - b.hosted
+        sorter: (a, b) => a.hosted - b.hosted,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Current Balance",
@@ -79,7 +107,15 @@ export default class HostTable extends Component {
           }
         ],
         onFilter: (value, record) => record.currentBalance < value,
-        sorter: (a, b) => a.currentBalance - b.currentBalance
+        sorter: (a, b) => a.currentBalance - b.currentBalance,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Total Income",
@@ -100,7 +136,15 @@ export default class HostTable extends Component {
           }
         ],
         onFilter: (value, record) => record.totalIncome < value,
-        sorter: (a, b) => a.totalIncome - b.totalIncome
+        sorter: (a, b) => a.totalIncome - b.totalIncome,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Approval Status",
@@ -108,7 +152,12 @@ export default class HostTable extends Component {
         key: "approvalStatus",
         render: status => (
           <Tag color={tagColors[status]} key={status}>
-            {status && status.toUpperCase()}
+            <Highlighter
+              highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+              searchWords={[highlightVal]}
+              autoEscape={true}
+              textToHighlight={status ? status.toUpperCase() : ""}
+            />
           </Tag>
         ),
         filters: [
