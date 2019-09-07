@@ -19,6 +19,8 @@ import {
 
 import Content from "./Content";
 
+const rUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:.[w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/i;
+
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
     fileName: Yup.string().required("Required"),
@@ -28,7 +30,7 @@ const schema = Yup.object().shape({
   interests: Yup.string(),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
-    .url("Not a valid link")
+    .matches(rUrl, "Not a valid link")
     .required("Required"),
   jobTitle: Yup.string(),
   addressLine1: Yup.string().required("Required"),
