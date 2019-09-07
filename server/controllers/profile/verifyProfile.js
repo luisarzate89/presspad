@@ -17,8 +17,8 @@ module.exports = async (req, res, next) => {
       const [host] = await getUserDataByProfileId(profileId);
       // send email to host
       await profileApprovedToHost(host);
-      res.json({});
     }
+    res.json({});
   } catch (error) {
     next(boom.badRequest(error));
   }

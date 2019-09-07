@@ -1,6 +1,9 @@
 const boom = require("boom");
-const { hostRejectBookingById } = require("../../database/queries/bookings");
+const { hostRejectBookingById, getBookingWithUsers } = require("../../database/queries/bookings");
 const { createNotification } = require("./../../database/queries/notification");
+
+
+const requestRejectedToIntern = require("./../../helpers/mailHelper/requestRejectedToIntern");
 
 const rejectBooking = async (req, res, next) => {
   const { id: bookingId } = req.params;
@@ -14,13 +17,22 @@ const rejectBooking = async (req, res, next) => {
     const updatedBookingRequest = await hostRejectBookingById({ bookingId, hostId });
 
     // create a notification for intern
-    // to inform him that his/her request accepted
-    await createNotification({
+    const notification = {
       private: false,
       user: updatedBookingRequest.intern,
       secondParty: updatedBookingRequest.host,
       type: "stayRejected",
-    });
+    };
+
+    // get emails data
+    const bookingDetails = await getBookingWithUsers(bookingId);
+
+
+    await Promise.all([
+      createNotification(notification),
+      requestRejectedToIntern(bookingDetails),
+    ]);
+
 
     return res.json({});
   } catch (error) {
