@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
       // send email to host
       await profileApprovedToHost(host);
     }
-    res.json({});
+    res.json("success");
   } catch (error) {
     next(boom.badRequest(error));
   }
