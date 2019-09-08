@@ -7,6 +7,7 @@ const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
 const getNextPendingBooking = require("./getNextPendingBooking");
 const getBookingById = require("./getBookingById");
 const getBookingWithUsers = require("./getBookingWithUsers");
+const getHostNextPendingBooking = require("./getHostNextPendingBooking");
 
 
 module.exports.hostAcceptBookingById = ({
@@ -169,3 +170,4 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
 module.exports.getInternBookingsWithReviews = getInternBookingsWithReviews;
 module.exports.getBookingById = getBookingById;
 module.exports.getBookingWithUsers = getBookingWithUsers;
+module.exports.getHostNextPendingBooking = getHostNextPendingBooking;
