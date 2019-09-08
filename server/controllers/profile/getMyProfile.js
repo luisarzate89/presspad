@@ -30,7 +30,10 @@ const _getProfileBasedRole = async (_id, role, res) => {
 
   if (role === "host" || role === "superhost") {
     const listing = await getListing(_id).lean();
-    await Promise.all(listing.photos.map(generateUrl));
+
+    if (listing && listing.photos) {
+      await Promise.all(listing.photos.map(generateUrl));
+    }
     return res.json({ profile, listing });
   }
 

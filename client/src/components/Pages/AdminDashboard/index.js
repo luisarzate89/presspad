@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Input, Button, Icon } from "antd";
+import { Input, Button, Icon, message } from "antd";
 
 // SUB COMPONENTS
 import ClientTable from "./ClientTable";
@@ -9,6 +9,7 @@ import InternTable from "./InternTable";
 import HostTable from "./HostTable";
 import HostProfile from "./../HostProfile/index";
 import PaymentsTable from "./PaymentsTable";
+import SearchBar from "../../Common/SearchBar";
 
 // STYLING
 import {
@@ -24,31 +25,61 @@ import {
 } from "./AdminDashboard.style";
 
 // API ROUTES
-import { API_ADMIN_STATS_URL } from "./../../../constants/apiRoutes";
+import {
+  API_ADMIN_STATS_URL,
+  API_UPDATE_WITHDRAW_REQUEST_URL
+} from "./../../../constants/apiRoutes";
+import { filterArray } from "../../../helpers";
 
 export default class AdminDashboard extends Component {
   state = {
     activeLink: "clients",
     loading: false,
     data: [],
-    hostProfile: false
+    filteredData: [],
+    highlightVal: "",
+    hostProfile: false,
+    axiosSource: null
   };
 
   selectSection = section => {
-    this.setState({
-      activeLink: section,
-      loading: true,
-      data: [],
-      hostProfile: null
-    });
-    axios
-      .post(API_ADMIN_STATS_URL, { userType: section })
-      .then(({ data }) => {
-        this.setState({ data, loading: false });
-      })
-      .catch(err => {
-        this.setState({ loading: false });
-      });
+    const { axiosSource } = this.state;
+
+    axiosSource && axiosSource.cancel("Cancel axios request");
+
+    this.setState(
+      {
+        activeLink: section,
+        loading: true,
+        data: [],
+        filteredData: [],
+        hostProfile: null,
+        axiosSource: axios.CancelToken.source()
+      },
+      () => {
+        const { axiosSource } = this.state;
+
+        axios
+          .post(
+            API_ADMIN_STATS_URL,
+            { userType: section },
+            { cancelToken: axiosSource.token }
+          )
+          .then(({ data }) => {
+            this.setState({ data, filteredData: data, loading: false });
+          })
+          .catch(err => {
+            let errorMsg = "Something went wrong";
+            if (err.response && err.response.status !== 500) {
+              errorMsg = err.response.data.error;
+            }
+            if (err.message !== "Cancel axios request") {
+              message.error(errorMsg);
+            }
+            this.setState({ loading: false });
+          });
+      }
+    );
   };
 
   componentDidMount() {
@@ -130,8 +161,50 @@ export default class AdminDashboard extends Component {
     this.selectSection(activeLink);
   };
 
+  handleSearchBar = ({ target: { value } }) => {
+    const filteredData = filterArray(this.state.data, value);
+    this.setState({ filteredData, highlightVal: value });
+  };
+
+  handleConfirm = async (id, type) => {
+    try {
+      await axios.patch(
+        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,
+        { type }
+      );
+      message.success(`The request have been ${type} successfully`);
+
+      // update the table dataSource
+      const data = this.state.data.map(request => {
+        let newRequest = { ...request };
+        if (request._id === id) {
+          newRequest = { ...request, status: type };
+        }
+        return newRequest;
+      });
+      // update the table filteredData
+      const filteredData = this.state.filteredData.map(request => {
+        let newRequest = { ...request };
+        if (request._id === id) {
+          newRequest = { ...request, status: type };
+        }
+        return newRequest;
+      });
+
+      this.setState({ data, filteredData });
+    } catch (error) {
+      message.error("something went wrong");
+    }
+  };
+
   render() {
-    const { activeLink, loading, data, hostProfile } = this.state;
+    const {
+      activeLink,
+      loading,
+      filteredData,
+      highlightVal,
+      hostProfile
+    } = this.state;
 
     return (
       <Wrapper>
@@ -166,18 +239,25 @@ export default class AdminDashboard extends Component {
         </TopSection>
         <MainSection>
           <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
+          <SearchBar
+            data={filteredData}
+            handleSearchBar={this.handleSearchBar}
+            highlightVal={highlightVal}
+          />
           {activeLink === "clients" && (
             <ClientTable
               getColumnSearchProps={this.getColumnSearchProps}
               loading={loading}
-              data={data}
+              data={filteredData}
+              highlightVal={highlightVal}
             />
           )}
           {activeLink === "interns" && (
             <InternTable
               getColumnSearchProps={this.getColumnSearchProps}
               loading={loading}
-              data={data}
+              data={filteredData}
+              highlightVal={highlightVal}
             />
           )}
           {activeLink === "hosts" && (
@@ -185,7 +265,8 @@ export default class AdminDashboard extends Component {
               <HostTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
-                data={data}
+                data={filteredData}
+                highlightVal={highlightVal}
               />
             </HostWrapper>
           )}
@@ -194,8 +275,10 @@ export default class AdminDashboard extends Component {
               <PaymentsTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
-                data={data}
+                data={filteredData}
                 showProfile={this.showProfile}
+                highlightVal={highlightVal}
+                handleConfirm={this.handleConfirm}
               />
             </HostWrapper>
           )}

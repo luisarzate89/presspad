@@ -57,6 +57,7 @@ const Content = ({
   nextGuestProfile,
   nextBooking,
   account,
+  profile,
   apiLoading,
   withdrawRequests,
   errors,
@@ -83,7 +84,7 @@ const Content = ({
                 <Avatar
                   size="large"
                   icon="user"
-                  src={undefined}
+                  src={(profile && profile.profileImage.url) || ""}
                   style={{
                     width: "80px",
                     height: "80px",

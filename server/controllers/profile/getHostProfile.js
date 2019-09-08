@@ -25,7 +25,9 @@ const getHostProfile = async (req, res, next) => {
       return next(boom.notFound("User has no profile"));
     }
 
-    await Promise.all(hostProfile.listing.photos.map(generateUrl));
+    if (hostProfile.listing.photos) {
+      await Promise.all(hostProfile.listing.photos.map(generateUrl));
+    }
     await generateUrl(hostProfile.profile.profileImage);
 
     return res.json(hostProfile);

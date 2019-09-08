@@ -131,8 +131,8 @@ export const getValidDAtes = availableDates => {
 
     if (startDate && endDate) {
       prev.push({
-        startDate: startDate.format(),
-        endDate: endDate.format()
+        startDate: moment(startDate).format(),
+        endDate: moment(endDate).format()
       });
     }
 

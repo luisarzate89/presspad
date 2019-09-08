@@ -4,7 +4,10 @@ const User = require("../../models/User");
 module.exports.hostProfileData = userId => User.aggregate([
   // match user
   {
-    $match: { _id: mongoose.Types.ObjectId(userId), role: "host" },
+    $match: {
+      _id: mongoose.Types.ObjectId(userId),
+      $or: [{ role: "superhost" }, { role: "host" }],
+    },
   },
   // lookup profile
   {
@@ -58,7 +61,8 @@ module.exports.hostProfileData = userId => User.aggregate([
               },
               {
                 $project: {
-                  name: 1, email: 1,
+                  name: 1,
+                  email: 1,
                 },
               },
               {

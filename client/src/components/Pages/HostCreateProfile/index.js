@@ -3,7 +3,10 @@ import { message, Modal, Spin, Alert } from "antd";
 import * as Yup from "yup";
 import axios from "axios";
 
-import { API_HOST_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
+import {
+  API_HOST_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL
+} from "../../../constants/apiRoutes";
 
 import { DASHBOARD_URL } from "./../../../constants/navRoutes";
 
@@ -16,6 +19,8 @@ import {
 
 import Content from "./Content";
 
+const rUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:.[w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/i;
+
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
     fileName: Yup.string().required("Required"),
@@ -25,7 +30,7 @@ const schema = Yup.object().shape({
   interests: Yup.string(),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
-    .url("Not a valid link")
+    .matches(rUrl, "Not a valid link")
     .required("Required"),
   jobTitle: Yup.string(),
   addressLine1: Yup.string().required("Required"),
@@ -66,6 +71,7 @@ class HostCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
+      fileName: "",
       dataUrl: "",
       loading: 0,
       isLoading: false
@@ -108,6 +114,88 @@ class HostCreateProfile extends Component {
     },
     errors: {}
   };
+
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile, listing } }) => {
+        if (profile) {
+          //this need to be refactor and add check for profile and listing then
+          //add the data to new object after that assign it to the state
+          //also better solution to change the state to match the db
+          this.setState({
+            ...this.state,
+            ...profile,
+            profileImage: {
+              ...this.state.profileImage,
+              ...profile.profileImage,
+              dataUrl: (profile.profileImage && profile.profileImage.url) || ""
+            },
+            organisationName:
+              (profile.organisation && profile.organisation.name) || "",
+            organisationWebsite:
+              (profile.organisation && profile.organisation.website) || "",
+            addressPostCode:
+              (listing && listing.address && listing.address.postcode) || "",
+            addressCity:
+              (listing && listing.address && listing.address.city) || "",
+            addressLine1:
+              (listing && listing.address && listing.address.street) || "",
+            addressLine2:
+              (listing && listing.address && listing.address.borough) || "",
+            offerImages1: {
+              ...this.state.offerImages1,
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].url) ||
+                ""
+            },
+            offerImages2: {
+              ...this.state.offerImages2,
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].url) ||
+                ""
+            },
+            offerImages3: {
+              ...this.state.offerImages3,
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].url) ||
+                ""
+            },
+            offerOtherInfo: (listing && listing.otherInfo) || [],
+            offerDescription: (listing && listing.description) || "",
+            availableDates: (listing && listing.availableDates) || []
+          });
+        }
+      })
+      .catch(err => message.error("Internal server error!"));
+  }
 
   handleOtherInfo = offerOtherInfo => {
     this.setState({ offerOtherInfo });
@@ -281,9 +369,9 @@ class HostCreateProfile extends Component {
         };
 
         // add optional fields if existed
-        interests && (formData.interests = interests);
-        jobTitle && (formData.jobTitle = jobTitle);
-        addressLine2 && (formData.addressLine2 = addressLine2);
+        formData.interests = interests || " ";
+        formData.jobTitle = jobTitle || " ";
+        formData.addressLine2 = addressLine2 || " ";
 
         axios({
           method: "post",
@@ -391,7 +479,7 @@ class HostCreateProfile extends Component {
       return prev || false;
     }, false);
 
-    if (emptyRanges) {
+    if (emptyRanges && availableDates.length > 0) {
       return message.warning("fill the previous ranges");
     }
 
@@ -402,6 +490,14 @@ class HostCreateProfile extends Component {
       endOpen: false
     });
     this.setState({ availableDates: newAvailableDates });
+  };
+
+  //remove dates
+  deleteDate = dateIndex => {
+    const availableDates = this.state.availableDates.filter(
+      (date, index) => index !== dateIndex
+    );
+    this.setState({ availableDates });
   };
 
   render() {
@@ -419,6 +515,7 @@ class HostCreateProfile extends Component {
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
+        deleteDate={this.deleteDate}
         state={this.state}
       />
     );

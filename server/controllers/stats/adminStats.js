@@ -4,6 +4,7 @@ const boom = require("boom");
 const { getAllClientStats } = require("./../../database/queries/stats/getAllClientStats");
 const { getAllInternStats } = require("./../../database/queries/stats/getAllInternStats");
 const { getAllHostStats } = require("./../../database/queries/stats/getAllHostStats");
+const { findAllWithdrawRequests } = require("../../database/queries/withdrawRequest");
 
 module.exports = async (req, res, next) => {
   // get user data so we can check they are authorized
@@ -24,7 +25,8 @@ module.exports = async (req, res, next) => {
       .catch((err) => {
         next(boom.badImplementation(err));
       });
-  } if (userType === "interns") {
+  }
+  if (userType === "interns") {
     return getAllInternStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
@@ -43,10 +45,13 @@ module.exports = async (req, res, next) => {
           const internObj = {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
-            organisation: intern.organisation[0].name,
+            organisation: intern.organisationName,
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
+            nextInstallmentDueDate: intern.nextInstallmentDueDate,
+            nextInstallmentPaid: intern.nextInstallmentPaid,
+            nextInstallmentAmount: intern.nextInstallmentAmount,
           };
           return internObj;
         });
@@ -54,7 +59,8 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } if (userType === "hosts") {
+  }
+  if (userType === "hosts") {
     return getAllHostStats()
       .then((stats) => {
         if (stats.length === 0) return res.json(stats);
@@ -76,5 +82,9 @@ module.exports = async (req, res, next) => {
         return res.json(cleanStats);
       })
       .catch(err => next(boom.badImplementation(err)));
-  } return next(boom.badRequest());
+  }
+  if (userType === "payments") {
+    return findAllWithdrawRequests().then(data => res.json(data));
+  }
+  return next(boom.badRequest("Invalid userType"));
 };
