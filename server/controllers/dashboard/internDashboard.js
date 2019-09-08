@@ -4,7 +4,7 @@ const { internDashboard: internDashboardQuery } = require("../../database/querie
 const generateFileURL = require("./../../helpers/generateFileURL");
 
 
-const { getInternNextPendingBooking } = require("./../../database/queries/bookings");
+const { getInternNextBooking } = require("./../../database/queries/bookings");
 
 
 const internDashboard = async (req, res, next) => {
@@ -17,7 +17,7 @@ const internDashboard = async (req, res, next) => {
     const [[dashboardData], [nextBooking]] = await Promise.all([
       internDashboardQuery(internId),
       // get the next booking
-      getInternNextPendingBooking(internId),
+      getInternNextBooking(internId),
     ]);
     const {
       profile,

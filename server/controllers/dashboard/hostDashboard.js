@@ -1,6 +1,6 @@
 const boom = require("boom");
 
-const { getHostNextPendingBooking } = require("./../../database/queries/bookings");
+const { getHostNextBooking } = require("./../../database/queries/bookings");
 
 const { hostDashboard: hostDashboardQuery } = require("../../database/queries/dashboard");
 const generateFileURL = require("./../../helpers/generateFileURL");
@@ -16,7 +16,7 @@ const hostDashboard = async (req, res, next) => {
       // get full host dashboard data
       hostDashboardQuery(hostId),
       // get the next booking
-      getHostNextPendingBooking(hostId),
+      getHostNextBooking(hostId),
     ]);
 
     let nextBookingWithDetails;
