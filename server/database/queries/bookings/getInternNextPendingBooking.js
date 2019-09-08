@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Booking = require("../../models/Booking");
 
-const getHostNextPendingBooking = hostId => Booking.aggregate([
+const getInternNextPendingBooking = internId => Booking.aggregate([
   {
     $match:
      {
-       host: mongoose.Types.ObjectId(hostId),
+       intern: mongoose.Types.ObjectId(internId),
        status: { $in: ["pending", "confirmed"] },
        startDate: { $gte: new Date() },
      },
@@ -17,4 +17,4 @@ const getHostNextPendingBooking = hostId => Booking.aggregate([
   },
 ]);
 
-module.exports = getHostNextPendingBooking;
+module.exports = getInternNextPendingBooking;

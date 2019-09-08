@@ -35,7 +35,7 @@ const hostDashboard = async (req, res, next) => {
       if (nextBookingWithDetails) {
         const { intern: { profile: internProfile } } = nextBookingWithDetails;
         if (internProfile && internProfile.profileImage) {
-          // get profile image of next booking intern
+          // get intern's profile image of next booking
           generateFileURL(internProfile.profileImage);
         }
       }

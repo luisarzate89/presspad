@@ -1,20 +1,21 @@
 import React from "react";
-import { Row, Col, Avatar } from "antd";
+import { Row, Col, Avatar, Empty } from "antd";
 
 import { getStringTime } from "./../../../helpers";
 import randomProfile from "../../../assets/random-profile.jpg";
 import BookingSection from "./../../Common/BookingSection";
+import { SectionTitle } from "./InternDashboard.style";
+
+import { SectionWrapperContent } from "../../Common/general";
 
 import { HeaderWrapper, HiText } from "../../Common/general";
 
 export default function BookingSectionWrapper(props) {
   const {
-    data: { profileImage, name, bookings }
+    data: { profileImage, name, nextBookingWithDetails }
   } = props;
 
-  // Assuming that the intern should only have one active booking,
-  // active means either pending or confirmed.
-  const firstBooking = bookings[0];
+  const firstBooking = nextBookingWithDetails;
 
   let jobTitle,
     bio,
@@ -68,26 +69,39 @@ export default function BookingSectionWrapper(props) {
           </Col>
           <Col span={20}>
             <HiText>
-              Hi {name.split(" ")[0]}, Your host is expecting you&nbsp;
-              <b>{timeString}</b>.
+              Hi {name.split(" ")[0]}
+              {firstBooking && (
+                <span>
+                  , Your host is expecting you&nbsp;
+                  <b>{timeString}</b>.
+                </span>
+              )}
             </HiText>
           </Col>
         </Row>
       </HeaderWrapper>
-      <BookingSection
-        jobTitle={jobTitle}
-        bio={bio}
-        name={hostName}
-        userId={hostId}
-        organisationName={organisationName}
-        bookingId={bookingId}
-        startDate={startDate}
-        endDate={endDate}
-        timeString={timeString}
-        profileImage={hostProfileImage || randomProfile}
-        title={title}
-        userRole={"hosts"}
-      />
+      {firstBooking ? (
+        <BookingSection
+          jobTitle={jobTitle}
+          bio={bio}
+          name={hostName}
+          userId={hostId}
+          organisationName={organisationName}
+          bookingId={bookingId}
+          startDate={startDate}
+          endDate={endDate}
+          timeString={timeString}
+          profileImage={hostProfileImage || randomProfile}
+          title={title}
+          userRole={"hosts"}
+        />
+      ) : (
+        <SectionWrapperContent style={{ minHeight: 200 }}>
+          <SectionTitle>Your next host</SectionTitle>
+          {/* @todo re-word this message */}
+          <Empty description="You don't have upcoming stays" />
+        </SectionWrapperContent>
+      )}
     </>
   );
 }

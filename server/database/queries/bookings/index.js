@@ -8,6 +8,7 @@ const getNextPendingBooking = require("./getNextPendingBooking");
 const getBookingById = require("./getBookingById");
 const getBookingWithUsers = require("./getBookingWithUsers");
 const getHostNextPendingBooking = require("./getHostNextPendingBooking");
+const getInternNextPendingBooking = require("./getInternNextPendingBooking");
 
 
 module.exports.hostAcceptBookingById = ({
@@ -171,3 +172,4 @@ module.exports.getInternBookingsWithReviews = getInternBookingsWithReviews;
 module.exports.getBookingById = getBookingById;
 module.exports.getBookingWithUsers = getBookingWithUsers;
 module.exports.getHostNextPendingBooking = getHostNextPendingBooking;
+module.exports.getInternNextPendingBooking = getInternNextPendingBooking;
