@@ -89,9 +89,10 @@ class HostProfile extends Component {
       bookings = [],
       profile = {},
       account = {},
-      withdrawRequests
+      withdrawRequests,
+      nextBookingWithDetails: nextBooking = {}
     } = data;
-    const nextGuest = (bookings[0] && bookings[0].intern) || {};
+    const nextGuest = (nextBooking && nextBooking.intern) || {};
     const { profile: nextGuestProfile = {} } = nextGuest;
     this.setState({
       name,
@@ -100,7 +101,7 @@ class HostProfile extends Component {
       profile,
       nextGuest,
       nextGuestProfile,
-      nextBooking: bookings[0] || {},
+      nextBooking: nextBooking,
       account,
       donateValue: account.currentBalance,
       withdrawValue: account.currentBalance,
