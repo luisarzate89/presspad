@@ -81,9 +81,15 @@ class CalendarComponent extends Component {
   // disables calendar tiles (days)
   tileDisabled = ({ date }) => {
     const { avDates } = this.state;
-    // //  return true if current date is not included in available dates => disable tile
+    // return true if current date is not included in available dates => disable tile
     date = moment(date).format("YYYY-MM-DD");
-    return !avDates.includes(date); // Block day tiles only
+    return (
+      !avDates.includes(date) ||
+      moment.utc()
+        .startOf("day")
+        .add(7, "days")
+        .isAfter(date)
+    ); // Block day tiles only
   };
 
   handleClick = async () => {
@@ -192,7 +198,7 @@ class CalendarComponent extends Component {
             }
           />
         </CalendarWrapper>
-        {role !== "host" && (
+        {role !== "host" && role !== "superhost" && (
           <PricingDiv>
             <PriceHeadline>Full price for period</PriceHeadline>
             <PriceLabel>£{price}</PriceLabel>

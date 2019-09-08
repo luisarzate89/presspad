@@ -19,6 +19,8 @@ import {
 
 import Content from "./Content";
 
+const rUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:.[w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/i;
+
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
     fileName: Yup.string().required("Required"),
@@ -28,7 +30,7 @@ const schema = Yup.object().shape({
   interests: Yup.string(),
   organisationName: Yup.string().required("Required"),
   organisationWebsite: Yup.string()
-    .url("Not a valid link")
+    .matches(rUrl, "Not a valid link")
     .required("Required"),
   jobTitle: Yup.string(),
   addressLine1: Yup.string().required("Required"),
@@ -121,6 +123,9 @@ class HostCreateProfile extends Component {
       .get(API_MY_PROFILE_URL)
       .then(({ data: { profile, listing } }) => {
         if (profile) {
+          //this need to be refactor and add check for profile and listing then
+          //add the data to new object after that assign it to the state
+          //also better solution to change the state to match the db
           this.setState({
             ...this.state,
             ...profile,
@@ -134,28 +139,61 @@ class HostCreateProfile extends Component {
             organisationWebsite:
               (profile.organisation && profile.organisation.website) || "",
             addressPostCode:
-              (listing.address && listing.address.postcode) || "",
-            addressCity: (listing.address && listing.address.city) || "",
-            addressLine1: (listing.address && listing.address.street) || "",
-            addressLine2: (listing.address && listing.address.borough) || "",
+              (listing && listing.address && listing.address.postcode) || "",
+            addressCity:
+              (listing && listing.address && listing.address.city) || "",
+            addressLine1:
+              (listing && listing.address && listing.address.street) || "",
+            addressLine2:
+              (listing && listing.address && listing.address.borough) || "",
             offerImages1: {
               ...this.state.offerImages1,
-              fileName: (listing.photos[0] && listing.photos[0].fileName) || "",
-              dataUrl: (listing.photos[0] && listing.photos[0].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[0] &&
+                  listing.photos[0].url) ||
+                ""
             },
             offerImages2: {
               ...this.state.offerImages2,
-              fileName: (listing.photos[1] && listing.photos[1].fileName) || "",
-              dataUrl: (listing.photos[1] && listing.photos[1].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[1] &&
+                  listing.photos[1].url) ||
+                ""
             },
             offerImages3: {
               ...this.state.offerImages3,
-              fileName: (listing.photos[2] && listing.photos[2].fileName) || "",
-              dataUrl: (listing.photos[2] && listing.photos[2].url) || ""
+              fileName:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].fileName) ||
+                "",
+              dataUrl:
+                (listing &&
+                  listing.photos &&
+                  listing.photos[2] &&
+                  listing.photos[2].url) ||
+                ""
             },
-            offerOtherInfo: listing.otherInfo || [],
-            offerDescription: listing.description || "",
-            availableDates: listing.availableDates || []
+            offerOtherInfo: (listing && listing.otherInfo) || [],
+            offerDescription: (listing && listing.description) || "",
+            availableDates: (listing && listing.availableDates) || []
           });
         }
       })
@@ -248,7 +286,7 @@ class HostCreateProfile extends Component {
     }
   };
 
-  deleteImageFromGoogel = async (fileNameTobeDeleted, indexToDelete) => {
+  deleteImageFromGoogle = async (fileNameTobeDeleted, indexToDelete) => {
     if (!fileNameTobeDeleted) return;
     try {
       await axios.patch(API_HOST_COMPLETE_PROFILE, {
@@ -360,9 +398,9 @@ class HostCreateProfile extends Component {
         };
 
         // add optional fields if existed
-        interests && (formData.interests = interests);
-        jobTitle && (formData.jobTitle = jobTitle);
-        addressLine2 && (formData.addressLine2 = addressLine2);
+        formData.interests = interests || " ";
+        formData.jobTitle = jobTitle || " ";
+        formData.addressLine2 = addressLine2 || " ";
 
         axios({
           method: "post",
@@ -470,7 +508,7 @@ class HostCreateProfile extends Component {
       return prev || false;
     }, false);
 
-    if (emptyRanges) {
+    if (emptyRanges && availableDates.length > 0) {
       return message.warning("fill the previous ranges");
     }
 
@@ -481,6 +519,14 @@ class HostCreateProfile extends Component {
       endOpen: false
     });
     this.setState({ availableDates: newAvailableDates });
+  };
+
+  //remove dates
+  deleteDate = dateIndex => {
+    const availableDates = this.state.availableDates.filter(
+      (date, index) => index !== dateIndex
+    );
+    this.setState({ availableDates });
   };
 
   render() {
@@ -498,7 +544,8 @@ class HostCreateProfile extends Component {
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
-        deleteImageFromGoogel={this.deleteImageFromGoogel}
+        deleteImageFromGoogle={this.deleteImageFromGoogle}
+        deleteDate={this.deleteDate}
         state={this.state}
       />
     );

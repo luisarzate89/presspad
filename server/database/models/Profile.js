@@ -17,7 +17,10 @@ const profileSchema = new Schema(
       type: String,
       required: true,
     },
-    interests: String,
+    interests: {
+      type: String,
+      trim: true,
+    },
     organisation: {
       name: String,
       website: String,
@@ -26,6 +29,7 @@ const profileSchema = new Schema(
       type: String,
       lowercase: true,
       required: true,
+      trim: true,
     },
     profileImage: {
       fileName: String,

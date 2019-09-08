@@ -25,7 +25,10 @@ import {
 } from "./AdminDashboard.style";
 
 // API ROUTES
-import { API_ADMIN_STATS_URL } from "./../../../constants/apiRoutes";
+import {
+  API_ADMIN_STATS_URL,
+  API_UPDATE_WITHDRAW_REQUEST_URL
+} from "./../../../constants/apiRoutes";
 import { filterArray } from "../../../helpers";
 
 export default class AdminDashboard extends Component {
@@ -163,6 +166,37 @@ export default class AdminDashboard extends Component {
     this.setState({ filteredData, highlightVal: value });
   };
 
+  handleConfirm = async (id, type) => {
+    try {
+      await axios.patch(
+        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,
+        { type }
+      );
+      message.success(`The request have been ${type} successfully`);
+
+      // update the table dataSource
+      const data = this.state.data.map(request => {
+        let newRequest = { ...request };
+        if (request._id === id) {
+          newRequest = { ...request, status: type };
+        }
+        return newRequest;
+      });
+      // update the table filteredData
+      const filteredData = this.state.filteredData.map(request => {
+        let newRequest = { ...request };
+        if (request._id === id) {
+          newRequest = { ...request, status: type };
+        }
+        return newRequest;
+      });
+
+      this.setState({ data, filteredData });
+    } catch (error) {
+      message.error("something went wrong");
+    }
+  };
+
   render() {
     const {
       activeLink,
@@ -244,6 +278,7 @@ export default class AdminDashboard extends Component {
                 data={filteredData}
                 showProfile={this.showProfile}
                 highlightVal={highlightVal}
+                handleConfirm={this.handleConfirm}
               />
             </HostWrapper>
           )}

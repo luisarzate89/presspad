@@ -22,4 +22,32 @@ const getProfileByRoleAndId = (id, role) => Profile.aggregate([
   },
 ]);
 
-module.exports = { getProfile, getProfileByRoleAndId };
+const getUserDataByProfileId = id => Profile.aggregate([
+  {
+    $match:
+    { _id: mongoose.Types.ObjectId(id) },
+  },
+  {
+    $lookup: {
+      from: "users",
+      localField: "user",
+      foreignField: "_id",
+      as: "user",
+    },
+  },
+  {
+    $project: {
+      user: { $arrayElemAt: ["$user", 0] },
+    },
+  },
+  {
+    $replaceRoot: { newRoot: "$user" },
+  },
+  {
+    $project: {
+      password: 0,
+    },
+  },
+]);
+
+module.exports = { getProfile, getProfileByRoleAndId, getUserDataByProfileId };

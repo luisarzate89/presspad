@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Row, Col, Avatar, Divider, Input, Checkbox, DatePicker } from "antd";
+import {
+  Row,
+  Col,
+  Avatar,
+  Divider,
+  Input,
+  Checkbox,
+  DatePicker,
+  Icon
+} from "antd";
 import moment from "moment";
 
 import {
@@ -36,7 +45,8 @@ class Content extends Component {
       onEndChange,
       onStartChange,
       handleAddMoreRanges,
-      deleteImageFromGoogel,
+      deleteImageFromGoogle,
+      deleteDate,
       state,
       name
     } = this.props;
@@ -333,7 +343,7 @@ class Content extends Component {
                             ) : (
                               <UploadButton
                                 onClick={() =>
-                                  deleteImageFromGoogel(offerImages1fileName, 1)
+                                  deleteImageFromGoogle(offerImages1fileName, 1)
                                 }
                                 as="label"
                                 htmlFor="offerImages1"
@@ -386,7 +396,7 @@ class Content extends Component {
                               ) : (
                                 <UploadButton
                                   onClick={() =>
-                                    deleteImageFromGoogel(
+                                    deleteImageFromGoogle(
                                       offerImages2fileName,
                                       2
                                     )
@@ -433,7 +443,7 @@ class Content extends Component {
                               ) : (
                                 <UploadButton
                                   onClick={() =>
-                                    deleteImageFromGoogel(
+                                    deleteImageFromGoogle(
                                       offerImages3fileName,
                                       3
                                     )
@@ -541,7 +551,7 @@ class Content extends Component {
                             <Label light>From</Label>
                           </Col>
 
-                          <Col xs={24} sm={10}>
+                          <Col xs={24} sm={9}>
                             <DatePicker
                               disabledDate={value =>
                                 disabledStartDate(index, value)
@@ -557,7 +567,7 @@ class Content extends Component {
                           <Col xs={24} sm={2}>
                             <Label light>Until</Label>
                           </Col>
-                          <Col xs={24} sm={10}>
+                          <Col xs={24} sm={9}>
                             <DatePicker
                               disabledDate={value =>
                                 disabledEndDate(index, value)
@@ -569,24 +579,40 @@ class Content extends Component {
                               open={item.endOpen}
                             />
                           </Col>
+                          <Col
+                            xs={24}
+                            sm={2}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              height: "32px"
+                            }}
+                          >
+                            <Icon
+                              type="close"
+                              style={{ color: "#0ac7e7" }}
+                              onClick={() => deleteDate(index)}
+                            />
+                          </Col>
                         </div>
                       ))}
                     </Col>
                   </Row>
-                  {state.availableDates.length > 0 && (
-                    <>
-                      <UploadText
-                        style={{
-                          marginTop: "20px",
-                          display: "block"
-                        }}
-                        onClick={handleAddMoreRanges}
-                      >
-                        + Add more
-                      </UploadText>
-                      <Error>{errors.availableDates}</Error>
-                    </>
-                  )}
+                  <>
+                    <UploadText
+                      style={{
+                        marginTop: "20px",
+                        display: "block"
+                      }}
+                      onClick={handleAddMoreRanges}
+                    >
+                      {state.availableDates.length > 0
+                        ? "+ Add more"
+                        : "+ Add date"}
+                    </UploadText>
+                    <Error>{errors.availableDates}</Error>
+                  </>
                 </Col>
               </Row>
             </SectionWrapperContent>

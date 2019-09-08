@@ -1,4 +1,6 @@
 const boom = require("boom");
+const moment = require("moment");
+
 const {
   checkOtherBookingExists,
   checkIfListingAvailable,
@@ -23,6 +25,10 @@ module.exports = async (req, res, next) => {
   const userHasBooking = await checkOtherBookingExists(intern, startDate, endDate);
   const listingUnavailable = await checkIfListingAvailable(listing, startDate, endDate);
 
+  // Block 7 days after today
+  if (moment.utc().startOf("day").add(7, "days").isAfter(startDate)) {
+    return next(boom.badRequest("you have to book at least 7 days in advance"));
+  }
   // check if user already has booking request during requested dates
   if (userHasBooking.bookingExists) {
     return next(boom.badRequest("user has already a booking request for those dates"));
