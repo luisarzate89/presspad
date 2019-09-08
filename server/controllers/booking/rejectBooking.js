@@ -41,7 +41,7 @@ const rejectBooking = async (req, res, next) => {
 
     return res.json({});
   } catch (error) {
-    return next(boom.badRequest(error));
+    return next(boom.badImplementation(error));
   }
 };
 
