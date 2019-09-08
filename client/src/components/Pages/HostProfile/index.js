@@ -207,7 +207,11 @@ class HostProfile extends Component {
               adminView={role === "admin"}
               onError={this.handleImageFail}
             />
-            <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
+            {["host", "superhost"].includes(role) && (
+              <EditButton to={HOST_COMPLETE_PROFILE_URL}>
+                Edit Profile
+              </EditButton>
+            )}
           </AdminTopDiv>
 
           <HeaderDiv>
