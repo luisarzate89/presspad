@@ -54,7 +54,7 @@ export default function BookingSectionWrapper(props) {
             <Avatar
               size="large"
               icon="user"
-              src={profileImage || undefined}
+              src={(profileImage && profileImage.url) || undefined}
               style={{
                 width: "80px",
                 height: "80px",
@@ -91,7 +91,9 @@ export default function BookingSectionWrapper(props) {
           startDate={startDate}
           endDate={endDate}
           timeString={timeString}
-          profileImage={hostProfileImage || randomProfile}
+          profileImage={
+            (hostProfileImage && hostProfileImage.url) || randomProfile
+          }
           title={title}
           userRole={"hosts"}
         />
