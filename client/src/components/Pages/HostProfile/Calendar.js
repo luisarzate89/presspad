@@ -82,7 +82,7 @@ class CalendarComponent extends Component {
     date = moment(date).format("YYYY-MM-DD");
     return (
       !avDates.includes(date) ||
-      moment()
+      moment.utc()
         .startOf("day")
         .add(7, "days")
         .isAfter(date)
