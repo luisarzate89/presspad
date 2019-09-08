@@ -140,6 +140,7 @@ module.exports.getAllInternStats = () => User.aggregate([
               $and: [
                 { $lte: ["$$booking.startDate", new Date()] },
                 { $gte: ["$$booking.endDate", new Date()] },
+                { $eq: ["$$booking.status", "confirmed"] },
               ],
             },
           },
@@ -153,7 +154,7 @@ module.exports.getAllInternStats = () => User.aggregate([
             as: "booking",
             cond: {
               $and: [
-                { $gt: ["$$booking.startDate", new Date()] },
+                { $gt: ["$$booking.endDate", new Date()] },
                 { $eq: ["$$booking.status", "pending"] },
               ],
             },
