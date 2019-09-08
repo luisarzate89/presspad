@@ -84,7 +84,7 @@ const Content = ({
                 <Avatar
                   size="large"
                   icon="user"
-                  src={(profile && profile.profileImage.url) || ""}
+                  src={(profile.profileImage && profile.profileImage.url) || ""}
                   style={{
                     width: "80px",
                     height: "80px",

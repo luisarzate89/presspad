@@ -99,9 +99,18 @@ class HostProfile extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        if (error === "User has no profile" && role === "host") {
+        if (
+          error === "User has no profile" &&
+          ["host", "superhost"].includes(role)
+        ) {
           message
-            .info("You don't have profile")
+            .info(
+              <p>
+                You don't have profile
+                <br /> You will be redirected to complete your profile
+              </p>,
+              1
+            )
             .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         } else {
           message.error(error || "Something went wrong");
@@ -219,7 +228,7 @@ class HostProfile extends Component {
               <Headline>{name}</Headline>
             ) : (
               <Headline>
-                A {jobTitle} at {organisation.name}
+                {jobTitle && `A ${jobTitle} at `} {organisation.name}
               </Headline>
             )}
             <Address>{`${address.street}, ${address.city}`}</Address>

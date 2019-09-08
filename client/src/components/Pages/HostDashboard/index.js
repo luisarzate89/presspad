@@ -40,7 +40,8 @@ class HostProfile extends Component {
     // MODALS
     withdrawModalOpen: false,
     donateModalOpen: false,
-    apiLoading: false
+    apiLoading: false,
+    profile: {}
   };
   async componentDidMount() {
     this.fetchData();
