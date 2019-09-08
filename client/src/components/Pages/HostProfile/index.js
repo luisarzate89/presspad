@@ -156,7 +156,14 @@ class HostProfile extends Component {
           otherInfo,
           description
         },
-        profile: { bio, jobTitle, organisation, profileImage, _id: profileId },
+        profile: {
+          bio,
+          jobTitle,
+          organisation,
+          profileImage,
+          _id: profileId,
+          user
+        },
         name,
         email,
         reviews
@@ -213,10 +220,10 @@ class HostProfile extends Component {
           <AdminTopDiv>
             <ProfilePic
               src={profileImage.url || profilePlaceholder}
-              adminView={role === "admin"}
+              adminView={role === "admin" || user === currentUserId}
               onError={this.handleImageFail}
             />
-            {["host", "superhost"].includes(role) && (
+            {user === currentUserId && (
               <EditButton to={HOST_COMPLETE_PROFILE_URL}>
                 Edit Profile
               </EditButton>
