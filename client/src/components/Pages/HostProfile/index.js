@@ -79,7 +79,7 @@ class HostProfile extends Component {
 
   // functions
   getHostProfile = () => {
-    const { match, history } = this.props;
+    const { match, history, role } = this.props;
     let hostId = match.params.id;
     if (!hostId && match.path === "/my-profile") {
       hostId = this.props.id;
@@ -94,16 +94,18 @@ class HostProfile extends Component {
             profileData: data,
             adminApprovedProfile: data.profile.verified
           });
-        } else {
-          message
-            .info("You don't have profile")
-            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         }
       })
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        if (error === "User has no profile" && role === "host") {
+          message
+            .info("You don't have profile")
+            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
+        } else {
+          message.error(error || "Something went wrong");
+        }
       });
   };
 

@@ -100,17 +100,20 @@ class HostCreateProfile extends Component {
     offerImages1: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     offerImages2: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     offerImages3: {
       loading: 0,
       isLoading: false,
-      dataUrl: ""
+      dataUrl: "",
+      fileName: ""
     },
     errors: {}
   };
@@ -194,7 +197,11 @@ class HostCreateProfile extends Component {
           });
         }
       })
-      .catch(err => message.error("Internal server error!"));
+      .catch(err => {
+        const error =
+          err.response && err.response.data && err.response.data.error;
+        message.error(error || "Something went wrong");
+      });
   }
 
   handleOtherInfo = offerOtherInfo => {
@@ -276,6 +283,28 @@ class HostCreateProfile extends Component {
       this.setState({
         [name]: { ...this.state[name], loading: 0, isLoading: false }
       });
+    }
+  };
+
+  deleteImageFromGoogle = async (fileNameTobeDeleted, indexToDelete) => {
+    if (!fileNameTobeDeleted) return;
+    try {
+      await axios.patch(API_HOST_COMPLETE_PROFILE, {
+        fileNameTobeDeleted
+      });
+
+      this.setState({
+        ...this.state,
+        [`offerImages${indexToDelete}`]: {
+          ...this.state[`offerImages${indexToDelete}`],
+          fileName: "",
+          dataUrl: ""
+        }
+      });
+    } catch (err) {
+      const error =
+        err.response && err.response.data && err.response.data.error;
+      message.error(error || "Something went wrong");
     }
   };
 
@@ -515,6 +544,7 @@ class HostCreateProfile extends Component {
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
+        deleteImageFromGoogle={this.deleteImageFromGoogle}
         deleteDate={this.deleteDate}
         state={this.state}
       />

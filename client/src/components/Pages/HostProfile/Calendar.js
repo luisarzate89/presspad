@@ -52,10 +52,13 @@ class CalendarComponent extends Component {
 
   componentDidMount() {
     const { availableDates } = this.props;
-    const avDateRange = getDateRangeFromArray(availableDates);
+    let avDateRange;
+    if (availableDates) {
+      avDateRange = getDateRangeFromArray(availableDates);
+    }
 
     this.setState({
-      avDates: avDateRange,
+      avDates: avDateRange || [],
       isLoading: false
     });
   }

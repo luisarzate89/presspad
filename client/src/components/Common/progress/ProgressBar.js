@@ -8,10 +8,10 @@ import { Bar, Wrapper } from "./ProgressBar.style";
  * @param {number} progress The presentage of the progress bar.
  */
 
-const ProgressBar = ({ children, progress = 0, height, style }) => {
+const ProgressBar = ({ children, progress = 0, height, style, showCheck }) => {
   return (
     <Wrapper height={height} style={style}>
-      {progress === 100 && (
+      {progress === 100 && showCheck && (
         <Icon
           type="check"
           style={{
