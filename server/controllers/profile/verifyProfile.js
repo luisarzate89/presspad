@@ -9,6 +9,7 @@ const { getUserDataByProfileId } = require("./../../database/queries/profile/get
 
 module.exports = async (req, res, next) => {
   const { verify, profileId } = req.body;
+  if (req.user.role !== "admin") return next(boom.forbidden("Only admin can access this route"));
   try {
     await approveRejectProfile(profileId, verify);
     // if admin approved host's profile
@@ -21,6 +22,6 @@ module.exports = async (req, res, next) => {
     }
     res.json("success");
   } catch (error) {
-    next(boom.badRequest(error));
+    next(boom.badImplementation(error));
   }
 };
