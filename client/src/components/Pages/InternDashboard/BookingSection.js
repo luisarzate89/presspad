@@ -12,7 +12,8 @@ import { HeaderWrapper, HiText } from "../../Common/general";
 
 export default function BookingSectionWrapper(props) {
   const {
-    data: { profileImage, name, nextBookingWithDetails }
+    data: { profileImage, name, nextBookingWithDetails },
+    role
   } = props;
 
   const firstBooking = nextBookingWithDetails;
@@ -95,7 +96,8 @@ export default function BookingSectionWrapper(props) {
             (hostProfileImage && hostProfileImage.url) || randomProfile
           }
           title={title}
-          userRole={"hosts"}
+          role={role}
+          userRole={"host"}
         />
       ) : (
         <SectionWrapperContent style={{ minHeight: 200 }}>

@@ -57,11 +57,14 @@ export default class InternDashboard extends Component {
       installments,
       nextBookingWithDetails
     } = this.state;
-    const { windowWidth } = this.props;
+    const { windowWidth, role } = this.props;
 
     return (
       <PageWrapper>
-        <BookingSection data={{ name, profileImage, nextBookingWithDetails }} />
+        <BookingSection
+          data={{ name, profileImage, nextBookingWithDetails }}
+          role={role}
+        />
         <section>
           <SectionWrapperContent style={{ minHeight: 200 }}>
             <SectionTitle>Your updates</SectionTitle>
