@@ -5,6 +5,7 @@ const internCompleteProfileSchema = Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(false),
   }).required(),
+  verified: Joi.boolean().default(true),
   bio: Joi.string().required(),
   favouriteArticle: Joi.object({
     title: Joi.string().required(),

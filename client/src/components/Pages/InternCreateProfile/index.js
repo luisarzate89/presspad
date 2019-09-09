@@ -239,7 +239,8 @@ export default class InternCreateProfile extends Component {
         const formData = {
           profileImage: { fileName: profileImage.fileName, isPrivate: false },
           verification: this.state.verification || {},
-          bio
+          bio,
+          verified: true
         };
 
         // Add optional fields if they exists
