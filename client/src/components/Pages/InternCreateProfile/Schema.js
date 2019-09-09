@@ -5,6 +5,7 @@ const schema = Yup.object().shape({
     fileName: Yup.string().required("Required"),
     isPrivate: Yup.boolean().default(false)
   }),
+  verified: Yup.boolean().default(true),
   bio: Yup.string().required("Required"),
   // Todo/ add this when we change the design to mach this.
   favouriteArticle: Yup.object().shape({

@@ -229,7 +229,7 @@ class HostProfile extends Component {
   };
 
   render() {
-    const { windowWidth } = this.props;
+    const { windowWidth, role } = this.props;
     const {
       name,
       nextGuest,
@@ -253,6 +253,7 @@ class HostProfile extends Component {
         // Props & state\
         windowWidth={windowWidth}
         name={name}
+        role={role}
         bankName={bankName}
         bankSortCode={bankSortCode}
         accountNumber={accountNumber}

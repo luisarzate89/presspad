@@ -25,7 +25,8 @@ export default function BookingSection(props) {
     userId,
     profileImage,
     organisationName,
-    bookingId,
+    // bookingId,
+    role,
     startDate,
     endDate,
     title,
@@ -63,11 +64,29 @@ export default function BookingSection(props) {
                   </HostInfo>
                 </Row>
                 <Row type="flex" gutter={30}>
-                  <Col>
-                    <BlueLink marginb="1.25rem" to={`/booking/${bookingId}`}>
-                      View booking
-                    </BlueLink>
-                  </Col>
+                  {role === "intern" && (
+                    <Col>
+                      {/* <BlueLink marginb="1.25rem" to="#viewBooking"> */}
+                      <a
+                        style={{
+                          fontFamily: "Roboto",
+                          fontStyle: "normal",
+                          fontWeight: "bold",
+                          fontSize: "1rem",
+                          lineHeight: "1.19rem",
+                          textAlign: "center",
+                          color: "#0ac7e7",
+                          display: "inline-block",
+                          marginBottom: "1.25rem",
+                          marginLeft: "1.25rem"
+                        }}
+                        href="#viewBooking"
+                      >
+                        View booking
+                      </a>
+                      {/* </BlueLink> */}
+                    </Col>
+                  )}
                   <Col>
                     <BlueLink marginb="1.25rem" to={`/${userRole}s/${userId}`}>
                       View profile

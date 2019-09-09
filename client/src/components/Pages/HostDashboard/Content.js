@@ -45,6 +45,7 @@ const Content = ({
   // props and state
   windowWidth,
   name,
+  role,
   viewNumber,
   bankName,
   bankSortCode,
@@ -136,6 +137,7 @@ const Content = ({
             }
             title={"Your next guest"}
             userRole={"intern"}
+            role={role}
           />
         ) : (
           <SectionWrapperContent style={{ minHeight: 200 }}>
