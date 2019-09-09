@@ -9,4 +9,15 @@ const getAllCities = () => Listing.aggregate([
   { $project: { city: 1, _id: 0 } },
 ]);
 
-module.exports = { updateListing, getAllCities };
+const deleteListingPhotoQ = (userId, fileNameToBeDeleted) => Listing.updateOne(
+  { user: userId },
+  {
+    $pull: {
+      photos: {
+        fileName: fileNameToBeDeleted,
+      },
+    },
+  },
+);
+
+module.exports = { updateListing, deleteListingPhotoQ, getAllCities };

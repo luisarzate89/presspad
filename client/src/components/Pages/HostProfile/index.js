@@ -79,7 +79,7 @@ class HostProfile extends Component {
 
   // functions
   getHostProfile = () => {
-    const { match, history } = this.props;
+    const { match, history, role } = this.props;
     let hostId = match.params.id;
     if (!hostId && match.path === "/my-profile") {
       hostId = this.props.id;
@@ -94,16 +94,27 @@ class HostProfile extends Component {
             profileData: data,
             adminApprovedProfile: data.profile.verified
           });
-        } else {
-          message
-            .info("You don't have profile")
-            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         }
       })
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        if (
+          error === "User has no profile" &&
+          ["host", "superhost"].includes(role)
+        ) {
+          message
+            .info(
+              <p>
+                You don't have profile
+                <br /> You will be redirected to complete your profile
+              </p>,
+              1
+            )
+            .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
+        } else {
+          message.error(error || "Something went wrong");
+        }
       });
   };
 
@@ -145,7 +156,14 @@ class HostProfile extends Component {
           otherInfo,
           description
         },
-        profile: { bio, jobTitle, organisation, profileImage, _id: profileId },
+        profile: {
+          bio,
+          jobTitle,
+          organisation,
+          profileImage,
+          _id: profileId,
+          user
+        },
         name,
         email,
         reviews
@@ -202,10 +220,14 @@ class HostProfile extends Component {
           <AdminTopDiv>
             <ProfilePic
               src={profileImage.url || profilePlaceholder}
-              adminView={role === "admin"}
+              adminView={role === "admin" || user === currentUserId}
               onError={this.handleImageFail}
             />
-            <EditButton to={HOST_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
+            {user === currentUserId && (
+              <EditButton to={HOST_COMPLETE_PROFILE_URL}>
+                Edit Profile
+              </EditButton>
+            )}
           </AdminTopDiv>
 
           <HeaderDiv>
@@ -213,7 +235,7 @@ class HostProfile extends Component {
               <Headline>{name}</Headline>
             ) : (
               <Headline>
-                A {jobTitle} at {organisation.name}
+                {jobTitle && `A ${jobTitle} at `} {organisation.name}
               </Headline>
             )}
             <Address>{`${address.street}, ${address.city}`}</Address>

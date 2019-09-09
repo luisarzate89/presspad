@@ -36,6 +36,7 @@ const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const { orgPayment } = require("../controllers/payments/index");
 const { getAllCities } = require("../controllers/listing");
+const deletListingPhotos = require("../controllers/profile/deletListingPhotos");
 
 // controller for admin to view all withdraw requests in presspad
 const viewWithdrawRequests = require("../controllers/withdrawRequests");
@@ -95,14 +96,14 @@ router.patch(ACCEPT_BOOKING_URL, authentication, acceptBooking);
 // accept booking by id
 router.patch(REJECT_BOOKING_URL, authentication, rejectBooking);
 
-
 // Host view intern profile
 router.get(INTERN_PROFILE_URL, authentication, hostViewInternProfile);
-
 
 // get HOST dashboard data
 router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 
+// gets hosts profile data
+router.get(HOST_PROFILE_URL, getHostProfile);
 
 // update host profile and create new offer
 router.post(
@@ -110,6 +111,9 @@ router.post(
   authentication,
   hostsCompleteProfile,
 );
+
+// delete the photo from the host listings
+router.patch(HOST_COMPLETE_PROFILE, authentication, deletListingPhotos);
 
 // update intern profile
 router.post(
@@ -155,6 +159,7 @@ router.get(GET_ORGS_URL, getAllOrgs);
 // Orgs
 router.get(ORGS_DASHBOARD, authentication, orgsDashboard);
 
+// Get intern dashboard
 router.get(INTERN_DASHBOARD_URL, authentication, internDashboard);
 
 // GET MY PROFILE
@@ -168,10 +173,6 @@ router.post(COUPONS_URL, authentication, createCoupon);
 
 // admin || org get all interns
 router.get(INTERNS_URL, authentication, getAllInterns);
-
-
-// gets hosts profile data
-router.get(HOST_PROFILE_URL, getHostProfile);
 
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);

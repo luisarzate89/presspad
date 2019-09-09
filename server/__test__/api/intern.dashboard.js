@@ -49,7 +49,7 @@ describe("Testing for intern dashboard route", () => {
 
             expect(name).toBe("Mone Dupree");
             expect(profile).toBeDefined();
-            expect(profile.profileImage).toMatch(/https:\/\/storage.googleapis.com\/*\/*.*/);
+            expect(profile.profileImage.url).toMatch(/https:\/\/storage.googleapis.com\/*\/*.*/);
 
             expect(notifications).toBeDefined();
             expect(notifications).toHaveLength(2);

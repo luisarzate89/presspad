@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 //  COMMON COMPONENTS
 import PrivateRoute from "./../Common/PrivateRoute";
+import NotFound from "./../Common/NotFound";
 
 import LandingPage from "./LandingPage";
 import HostCreateProfile from "./HostCreateProfile";
@@ -38,7 +39,7 @@ import {
 
 class Pages extends Component {
   render() {
-    const { handleChangeState, isLoggedIn } = this.props;
+    const { handleChangeState, isLoggedIn, role } = this.props;
 
     return (
       <>
@@ -71,30 +72,36 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-          <PrivateRoute
-            exact
-            path={HOST_COMPLETE_PROFILE_URL}
-            Component={HostCreateProfile}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
-          />
-          <PrivateRoute
-            exact
-            path={ADMIN_DASHBOARD_URL}
-            Component={AdminDashboard}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
-          />
-          <PrivateRoute
-            exact
-            path={INTERN_COMPLETE_PROFILE_URL}
-            Component={InternCreateProfile}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
-          />
+          {["host", "superhost"].includes(role) && (
+            <PrivateRoute
+              exact
+              path={HOST_COMPLETE_PROFILE_URL}
+              Component={HostCreateProfile}
+              handleChangeState={handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.props}
+            />
+          )}
+          {role === "admin" && (
+            <PrivateRoute
+              exact
+              path={ADMIN_DASHBOARD_URL}
+              Component={AdminDashboard}
+              handleChangeState={handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.props}
+            />
+          )}
+          {role === "intern" && (
+            <PrivateRoute
+              exact
+              path={INTERN_COMPLETE_PROFILE_URL}
+              Component={InternCreateProfile}
+              handleChangeState={handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.props}
+            />
+          )}
           <PrivateRoute
             exact
             path={MYPROFILE_URL}
@@ -109,14 +116,16 @@ class Pages extends Component {
             isLoggedIn={isLoggedIn}
             {...this.props}
           />
-          <PrivateRoute
-            exact
-            path={ADD_REVIWE_URL}
-            Component={AddReview}
-            handleChangeState={handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.props}
-          />
+          {["intern", "host", "superhost"].includes(role) && (
+            <PrivateRoute
+              exact
+              path={ADD_REVIWE_URL}
+              Component={AddReview}
+              handleChangeState={handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.props}
+            />
+          )}
           <Route
             path={SIGNUP_INTERN}
             exact
@@ -176,6 +185,7 @@ class Pages extends Component {
               )
             }
           />
+          {this.props.isMounted && <Route component={NotFound} />}
         </Switch>
       </>
     );
