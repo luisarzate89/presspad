@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const User = require("../../models/User");
 const Listing = require("../../models/Listing");
 
 module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
@@ -9,7 +7,7 @@ module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
   if (!startDate && !endDate) {
     Listing.aggregate([
       {
-        $match: { "address.city": city },
+        $match: { "address.city": new RegExp(city, "i") },
       },
       //  get the user id so we can link to the right profile
       {
@@ -39,10 +37,8 @@ module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
     ])
       .then(listings => resolve(listings))
       .catch(error => reject(error));
-  }
-
-  // if only dates get all listing that match those dates
-  else if (!city) {
+  } else if (!city) {
+    // if only dates get all listing that match those dates
     Listing.aggregate([
       // get any listings that have an end date later than today
       {
@@ -97,14 +93,12 @@ module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
     ])
       .then(listings => resolve(listings))
       .catch(error => reject(error));
-  }
-
-  // otherwise find those that match city AND dates
-  else {
+  } else {
+    // otherwise find those that match city AND dates
     Listing.aggregate([
       // get any listings that match the city
       {
-        $match: { "address.city": city },
+        $match: { "address.city": new RegExp(city, "i") },
       },
       // get any listings that have an end date later than today
       {
