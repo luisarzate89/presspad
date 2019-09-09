@@ -35,6 +35,7 @@ const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
 const { orgPayment } = require("../controllers/payments/index");
+const { getAllCities } = require("../controllers/listing");
 const deletListingPhotos = require("../controllers/profile/deletListingPhotos");
 
 // controller for admin to view all withdraw requests in presspad
@@ -82,6 +83,7 @@ const {
   REJECT_BOOKING_URL,
   ORG_PAYMENT_URL,
   FIND_WITHDRAW_REQUESTS_URL,
+  GET_ALL_CETIES_URL,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -210,5 +212,7 @@ router.route(FIND_WITHDRAW_REQUESTS_URL)
 // payments
 router.route(INTERN_PAYMENT_URL)
   .post(authentication, internPayment);
+
+router.get(GET_ALL_CETIES_URL, getAllCities);
 
 module.exports = router;

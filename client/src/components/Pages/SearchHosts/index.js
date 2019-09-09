@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Input, DatePicker, Icon } from "antd";
+import { Input, DatePicker, Icon, Select } from "antd";
 import axios from "axios";
 import moment from "moment";
 
 // import API routes
-import { API_SEARCH_PROFILES_URL } from "./../../../constants/apiRoutes";
+import {
+  API_SEARCH_PROFILES_URL,
+  API_GET_ALL_CETIES_URL
+} from "./../../../constants/apiRoutes";
 
 // import Nav routes
 import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
@@ -37,6 +40,7 @@ import {
 export default class index extends Component {
   state = {
     listings: null,
+    cities: [],
     searchFields: { city: null, startDate: null, endDate: null },
     errors: {}
   };
@@ -59,8 +63,21 @@ export default class index extends Component {
 
   onInputChange = e => {
     const { searchFields } = this.state;
-    searchFields[e.target.name] = e.target.value;
-    this.setState({ searchFields });
+    const newSearchFields = { ...searchFields };
+
+    if (e.target) {
+      newSearchFields[e.target.name] = e.target.value;
+      this.setState({ searchFields: newSearchFields });
+    } else {
+      // e is the city <Select>  value
+      newSearchFields.city = e;
+      this.setState({ searchFields: newSearchFields }, () => {
+        const isValid = this.validateSearch();
+        if (isValid) {
+          this.fetchListings();
+        }
+      });
+    }
   };
 
   // HANDLING DATE INPUTS
@@ -170,10 +187,20 @@ export default class index extends Component {
     } else return moment(dates[0].endDate).format("Do MMM YYYY");
   };
 
+  async componentDidMount() {
+    // fetch all cities from the listing
+    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
+    const cities = data.reduce((acc, curr) => {
+      acc.add(curr.city);
+      return acc;
+    }, new Set());
+    this.setState({ cities: [...cities] });
+  }
+
   render() {
-    const { searchFields, errors, listings } = this.state;
+    const { searchFields, errors, listings, cities } = this.state;
     const { isLoggedIn } = this.props;
-    const { city, startDate, endDate } = searchFields;
+    const { startDate, endDate } = searchFields;
     const { searchError } = errors;
     return (
       <Wrapper>
@@ -188,15 +215,21 @@ export default class index extends Component {
         <SearchForm>
           <FirstSearchInputDiv>
             <SearchLabel htmlFor="city">City</SearchLabel>
-            <Input
+            <Select
+              showSearch
               placeholder="Enter your city"
               name="city"
               id="city"
-              type="text"
+              autoFocus
               style={{ width: 150 }}
-              value={city}
-              onChange={this.onInputChange}
-            />
+              onSelect={this.onInputChange}
+            >
+              {cities.map(city => (
+                <Select.Option value={city} key={city}>
+                  {city}
+                </Select.Option>
+              ))}
+            </Select>
           </FirstSearchInputDiv>
           <SearchInputDiv>
             <SearchLabel htmlFor="startDate">Between</SearchLabel>
