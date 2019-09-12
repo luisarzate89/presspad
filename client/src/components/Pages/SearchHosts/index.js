@@ -172,8 +172,8 @@ export default class index extends Component {
         return b.startDate - a.startDate;
       });
 
-      return moment(sortedDates[0].startDate).format("Do MMM");
-    } else return moment(dates[0].startDate).format("Do MMM YYYY");
+      return moment(sortedDates[0].startDate).format("Do MMM YYYY");
+    } else return moment(dates).format("Do MMM YYYY");
   };
 
   showEndDate = dates => {
@@ -184,14 +184,14 @@ export default class index extends Component {
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
         "Do MMM YYYY"
       );
-    } else return moment(dates[0].endDate).format("Do MMM YYYY");
+    } else return moment(dates).format("Do MMM YYYY");
   };
 
   async componentDidMount() {
     // fetch all cities from the listing
     const { data } = await axios.get(API_GET_ALL_CETIES_URL);
     const cities = data.reduce((acc, curr) => {
-      acc.add(curr.city);
+      acc.add(curr.city.toLowerCase());
       return acc;
     }, new Set());
     this.setState({ cities: [...cities] });
