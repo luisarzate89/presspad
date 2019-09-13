@@ -57,7 +57,6 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
-      <button onClick={this.go} >Click for Error</button>
       {/*<Arrow />*/}
         <HeroSection src={heroImage}>
           <Iframe
