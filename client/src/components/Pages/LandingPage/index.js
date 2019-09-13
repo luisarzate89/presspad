@@ -57,7 +57,8 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
-        <Arrow />
+      <button onclick={this.go} />
+      {/*<Arrow />*/}
         <HeroSection src={heroImage}>
           <Iframe
             src="https://www.youtube.com/embed/OCWj5xgu5Ng"
