@@ -107,6 +107,7 @@ class App extends Component {
               userType={role}
               resetState={this.resetState}
             />
+            <button onClick={methodDoesNotExist}>Break the world</button>
             <Pages
               handleChangeState={this.handleChangeState}
               isLoggedIn={isLoggedIn}
