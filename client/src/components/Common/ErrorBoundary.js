@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import * as Sentry from "@sentry/browser";
 
 class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { error: null, eventId: null };
-  }
+  state = { error: null, eventId: null };
 
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
@@ -18,7 +15,7 @@ class ErrorBoundary extends Component {
     }
   }
 
-  showSentryDialogFrom = () => {
+  showSentryDialogForm = () => {
     if (process.env.NODE_ENV === "production") {
       Sentry.showReportDialog({ eventId: this.state.eventId });
     }
@@ -30,7 +27,7 @@ class ErrorBoundary extends Component {
       return (
         <div>
           <h1>Oops… Help us fix this by submitting a report</h1>
-          <button onClick={this.showSentryDialogFrom}>Report feedback</button>
+          <button onClick={this.showSentryDialogForm}>Report feedback</button>
         </div>
       );
     }
