@@ -61,9 +61,7 @@ export default class SignInPage extends Component {
     if (!fields.password) {
       formIsValid = false;
       errors.passwordError = "* Please enter your password";
-    }
-
-    if (fields.password.length < 6) {
+    } else if (fields.password.length < 6) {
       formIsValid = false;
       errors.passwordError = "* Password must be 6 characters or longer";
     }
