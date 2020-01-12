@@ -21,6 +21,8 @@ const checklistAnswerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "bookings",
   },
+  hostEmail: String,
+  internEmail: String,
 }, {
   timestamps: true,
 });

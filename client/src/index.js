@@ -11,8 +11,12 @@ if (process.env.NODE_ENV === "production") {
 }
 
 ReactDOM.render(
-  <ErrorBoundary>
+  process.env.NODE_ENV === "production" ? (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  ) : (
     <App />
-  </ErrorBoundary>,
+  ),
   document.getElementById("root")
 );

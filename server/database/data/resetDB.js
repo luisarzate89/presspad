@@ -1,14 +1,51 @@
-const mongoose = require("mongoose");
+const {
+  Account,
+  Booking,
+  ChecklistAnswer,
+  ChecklistQuestion,
+  Coupon,
+  ExternalTransaction,
+  Installment,
+  InternalTransaction,
+  Listing,
+  Notification,
+  OrgCodes,
+  Organisation,
+  Profile,
+  Referal,
+  Review,
+  ScheduledEmail,
+  ScheduledNotification,
+  Transaction,
+  User,
+  WithdrawRequest,
+} = require("./../models");
 
 const resetDB = async () => {
   try {
-    const { connection } = mongoose;
-    const collections = await connection.db.listCollections({}, { nameOnly: true }).toArray();
-
-    const promises = collections.map(({ name }) => connection.dropCollection(name));
-    await Promise.all(promises);
+    await Account.deleteMany();
+    await Booking.deleteMany();
+    await ChecklistAnswer.deleteMany();
+    await ChecklistQuestion.deleteMany();
+    await Coupon.deleteMany();
+    await ExternalTransaction.deleteMany();
+    await Installment.deleteMany();
+    await InternalTransaction.deleteMany();
+    await Listing.deleteMany();
+    await Notification.deleteMany();
+    await OrgCodes.deleteMany();
+    await Organisation.deleteMany();
+    await Profile.deleteMany();
+    await Referal.deleteMany();
+    await Review.deleteMany();
+    await ScheduledEmail.deleteMany();
+    await ScheduledNotification.deleteMany();
+    await Transaction.deleteMany();
+    await User.deleteMany();
+    await WithdrawRequest.deleteMany();
   } catch (err) {
     console.log("Error during resting the db, try again", err);
+    throw err;
   }
 };
 

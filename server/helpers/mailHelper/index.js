@@ -19,6 +19,10 @@ const sendMail = options => new Promise((resolve, reject) => {
     throw boom.badData("mailHelper error: mailTransporter is not defined. Add the proper env variable");
   }
 
+  if (process.env.NODE_ENV === "production") {
+    return resolve();
+  }
+
   mailTransporter.sendMail(options, (err, res) => {
     if (err) return reject(err);
     return resolve(res);

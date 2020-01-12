@@ -4,7 +4,8 @@ import {
   CheckboxContainer,
   HiddenCheckbox,
   StyledCheckbox,
-  CheckIcon
+  CheckIcon,
+  Text
 } from "./Checklist.style";
 
 /**
@@ -16,6 +17,7 @@ export default function Checkbox({
   checked,
   onChange,
   text,
+  hintTextElement,
   ...props
 }) {
   return (
@@ -24,7 +26,15 @@ export default function Checkbox({
       <StyledCheckbox checked={checked}>
         <CheckIcon>✓</CheckIcon>
       </StyledCheckbox>
-      <span style={{ marginLeft: 8 }}>{text}</span>
+      <div>
+        <Text>{text}</Text>
+        {hintTextElement ? (
+          <>
+            <br />
+            {hintTextElement}
+          </>
+        ) : null}
+      </div>
     </CheckboxContainer>
   );
 }

@@ -15,6 +15,20 @@ const checklistQuestionSchema = new Schema({
     type: String,
     enum: ["host", "intern", "both"],
   },
+  // hint section with it's options
+  hintText: String,
+  containsHostEmail: {
+    type: Boolean,
+    default: false,
+  },
+  containsInternEmail: {
+    type: Boolean,
+    default: false,
+  },
+  links: [{
+    label: String,
+    linkType: String, // to get the link value from .env
+  }],
 }, {
   timestamps: true,
 });

@@ -133,13 +133,15 @@ export default class BookingView extends Component {
       checked
     } = e.target;
 
-    const { checklist } = this.state;
+    const { checklistObj } = this.state;
     try {
-      await axios.get("/update checklist url");
+      await axios.patch(`/api/checkilsts/answers/${id}`, {
+        isChecked: checked
+      });
       this.setState({
-        checklist: {
-          ...checklist,
-          [id]: { ...checklist[id], isChecked: checked }
+        checklistObj: {
+          ...checklistObj,
+          [id]: { ...checklistObj[id], isChecked: checked }
         }
       });
     } catch (err) {

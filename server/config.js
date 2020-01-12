@@ -34,3 +34,9 @@ module.exports.admin = admin;
 module.exports.email = process.env.EMAIL;
 module.exports.pass = process.env.MAIL_PASSWORD;
 module.exports.domain = process.env.DOMAIN;
+
+module.exports.links = {
+  fb: process.env.FACEBOOK_GROUP_LINK,
+  whatsapp: process.env.WHATSAPP_GROUP_LINK,
+  calendly: process.env.CALENDLY_LINK,
+};

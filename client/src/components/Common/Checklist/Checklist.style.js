@@ -17,9 +17,6 @@ export const CheckboxContainer = styled.label`
   margin-bottom: 0.75rem;
   font-weight: 500;
   cursor: pointer;
-  &:hover {
-    font-size: 1.1rem;
-  }
 `;
 
 export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
@@ -46,4 +43,13 @@ export const StyledCheckbox = styled.div`
   ${CheckIcon} {
     visibility: ${props => (props.checked ? "visible" : "hidden")};
   }
+`;
+
+export const Text = styled.span`
+  margin-left: 8px;
+`;
+
+export const Hint = styled(Text)`
+  font-weight: 300;
+  margin-bottom: 0.75rem;
 `;

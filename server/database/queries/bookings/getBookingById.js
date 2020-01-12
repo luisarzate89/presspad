@@ -75,7 +75,15 @@ module.exports = (bookingId, userType) => Booking.aggregate([
             let: { questionId: "$question" },
             pipeline: [
               { $match: { $expr: { $eq: ["$$questionId", "$_id"] } } },
-              { $project: { text: 1 } },
+              {
+                $project: {
+                  text: 1,
+                  containsHostEmail: 1,
+                  containsInternEmail: 1,
+                  hintText: 1,
+                  links: 1,
+                },
+              },
             ],
             as: "question",
           },
