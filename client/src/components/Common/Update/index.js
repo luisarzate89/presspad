@@ -93,7 +93,7 @@ const Update = ({ item, userRole }) => {
               <Link to={`/intern/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>{" "}
-              &nbsp;requested to stay with you-{" "}
+              &nbsp;requested to stay with you -{" "}
               <UpdateDate>{timeString}</UpdateDate>
               {!seen && <Badge>new</Badge>}
             </UpdateItem>
@@ -105,7 +105,7 @@ const Update = ({ item, userRole }) => {
               <Link to={`/intern/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>{" "}
-              &nbsp;has completed his stay with you-{" "}
+              &nbsp;has completed his stay with you -{" "}
               <UpdateDate>{timeString}</UpdateDate>
               {!seen && <Badge>new</Badge>}
             </UpdateItem>
