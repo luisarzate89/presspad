@@ -24,5 +24,6 @@ if (process.env.NODE_ENV === "test") {
 const dbConnection = useAtlas => mongoose.connect(useAtlas ? mongoURIAtlas : mongoURI, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 module.exports = dbConnection;
