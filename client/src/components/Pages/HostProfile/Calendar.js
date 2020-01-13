@@ -3,7 +3,11 @@ import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
 import { Spin, Alert, Icon } from "antd";
-import { createDatesArray, getDateRangeFromArray } from "../../../helpers";
+import {
+  createDatesArray,
+  getDateRangeFromArray,
+  calculatePrice
+} from "../../../helpers";
 
 import {
   API_BOOKING_REQUEST_URL,
@@ -21,28 +25,12 @@ import {
 
 const bookingRequest = (url, data) => axios.post(url, data);
 
-const countDays = dates => {
-  const start = moment(dates[0]);
-  const end = moment(dates[1]);
-  return end.diff(start, "days");
-};
-
-const calculatePrice = dates => {
-  const start = moment(dates[0]);
-  const end = moment(dates[1]);
-
-  const weeks = end.diff(start, "weeks");
-  const days = end.diff(start, "days") % 7;
-
-  return weeks * 150 + days * 20;
-};
-
 class CalendarComponent extends Component {
   state = {
     isLoading: true,
     avDates: [],
     dates: new Date(),
-    noNights: null,
+    isRangeSelected: false,
     price: 0,
     bookingExists: false,
     message: "",
@@ -63,14 +51,19 @@ class CalendarComponent extends Component {
     });
   }
 
+  // to disable "Request Stay" button when the user starts to select a range
+  onDayClick = () => {
+    this.setState({ isRangeSelected: false });
+  };
+
   // updates state
   onChange = dates => {
     const { internBookings } = this.props;
 
     this.setState({
       dates,
-      noNights: countDays(dates),
-      price: calculatePrice(dates),
+      isRangeSelected: true,
+      price: calculatePrice(moment.range(dates[0], dates[1])),
       message: "",
       messageType: ""
     });
@@ -85,7 +78,8 @@ class CalendarComponent extends Component {
     date = moment(date).format("YYYY-MM-DD");
     return (
       !avDates.includes(date) ||
-      moment.utc()
+      moment
+        .utc()
         .startOf("day")
         .add(7, "days")
         .isAfter(date)
@@ -127,11 +121,17 @@ class CalendarComponent extends Component {
             });
           })
           .catch(error => {
+            const resMsg = error.response.data.error;
+
+            const message = resMsg.includes(
+              "user has already a booking request"
+            )
+              ? "It seems like you have already requested a booking during those dates. You can only make one request at a time."
+              : "Something went wrong, please try again";
             this.setState({
               isBooking: false,
               messageType: "error",
-              message:
-                "It seems like you have already requested a booking during those dates. You can only make one request at a time."
+              message
             });
           });
       }
@@ -169,7 +169,7 @@ class CalendarComponent extends Component {
   render() {
     const {
       price,
-      noNights,
+      isRangeSelected,
       bookingExists,
       message,
       messageType,
@@ -188,6 +188,7 @@ class CalendarComponent extends Component {
             next2Label={null}
             tileDisabled={this.tileDisabled}
             onChange={this.onChange}
+            onClickDay={this.onDayClick}
             value={this.state.date}
             locale="en-t-jp"
             maxDetail="month"
@@ -211,11 +212,7 @@ class CalendarComponent extends Component {
             <RequestBtn
               onClick={this.handleClick}
               disabled={
-                noNights === 0 ||
-                noNights === null ||
-                bookingExists ||
-                adminView ||
-                isBooking
+                !isRangeSelected || bookingExists || adminView || isBooking
               }
             >
               <Spin

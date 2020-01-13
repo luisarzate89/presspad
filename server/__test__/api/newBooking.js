@@ -34,7 +34,7 @@ describe("Testing for create new booking route", () => {
       host: listing.user,
       listing: listing._id,
       startDate: moment.utc().add(30, "days"),
-      endDate: moment.utc().add(37, "days"),
+      endDate: moment.utc().add(36, "days"),
       price: 150,
     };
 

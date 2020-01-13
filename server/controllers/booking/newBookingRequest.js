@@ -7,6 +7,7 @@ const {
   createNewBooking,
   updateListingAvailability,
 } = require("../../database/queries/bookings");
+const { calculatePrice } = require("../../helpers/payments");
 
 const { createNotification } = require("./../../database/queries/notification");
 
@@ -43,6 +44,11 @@ module.exports = async (req, res, next) => {
     if (listingUnavailable.listingUnavailable) {
       return next(boom.badRequest("listing is not available during those dates"));
     }
+    // validate price
+    const calculatedPrice = calculatePrice(moment.range(startDate, endDate));
+    if (calculatedPrice !== price) {
+      return next(boom.badRequest("Price doesn't match!"));
+    }
 
     const notification = {
       private: false,
@@ -57,7 +63,6 @@ module.exports = async (req, res, next) => {
       updateListingAvailability(listing, startDate, endDate),
       createNotification(notification),
     ]);
-
 
     return res.json({ success: true });
   } catch (error) {
