@@ -42,6 +42,7 @@ export const bookingsColumns = windowWidth => {
         return (
           <BlueLink
             style={{ textTransform: "capitalize" }}
+            onClick={e => e.stopPropagation()}
             to={`/hosts/${record.host._id}`}
           >
             {text}

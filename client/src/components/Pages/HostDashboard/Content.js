@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 import {
   Col,
@@ -62,6 +63,7 @@ const Content = ({
   apiLoading,
   withdrawRequests,
   errors,
+  history,
 
   // functions
   handleViewMoreToggle,
@@ -172,6 +174,12 @@ const Content = ({
                     dataSource={bookings.slice(0, viewNumber)}
                     rowKey={"_id"}
                     pagination={false}
+                    onRow={record => {
+                      return {
+                        onClick: () => history.push(`booking/${record._id}`),
+                        style: { cursor: "pointer" }
+                      };
+                    }}
                   />
                   {bookings.length > 3 && (
                     <BlueLink
@@ -456,4 +464,4 @@ const Content = ({
   );
 };
 
-export default Content;
+export default withRouter(Content);

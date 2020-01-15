@@ -71,7 +71,12 @@ export const bookingsColumns = windowWidth => {
       key: "intern._id",
       render: (text, record) => (
         <BlueLink>
-          <Link to={`/interns/${record.intern._id}`}>{text}</Link>
+          <Link
+            onClick={e => e.stopPropagation()}
+            to={`/interns/${record.intern._id}`}
+          >
+            {text}
+          </Link>
         </BlueLink>
       )
     },
