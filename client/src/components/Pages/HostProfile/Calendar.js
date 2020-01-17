@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import Calendar from "react-calendar/dist/entry.nostyle";
 import moment from "moment";
 import axios from "axios";
-import { Spin, Alert, Icon } from "antd";
+import { Spin, Alert, Icon, Modal } from "antd";
 import {
   createDatesArray,
   getDateRangeFromArray,
@@ -22,6 +23,8 @@ import {
   RequestBtn,
   ErrorDiv
 } from "./Calendar.style";
+
+import { INTERN_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
 
 const bookingRequest = (url, data) => axios.post(url, data);
 
@@ -86,6 +89,19 @@ class CalendarComponent extends Component {
     ); // Block day tiles only
   };
 
+  goToCompleteProfile = () => {
+    this.props.history.push(INTERN_COMPLETE_PROFILE_URL);
+  };
+
+  showAlertAndRedirectToProfile = message => {
+    Modal.warning({
+      title: "Sorry! You can't make a request.",
+      content: message,
+      onOk: this.goToCompleteProfile,
+      onCancel: this.goToCompleteProfile
+    });
+  };
+
   handleClick = async () => {
     const { dates, price } = this.state;
     const { currentUserId, listingId, hostId } = this.props;
@@ -108,6 +124,10 @@ class CalendarComponent extends Component {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
         message = "You need to complete your profile";
+      }
+
+      if (!verified || !isComplete) {
+        this.showAlertAndRedirectToProfile(message);
       }
 
       this.setState({ message, messageType: "error" });
@@ -137,10 +157,14 @@ class CalendarComponent extends Component {
       }
     } catch (err) {
       if (err && err.response && err.response.status === 404) {
+        const message =
+          "You need to have a profile in order to be able to book stay";
+
+        this.showAlertAndRedirectToProfile(message);
         this.setState({
           isBooking: false,
           messageType: "error",
-          message: "You need to have a profile in order to be able to book stay"
+          message: message
         });
       }
     }
@@ -233,4 +257,4 @@ class CalendarComponent extends Component {
     );
   }
 }
-export default CalendarComponent;
+export default withRouter(CalendarComponent);
