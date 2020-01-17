@@ -4,6 +4,7 @@ const { hostAcceptBookingById, getBookingWithUsers } = require("../../database/q
 const { createNotification } = require("./../../database/queries/notification");
 const requestAcceptedToIntern = require("./../../helpers/mailHelper/requestAcceptedToIntern");
 const requestAcceptedToAdmin = require("./../../helpers/mailHelper/requestAcceptedToAdmin");
+const { scheduleReminderEmails } = require("./../../services/mailing");
 const { findAllQuestions, createChecklistAnswers } = require("./../../database/queries/checkList");
 
 const createBookingChecklistAnswers = require("../../helpers/createBookingChecklistAnswers");
@@ -43,6 +44,12 @@ const acceptBooking = async (req, res, next) => {
     let promiseArray = [
       // create a notification for intern
       createNotification(notification),
+      scheduleReminderEmails({
+        bookingId,
+        startDate: updatedBookingRequest.startDate,
+        hostId: updatedBookingRequest.host._id,
+        internId: updatedBookingRequest.intern._id,
+      }),
       // store the answers
       createChecklistAnswers(answers),
     ];

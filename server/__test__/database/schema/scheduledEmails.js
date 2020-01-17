@@ -25,7 +25,7 @@ describe("Test ScheduledEmail schema", () => {
     const bookings = await Booking.find();
 
     const scheduledEmail = {
-      type: "INTERN_REMINDER_7_DAYS",
+      type: "BOOKING_REMINDER_1_WEEK",
       data: {
         recipient: "test@gmail.com",
         host: bookings[0].host,

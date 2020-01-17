@@ -6,7 +6,7 @@ module.exports = async () => {
   const bookings = await Booking.findOne({ status: "confirmed" }).sort({ price: 1 });
 
   const scheduledEmail = {
-    type: "INTERN_REMINDER_7_DAYS",
+    type: "BOOKING_REMINDER_1_WEEK",
     data: {
       recipient: "test@gmail.com",
       host: bookings.host,

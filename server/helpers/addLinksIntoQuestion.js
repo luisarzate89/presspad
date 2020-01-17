@@ -4,7 +4,7 @@ const { links: configLinks } = require("../config");
  * Injects the links from the env variables into the question object
  * updates the referanced question object
  *
- * @param {Object} questions  question to embed the links into the questions
+ * @param {Object} question  question to embed the links into the questions
  *
  * @returns undefined
  */

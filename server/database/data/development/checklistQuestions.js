@@ -38,7 +38,7 @@ module.exports = async () => {
     text: "Send photos of their home and interns room",
     isPublic: true,
     for: "host",
-    hintText: "/email/",
+    hintText: "{email}",
     containsInternEmail: true,
   }, {
     text: "Join PressPad community",
