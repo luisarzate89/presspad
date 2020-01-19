@@ -23,10 +23,13 @@ module.exports = async () => {
       discountRate: 50,
       days: 10,
       usedDays: 5,
+      reservedAmount: 200,
+      usedAmount: 100,
       startDate: Date.now() + 15 * 24 * 60 * 60 * 1000, // after 5 days from now
       endDate: Date.now() + 25 * 24 * 60 * 60 * 1000, // after 25 days from now
       transactions: [{
         usedDays: 5,
+        amount: 100,
         booking: booking._id,
         transaction: internalTransaction,
       }],
@@ -39,6 +42,8 @@ module.exports = async () => {
       discountRate: 70,
       days: 15,
       usedDays: 0,
+      reservedAmount: 300,
+      usedAmount: 0,
       startDate: Date.now() + 15 * 24 * 60 * 60 * 1000, // after 30 days from now
       endDate: Date.now() + 30 * 24 * 60 * 60 * 1000, // after 30 days from now
       // no transactions yet

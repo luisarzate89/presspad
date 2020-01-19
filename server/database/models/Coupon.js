@@ -73,9 +73,34 @@ const couponSchema = new Schema({
       message: "end date is in the past",
     },
   },
+  // the amount of money been deducted from org account
+  reservedAmount: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+  // the amount of money been used by intern so far
+  usedAmount: {
+    type: Number,
+    min: 0,
+    default: 0,
+    required: true,
+    validate: {
+      validator(usedAmount) {
+        return usedAmount <= this.reservedAmount;
+      },
+      message: "used amount exceeded the reserved amount",
+    },
+  },
   // coupon's transactions history
   transactions: [{
     _id: { type: Schema.ObjectId, auto: true },
+    // the amount been paid in this transaction
+    amount: {
+      type: Number,
+      min: 0,
+      required: true,
+    },
     usedDays: {
       type: Number,
       required: true,

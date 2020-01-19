@@ -19,14 +19,24 @@ const updateCouponTransaction = async (
   userId, couponId, transactionId, bookingId, usedDays, amount, session,
 ) => {
   const updatedCoupon = await Coupon.findOneAndUpdate(
-    { _id: mongoose.Types.ObjectId(couponId) }, {
-      $inc: { usedDays },
+    { _id: mongoose.Types.ObjectId(couponId) },
+    {
+      $inc: {
+        usedDays,
+        usedAmount: amount,
+      },
       $push: {
-        transactions: { usedDays, booking: bookingId, transaction: transactionId },
+        transactions: {
+          usedDays, booking: bookingId, transaction: transactionId, amount,
+        },
       },
       intern: userId,
     },
-    { session, new: true },
+    {
+      session,
+      new: true,
+      runValidators: true,
+    },
   );
 
   await Promise.all([

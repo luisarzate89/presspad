@@ -30,6 +30,7 @@ const createCoupon = async ({
       endDate,
       usedDays,
       intern,
+      reservedAmount: amount,
     }], { session });
 
     const updatedOrgAccount = await Account.findOneAndUpdate({
