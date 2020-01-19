@@ -8,6 +8,8 @@ const { getCoupons } = require("../../database/queries/coupon");
 const generatePaymentResponse = require("./generatePaymentResponse");
 const internTransaction = require("./internTransaction");
 
+const { schedulePaymentReminders } = require("./../../services/mailing");
+
 const {
   getDiscountDays, calculatePrice,
   createInstallments, compareInstallments, getFirstUnpaidInstallment,
@@ -106,8 +108,21 @@ const internPayment = async (req, res, next) => {
       couponDiscount, couponDiscountDays, couponOrganisationAccount, couponId,
     };
     try {
+      let _schedulePaymentReminders = Promise.resolve();
+      if (Array.isArray(paymentInfo) || !paymentInfo._id) {
+        // create payments reminders
+        _schedulePaymentReminders = schedulePaymentReminders({
+          bookingId,
+          endDate: booking.endDate,
+          internId: booking.intern,
+          session,
+        });
+      }
       // do all transaction queries
-      await internTransaction(session, paymentInfo, booking, stripeInfo, amount, coupon);
+      await Promise.all([
+        internTransaction(session, paymentInfo, booking, stripeInfo, amount, coupon),
+        _schedulePaymentReminders,
+      ]);
 
       // confirm stripe payments
       let intent; // to store the stripe info respone then check if it require 3d secure

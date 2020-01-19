@@ -11,6 +11,8 @@ const scheduledEmailSchema = new Schema(
         "BOOKING_REMINDER_1_WEEK",
         "BOOKING_REMINDER_2_WEEKS",
         "BOOKING_REMINDER_3_WEEKS",
+        "SECOND_PAYMENT_REMINDER",
+        "THIRD_PAYMENT_REMINDER",
         // not used
         "INTERN_STAY_APPROVED",
         "ADMIN_REMINDER",
