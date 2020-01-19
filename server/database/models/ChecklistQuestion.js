@@ -29,6 +29,10 @@ const checklistQuestionSchema = new Schema({
     label: String,
     linkType: String, // to get the link value from .env
   }],
+  isOptional: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

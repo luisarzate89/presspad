@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
+const { wordLengthValidator } = require("../utils");
 
 const listingSchema = new Schema(
   {
@@ -26,11 +27,17 @@ const listingSchema = new Schema(
         required: true,
       },
     },
-    description: {
+    neighbourhoodDescription: {
       type: String,
       required: true,
+      validate: wordLengthValidator(250, "neighbourhoodDescription"),
     },
-    otherInfo: [String],
+    otherInfo: {
+      type: String,
+      required: true,
+      validate: wordLengthValidator(250, "otherInfo"),
+    },
+    accommodationChecklist: [String],
     photos: [
       {
         _id: { type: Schema.ObjectId, auto: true },

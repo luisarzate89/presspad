@@ -23,22 +23,6 @@ const userSchema = new Schema({
     required: true,
   },
 
-  // // generate a code for the User
-  // // (this is to help generate unique codes for interns by organisations,
-  // // combining the orgCode and this code )
-  // // this could also be used for the host referral potentially rather than id
-  // userCode: {
-  //   type: String,
-  //   required: true,
-  // },
-  // this is currently only for hosts as they need to be
-  // referred by a superhost. once that code is submitted
-  // a transaction gets stored in the referrals table.
-  referral: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-  },
-
   // this is for interns and organisation users
   // we need to store the id that's linked to an org
   organisation: {
@@ -48,14 +32,14 @@ const userSchema = new Schema({
 
   role: {
     type: String,
-    enum: ["admin", "organisation", "superhost", "host", "intern"],
+    enum: ["admin", "organisation", "host", "intern"],
     required: true,
   },
 
   account: {
     type: Schema.Types.ObjectId,
     ref: "accounts",
-    // required: true, // this should be uncommented after creating account in the sign-up
+    required: true,
   },
 });
 
