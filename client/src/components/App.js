@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StripeProvider } from "react-stripe-elements";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
+import { AboutYou } from "./Common/ProfileComponents";
 
 // Antd style
 import "antd/lib/layout/style/index.css";
@@ -100,7 +101,8 @@ class App extends Component {
 
     return (
       <StripeProvider stripe={stripe}>
-        <Router>
+        <AboutYou />
+        {/* <Router>
           <div className="App">
             <Navbar
               isLoggedIn={isLoggedIn}
@@ -113,7 +115,7 @@ class App extends Component {
               {...this.state}
             />
           </div>
-        </Router>
+        </Router> */}
       </StripeProvider>
     );
   }
