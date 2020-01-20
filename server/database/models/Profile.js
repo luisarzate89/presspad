@@ -120,7 +120,7 @@ const profileSchema = new Schema(
       validate: wordLengthValidator(50, "allergies"),
       required: false,
     },
-    backgroundAnswer: {
+    backgroundAnswer: { // Is there anything about your background...
       type: String,
       validate: wordLengthValidator(200, "backgroundAnswer"),
       required: false,

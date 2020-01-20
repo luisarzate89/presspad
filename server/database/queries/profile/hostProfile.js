@@ -6,15 +6,38 @@ module.exports.hostProfileData = userId => User.aggregate([
   {
     $match: {
       _id: mongoose.Types.ObjectId(userId),
-      $or: [{ role: "superhost" }, { role: "host" }],
+      role: "host",
     },
   },
   // lookup profile
   {
     $lookup: {
       from: "profiles",
-      localField: "_id",
-      foreignField: "user",
+      let: { id: "$_id" },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $eq: ["$user", "$$id"] },
+          },
+        },
+        {
+          $project: {
+            gender: 1,
+            hometown: 1,
+            school: 1,
+            hostingReasonAnswer: 1,
+            mentoringExperienceAnswer: 1,
+            industryExperienceAnswer: 1,
+            backgroundAnswer: 1,
+            verified: 1, // not sure if we need this
+            bio: 1,
+            organisation: 1,
+            jobTitle: 1,
+            profileImage: 1,
+            badge: 1,
+          },
+        },
+      ],
       as: "profile",
     },
   },
