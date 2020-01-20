@@ -14,9 +14,9 @@ const OtherInformation = ({ errors = {}, handleError }) => {
         hint="You don’t need to answer now but will be required to fill these in before being able to complete a booking."
       />
       <SectionContent>
-        <Row gutter={25}>
+        <Row gutter={0}>
           <Col xs={24} sm={24}>
-            <Row gutter={25}>
+            <Row>
               <Col xs={24} sm={12}>
                 <Field
                   {...fields["organisation"]}
@@ -24,21 +24,21 @@ const OtherInformation = ({ errors = {}, handleError }) => {
                 />
               </Col>
             </Row>
-            <Row gutter={25}>
+            <Col xs={24}>
               <Field
                 {...fields["useReasonAnswer"]}
                 error={errors["useReasonAnswer"]}
               />
-            </Row>
-            <Row gutter={25}>
+            </Col>
+            <Col xs={24}>
               <Field {...fields["issueAnswer"]} error={errors["issueAnswer"]} />
-            </Row>
-            <Row gutter={25}>
+            </Col>
+            <Col xs={24}>
               <Field
                 {...fields["mentorDescribeAnswer"]}
                 error={errors["mentorDescribeAnswer"]}
               />
-            </Row>
+            </Col>
           </Col>
         </Row>
       </SectionContent>
