@@ -3,6 +3,8 @@ import Input from "./Input";
 import Select from "./Select";
 import DatePicker from "./DatePicker";
 import File from "./File";
+import YesNoRadio from "./YesNoRadio";
+
 import { Label } from "./ProfileComponents.style";
 
 export default function Field({
@@ -79,6 +81,18 @@ export default function Field({
       {type === "file" && (
         <File
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          error={error}
+          name={name}
+          parent={parent}
+          handleError={handleError}
+          hint={hint}
+        />
+      )}
+
+      {type === "yesNo" && (
+        <YesNoRadio
           value={value}
           onChange={onChange}
           error={error}

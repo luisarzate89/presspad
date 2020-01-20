@@ -6,7 +6,8 @@ import {
   AboutYou,
   OtherInformation,
   AboutYouDetails,
-  OtherInformationDetails
+  OtherInformationDetails,
+  Demographic
 } from "./Common/ProfileComponents";
 
 // Antd style
@@ -111,6 +112,7 @@ class App extends Component {
           <OtherInformation />
           <AboutYouDetails />
           <OtherInformationDetails />
+          <Demographic />
         </div>
         {/* <Router>
           <div className="App">

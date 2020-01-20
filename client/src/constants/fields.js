@@ -1,4 +1,5 @@
 import React from "react";
+import types from "./types";
 
 export default {
   birthDate: {
@@ -15,7 +16,7 @@ export default {
   gender: {
     type: "select",
     label: "Gender",
-    options: ["male", "female", "other", "prefer not to say"],
+    options: types.gender,
     placeholder: "Please choose an option",
     name: "gender"
   },
@@ -33,7 +34,7 @@ export default {
     type: "select",
     label: "Area of interest",
     placeholder: "Please choose an option",
-    options: [], // waiting for PO to send over
+    options: types.interests,
     name: "interests"
   },
   bio: {
@@ -172,5 +173,72 @@ export default {
         to do this first then upload your certificate
       </span>
     )
+  },
+  sexualOrientation: {
+    type: "select",
+    label: "Sexual orientation",
+    placeholder: "Please choose an option",
+    name: "sexualOrientation",
+    options: types.sexualOrientation
+  },
+  degreeLevel: {
+    type: "select",
+    label: "Degree level",
+    placeholder: "Please choose an option",
+    name: "degreeLevel",
+    options: types.degreeLevel
+  },
+  ethnicity: {
+    type: "select",
+    label: "Ethnicity",
+    placeholder: "Please choose an option",
+    name: "ethnicity",
+    options: types.ethnicity
+  },
+  earningOfParents: {
+    type: "select",
+    label: "Earnings of parents",
+    placeholder: "Please choose an option",
+    name: "earningOfParents",
+    options: types.earningOfParents
+  },
+  disability: {
+    type: "select",
+    label: "Disability",
+    placeholder: "Please choose an option",
+    name: "disability",
+    options: types.disability
+  },
+  parentsWorkInPress: {
+    type: "select",
+    label: "Disability",
+    placeholder: "Did either of your parents work in this industry?",
+    name: "parentsWorkInPress",
+    options: types.parentsWorkInPress
+  },
+  caringResponsibilities: {
+    name: "caringResponsibilities",
+    label: `Caring responsibilities`,
+    type: "textArea",
+    fullHeight: true
+  },
+  allergies: {
+    name: "allergies",
+    label: `Allergies`,
+    type: "textArea",
+    fullHeight: true
+  },
+  backgroundAnswer: {
+    name: "backgroundAnswer",
+    label: `Please include anything about your background or identity that you feel PressPad should know about in helping you find the best host-mentor match eg. LGBTQ/Race/Women-only/Religion etc. If you do not have any please write none.`,
+    type: "textArea",
+    max: 200,
+    placeholder: "No more than 200 words",
+    fullHeight: true
+  },
+  consentedOnPressPadTerms: {
+    name: "consentedOnPressPadTerms",
+    label: `Do you give consent to the terms in the PressPad Media Release form?`,
+    type: "yesNo"
   }
 };
