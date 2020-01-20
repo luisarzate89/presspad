@@ -7,7 +7,7 @@ const { wordLengthValidator } = require("../utils");
 const profileSchema = new Schema(
   {
     user: {
-      type: Schema.types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "users",
       unique: true,
       required: true,
