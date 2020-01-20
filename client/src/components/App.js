@@ -5,7 +5,8 @@ import axios from "axios";
 import {
   AboutYou,
   OtherInformation,
-  AboutYouDetails
+  AboutYouDetails,
+  OtherInformationDetails
 } from "./Common/ProfileComponents";
 
 // Antd style
@@ -109,6 +110,7 @@ class App extends Component {
           <AboutYou />
           <OtherInformation />
           <AboutYouDetails />
+          <OtherInformationDetails />
         </div>
         {/* <Router>
           <div className="App">

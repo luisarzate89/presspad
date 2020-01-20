@@ -13,7 +13,8 @@ export default function InputWithLabel({
   error,
   name,
   showAsTextArea,
-  fullHeight
+  fullHeight,
+  parent
 }) {
   return (
     <>
@@ -23,7 +24,11 @@ export default function InputWithLabel({
             name={name}
             onChange={onChange}
             rows={6}
-            id={name}
+            id={
+              parent
+                ? `${parent}${name[0].toUpperCase()}${name.slice(1)}`
+                : name
+            }
             placeholder={placeholder}
             value={value}
             style={{
@@ -36,7 +41,11 @@ export default function InputWithLabel({
           <Input
             name={name}
             onChange={onChange}
-            id={name}
+            id={
+              parent
+                ? `${parent}${name[0].toUpperCase()}${name.slice(1)}`
+                : name
+            }
             placeholder={placeholder}
             value={value || ""}
             data-parent="favouriteArticle"

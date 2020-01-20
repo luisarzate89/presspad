@@ -15,11 +15,19 @@ export default function Field({
   error,
   name,
   options,
-  fullHeight
+  fullHeight,
+  parent,
+  hint
 }) {
   return (
     <>
-      <Label htmlFor={name}>{label}</Label>
+      <Label
+        htmlFor={
+          parent ? `${parent}${name[0].toUpperCase()}${name.slice(1)}` : name
+        }
+      >
+        {label}
+      </Label>
 
       {type === "text" && (
         <Input
@@ -28,6 +36,7 @@ export default function Field({
           onChange={onChange}
           error={error}
           name={name}
+          parent={parent}
         />
       )}
 
@@ -38,6 +47,7 @@ export default function Field({
           onChange={onChange}
           error={error}
           name={name}
+          parent={parent}
           showAsTextArea
           fullHeight={fullHeight}
         />
@@ -50,6 +60,7 @@ export default function Field({
           onChange={onChange}
           error={error}
           name={name}
+          parent={parent}
           options={options}
         />
       )}
@@ -61,6 +72,7 @@ export default function Field({
           onChange={onChange}
           error={error}
           name={name}
+          parent={parent}
         />
       )}
 
@@ -71,7 +83,9 @@ export default function Field({
           onChange={onChange}
           error={error}
           name={name}
+          parent={parent}
           handleError={handleError}
+          hint={hint}
         />
       )}
     </>

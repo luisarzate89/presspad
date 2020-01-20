@@ -16,29 +16,22 @@ const OtherInformation = ({ errors = {}, handleError }) => {
       <SectionContent>
         <Row gutter={0}>
           <Col xs={24} sm={24}>
-            <Row>
-              <Col xs={24} sm={12}>
-                <Field
-                  {...fields["organisation"]}
-                  error={errors["organisation"]}
-                />
-              </Col>
-            </Row>
-            <Col xs={24}>
-              <Field
-                {...fields["useReasonAnswer"]}
-                error={errors["useReasonAnswer"]}
-              />
-            </Col>
-            <Col xs={24}>
-              <Field {...fields["issueAnswer"]} error={errors["issueAnswer"]} />
-            </Col>
-            <Col xs={24}>
-              <Field
-                {...fields["mentorDescribeAnswer"]}
-                error={errors["mentorDescribeAnswer"]}
-              />
-            </Col>
+            <Field {...fields["organisation"]} error={errors["organisation"]} />
+          </Col>
+          <Col xs={24}>
+            <Field
+              {...fields["useReasonAnswer"]}
+              error={errors["useReasonAnswer"]}
+            />
+          </Col>
+          <Col xs={24}>
+            <Field {...fields["issueAnswer"]} error={errors["issueAnswer"]} />
+          </Col>
+          <Col xs={24}>
+            <Field
+              {...fields["mentorDescribeAnswer"]}
+              error={errors["mentorDescribeAnswer"]}
+            />
           </Col>
         </Row>
       </SectionContent>

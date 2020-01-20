@@ -3,7 +3,7 @@ import axios from "axios";
 import { message } from "antd";
 import { ProgressBar } from "./../progress/";
 
-import { UploadText } from "./ProfileComponents.style";
+import { UploadText, GrayHint } from "./ProfileComponents.style";
 
 export default class File extends Component {
   state = {
@@ -94,9 +94,10 @@ export default class File extends Component {
 
   render() {
     const { loading, url, isLoading, fileName } = this.state;
-    const { name, error } = this.props;
+    const { name, error, hint } = this.props;
     return (
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div>
+        {hint && <GrayHint>{hint}</GrayHint>}
         {isLoading ? (
           <ProgressBar progress={loading}>
             <UploadText disabled>+ Add file</UploadText>

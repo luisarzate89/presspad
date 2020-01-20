@@ -1,3 +1,5 @@
+import React from "react";
+
 export default {
   birthDate: {
     type: "date",
@@ -91,5 +93,84 @@ export default {
     placeholder: "",
     name: "phoneNumber",
     max: 50
+  },
+  reference1Name: {
+    parent: "reference1",
+    name: "name",
+    label: `Reference 1 name`,
+    type: "text",
+    max: 50
+  },
+  reference1Contact: {
+    parent: "reference1",
+    name: "contanct",
+    label: `Reference 1 contact`,
+    type: "text",
+    max: 50
+  },
+  reference2Name: {
+    parent: "reference2",
+    name: "name",
+    label: `Reference 2 name`,
+    type: "text",
+    max: 50
+  },
+  reference2Contact: {
+    parent: "reference2",
+    name: "contanct",
+    label: `Reference 2 contact`,
+    type: "text",
+    max: 50
+  },
+  offerLetter: {
+    name: "offerLetter",
+    label: `Proof of internship offer`,
+    type: "file",
+    hint:
+      "Please upload an offer letter or something similar that can be used as proof of your internship"
+  },
+  internshipOfficeAddress: {
+    name: "internshipOfficeAddress",
+    label: `Internship office address`,
+    type: "textArea",
+    fullHeight: true
+  },
+  emergencyContactName: {
+    parent: "emergencyContact",
+    name: "name",
+    label: `Emergency contact name`,
+    type: "text",
+    max: 50
+  },
+  emergencyContactNumber: {
+    parent: "emergencyContact",
+    name: "number",
+    label: `Emergency contact number`,
+    type: "text",
+    max: 50
+  },
+  emergencyContactEmail: {
+    parent: "emergencyContact",
+    name: "email",
+    label: `Emergency contact email`,
+    type: "text",
+    max: 50
+  },
+  DBSCheck: {
+    type: "file",
+    label: "DBS check",
+    hint: (
+      <span>
+        If you have not completed a DBS check, please{" "}
+        <a
+          href="https://www.gov.uk/request-copy-criminal-record"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          click here
+        </a>{" "}
+        to do this first then upload your certificate
+      </span>
+    )
   }
 };
