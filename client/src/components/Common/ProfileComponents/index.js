@@ -1,4 +1,5 @@
 import AboutYou from "./AboutYou";
 import OtherInformation from "./OtherInformation";
+import AboutYouDetails from "./AboutYouDetails";
 
-export { AboutYou, OtherInformation };
+export { AboutYou, OtherInformation, AboutYouDetails };

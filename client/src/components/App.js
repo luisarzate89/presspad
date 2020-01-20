@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { StripeProvider } from "react-stripe-elements";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
-import { AboutYou, OtherInformation } from "./Common/ProfileComponents";
+import {
+  AboutYou,
+  OtherInformation,
+  AboutYouDetails
+} from "./Common/ProfileComponents";
 
 // Antd style
 import "antd/lib/layout/style/index.css";
@@ -104,6 +108,7 @@ class App extends Component {
         <div style={{ margin: "5rem" }}>
           <AboutYou />
           <OtherInformation />
+          <AboutYouDetails />
         </div>
         {/* <Router>
           <div className="App">
