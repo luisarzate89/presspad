@@ -14,7 +14,8 @@ export default function Field({
   handleError,
   error,
   name,
-  options
+  options,
+  fullHeight
 }) {
   return (
     <>
@@ -38,6 +39,7 @@ export default function Field({
           error={error}
           name={name}
           showAsTextArea
+          fullHeight={fullHeight}
         />
       )}
 

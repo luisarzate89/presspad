@@ -38,5 +38,38 @@ export default {
     type: "textArea",
     label: "Bio",
     name: "bio"
+  },
+  organisation: {
+    label: "Name of organisation you are or are going to be working for",
+    type: "text",
+    max: "10",
+    name: "organisation"
+  },
+  useReasonAnswer: {
+    label: "Explain why you want to use PressPad",
+    type: "textArea",
+    placeholder: "No more than 250 words",
+    max: "250",
+    name: "useReasonAnswer",
+    fullHeight: true,
+    fullWidth: true
+  },
+  issueAnswer: {
+    label: `Tell us about an issue you would like to cover from your hometown / city that you think would be of service to your community, how you would do it and why the story is important to cover OR tell us about a recent story you wrote or project you worked on`,
+    type: "textArea",
+    placeholder: "No more than 250 words",
+    max: "250",
+    name: "issueAnswer",
+    fullHeight: true,
+    fullWidth: true
+  },
+  mentorDescribeAnswer: {
+    label: `Describe what you are looking for in a mentor as well as your long-term career ambitions`,
+    type: "textArea",
+    placeholder: "No more than 200 words",
+    max: "200",
+    name: "mentorDescribeAnswer",
+    fullHeight: true,
+    fullWidth: true
   }
 };

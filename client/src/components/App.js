@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StripeProvider } from "react-stripe-elements";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
-import { AboutYou } from "./Common/ProfileComponents";
+import { AboutYou, OtherInformation } from "./Common/ProfileComponents";
 
 // Antd style
 import "antd/lib/layout/style/index.css";
@@ -101,7 +101,10 @@ class App extends Component {
 
     return (
       <StripeProvider stripe={stripe}>
-        <AboutYou />
+        <div style={{ margin: "5rem" }}>
+          <AboutYou />
+          <OtherInformation />
+        </div>
         {/* <Router>
           <div className="App">
             <Navbar

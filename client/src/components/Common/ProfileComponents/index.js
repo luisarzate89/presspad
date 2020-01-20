@@ -1,3 +1,4 @@
 import AboutYou from "./AboutYou";
+import OtherInformation from "./OtherInformation";
 
-export { AboutYou };
+export { AboutYou, OtherInformation };

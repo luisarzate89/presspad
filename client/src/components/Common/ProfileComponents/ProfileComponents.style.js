@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import { colors } from "./../../../theme";
 
-export const SectionWrapper = styled.div`
-  margin: 5rem; /*TODO: delete this*/
-`;
+export const SectionWrapper = styled.div``;
 
 export const TitleWrapper = styled.div`
   display: flex;

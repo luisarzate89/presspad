@@ -12,7 +12,8 @@ export default function InputWithLabel({
   onChange,
   error,
   name,
-  showAsTextArea
+  showAsTextArea,
+  fullHeight
 }) {
   return (
     <>
@@ -27,7 +28,8 @@ export default function InputWithLabel({
             value={value}
             style={{
               border: error ? "none" : "1px solid #d9d9d9",
-              height: "100%"
+              height: "100%",
+              minHeight: fullHeight ? "230px" : undefined
             }}
           />
         ) : (
