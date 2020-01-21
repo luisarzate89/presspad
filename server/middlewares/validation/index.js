@@ -15,7 +15,8 @@ const {
 // Schemas for each route
 const schemas = {
   [HOST_COMPLETE_PROFILE]: hostProfileSchema,
-  [INTERN_COMPLETE_PROFILE]: internProfileSchema,
+  // TODO: Fix validation
+  // [INTERN_COMPLETE_PROFILE]: internProfileSchema,
   [DONATION_URL]: donateSchema,
   [WITHDRAW_REQUEST_URL]: withdrawSchema,
 };

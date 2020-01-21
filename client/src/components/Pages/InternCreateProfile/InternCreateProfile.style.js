@@ -22,7 +22,7 @@ export const HiText = styled.h1`
   font-size: 30px;
   line-height: 35px;
   color: #07294a;
-  margin-bottom: 14px;
+  margin-bottom: 0;
 `;
 
 export const HeaderButtonsWrapper = styled.div`
