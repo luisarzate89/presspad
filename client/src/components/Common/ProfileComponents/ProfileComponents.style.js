@@ -81,4 +81,17 @@ export const UploadText = styled.button`
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   display: block;
   margin: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const Description = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  color: #393939;
+  max-width: 550px;
+  margin: 1rem 0;
 `;

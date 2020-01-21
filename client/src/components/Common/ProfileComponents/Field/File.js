@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { message } from "antd";
+import { message, Icon } from "antd";
 import { ProgressBar } from "./../../progress";
 
 import { UploadText, GrayHint } from "../ProfileComponents.style";
@@ -13,20 +13,17 @@ export default class File extends Component {
   };
 
   directUploadToGoogle = async e => {
-    const { name } = this.props;
+    const { name, parent, userId } = this.props;
 
     const {
       files: [image],
       dataset: { isPrivate }
     } = e.target;
 
-    const { id: userId } = this.props;
-    const { errors } = this.state;
-
     if (!image) {
       if (!this.state[name].name) {
         return this.setState({
-          errors: { ...errors, [name]: "please upload a file" }
+          error: "please upload a file"
         });
       }
       return;
@@ -70,6 +67,11 @@ export default class File extends Component {
               error: ""
             },
             () => {
+              this.props.handleChange({
+                value: generatedName,
+                key: name,
+                parent
+              });
               return this.props.handleError("");
             }
           );
@@ -100,14 +102,21 @@ export default class File extends Component {
         {hint && <GrayHint>{hint}</GrayHint>}
         {isLoading ? (
           <ProgressBar progress={loading}>
-            <UploadText disabled>+ Add file</UploadText>
+            <UploadText disabled>{fileName}</UploadText>
           </ProgressBar>
         ) : (
-          <UploadText as="label" htmlFor="photoID">
-            + Add file
+          <UploadText as="label" htmlFor={name}>
+            {fileName ? (
+              <>
+                <Icon type="check" style={{ color: "green" }} />
+                {fileName}
+              </>
+            ) : (
+              "+ Add file"
+            )}
             <input
               type="file"
-              id="photoID"
+              id={name}
               onChange={this.directUploadToGoogle}
               name={name}
               style={{ display: "none" }}

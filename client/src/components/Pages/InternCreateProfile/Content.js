@@ -12,7 +12,7 @@ import TabbedView from "./../../Common/TabbedView";
 import { PageWrapper, ContentWrapper } from "./InternCreateProfile.style";
 
 import HeaderWrapper from "./HeaderWrapper";
-export default ({ name, data, errors, handleChange }) => {
+export default ({ name, data, errors, handleChange, handleError, userId }) => {
   return (
     <PageWrapper>
       <ContentWrapper>
@@ -25,11 +25,15 @@ export default ({ name, data, errors, handleChange }) => {
                 data={data}
                 errors={errors}
                 handleChange={handleChange}
+                handleError={handleError}
+                userId={userId}
               />
               <OtherInformationProfile
                 data={data}
                 errors={errors}
                 handleChange={handleChange}
+                handleError={handleError}
+                userId={userId}
               />
             </>,
             <>
@@ -37,16 +41,22 @@ export default ({ name, data, errors, handleChange }) => {
                 data={data}
                 errors={errors}
                 handleChange={handleChange}
+                handleError={handleError}
+                userId={userId}
               />
               <OtherInformationDetails
                 data={data}
                 errors={errors}
                 handleChange={handleChange}
+                handleError={handleError}
+                userId={userId}
               />
               <Demographic
                 data={data}
                 errors={errors}
                 handleChange={handleChange}
+                handleError={handleError}
+                userId={userId}
               />
             </>
           ]}

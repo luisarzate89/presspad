@@ -91,7 +91,7 @@ export default class InternCreateProfile extends Component {
   };
 
   handleChange = ({ value, key, parent }) => {
-    console.log({ value, key, parent }, "-----------");
+    console.log(key);
     if (parent) {
       this.setState(prevState => ({
         data: {
@@ -109,8 +109,12 @@ export default class InternCreateProfile extends Component {
     }
   };
 
+  handleError = e => {
+    console.log(e);
+  };
+
   render() {
-    const { name } = this.props;
+    const { name, id } = this.props;
     const { errors, data } = this.state;
     return (
       <Content
@@ -118,6 +122,8 @@ export default class InternCreateProfile extends Component {
         errors={errors}
         data={data}
         handleChange={this.handleChange}
+        handleError={this.handleError}
+        userId={id}
       />
     );
   }

@@ -18,7 +18,6 @@ export default function InputWithLabel({
 }) {
   const onChange = e => {
     const { name, value } = e.target;
-    console.log({ value, key: name, parent });
     handleChange({ value, key: name, parent });
   };
 
@@ -40,7 +39,8 @@ export default function InputWithLabel({
             style={{
               border: error ? "none" : "1px solid #d9d9d9",
               height: "100%",
-              minHeight: fullHeight ? "230px" : undefined
+              minHeight: fullHeight ? "230px" : undefined,
+              marginBottom: fullHeight ? "2rem" : undefined
             }}
           />
         ) : (

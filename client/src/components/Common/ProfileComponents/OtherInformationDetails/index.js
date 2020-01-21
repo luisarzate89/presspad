@@ -10,7 +10,8 @@ const OtherInformationDetails = ({
   data = {},
   errors = {},
   handleChange,
-  handleError
+  handleError,
+  userId
 }) => {
   return (
     <SectionWrapper>
@@ -23,6 +24,8 @@ const OtherInformationDetails = ({
               value={data["reference1"]}
               error={errors["reference1"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -31,6 +34,8 @@ const OtherInformationDetails = ({
               value={data["reference1"]}
               error={errors["reference1"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -41,6 +46,8 @@ const OtherInformationDetails = ({
               value={data["reference2"]}
               error={errors["reference2"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -49,6 +56,8 @@ const OtherInformationDetails = ({
               value={data["reference2"]}
               error={errors["reference2"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -59,6 +68,8 @@ const OtherInformationDetails = ({
               value={data["offerLetter"]}
               error={errors["offerLetter"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -69,6 +80,8 @@ const OtherInformationDetails = ({
               value={data["internshipOfficeAddress"]}
               error={errors["internshipOfficeAddress"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -80,6 +93,8 @@ const OtherInformationDetails = ({
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -91,6 +106,8 @@ const OtherInformationDetails = ({
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -102,6 +119,8 @@ const OtherInformationDetails = ({
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
@@ -113,6 +132,8 @@ const OtherInformationDetails = ({
               value={data["DBSCheck"]}
               error={errors["DBSCheck"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>

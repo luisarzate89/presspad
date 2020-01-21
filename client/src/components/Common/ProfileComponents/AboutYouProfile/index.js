@@ -6,9 +6,20 @@ import { Row, Col } from "antd";
 import Field from "./../Field";
 import fields from "./../../../../constants/fields";
 
-const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
+import { Description } from "./../ProfileComponents.style";
+const AboutYou = ({
+  data = {},
+  errors = {},
+  handleChange,
+  handleError,
+  userId
+}) => {
   return (
     <SectionWrapper>
+      <Description>
+        This information you provide in this section will be made available to
+        the hosts you apply for.
+      </Description>
       <Title
         title="About you"
         hint="You need to fill out this information to use PressPad"
@@ -23,6 +34,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["birthDate"]}
                   error={errors["birthDate"]}
                   handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
                 />
               </Col>
               <Col xs={24} md={12}>
@@ -31,6 +44,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["hometown"]}
                   error={errors["hometown"]}
                   handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
                 />
               </Col>
             </Row>
@@ -41,6 +56,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["gender"]}
                   error={errors["gender"]}
                   handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
                 />
               </Col>
               <Col xs={24} md={12}>
@@ -49,6 +66,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["school"]}
                   error={errors["school"]}
                   handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
                 />
               </Col>
             </Row>
@@ -60,6 +79,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["profileImage"]}
                   error={errors["profileImage"]}
                   handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
                 />
               </Col>
               <Col xs={24} md={12}>
@@ -68,6 +89,7 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
                   value={data["interests"]}
                   error={errors["interests"]}
                   handleError={handleError}
+                  userId={userId}
                   handleChange={handleChange}
                 />
               </Col>
@@ -79,6 +101,8 @@ const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
               value={data["bio"]}
               error={errors["bio"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>

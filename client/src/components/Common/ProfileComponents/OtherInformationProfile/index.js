@@ -10,7 +10,8 @@ const OtherInformation = ({
   data = {},
   errors = {},
   handleChange,
-  handleError
+  handleError,
+  userId
 }) => {
   return (
     <SectionWrapper>
@@ -20,12 +21,14 @@ const OtherInformation = ({
       />
       <SectionContent>
         <Row gutter={0}>
-          <Col xs={24} sm={24}>
+          <Col xs={24} md={8}>
             <Field
               {...fields["organisation"]}
               value={data["organisation"]}
               error={errors["organisation"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
           <Col xs={24}>
@@ -34,6 +37,8 @@ const OtherInformation = ({
               value={data["useReasonAnswer"]}
               error={errors["useReasonAnswer"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
           <Col xs={24}>
@@ -42,6 +47,8 @@ const OtherInformation = ({
               value={data["issueAnswer"]}
               error={errors["issueAnswer"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
           <Col xs={24}>
@@ -50,6 +57,8 @@ const OtherInformation = ({
               value={data["mentorDescribeAnswer"]}
               error={errors["mentorDescribeAnswer"]}
               handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
             />
           </Col>
         </Row>
