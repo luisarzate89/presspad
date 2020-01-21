@@ -25,5 +25,6 @@ const dbConnection = useAtlas => mongoose.connect(useAtlas ? mongoURIAtlas : mon
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 module.exports = dbConnection;

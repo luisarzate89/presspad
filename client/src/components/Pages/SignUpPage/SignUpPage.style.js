@@ -7,12 +7,16 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 60vh;
 `;
 
 export const HeaderText = styled.h2`
   margin: 3rem 0;
   width: 600px;
   text-align: center;
+  color: #07294a;
+  font-size: 1.7rem;
 `;
 
 export const SignUpForm = styled.form`
@@ -31,7 +35,9 @@ export const FormHeader = styled.h3`
   font-size: 1.25rem;
   font-weight: 300;
   padding: 0 2rem;
+  margin: 0 auto;
   margin-bottom: 2rem;
+  width: 60%;
 `;
 
 export const InputLabel = styled.label`
@@ -43,35 +49,33 @@ export const InputLabel = styled.label`
 export const InputDiv = styled.div`
   width: 50%;
   margin-bottom: 1rem;
+  .ant-input {
+    color: ${props =>
+      props.isError ? colors.redSecond : "inherit"} !important;
+  }
 `;
 
-export const ReferralWrapper = styled.div`
-  margin: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  align-items: center;
-`;
-
-export const ReferralText = styled.p`
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
+export const DisclaimerWrapper = styled.div`
+  width: 50%;
+  font-size: 1rem;
 `;
 
 export const Disclaimer = styled.div`
   display: flex;
   justify-content: center;
-  padding-left: 1rem;
 `;
 
 export const DisclaimerText = styled.p`
-  font-size: 1.25rem;
   font-weight: 300;
   padding-left: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
 `;
 
 export const ErrorMsg = styled.div`
-  color: ${colors.red};
+  color: ${colors.redSecond};
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
 `;
 
 export const ButtonWrapper = styled.div`
