@@ -6,11 +6,10 @@ import {
   Table,
   Modal,
   Select,
-  InputNumber,
   DatePicker,
   Empty,
   Icon,
-  Skeleton
+  Skeleton,
 } from "antd";
 import moment from "moment";
 import { Elements } from "react-stripe-elements";
@@ -45,7 +44,7 @@ import {
   ModalDescription,
   Label,
   Error,
-  ErrorWrapper
+  ErrorWrapper,
 } from "./OrgDashboard.style";
 import { colors } from "./../../../theme";
 
@@ -71,14 +70,12 @@ class Content extends Component {
       handleOpenModal,
       handleFilterInInterns,
       onInternSearch,
-      handleBlurNumberInput,
-      handleFocusNumberInput,
       handleDiscountChange,
       handleCloseModals,
       handleSubmitCreateCoupon,
       handlePayNowClick,
       handleAccountUpdate,
-      stripe
+      stripe,
     } = this.props;
 
     const {
@@ -92,9 +89,8 @@ class Content extends Component {
       endOpen,
       errors,
       showAddFunds,
-      discountPrice
+      discountPrice,
     } = state;
-
     if (startValue && endValue) {
       const range = moment.range(startValue, endValue);
 
@@ -111,7 +107,7 @@ class Content extends Component {
     const liveCoupons = coupons.filter(
       item =>
         moment(item.endDate).valueOf() > moment().valueOf() &&
-        moment(item.startDate).valueOf() <= moment().valueOf()
+        moment(item.startDate).valueOf() <= moment().valueOf(),
     ).length;
 
     return (
@@ -143,7 +139,7 @@ class Content extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)"
+                    border: "1px solid rgba(0, 0, 0, 0.15)",
                   }}
                 />
               </Col>
@@ -165,7 +161,7 @@ class Content extends Component {
                 height: "auto",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
               }}
             >
               <Section style={{ marginBottom: "20px" }}>
@@ -357,7 +353,7 @@ class Content extends Component {
                   style={{
                     width: "100%",
                     marginBottom:
-                      errors.internName || errors.internId ? "20px" : 0
+                      errors.internName || errors.internId ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -377,7 +373,7 @@ class Content extends Component {
                           border:
                             errors.internName || errors.internId
                               ? "1px solid red"
-                              : "1px solid #d9d9d9"
+                              : "1px solid #d9d9d9",
                         }}
                         optionLabelProp="label"
                       >
@@ -391,7 +387,7 @@ class Content extends Component {
                               <div
                                 style={{
                                   display: "flex",
-                                  justifyContent: "space-between"
+                                  justifyContent: "space-between",
                                 }}
                               >
                                 {item.name}
@@ -419,7 +415,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.startDate ? "20px" : 0
+                    marginBottom: errors.startDate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -438,7 +434,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.startDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
                       />
                       <Error>{errors.startDate}</Error>
@@ -453,7 +449,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.endDate ? "20px" : 0
+                    marginBottom: errors.endDate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -473,7 +469,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.endDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
                       />
                       <Error>{errors.endDate}</Error>
@@ -490,7 +486,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.discountRate ? "20px" : 0
+                    marginBottom: errors.discountRate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -498,25 +494,24 @@ class Content extends Component {
                   </Col>
                   <Col span={12}>
                     <ErrorWrapper>
-                      <InputNumber
-                        value={state.discountRate}
-                        onBlur={handleBlurNumberInput}
-                        onFocus={handleFocusNumberInput}
-                        max={100}
-                        min={0}
-                        size="large"
+                      <Select
+                        // defaultValue="0"
+                        placeholder="Pick %"
+                        onChange={handleDiscountChange}
                         style={{
                           width: "140px",
                           border: errors.discountRate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
-                        formatter={value =>
-                          `% ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        }
-                        parser={value => value.replace(/%\s?|(,*)/g, "")}
-                        onChange={handleDiscountChange}
-                      />
+                      >
+                        {/* add discount rates */}
+                        {[0, 10, 25, 50, 100].map((rate, idx) => (
+                          <Option key={`RateSelectOption-${idx}`} value={rate}>
+                            % {rate}
+                          </Option>
+                        ))}
+                      </Select>
                       <Error>{errors.discountRate}</Error>
                     </ErrorWrapper>
                   </Col>
@@ -551,7 +546,7 @@ class Content extends Component {
                 align="middle"
                 style={{
                   width: "100%",
-                  marginBottom: errors.withdrawValue ? "20px" : 0
+                  marginBottom: errors.withdrawValue ? "20px" : 0,
                 }}
               >
                 <div style={{ maxWidth: "200px" }}>

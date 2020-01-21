@@ -5,7 +5,10 @@
   "jest": {
     "testRegex": "__test__/*",
     "coverageDirectory": "./coverage/",
-    "modulePathIgnorePatterns" : ["__test__/database/", "__test__/api/"],
+    "modulePathIgnorePatterns": [
+      "__test__/database/",
+      "__test__/api/"
+    ],
     "collectCoverageFrom": [
       "**/*.js",
       "!**/node_modules/**",

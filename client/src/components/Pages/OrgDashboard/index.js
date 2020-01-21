@@ -9,7 +9,7 @@ import { message } from "antd";
 import {
   API_ORGS_DASHBOARD_URL,
   API_INTERNS_URL,
-  API_COUPONS_URL
+  API_COUPONS_URL,
 } from "./../../../constants/apiRoutes";
 
 import Content from "./Content";
@@ -33,7 +33,7 @@ class OrganizationDashboard extends Component {
     code: null,
     addCouponLoading: false,
     showAddFunds: false,
-    errors: {}
+    errors: {},
   };
 
   componentDidMount() {
@@ -63,7 +63,7 @@ class OrganizationDashboard extends Component {
         "9",
         "0",
         ".",
-        ","
+        ",",
       ];
       if (!numbers.includes(e.key) && isNumberInputActive) {
         e.preventDefault();
@@ -87,7 +87,7 @@ class OrganizationDashboard extends Component {
           notifications,
           account,
           coupons,
-          loaded: true
+          loaded: true,
         });
       })
       .catch(err => {
@@ -104,7 +104,7 @@ class OrganizationDashboard extends Component {
       discountRate,
       startValue,
       endValue,
-      account
+      account,
     } = this.state;
 
     const range = moment.range(startValue, endValue);
@@ -123,13 +123,13 @@ class OrganizationDashboard extends Component {
               intern: internId,
               discountRate,
               startDate: moment(startValue).format("YYYY-MM-DD"),
-              endDate: moment(endValue).format("YYYY-MM-DD")
+              endDate: moment(endValue).format("YYYY-MM-DD"),
             })
             .then(({ data }) => {
               const { code } = data;
               this.setState({
                 code,
-                apiLoading: false
+                apiLoading: false,
               });
               // update organisation data
               this.fetchOrgData();
@@ -152,7 +152,7 @@ class OrganizationDashboard extends Component {
         interns,
         addCouponLoading: false,
         isCouponModalOpen: true,
-        code: null
+        code: null,
       });
     } catch (err) {
       const error =
@@ -198,7 +198,7 @@ class OrganizationDashboard extends Component {
       attemptedToSubmit,
       startValue,
       endValue,
-      discountRate
+      discountRate,
     } = this.state;
 
     const rangeObj = { startValue, endValue };
@@ -208,7 +208,7 @@ class OrganizationDashboard extends Component {
     let discountPrice = 0;
     if (rangeObj.startValue && rangeObj.endValue && discountRate) {
       const daysPrice = calculatePrice(
-        moment.range(rangeObj.startValue, rangeObj.endValue)
+        moment.range(rangeObj.startValue, rangeObj.endValue),
       );
       discountPrice = (daysPrice * discountRate) / 100;
     }
@@ -216,13 +216,13 @@ class OrganizationDashboard extends Component {
     this.setState(
       {
         [field]: value,
-        discountPrice
+        discountPrice,
       },
       () => {
         if (attemptedToSubmit) {
           this.validate();
         }
-      }
+      },
     );
   };
 
@@ -249,13 +249,13 @@ class OrganizationDashboard extends Component {
       {
         internName: label || addedNewInternName,
         internId: key === "removeIt" ? null : key,
-        addedNewInternName: null
+        addedNewInternName: null,
       },
       () => {
         if (attemptedToSubmit) {
           this.validate();
         }
-      }
+      },
     );
   };
 
@@ -267,13 +267,13 @@ class OrganizationDashboard extends Component {
         {
           addedNewInternName: value,
           internId: null,
-          internName: value
+          internName: value,
         },
         () => {
           if (attemptedToSubmit) {
             this.validate();
           }
-        }
+        },
       );
   };
 
@@ -307,7 +307,7 @@ class OrganizationDashboard extends Component {
       internName,
       internId,
       endValue,
-      startValue
+      startValue,
     } = this.state;
 
     return schema
@@ -317,9 +317,9 @@ class OrganizationDashboard extends Component {
           internName,
           internId,
           startDate: startValue,
-          endDate: endValue
+          endDate: endValue,
         },
-        { abortEarly: false }
+        { abortEarly: false },
       )
       .then(res => {
         this.setState({ errors: {}, attemptedToSubmit: true });
