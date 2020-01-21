@@ -14,7 +14,7 @@ import {
 } from "../../Common/general";
 
 const BookingInfo = props => {
-  const { isLoading, data, handlePayNowClick } = props;
+  const { isLoading, data, handlePayNowClick, role } = props;
   const {
     bookingId,
     price: fullPrice,
@@ -50,7 +50,11 @@ const BookingInfo = props => {
         <Skeleton loading={isLoading} />
         {isLoading === false && (
           <>
-            <InfoText>You've booked your stay for</InfoText>
+            <InfoText>
+              {role === "intern"
+                ? "You've booked your stay for"
+                : "You are booked for"}
+            </InfoText>
             <InfoValue mbottom="2.5rem" align="center">
               {moment(startDate).format("DD MMM")}&nbsp;-&nbsp;
               {moment(endDate).format("DD MMM")}
@@ -65,7 +69,11 @@ const BookingInfo = props => {
                 <InfoValue mbottom="2.5rem" align="center" light>
                   £{discounts.toFixed(2)}
                 </InfoValue>
-                <InfoText>So far you’ve paid</InfoText>
+                <InfoText>
+                  {role === "intern"
+                    ? "So far you’ve paid"
+                    : "So far you’ve recieved"}
+                </InfoText>
                 <InfoValue mbottom="2.5rem" align="center" light>
                   £{payedAmount.toFixed(2)}
                 </InfoValue>
@@ -79,7 +87,11 @@ const BookingInfo = props => {
         status === "confirmed" &&
         firstUnpaidInstallment && (
           <>
-            <InfoText>Your next payment is due</InfoText>
+            <InfoText>
+              {role === "intern"
+                ? "Your next payment is due"
+                : "Next payment is due"}
+            </InfoText>
             <Row type="flex" justify="space-around">
               <InfoValue mbottom="2.5rem" align="center">
                 {moment(firstUnpaidInstallment.dueDate).format("DD MMM")}
@@ -89,9 +101,11 @@ const BookingInfo = props => {
                 {firstUnpaidInstallment.amount &&
                   firstUnpaidInstallment.amount.toFixed(2)}
               </InfoValue>
-              <PayButton onClick={() => handlePayNowClick(true)}>
-                Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
-              </PayButton>
+              {role === "intern" && (
+                <PayButton onClick={() => handlePayNowClick(true)}>
+                  Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
+                </PayButton>
+              )}
             </Row>
           </>
         )}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Row, Col, message } from "antd";
+import { Row, Col, message, Spin } from "antd";
 import { Elements } from "react-stripe-elements";
 
 import randomProfile from "../../../assets/random-profile.jpg";
@@ -10,6 +10,7 @@ import ListingGallery from "../../Common/Profile/ListingGallery";
 import PaymentsPlan from "./PaymentsPlan";
 import BookingInfo from "./BookingInfo";
 import PayNowModal from "./PayNowModal";
+import BookingRequestSection from "./BookingRequestSection";
 
 import {
   getDiscountDays,
@@ -36,11 +37,16 @@ import {
   HeaderDiv,
   Headline,
   Address,
-  SymbolDiv,
   Symbol,
   ParagraphHeadline,
   Paragraph
 } from "../../Common/Profile/Profiles.style";
+
+import {
+  AboutSectionDataContainer,
+  AboutSectionDataRow,
+  AboutSectionDataCell
+} from "../InternProfile/HostView/HostView.style";
 
 import starSign from "./../../../assets/star-sign-symbol.svg";
 
@@ -69,7 +75,8 @@ export default class BookingView extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ isLoading: true });
+    const { role } = this.props;
+    this.setState({ isLoading: true, role });
     const getBookingUrl = API_GET_BOOKING_URL.replace(
       ":id",
       this.props.match.params.id
@@ -252,7 +259,17 @@ export default class BookingView extends Component {
       listing: {
         address,
         photos,
-        userProfile: { profileImage, badge, bio, organisation, jobTitle }
+        userProfile: {
+          profileImage,
+          badge,
+          bio,
+          organisation,
+          jobTitle,
+          user,
+          school,
+          hometown,
+          gender
+        }
       },
       checklistObj,
       installments,
@@ -261,8 +278,10 @@ export default class BookingView extends Component {
       isLoading,
       bookingInfo,
       payNow,
-      upfront
+      upfront,
+      role
     } = this.state;
+    const name = user && user[0] && user[0].name;
 
     const bookingId = this.props.match.params.id;
 
@@ -294,6 +313,7 @@ export default class BookingView extends Component {
       ? firstUnpaidInstallment
       : newInstallments;
 
+    if (isLoading) return <Spin />;
     return (
       <PageWrapper>
         <Elements>
@@ -308,26 +328,32 @@ export default class BookingView extends Component {
           />
         </Elements>
         <Header>
-          <Row type="flex">
-            <ProfilePicDiv
-              src={(profileImage && profileImage.url) || randomProfile}
-              onError={e => (e.target.src = randomProfile)}
-            />
-            <HeaderDiv>
-              <Headline>
-                {(jobTitle || organisation) &&
-                  `(A ${jobTitle ? jobTitle : "_"} at ${
-                    organisation ? organisation.name : "_"
-                  })`}
-              </Headline>
+          <Row type="flex" style={{ justifyContent: "space-between" }}>
+            <div style={{ display: "flex", width: "80%" }}>
+              <ProfilePicDiv
+                src={(profileImage && profileImage.url) || randomProfile}
+                onError={e => (e.target.src = randomProfile)}
+                adminView={bookingInfo.status === "confirmed"}
+              />
+              <HeaderDiv>
+                <Headline>
+                  {name}
+                  <span>
+                    {(jobTitle || organisation) &&
+                      ` (A ${jobTitle ? jobTitle : "_"} at ${
+                        organisation ? organisation.name : "_"
+                      })`}
+                  </span>
+                </Headline>
 
-              <Address>
-                {address &&
-                  `${address.street ? address.street + ", " : ""}
+                <Address>
+                  {address &&
+                    `${address.street ? address.street + ", " : ""}
                 ${address.city ? address.city : ""}`}
-              </Address>
-            </HeaderDiv>
-            <SymbolDiv>{badge && <Symbol src={starSign} />}</SymbolDiv>
+                </Address>
+              </HeaderDiv>
+            </div>
+            {badge && <Symbol src={starSign} />}
           </Row>
         </Header>
         <ListingGallery {...listingPhotos} isLoading={isLoading} />
@@ -341,6 +367,68 @@ export default class BookingView extends Component {
                   {jobTitle} - {organisation.name}
                 </ParagraphHeadline>
                 <Paragraph>{bio}</Paragraph>
+                <AboutSectionDataContainer>
+                  {!!name && (
+                    <AboutSectionDataRow>
+                      <AboutSectionDataCell bold>Name:</AboutSectionDataCell>
+                      <AboutSectionDataCell>{name}</AboutSectionDataCell>
+                    </AboutSectionDataRow>
+                  )}
+                  {!!address && (
+                    <>
+                      {!!address.street && (
+                        <AboutSectionDataRow>
+                          <AboutSectionDataCell bold>
+                            Address:
+                          </AboutSectionDataCell>
+                          <AboutSectionDataCell>
+                            {address.street}
+                          </AboutSectionDataCell>
+                        </AboutSectionDataRow>
+                      )}
+
+                      {!!address.city && (
+                        <AboutSectionDataRow>
+                          <AboutSectionDataCell bold />
+                          <AboutSectionDataCell>
+                            {address.city}
+                          </AboutSectionDataCell>
+                        </AboutSectionDataRow>
+                      )}
+
+                      {!!address.postcode && (
+                        <AboutSectionDataRow>
+                          <AboutSectionDataCell bold />
+                          <AboutSectionDataCell>
+                            {address.postcode}
+                          </AboutSectionDataCell>
+                        </AboutSectionDataRow>
+                      )}
+                    </>
+                  )}
+                  {!!school && (
+                    <AboutSectionDataRow>
+                      <AboutSectionDataCell bold>
+                        University / School:
+                      </AboutSectionDataCell>
+                      <AboutSectionDataCell>{school}</AboutSectionDataCell>
+                    </AboutSectionDataRow>
+                  )}
+                  {!!hometown && (
+                    <AboutSectionDataRow>
+                      <AboutSectionDataCell bold>
+                        Hometown:
+                      </AboutSectionDataCell>
+                      <AboutSectionDataCell>{hometown}</AboutSectionDataCell>
+                    </AboutSectionDataRow>
+                  )}
+                  {!!gender && (
+                    <AboutSectionDataRow>
+                      <AboutSectionDataCell bold>Gender:</AboutSectionDataCell>
+                      <AboutSectionDataCell>{gender}</AboutSectionDataCell>
+                    </AboutSectionDataRow>
+                  )}
+                </AboutSectionDataContainer>
               </SectionWrapperContent>
               <Row type="flex" style={{ marginBottom: "2rem" }}>
                 <DisabledPopOver>
@@ -358,6 +446,11 @@ export default class BookingView extends Component {
                 </DisabledPopOver>
               </Row>
             </section>
+            {role === "host" && (
+              <BookingRequestSection
+                internId={this.state.bookingInfo.internId}
+              />
+            )}
             {bookingInfo.status === "confirmed" ? (
               <>
                 <Checklist
@@ -376,6 +469,7 @@ export default class BookingView extends Component {
                     ...bookingInfo,
                     couponInfo
                   }}
+                  role={role}
                 />
               </>
             ) : (
@@ -394,6 +488,7 @@ export default class BookingView extends Component {
                 coupons,
                 couponDiscount: couponInfo.couponDiscount
               }}
+              role={role}
             />
           </Col>
         </Row>

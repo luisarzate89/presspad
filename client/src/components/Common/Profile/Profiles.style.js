@@ -54,8 +54,6 @@ export const Header = styled.header`
 
 export const HeaderDiv = styled.div`
   height: 90px;
-  width: 75%;
-  /* display: flex; */
   flex-direction: column;
   margin-left: 25px;
   text-align: left;
@@ -70,8 +68,12 @@ export const HeaderDiv = styled.div`
 
 export const Headline = styled.h1`
   font-weight: 900;
-  font-size: 28px;
+  font-size: 30px;
   color: ${colors.fontPrimary};
+  span {
+    font-weight: 500;
+    font-size: 26px;
+  }
 `;
 
 export const Card = styled.div`
@@ -107,7 +109,7 @@ export const SubHeadline = styled.h2`
 export const ParagraphHeadline = styled.h3`
   font-size: 16px;
   text-align: left;
-  font-weight: 400;
+  font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
 `;
@@ -152,9 +154,6 @@ export const Symbol = styled.div`
   width: 38px;
   height: 50px;
   background-image: url(${({ src }) => src});
-  right: 0;
-  bottom: 0;
-  position: absolute;
 `;
 
 const blurPic = css`

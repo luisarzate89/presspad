@@ -33,7 +33,7 @@ const columns = [
   }
 ];
 
-const renderPaymentsInstallment = installments => {
+const renderPaymentsInstallment = (installments, role) => {
   columns[2] = {
     title: "Status",
     render: (text, record) => {
@@ -42,7 +42,9 @@ const renderPaymentsInstallment = installments => {
   };
   return (
     <SectionWrapperContent>
-      <SectionTitle>Your payments</SectionTitle>
+      <SectionTitle>
+        {role === "intern" ? "Your payments" : "Payments"}
+      </SectionTitle>
       <Table
         columns={columns}
         dataSource={installments}
@@ -57,7 +59,8 @@ const PaymentsPlan = ({
   data,
   handleCouponChange,
   handlePayNowClick,
-  handlePaymentMethod
+  handlePaymentMethod,
+  role
 }) => {
   const handleTabChange = activeKey => {
     if (activeKey === "1") {
@@ -85,7 +88,7 @@ const PaymentsPlan = ({
   }
 
   if (installments[0]) {
-    return renderPaymentsInstallment(installments);
+    return renderPaymentsInstallment(installments, role);
   }
 
   // If there is no installments
@@ -100,86 +103,88 @@ const PaymentsPlan = ({
   const remainPrice = totalPrice - couponDiscount;
 
   return (
-    <SectionWrapperContent>
-      <SectionTitle>Choose payment plan</SectionTitle>
-      <Row gutter={30}>
-        <Col sm={15} xs={24}>
-          <Row type="flex" align="middle">
-            <Col span={12}>
-              <InfoText>Total price: </InfoText>
-            </Col>
+    role === "intern" && (
+      <SectionWrapperContent>
+        <SectionTitle>Choose payment plan</SectionTitle>
+        <Row gutter={30}>
+          <Col sm={15} xs={24}>
+            <Row type="flex" align="middle">
+              <Col span={12}>
+                <InfoText>Total price: </InfoText>
+              </Col>
 
-            <Col span={12}>
-              <InfoValue light>{totalPrice.toFixed(2)}</InfoValue>
-            </Col>
-          </Row>
-          <Row type="flex" align="middle">
-            <Col span={12}>
-              <InfoText>Remaining price: </InfoText>
-            </Col>
-            <Col span={12}>
-              <InfoValue light>{remainPrice.toFixed(2)}</InfoValue>
-            </Col>
-          </Row>
-        </Col>
-        <Col sm={9} xs={24}>
-          <CouponCode
-            couponCode={couponCode}
-            discountDays={discountDays}
-            discountRate={discountRate}
-            startDate={startDate}
-            endDate={endDate}
-            isLoading={isCouponLoading}
-            couponDiscount={couponDiscount}
-            error={error}
-            handleCouponChange={handleCouponChange}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Tabs
-          tabBarStyle={{ textAlign: "center" }}
-          defaultActiveKey="1"
-          onChange={handleTabChange}
-        >
-          <TabPane tab="Pay up front" key="1">
-            <TabPanWrapper>
-              <InfoMessage>
-                {moment().isAfter(endDate)
-                  ? `This booking has ended at ${moment(endDate).format(
-                      "DD MMM YYYY"
-                    )}`
-                  : "You must pay to finalize the booking"}
-              </InfoMessage>
-              <PayButton mtop="2rem" onClick={() => handlePayNowClick(true)}>
-                Pay £{remainPrice.toFixed(2)} now
-              </PayButton>
-            </TabPanWrapper>
-          </TabPane>
-          <TabPane tab="Pay in 3 installments" key="2">
-            <TabPanWrapper>
-              <Table
-                columns={columns}
-                dataSource={propsInstallments[0] ? propsInstallments : []}
-                pagination={false}
-              />
-              <InfoMessage>
-                {moment().isAfter(endDate)
-                  ? `This booking has ended at ${moment(endDate).format(
-                      "DD MMM YYYY"
-                    )}`
-                  : "You must pay the first installment to finalize the booking"}
-              </InfoMessage>
-              {propsInstallments[0] && (
-                <PayButton onClick={() => handlePayNowClick(true)}>
-                  Pay £{propsInstallments[0].amount} now
+              <Col span={12}>
+                <InfoValue light>{totalPrice.toFixed(2)}</InfoValue>
+              </Col>
+            </Row>
+            <Row type="flex" align="middle">
+              <Col span={12}>
+                <InfoText>Remaining price: </InfoText>
+              </Col>
+              <Col span={12}>
+                <InfoValue light>{remainPrice.toFixed(2)}</InfoValue>
+              </Col>
+            </Row>
+          </Col>
+          <Col sm={9} xs={24}>
+            <CouponCode
+              couponCode={couponCode}
+              discountDays={discountDays}
+              discountRate={discountRate}
+              startDate={startDate}
+              endDate={endDate}
+              isLoading={isCouponLoading}
+              couponDiscount={couponDiscount}
+              error={error}
+              handleCouponChange={handleCouponChange}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Tabs
+            tabBarStyle={{ textAlign: "center" }}
+            defaultActiveKey="1"
+            onChange={handleTabChange}
+          >
+            <TabPane tab="Pay up front" key="1">
+              <TabPanWrapper>
+                <InfoMessage>
+                  {moment().isAfter(endDate)
+                    ? `This booking has ended at ${moment(endDate).format(
+                        "DD MMM YYYY"
+                      )}`
+                    : "You must pay to finalize the booking"}
+                </InfoMessage>
+                <PayButton mtop="2rem" onClick={() => handlePayNowClick(true)}>
+                  Pay £{remainPrice.toFixed(2)} now
                 </PayButton>
-              )}
-            </TabPanWrapper>
-          </TabPane>
-        </Tabs>
-      </Row>
-    </SectionWrapperContent>
+              </TabPanWrapper>
+            </TabPane>
+            <TabPane tab="Pay in 3 installments" key="2">
+              <TabPanWrapper>
+                <Table
+                  columns={columns}
+                  dataSource={propsInstallments[0] ? propsInstallments : []}
+                  pagination={false}
+                />
+                <InfoMessage>
+                  {moment().isAfter(endDate)
+                    ? `This booking has ended at ${moment(endDate).format(
+                        "DD MMM YYYY"
+                      )}`
+                    : "You must pay the first installment to finalize the booking"}
+                </InfoMessage>
+                {propsInstallments[0] && (
+                  <PayButton onClick={() => handlePayNowClick(true)}>
+                    Pay £{propsInstallments[0].amount} now
+                  </PayButton>
+                )}
+              </TabPanWrapper>
+            </TabPane>
+          </Tabs>
+        </Row>
+      </SectionWrapperContent>
+    )
   );
 };
 
