@@ -6,11 +6,16 @@ const { Option } = Select;
 export default function SelectComponent({
   placeholder,
   value,
-  onChange,
+  handleChange,
   error,
   name,
-  options
+  options,
+  parent
 }) {
+  const onChange = value => {
+    handleChange({ value, key: name, parent });
+  };
+
   return (
     <Select
       style={{ width: "100%" }}

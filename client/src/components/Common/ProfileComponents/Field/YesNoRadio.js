@@ -5,13 +5,19 @@ import { Radio } from "antd";
 export default function YesNoRadio({
   placeholder,
   value,
-  onChange,
+  handleChange,
   error,
   name,
-  options
+  options,
+  parent
 }) {
+  const onChange = e => {
+    const { value } = e.target;
+    handleChange({ value, key: name, parent });
+  };
+
   return (
-    <Radio.Group onChange={console.log} value={!!value}>
+    <Radio.Group onChange={onChange} value={!!value}>
       <Radio value={true}>Yes</Radio>
       <Radio value={false}>No</Radio>
     </Radio.Group>

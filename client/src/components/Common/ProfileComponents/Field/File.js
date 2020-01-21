@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { message } from "antd";
-import { ProgressBar } from "./../progress/";
+import { ProgressBar } from "./../../progress";
 
-import { UploadText, GrayHint } from "./ProfileComponents.style";
+import { UploadText, GrayHint } from "../ProfileComponents.style";
 
 export default class File extends Component {
   state = {

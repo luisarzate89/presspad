@@ -6,7 +6,7 @@ import { Row, Col } from "antd";
 import Field from "./../Field";
 import fields from "./../../../../constants/fields";
 
-const AboutYou = ({ errors = {}, handleError }) => {
+const AboutYou = ({ data = {}, errors = {}, handleChange, handleError }) => {
   return (
     <SectionWrapper>
       <Title
@@ -18,18 +18,38 @@ const AboutYou = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Row gutter={25}>
               <Col xs={24} md={12}>
-                <Field {...fields["birthDate"]} error={errors["birthDate"]} />
+                <Field
+                  {...fields["birthDate"]}
+                  value={data["birthDate"]}
+                  error={errors["birthDate"]}
+                  handleChange={handleChange}
+                />
               </Col>
               <Col xs={24} md={12}>
-                <Field {...fields["hometown"]} error={errors["hometown"]} />
+                <Field
+                  {...fields["hometown"]}
+                  value={data["hometown"]}
+                  error={errors["hometown"]}
+                  handleChange={handleChange}
+                />
               </Col>
             </Row>
             <Row gutter={25}>
               <Col xs={24} md={12}>
-                <Field {...fields["gender"]} error={errors["gender"]} />
+                <Field
+                  {...fields["gender"]}
+                  value={data["gender"]}
+                  error={errors["gender"]}
+                  handleChange={handleChange}
+                />
               </Col>
               <Col xs={24} md={12}>
-                <Field {...fields["school"]} error={errors["school"]} />
+                <Field
+                  {...fields["school"]}
+                  value={data["school"]}
+                  error={errors["school"]}
+                  handleChange={handleChange}
+                />
               </Col>
             </Row>
 
@@ -37,20 +57,29 @@ const AboutYou = ({ errors = {}, handleError }) => {
               <Col xs={24} md={12}>
                 <Field
                   {...fields["profileImage"]}
+                  value={data["profileImage"]}
                   error={errors["profileImage"]}
+                  handleChange={handleChange}
                 />
               </Col>
               <Col xs={24} md={12}>
                 <Field
                   {...fields["interests"]}
+                  value={data["interests"]}
                   error={errors["interests"]}
                   handleError={handleError}
+                  handleChange={handleChange}
                 />
               </Col>
             </Row>
           </Col>
           <Col xs={24} sm={12}>
-            <Field {...fields["bio"]} error={errors["bio"]} />
+            <Field
+              {...fields["bio"]}
+              value={data["bio"]}
+              error={errors["bio"]}
+              handleChange={handleChange}
+            />
           </Col>
         </Row>
       </SectionContent>

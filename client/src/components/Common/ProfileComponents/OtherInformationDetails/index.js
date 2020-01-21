@@ -6,7 +6,12 @@ import { Row, Col } from "antd";
 import Field from "../Field";
 import fields from "../../../../constants/fields";
 
-const OtherInformationDetails = ({ errors = {}, handleError }) => {
+const OtherInformationDetails = ({
+  data = {},
+  errors = {},
+  handleChange,
+  handleError
+}) => {
   return (
     <SectionWrapper>
       <Title title="Other information" />
@@ -15,13 +20,17 @@ const OtherInformationDetails = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Field
               {...fields["reference1Name"]}
-              error={errors["reference1Name"]}
+              value={data["reference1"]}
+              error={errors["reference1"]}
+              handleChange={handleChange}
             />
           </Col>
           <Col xs={24} sm={12}>
             <Field
               {...fields["reference1Contact"]}
-              error={errors["reference1Contact"]}
+              value={data["reference1"]}
+              error={errors["reference1"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
@@ -29,26 +38,37 @@ const OtherInformationDetails = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Field
               {...fields["reference2Name"]}
-              error={errors["reference2Name"]}
+              value={data["reference2"]}
+              error={errors["reference2"]}
+              handleChange={handleChange}
             />
           </Col>
           <Col xs={24} sm={12}>
             <Field
               {...fields["reference2Contact"]}
-              error={errors["reference2Contact"]}
+              value={data["reference2"]}
+              error={errors["reference2"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
         <Row gutter={25}>
           <Col xs={24} sm={12}>
-            <Field {...fields["offerLetter"]} error={errors["offerLetter"]} />
+            <Field
+              {...fields["offerLetter"]}
+              value={data["offerLetter"]}
+              error={errors["offerLetter"]}
+              handleChange={handleChange}
+            />
           </Col>
         </Row>
         <Row gutter={25}>
           <Col xs={24} sm={12}>
             <Field
               {...fields["internshipOfficeAddress"]}
+              value={data["internshipOfficeAddress"]}
               error={errors["internshipOfficeAddress"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
@@ -57,7 +77,9 @@ const OtherInformationDetails = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Field
               {...fields["emergencyContactName"]}
-              error={errors["emergencyContactName"]}
+              value={data["emergencyContact"]}
+              error={errors["emergencyContact"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
@@ -66,7 +88,9 @@ const OtherInformationDetails = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Field
               {...fields["emergencyContactNumber"]}
-              error={errors["emergencyContactNumber"]}
+              value={data["emergencyContact"]}
+              error={errors["emergencyContact"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
@@ -75,14 +99,21 @@ const OtherInformationDetails = ({ errors = {}, handleError }) => {
           <Col xs={24} sm={12}>
             <Field
               {...fields["emergencyContactEmail"]}
-              error={errors["emergencyContactEmail"]}
+              value={data["emergencyContact"]}
+              error={errors["emergencyContact"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>
 
         <Row gutter={25}>
           <Col xs={24} sm={12}>
-            <Field {...fields["DBSCheck"]} error={errors["DBSCheck"]} />
+            <Field
+              {...fields["DBSCheck"]}
+              value={data["DBSCheck"]}
+              error={errors["DBSCheck"]}
+              handleChange={handleChange}
+            />
           </Col>
         </Row>
       </SectionContent>

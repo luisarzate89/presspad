@@ -1,12 +1,12 @@
-import AboutYou from "./AboutYou";
-import OtherInformation from "./OtherInformation";
+import AboutYouProfile from "./AboutYouProfile";
+import OtherInformationProfile from "./OtherInformationProfile";
 import AboutYouDetails from "./AboutYouDetails";
 import OtherInformationDetails from "./OtherInformationDetails";
 import Demographic from "./Demographic";
 
 export {
-  AboutYou,
-  OtherInformation,
+  AboutYouProfile,
+  OtherInformationProfile,
   AboutYouDetails,
   OtherInformationDetails,
   Demographic

@@ -6,7 +6,12 @@ import { Row, Col } from "antd";
 import Field from "./../Field";
 import fields from "./../../../../constants/fields";
 
-const OtherInformation = ({ errors = {}, handleError }) => {
+const OtherInformation = ({
+  data = {},
+  errors = {},
+  handleChange,
+  handleError
+}) => {
   return (
     <SectionWrapper>
       <Title
@@ -16,21 +21,35 @@ const OtherInformation = ({ errors = {}, handleError }) => {
       <SectionContent>
         <Row gutter={0}>
           <Col xs={24} sm={24}>
-            <Field {...fields["organisation"]} error={errors["organisation"]} />
+            <Field
+              {...fields["organisation"]}
+              value={data["organisation"]}
+              error={errors["organisation"]}
+              handleChange={handleChange}
+            />
           </Col>
           <Col xs={24}>
             <Field
               {...fields["useReasonAnswer"]}
+              value={data["useReasonAnswer"]}
               error={errors["useReasonAnswer"]}
+              handleChange={handleChange}
             />
           </Col>
           <Col xs={24}>
-            <Field {...fields["issueAnswer"]} error={errors["issueAnswer"]} />
+            <Field
+              {...fields["issueAnswer"]}
+              value={data["issueAnswer"]}
+              error={errors["issueAnswer"]}
+              handleChange={handleChange}
+            />
           </Col>
           <Col xs={24}>
             <Field
               {...fields["mentorDescribeAnswer"]}
+              value={data["mentorDescribeAnswer"]}
               error={errors["mentorDescribeAnswer"]}
+              handleChange={handleChange}
             />
           </Col>
         </Row>

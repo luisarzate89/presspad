@@ -6,7 +6,12 @@ import { Row, Col } from "antd";
 import Field from "./../Field";
 import fields from "./../../../../constants/fields";
 
-const AboutYouDetails = ({ errors = {}, handleError }) => {
+const AboutYouDetails = ({
+  data = {},
+  errors = {},
+  handleChange,
+  handleError
+}) => {
   return (
     <SectionWrapper>
       <Title
@@ -16,16 +21,28 @@ const AboutYouDetails = ({ errors = {}, handleError }) => {
       <SectionContent>
         <Row gutter={25} type="flex">
           <Col xs={24}>
-            <Field {...fields["photoID"]} error={errors["photoID"]} />
+            <Field
+              {...fields["photoID"]}
+              value={data["photoID"]}
+              error={errors["photoID"]}
+              handleChange={handleChange}
+            />
           </Col>
           <Col xs={24}>
             <Field
               {...fields["hearAboutPressPadAnswer"]}
+              value={data["hearAboutPressPadAnswer"]}
               error={errors["hearAboutPressPadAnswer"]}
+              handleChange={handleChange}
             />
           </Col>
           <Col xs={24}>
-            <Field {...fields["phoneNumber"]} error={errors["phoneNumber"]} />
+            <Field
+              {...fields["phoneNumber"]}
+              value={data["phoneNumber"]}
+              error={errors["phoneNumber"]}
+              handleChange={handleChange}
+            />
           </Col>
         </Row>
       </SectionContent>

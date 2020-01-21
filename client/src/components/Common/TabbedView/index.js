@@ -11,12 +11,22 @@ const TabbedView = ({ tabsTitle = [], tabsContent = [] }) => {
         animated
         type="card"
         tabBarStyle={{
-          border: "none"
+          border: "none",
+          width: "97%",
+          margin: "0 auto"
         }}
       >
         {tabsContent.map((Content, i) => (
           <TabPane tab={tabsTitle[i]} key={tabsTitle[i]}>
-            {Content}
+            <div
+              style={{
+                width: "97%",
+                margin: "0 auto",
+                padding: "1rem"
+              }}
+            >
+              {Content}
+            </div>
           </TabPane>
         ))}
       </Tabs>

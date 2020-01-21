@@ -5,22 +5,25 @@ import DatePicker from "./DatePicker";
 import File from "./File";
 import YesNoRadio from "./YesNoRadio";
 
-import { Label } from "./ProfileComponents.style";
+import { Label } from "../ProfileComponents.style";
 
 export default function Field({
   type,
   label,
   placeholder,
-  value,
-  onChange,
+  value: _value,
+  handleChange,
   handleError,
-  error,
+  error: _error,
   name,
   options,
   fullHeight,
   parent,
   hint
 }) {
+  const value = parent ? _value[name] : _value;
+  const error = parent ? _error[name] : _error;
+
   return (
     <>
       <Label
@@ -35,7 +38,7 @@ export default function Field({
         <Input
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}
@@ -46,7 +49,7 @@ export default function Field({
         <Input
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}
@@ -59,7 +62,7 @@ export default function Field({
         <Select
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}
@@ -71,7 +74,7 @@ export default function Field({
         <DatePicker
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}
@@ -82,7 +85,7 @@ export default function Field({
         <File
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}
@@ -94,7 +97,7 @@ export default function Field({
       {type === "yesNo" && (
         <YesNoRadio
           value={value}
-          onChange={onChange}
+          handleChange={handleChange}
           error={error}
           name={name}
           parent={parent}

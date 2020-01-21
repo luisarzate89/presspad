@@ -4,10 +4,15 @@ import { DatePicker } from "antd";
 export default function DatePickerComponent({
   placeholder,
   value,
-  onChange,
+  handleChange,
   error,
-  name
+  name,
+  parent
 }) {
+  const onChange = value => {
+    handleChange({ value, key: name, parent });
+  };
+
   return (
     <DatePicker
       style={{ width: "100%" }}

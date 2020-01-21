@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ErrorWrapper, Error } from "./ProfileComponents.style";
+import { ErrorWrapper, Error } from "../ProfileComponents.style";
 import { Input } from "antd";
 
 const { TextArea } = Input;
@@ -9,13 +9,19 @@ export default function InputWithLabel({
   label,
   placeholder,
   value,
-  onChange,
+  handleChange,
   error,
   name,
   showAsTextArea,
   fullHeight,
   parent
 }) {
+  const onChange = e => {
+    const { name, value } = e.target;
+    console.log({ value, key: name, parent });
+    handleChange({ value, key: name, parent });
+  };
+
   return (
     <>
       <ErrorWrapper error={error} marginBottom="12px">
