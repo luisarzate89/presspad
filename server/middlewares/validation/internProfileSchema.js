@@ -14,10 +14,7 @@ const internProfileSchema = Joi.object({
     description: Joi.string(),
   }),
   jobTitle: Joi.string(),
-  organisation: Joi.object({
-    name: Joi.string(),
-    website: Joi.string().allow(""),
-  }),
+  organisation: Joi.string().allow(["", null]),
   verification: Joi.object({
     photoID: Joi.object({
       fileName: Joi.string(),

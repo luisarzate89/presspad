@@ -18,11 +18,8 @@ module.exports = async (req, res, next) => {
   try {
     const profileData = {
       user: user._id,
+      ...req.body,
     };
-
-    Object.keys(req.body).forEach((key) => {
-      profileData[key] = req.body[key];
-    });
 
 
     const foundProfile = await findProfile(user._id);

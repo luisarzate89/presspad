@@ -28,7 +28,8 @@ export default {
   profileImage: {
     type: "file",
     label: "Upload a photo",
-    name: "profileImage"
+    name: "fileName",
+    parent: "profileImage"
   },
   interests: {
     type: "select",
@@ -79,7 +80,8 @@ export default {
     label: `Proof of identity (eg. passport/driver’s licence)`,
     type: "file",
     placeholder: "+ Add file",
-    name: "photoID"
+    name: "fileName",
+    parent: "photoID"
   },
   hearAboutPressPadAnswer: {
     label: `How did you hear about PressPad?`,
@@ -102,10 +104,10 @@ export default {
     type: "text",
     max: 50
   },
-  reference1Contact: {
+  reference1Email: {
     parent: "reference1",
-    name: "contanct",
-    label: `Reference 1 contact`,
+    name: "email",
+    label: `Reference 1 email`,
     type: "text",
     max: 50
   },
@@ -116,15 +118,16 @@ export default {
     type: "text",
     max: 50
   },
-  reference2Contact: {
+  reference2Email: {
     parent: "reference2",
-    name: "contanct",
-    label: `Reference 2 contact`,
+    name: "email",
+    label: `Reference 1 email`,
     type: "text",
     max: 50
   },
   offerLetter: {
-    name: "offerLetter",
+    name: "fileName",
+    parent: "offerLetter",
     label: `Proof of internship offer`,
     type: "file",
     hint:
@@ -145,7 +148,7 @@ export default {
   },
   emergencyContactNumber: {
     parent: "emergencyContact",
-    name: "number",
+    name: "phoneNumber",
     label: `Emergency contact number`,
     type: "text",
     max: 50
@@ -172,7 +175,9 @@ export default {
         </a>{" "}
         to do this first then upload your certificate
       </span>
-    )
+    ),
+    parent: "DBSCheck",
+    name: "fileName"
   },
   sexualOrientation: {
     type: "select",

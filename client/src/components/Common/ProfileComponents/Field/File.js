@@ -95,8 +95,8 @@ export default class File extends Component {
   };
 
   render() {
-    const { loading, url, isLoading, fileName } = this.state;
-    const { name, error, hint } = this.props;
+    const { loading, isLoading, fileName } = this.state;
+    const { name, hint, parent } = this.props;
     return (
       <div>
         {hint && <GrayHint>{hint}</GrayHint>}
@@ -105,7 +105,14 @@ export default class File extends Component {
             <UploadText disabled>{fileName}</UploadText>
           </ProgressBar>
         ) : (
-          <UploadText as="label" htmlFor={name}>
+          <UploadText
+            as="label"
+            htmlFor={
+              parent
+                ? `${parent}${name[0].toUpperCase()}${name.slice(1)}`
+                : name
+            }
+          >
             {fileName ? (
               <>
                 <Icon type="check" style={{ color: "green" }} />
@@ -116,7 +123,11 @@ export default class File extends Component {
             )}
             <input
               type="file"
-              id={name}
+              id={
+                parent
+                  ? `${parent}${name[0].toUpperCase()}${name.slice(1)}`
+                  : name
+              }
               onChange={this.directUploadToGoogle}
               name={name}
               style={{ display: "none" }}

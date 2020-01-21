@@ -30,7 +30,7 @@ const OtherInformationDetails = ({
           </Col>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["reference1Contact"]}
+              {...fields["reference1Email"]}
               value={data["reference1"]}
               error={errors["reference1"]}
               handleChange={handleChange}
@@ -52,7 +52,7 @@ const OtherInformationDetails = ({
           </Col>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["reference2Contact"]}
+              {...fields["reference2Email"]}
               value={data["reference2"]}
               error={errors["reference2"]}
               handleChange={handleChange}

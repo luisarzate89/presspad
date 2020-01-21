@@ -4,10 +4,17 @@ import { Tabs } from "antd";
 import { CardContainer } from "./TabbedView.style";
 
 const { TabPane } = Tabs;
-const TabbedView = ({ tabsTitle = [], tabsContent = [] }) => {
+const TabbedView = ({
+  tabsTitle = [],
+  tabsContent = [],
+  activeKey,
+  onChange
+}) => {
   return (
     <CardContainer>
       <Tabs
+        activeKey={activeKey || tabsTitle[0]}
+        onChange={onChange}
         animated
         type="card"
         tabBarStyle={{
