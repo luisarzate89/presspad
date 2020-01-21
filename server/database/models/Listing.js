@@ -29,12 +29,12 @@ const listingSchema = new Schema(
     },
     neighbourhoodDescription: {
       type: String,
-      required: true,
+      required: false,
       validate: wordLengthValidator(250, "neighbourhoodDescription"),
     },
     otherInfo: {
       type: String,
-      required: true,
+      required: false,
       validate: wordLengthValidator(250, "otherInfo"),
     },
     accommodationChecklist: [String],

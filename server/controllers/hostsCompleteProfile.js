@@ -14,35 +14,100 @@ const { getListing } = require("../database/queries/listing/getListing");
 module.exports = async (req, res, next) => {
   const { user } = req;
 
-  if (!["host", "superhost"].includes(user.role)) {
+  if (user.role !== "host") {
     return next(boom.forbidden("only host can update his profile"));
   }
-  try {
-    const profileData = {
-      user: user._id,
-      bio: req.body.bio,
-      interests: req.body.interests,
-      organisation: {
-        name: req.body.organisationName,
-        website: req.body.organisationWebsite,
-      },
-      jobTitle: req.body.jobTitle,
-      profileImage: req.body.profileImage,
-    };
 
-    const listingData = {
-      user: user._id,
-      address: {
-        street: req.body.addressLine1,
-        borough: req.body.addressLine2,
-        city: req.body.addressCity,
-        postcode: req.body.addressPostCode,
-      },
-      description: req.body.offerDescription,
-      otherInfo: req.body.offerOtherInfo,
-      photos: req.body.photos,
-      availableDates: req.body.availableDates,
-    };
+  const {
+    birthDate,
+    hometown,
+    gender,
+    school,
+    bio,
+    profileImage,
+    fileName,
+    isPrivate,
+    jobTitle,
+    organisation,
+    workingArea,
+    hostingReasonAnswer,
+    mentoringExperienceAnswer,
+    industryExperienceAnswer,
+    backgroundAnswer,
+    photos,
+    addressLine1,
+    addressLine2,
+    addressCity,
+    addressPostCode,
+    availableDates,
+    accommodationChecklist,
+    neighbourhoodDescription,
+    otherInfo,
+    photoID,
+    hearAboutPressPadAnswer,
+    phoneNumber,
+    reference1,
+    reference2,
+    DBSCheck,
+    sexualOrientation,
+    degreeLevel,
+    ethnicity,
+    earningOfParents,
+    disability,
+    parentsWorkInPress,
+    caringResponsibilities,
+    consentedOnPressPadTerms,
+  } = req.body;
+
+  const profileData = {
+    user: user._id,
+    birthDate,
+    hometown,
+    gender,
+    school,
+    bio,
+    profileImage,
+    fileName,
+    isPrivate,
+    jobTitle,
+    organisation,
+    workingArea,
+    hostingReasonAnswer,
+    mentoringExperienceAnswer,
+    industryExperienceAnswer,
+    backgroundAnswer,
+    photoID,
+    hearAboutPressPadAnswer,
+    phoneNumber,
+    reference1,
+    reference2,
+    DBSCheck,
+    sexualOrientation,
+    degreeLevel,
+    ethnicity,
+    earningOfParents,
+    disability,
+    parentsWorkInPress,
+    caringResponsibilities,
+    consentedOnPressPadTerms,
+  };
+
+  const listingData = {
+    user: user._id,
+    photos,
+    address: {
+      street: addressLine1,
+      borough: addressLine2,
+      city: addressCity,
+      postcode: addressPostCode,
+    },
+    availableDates,
+    accommodationChecklist,
+    neighbourhoodDescription,
+    otherInfo,
+  };
+
+  try {
     const foundProfile = await findProfile(user._id);
     const foundHostListing = await getListing(user._id);
 

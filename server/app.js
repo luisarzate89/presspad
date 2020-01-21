@@ -68,7 +68,12 @@ app.use((err, req, res, next) => {
     // for unexpected internal server errors
     res.status(err.statusCode || 500);
   }
-  res.json({ error: err.message });
+  let error = err.message;
+  const { details } = err;
+  if (err.isJoi) {
+    error = "Invalid request data. Please review request and try again.";
+  }
+  res.json({ error, details });
 });
 
 module.exports = app;

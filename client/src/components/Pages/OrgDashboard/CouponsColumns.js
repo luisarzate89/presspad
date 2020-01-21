@@ -11,15 +11,15 @@ export default windowWidth => {
     {
       title: "Discount code",
       dataIndex: "code",
-      key: "code"
-    }
+      key: "code",
+    },
   ];
 
   if (windowWidth > 1110) {
     columnsObject.push({
       title: "% discount",
       dataIndex: "discountRate",
-      key: "discountRate"
+      key: "discountRate",
     });
   }
 
@@ -33,7 +33,7 @@ export default windowWidth => {
           {moment(startDate).format("DD MMM")} -{" "}
           {moment(row.endDate).format("DD MMM")}
         </span>
-      )
+      ),
     });
   }
 
@@ -43,7 +43,7 @@ export default windowWidth => {
       <span>
         £{moment(row.endDate).diff(moment(row.startDate), "days") * 20}
       </span>
-    )
+    ),
   });
 
   if (windowWidth > 690) {
@@ -51,7 +51,7 @@ export default windowWidth => {
       title: "Amount spent so far",
       dataIndex: "usedDays",
       key: "usedDays",
-      render: usedDays => <span>£{(usedDays && usedDays * 20) || 0}</span>
+      render: usedDays => <span>£{(usedDays && usedDays * 20) || 0}</span>,
     });
   }
 
@@ -75,7 +75,7 @@ export default windowWidth => {
           {record.internName}
         </BlueLink>
       );
-    }
+    },
   });
 
   if (windowWidth > 690) {
@@ -88,7 +88,7 @@ export default windowWidth => {
           return <Badge color={tagColors.new} text={"Didn't Sign up yet"} />;
         }
         return <Badge color={tagColors[status]} text={status} />;
-      }
+      },
     });
   }
 

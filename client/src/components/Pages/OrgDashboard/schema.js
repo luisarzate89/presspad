@@ -15,11 +15,12 @@ export default Yup.object().shape({
   internId: Yup.string()
     .nullable()
     .test("is-mongo-id-length", "not valid", value =>
-      value ? value.length === 24 : true
+      value ? value.length === 24 : true,
     ),
 
   startDate: Yup.string()
     .required("Required")
+    .typeError("Please select start date")
     .test("is-start-date-valid", "not valid", function(startDate) {
       const { endDate } = this.parent;
 
@@ -31,6 +32,7 @@ export default Yup.object().shape({
 
   endDate: Yup.string()
     .required("Required")
+    .typeError("Please select end date")
     .test("is-end-date-valid", "not valid", function(endDate) {
       const { startDate } = this.parent;
 
@@ -38,5 +40,5 @@ export default Yup.object().shape({
         moment(endDate).valueOf() > moment().subtract(1, "day") &&
         moment(startDate).valueOf() < moment(endDate).valueOf()
       );
-    })
+    }),
 });

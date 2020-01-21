@@ -1,3 +1,4 @@
+const boom = require("boom");
 const {
   HOST_COMPLETE_PROFILE,
   INTERN_COMPLETE_PROFILE,
@@ -42,13 +43,8 @@ const validation = (req, res, next) => {
         // if everything is validate, change the body to the modified version of it
         req.body = data;
         next();
-      }).catch(() => {
-        // maybe we should do this in an errror middleware next(error), then handle it there.
-        const customError = {
-          status: "failed",
-          error: "Invalid request data. Please review request and try again.",
-        };
-        res.status(422).json(customError);
+      }).catch((err) => {
+        next(boom.badData(err));
       });
   } else {
     next();
