@@ -24,12 +24,12 @@ const profileSchema = new Schema(
     hometown: {
       type: String,
       validate: wordLengthValidator(10, "hometown"),
-      required: true,
+      required: false, // required for Intern
     },
     school: {
       type: String,
       validate: wordLengthValidator(10, "school"),
-      required: true,
+      required: false, // required for Intern
     },
     useReasonAnswer: {
       type: String,
@@ -54,7 +54,7 @@ const profileSchema = new Schema(
     hearAboutPressPadAnswer: {
       type: String,
       validate: wordLengthValidator(50, "hearAboutPressPadAnswer"),
-      required: false,
+      required: false, // required for hosts
     },
     phoneNumber: {
       type: String,
@@ -88,6 +88,7 @@ const profileSchema = new Schema(
     sexualOrientation: {
       type: String,
       enum: types.sexualOrientation,
+      required: false,
     },
     degreeLevel: {
       type: String,
@@ -122,7 +123,7 @@ const profileSchema = new Schema(
     },
     backgroundAnswer: { // Is there anything about your background...
       type: String,
-      validate: wordLengthValidator(200, "backgroundAnswer"),
+      validate: wordLengthValidator(250, "backgroundAnswer"),
       required: false,
     },
     consentedOnPressPadTerms: {
@@ -137,12 +138,12 @@ const profileSchema = new Schema(
     hostingReasonAnswer: {
       type: String,
       validate: wordLengthValidator(250, "hostingReasonAnswer"),
-      required: false, // required for hosts
+      required: false,
     },
     mentoringExperienceAnswer: {
       type: String,
       validate: wordLengthValidator(250, "mentoringExperienceAnswer"),
-      required: false, // required for hosts
+      required: false,
     },
     industryExperienceAnswer: {
       type: String,
@@ -178,12 +179,12 @@ const profileSchema = new Schema(
     organisation: {
       type: String,
       validate: wordLengthValidator(10, "organisation"),
-      required: false,
+      required: false, // required for hosts
     },
     jobTitle: {
       type: String,
       lowercase: true,
-      // required: true, required for hosts
+      required: false, // required for hosts
       trim: true,
       validate: wordLengthValidator(10, "jobTitle"),
     },
@@ -197,47 +198,44 @@ const profileSchema = new Schema(
         default: false,
       },
     },
-
-    verification: {
-      photoID: {
-        fileName: {
-          type: String,
-          required: true,
-        },
-        isPrivate: {
-          type: Boolean,
-          default: true,
-        },
+    photoID: {
+      fileName: {
+        type: String,
+        required: true,
       },
-      offerLetter: {
-        fileName: {
-          type: String,
-          required: false, // required for hosts
-        },
-        isPrivate: {
-          type: Boolean,
-          default: true,
-        },
+      isPrivate: {
+        type: Boolean,
+        default: true,
       },
-      reference1: {
-        name: {
-          type: String,
-          required: false,
-        },
-        contact: {
-          type: String,
-          required: false,
-        },
+    },
+    offerLetter: {
+      fileName: {
+        type: String,
+        required: false, // required for hosts
       },
-      reference2: {
-        name: {
-          type: String,
-          required: false,
-        },
-        contact: {
-          type: String,
-          required: false,
-        },
+      isPrivate: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    reference1: {
+      name: {
+        type: String,
+        required: false,
+      },
+      email: {
+        type: String,
+        required: false,
+      },
+    },
+    reference2: {
+      name: {
+        type: String,
+        required: false,
+      },
+      email: {
+        type: String,
+        required: false,
       },
     },
     badge: {
