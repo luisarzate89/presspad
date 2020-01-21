@@ -27,7 +27,7 @@ export default ({
   return (
     <PageWrapper>
       <ContentWrapper>
-        <HeaderWrapper error="" imageUrl="" name={name} loading={50} />
+        <HeaderWrapper error="" imageUrl="" name={name} loading={0} />
         <TabbedView
           activeKey={activeKey}
           onChange={onChangeTabs}
