@@ -28,7 +28,7 @@ export default class InternCreateProfile extends Component {
       mentorDescribeAnswer: undefined,
       photoID: {
         fileName: undefined,
-        isPrivate: false
+        isPrivate: true
       },
       hearAboutPressPadAnswer: undefined,
       phoneNumber: undefined,
@@ -42,7 +42,7 @@ export default class InternCreateProfile extends Component {
       },
       offerLetter: {
         fileName: undefined,
-        isPrivate: false
+        isPrivate: true
       },
       internshipOfficeAddress: undefined,
       emergencyContact: {
@@ -52,7 +52,7 @@ export default class InternCreateProfile extends Component {
       },
       DBSCheck: {
         fileName: undefined,
-        isPrivate: false
+        isPrivate: true
       },
       sexualOrientation: undefined,
       degreeLevel: undefined,

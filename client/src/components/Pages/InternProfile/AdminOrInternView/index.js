@@ -64,20 +64,16 @@ class InternProfile extends Component {
       bio,
       jobTitle,
       favouriteArticle = {},
-      verification = {},
-      profileImage = {}
+      profileImage = {},
+      reference1 = {},
+      reference2 = {},
+      photoID = {},
+      offerLetter = {}
     } = profile;
 
     const { title, author, description, link } = favouriteArticle;
 
     const { name: orgName } = organisation;
-
-    const {
-      reference1 = {},
-      reference2 = {},
-      photoID = {},
-      offerLetter = {}
-    } = verification;
 
     let linkWithHttp = link || "";
 

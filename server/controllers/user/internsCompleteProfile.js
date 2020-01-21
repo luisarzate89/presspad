@@ -18,9 +18,13 @@ module.exports = async (req, res, next) => {
   try {
     const profileData = {
       user: user._id,
-      ...req.body,
     };
 
+    Object.entries(req.body).forEach(([key, value]) => {
+      if (value) {
+        profileData[key] = value;
+      }
+    });
 
     const foundProfile = await findProfile(user._id);
 

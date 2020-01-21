@@ -20,7 +20,8 @@ export default function Field({
   fullHeight,
   parent,
   hint,
-  userId
+  userId,
+  isPrivate
 }) {
   const value = parent ? _value[name] : _value;
   const error = parent ? _error[name] : _error;
@@ -93,6 +94,7 @@ export default function Field({
           handleError={handleError}
           hint={hint}
           userId={userId}
+          isPrivate={isPrivate}
         />
       )}
 

@@ -13,11 +13,10 @@ export default class File extends Component {
   };
 
   directUploadToGoogle = async e => {
-    const { name, parent, userId } = this.props;
+    const { name, parent, userId, isPrivate } = this.props;
 
     const {
-      files: [image],
-      dataset: { isPrivate }
+      files: [image]
     } = e.target;
 
     if (!image) {
@@ -52,7 +51,7 @@ export default class File extends Component {
 
       let url = "";
 
-      if (isPrivate === "false") {
+      if (!isPrivate) {
         headers["x-goog-acl"] = "public-read";
         url = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
@@ -131,7 +130,6 @@ export default class File extends Component {
               onChange={this.directUploadToGoogle}
               name={name}
               style={{ display: "none" }}
-              data-is-private={true}
             />
           </UploadText>
         )}

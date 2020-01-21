@@ -70,10 +70,9 @@ module.exports = async (req, res, next) => {
     // get the file links
     if (profile) {
       const promises = [];
-      if (profile.verification) {
-        promises.push(generateUrl(profile.verification.photoID));
-        promises.push(generateUrl(profile.verification.offerLetter));
-      }
+      promises.push(generateUrl(profile.photoID));
+      promises.push(generateUrl(profile.offerLetter));
+
       if (profile.profileImage) {
         promises.push(generateUrl(profile.profileImage));
       }

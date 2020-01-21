@@ -29,7 +29,8 @@ export default {
     type: "file",
     label: "Upload a photo",
     name: "fileName",
-    parent: "profileImage"
+    parent: "profileImage",
+    isPrivate: false
   },
   interests: {
     type: "select",
@@ -81,7 +82,8 @@ export default {
     type: "file",
     placeholder: "+ Add file",
     name: "fileName",
-    parent: "photoID"
+    parent: "photoID",
+    isPrivate: true
   },
   hearAboutPressPadAnswer: {
     label: `How did you hear about PressPad?`,
@@ -131,7 +133,8 @@ export default {
     label: `Proof of internship offer`,
     type: "file",
     hint:
-      "Please upload an offer letter or something similar that can be used as proof of your internship"
+      "Please upload an offer letter or something similar that can be used as proof of your internship",
+    isPrivate: true
   },
   internshipOfficeAddress: {
     name: "internshipOfficeAddress",
@@ -177,7 +180,8 @@ export default {
       </span>
     ),
     parent: "DBSCheck",
-    name: "fileName"
+    name: "fileName",
+    isPrivate: true
   },
   sexualOrientation: {
     type: "select",
@@ -216,7 +220,7 @@ export default {
   },
   parentsWorkInPress: {
     type: "select",
-    label: "Disability",
+    label: "Did either of your parents work in this industry?",
     placeholder: "Did either of your parents work in this industry?",
     name: "parentsWorkInPress",
     options: types.parentsWorkInPress
