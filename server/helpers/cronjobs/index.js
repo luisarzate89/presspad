@@ -4,11 +4,15 @@ const giveBadges = require("./giveBadges");
 const sendScheduledReminders = require("./sendScheduledReminders");
 const sendScheduledPaymentReminders = require("./sendScheduledPaymentReminders");
 const releaseExpiredCouponsValue = require("./releaseExpiredCouponsValue");
-
+const cancelOldBookings = require("./cancelOldBookings");
 
 const cronJobs = async (Sentry) => {
   cron.schedule("1 1 1 * * *", async () => {
     await releaseExpiredCouponsValue(Sentry);
+  });
+
+  cron.schedule("0 0 0 * * *", async () => {
+    await cancelOldBookings();
   });
 
   cron.schedule("1 1 2 * * *", async () => {
