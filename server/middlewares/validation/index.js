@@ -15,8 +15,7 @@ const {
 // Schemas for each route
 const schemas = {
   [HOST_COMPLETE_PROFILE]: hostProfileSchema,
-  // TODO: Fix validation
-  // [INTERN_COMPLETE_PROFILE]: internProfileSchema,
+  [INTERN_COMPLETE_PROFILE]: internProfileSchema,
   [DONATION_URL]: donateSchema,
   [WITHDRAW_REQUEST_URL]: withdrawSchema,
 };
@@ -31,7 +30,7 @@ const methods = {
 
 // Validate function
 const validate = (schema, dataObj) => schema
-  .validate(dataObj, { abortEarly: false, stripUnknown: true });
+  .validateAsync(dataObj, { abortEarly: false, stripUnknown: true });
 
 // validation middleware
 const validation = (req, res, next) => {

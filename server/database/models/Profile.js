@@ -54,7 +54,7 @@ const profileSchema = new Schema(
     hearAboutPressPadAnswer: {
       type: String,
       validate: wordLengthValidator(50, "hearAboutPressPadAnswer"),
-      required: false, // required for hosts
+      required: true,
     },
     phoneNumber: {
       type: String,
@@ -157,14 +157,14 @@ const profileSchema = new Schema(
     },
     address: {
       type: String,
-      validate: wordLengthValidator(50, "internshipOfficeAddress"),
-      required: false,
+      validate: wordLengthValidator(50, "address"),
+      required: false, // for host
     },
     interests: {
       type: String,
       trim: true,
       enum: types.interests,
-      required: false,
+      required: false, // required for Interns
     },
     verified: {
       type: Boolean,
@@ -211,7 +211,7 @@ const profileSchema = new Schema(
     offerLetter: {
       fileName: {
         type: String,
-        required: false, // required for hosts
+        required: false, // required for intern
       },
       isPrivate: {
         type: Boolean,

@@ -1,23 +1,25 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
+
+const wordLengthValidator = require("./wordLengthValidator");
 
 const hostProfileSchema = Joi.object({
   // profile
   birthDate: Joi.date().required(),
-  hometown: Joi.string().max(10),
+  hometown: Joi.string().custom(wordLengthValidator(10, "hometown")),
   gender: Joi.string().required(),
-  school: Joi.string().max(10),
-  bio: Joi.string().max(250).required(),
+  school: Joi.string().custom(wordLengthValidator(10, "school")),
+  bio: Joi.string().custom(wordLengthValidator(250, "bio")).required(),
   profileImage: Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(false),
   }).required(),
-  jobTitle: Joi.string().max(10).required(),
-  organisation: Joi.string().max(10).required(),
+  jobTitle: Joi.string().custom(wordLengthValidator(10, "jobTitle")).required(),
+  organisation: Joi.string().custom(wordLengthValidator(10, "organisation")).required(),
   workingArea: Joi.string().required(),
-  hostingReasonAnswer: Joi.string().max(250),
-  mentoringExperienceAnswer: Joi.string().max(250),
-  industryExperienceAnswer: Joi.string().max(250),
-  backgroundAnswer: Joi.string().max(250),
+  hostingReasonAnswer: Joi.string().custom(wordLengthValidator(250, "hostingReasonAnswer")),
+  mentoringExperienceAnswer: Joi.string().custom(wordLengthValidator(250, "mentoringExperienceAnswer")),
+  industryExperienceAnswer: Joi.string().custom(wordLengthValidator(250, "industryExperienceAnswer")),
+  backgroundAnswer: Joi.string().custom(wordLengthValidator(250, "backgroundAnswer")),
   // offer
   photos: Joi.array().length(3).items(
     Joi.object({
@@ -39,22 +41,22 @@ const hostProfileSchema = Joi.object({
   ).required(),
   accommodationChecklist: Joi.array().items(Joi.string()),
   neighbourhoodDescription: Joi.string().max(250),
-  otherInfo: Joi.string().max(250),
+  otherInfo: Joi.string().custom(wordLengthValidator(250, "otherInfo")),
   // details
   photoID: Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(true),
   }).required(),
-  hearAboutPressPadAnswer: Joi.string().max(50).required(),
-  phoneNumber: Joi.string().required(),
+  hearAboutPressPadAnswer: Joi.string().custom(wordLengthValidator(50, "hearAboutPressPadAnswer")).required(),
+  phoneNumber: Joi.string().max(50).required(),
   reference1: Joi.object({
     name: Joi.string().max(50).required(),
     email: Joi.string().email().required(),
-  }).required(),
+  }),
   reference2: Joi.object({
     name: Joi.string().max(50).required(),
     email: Joi.string().email().required(),
-  }).required(),
+  }),
   DBSCheck: Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(true),

@@ -1,5 +1,5 @@
 
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 
 const withdrawSchema = Joi.object({
   bankName: Joi.string()
