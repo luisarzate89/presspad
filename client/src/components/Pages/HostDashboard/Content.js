@@ -106,7 +106,7 @@ const Content = ({
                 Hi {name.split(" ")[0]}
                 {Object.keys(nextBooking).length > 0 && (
                   <>
-                    , your next guest is arriving in{" "}
+                    , your next guest is arriving
                     <BoldTitle>
                       {" "}
                       {getStringTime(nextBooking.startDate)}
