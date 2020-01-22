@@ -22,6 +22,7 @@ module.exports = {
     "no-underscore-dangle": 0,
     "destructuring-assignment": 0,
     "dot-notation": 0,
+    "react/destructuring-assignment":0,
     "jsx-a11y/click-events-have-key-events": 0,
     // disables the windows/unix linebreak checks.
     "linebreak-style": 0,
