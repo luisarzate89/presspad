@@ -101,7 +101,6 @@ class HostView extends Component {
       bio,
       jobTitle,
       profileImage,
-      verification,
       verified,
       organisation,
       gender,
@@ -112,10 +111,10 @@ class HostView extends Component {
       useReasonAnswer,
       issueAnswer,
       storyAnswer,
-      mentorDescribeAnswer
+      mentorDescribeAnswer,
+      reference1,
+      reference2
     } = profile;
-
-    const { reference1, reference2 } = verification;
 
     const referencesLength =
       ((reference1 && reference1.name && 1) || 0) +

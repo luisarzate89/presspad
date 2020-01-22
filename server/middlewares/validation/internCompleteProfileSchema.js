@@ -15,24 +15,23 @@ const internCompleteProfileSchema = Joi.object({
   }).required(),
   jobTitle: Joi.string().required(),
   organisation: Joi.string().allow(""),
-  verification: Joi.object({
-    photoID: Joi.object({
-      fileName: Joi.string().required(),
-      isPrivate: Joi.boolean().default(true),
-    }).required(),
-    offerLetter: Joi.object({
-      fileName: Joi.string().required(),
-      isPrivate: Joi.boolean().default(true),
-    }),
-    reference1: Joi.object({
-      name: Joi.string().required(),
-      contact: Joi.string().required(),
-    }).required(),
-    reference2: Joi.object({
-      name: Joi.string().required(),
-      contact: Joi.string().required(),
-    }).required(),
+  photoID: Joi.object({
+    fileName: Joi.string().required(),
+    isPrivate: Joi.boolean().default(true),
   }).required(),
+  offerLetter: Joi.object({
+    fileName: Joi.string().required(),
+    isPrivate: Joi.boolean().default(true),
+  }),
+  reference1: Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().required(),
+  }).required(),
+  reference2: Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().required(),
+  }).required(),
+
 });
 
 module.exports = internCompleteProfileSchema;

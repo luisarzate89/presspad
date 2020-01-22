@@ -69,7 +69,7 @@ export const AboutSectionDataRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: ${({ pushDown = false }) => (pushDown ? "38" : "7")}px;
+  margin-top: ${({ pushDown = false }) => (pushDown ? "38" : "15")}px;
 `;
 
 export const AboutSectionDataCell = styled.div`
