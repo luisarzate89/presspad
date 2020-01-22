@@ -20,7 +20,7 @@ function BookingsSection(props) {
           rowKey={"_id"}
           onRow={record => {
             return {
-              onClick: () => history.push(`booking/${record._id}`),
+              onClick: () => history.push(`/booking/${record._id}`),
               style: { cursor: "pointer" }
             };
           }}
