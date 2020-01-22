@@ -86,6 +86,7 @@ const {
   FIND_WITHDRAW_REQUESTS_URL,
   GET_ALL_CETIES_URL,
   UPDATE_CHECKLIST_ANSWER,
+  ADMIN_INTERN_PROFILE,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -166,6 +167,9 @@ router.get(INTERN_DASHBOARD_URL, authentication, internDashboard);
 
 // GET MY PROFILE
 router.get(MY_PROFILE_URL, authentication, getMyProfile);
+
+// GET INTERN PROFILE FOR ADMIN
+router.get(ADMIN_INTERN_PROFILE, authentication, getMyProfile);
 
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);

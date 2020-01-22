@@ -10,21 +10,27 @@ import { Description } from "./../ProfileComponents.style";
 
 const AboutYouDetails = ({
   data = {},
+  name = "",
   errors = {},
   handleChange,
   handleError,
-  userId
+  userId,
+  isAdmin = false
 }) => {
   return (
     <SectionWrapper>
-      <Description>
-        None of the details you supply below will be made public and will only
-        be available to PressPad for verification purposes, to improve our
-        service and to monitor our impact.
-      </Description>
+      {!isAdmin && (
+        <Description>
+          None of the details you supply below will be made public and will only
+          be available to PressPad for verification purposes, to improve our
+          service and to monitor our impact.
+        </Description>
+      )}
       <Title
-        title="About you"
-        hint="You need to fill out this information to use PressPad"
+        title={isAdmin ? name : "About you"}
+        hint={
+          !isAdmin && "You need to fill out this information to use PressPad"
+        }
       />
       <SectionContent>
         <Row gutter={25} type="flex">

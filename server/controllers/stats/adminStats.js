@@ -1,37 +1,46 @@
 const boom = require("boom");
 
 // IMPORT QUERIES
-const { getAllClientStats } = require("./../../database/queries/stats/getAllClientStats");
-const { getAllInternStats } = require("./../../database/queries/stats/getAllInternStats");
-const { getAllHostStats } = require("./../../database/queries/stats/getAllHostStats");
-const { findAllWithdrawRequests } = require("../../database/queries/withdrawRequest");
+const {
+  getAllClientStats,
+} = require("./../../database/queries/stats/getAllClientStats");
+const {
+  getAllInternStats,
+} = require("./../../database/queries/stats/getAllInternStats");
+const {
+  getAllHostStats,
+} = require("./../../database/queries/stats/getAllHostStats");
+const {
+  findAllWithdrawRequests,
+} = require("../../database/queries/withdrawRequest");
 
 module.exports = async (req, res, next) => {
   // get user data so we can check they are authorized
   const { user } = req;
 
-  if (user.role !== "admin") return next(boom.unauthorized("You do not have sufficient priveleges"));
+  if (user.role !== "admin")
+    return next(boom.unauthorized("You do not have sufficient priveleges"));
 
   // get whether you want client, intern or host data
   const { userType } = req.body;
 
   if (userType === "clients") {
     return getAllClientStats()
-      .then((stats) => {
+      .then(stats => {
         if (stats.length === 0) return res.json(stats);
 
         return res.json(stats);
       })
-      .catch((err) => {
+      .catch(err => {
         next(boom.badImplementation(err));
       });
   }
   if (userType === "interns") {
     return getAllInternStats()
-      .then((stats) => {
+      .then(stats => {
         if (stats.length === 0) return res.json(stats);
 
-        const cleanStats = stats.map((intern) => {
+        const cleanStats = stats.map(intern => {
           let status = "Looking for host";
 
           if (intern.liveBookings > 0) {
@@ -62,16 +71,18 @@ module.exports = async (req, res, next) => {
   }
   if (userType === "hosts") {
     return getAllHostStats()
-      .then((stats) => {
+      .then(stats => {
         if (stats.length === 0) return res.json(stats);
 
-        const cleanStats = stats.map((host) => {
+        const cleanStats = stats.map(host => {
           const hostObj = {
             key: stats.indexOf(host) + 1,
             name: host.name,
-            city: host.listing.address.city,
+            address: host.listing.address,
             hosted: host.internsHosted,
-            approvalStatus: host.profile[0].verified ? "Approved" : "Waiting for approval",
+            approvalStatus: host.profile[0].verified
+              ? "Approved"
+              : "Waiting for approval",
             profileId: host.profile[0]._id,
             userId: host._id,
             totalIncome: host.totalIncome,

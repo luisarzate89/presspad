@@ -9,20 +9,26 @@ import fields from "./../../../../constants/fields";
 import { Description } from "./../ProfileComponents.style";
 const AboutYou = ({
   data = {},
+  name = "",
   errors = {},
   handleChange,
   handleError,
-  userId
+  userId,
+  isAdmin = false
 }) => {
   return (
     <SectionWrapper>
-      <Description>
-        This information you provide in this section will be made available to
-        the hosts you apply for.
-      </Description>
+      {!isAdmin && (
+        <Description>
+          This information you provide in this section will be made available to
+          the hosts you apply for.
+        </Description>
+      )}
       <Title
-        title="About you"
-        hint="You need to fill out this information to use PressPad"
+        title={isAdmin ? name : "About you"}
+        hint={
+          !isAdmin && "You need to fill out this information to use PressPad"
+        }
       />
       <SectionContent>
         <Row gutter={25} type="flex">

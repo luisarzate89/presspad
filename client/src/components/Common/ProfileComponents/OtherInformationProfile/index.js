@@ -11,13 +11,17 @@ const OtherInformation = ({
   errors = {},
   handleChange,
   handleError,
-  userId
+  userId,
+  isAdmin = false
 }) => {
   return (
     <SectionWrapper>
       <Title
         title="Other information"
-        hint="You don’t need to answer now but will be required to fill these in before being able to complete a booking."
+        hint={
+          !isAdmin &&
+          "You don’t need to answer now but will be required to fill these in before being able to complete a booking."
+        }
       />
       <SectionContent>
         <Row gutter={0}>

@@ -1,34 +1,37 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Content from "./Content";
-import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
+import InternView from "./InternView";
+import AdminView from "./AdminView";
+import { API_INTERN_PROFILE_URL } from "../../../../constants/apiRoutes";
 
 class InternProfile extends Component {
   state = {
     viewNumber: 3,
     userInfo: {},
-    bookingsWithReviews: []
+    bookingsWithReviews: [],
   };
+
   componentDidMount() {
     const { match } = this.props;
-    let id = match.params.id;
-    if (!id && match.path === "/my-profile") {
-      id = this.props.id;
-    }
+    let { id } = match.params;
+    // eslint-disable-next-line prefer-destructuring
+    if (!id && match.path === "/my-profile") id = this.props.id;
+
+    if (match.path === "/admin/dashboard") id = this.props.internId;
 
     axios
       .get(
         `${API_INTERN_PROFILE_URL.replace(
           ":id",
-          id
-        )}?expand=bookings&expand=reviews`
+          id,
+        )}?expand=bookings&expand=reviews`,
       )
       .then(res => {
         this.setState({
-          isLoading: false,
+          // isLoading: false,
           userInfo: res.data.userInfo,
-          bookingsWithReviews: res.data.bookingsWithReviews
+          bookingsWithReviews: res.data.bookingsWithReviews,
         });
       })
       .catch(err => {
@@ -68,7 +71,7 @@ class InternProfile extends Component {
       reference1 = {},
       reference2 = {},
       photoID = {},
-      offerLetter = {}
+      offerLetter = {},
     } = profile;
 
     const { title, author, description, link } = favouriteArticle;
@@ -77,14 +80,12 @@ class InternProfile extends Component {
 
     let linkWithHttp = link || "";
 
-    if (!linkWithHttp.match(/^http?:\/\//i)) {
-      linkWithHttp = "http://" + link;
-    }
+    if (!linkWithHttp.match(/^http?:\/\//i)) linkWithHttp = `http://${link}`;
 
     const { windowWidth } = this.props;
 
-    return (
-      <Content
+    return role === "intern" ? (
+      <InternView
         name={name}
         bio={bio}
         jobTitle={jobTitle}
@@ -105,6 +106,12 @@ class InternProfile extends Component {
         profile={profile}
         handleViewMoreToggle={this.handleViewMoreToggle}
         role={role}
+      />
+    ) : (
+      <AdminView
+        name={name}
+        userId={this.props.internId}
+        goBack={() => this.props.triggerInternView("")}
       />
     );
   }

@@ -1,13 +1,11 @@
 import React from "react";
 import { Row, Col, Avatar, Table, Empty } from "antd";
 
-import { INTERN_COMPLETE_PROFILE_URL } from "./../../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from "../../../../constants/navRoutes";
 
 import {
   PageWrapper,
   ContentWrapper,
-  BackLinkDiv,
-  Arrow,
   BlueLink,
   HeaderWrapper,
   HiText,
@@ -21,11 +19,11 @@ import {
   BoldSpan,
   BlueSpan,
   BookingsTableWrapper,
-  EditButton
+  EditButton,
 } from "./InternProfile.style";
 import BookingsColumns from "./BookingsColumns";
 
-const Content = ({
+export default function InternView({
   name,
   bio,
   jobTitle,
@@ -41,24 +39,14 @@ const Content = ({
   photoID,
   offerLetter,
   profileImage,
-  goBack,
   handleViewMoreToggle,
   viewNumber,
   profile,
-  role
-}) => {
+}) {
   return (
     <PageWrapper>
       <ContentWrapper>
-        {role === "admin" ? (
-          <BackLinkDiv>
-            <Arrow />
-            <BlueLink onClick={goBack}>back to search results</BlueLink>
-          </BackLinkDiv>
-        ) : (
-          <EditButton to={INTERN_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
-        )}
-
+        <EditButton to={INTERN_COMPLETE_PROFILE_URL}>Edit Profile</EditButton>
         <HeaderWrapper>
           <Row gutter={20} type="flex" justify="start">
             <Col xs={24} sm={4} lg={3}>
@@ -74,7 +62,7 @@ const Content = ({
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: "42px",
-                  border: "1px solid rgba(0, 0, 0, 0.15)"
+                  border: "1px solid rgba(0, 0, 0, 0.15)",
                 }}
               />
             </Col>
@@ -198,7 +186,7 @@ const Content = ({
                 <Table
                   columns={BookingsColumns(windowWidth)}
                   dataSource={bookingsWithReviews.slice(0, viewNumber)}
-                  rowKey={"_id"}
+                  rowKey="_id"
                   pagination={false}
                 />
                 {bookingsWithReviews.length > 3 && (
@@ -218,6 +206,4 @@ const Content = ({
       </ContentWrapper>
     </PageWrapper>
   );
-};
-
-export default Content;
+}

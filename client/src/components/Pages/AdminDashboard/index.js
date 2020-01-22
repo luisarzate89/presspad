@@ -7,9 +7,10 @@ import { Input, Button, Icon, message } from "antd";
 import ClientTable from "./ClientTable";
 import InternTable from "./InternTable";
 import HostTable from "./HostTable";
-import HostProfile from "./../HostProfile/index";
+import HostProfile from "../HostProfile/index";
 import PaymentsTable from "./PaymentsTable";
 import SearchBar from "../../Common/SearchBar";
+import InternProfile from "../InternProfile/AdminOrInternView";
 
 // STYLING
 import {
@@ -21,14 +22,14 @@ import {
   MainSection,
   ContentTitle,
   ProfileWrapper,
-  HostWrapper
+  HostWrapper,
 } from "./AdminDashboard.style";
 
 // API ROUTES
 import {
   API_ADMIN_STATS_URL,
-  API_UPDATE_WITHDRAW_REQUEST_URL
-} from "./../../../constants/apiRoutes";
+  API_UPDATE_WITHDRAW_REQUEST_URL,
+} from "../../../constants/apiRoutes";
 import { filterArray } from "../../../helpers";
 
 export default class AdminDashboard extends Component {
@@ -39,13 +40,30 @@ export default class AdminDashboard extends Component {
     filteredData: [],
     highlightVal: "",
     hostProfile: false,
-    axiosSource: null
+    axiosSource: null,
+    internView: {
+      on: false,
+      internId: null,
+    },
+  };
+
+  componentDidMount() {
+    this.selectSection("clients");
+  }
+
+  triggerInternView = (internId = "") => {
+    this.setState(prev => {
+      const newState = { ...prev };
+      newState.internView.on = !newState.internView.on;
+      newState.internView.internId = internId;
+      return newState;
+    });
   };
 
   selectSection = section => {
     const { axiosSource } = this.state;
 
-    axiosSource && axiosSource.cancel("Cancel axios request");
+    if (axiosSource) axiosSource.cancel("Cancel axios request");
 
     this.setState(
       {
@@ -54,16 +72,17 @@ export default class AdminDashboard extends Component {
         data: [],
         filteredData: [],
         hostProfile: null,
-        axiosSource: axios.CancelToken.source()
+        axiosSource: axios.CancelToken.source(),
+        internView: { on: false },
       },
       () => {
-        const { axiosSource } = this.state;
+        const { axiosSource: newAxiosSource } = this.state;
 
         axios
           .post(
             API_ADMIN_STATS_URL,
             { userType: section },
-            { cancelToken: axiosSource.token }
+            { cancelToken: newAxiosSource.token },
           )
           .then(({ data }) => {
             this.setState({ data, filteredData: data, loading: false });
@@ -78,20 +97,16 @@ export default class AdminDashboard extends Component {
             }
             this.setState({ loading: false });
           });
-      }
+      },
     );
   };
-
-  componentDidMount() {
-    this.selectSection("clients");
-  }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters
+      clearFilters,
     }) => (
       <div styled={{ padding: 8 }}>
         <Input
@@ -108,7 +123,7 @@ export default class AdminDashboard extends Component {
             width: 188,
             marginBottom: 8,
             display: "block",
-            backgound: "red"
+            backgound: "red",
           }}
           id="tableInput"
         />
@@ -142,17 +157,17 @@ export default class AdminDashboard extends Component {
       if (visible) {
         setTimeout(() => this.searchInput.select());
       }
-    }
+    },
   });
 
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    // this.setState({ searchText: selectedKeys[0] });
   };
 
   handleReset = clearFilters => {
     clearFilters();
-    this.setState({ searchText: "" });
+    // this.setState({ searchText: "" });
   };
 
   hideProfile = () => {
@@ -162,20 +177,22 @@ export default class AdminDashboard extends Component {
   };
 
   handleSearchBar = ({ target: { value } }) => {
-    const filteredData = filterArray(this.state.data, value);
+    const { data } = this.state;
+    const filteredData = filterArray(data, value);
     this.setState({ filteredData, highlightVal: value });
   };
 
   handleConfirm = async (id, type) => {
+    const { _data, _filteredData } = this.state;
     try {
       await axios.patch(
         `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,
-        { type }
+        { type },
       );
       message.success(`The request have been ${type} successfully`);
 
       // update the table dataSource
-      const data = this.state.data.map(request => {
+      const data = _data.map(request => {
         let newRequest = { ...request };
         if (request._id === id) {
           newRequest = { ...request, status: type };
@@ -183,7 +200,7 @@ export default class AdminDashboard extends Component {
         return newRequest;
       });
       // update the table filteredData
-      const filteredData = this.state.filteredData.map(request => {
+      const filteredData = _filteredData.map(request => {
         let newRequest = { ...request };
         if (request._id === id) {
           newRequest = { ...request, status: type };
@@ -203,7 +220,8 @@ export default class AdminDashboard extends Component {
       loading,
       filteredData,
       highlightVal,
-      hostProfile
+      hostProfile,
+      internView,
     } = this.state;
 
     return (
@@ -237,61 +255,70 @@ export default class AdminDashboard extends Component {
             </MenuItem>
           </DashboardMenu>
         </TopSection>
-        <MainSection>
-          <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
-          <SearchBar
-            data={filteredData}
-            handleSearchBar={this.handleSearchBar}
-            highlightVal={highlightVal}
+        {internView.on ? (
+          <InternProfile
+            {...this.props}
+            internId={internView.internId}
+            triggerInternView={this.triggerInternView}
           />
-          {activeLink === "clients" && (
-            <ClientTable
-              getColumnSearchProps={this.getColumnSearchProps}
-              loading={loading}
+        ) : (
+          <MainSection>
+            <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
+            <SearchBar
               data={filteredData}
+              handleSearchBar={this.handleSearchBar}
               highlightVal={highlightVal}
             />
-          )}
-          {activeLink === "interns" && (
-            <InternTable
-              getColumnSearchProps={this.getColumnSearchProps}
-              loading={loading}
-              data={filteredData}
-              highlightVal={highlightVal}
-            />
-          )}
-          {activeLink === "hosts" && (
-            <HostWrapper hide={hostProfile}>
-              <HostTable
+            {activeLink === "clients" && (
+              <ClientTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
                 data={filteredData}
                 highlightVal={highlightVal}
               />
-            </HostWrapper>
-          )}
-          {activeLink === "payments" && (
-            <HostWrapper hide={hostProfile}>
-              <PaymentsTable
+            )}
+            {activeLink === "interns" && (
+              <InternTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
                 data={filteredData}
-                showProfile={this.showProfile}
                 highlightVal={highlightVal}
-                handleConfirm={this.handleConfirm}
+                triggerInternView={this.triggerInternView}
               />
-            </HostWrapper>
-          )}
-          {hostProfile && (
-            <ProfileWrapper>
-              <HostProfile
-                hostId={hostProfile}
-                adminView={true}
-                hideProfile={this.hideProfile}
-              />
-            </ProfileWrapper>
-          )}
-        </MainSection>
+            )}
+            {activeLink === "hosts" && (
+              <HostWrapper hide={hostProfile}>
+                <HostTable
+                  getColumnSearchProps={this.getColumnSearchProps}
+                  loading={loading}
+                  data={filteredData}
+                  highlightVal={highlightVal}
+                />
+              </HostWrapper>
+            )}
+            {activeLink === "payments" && (
+              <HostWrapper hide={hostProfile}>
+                <PaymentsTable
+                  getColumnSearchProps={this.getColumnSearchProps}
+                  loading={loading}
+                  data={filteredData}
+                  showProfile={this.showProfile}
+                  highlightVal={highlightVal}
+                  handleConfirm={this.handleConfirm}
+                />
+              </HostWrapper>
+            )}
+            {hostProfile && (
+              <ProfileWrapper>
+                <HostProfile
+                  hostId={hostProfile}
+                  adminView
+                  hideProfile={this.hideProfile}
+                />
+              </ProfileWrapper>
+            )}
+          </MainSection>
+        )}
       </Wrapper>
     );
   }

@@ -4,7 +4,6 @@ const { getListing } = require("../../database/queries/listing/getListing");
 
 const generateUrl = require("./../../helpers/generateFileURL");
 
-
 /**
  * get the profile data adn the listing based on the role
  * @param {string} _id user id
@@ -19,10 +18,7 @@ const _getProfileBasedRole = async (_id, role, res) => {
   if (!profile) return res.json({});
 
   const {
-    profileImage,
-    photoID,
-    offerLetter,
-    DBSCheck,
+    profileImage, photoID, offerLetter, DBSCheck,
   } = profile;
   await Promise.all([
     generateUrl(profileImage),
@@ -44,7 +40,8 @@ const _getProfileBasedRole = async (_id, role, res) => {
 };
 
 module.exports = async (req, res, next) => {
-  const { _id, role } = req.user;
+  const _id = req.params.id || req.user._id;
+  const { role } = req.user;
   try {
     await _getProfileBasedRole(_id, role, res);
   } catch (err) {

@@ -26,7 +26,7 @@ export default function Field({
   let url;
 
   const value = parent ? _value[name] : _value;
-  const error = parent ? _error[name] : _error;
+  const error = parent && _error ? _error[name] : _error;
 
   if (type === "file") {
     url = _value.url;
