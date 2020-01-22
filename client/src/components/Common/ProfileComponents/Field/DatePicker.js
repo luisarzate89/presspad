@@ -1,5 +1,6 @@
 import React from "react";
 import { DatePicker } from "antd";
+import moment from "moment";
 
 export default function DatePickerComponent({
   placeholder,
@@ -18,7 +19,7 @@ export default function DatePickerComponent({
       style={{ width: "100%" }}
       onChange={onChange}
       placeholder={placeholder}
-      value={value || undefined}
+      value={value ? moment(value) : undefined}
       name={name}
     />
   );

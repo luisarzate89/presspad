@@ -4,122 +4,140 @@ import Content from "./Content";
 import axios from "axios";
 import {
   API_INTERN_COMPLETE_PROFILE,
-  DASHBOARD_URL
+  DASHBOARD_URL,
+  API_MY_PROFILE_URL
 } from "./../../../constants/apiRoutes";
 
-import { Modal, Alert } from "antd";
+import { Modal, Alert, message } from "antd";
 export default class InternCreateProfile extends Component {
   state = {
     activeKey: "Profile",
     data: {
-      birthDate: undefined,
-      hometown: undefined,
-      gender: undefined,
-      school: undefined,
+      birthDate: null,
+      hometown: null,
+      gender: null,
+      school: null,
       profileImage: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: false
       },
-      interests: undefined,
-      bio: undefined,
-      organisation: undefined,
-      useReasonAnswer: undefined,
-      issueAnswer: undefined,
-      mentorDescribeAnswer: undefined,
+      interests: null,
+      bio: null,
+      organisation: null,
+      useReasonAnswer: null,
+      issueAnswer: null,
+      mentorDescribeAnswer: null,
       photoID: {
-        fileName: undefined,
-        isPrivate: true
+        fileName: null,
+        isPrivate: true,
+        url: null
       },
-      hearAboutPressPadAnswer: undefined,
-      phoneNumber: undefined,
+      hearAboutPressPadAnswer: null,
+      phoneNumber: null,
       reference1: {
-        name: undefined,
-        email: undefined
+        name: null,
+        email: null
       },
       reference2: {
-        name: undefined,
-        email: undefined
+        name: null,
+        email: null
       },
       offerLetter: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: true
       },
-      internshipOfficeAddress: undefined,
+      internshipOfficeAddress: null,
       emergencyContact: {
-        name: undefined,
-        phoneNumber: undefined,
-        email: undefined
+        name: null,
+        phoneNumber: null,
+        email: null
       },
       DBSCheck: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: true
       },
-      sexualOrientation: undefined,
-      degreeLevel: undefined,
-      ethnicity: undefined,
-      earningOfParents: undefined,
-      disability: undefined,
-      parentsWorkInPress: undefined,
-      caringResponsibilities: undefined,
-      allergies: undefined,
-      backgroundAnswer: undefined,
-      consentedOnPressPadTerms: undefined
+      sexualOrientation: null,
+      degreeLevel: null,
+      ethnicity: null,
+      earningOfParents: null,
+      disability: null,
+      parentsWorkInPress: null,
+      caringResponsibilities: null,
+      allergies: null,
+      backgroundAnswer: null,
+      consentedOnPressPadTerms: null
     },
     errors: {
-      birthDate: undefined,
-      hometown: undefined,
-      gender: undefined,
-      school: undefined,
+      birthDate: null,
+      hometown: null,
+      gender: null,
+      school: null,
       profileImage: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: false
       },
-      interests: undefined,
-      bio: undefined,
-      organisation: undefined,
-      useReasonAnswer: undefined,
-      issueAnswer: undefined,
-      mentorDescribeAnswer: undefined,
+      interests: null,
+      bio: null,
+      organisation: null,
+      useReasonAnswer: null,
+      issueAnswer: null,
+      mentorDescribeAnswer: null,
       photoID: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: false
       },
-      hearAboutPressPadAnswer: undefined,
-      phoneNumber: undefined,
+      hearAboutPressPadAnswer: null,
+      phoneNumber: null,
       reference1: {
-        name: undefined,
-        email: undefined
+        name: null,
+        email: null
       },
       reference2: {
-        name: undefined,
-        email: undefined
+        name: null,
+        email: null
       },
       offerLetter: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: false
       },
-      internshipOfficeAddress: undefined,
+      internshipOfficeAddress: null,
       emergencyContact: {
-        name: undefined,
-        phoneNumber: undefined,
-        email: undefined
+        name: null,
+        phoneNumber: null,
+        email: null
       },
       DBSCheck: {
-        fileName: undefined,
+        fileName: null,
         isPrivate: false
       },
-      sexualOrientation: undefined,
-      degreeLevel: undefined,
-      ethnicity: undefined,
-      earningOfParents: undefined,
-      disability: undefined,
-      parentsWorkInPress: undefined,
-      caringResponsibilities: undefined,
-      allergies: undefined,
-      backgroundAnswer: undefined,
-      consentedOnPressPadTerms: undefined
+      sexualOrientation: null,
+      degreeLevel: null,
+      ethnicity: null,
+      earningOfParents: null,
+      disability: null,
+      parentsWorkInPress: null,
+      caringResponsibilities: null,
+      allergies: null,
+      backgroundAnswer: null,
+      consentedOnPressPadTerms: null
     }
   };
+
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile } }) => {
+        if (profile) {
+          this.setState(prevState => ({
+            data: {
+              ...prevState.data,
+              ...profile
+            }
+          }));
+        }
+      })
+      .catch(err => message.error("internal server error"));
+  }
 
   handleChange = ({ value, key, parent }) => {
     if (parent) {
@@ -177,7 +195,6 @@ export default class InternCreateProfile extends Component {
               type="success"
             />
           ),
-
           onOk: () => {
             this.props.history.push(DASHBOARD_URL);
           },
@@ -205,6 +222,9 @@ export default class InternCreateProfile extends Component {
   render() {
     const { name, id } = this.props;
     const { errors, data, activeKey } = this.state;
+    const {
+      profileImage: { url: profilePhotoUrl }
+    } = data;
     return (
       <Content
         name={name}
@@ -216,6 +236,7 @@ export default class InternCreateProfile extends Component {
         onChangeTabs={this.onChangeTabs}
         activeKey={activeKey}
         handleSubmit={this.handleSubmit}
+        profilePhotoUrl={profilePhotoUrl}
       />
     );
   }

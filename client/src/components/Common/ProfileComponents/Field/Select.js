@@ -25,7 +25,9 @@ export default function SelectComponent({
       value={value}
     >
       {options.map(option => (
-        <Option value={option}>{option}</Option>
+        <Option value={option} key={option}>
+          {option}
+        </Option>
       ))}
     </Select>
   );

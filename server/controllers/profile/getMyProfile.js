@@ -20,12 +20,15 @@ const _getProfileBasedRole = async (_id, role, res) => {
 
   const {
     profileImage,
-    verification: { photoID, offerLetter },
+    photoID,
+    offerLetter,
+    DBSCheck,
   } = profile;
   await Promise.all([
     generateUrl(profileImage),
     generateUrl(photoID),
     generateUrl(offerLetter),
+    generateUrl(DBSCheck),
   ]);
 
   if (role === "host" || role === "superhost") {

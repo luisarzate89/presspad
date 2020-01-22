@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { message, Icon } from "antd";
+import { message, Icon, Tooltip } from "antd";
 import { ProgressBar } from "./../../progress";
 
 import { UploadText, GrayHint } from "../ProfileComponents.style";
@@ -95,13 +95,13 @@ export default class File extends Component {
 
   render() {
     const { loading, isLoading, fileName } = this.state;
-    const { name, hint, parent } = this.props;
+    const { name, hint, parent, value, url } = this.props;
     return (
       <div>
         {hint && <GrayHint>{hint}</GrayHint>}
         {isLoading ? (
           <ProgressBar progress={loading}>
-            <UploadText disabled>{fileName}</UploadText>
+            <UploadText disabled>{fileName || value}</UploadText>
           </ProgressBar>
         ) : (
           <UploadText
@@ -112,10 +112,10 @@ export default class File extends Component {
                 : name
             }
           >
-            {fileName ? (
+            {fileName || value ? (
               <>
                 <Icon type="check" style={{ color: "green" }} />
-                {fileName}
+                {fileName || value}
               </>
             ) : (
               "+ Add file"
@@ -132,6 +132,14 @@ export default class File extends Component {
               style={{ display: "none" }}
             />
           </UploadText>
+        )}
+        {/* if fileName === value that means that the photo just uploaded and we didn't create a url for it */}
+        {url && fileName !== value && (
+          <Tooltip title="download" placement="bottomLeft">
+            <UploadText as="a" href={url}>
+              <Icon type="download" />
+            </UploadText>
+          </Tooltip>
         )}
       </div>
     );

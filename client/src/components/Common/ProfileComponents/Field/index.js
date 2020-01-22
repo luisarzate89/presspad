@@ -23,8 +23,14 @@ export default function Field({
   userId,
   isPrivate
 }) {
+  let url;
+
   const value = parent ? _value[name] : _value;
   const error = parent ? _error[name] : _error;
+
+  if (type === "file") {
+    url = _value.url;
+  }
 
   return (
     <>
@@ -95,6 +101,7 @@ export default function Field({
           hint={hint}
           userId={userId}
           isPrivate={isPrivate}
+          url={url}
         />
       )}
 

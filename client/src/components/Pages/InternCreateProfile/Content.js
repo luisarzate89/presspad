@@ -22,12 +22,18 @@ export default ({
   userId,
   onChangeTabs,
   activeKey,
-  handleSubmit
+  handleSubmit,
+  profilePhotoUrl
 }) => {
   return (
     <PageWrapper>
       <ContentWrapper>
-        <HeaderWrapper error="" imageUrl="" name={name} loading={0} />
+        <HeaderWrapper
+          error=""
+          imageUrl={profilePhotoUrl}
+          name={name}
+          loading={0}
+        />
         <TabbedView
           activeKey={activeKey}
           onChange={onChangeTabs}
