@@ -3,8 +3,8 @@ import { Row, Col } from "antd";
 import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
 
 import Title from "../Title";
-import Field from "../Field";
-import fields from "../../../../constants/fields";
+import Field from "../../../../Common/ProfileComponents/Field";
+import fields from "../../../../../constants/fields";
 
 const Demographic = ({
   data = {},
@@ -13,15 +13,11 @@ const Demographic = ({
   handleError,
   userId,
   role,
-  isAdmin = false,
 }) => (
   <SectionWrapper>
     <Title
       title="Extra demographic questions"
-      hint={
-        !isAdmin &&
-        "If you do not wish to disclose, please select ‘I’d prefer not to say"
-      }
+      hint="If you do not wish to disclose, please select ‘I’d prefer not to say"
     />
     <SectionContent>
       <Row gutter={25}>
@@ -98,7 +94,7 @@ const Demographic = ({
       </Row>
 
       <Row gutter={25} style={{ marginTop: "1rem" }}>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={20}>
           <Field
             {...fields["caringResponsibilities"]}
             value={data["caringResponsibilities"]}
@@ -112,21 +108,7 @@ const Demographic = ({
       </Row>
 
       <Row gutter={25}>
-        <Col xs={24} sm={12}>
-          <Field
-            {...fields["allergies"]}
-            value={data["allergies"]}
-            error={errors["allergies"]}
-            handleChange={handleChange}
-            handleError={handleError}
-            userId={userId}
-            role={role}
-          />
-        </Col>
-      </Row>
-
-      <Row gutter={25}>
-        <Col xs={24} sm={12}>
+        <Col xs={24} md={12}>
           <Field
             {...fields["consentedOnPressPadTerms"]}
             value={data["consentedOnPressPadTerms"]}

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 const { wordLengthValidator } = require("../utils");
+const { types } = require("./../constants");
 
 const listingSchema = new Schema(
   {
@@ -10,22 +11,8 @@ const listingSchema = new Schema(
       ref: "users",
     },
     address: {
-      street: {
-        type: String,
-        required: true,
-      },
-      borough: {
-        type: String,
-        trim: true,
-      },
-      city: {
-        type: String,
-        required: true,
-      },
-      postcode: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
     neighbourhoodDescription: {
       type: String,
@@ -37,7 +24,9 @@ const listingSchema = new Schema(
       required: false,
       validate: wordLengthValidator(250, "otherInfo"),
     },
-    accommodationChecklist: [String],
+    accommodationChecklist: [
+      { type: String, enum: types.accommodationChecklist },
+    ],
     photos: [
       {
         _id: { type: Schema.ObjectId, auto: true },

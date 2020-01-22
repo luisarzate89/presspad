@@ -36,7 +36,7 @@ module.exports = {
     ],
     quotes: [
       2,
-      "double",
+      'double',
       {
         avoidEscape: true, // allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
         allowTemplateLiterals: true // allows strings to use backticks

@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { Spin, message } from "antd";
 
-//api
+// api
+import axios from "axios";
 import {
   API_VERIFY_PROFILE_URL,
-  API_GET_USER_BOOKINGS_URL
+  API_GET_USER_BOOKINGS_URL,
 } from "../../../constants/apiRoutes";
 
-import { HOST_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
 
 import Calendar from "./Calendar";
-import axios from "axios";
 
 // common components
-import Button from "./../../Common/Button";
+import Button from "../../Common/Button";
 import ListingGallery from "../../Common/Profile/ListingGallery";
 
-//styles
+// styles
 
 import {
   Wrapper,
@@ -32,7 +32,7 @@ import {
   Headline,
   SubHeadline,
   ParagraphHeadline,
-  Paragraph
+  Paragraph,
   // StarRate
 } from "../../Common/Profile/Profiles.style";
 
@@ -49,7 +49,7 @@ import {
   List,
   ListItem,
   EditButton,
-  Strong
+  Strong,
   // Reviews,
   // ReviewsBox,
   // MoreReviewsLink,
@@ -62,7 +62,7 @@ import { titleCase } from "../../../helpers";
 import "antd/dist/antd.css";
 
 // images
-import starSign from "./../../../assets/star-sign-symbol.svg";
+import starSign from "../../../assets/star-sign-symbol.svg";
 import profilePlaceholder from "../../../assets/random-profile.jpg";
 
 class HostProfile extends Component {
@@ -72,7 +72,7 @@ class HostProfile extends Component {
     reviews: null,
     internBookings: [],
     profileId: null,
-    adminApprovedProfile: false
+    adminApprovedProfile: false,
   };
 
   // functions
@@ -90,7 +90,7 @@ class HostProfile extends Component {
           this.setState({
             isLoading: false,
             profileData: data,
-            adminApprovedProfile: data.profile.verified
+            adminApprovedProfile: data.profile.verified,
           });
         }
       })
@@ -107,7 +107,7 @@ class HostProfile extends Component {
                 You don't have profile
                 <br /> You will be redirected to complete your profile
               </p>,
-              1
+              1,
             )
             .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         } else {
@@ -152,7 +152,7 @@ class HostProfile extends Component {
           photos,
           otherInfo,
           description,
-          accommodationChecklist
+          accommodationChecklist,
         },
         profile: {
           bio,
@@ -166,13 +166,13 @@ class HostProfile extends Component {
           badge,
           hometown,
           gender,
-          school
+          school,
         },
         name,
-        email
+        email,
       },
       internBookings,
-      adminApprovedProfile
+      adminApprovedProfile,
     } = this.state;
     const { hideProfile, match, id: currentUserId, role } = this.props;
     const { id: hostId } = match.params;
@@ -226,6 +226,7 @@ class HostProfile extends Component {
               adminView={role === "admin" || userId === currentUserId}
               onError={this.handleImageFail}
             />
+            {console.log({ organisation })}
             <HeaderDiv>
               {role === "admin" ? (
                 <Headline>{name}</Headline>
@@ -324,25 +325,33 @@ class HostProfile extends Component {
                   <SubHeadline>More about me</SubHeadline>
                   {hostingReasonAnswer && (
                     <>
-                      <ParagraphHeadline>{`Why I want to be a PressPad host`}</ParagraphHeadline>
+                      <ParagraphHeadline>
+                        Why I want to be a PressPad host
+                      </ParagraphHeadline>
                       <Paragraph>{hostingReasonAnswer}</Paragraph>
                     </>
                   )}
                   {mentoringExperienceAnswer && (
                     <>
-                      <ParagraphHeadline>{`My mentoring experience`}</ParagraphHeadline>
+                      <ParagraphHeadline>
+                        My mentoring experience
+                      </ParagraphHeadline>
                       <Paragraph>{mentoringExperienceAnswer}</Paragraph>
                     </>
                   )}
                   {industryExperienceAnswer && (
                     <>
-                      <ParagraphHeadline>{`My experience getting into the industry`}</ParagraphHeadline>
+                      <ParagraphHeadline>
+                        My experience getting into the industry
+                      </ParagraphHeadline>
                       <Paragraph>{industryExperienceAnswer}</Paragraph>
                     </>
                   )}
                   {backgroundAnswer && (
                     <>
-                      <ParagraphHeadline>{`My experience getting into the industry`}</ParagraphHeadline>
+                      <ParagraphHeadline>
+                        My experience getting into the industry
+                      </ParagraphHeadline>
                       <Paragraph>{backgroundAnswer}</Paragraph>
                     </>
                   )}

@@ -23,7 +23,8 @@ export default ({
   onChangeTabs,
   activeKey,
   handleSubmit,
-  profilePhotoUrl
+  profilePhotoUrl,
+  role
 }) => {
   return (
     <PageWrapper>
@@ -46,6 +47,7 @@ export default ({
                 handleChange={handleChange}
                 handleError={handleError}
                 userId={userId}
+                role={role}
               />
               <OtherInformationProfile
                 data={data}
@@ -53,6 +55,7 @@ export default ({
                 handleChange={handleChange}
                 handleError={handleError}
                 userId={userId}
+                role={role}
               />
               <div
                 style={{
@@ -75,6 +78,7 @@ export default ({
                 handleChange={handleChange}
                 handleError={handleError}
                 userId={userId}
+                role={role}
               />
               <OtherInformationDetails
                 data={data}
@@ -82,6 +86,7 @@ export default ({
                 handleChange={handleChange}
                 handleError={handleError}
                 userId={userId}
+                role={role}
               />
               <Demographic
                 data={data}
@@ -89,6 +94,7 @@ export default ({
                 handleChange={handleChange}
                 handleError={handleError}
                 userId={userId}
+                role={role}
               />
               <div
                 style={{

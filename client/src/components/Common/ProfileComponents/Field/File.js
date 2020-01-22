@@ -1,31 +1,31 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { message, Icon, Tooltip } from "antd";
-import { ProgressBar } from "./../../progress";
+import { ProgressBar } from "../../progress";
 
-import { UploadText, GrayHint } from "../ProfileComponents.style";
+import { UploadText } from "../ProfileComponents.style";
 
 export default class File extends Component {
   state = {
     url: null,
     loading: null,
-    isLoading: null
+    isLoading: null,
   };
 
   directUploadToGoogle = async e => {
     const { name, parent, userId, isPrivate } = this.props;
 
     const {
-      files: [image]
+      files: [image],
     } = e.target;
 
     if (!image) {
       if (!this.state[name].name) {
         return this.setState({
-          error: "please upload a file"
+          error: "please upload a file",
         });
       }
-      return;
+      return undefined;
     }
 
     if (image.size > 4e6) {
@@ -36,17 +36,17 @@ export default class File extends Component {
     try {
       this.setState({
         loading: 0,
-        isLoading: true
+        isLoading: true,
       });
 
       const generatedName = `${userId}/${Date.now()}.${image.name}`;
 
       const {
-        data: { signedUrl, bucketName }
+        data: { signedUrl, bucketName },
       } = await axios.get(`/api/upload/signed-url?fileName=${generatedName}`);
 
       const headers = {
-        "Content-Type": "application/octet-stream"
+        "Content-Type": "application/octet-stream",
       };
 
       let url = "";
@@ -63,18 +63,18 @@ export default class File extends Component {
             {
               loading: precent.toFixed(2),
               isLoading: true,
-              error: ""
+              error: "",
             },
             () => {
               this.props.handleChange({
                 value: generatedName,
                 key: name,
-                parent
+                parent,
               });
               return this.props.handleError("");
-            }
+            },
           );
-        }
+        },
       });
 
       this.setState({
@@ -82,23 +82,22 @@ export default class File extends Component {
         fileName: generatedName,
         loading: 100,
         isLoading: false,
-        error: ""
+        error: "",
       });
     } catch (error) {
       message.error("something went wrong, try again later");
       this.setState({
         loading: 0,
-        isLoading: false
+        isLoading: false,
       });
     }
   };
 
   render() {
     const { loading, isLoading, fileName } = this.state;
-    const { name, hint, parent, value, url } = this.props;
+    const { name, parent, value, url } = this.props;
     return (
       <div>
-        {hint && <GrayHint>{hint}</GrayHint>}
         {isLoading ? (
           <ProgressBar progress={loading}>
             <UploadText disabled>{fileName || value}</UploadText>

@@ -33,7 +33,7 @@ export default {
     "Body Dysphoria",
     "Butch",
     "Femme (Fem)",
-    "Binarism"
+    "Binarism",
   ],
   ethnicity: [
     "White or White British",
@@ -45,12 +45,24 @@ export default {
     "Asian or Asian British: Other Asian",
     "Asian or Asian British",
     "Mixed or Multiple",
-    "Other Ethnic Group"
+    "Other Ethnic Group",
   ],
   parentsWorkInPress: ["Mom", "Dad", "Both"],
   gender: ["male", "female", "other", "prefer not to say"],
   disability: [], // waiting for PO to send over
   interests: [], // waiting for PO to send over
   degreeLevel: [], // waiting for PO to send over
-  earningOfParents: [] // waiting for PO to send over
+  earningOfParents: [], // waiting for PO to send over
+  workingArea: [],
+  accommodationChecklist: [
+    "Lock on the bathroom door",
+    "Lock on the bedroom door",
+    "Spare key for intern",
+    "You’ll be there to welcome them on their first day",
+    "WiFi code made available",
+    "Bed linen including towel",
+    "Space provided in fridge and cupboard for intern’s food",
+    "You can provide info for someone they can contact if you’re not available (neighbour/emergency contact/partner etc.) - this will be done once the booking is confirmed",
+    "None of these",
+  ],
 };

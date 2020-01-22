@@ -11,7 +11,8 @@ const OtherInformationDetails = ({
   errors = {},
   handleChange,
   handleError,
-  userId
+  userId,
+  role
 }) => {
   return (
     <SectionWrapper>
@@ -26,6 +27,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -36,6 +38,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -48,6 +51,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -58,6 +62,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -70,6 +75,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -82,6 +88,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -95,6 +102,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -108,6 +116,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -121,6 +130,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>
@@ -134,6 +144,7 @@ const OtherInformationDetails = ({
               handleChange={handleChange}
               handleError={handleError}
               userId={userId}
+              role={role}
             />
           </Col>
         </Row>

@@ -121,7 +121,8 @@ const profileSchema = new Schema(
       validate: wordLengthValidator(50, "allergies"),
       required: false,
     },
-    backgroundAnswer: { // Is there anything about your background...
+    backgroundAnswer: {
+      // Is there anything about your background...
       type: String,
       validate: wordLengthValidator(250, "backgroundAnswer"),
       required: false,
@@ -133,6 +134,7 @@ const profileSchema = new Schema(
     },
     workingArea: {
       type: String,
+      enum: types.workingArea,
       required: false, // required for hosts
     },
     hostingReasonAnswer: {
@@ -196,6 +198,16 @@ const profileSchema = new Schema(
       isPrivate: {
         type: Boolean,
         default: false,
+      },
+    },
+    pressCard: {
+      fileName: {
+        type: String,
+        required: true,
+      },
+      isPrivate: {
+        type: Boolean,
+        default: true,
       },
     },
     photoID: {

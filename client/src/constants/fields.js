@@ -2,53 +2,67 @@ import React from "react";
 import types from "./types";
 
 export default {
+  // intern + host
   birthDate: {
     type: "date",
     label: "Date of birth",
     placeholder: "",
-    name: "birthDate"
+    name: "birthDate",
+    requiredForHost: true,
   },
+  // intern + host
   hometown: {
     type: "text",
     label: "Hometown",
-    name: "hometown"
+    name: "hometown",
   },
+  // intern + host
   gender: {
     type: "select",
     label: "Gender",
     options: types.gender,
     placeholder: "Please choose an option",
-    name: "gender"
+    name: "gender",
+    requiredForHost: true,
   },
+  // intern + host
   school: {
     type: "text",
     label: "University / School",
-    name: "school"
+    name: "school",
   },
+  // intern + host
   profileImage: {
     type: "file",
     label: "Upload a photo",
     name: "fileName",
     parent: "profileImage",
-    isPrivate: false
+    isPrivate: false,
+    requiredForHost: true,
   },
+  // intern + host
   interests: {
     type: "select",
     label: "Area of interest",
     placeholder: "Please choose an option",
     options: types.interests,
-    name: "interests"
+    name: "interests",
   },
+  // intern + host
   bio: {
     type: "textArea",
     label: "Bio",
-    name: "bio"
+    name: "bio",
+    requiredForHost: true,
   },
+  // intern + host
   organisation: {
-    label: "Name of organisation you are or are going to be working for",
+    label: "Name of organisation you are or are going to be working for", // intern label
     type: "text",
     max: 10,
-    name: "organisation"
+    name: "organisation",
+    hostLabel: "Organisation you work for",
+    internLabel: "Name of organisation you are or are going to be working for",
   },
   useReasonAnswer: {
     label: "Explain why you want to use PressPad",
@@ -57,7 +71,7 @@ export default {
     max: 250,
     name: "useReasonAnswer",
     fullHeight: true,
-    fullWidth: true
+    fullWidth: true,
   },
   issueAnswer: {
     label: `Tell us about an issue you would like to cover from your hometown / city that you think would be of service to your community, how you would do it and why the story is important to cover OR tell us about a recent story you wrote or project you worked on`,
@@ -66,7 +80,7 @@ export default {
     max: 250,
     name: "issueAnswer",
     fullHeight: true,
-    fullWidth: true
+    fullWidth: true,
   },
   mentorDescribeAnswer: {
     label: `Describe what you are looking for in a mentor as well as your long-term career ambitions`,
@@ -75,57 +89,61 @@ export default {
     max: 200,
     name: "mentorDescribeAnswer",
     fullHeight: true,
-    fullWidth: true
+    fullWidth: true,
   },
+  // host and intern
   photoID: {
     label: `Proof of identity (eg. passport/driver’s licence)`,
     type: "file",
     placeholder: "+ Add file",
     name: "fileName",
     parent: "photoID",
-    isPrivate: true
+    isPrivate: true,
   },
+  // host and intern
   hearAboutPressPadAnswer: {
     label: `How did you hear about PressPad?`,
     type: "textArea",
     placeholder: "No more than 50 words",
     name: "hearAboutPressPadAnswer",
-    max: 50
+    max: 50,
+    fullHeight: true,
+    fullWidth: true,
   },
   phoneNumber: {
     label: `Phone Number`,
     type: "text",
     placeholder: "",
     name: "phoneNumber",
-    max: 50
+    max: 50,
   },
   reference1Name: {
     parent: "reference1",
     name: "name",
     label: `Reference 1 name`,
     type: "text",
-    max: 50
+    max: 50,
   },
   reference1Email: {
     parent: "reference1",
     name: "email",
     label: `Reference 1 email`,
     type: "text",
-    max: 50
+    max: 50,
   },
   reference2Name: {
     parent: "reference2",
     name: "name",
     label: `Reference 2 name`,
     type: "text",
-    max: 50
+    max: 50,
   },
   reference2Email: {
     parent: "reference2",
     name: "email",
-    label: `Reference 1 email`,
+    label: `Reference 2 email`,
     type: "text",
-    max: 50
+    max: 50,
   },
   offerLetter: {
     name: "fileName",
@@ -134,34 +152,34 @@ export default {
     type: "file",
     hint:
       "Please upload an offer letter or something similar that can be used as proof of your internship",
-    isPrivate: true
+    isPrivate: true,
   },
   internshipOfficeAddress: {
     name: "internshipOfficeAddress",
     label: `Internship office address`,
     type: "textArea",
-    fullHeight: true
+    fullHeight: true,
   },
   emergencyContactName: {
     parent: "emergencyContact",
     name: "name",
     label: `Emergency contact name`,
     type: "text",
-    max: 50
+    max: 50,
   },
   emergencyContactNumber: {
     parent: "emergencyContact",
     name: "phoneNumber",
     label: `Emergency contact number`,
     type: "text",
-    max: 50
+    max: 50,
   },
   emergencyContactEmail: {
     parent: "emergencyContact",
     name: "email",
     label: `Emergency contact email`,
     type: "text",
-    max: 50
+    max: 50,
   },
   DBSCheck: {
     type: "file",
@@ -181,73 +199,193 @@ export default {
     ),
     parent: "DBSCheck",
     name: "fileName",
-    isPrivate: true
+    isPrivate: true,
   },
   sexualOrientation: {
     type: "select",
     label: "Sexual orientation",
     placeholder: "Please choose an option",
     name: "sexualOrientation",
-    options: types.sexualOrientation
+    options: types.sexualOrientation,
   },
   degreeLevel: {
     type: "select",
     label: "Degree level",
     placeholder: "Please choose an option",
     name: "degreeLevel",
-    options: types.degreeLevel
+    options: types.degreeLevel,
   },
   ethnicity: {
     type: "select",
     label: "Ethnicity",
     placeholder: "Please choose an option",
     name: "ethnicity",
-    options: types.ethnicity
+    options: types.ethnicity,
   },
   earningOfParents: {
     type: "select",
     label: "Earnings of parents",
     placeholder: "Please choose an option",
     name: "earningOfParents",
-    options: types.earningOfParents
+    options: types.earningOfParents,
   },
   disability: {
     type: "select",
     label: "Disability",
     placeholder: "Please choose an option",
     name: "disability",
-    options: types.disability
+    options: types.disability,
   },
   parentsWorkInPress: {
     type: "select",
     label: "Did either of your parents work in this industry?",
     placeholder: "Did either of your parents work in this industry?",
     name: "parentsWorkInPress",
-    options: types.parentsWorkInPress
+    options: types.parentsWorkInPress,
   },
   caringResponsibilities: {
     name: "caringResponsibilities",
     label: `Caring responsibilities`,
     type: "textArea",
-    fullHeight: true
+    fullHeight: true,
   },
   allergies: {
     name: "allergies",
     label: `Allergies`,
     type: "textArea",
-    fullHeight: true
+    fullHeight: true,
   },
+  // intern + host
   backgroundAnswer: {
     name: "backgroundAnswer",
     label: `Please include anything about your background or identity that you feel PressPad should know about in helping you find the best host-mentor match eg. LGBTQ/Race/Women-only/Religion etc. If you do not have any please write none.`,
     type: "textArea",
     max: 200,
     placeholder: "No more than 200 words",
-    fullHeight: true
+    fullHeight: true,
+    internLabel:
+      "Please include anything about your background or identity that you feel PressPad should know about in helping you find the best host-mentor match eg. LGBTQ/Race/Women-only/Religion etc. If you do not have any please write none.",
+    hostLabel:
+      "Is there anything about your background or identity that would be helpful to an intern or guest to know about you eg. LGBTQ/Race/Women-only/Religion etc. If you do not have any please write none",
   },
   consentedOnPressPadTerms: {
     name: "consentedOnPressPadTerms",
     label: `Do you give consent to the terms in the PressPad Media Release form?`,
-    type: "yesNo"
-  }
+    type: "yesNo",
+  },
+
+  // host only
+  jobTitle: {
+    type: "text",
+    max: 10,
+    name: "jobTitle",
+    label: `Job title`,
+  },
+  workingArea: {
+    type: "select",
+    options: types.workingArea,
+    name: "workingArea",
+    label: `Area you work in`,
+    placeholder: "Please choose an option",
+    requiredForHost: true,
+  },
+  hostingReasonAnswer: {
+    type: "textArea",
+    name: "hostingReasonAnswer",
+    label: `Why do you want to be a PressPad host?`,
+    placeholder: "No more than 250 words",
+    max: 250,
+    fullHeight: true,
+    fullWidth: true,
+  },
+  mentoringExperienceAnswer: {
+    type: "textArea",
+    name: "mentoringExperienceAnswer",
+    label: `What experience do you have of mentoring?`,
+    placeholder: "No more than 250 words",
+    max: 250,
+    fullHeight: true,
+    fullWidth: true,
+  },
+  industryExperienceAnswer: {
+    type: "textArea",
+    name: "industryExperienceAnswer",
+    label: `What was your own experience getting into the industry like?`,
+    placeholder: "No more than 250 words",
+    max: 250,
+    fullHeight: true,
+    fullWidth: true,
+  },
+  photos1: {
+    type: "file",
+    label: "Photos of your home - 1",
+    name: "fileName",
+    parent: "photos1",
+    requiredForHost: true,
+  },
+  photos2: {
+    type: "file",
+    label: "Photos of your home - 2",
+    name: "fileName",
+    parent: "photos2",
+    requiredForHost: true,
+  },
+  photos3: {
+    type: "file",
+    label: "Photos of your home - 3",
+    name: "fileName",
+    parent: "photos3",
+    requiredForHost: true,
+  },
+  address: {
+    type: "textArea",
+    name: "address",
+    label: `Address`,
+    hint:
+      "Please note your exact address will not be made public only the first part of your postcode",
+    max: 50,
+    fullHeight: true,
+  },
+  availableDates: {
+    type: "dateRanges",
+    name: "availableDates",
+    label: `Availability`,
+    hint:
+      "Please try to include as many dates as you can over the next 3 to 6 months",
+  },
+  accommodationChecklist: {
+    type: "checklist",
+    requiredForHost: true,
+    label: "Accommodation checklist",
+    name: "accommodationChecklist",
+    options: types.accommodationChecklist,
+  },
+  neighbourhoodDescription: {
+    name: "neighbourhoodDescription",
+    label: "Your neighbourhood",
+    hint:
+      "Include any information about your area  - what nice things there are to do, travel options etc.",
+
+    placeholder: "No more than 250 words",
+    max: 250,
+    type: "textArea",
+    fullHeight: true,
+    fullWidth: true,
+  },
+  otherInfo: {
+    type: "textArea",
+    label: "Other info",
+    name: "otherInfo",
+    max: 250,
+    placeholder: "No more than 250 words",
+    hint:
+      "Include any extra information such as pets, if you are vegetarian, do you have plants, and any house rules you feel are important for potential guests to know in advance e.g. no eating in the bedroom, no shoes on in the house etc.’",
+  },
+  pressCard: {
+    type: "file",
+    label: "Press card / proof of current status working in the media",
+    name: "fileName",
+    parent: "pressCard",
+    hint: "Please make sure this is an image (eg. picture of a letter/email)",
+  },
 };

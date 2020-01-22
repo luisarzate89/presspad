@@ -23,7 +23,7 @@ export default function InputWithLabel({
 
   return (
     <>
-      <ErrorWrapper error={error} marginBottom="12px">
+      <ErrorWrapper error={error} marginBottom="12px" fullHeight={fullHeight}>
         {showAsTextArea ? (
           <TextArea
             name={name}

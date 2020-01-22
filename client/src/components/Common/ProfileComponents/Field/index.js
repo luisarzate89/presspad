@@ -4,12 +4,14 @@ import Select from "./Select";
 import DatePicker from "./DatePicker";
 import File from "./File";
 import YesNoRadio from "./YesNoRadio";
+import Checkist from "./Checkist";
+import DateRanges from "./DateRanges";
 
-import { Label } from "../ProfileComponents.style";
+import { Label, RequiredSpan, GrayHint } from "../ProfileComponents.style";
 
 export default function Field({
   type,
-  label,
+  label: _label,
   placeholder,
   value: _value,
   handleChange,
@@ -21,15 +23,44 @@ export default function Field({
   parent,
   hint,
   userId,
-  isPrivate
+  isPrivate,
+  requiredForIntern,
+  requiredForHost,
+  role,
+  internLabel,
+  hostLabel,
+  // date Range
+  disabledStartDate,
+  disabledEndDate,
+  onEndChange,
+  onStartChange,
+  handleAddMoreRanges,
+  deleteDate,
+  availableDates,
 }) {
   let url;
 
-  const value = parent ? _value[name] : _value;
-  const error = parent && _error ? _error[name] : _error;
+  const value = parent ? _value && _value[name] : _value;
+  const error = parent ? _error && _error[name] : _error;
 
   if (type === "file") {
-    url = _value.url;
+    url = _value && _value.url;
+  }
+
+  let isRequiredForThisUser = false;
+  if (
+    (role === "intern" && requiredForIntern) ||
+    (role === "host" && requiredForHost)
+  ) {
+    isRequiredForThisUser = true;
+  }
+
+  let label = _label;
+  if (role === "intern") {
+    label = internLabel || _label;
+  }
+  if (role === "host") {
+    label = hostLabel || _label;
   }
 
   return (
@@ -40,7 +71,9 @@ export default function Field({
         }
       >
         {label}
+        {isRequiredForThisUser && <RequiredSpan>(required)</RequiredSpan>}
       </Label>
+      {hint && <GrayHint>{hint}</GrayHint>}
 
       {type === "text" && (
         <Input
@@ -98,7 +131,6 @@ export default function Field({
           name={name}
           parent={parent}
           handleError={handleError}
-          hint={hint}
           userId={userId}
           isPrivate={isPrivate}
           url={url}
@@ -113,7 +145,31 @@ export default function Field({
           name={name}
           parent={parent}
           handleError={handleError}
-          hint={hint}
+        />
+      )}
+
+      {type === "dateRanges" && (
+        <DateRanges
+          disabledStartDate={disabledStartDate}
+          disabledEndDate={disabledEndDate}
+          onEndChange={onEndChange}
+          onStartChange={onStartChange}
+          handleAddMoreRanges={handleAddMoreRanges}
+          deleteDate={deleteDate}
+          availableDates={availableDates}
+          error={error}
+        />
+      )}
+
+      {type === "checklist" && (
+        <Checkist
+          value={value}
+          handleChange={handleChange}
+          error={error}
+          name={name}
+          parent={parent}
+          handleError={handleError}
+          options={options}
         />
       )}
     </>

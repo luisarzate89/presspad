@@ -9,7 +9,7 @@ export default function YesNoRadio({
   error,
   name,
   options,
-  parent
+  parent,
 }) {
   const onChange = e => {
     const { value } = e.target;
@@ -18,7 +18,7 @@ export default function YesNoRadio({
 
   return (
     <Radio.Group onChange={onChange} value={!!value}>
-      <Radio value={true}>Yes</Radio>
+      <Radio value>Yes</Radio>
       <Radio value={false}>No</Radio>
     </Radio.Group>
   );

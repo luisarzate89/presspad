@@ -7,34 +7,30 @@ import {
 } from "../ProfileComponents.style";
 
 import Title from "../Title";
-import Field from "../Field";
-import fields from "../../../../constants/fields";
+import Field from "../../../../Common/ProfileComponents/Field";
+import fields from "../../../../../constants/fields";
 
-const AboutYouDetails = ({
+const Details = ({
   data = {},
-  name = "",
   errors = {},
   handleChange,
   handleError,
   userId,
   role,
-  isAdmin = false,
 }) => (
   <SectionWrapper>
-    {!isAdmin && (
-      <Description>
-        None of the details you supply below will be made public and will only
-        be available to PressPad for verification purposes, to improve our
-        service and to monitor our impact.
-      </Description>
-    )}
+    <Description>
+      None of the details you supply below will be made public and will only be
+      available to PressPad for verification purposes, to improve our service
+      and to monitor our impact.
+    </Description>
     <Title
-      title={isAdmin ? name : "About you"}
-      hint={!isAdmin && "You need to fill out this information to use PressPad"}
+      title="About you"
+      hint="You need to fill out this information to use PressPad"
     />
     <SectionContent>
-      <Row gutter={25} type="flex">
-        <Col xs={24} style={{ margin: "1rem 0" }}>
+      <Row gutter={0}>
+        <Col xs={24} md={12}>
           <Field
             {...fields["photoID"]}
             value={data["photoID"]}
@@ -45,7 +41,9 @@ const AboutYouDetails = ({
             role={role}
           />
         </Col>
-        <Col xs={24} md={16}>
+      </Row>
+      <Row gutter={0}>
+        <Col xs={24} md={20}>
           <Field
             {...fields["hearAboutPressPadAnswer"]}
             value={data["hearAboutPressPadAnswer"]}
@@ -57,8 +55,9 @@ const AboutYouDetails = ({
           />
         </Col>
       </Row>
-      <Row gutter={25} type="flex">
-        <Col xs={24} md={8} style={{ marginTop: "1rem" }}>
+
+      <Row gutter={0}>
+        <Col xs={24} md={12} lg={8}>
           <Field
             {...fields["phoneNumber"]}
             value={data["phoneNumber"]}
@@ -74,4 +73,4 @@ const AboutYouDetails = ({
   </SectionWrapper>
 );
 
-export default AboutYouDetails;
+export default Details;

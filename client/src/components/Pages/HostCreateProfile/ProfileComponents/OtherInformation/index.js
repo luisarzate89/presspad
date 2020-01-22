@@ -3,33 +3,26 @@ import { Row, Col } from "antd";
 import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
 
 import Title from "../Title";
-import Field from "../Field";
-import fields from "../../../../constants/fields";
+import Field from "../../../../Common/ProfileComponents/Field";
+import fields from "../../../../../constants/fields";
 
-const Demographic = ({
+const OtherInformationDetails = ({
   data = {},
   errors = {},
   handleChange,
   handleError,
   userId,
   role,
-  isAdmin = false,
 }) => (
   <SectionWrapper>
-    <Title
-      title="Extra demographic questions"
-      hint={
-        !isAdmin &&
-        "If you do not wish to disclose, please select ‘I’d prefer not to say"
-      }
-    />
+    <Title title="Other information" />
     <SectionContent>
       <Row gutter={25}>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["sexualOrientation"]}
-            value={data["sexualOrientation"]}
-            error={errors["sexualOrientation"]}
+            {...fields["reference1Name"]}
+            value={data["reference1"]}
+            error={errors["reference1"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -38,9 +31,9 @@ const Demographic = ({
         </Col>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["degreeLevel"]}
-            value={data["degreeLevel"]}
-            error={errors["degreeLevel"]}
+            {...fields["reference1Email"]}
+            value={data["reference1"]}
+            error={errors["reference1"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -51,9 +44,9 @@ const Demographic = ({
       <Row gutter={25}>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["ethnicity"]}
-            value={data["ethnicity"]}
-            error={errors["ethnicity"]}
+            {...fields["reference2Name"]}
+            value={data["reference2"]}
+            error={errors["reference2"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -62,9 +55,9 @@ const Demographic = ({
         </Col>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["earningOfParents"]}
-            value={data["earningOfParents"]}
-            error={errors["earningOfParents"]}
+            {...fields["reference2Email"]}
+            value={data["reference2"]}
+            error={errors["reference2"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -73,22 +66,11 @@ const Demographic = ({
         </Col>
       </Row>
       <Row gutter={25}>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={20}>
           <Field
-            {...fields["disability"]}
-            value={data["disability"]}
-            error={errors["disability"]}
-            handleChange={handleChange}
-            handleError={handleError}
-            userId={userId}
-            role={role}
-          />
-        </Col>
-        <Col xs={24} sm={12}>
-          <Field
-            {...fields["parentsWorkInPress"]}
-            value={data["parentsWorkInPress"]}
-            error={errors["parentsWorkInPress"]}
+            {...fields["DBSCheck"]}
+            value={data["DBSCheck"]}
+            error={errors["DBSCheck"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -96,13 +78,12 @@ const Demographic = ({
           />
         </Col>
       </Row>
-
-      <Row gutter={25} style={{ marginTop: "1rem" }}>
-        <Col xs={24} sm={12}>
+      <Row gutter={25}>
+        <Col xs={24} sm={20}>
           <Field
-            {...fields["caringResponsibilities"]}
-            value={data["caringResponsibilities"]}
-            error={errors["caringResponsibilities"]}
+            {...fields["pressCard"]}
+            value={data["pressCard"]}
+            error={errors["pressCard"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -110,13 +91,14 @@ const Demographic = ({
           />
         </Col>
       </Row>
+      {/* 
 
       <Row gutter={25}>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["allergies"]}
-            value={data["allergies"]}
-            error={errors["allergies"]}
+            {...fields["emergencyContactName"]}
+            value={data["emergencyContact"]}
+            error={errors["emergencyContact"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -128,9 +110,9 @@ const Demographic = ({
       <Row gutter={25}>
         <Col xs={24} sm={12}>
           <Field
-            {...fields["consentedOnPressPadTerms"]}
-            value={data["consentedOnPressPadTerms"]}
-            error={errors["consentedOnPressPadTerms"]}
+            {...fields["emergencyContactNumber"]}
+            value={data["emergencyContact"]}
+            error={errors["emergencyContact"]}
             handleChange={handleChange}
             handleError={handleError}
             userId={userId}
@@ -138,8 +120,36 @@ const Demographic = ({
           />
         </Col>
       </Row>
+
+      <Row gutter={25}>
+        <Col xs={24} sm={12}>
+          <Field
+            {...fields["emergencyContactEmail"]}
+            value={data["emergencyContact"]}
+            error={errors["emergencyContact"]}
+            handleChange={handleChange}
+            handleError={handleError}
+            userId={userId}
+            role={role}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={25}>
+        <Col xs={24} sm={12}>
+          <Field
+            {...fields["DBSCheck"]}
+            value={data["DBSCheck"]}
+            error={errors["DBSCheck"]}
+            handleChange={handleChange}
+            handleError={handleError}
+            userId={userId}
+            role={role}
+          />
+        </Col>
+      </Row> */}
     </SectionContent>
   </SectionWrapper>
 );
 
-export default Demographic;
+export default OtherInformationDetails;

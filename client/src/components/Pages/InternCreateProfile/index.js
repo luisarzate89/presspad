@@ -30,7 +30,7 @@ export default class InternCreateProfile extends Component {
       photoID: {
         fileName: null,
         isPrivate: true,
-        url: null
+        url: undefined
       },
       hearAboutPressPadAnswer: null,
       phoneNumber: null,
@@ -220,7 +220,7 @@ export default class InternCreateProfile extends Component {
   };
 
   render() {
-    const { name, id } = this.props;
+    const { name, id, role } = this.props;
     const { errors, data, activeKey } = this.state;
     const {
       profileImage: { url: profilePhotoUrl }
@@ -237,6 +237,7 @@ export default class InternCreateProfile extends Component {
         activeKey={activeKey}
         handleSubmit={this.handleSubmit}
         profilePhotoUrl={profilePhotoUrl}
+        role={role}
       />
     );
   }

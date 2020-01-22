@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "./../../../theme";
+import { colors } from "../../../../theme";
 
 export const SectionWrapper = styled.div``;
 
@@ -56,7 +56,7 @@ export const SectionContent = styled.div`
 export const ErrorWrapper = styled.div`
   border: ${({ error }) => (error ? "1px solid red" : "initial")};
   margin-bottom: ${({ marginBottom }) => marginBottom};
-  height:${({fullHeight})=> fullHeight? "auto" :"calc(100% - 27px)"};
+  height: calc(100% - 27px);
   border-radius: 4px;
   position: relative;
 `;
@@ -94,11 +94,4 @@ export const Description = styled.p`
   color: #393939;
   max-width: 550px;
   margin: 1rem 0;
-`;
-
-export const RequiredSpan = styled.span`
-  opacity: 0.6;
-  font-weight: normal;
-  font-size: 14px;
-  margin-left: 0.5rem;
 `;
