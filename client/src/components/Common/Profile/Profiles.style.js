@@ -41,21 +41,14 @@ export const Arrow = styled(BackArrowIcon)`
 
 // Header
 export const Header = styled.header`
-  margin-top: 15px;
-  display: ${({ flex }) => (flex ? "flex" : "static")};
-  margin-bottom: 25px;
-
-  @media (max-width: 575.98px) {
-    margin-bottom: 0px;
-    /* flex-direction: column;
-    align-items: center; */
-  }
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const HeaderDiv = styled.div`
-  height: 90px;
-  flex-direction: column;
-  margin-left: 25px;
+  margin-left: 1rem;
   text-align: left;
 
   @media (max-width: 575.98px) {
@@ -122,7 +115,7 @@ export const Paragraph = styled.p`
   margin-top: 8px;
 `;
 
-export const AdminTopDiv = styled.div`
+export const TopDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

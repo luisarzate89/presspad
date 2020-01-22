@@ -135,3 +135,12 @@ const _filterArray = (arr, searchVal) =>
  * @returns {Array}
  */
 export const filterArray = (array, searchVal) => _filterArray(array, searchVal);
+
+export const capitalizeFirstLetter = str =>
+  str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
+
+export const titleCase = str =>
+  str
+    .split(" ")
+    .map(capitalizeFirstLetter)
+    .join(" ");

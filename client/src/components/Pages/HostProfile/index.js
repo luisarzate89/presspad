@@ -13,7 +13,7 @@ import Calendar from "./Calendar";
 import axios from "axios";
 
 // common components
-import Button from "./../../Common/Button/index";
+import Button from "./../../Common/Button";
 import ListingGallery from "../../Common/Profile/ListingGallery";
 
 //styles
@@ -22,7 +22,7 @@ import {
   Wrapper,
   LinkDiv,
   BackLinkDiv,
-  AdminTopDiv,
+  TopDiv,
   MultipleButtons,
   Arrow,
   BackToAdmin,
@@ -32,8 +32,8 @@ import {
   Headline,
   SubHeadline,
   ParagraphHeadline,
-  Paragraph,
-  StarRate
+  Paragraph
+  // StarRate
 } from "../../Common/Profile/Profiles.style";
 
 import {
@@ -42,25 +42,23 @@ import {
   ProfilePic,
   TextContentDiv,
   Address,
-  SymbolDiv,
   Symbol,
-  AboutMe,
-  OtherInfo,
-  PressPadOffer,
-  Reviews,
+  InfoCard,
   AvailableHosting,
   CalendarDiv,
   List,
   ListItem,
-  ReviewsBox,
-  MoreReviewsLink,
-  ReviewsHeader,
-  ReviewHeadline,
-  ReviewText,
-  ReviewsSection,
-  EditButton
+  EditButton,
+  Strong
+  // Reviews,
+  // ReviewsBox,
+  // MoreReviewsLink,
+  // ReviewsHeader,
+  // ReviewHeadline,
+  // ReviewText,
+  // ReviewsSection,
 } from "./Profile.style";
-
+import { titleCase } from "../../../helpers";
 import "antd/dist/antd.css";
 
 // images
@@ -133,8 +131,6 @@ class HostProfile extends Component {
   // Fallback placeholder if image didn't load
   handleImageFail = ({ target }) => (target.src = profilePlaceholder);
 
-  createAddress = (street, city) => `${street}, ${city}`;
-
   // Admin function - approve/unapprove profile
   verifyProfile = (profileId, bool) => {
     axios
@@ -147,6 +143,7 @@ class HostProfile extends Component {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
     const {
       profileData: {
+        _id: userId,
         listing: {
           _id,
           availableDates,
@@ -154,19 +151,25 @@ class HostProfile extends Component {
           address,
           photos,
           otherInfo,
-          description
+          description,
+          accommodationChecklist
         },
         profile: {
           bio,
           jobTitle,
           organisation,
           profileImage,
-          _id: profileId,
-          user
+          hostingReasonAnswer,
+          mentoringExperienceAnswer,
+          industryExperienceAnswer,
+          backgroundAnswer,
+          badge,
+          hometown,
+          gender,
+          school
         },
         name,
-        email,
-        reviews
+        email
       },
       internBookings,
       adminApprovedProfile
@@ -178,7 +181,7 @@ class HostProfile extends Component {
       <Wrapper>
         <LinkDiv>
           {role === "admin" ? (
-            <AdminTopDiv>
+            <TopDiv>
               <BackLinkDiv>
                 <Arrow />
                 <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
@@ -188,7 +191,7 @@ class HostProfile extends Component {
                   label="Unapprove profile"
                   type="verification"
                   color="red"
-                  onClick={() => this.verifyProfile(profileId, false)}
+                  onClick={() => this.verifyProfile(userId, false)}
                 />
               ) : (
                 <MultipleButtons>
@@ -204,48 +207,48 @@ class HostProfile extends Component {
                     label="Approve profile"
                     type="verification"
                     color="green"
-                    onClick={() => this.verifyProfile(profileId, true)}
+                    onClick={() => this.verifyProfile(userId, true)}
                   />
                 </MultipleButtons>
               )}
-            </AdminTopDiv>
+            </TopDiv>
           ) : (
             <BackLinkDiv>
               <Arrow />
-              <BackLink to="/">back to search results</BackLink>
+              <BackLink to="/">Back to Search Results</BackLink>
             </BackLinkDiv>
           )}
         </LinkDiv>
         <Header>
-          <AdminTopDiv>
+          <TopDiv>
             <ProfilePic
               src={profileImage.url || profilePlaceholder}
-              adminView={role === "admin" || user === currentUserId}
+              adminView={role === "admin" || userId === currentUserId}
               onError={this.handleImageFail}
             />
-            {user === currentUserId && (
+            <HeaderDiv>
+              {role === "admin" ? (
+                <Headline>{name}</Headline>
+              ) : (
+                <Headline>
+                  {jobTitle &&
+                    `A ${titleCase(jobTitle)} ${
+                      organisation ? `at ${titleCase(organisation)}` : ""
+                    }`}
+                </Headline>
+              )}
+              <Address>{`${address.street}, ${address.city}`}</Address>
+            </HeaderDiv>
+          </TopDiv>
+          <TopDiv>
+            {badge && <Symbol src={starSign} />}
+
+            {userId === currentUserId && (
               <EditButton to={HOST_COMPLETE_PROFILE_URL}>
                 Edit Profile
               </EditButton>
             )}
-          </AdminTopDiv>
-
-          <HeaderDiv>
-            {role === "admin" ? (
-              <Headline>{name}</Headline>
-            ) : (
-              <Headline>
-                {jobTitle && `A ${jobTitle} at `} {organisation.name}
-              </Headline>
-            )}
-            <Address>{`${address.street}, ${address.city}`}</Address>
-          </HeaderDiv>
-
-          <SymbolDiv>
-            {/* this is the badge component */}
-            {this.state.profileData.profile.badge && <Symbol src={starSign} />}
-          </SymbolDiv>
-          {/* <button>Edit Profile</button> */}
+          </TopDiv>
         </Header>
 
         <ListingGallery
@@ -256,53 +259,94 @@ class HostProfile extends Component {
         <MainSection>
           <TextContentDiv>
             <Card>
-              <AboutMe>
+              <InfoCard>
                 <SubHeadline>About Me</SubHeadline>
                 <ParagraphHeadline>
-                  {jobTitle} - {organisation.name}
+                  {titleCase(jobTitle)} - {titleCase(organisation)}
                 </ParagraphHeadline>
                 <Paragraph>{bio}</Paragraph>
-              </AboutMe>
+                <Paragraph style={{ display: "flex", flexDirection: "column" }}>
+                  {hometown && (
+                    <span>
+                      <Strong>Hometown:</Strong> {titleCase(hometown)}
+                    </span>
+                  )}
+                  {school && (
+                    <span>
+                      <Strong>University / School:</Strong> {titleCase(school)}
+                    </span>
+                  )}
+                  {gender && (
+                    <span>
+                      <Strong>Gender:</Strong> {titleCase(gender)}
+                    </span>
+                  )}
+                </Paragraph>
+              </InfoCard>
             </Card>
-            <Card>
-              <OtherInfo>
-                <SubHeadline>Other Info</SubHeadline>
-                <List>
-                  {otherInfo.map(li => (
-                    <ListItem key={li}>{li}</ListItem>
-                  ))}
-                </List>
-              </OtherInfo>
-            </Card>
-            <Card>
-              <PressPadOffer>
-                <SubHeadline>My PressPad Offer</SubHeadline>
-                <ParagraphHeadline>
-                  {address.street}, {address.city}, {address.postcode}
-                </ParagraphHeadline>
-                <Paragraph>{description}</Paragraph>
-              </PressPadOffer>
-            </Card>
-            {reviews.length > 0 && (
+            {accommodationChecklist && accommodationChecklist.length && (
               <Card>
-                <Reviews>
-                  <SubHeadline>Reviews</SubHeadline>
-                  <ReviewsSection>
-                    {reviews.map(re => (
-                      <ReviewsBox key={re._id}>
-                        <ReviewsHeader>
-                          <StarRate disabled defaultValue={re.rating} />
-                          <ReviewHeadline>
-                            {re.from.name.split(" ")[0]},{" "}
-                            {re.from.profile.jobTitle}
-                          </ReviewHeadline>
-                        </ReviewsHeader>
-                        <ReviewText>{re.message}</ReviewText>
-                      </ReviewsBox>
+                <InfoCard>
+                  <SubHeadline>About my home</SubHeadline>
+                  <List>
+                    {accommodationChecklist.map(li => (
+                      <ListItem key={li}>{li}</ListItem>
                     ))}
-                  </ReviewsSection>
-                  <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
-                </Reviews>
+                  </List>
+                </InfoCard>
+              </Card>
+            )}
+            {otherInfo && (
+              <Card>
+                <InfoCard>
+                  <SubHeadline>Other Info / House Rules</SubHeadline>
+                  <Paragraph>{otherInfo}</Paragraph>
+                </InfoCard>
+              </Card>
+            )}
+
+            {address && description && (
+              <Card>
+                <InfoCard>
+                  <SubHeadline>My PressPad Offer</SubHeadline>
+                  <ParagraphHeadline>
+                    {`${address.street}, ${address.city}, ${address.postcode}`}
+                  </ParagraphHeadline>
+                  <Paragraph>{description}</Paragraph>
+                </InfoCard>
+              </Card>
+            )}
+            {(hostingReasonAnswer ||
+              mentoringExperienceAnswer ||
+              industryExperienceAnswer) && (
+              <Card>
+                <InfoCard>
+                  <SubHeadline>More about me</SubHeadline>
+                  {hostingReasonAnswer && (
+                    <>
+                      <ParagraphHeadline>{`Why I want to be a PressPad host`}</ParagraphHeadline>
+                      <Paragraph>{hostingReasonAnswer}</Paragraph>
+                    </>
+                  )}
+                  {mentoringExperienceAnswer && (
+                    <>
+                      <ParagraphHeadline>{`My mentoring experience`}</ParagraphHeadline>
+                      <Paragraph>{mentoringExperienceAnswer}</Paragraph>
+                    </>
+                  )}
+                  {industryExperienceAnswer && (
+                    <>
+                      <ParagraphHeadline>{`My experience getting into the industry`}</ParagraphHeadline>
+                      <Paragraph>{industryExperienceAnswer}</Paragraph>
+                    </>
+                  )}
+                  {backgroundAnswer && (
+                    <>
+                      <ParagraphHeadline>{`My experience getting into the industry`}</ParagraphHeadline>
+                      <Paragraph>{backgroundAnswer}</Paragraph>
+                    </>
+                  )}
+                </InfoCard>
               </Card>
             )}
           </TextContentDiv>
@@ -339,5 +383,27 @@ class HostProfile extends Component {
     );
   }
 }
+/* {reviews.length > 0 && (
+  <Card>
+    <Reviews>
+      <SubHeadline>Reviews</SubHeadline>
+      <ReviewsSection>
+        {reviews.map(re => (
+          <ReviewsBox key={re._id}>
+            <ReviewsHeader>
+              <StarRate disabled defaultValue={re.rating} />
+              <ReviewHeadline>
+                {`${re.from.name.split(" ")[0]},
+                ${re.from.profile.jobTitle}`}
+              </ReviewHeadline>
+            </ReviewsHeader>
+            <ReviewText>{re.message}</ReviewText>
+          </ReviewsBox>
+        ))}
+      </ReviewsSection>
+      <MoreReviewsLink to="/">read more reviews</MoreReviewsLink>
+    </Reviews>
+  </Card>
+)} */
 
 export default HostProfile;

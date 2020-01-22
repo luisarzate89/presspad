@@ -101,9 +101,6 @@ export const Symbol = styled.div`
   width: 38px;
   height: 50px;
   background-image: url(${({ src }) => src});
-  right: 0;
-  bottom: 0;
-  position: absolute;
 `;
 
 export const ImageSection = styled.section`
@@ -178,27 +175,9 @@ const InnerCard = styled.div`
   margin-right: auto;
 `;
 
-export const AboutMe = styled(InnerCard)`
-  height: 200px;
-
-  @media (max-width: 775.98px) {
-    height: auto;
-  }
-`;
-
-export const OtherInfo = styled(InnerCard)`
-  margin-top: 10px;
-  height: 200px;
-
-  @media (max-width: 775.98px) {
-    height: auto;
-  }
-`;
-
-export const PressPadOffer = styled(InnerCard)`
-  margin-top: 10px;
-  height: 300px;
-
+export const InfoCard = styled(InnerCard)`
+  margin-bottom: 1rem;
+  padding: 1rem;
   @media (max-width: 775.98px) {
     height: auto;
   }
@@ -354,6 +333,13 @@ export const EditButton = styled(Link)`
   padding: 7px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   display: block;
-  width: 110px;
+  width: 100px;
+  height: fit-content;
   text-align: center;
+  margin-left: 1rem;
+`;
+
+export const Strong = styled.span`
+  font-size: 1em;
+  font-weight: 700;
 `;
