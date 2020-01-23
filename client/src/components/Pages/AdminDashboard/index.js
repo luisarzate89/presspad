@@ -7,7 +7,7 @@ import { Input, Button, Icon, message } from "antd";
 import ClientTable from "./ClientTable";
 import InternTable from "./InternTable";
 import HostTable from "./HostTable";
-import HostProfile from "../HostProfile/index";
+import HostProfile from "../HostProfile";
 import PaymentsTable from "./PaymentsTable";
 import SearchBar from "../../Common/SearchBar";
 import InternProfile from "../InternProfile/AdminOrInternView";
@@ -223,6 +223,7 @@ export default class AdminDashboard extends Component {
       hostProfile,
       internView,
     } = this.state;
+    const myRole = "admin";
 
     return (
       <Wrapper>
@@ -314,6 +315,7 @@ export default class AdminDashboard extends Component {
                   hostId={hostProfile}
                   adminView
                   hideProfile={this.hideProfile}
+                  role={myRole}
                 />
               </ProfileWrapper>
             )}
