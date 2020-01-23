@@ -1,8 +1,8 @@
 import React from "react";
+import { Row, Col } from "antd";
 import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
 
 import Title from "../Title";
-import { Row, Col } from "antd";
 import Field from "../Field";
 import fields from "../../../../constants/fields";
 
@@ -12,8 +12,17 @@ const OtherInformationDetails = ({
   handleChange,
   handleError,
   userId,
-  role
+  role,
+  isAdmin,
 }) => {
+  const props = {
+    handleChange,
+    handleError,
+    userId,
+    role,
+    readOnly: isAdmin,
+  };
+
   return (
     <SectionWrapper>
       <Title title="Other information" />
@@ -24,10 +33,7 @@ const OtherInformationDetails = ({
               {...fields["reference1Name"]}
               value={data["reference1"]}
               error={errors["reference1"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -35,10 +41,7 @@ const OtherInformationDetails = ({
               {...fields["reference1Email"]}
               value={data["reference1"]}
               error={errors["reference1"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -48,10 +51,7 @@ const OtherInformationDetails = ({
               {...fields["reference2Name"]}
               value={data["reference2"]}
               error={errors["reference2"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -59,10 +59,7 @@ const OtherInformationDetails = ({
               {...fields["reference2Email"]}
               value={data["reference2"]}
               error={errors["reference2"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -72,10 +69,7 @@ const OtherInformationDetails = ({
               {...fields["offerLetter"]}
               value={data["offerLetter"]}
               error={errors["offerLetter"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -85,10 +79,7 @@ const OtherInformationDetails = ({
               {...fields["internshipOfficeAddress"]}
               value={data["internshipOfficeAddress"]}
               error={errors["internshipOfficeAddress"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -99,10 +90,7 @@ const OtherInformationDetails = ({
               {...fields["emergencyContactName"]}
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -113,10 +101,7 @@ const OtherInformationDetails = ({
               {...fields["emergencyContactNumber"]}
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -127,10 +112,7 @@ const OtherInformationDetails = ({
               {...fields["emergencyContactEmail"]}
               value={data["emergencyContact"]}
               error={errors["emergencyContact"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>
@@ -141,10 +123,7 @@ const OtherInformationDetails = ({
               {...fields["DBSCheck"]}
               value={data["DBSCheck"]}
               error={errors["DBSCheck"]}
-              handleChange={handleChange}
-              handleError={handleError}
-              userId={userId}
-              role={role}
+              {...props}
             />
           </Col>
         </Row>

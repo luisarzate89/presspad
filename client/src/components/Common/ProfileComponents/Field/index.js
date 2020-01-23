@@ -37,6 +37,7 @@ export default function Field({
   handleAddMoreRanges,
   deleteDate,
   availableDates,
+  readOnly,
 }) {
   let url;
 
@@ -84,6 +85,7 @@ export default function Field({
           name={name}
           parent={parent}
           fullHeight={fullHeight}
+          readOnly={readOnly}
         />
       )}
 
@@ -97,6 +99,7 @@ export default function Field({
           parent={parent}
           showAsTextArea
           fullHeight={fullHeight}
+          readOnly={readOnly}
         />
       )}
 
@@ -109,6 +112,7 @@ export default function Field({
           name={name}
           parent={parent}
           options={options}
+          readOnly={readOnly}
         />
       )}
 
@@ -120,6 +124,7 @@ export default function Field({
           error={error}
           name={name}
           parent={parent}
+          readOnly={readOnly}
         />
       )}
 
@@ -135,6 +140,7 @@ export default function Field({
           userId={userId}
           isPrivate={isPrivate}
           url={url}
+          readOnly={readOnly}
         />
       )}
 
@@ -146,6 +152,7 @@ export default function Field({
           name={name}
           parent={parent}
           handleError={handleError}
+          readOnly={readOnly}
         />
       )}
 
@@ -159,6 +166,7 @@ export default function Field({
           deleteDate={deleteDate}
           availableDates={availableDates}
           error={error}
+          readOnly={readOnly}
         />
       )}
 
@@ -171,6 +179,7 @@ export default function Field({
           parent={parent}
           handleError={handleError}
           options={options}
+          readOnly={readOnly}
         />
       )}
     </>

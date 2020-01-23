@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "./../../../theme";
+import { colors } from "../../../theme";
 
 export const SectionWrapper = styled.div``;
 
@@ -56,9 +56,20 @@ export const SectionContent = styled.div`
 export const ErrorWrapper = styled.div`
   border: ${({ error }) => (error ? "1px solid red" : "initial")};
   margin-bottom: ${({ marginBottom }) => marginBottom};
-  height:${({fullHeight})=> fullHeight? "auto" :"calc(100% - 27px)"};
+  height: ${({ fullHeight }) => (fullHeight ? "auto" : "calc(100% - 27px)")};
   border-radius: 4px;
   position: relative;
+
+  .ant-select-disabled .ant-select-selection {
+    background: transparent;
+    cursor: auto;
+  }
+
+  input:read-only,
+  textarea:read-only {
+    color: #8a8a8a;
+    background: #fff;
+  }
 `;
 
 export const Error = styled.p`

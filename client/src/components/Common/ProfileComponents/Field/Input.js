@@ -6,7 +6,6 @@ import { ErrorWrapper, Error } from "../ProfileComponents.style";
 const { TextArea } = Input;
 
 export default function InputWithLabel({
-  label,
   placeholder,
   value,
   handleChange,
@@ -15,6 +14,7 @@ export default function InputWithLabel({
   showAsTextArea,
   fullHeight,
   parent,
+  readOnly = false,
 }) {
   const onChange = ({ target: { name: fieldName, value: fieldValue } }) => {
     handleChange({ key: fieldName, value: fieldValue, parent });
@@ -41,6 +41,7 @@ export default function InputWithLabel({
               minHeight: fullHeight ? "230px" : undefined,
               marginBottom: fullHeight ? "2rem" : undefined,
             }}
+            readOnly={readOnly}
           />
         ) : (
           <Input
@@ -57,6 +58,7 @@ export default function InputWithLabel({
             style={{
               border: error ? "none" : "1px solid #d9d9d9",
             }}
+            readOnly={readOnly}
           />
         )}
       </ErrorWrapper>

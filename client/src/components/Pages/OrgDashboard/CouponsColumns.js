@@ -1,10 +1,10 @@
 import React from "react";
 import moment from "moment";
 
-import { tagColors } from "./../../../theme";
 import { Badge } from "antd";
+import { tagColors } from "../../../theme";
 
-import { BlueLink } from "./OrgDashboard.style";
+import { BlueLink1, BlueLink } from "./OrgDashboard.style";
 
 export default windowWidth => {
   const columnsObject = [
@@ -62,12 +62,12 @@ export default windowWidth => {
     render: (text, record) => {
       if (record.intern && record.intern && record.intern._id) {
         return (
-          <BlueLink
+          <BlueLink1
             style={{ textTransform: "capitalize" }}
             to={`/interns/${record.intern._id}`}
           >
             {record.intern.name}
-          </BlueLink>
+          </BlueLink1>
         );
       }
       return (

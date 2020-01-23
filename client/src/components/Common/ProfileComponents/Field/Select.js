@@ -13,9 +13,10 @@ export default function SelectComponent({
   name,
   options,
   parent,
+  readOnly,
 }) {
-  const onChange = value => {
-    handleChange({ value, key: name, parent });
+  const onChange = _value => {
+    handleChange({ value: _value, key: name, parent });
   };
 
   return (
@@ -27,6 +28,7 @@ export default function SelectComponent({
           placeholder={placeholder}
           name={name}
           value={value}
+          disabled={readOnly}
         >
           {options.map(option => (
             <Option value={option} key={option}>

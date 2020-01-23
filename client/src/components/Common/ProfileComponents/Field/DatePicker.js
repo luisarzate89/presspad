@@ -10,6 +10,7 @@ export default function DatePickerComponent({
   error,
   name,
   parent,
+  readOnly,
 }) {
   const onChange = change => {
     handleChange({ value: change, key: name, parent });
@@ -24,6 +25,7 @@ export default function DatePickerComponent({
           placeholder={placeholder}
           value={value ? moment(value) : undefined}
           name={name}
+          disabled={readOnly}
         />
       </ErrorWrapper>
       {error && <Error block>{error}</Error>}
