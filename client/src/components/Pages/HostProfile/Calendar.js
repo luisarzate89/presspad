@@ -7,12 +7,12 @@ import { Spin, Alert, Icon, Modal } from "antd";
 import {
   createDatesArray,
   getDateRangeFromArray,
-  calculatePrice
+  calculatePrice,
 } from "../../../helpers";
 
 import {
   API_BOOKING_REQUEST_URL,
-  API_GET_INTERN_STATUS
+  API_GET_INTERN_STATUS,
 } from "../../../constants/apiRoutes";
 
 import {
@@ -21,7 +21,7 @@ import {
   PriceHeadline,
   PriceLabel,
   RequestBtn,
-  ErrorDiv
+  ErrorDiv,
 } from "./Calendar.style";
 
 import { INTERN_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
@@ -38,21 +38,33 @@ class CalendarComponent extends Component {
     bookingExists: false,
     message: "",
     messageType: "",
-    isBooking: false
+    isBooking: false,
   };
 
   componentDidMount() {
     const { availableDates } = this.props;
-    let avDateRange;
-    if (availableDates) {
-      avDateRange = getDateRangeFromArray(availableDates);
-    }
 
+    this.refreshAvailableDates(availableDates);
+  }
+
+  // listens for prop changes to re-render calendar tiles
+  componentDidUpdate(prevProps) {
+    if (prevProps.availableDates !== this.props.availableDates) {
+      this.refreshAvailableDates(this.props.availableDates);
+    }
+  }
+
+  // converts and refreshes available listing dates
+  refreshAvailableDates = dates => {
+    let avDateRange;
+    if (dates) {
+      avDateRange = getDateRangeFromArray(dates);
+    }
     this.setState({
       avDates: avDateRange || [],
-      isLoading: false
+      isLoading: false,
     });
-  }
+  };
 
   // to disable "Request Stay" button when the user starts to select a range
   onDayClick = () => {
@@ -68,7 +80,7 @@ class CalendarComponent extends Component {
       isRangeSelected: true,
       price: calculatePrice(moment.range(dates[0], dates[1])),
       message: "",
-      messageType: ""
+      messageType: "",
     });
     // check if booking exists and update state
     this.bookingFound(dates, internBookings);
@@ -98,28 +110,29 @@ class CalendarComponent extends Component {
       title: "Sorry! You can't make a request.",
       content: message,
       onOk: this.goToCompleteProfile,
-      onCancel: this.goToCompleteProfile
+      onCancel: this.goToCompleteProfile,
     });
   };
 
   handleClick = async () => {
     const { dates, price } = this.state;
-    const { currentUserId, listingId, hostId } = this.props;
+    const { currentUserId, listingId, hostId, getHostProfile } = this.props;
     const data = {
       listing: listingId,
       intern: currentUserId,
       host: hostId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
       endDate: moment(dates[1]).format("YYYY-MM-DD"),
-      price: price
+      price: price,
     };
 
     let message = "";
     try {
       this.setState({ isBooking: true });
       const {
-        data: { verified, isComplete }
+        data: { verified, isComplete },
       } = await axios.get(API_GET_INTERN_STATUS);
+
       if (!verified) {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
@@ -137,21 +150,35 @@ class CalendarComponent extends Component {
             this.setState({
               message: "Booking request sent successfully",
               messageType: "success",
-              isBooking: false
+              isBooking: false,
             });
+            // update parent state
+            getHostProfile();
           })
           .catch(error => {
-            const resMsg = error.response.data.error;
+            const serverError = error.response && error.response.data.error;
 
-            const message = resMsg.includes(
-              "user has already a booking request"
-            )
-              ? "It seems like you have already requested a booking during those dates. You can only make one request at a time."
-              : "Something went wrong, please try again";
+            let errorMsg;
+
+            if (
+              serverError ===
+              "user has already a booking request for those dates"
+            ) {
+              errorMsg =
+                "It seems like you have already requested a booking during those dates. You can only make one request at a time.";
+            } else if (
+              serverError === "listing is not available during those dates"
+            ) {
+              errorMsg =
+                "Unfortunately this listing is not fully available during your requested booking dates.";
+            } else {
+              errorMsg = serverError;
+            }
+
             this.setState({
               isBooking: false,
               messageType: "error",
-              message
+              message: errorMsg,
             });
           });
       }
@@ -164,7 +191,7 @@ class CalendarComponent extends Component {
         this.setState({
           isBooking: false,
           messageType: "error",
-          message: message
+          message: message,
         });
       }
     }
@@ -175,7 +202,7 @@ class CalendarComponent extends Component {
     if (selectedDates.length > 0) {
       selectedDates = createDatesArray(selectedDates[0], selectedDates[1]);
       bookingDatesFound = selectedDates.some(date =>
-        existingBookingDates.includes(date)
+        existingBookingDates.includes(date),
       );
     } else bookingDatesFound = false;
     // if no booking selected or dates are already part of exiting user bookings
@@ -185,7 +212,7 @@ class CalendarComponent extends Component {
           bookingExists: true,
           messageType: "error",
           message:
-            "It seems like you have already requested a booking during those dates. You can only make one request at a time."
+            "It seems like you have already requested a booking during those dates. You can only make one request at a time.",
         })
       : this.setState({ bookingExists: false });
   };
@@ -198,10 +225,9 @@ class CalendarComponent extends Component {
       message,
       messageType,
       isLoading,
-      isBooking
+      isBooking,
     } = this.state;
     const { adminView, role } = this.props;
-
     if (isLoading) return <Spin tip="Loading Profile" />;
 
     return (

@@ -71,11 +71,24 @@ class HostProfile extends Component {
     profileData: null,
     reviews: null,
     internBookings: [],
+    availableDates: [],
     profileId: null,
     adminApprovedProfile: false,
   };
 
   // functions
+  // functions
+  componentDidMount() {
+    const { role } = this.props;
+
+    this.getHostProfile();
+
+    if (role !== "admin") {
+      this.getBookings();
+    }
+  }
+
+  // gets user profile, listings and reviews
   getHostProfile = () => {
     const { match, history, role } = this.props;
     let hostId = match.params.id;
@@ -88,9 +101,9 @@ class HostProfile extends Component {
       .then(({ data }) => {
         if (data.profile) {
           this.setState({
-            isLoading: false,
             profileData: data,
             adminApprovedProfile: data.profile.verified,
+            isLoading: false,
           });
         }
       })
@@ -116,17 +129,16 @@ class HostProfile extends Component {
       });
   };
 
-  componentDidMount() {
-    const { role } = this.props;
-
-    this.getHostProfile();
-    if (role !== "admin") {
-      axios
-        .get(API_GET_USER_BOOKINGS_URL.replace(":id", this.props.id))
-        .then(result => this.setState({ internBookings: result.data }))
-        .catch(err => console.log(err));
-    }
-  }
+  // gets user's bookings
+  getBookings = () => {
+    const { id } = this.props;
+    axios
+      .get(API_GET_USER_BOOKINGS_URL.replace(":id", id))
+      .then(({ data }) => {
+        this.setState({ internBookings: data });
+      })
+      .catch(err => console.log(err));
+  };
 
   // Fallback placeholder if image didn't load
   handleImageFail = ({ target }) => (target.src = profilePlaceholder);
@@ -383,6 +395,7 @@ class HostProfile extends Component {
                   internBookings={internBookings}
                   price={price}
                   adminView={role === "admin"}
+                  getHostProfile={this.getHostProfile}
                 />
               </CalendarDiv>
             </Card>
