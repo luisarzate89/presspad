@@ -9,15 +9,13 @@ import { tagColors, colors } from "../../../theme";
 // import helpers
 import getUserId from "../../../helpers/getUserId";
 
-export default function InternTable(props) {
-  const {
-    getColumnSearchProps,
-    data,
-    loading,
-    highlightVal,
-    triggerInternView,
-  } = props;
-
+export default function InternTable({
+  getColumnSearchProps,
+  data,
+  loading,
+  highlightVal,
+  triggerInternView,
+}) {
   const columns = [
     {
       title: "Name",
@@ -31,7 +29,7 @@ export default function InternTable(props) {
           style={{ cursor: "pointer" }}
           onClick={triggerInternView.bind(null, getUserId(data, text))}
           role="button"
-          tabIndex={-1}
+          tabIndex={0}
         >
           <Highlighter
             highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}

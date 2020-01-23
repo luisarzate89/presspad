@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 import AdminOrInternView from "./AdminOrInternView";
 import HostView from "./HostView";
@@ -15,11 +16,6 @@ export default function InternProfile(props) {
       return <HostView {...props} />;
 
     default:
-      return (
-        <div>
-          <h1>Dashboard</h1>
-          <p>Dashboard holding page</p>
-        </div>
-      );
+      return <Redirect to="/404" />;
   }
 }

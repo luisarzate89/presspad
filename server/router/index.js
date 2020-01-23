@@ -22,7 +22,10 @@ const {
 const adminStats = require("./../controllers/stats/adminStats");
 const verifyProfile = require("./../controllers/profile/verifyProfile");
 const orgsDashboard = require("./../controllers/organisation/dashboard");
-const { internDashboard, hostDashboard } = require("./../controllers/dashboard");
+const {
+  internDashboard,
+  hostDashboard,
+} = require("./../controllers/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
 const { createReview } = require("../controllers/review");
@@ -30,7 +33,11 @@ const signOut = require("../controllers/user/signOut");
 const { getCoupons } = require("../controllers/coupon");
 const getInternStatus = require("../controllers/profile/getInternStatus");
 const { getBookingsWithUsers } = require("../controllers/Bookings");
-const { internPayment, withdrawRequest, confirmOrCancelWithdrawRequest } = require("../controllers/payments");
+const {
+  internPayment,
+  withdrawRequest,
+  confirmOrCancelWithdrawRequest,
+} = require("../controllers/payments");
 const { createCoupon } = require("../controllers/coupons");
 const getAllInterns = require("../controllers/user/getAllInterns");
 const hostDonation = require("../controllers/payments/hostDonation");
@@ -87,11 +94,11 @@ const {
   GET_ALL_CETIES_URL,
   UPDATE_CHECKLIST_ANSWER,
   ADMIN_INTERN_PROFILE,
+  ADMIN_HOST_PROFILE,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
 router.use(validation);
-
 
 // accept booking by id
 router.patch(ACCEPT_BOOKING_URL, authentication, acceptBooking);
@@ -109,25 +116,16 @@ router.get(HOST_DASHBOARD_URL, authentication, hostDashboard);
 router.get(HOST_PROFILE_URL, getHostProfile);
 
 // update host profile and create new offer
-router.post(
-  HOST_COMPLETE_PROFILE,
-  authentication,
-  hostsCompleteProfile,
-);
+router.post(HOST_COMPLETE_PROFILE, authentication, hostsCompleteProfile);
 
 // delete the photo from the host listings
 router.patch(HOST_COMPLETE_PROFILE, authentication, deletListingPhotos);
 
 // update intern profile
-router.post(
-  INTERN_COMPLETE_PROFILE,
-  authentication,
-  internsCompleteProfile,
-);
+router.post(INTERN_COMPLETE_PROFILE, authentication, internsCompleteProfile);
 
 // get user info from the cookie if it exists and send to front end
 router.get(USER_URL, softAuthCheck, userInfo);
-
 
 // gets intern profile data
 router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
@@ -171,6 +169,9 @@ router.get(MY_PROFILE_URL, authentication, getMyProfile);
 // GET INTERN PROFILE FOR ADMIN
 router.get(ADMIN_INTERN_PROFILE, authentication, getMyProfile);
 
+// GET HOST PROFILE FOR ADMIN
+router.get(ADMIN_HOST_PROFILE, authentication, getMyProfile);
+
 // Upload a file
 router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 
@@ -183,41 +184,36 @@ router.get(INTERNS_URL, authentication, getAllInterns);
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);
 
-
 // host request to withdraw money
 router.post(WITHDRAW_REQUEST_URL, authentication, withdrawRequest);
 
 // admin cancel or confirm request to withdraw money
-router.patch(UPDATE_WITHDRAW_REQUEST_URL, authentication, confirmOrCancelWithdrawRequest);
+router.patch(
+  UPDATE_WITHDRAW_REQUEST_URL,
+  authentication,
+  confirmOrCancelWithdrawRequest,
+);
 
 // organisation add funds
 router.post(ORG_PAYMENT_URL, authentication, orgPayment);
 
-
 // Reviews
-router.route(REVIEW_URL)
-  .post(
-    authentication,
-    createReview,
-  );
+router.route(REVIEW_URL).post(authentication, createReview);
 
 // Coupons
-router.route(COUPON_URL)
-  .get(authentication, getCoupons);
+router.route(COUPON_URL).get(authentication, getCoupons);
 
 // Signout
-router.route(SIGNOUT_URL)
-  .get(signOut);
+router.route(SIGNOUT_URL).get(signOut);
 
-router.route(BOOKING_REVIEW_INFO_URL)
-  .get(authentication, getBookingsWithUsers);
+router.route(BOOKING_REVIEW_INFO_URL).get(authentication, getBookingsWithUsers);
 
-router.route(FIND_WITHDRAW_REQUESTS_URL)
+router
+  .route(FIND_WITHDRAW_REQUESTS_URL)
   .get(authentication, viewWithdrawRequests);
 
 // payments
-router.route(INTERN_PAYMENT_URL)
-  .post(authentication, internPayment);
+router.route(INTERN_PAYMENT_URL).post(authentication, internPayment);
 
 router.get(GET_ALL_CETIES_URL, getAllCities);
 

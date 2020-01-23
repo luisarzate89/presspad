@@ -13,11 +13,15 @@ const Demographic = ({
   handleError,
   userId,
   role,
+  isAdmin,
 }) => (
   <SectionWrapper>
     <Title
       title="Extra demographic questions"
-      hint="If you do not wish to disclose, please select ‘I’d prefer not to say"
+      hint={
+        !isAdmin &&
+        "If you do not wish to disclose, please select ‘I’d prefer not to say"
+      }
     />
     <SectionContent>
       <Row gutter={25}>

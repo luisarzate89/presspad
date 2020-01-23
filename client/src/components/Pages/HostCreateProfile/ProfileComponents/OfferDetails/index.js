@@ -21,9 +21,13 @@ const OfferDetails = ({
   handleAddMoreRanges,
   deleteDate,
   availableDates,
+  isAdmin,
+  name,
 }) => (
   <SectionWrapper>
-    <Title title="Your Presspad Offer" />
+    <Title
+      title={`${isAdmin ? `${name.split(" ")[0]}'s` : "Your"} Presspad Offer`}
+    />
     <SectionContent>
       <Row gutter={25}>
         <Col xs={24} sm={8}>

@@ -3,12 +3,13 @@ import { Redirect } from "react-router-dom";
 
 // import HostView from "./old_index";
 import InternView from "./InternView";
+import AdminView from "./AdminView";
 
 export default function HostProfile(props) {
   const { role } = props;
   switch (role) {
     case "admin":
-      return <h1>HOST_PROFILE -- Admin View</h1>;
+      return <AdminView {...props} />;
     case "intern":
       return <InternView {...props} />;
     case "host":
