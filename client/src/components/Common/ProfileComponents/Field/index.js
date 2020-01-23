@@ -83,6 +83,7 @@ export default function Field({
           error={error}
           name={name}
           parent={parent}
+          fullHeight={fullHeight}
         />
       )}
 

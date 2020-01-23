@@ -1,7 +1,7 @@
 import React from "react";
 
-import { ErrorWrapper, Error } from "../ProfileComponents.style";
 import { Input } from "antd";
+import { ErrorWrapper, Error } from "../ProfileComponents.style";
 
 const { TextArea } = Input;
 
@@ -14,11 +14,10 @@ export default function InputWithLabel({
   name,
   showAsTextArea,
   fullHeight,
-  parent
+  parent,
 }) {
-  const onChange = e => {
-    const { name, value } = e.target;
-    handleChange({ value, key: name, parent });
+  const onChange = ({ target: { name: fieldName, value: fieldValue } }) => {
+    handleChange({ key: fieldName, value: fieldValue, parent });
   };
 
   return (
@@ -40,7 +39,7 @@ export default function InputWithLabel({
               border: error ? "none" : "1px solid #d9d9d9",
               height: "100%",
               minHeight: fullHeight ? "230px" : undefined,
-              marginBottom: fullHeight ? "2rem" : undefined
+              marginBottom: fullHeight ? "2rem" : undefined,
             }}
           />
         ) : (
@@ -56,7 +55,7 @@ export default function InputWithLabel({
             value={value || ""}
             data-parent="favouriteArticle"
             style={{
-              border: error ? "none" : "1px solid #d9d9d9"
+              border: error ? "none" : "1px solid #d9d9d9",
             }}
           />
         )}

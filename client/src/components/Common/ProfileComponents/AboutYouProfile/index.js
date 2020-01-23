@@ -1,14 +1,13 @@
 import React from "react";
-import { Row, Col } from "antd";
-import {
-  SectionWrapper,
-  SectionContent,
-  Description,
-} from "../ProfileComponents.style";
-
-import Title from "../Title";
-import Field from "../Field";
+import { Col, Row } from "antd";
 import fields from "../../../../constants/fields";
+import Field from "../Field";
+import {
+  Description,
+  SectionContent,
+  SectionWrapper,
+} from "../ProfileComponents.style";
+import Title from "../Title";
 
 const AboutYou = ({
   data = {},

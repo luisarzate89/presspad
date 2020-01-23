@@ -5,14 +5,15 @@ import {
   OtherInformationProfile,
   AboutYouDetails,
   OtherInformationDetails,
-  Demographic
-} from "./../../Common/ProfileComponents";
-import TabbedView from "./../../Common/TabbedView";
-import Button from "./../../Common/Button";
+  Demographic,
+} from "../../Common/ProfileComponents";
+import TabbedView from "../../Common/TabbedView";
+import Button from "../../Common/Button";
 
 import { PageWrapper, ContentWrapper } from "./InternCreateProfile.style";
 
 import HeaderWrapper from "./HeaderWrapper";
+
 export default ({
   name,
   data,
@@ -24,91 +25,95 @@ export default ({
   activeKey,
   handleSubmit,
   profilePhotoUrl,
-  role
-}) => {
-  return (
-    <PageWrapper>
-      <ContentWrapper>
-        <HeaderWrapper
-          error=""
-          imageUrl={profilePhotoUrl}
-          name={name}
-          loading={0}
-        />
-        <TabbedView
-          activeKey={activeKey}
-          onChange={onChangeTabs}
-          tabsTitle={["Profile", "Details"]}
-          tabsContent={[
-            <>
-              <AboutYouProfile
-                data={data}
-                errors={errors}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
+  role,
+  loading,
+}) => (
+  <PageWrapper>
+    <ContentWrapper>
+      <HeaderWrapper
+        error=""
+        imageUrl={profilePhotoUrl}
+        name={name}
+        loading={0}
+      />
+      <TabbedView
+        activeKey={activeKey}
+        onChange={onChangeTabs}
+        tabsTitle={["Profile", "Details"]}
+        tabsContent={[
+          <>
+            <AboutYouProfile
+              data={data}
+              errors={errors}
+              handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
+              role={role}
+            />
+            <OtherInformationProfile
+              data={data}
+              errors={errors}
+              handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
+              role={role}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: "2rem",
+              }}
+            >
+              <Button
+                label="Next"
+                type="primary"
+                onClick={() => onChangeTabs("Details")}
               />
-              <OtherInformationProfile
-                data={data}
-                errors={errors}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
+            </div>
+          </>,
+          <>
+            <AboutYouDetails
+              data={data}
+              errors={errors}
+              handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
+              role={role}
+            />
+            <OtherInformationDetails
+              data={data}
+              errors={errors}
+              handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
+              role={role}
+            />
+            <Demographic
+              data={data}
+              errors={errors}
+              handleChange={handleChange}
+              handleError={handleError}
+              userId={userId}
+              role={role}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: "2rem",
+              }}
+            >
+              <Button
+                label="Submit"
+                type="primary"
+                onClick={handleSubmit}
+                loading={loading}
               />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  marginBottom: "2rem"
-                }}
-              >
-                <Button
-                  label="Next"
-                  type="primary"
-                  onClick={() => onChangeTabs("Details")}
-                />
-              </div>
-            </>,
-            <>
-              <AboutYouDetails
-                data={data}
-                errors={errors}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-              <OtherInformationDetails
-                data={data}
-                errors={errors}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-              <Demographic
-                data={data}
-                errors={errors}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  marginBottom: "2rem"
-                }}
-              >
-                <Button label="Submit" type="primary" onClick={handleSubmit} />
-              </div>
-            </>
-          ]}
-        />
-      </ContentWrapper>
-    </PageWrapper>
-  );
-};
+            </div>
+          </>,
+        ]}
+      />
+    </ContentWrapper>
+  </PageWrapper>
+);

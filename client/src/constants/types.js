@@ -50,7 +50,7 @@ export default {
   parentsWorkInPress: ["Mom", "Dad", "Both"],
   gender: ["male", "female", "other", "prefer not to say"],
   disability: [], // waiting for PO to send over
-  interests: [], // waiting for PO to send over
+  interests: ["asd"], // waiting for PO to send over
   degreeLevel: [], // waiting for PO to send over
   earningOfParents: [], // waiting for PO to send over
   workingArea: [],
