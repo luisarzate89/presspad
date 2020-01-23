@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { colors, shadows, size } from "./../../../theme";
+import { colors, shadows, size } from "../../../theme";
 
 export const Wrapper = styled.div`
   padding: 7rem 5rem;
@@ -34,17 +34,13 @@ export const HeaderText = styled.p`
 `;
 
 export const SearchForm = styled.form`
-  display: flex;
   background-color: ${colors.white};
   padding: 2rem;
   box-shadow: ${shadows.main};
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
 
-  @media (max-width: ${size.laptop}) {
-    padding: 2rem 1rem;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 export const FirstSearchInputDiv = styled.label`
@@ -55,12 +51,30 @@ export const FirstSearchInputDiv = styled.label`
 
 export const SearchLabel = styled.label`
   margin-right: 0.5rem;
+  min-width: 5rem;
 `;
 
 export const SearchInputDiv = styled.div`
-  margin-left: 2rem;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  margin: 1rem;
+  order: ${({ order }) => order};
+
+  @media (max-width: 950px) {
+    margin: 1rem 2rem;
+    order: ${({ order }) => {
+      if (order === 2) return 3;
+      if (order === 3) return 2;
+      return order;
+    }};
+  }
+
+  @media (max-width: 740px) {
+    margin: 1rem 2rem;
+    order: ${({ order }) => order};
+  }
 
   /* this styling is currently in here to make interests inactive */
   position: relative;
@@ -71,15 +85,6 @@ export const SearchInputDiv = styled.div`
     background: rgba(255, 255, 255, 0.6);
     cursor: not-allowed;
     position: absolute;
-  }
-
-  @media (max-width: ${size.laptop}) {
-    margin-left: 1rem;
-  }
-
-  @media (max-width: ${size.tablet}) {
-    margin-left: 0;
-    margin-bottom: 1rem;
   }
 `;
 

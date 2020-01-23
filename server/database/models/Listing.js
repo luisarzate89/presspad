@@ -44,7 +44,13 @@ const listingSchema = new Schema(
         endDate: Date,
       },
     ],
+    hometown: {
+      type: String,
+      validate: wordLengthValidator(10, "hometown"),
+      required: false, // required for Intern
+    },
   },
+
   {
     timestamps: true,
   },

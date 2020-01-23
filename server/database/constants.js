@@ -50,9 +50,9 @@ module.exports = {
     ],
     parentsWorkInPress: ["Mom", "Dad", "Both"],
     gender: ["male", "female", "other", "prefer not to say"],
-    disability: [], // waiting for PO to send over
-    interests: [], // waiting for PO to send over
-    workingArea: [],
+    disability: ["option A", "option B"], // waiting for PO to send over
+    interests: ["option A", "option B"], // waiting for PO to send over
+    workingArea: ["option A", "option B"],
     accommodationChecklist: [
       "Lock on the bathroom door",
       "Lock on the bedroom door",
@@ -64,5 +64,7 @@ module.exports = {
       "You can provide info for someone they can contact if you’re not available (neighbour/emergency contact/partner etc.) - this will be done once the booking is confirmed",
       "None of these",
     ],
+    degreeLevel: ["option A", "option B"], // waiting for PO to send over
+    earningOfParents: ["option A", "option B"], // waiting for PO to send over
   },
 };
