@@ -6,11 +6,11 @@ import moment from "moment";
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
-  API_GET_ALL_CETIES_URL
-} from "./../../../constants/apiRoutes";
+  API_GET_ALL_CETIES_URL,
+} from "../../../constants/apiRoutes";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
 
 // import styled components
 import {
@@ -34,7 +34,7 @@ import {
   HostDates,
   HostLocation,
   DisabledHostResult,
-  SignUpPromo
+  SignUpPromo,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
@@ -42,7 +42,7 @@ export default class index extends Component {
     listings: null,
     cities: [],
     searchFields: { city: null, startDate: null, endDate: null },
-    errors: {}
+    errors: {},
   };
 
   fetchListings = () => {
@@ -56,7 +56,7 @@ export default class index extends Component {
       .catch(err => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors
+          errors,
         });
       });
   };
@@ -153,45 +153,42 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return searchIsValid;
   };
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic => {
-    return listingPic && listingPic.length > 0
+  getListingPic = listingPic =>
+    listingPic && listingPic.length > 0
       ? listingPic
       : require("./../../../assets/listing-placeholder.jpg");
-  };
 
   showStartDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.startDate - a.startDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.startDate - a.startDate);
 
       return moment(sortedDates[0].startDate).format("Do MMM YYYY");
-    } else return moment(dates).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
   showEndDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.endDate - a.endDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY"
+        "Do MMM YYYY",
       );
-    } else return moment(dates).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
   async componentDidMount() {
     // fetch all cities from the listing
     const { data } = await axios.get(API_GET_ALL_CETIES_URL);
     const cities = data.reduce((acc, curr) => {
-      acc.add(curr.city.toLowerCase());
+      if (curr.city) acc.add(curr.city.toLowerCase());
       return acc;
     }, new Set());
     this.setState({ cities: [...cities] });

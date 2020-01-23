@@ -37,9 +37,7 @@ export const getDateRangeFromArray = datesArray => {
  * return the time in words eg. 5 minutes ago, few seconds ago
  * @param {Date} time moment time
  */
-export const getStringTime = time => {
-  return moment(time).fromNow();
-};
+export const getStringTime = time => moment(time).fromNow();
 
 /**
  * calculate the price giving range of dates
@@ -47,7 +45,8 @@ export const getStringTime = time => {
  */
 export const calculatePrice = range => {
   if (!range) return 0;
-  let weeks, days;
+  let weeks;
+  let days;
   if (typeof range === "number") {
     weeks = Math.trunc(range / 7);
     days = range % 7;
@@ -88,7 +87,7 @@ const filterFields = {
   amount: 1,
   bankName: 1,
   accountNumber: 1,
-  bankSortCode: 1
+  bankSortCode: 1,
 };
 
 /**
@@ -137,9 +136,10 @@ const _filterArray = (arr, searchVal) =>
 export const filterArray = (array, searchVal) => _filterArray(array, searchVal);
 
 export const capitalizeFirstLetter = str =>
-  str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
+  str && str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
 
 export const titleCase = str =>
+  str &&
   str
     .split(" ")
     .map(capitalizeFirstLetter)
