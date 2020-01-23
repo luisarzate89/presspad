@@ -1,18 +1,36 @@
 import styled from "styled-components";
 
+import { size } from "../../../theme";
+
 export const PageWrapper = styled.div`
   padding-top: 4rem;
   padding-bottom: 8rem;
+
+  @media (max-width: ${size.mobileXL}) {
+    padding-top: 2rem;
+  }
 `;
 
 export const ContentWrapper = styled.div`
-  max-width: 1140px;
-  width: 80%;
+  max-width: ${size.laptop};
+  width: 100%;
+  padding: 1rem;
   margin: 0 auto;
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
+  padding-top: 50px;
+  margin-bottom: 1.5rem;
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  width: 86px;
+
+  @media (max-width: ${size.mobileXL}) {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const HiText = styled.h1`
@@ -23,6 +41,7 @@ export const HiText = styled.h1`
   line-height: 35px;
   color: #07294a;
   margin-bottom: 0;
+  padding-left: 1rem;
 `;
 
 export const HeaderButtonsWrapper = styled.div`

@@ -46,6 +46,7 @@ export const HiText = styled.h1`
   color: #07294a;
   margin-bottom: 0;
   align-items: center;
+  padding-let: ;
 `;
 
 export const Section = styled.div``;

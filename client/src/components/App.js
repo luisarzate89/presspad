@@ -96,7 +96,7 @@ class App extends Component {
   };
 
   render() {
-    const { isLoggedIn, role, stripe } = this.state;
+    const { isLoggedIn, role, stripe, windowWidth } = this.state;
 
     return (
       <StripeProvider stripe={stripe}>
@@ -106,6 +106,7 @@ class App extends Component {
               isLoggedIn={isLoggedIn}
               userType={role}
               resetState={this.resetState}
+              windowWidth={windowWidth}
             />
             <Pages
               handleChangeState={this.handleChangeState}

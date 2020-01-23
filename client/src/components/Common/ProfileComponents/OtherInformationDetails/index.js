@@ -64,7 +64,7 @@ const OtherInformationDetails = ({
           </Col>
         </Row>
         <Row gutter={25}>
-          <Col xs={24} sm={12}>
+          <Col xs={24} sm={12} style={{ marginBottom: "0.5rem" }}>
             <Field
               {...fields["offerLetter"]}
               value={data["offerLetter"]}

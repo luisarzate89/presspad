@@ -5,7 +5,7 @@ import {
   OtherInformationProfile,
   AboutYouDetails,
   OtherInformationDetails,
-  Demographic,
+  Demographic
 } from "../../Common/ProfileComponents";
 import TabbedView from "../../Common/TabbedView";
 import Button from "../../Common/Button";
@@ -26,7 +26,7 @@ export default ({
   handleSubmit,
   profilePhotoUrl,
   role,
-  loading,
+  loading
 }) => (
   <PageWrapper>
     <ContentWrapper>
@@ -62,7 +62,7 @@ export default ({
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginBottom: "2rem",
+                marginBottom: "2rem"
               }}
             >
               <Button
@@ -101,7 +101,7 @@ export default ({
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginBottom: "2rem",
+                marginBottom: "2rem"
               }}
             >
               <Button
@@ -111,7 +111,7 @@ export default ({
                 loading={loading}
               />
             </div>
-          </>,
+          </>
         ]}
       />
     </ContentWrapper>

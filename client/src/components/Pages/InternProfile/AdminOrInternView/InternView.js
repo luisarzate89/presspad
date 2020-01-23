@@ -19,7 +19,7 @@ import {
   BoldSpan,
   BlueSpan,
   BookingsTableWrapper,
-  EditButton,
+  EditButton
 } from "./InternProfile.style";
 import BookingsColumns from "./BookingsColumns";
 
@@ -41,7 +41,7 @@ export default function InternView({
   profileImage,
   handleViewMoreToggle,
   viewNumber,
-  profile,
+  profile
 }) {
   return (
     <PageWrapper>
@@ -62,7 +62,7 @@ export default function InternView({
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: "42px",
-                  border: "1px solid rgba(0, 0, 0, 0.15)",
+                  border: "1px solid rgba(0, 0, 0, 0.15)"
                 }}
               />
             </Col>

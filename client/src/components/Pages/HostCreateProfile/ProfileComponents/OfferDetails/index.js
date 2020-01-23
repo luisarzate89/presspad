@@ -1,8 +1,11 @@
 import React from "react";
 import { Row, Col } from "antd";
-import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
+import {
+  SectionWrapper,
+  SectionContent
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 
@@ -20,7 +23,7 @@ const OfferDetails = ({
   onStartChange,
   handleAddMoreRanges,
   deleteDate,
-  availableDates,
+  availableDates
 }) => (
   <SectionWrapper>
     <Title title="Your Presspad Offer" />
@@ -95,7 +98,7 @@ const OfferDetails = ({
           />
         </Col>
       </Row>
-      <Row gutter={25}>
+      <Row gutter={25} style={{ marginBottom: "1rem" }}>
         <Col xs={24}>
           <Field
             {...fields.accommodationChecklist}

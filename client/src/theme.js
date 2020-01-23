@@ -1,13 +1,24 @@
+import {
+  MOBILE_S_WIDTH,
+  MOBILE_M_WIDTH,
+  MOBILE_L_WIDTH,
+  MOBILE_XL_WIDTH,
+  TABLET_WIDTH,
+  LAPTOP_WIDTH,
+  LAPTOP_L_WIDTH,
+  DESKTOP_WIDTH
+} from "./constants/screenWidths";
+
 // media queries
 export const size = {
-  mobileS: "320px",
-  mobileM: "375px",
-  mobileL: "425px",
-  mobileXL: "680px",
-  tablet: "768px",
-  laptop: "1024px",
-  laptopL: "1440px",
-  desktop: "2560px"
+  mobileS: `${MOBILE_S_WIDTH}px`,
+  mobileM: `${MOBILE_M_WIDTH}px`,
+  mobileL: `${MOBILE_L_WIDTH}px`,
+  mobileXL: `${MOBILE_XL_WIDTH}px`,
+  tablet: `${TABLET_WIDTH}px`,
+  laptop: `${LAPTOP_WIDTH}px`,
+  laptopL: `${LAPTOP_L_WIDTH}px`,
+  desktop: `${DESKTOP_WIDTH}px`
 };
 
 export const breakpoints = {

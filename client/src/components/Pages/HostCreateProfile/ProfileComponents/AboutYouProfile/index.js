@@ -3,10 +3,10 @@ import { Row, Col } from "antd";
 import {
   SectionWrapper,
   SectionContent,
-  Description,
-} from "../ProfileComponents.style";
+  Description
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 
@@ -16,7 +16,7 @@ const AboutYou = ({
   handleChange,
   handleError,
   userId,
-  role,
+  role
 }) => (
   <SectionWrapper>
     <Description>
@@ -51,6 +51,7 @@ const AboutYou = ({
                 handleError={handleError}
                 userId={userId}
                 role={role}
+                padding="1rem 0 0 0"
               />
             </Col>
           </Row>
@@ -75,6 +76,7 @@ const AboutYou = ({
                 handleError={handleError}
                 userId={userId}
                 role={role}
+                padding="1rem 0 0 0"
               />
             </Col>
           </Row>
@@ -113,11 +115,12 @@ const AboutYou = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            paddingSmall="1rem 0 0 0"
           />
         </Col>
       </Row>
 
-      <Row style={{ margin: "1rem 0" }}>
+      <Row>
         <Col xs={24} sm={12}>
           <Field
             {...fields.jobTitle}
@@ -130,7 +133,7 @@ const AboutYou = ({
           />
         </Col>
       </Row>
-      <Row style={{ margin: "1rem 0" }}>
+      <Row>
         <Col xs={24} sm={12}>
           <Field
             {...fields.organisation}
@@ -144,7 +147,7 @@ const AboutYou = ({
         </Col>
       </Row>
 
-      <Row style={{ margin: "1rem 0" }}>
+      <Row>
         <Col xs={24} sm={12}>
           <Field
             {...fields.workingArea}
@@ -158,7 +161,7 @@ const AboutYou = ({
         </Col>
       </Row>
 
-      <Row gutter={25} type="flex">
+      <Row gutter={25} type="flex" style={{ marginTop: "1.5rem" }}>
         <Col xs={24}>
           <Field
             {...fields.hostingReasonAnswer}

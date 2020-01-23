@@ -3,10 +3,10 @@ import { Row, Col } from "antd";
 import {
   SectionWrapper,
   SectionContent,
-  Description,
-} from "../ProfileComponents.style";
+  Description
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 
@@ -16,7 +16,7 @@ const Details = ({
   handleChange,
   handleError,
   userId,
-  role,
+  role
 }) => (
   <SectionWrapper>
     <Description>

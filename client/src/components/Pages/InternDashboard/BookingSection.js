@@ -59,7 +59,7 @@ export default function BookingSectionWrapper(props) {
               style={{
                 width: "80px",
                 height: "80px",
-                margin: "0 auto",
+                margin: "0 auto 0.5rem auto",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -69,15 +69,15 @@ export default function BookingSectionWrapper(props) {
             />
           </Col>
           <Col span={20}>
-            <HiText>
-              Hi {name.split(" ")[0]}
-              {firstBooking && (
-                <span>
-                  , Your host is expecting you&nbsp;
-                  <b>{timeString}</b>.
-                </span>
-              )}
-            </HiText>
+            {firstBooking ? (
+              <HiText>
+                {" "}
+                Hi {name.split(" ")[0]}, your host is expecting you {timeString}
+                .
+              </HiText>
+            ) : (
+              <HiText> Hi {name.split(" ")[0]}, .</HiText>
+            )}
           </Col>
         </Row>
       </HeaderWrapper>

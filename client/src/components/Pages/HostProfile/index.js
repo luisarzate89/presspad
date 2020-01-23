@@ -5,7 +5,7 @@ import { Spin, message } from "antd";
 import axios from "axios";
 import {
   API_VERIFY_PROFILE_URL,
-  API_GET_USER_BOOKINGS_URL,
+  API_GET_USER_BOOKINGS_URL
 } from "../../../constants/apiRoutes";
 
 import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
@@ -23,6 +23,7 @@ import {
   LinkDiv,
   BackLinkDiv,
   TopDiv,
+  AdminTopDiv,
   MultipleButtons,
   Arrow,
   BackToAdmin,
@@ -32,7 +33,7 @@ import {
   Headline,
   SubHeadline,
   ParagraphHeadline,
-  Paragraph,
+  Paragraph
   // StarRate
 } from "../../Common/Profile/Profiles.style";
 
@@ -49,7 +50,7 @@ import {
   List,
   ListItem,
   EditButton,
-  Strong,
+  Strong
   // Reviews,
   // ReviewsBox,
   // MoreReviewsLink,
@@ -73,7 +74,7 @@ class HostProfile extends Component {
     internBookings: [],
     availableDates: [],
     profileId: null,
-    adminApprovedProfile: false,
+    adminApprovedProfile: false
   };
 
   // functions
@@ -103,7 +104,7 @@ class HostProfile extends Component {
           this.setState({
             profileData: data,
             adminApprovedProfile: data.profile.verified,
-            isLoading: false,
+            isLoading: false
           });
         }
       })
@@ -120,7 +121,7 @@ class HostProfile extends Component {
                 You don't have profile
                 <br /> You will be redirected to complete your profile
               </p>,
-              1,
+              1
             )
             .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         } else {
@@ -164,7 +165,7 @@ class HostProfile extends Component {
           photos,
           otherInfo,
           description,
-          accommodationChecklist,
+          accommodationChecklist
         },
         profile: {
           bio,
@@ -178,22 +179,28 @@ class HostProfile extends Component {
           badge,
           hometown,
           gender,
-          school,
+          school
         },
         name,
-        email,
+        email
       },
       internBookings,
-      adminApprovedProfile,
+      adminApprovedProfile
     } = this.state;
-    const { hideProfile, match, id: currentUserId, role } = this.props;
+    const {
+      hideProfile,
+      match,
+      id: currentUserId,
+      role,
+      windowWidth
+    } = this.props;
     const { id: hostId } = match.params;
 
     return (
       <Wrapper>
         <LinkDiv>
           {role === "admin" ? (
-            <TopDiv>
+            <AdminTopDiv>
               <BackLinkDiv>
                 <Arrow />
                 <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
@@ -223,7 +230,7 @@ class HostProfile extends Component {
                   />
                 </MultipleButtons>
               )}
-            </TopDiv>
+            </AdminTopDiv>
           ) : (
             <BackLinkDiv
               role="button"
@@ -241,7 +248,6 @@ class HostProfile extends Component {
               adminView={role === "admin" || userId === currentUserId}
               onError={this.handleImageFail}
             />
-            {console.log({ organisation })}
             <HeaderDiv>
               {role === "admin" ? (
                 <Headline>{name}</Headline>
@@ -271,6 +277,7 @@ class HostProfile extends Component {
           img1={photos[0] && photos[0].url}
           img2={photos[1] && photos[1].url}
           img3={photos[2] && photos[2].url}
+          windowWidth={windowWidth}
         />
         <MainSection>
           <TextContentDiv>

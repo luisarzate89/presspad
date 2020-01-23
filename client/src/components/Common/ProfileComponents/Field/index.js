@@ -7,7 +7,12 @@ import YesNoRadio from "./YesNoRadio";
 import Checkist from "./Checkist";
 import DateRanges from "./DateRanges";
 
-import { Label, RequiredSpan, GrayHint } from "../ProfileComponents.style";
+import {
+  Label,
+  RequiredSpan,
+  GrayHint,
+  FieldWrapper
+} from "../ProfileComponents.style";
 
 export default function Field({
   type,
@@ -24,6 +29,9 @@ export default function Field({
   hint,
   userId,
   isPrivate,
+  padding,
+  paddingSmall,
+  fieldPadding,
   requiredForIntern,
   requiredForHost,
   role,
@@ -37,7 +45,7 @@ export default function Field({
   handleAddMoreRanges,
   deleteDate,
   availableDates,
-  readOnly,
+  readOnly
 }) {
   let url;
 
@@ -65,11 +73,13 @@ export default function Field({
   }
 
   return (
-    <>
+    <FieldWrapper padding={fieldPadding}>
       <Label
         htmlFor={
           parent ? `${parent}${name[0].toUpperCase()}${name.slice(1)}` : name
         }
+        padding={padding}
+        paddingSmall={paddingSmall}
       >
         {label}
         {isRequiredForThisUser && <RequiredSpan>(required)</RequiredSpan>}
@@ -182,6 +192,6 @@ export default function Field({
           readOnly={readOnly}
         />
       )}
-    </>
+    </FieldWrapper>
   );
 }

@@ -4,7 +4,8 @@ import {
   HeaderWrapper,
   HiText,
   ErrorWrapper,
-  Error
+  Error,
+  AvatarWrapper
 } from "./HostCreateProfile.style";
 
 import { Row, Col, Avatar } from "antd";
@@ -16,7 +17,9 @@ export default ({ error, imageUrl, name, loading }) => {
     <HeaderWrapper>
       <Row
         gutter={20}
-        style={{ alignItems: "center", display: "flex", margin: "50px 0" }}
+        type="flex"
+        justify="start"
+        style={{ alignItems: "center" }}
       >
         <Col xs={24} sm={4} lg={3}>
           <ErrorWrapper>
@@ -26,7 +29,7 @@ export default ({ error, imageUrl, name, loading }) => {
               }}
             >
               {/*neccesarry for ProgressRing*/}
-              <div style={{ position: "relative", width: 86 }}>
+              <AvatarWrapper>
                 <ProgressRing
                   radius={43}
                   stroke={2}
@@ -53,7 +56,7 @@ export default ({ error, imageUrl, name, loading }) => {
                     backgroundColor: error ? "red" : "none"
                   }}
                 />
-              </div>
+              </AvatarWrapper>
             </div>
             <Error>{error}</Error>
           </ErrorWrapper>

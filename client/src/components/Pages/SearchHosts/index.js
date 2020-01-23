@@ -6,12 +6,15 @@ import moment from "moment";
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
-  API_GET_ALL_CETIES_URL,
+  API_GET_ALL_CETIES_URL
 } from "../../../constants/apiRoutes";
 import Button from "../../Common/Button";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
+
+import { TABLET_WIDTH } from "../../../constants/screenWidths";
+
 import placeholder from "../../../assets/listing-placeholder.jpg";
 // import styled components
 import {
@@ -34,6 +37,8 @@ import {
   HostLocation,
   DisabledHostResult,
   SignUpPromo,
+  SearchButtonDiv,
+  SearchButton
 } from "./SearchHosts.style";
 
 export default class index extends Component {
@@ -41,7 +46,7 @@ export default class index extends Component {
     listings: null,
     hometowns: [],
     searchFields: { hometown: null, startDate: null, endDate: null },
-    errors: {},
+    errors: {}
   };
 
   async componentDidMount() {
@@ -67,7 +72,7 @@ export default class index extends Component {
       .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors,
+          errors
         });
       });
   };
@@ -162,7 +167,7 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors,
+      errors
     });
 
     return searchIsValid;
@@ -185,7 +190,7 @@ export default class index extends Component {
     if (dates.length > 0) {
       const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY",
+        "Do MMM YYYY"
       );
     }
     return moment(dates).format("Do MMM YYYY");
@@ -193,7 +198,7 @@ export default class index extends Component {
 
   render() {
     const { searchFields, errors, listings, hometowns } = this.state;
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, windowWidth } = this.props;
     const { startDate, endDate } = searchFields;
     const { searchError } = errors;
 
@@ -263,14 +268,19 @@ export default class index extends Component {
             />
           </SearchInputDiv>
 
-          <SearchInputDiv order={4} style={{ margin: "0 auto", width: "100%" }}>
-            <Button
-              onClick={this.onSearchSubmit}
-              style={{ width: 150 }}
-              type="primary"
-              label={<Icon type="search" style={{ fontSize: 24 }} />}
-            />
-          </SearchInputDiv>
+          <SearchButtonDiv>
+            {windowWidth < TABLET_WIDTH ? (
+              <Button
+                label="search"
+                type="primary"
+                onClick={this.onSearchSubmit}
+              />
+            ) : (
+              <SearchButton onClick={this.onSearchSubmit}>
+                <Icon type="search" style={{ fontSize: 24 }} />
+              </SearchButton>
+            )}
+          </SearchButtonDiv>
         </SearchForm>
         <ErrorMsg>{searchError}</ErrorMsg>
         {listings && (

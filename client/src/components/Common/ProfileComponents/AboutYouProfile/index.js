@@ -3,9 +3,9 @@ import { Col, Row } from "antd";
 import fields from "../../../../constants/fields";
 import Field from "../Field";
 import {
-  Description,
-  SectionContent,
   SectionWrapper,
+  SectionContent,
+  Description
 } from "../ProfileComponents.style";
 import Title from "../Title";
 
@@ -17,14 +17,14 @@ const AboutYou = ({
   handleError,
   userId,
   role,
-  isAdmin = false,
+  isAdmin = false
 }) => {
   const props = {
     handleChange,
     handleError,
     userId,
     role,
-    readOnly: isAdmin,
+    readOnly: isAdmin
   };
 
   return (
@@ -77,6 +77,7 @@ const AboutYou = ({
                   value={data["school"]}
                   error={errors["school"]}
                   {...props}
+                  padding="1rem 0 0 0"
                 />
               </Col>
             </Row>
@@ -106,6 +107,7 @@ const AboutYou = ({
               value={data["bio"]}
               error={errors["bio"]}
               {...props}
+              paddingSmall="1rem 0 0 0"
             />
           </Col>
         </Row>

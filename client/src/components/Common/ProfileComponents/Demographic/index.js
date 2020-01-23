@@ -13,14 +13,14 @@ const Demographic = ({
   handleError,
   userId,
   role,
-  isAdmin = false,
+  isAdmin = false
 }) => {
   const props = {
     handleChange,
     handleError,
     userId,
     role,
-    readOnly: isAdmin,
+    readOnly: isAdmin
   };
 
   return (
@@ -40,6 +40,7 @@ const Demographic = ({
               value={data["sexualOrientation"]}
               error={errors["sexualOrientation"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -48,6 +49,7 @@ const Demographic = ({
               value={data["degreeLevel"]}
               error={errors["degreeLevel"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
         </Row>
@@ -58,6 +60,7 @@ const Demographic = ({
               value={data["ethnicity"]}
               error={errors["ethnicity"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -66,6 +69,7 @@ const Demographic = ({
               value={data["earningOfParents"]}
               error={errors["earningOfParents"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
         </Row>
@@ -76,6 +80,7 @@ const Demographic = ({
               value={data["disability"]}
               error={errors["disability"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
           <Col xs={24} sm={12}>
@@ -84,6 +89,7 @@ const Demographic = ({
               value={data["parentsWorkInPress"]}
               error={errors["parentsWorkInPress"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
         </Row>
@@ -95,17 +101,16 @@ const Demographic = ({
               value={data["caringResponsibilities"]}
               error={errors["caringResponsibilities"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
-        </Row>
-
-        <Row gutter={25}>
           <Col xs={24} sm={12}>
             <Field
               {...fields["allergies"]}
               value={data["allergies"]}
               error={errors["allergies"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
         </Row>
@@ -117,6 +122,7 @@ const Demographic = ({
               value={data["consentedOnPressPadTerms"]}
               error={errors["consentedOnPressPadTerms"]}
               {...props}
+              fieldPadding="0 0 0.5rem 0"
             />
           </Col>
         </Row>
