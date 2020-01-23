@@ -11,7 +11,7 @@ import {
   Label,
   RequiredSpan,
   GrayHint,
-  FieldWrapper
+  FieldWrapper,
 } from "../ProfileComponents.style";
 
 export default function Field({
@@ -45,7 +45,7 @@ export default function Field({
   handleAddMoreRanges,
   deleteDate,
   availableDates,
-  readOnly
+  readOnly,
 }) {
   let url;
 
@@ -80,6 +80,7 @@ export default function Field({
         }
         padding={padding}
         paddingSmall={paddingSmall}
+        error={error}
       >
         {label}
         {isRequiredForThisUser && <RequiredSpan>(required)</RequiredSpan>}

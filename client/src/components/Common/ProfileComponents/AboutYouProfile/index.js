@@ -5,7 +5,7 @@ import Field from "../Field";
 import {
   SectionWrapper,
   SectionContent,
-  Description
+  Description,
 } from "../ProfileComponents.style";
 import Title from "../Title";
 
@@ -17,14 +17,14 @@ const AboutYou = ({
   handleError,
   userId,
   role,
-  isAdmin = false
+  isAdmin = false,
 }) => {
   const props = {
     handleChange,
     handleError,
     userId,
     role,
-    readOnly: isAdmin
+    readOnly: isAdmin,
   };
 
   return (

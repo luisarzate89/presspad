@@ -6,7 +6,7 @@ import Content from "./Content";
 import {
   API_INTERN_COMPLETE_PROFILE,
   DASHBOARD_URL,
-  API_MY_PROFILE_URL
+  API_MY_PROFILE_URL,
 } from "../../../constants/apiRoutes";
 import { profileSchema, detailsSchema } from "./Schema";
 
@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   school: null,
   profileImage: {
     fileName: null,
-    isPrivate: false
+    isPrivate: false,
   },
   interests: null,
   bio: null,
@@ -28,31 +28,31 @@ const INITIAL_STATE = {
   photoID: {
     fileName: null,
     isPrivate: true,
-    url: null
+    url: null,
   },
   hearAboutPressPadAnswer: null,
   phoneNumber: null,
   reference1: {
     name: null,
-    email: null
+    email: null,
   },
   reference2: {
     name: null,
-    email: null
+    email: null,
   },
   offerLetter: {
     fileName: null,
-    isPrivate: true
+    isPrivate: true,
   },
   internshipOfficeAddress: null,
   emergencyContact: {
     name: null,
     phoneNumber: null,
-    email: null
+    email: null,
   },
   DBSCheck: {
     fileName: null,
-    isPrivate: true
+    isPrivate: true,
   },
   sexualOrientation: null,
   degreeLevel: null,
@@ -63,7 +63,7 @@ const INITIAL_STATE = {
   caringResponsibilities: null,
   allergies: null,
   backgroundAnswer: null,
-  consentedOnPressPadTerms: null
+  consentedOnPressPadTerms: null,
 };
 const Tabs = ["Profile", "Details"];
 
@@ -72,7 +72,6 @@ export default class InternCreateProfile extends Component {
     activeKey: 0,
     data: INITIAL_STATE,
     errors: INITIAL_STATE,
-    validData: {}
   };
 
   componentDidMount() {
@@ -83,8 +82,8 @@ export default class InternCreateProfile extends Component {
           this.setState(prevState => ({
             data: {
               ...prevState.data,
-              ...profile
-            }
+              ...profile,
+            },
           }));
         }
       })
@@ -96,17 +95,17 @@ export default class InternCreateProfile extends Component {
       this.setState(({ data, errors }) => ({
         data: {
           ...data,
-          [parent]: { ...data[parent], [key]: value }
+          [parent]: { ...data[parent], [key]: value },
         },
-        errors: { ...errors, [parent]: { ...errors[parent], [key]: null } }
+        errors: { ...errors, [parent]: { ...errors[parent], [key]: null } },
       }));
     } else {
       this.setState(({ data, errors }) => ({
         data: {
           ...data,
-          [key]: value
+          [key]: value,
         },
-        errors: { ...errors, [key]: null }
+        errors: { ...errors, [key]: null },
       }));
     }
   };
@@ -116,15 +115,15 @@ export default class InternCreateProfile extends Component {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          [parent]: { ...prevState.errors[parent], [key]: value }
-        }
+          [parent]: { ...prevState.errors[parent], [key]: value },
+        },
       }));
     } else {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          [key]: value
-        }
+          [key]: value,
+        },
       }));
     }
   };
@@ -144,8 +143,8 @@ export default class InternCreateProfile extends Component {
         organisation,
         useReasonAnswer,
         issueAnswer,
-        storyAnswer
-      }
+        storyAnswer,
+      },
     } = this.state;
     if (!activeKey)
       try {
@@ -161,21 +160,33 @@ export default class InternCreateProfile extends Component {
             organisation,
             useReasonAnswer,
             issueAnswer,
-            storyAnswer
+            storyAnswer,
           },
-          { abortEarly: false }
+          { abortEarly: false },
         );
         this.setState(({ data }) => ({ data: { ...data, ...validData } }));
       } catch ({ inner }) {
-        inner.forEach(({ path, message: errorMessage }) =>
-          this.setState(({ errors }) => ({
-            errors: { ...errors, [path]: errorMessage }
-          }))
-        );
+        const newErrors = {};
+        inner.forEach(({ path, message: errorMessage }) => {
+          if (path.includes(".")) {
+            const [parent, childrenPath] = path.split(".");
+            newErrors[path] = newErrors[path] || {};
+            newErrors[parent] = {
+              ...newErrors[parent],
+              [childrenPath]: errorMessage,
+            };
+          } else {
+            newErrors[path] = errorMessage;
+          }
+        });
+
+        this.setState(({ errors }) => ({
+          errors: { ...errors, ...newErrors },
+        }));
         return;
       }
     this.setState(({ activeKey: currTab }) => ({
-      activeKey: +!currTab
+      activeKey: +!currTab,
     }));
   };
 
@@ -202,8 +213,8 @@ export default class InternCreateProfile extends Component {
         caringResponsibilities,
         allergies,
         backgroundAnswer,
-        consentedOnPressPadTerms
-      }
+        consentedOnPressPadTerms,
+      },
     } = this.state;
 
     try {
@@ -229,18 +240,32 @@ export default class InternCreateProfile extends Component {
           caringResponsibilities,
           allergies,
           backgroundAnswer,
-          consentedOnPressPadTerms
+          consentedOnPressPadTerms,
         },
-        { abortEarly: false }
+        { abortEarly: false },
       );
       this.setState(({ data }) => ({ data: { ...data, ...validData } }));
     } catch ({ inner }) {
       this.setState({ loading: false });
-      inner.forEach(({ path, message: errorMessage }) =>
-        this.setState(({ errors }) => ({
-          errors: { ...errors, [path]: errorMessage }
-        }))
-      );
+
+      const newErrors = {};
+      inner.forEach(({ path, message: errorMessage }) => {
+        if (path.includes(".")) {
+          const [parent, childrenPath] = path.split(".");
+          newErrors[path] = newErrors[path] || {};
+          newErrors[parent] = {
+            ...newErrors[parent],
+            [childrenPath]: errorMessage,
+          };
+        } else {
+          newErrors[path] = errorMessage;
+        }
+      });
+
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...newErrors },
+      }));
+
       return;
     }
     try {
@@ -258,7 +283,7 @@ export default class InternCreateProfile extends Component {
         onOk: () => {
           this.props.history.push(DASHBOARD_URL);
         },
-        type: "success"
+        type: "success",
         // this.setState({ loading: false, success: true });
       });
     } catch (err) {
@@ -272,7 +297,7 @@ export default class InternCreateProfile extends Component {
             type="error"
           />
         ),
-        type: "error"
+        type: "error",
       });
     }
     this.setState({ loading: false });
@@ -282,9 +307,8 @@ export default class InternCreateProfile extends Component {
     const { name, id, role } = this.props;
     const { errors, data, activeKey, loading } = this.state;
     const {
-      profileImage: { url: profilePhotoUrl }
+      profileImage: { url: profilePhotoUrl },
     } = data;
-
     return (
       <Content
         name={name}

@@ -54,7 +54,7 @@ export const Label = styled.label`
   font-style: normal;
   font-weight: ${({ light }) => (light ? "lighter" : "bold")};
   line-height: 25px;
-  color: #393939;
+  color: ${({ error }) => (error ? "red" : "#393939")};
   display: block;
 
   @media (max-width: 767px) {

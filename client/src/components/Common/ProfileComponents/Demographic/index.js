@@ -13,14 +13,14 @@ const Demographic = ({
   handleError,
   userId,
   role,
-  isAdmin = false
+  isAdmin = false,
 }) => {
   const props = {
     handleChange,
     handleError,
     userId,
     role,
-    readOnly: isAdmin
+    readOnly: isAdmin,
   };
 
   return (
@@ -111,6 +111,17 @@ const Demographic = ({
               error={errors["allergies"]}
               {...props}
               fieldPadding="0 0 0.5rem 0"
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={25} type="flex">
+          <Col xs={24}>
+            <Field
+              {...fields["backgroundAnswer"]}
+              value={data["backgroundAnswer"]}
+              error={errors["backgroundAnswer"]}
+              {...props}
             />
           </Col>
         </Row>

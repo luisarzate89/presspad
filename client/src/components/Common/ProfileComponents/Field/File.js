@@ -3,7 +3,7 @@ import axios from "axios";
 import { message, Icon, Tooltip } from "antd";
 import { ProgressBar } from "../../progress";
 
-import { UploadText } from "../ProfileComponents.style";
+import { UploadText, Error } from "../ProfileComponents.style";
 
 export default class File extends Component {
   state = {
@@ -95,7 +95,7 @@ export default class File extends Component {
 
   render() {
     const { loading, isLoading, fileName } = this.state;
-    const { name, parent, value, url, readOnly } = this.props;
+    const { name, parent, value, url, readOnly, error } = this.props;
     if (readOnly) {
       return (
         <Tooltip title="download" placement="bottomLeft">
@@ -151,6 +151,7 @@ export default class File extends Component {
             </UploadText>
           </Tooltip>
         )}
+        {error && <Error block>{error}</Error>}
       </div>
     );
   }
