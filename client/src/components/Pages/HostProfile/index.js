@@ -225,9 +225,12 @@ class HostProfile extends Component {
               )}
             </TopDiv>
           ) : (
-            <BackLinkDiv>
+            <BackLinkDiv
+              role="button"
+              onClick={() => this.props.history.goBack()}
+            >
               <Arrow />
-              <BackLink to="/">Back to Search Results</BackLink>
+              <BackLink>Back to Search Results</BackLink>
             </BackLinkDiv>
           )}
         </LinkDiv>

@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
 import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
@@ -26,9 +25,14 @@ export const BackLinkDiv = styled.div`
   margin-left: -10px;
   display: flex;
   justify-content: flex-start;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
-export const BackLink = styled(Link)`
+export const BackLink = styled.p`
   color: ${colors.links};
   text-decoration: none;
   font-weight: 500;

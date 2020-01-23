@@ -124,8 +124,11 @@ class HostView extends Component {
       <Wrapper>
         {/* Backlink */}
         <LinkDiv>
-          <BackLinkDiv>
-            <BackLink to="/">
+          <BackLinkDiv
+            role="button"
+            onClick={() => this.props.history.goBack()}
+          >
+            <BackLink>
               <Arrow /> Back
             </BackLink>
           </BackLinkDiv>

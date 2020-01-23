@@ -15,7 +15,7 @@ const Update = ({ item, userRole }) => {
           return (
             <UpdateItem>
               Your request to stay with&nbsp;
-              <Link to={`/host/${secondParty._id}`}>
+              <Link to={`/hosts/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp; has been rejected - <UpdateDate>{timeString}</UpdateDate>
@@ -27,7 +27,7 @@ const Update = ({ item, userRole }) => {
           return (
             <UpdateItem>
               Your request to stay with&nbsp;
-              <Link to={`/host/${secondParty._id}`}>
+              <Link to={`/hosts/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp; has been approved - <UpdateDate>{timeString}</UpdateDate>
@@ -39,7 +39,7 @@ const Update = ({ item, userRole }) => {
           return (
             <UpdateItem>
               Your stay with&nbsp;
-              <Link to={`/host/${secondParty._id}`}>
+              <Link to={`/hosts/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp;has been completed - <UpdateDate>{timeString}</UpdateDate>
@@ -90,7 +90,7 @@ const Update = ({ item, userRole }) => {
         case "stayRequest":
           return (
             <UpdateItem>
-              <Link to={`/intern/${secondParty._id}`}>
+              <Link to={`/interns/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>{" "}
               &nbsp;requested to stay with you -{" "}
@@ -102,7 +102,7 @@ const Update = ({ item, userRole }) => {
         case "stayCompleted":
           return (
             <UpdateItem>
-              <Link to={`/intern/${secondParty._id}`}>
+              <Link to={`/interns/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>{" "}
               &nbsp;has completed his stay with you -{" "}
