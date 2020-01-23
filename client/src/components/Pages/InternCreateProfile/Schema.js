@@ -64,6 +64,7 @@ export const detailsSchema = yup.object({
     .required(),
   hearAboutPressPadAnswer: yup
     .string()
+    .ensure()
     .transform(wordLengthValidator(50, "hearAboutPressPadAnswer"))
     .required(),
   phoneNumber: yup
@@ -96,6 +97,7 @@ export const detailsSchema = yup.object({
   }),
   internshipOfficeAddress: yup
     .string()
+    .ensure()
     .transform(wordLengthValidator(50, "internshipOfficeAddress")),
   emergencyContact: yup.object({
     name: yup.string().ensure(),
@@ -122,6 +124,7 @@ export const detailsSchema = yup.object({
     .transform(wordLengthValidator(50, "allergies")),
   backgroundAnswer: yup
     .string()
+    .ensure()
     .transform(wordLengthValidator(250, "backgroundAnswer")),
   consentedOnPressPadTerms: yup
     .boolean()
