@@ -246,7 +246,8 @@ class HostProfile extends Component {
       apiLoading,
       errors,
       withdrawRequests,
-      profile
+      profile,
+      viewNumber
     } = this.state;
     return (
       <Content
@@ -279,6 +280,7 @@ class HostProfile extends Component {
         handleCloseModals={this.handleCloseModals}
         handleSubmitDonate={this.handleSubmitDonate}
         handleSubmitWithdrawRequest={this.handleSubmitWithdrawRequest}
+        viewNumber={viewNumber}
       />
     );
   }
