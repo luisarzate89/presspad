@@ -44,7 +44,7 @@ export const Bio = styled.p`
   color: #595959;
 `;
 
-export const BlueLink = styled(Link).attrs({ to: "#" })`
+export const BlueLink = styled(Link)`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
