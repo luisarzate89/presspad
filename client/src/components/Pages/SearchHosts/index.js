@@ -6,12 +6,13 @@ import moment from "moment";
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
-  API_GET_ALL_CETIES_URL
-} from "./../../../constants/apiRoutes";
+  API_GET_ALL_CETIES_URL,
+} from "../../../constants/apiRoutes";
+import Button from "../../Common/Button";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
-
+import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
+import placeholder from "../../../assets/listing-placeholder.jpg";
 // import styled components
 import {
   Wrapper,
@@ -19,11 +20,9 @@ import {
   HeaderTitle,
   HeaderText,
   SearchForm,
-  FirstSearchInputDiv,
   SearchLabel,
   SearchInputDiv,
   ErrorMsg,
-  SearchButton,
   ResultsWrapper,
   ResultsText,
   Hosts,
@@ -34,16 +33,28 @@ import {
   HostDates,
   HostLocation,
   DisabledHostResult,
-  SignUpPromo
+  SignUpPromo,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
   state = {
     listings: null,
-    cities: [],
-    searchFields: { city: null, startDate: null, endDate: null },
-    errors: {}
+    hometowns: [],
+    searchFields: { hometown: null, startDate: null, endDate: null },
+    errors: {},
   };
+
+  async componentDidMount() {
+    // fetch all hometowns from the listing
+    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
+    const hometowns = data
+      .filter(({ hometown }) => !!hometown)
+      .reduce((acc, curr) => {
+        acc.add(curr.hometown.toLowerCase());
+        return acc;
+      }, new Set());
+    this.setState({ hometowns: [...hometowns] });
+  }
 
   fetchListings = () => {
     const { searchFields, errors } = this.state;
@@ -53,10 +64,10 @@ export default class index extends Component {
       .then(({ data }) => {
         this.setState({ listings: data });
       })
-      .catch(err => {
+      .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors
+          errors,
         });
       });
   };
@@ -69,8 +80,8 @@ export default class index extends Component {
       newSearchFields[e.target.name] = e.target.value;
       this.setState({ searchFields: newSearchFields });
     } else {
-      // e is the city <Select>  value
-      newSearchFields.city = e;
+      // e is the hometown <Select>  value
+      newSearchFields.hometown = e;
       this.setState({ searchFields: newSearchFields }, () => {
         const isValid = this.validateSearch();
         if (isValid) {
@@ -107,8 +118,6 @@ export default class index extends Component {
 
   onStartChange = value => {
     this.onDateInputChange("startDate", value);
-    const dateString = moment(value).format("YYYY-MM-DD");
-    console.log(dateString);
   };
 
   onEndChange = value => {
@@ -129,7 +138,7 @@ export default class index extends Component {
     let searchIsValid = true;
 
     if (
-      !searchFields.city &&
+      !searchFields.hometown &&
       !searchFields.startDate &&
       !searchFields.endDate
     ) {
@@ -153,96 +162,84 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return searchIsValid;
   };
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic => {
-    return listingPic && listingPic.length > 0
-      ? listingPic
-      : require("./../../../assets/listing-placeholder.jpg");
-  };
+  getListingPic = listingPic =>
+    listingPic && listingPic.length > 0 ? listingPic : placeholder;
 
   showStartDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.startDate - a.startDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.startDate - a.startDate);
 
       return moment(sortedDates[0].startDate).format("Do MMM YYYY");
-    } else return moment(dates).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
   showEndDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.endDate - a.endDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY"
+        "Do MMM YYYY",
       );
-    } else return moment(dates).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
-  async componentDidMount() {
-    // fetch all cities from the listing
-    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
-    const cities = data.reduce((acc, curr) => {
-      acc.add(curr.city.toLowerCase());
-      return acc;
-    }, new Set());
-    this.setState({ cities: [...cities] });
-  }
-
   render() {
-    const { searchFields, errors, listings, cities } = this.state;
+    const { searchFields, errors, listings, hometowns } = this.state;
     const { isLoggedIn } = this.props;
     const { startDate, endDate } = searchFields;
     const { searchError } = errors;
+
     return (
       <Wrapper>
         <Header>
           <HeaderTitle>Hosts offering a PressPad</HeaderTitle>
           <HeaderText>
-            You can search for hosts by filling in the city and dates you're
-            looking for, as well as any interests you might have so we can find
-            the perfect match for you.
+            You can search for hosts by filling in the hometown and dates
+            you&apos;re looking for, as well as any interests you might have so
+            we can find the perfect match for you.
           </HeaderText>
         </Header>
         <SearchForm>
-          <FirstSearchInputDiv>
-            <SearchLabel htmlFor="city">City</SearchLabel>
+          <SearchInputDiv order={0}>
+            <SearchLabel htmlFor="hometown">Hometown</SearchLabel>
             <Select
               showSearch
-              placeholder="Enter your city"
-              name="city"
-              id="city"
+              placeholder="Enter your hometown"
+              name="hometown"
+              id="hometown"
               autoFocus
               style={{ width: 150 }}
               onSelect={this.onInputChange}
             >
-              {cities.map(city => (
-                <Select.Option value={city} key={city}>
-                  {city}
+              {hometowns.map(hometown => (
+                <Select.Option value={hometown} key={hometown}>
+                  {hometown}
                 </Select.Option>
               ))}
             </Select>
-          </FirstSearchInputDiv>
-          <SearchInputDiv>
+          </SearchInputDiv>
+          <SearchInputDiv order={1}>
             <SearchLabel htmlFor="startDate">Between</SearchLabel>
             <DatePicker
               name="startDate"
               disabledDate={this.disabledStartDate}
               id="startDate"
               type="date"
-              style={{ marginRight: 8 }}
+              style={{ width: 150 }}
               value={startDate}
               onChange={this.onStartChange}
               format="YYYY-MM-DD"
             />
+          </SearchInputDiv>
+          <SearchInputDiv order={2}>
             <SearchLabel htmlFor="endDate">and</SearchLabel>
             <DatePicker
               name="endDate"
@@ -252,9 +249,10 @@ export default class index extends Component {
               value={endDate}
               onChange={this.onEndChange}
               format="YYYY-MM-DD"
+              style={{ width: 150 }}
             />
           </SearchInputDiv>
-          <SearchInputDiv disabled>
+          <SearchInputDiv order={3} disabled>
             <SearchLabel htmlFor="interests">Interests</SearchLabel>
             <Input
               name="interests"
@@ -264,10 +262,14 @@ export default class index extends Component {
               onChange={this.onInputChange}
             />
           </SearchInputDiv>
-          <SearchInputDiv>
-            <SearchButton onClick={this.onSearchSubmit}>
-              <Icon type="search" style={{ fontSize: 24 }} />
-            </SearchButton>
+
+          <SearchInputDiv order={4} style={{ margin: "0 auto", width: "100%" }}>
+            <Button
+              onClick={this.onSearchSubmit}
+              style={{ width: 150 }}
+              type="primary"
+              label={<Icon type="search" style={{ fontSize: 24 }} />}
+            />
           </SearchInputDiv>
         </SearchForm>
         <ErrorMsg>{searchError}</ErrorMsg>
@@ -278,15 +280,15 @@ export default class index extends Component {
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>
-                {listings.map((listing, index) => (
+                {listings.map(listing => (
                   <HostResult
-                    key={index}
+                    key={listing._id}
                     underThree={listings.length < 3}
                     to={`${HOSTS_URL}/${listing.userID}`}
                   >
                     <HostHeader>
                       <HostTitle>
-                        {listing.address.borough || listing.address.city}
+                        {listing.address.borough || listing.address.hometown}
                       </HostTitle>
                     </HostHeader>
                     <HostImg src={this.getListingPic(listing.photos[0])} />
@@ -298,7 +300,9 @@ export default class index extends Component {
                       {listing.address.borough && (
                         <>{listing.address.borough}, </>
                       )}
-                      {listing.address.city && <>{listing.address.city}, </>}
+                      {listing.address.hometown && (
+                        <>{listing.address.hometown}, </>
+                      )}
                       {listing.address.postcode && (
                         <>{listing.address.postcode}</>
                       )}
@@ -309,15 +313,15 @@ export default class index extends Component {
             ) : (
               <>
                 <Hosts>
-                  {listings.slice(0, 3).map((listing, index) => (
+                  {listings.slice(0, 3).map(listing => (
                     <DisabledHostResult
-                      key={index}
+                      key={`${listing._id}2`}
                       to={`${HOSTS_URL}/${listing.userID}`}
                       isLoggedIn={isLoggedIn}
                     >
                       <HostHeader>
                         <HostTitle>
-                          {listing.address.borough || listing.address.city}
+                          {listing.address.borough || listing.address.hometown}
                         </HostTitle>
                       </HostHeader>
                       <HostImg src={this.getListingPic(listing.photos[0])} />
@@ -329,7 +333,9 @@ export default class index extends Component {
                         {listing.address.borough && (
                           <>{listing.address.borough}, </>
                         )}
-                        {listing.address.city && <>{listing.address.city}, </>}
+                        {listing.address.hometown && (
+                          <>{listing.address.hometown}, </>
+                        )}
                         {listing.address.postcode && (
                           <>{listing.address.postcode}</>
                         )}

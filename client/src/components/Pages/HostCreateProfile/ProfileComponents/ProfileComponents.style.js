@@ -56,7 +56,7 @@ export const SectionContent = styled.div`
 export const ErrorWrapper = styled.div`
   border: ${({ error }) => (error ? "1px solid red" : "initial")};
   margin-bottom: ${({ marginBottom }) => marginBottom};
-  height: calc(100% - 27px);
+  /* height: calc(100% - 27px); */
   border-radius: 4px;
   position: relative;
 `;

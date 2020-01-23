@@ -17,6 +17,7 @@ class DateRanges extends Component {
       deleteDate,
       availableDates,
       error,
+      readOnly,
     } = this.props;
 
     return (
@@ -45,6 +46,7 @@ class DateRanges extends Component {
                       value={item.startDate ? moment(item.startDate) : null}
                       placeholder="Start"
                       onChange={value => onStartChange(index, value)}
+                      disabled={readOnly}
                     />
                   </Col>
                   <Col xs={24} sm={2}>
@@ -58,40 +60,45 @@ class DateRanges extends Component {
                       placeholder="End"
                       onChange={value => onEndChange(index, value)}
                       open={item.endOpen}
+                      disabled={readOnly}
                     />
                   </Col>
-                  <Col
-                    xs={24}
-                    sm={2}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "32px",
-                    }}
-                  >
-                    <Icon
-                      type="close"
-                      style={{ color: "#0ac7e7" }}
-                      onClick={() => deleteDate(index)}
-                    />
-                  </Col>
+                  {!readOnly && (
+                    <Col
+                      xs={24}
+                      sm={2}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: "32px",
+                      }}
+                    >
+                      <Icon
+                        type="close"
+                        style={{ color: "#0ac7e7" }}
+                        onClick={() => deleteDate(index)}
+                      />
+                    </Col>
+                  )}
                 </div>
               ))}
             </Col>
           </Row>
-          <>
-            <UploadText
-              style={{
-                marginTop: "20px",
-                display: "block",
-              }}
-              onClick={handleAddMoreRanges}
-            >
-              {availableDates.length > 0 ? "+ Add more" : "+ Add date"}
-            </UploadText>
-            <Error>{error}</Error>
-          </>
+          {!readOnly && (
+            <>
+              <UploadText
+                style={{
+                  marginTop: "20px",
+                  display: "block",
+                }}
+                onClick={handleAddMoreRanges}
+              >
+                {availableDates.length > 0 ? "+ Add more" : "+ Add date"}
+              </UploadText>
+              <Error>{error}</Error>
+            </>
+          )}
         </Col>
       </Row>
     );

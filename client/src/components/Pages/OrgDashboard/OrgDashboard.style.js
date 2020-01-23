@@ -132,6 +132,15 @@ export const Card = styled.div`
   min-height: 84px;
 `;
 
+export const BlueLink1 = styled(Link)`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+`;
 export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-family: Roboto;
   font-style: normal;

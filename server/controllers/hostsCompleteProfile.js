@@ -97,6 +97,7 @@ module.exports = async (req, res, next) => {
     accommodationChecklist,
     neighbourhoodDescription,
     otherInfo,
+    hometown,
   };
 
   try {

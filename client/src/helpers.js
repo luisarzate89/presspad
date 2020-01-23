@@ -37,9 +37,7 @@ export const getDateRangeFromArray = datesArray => {
  * return the time in words eg. 5 minutes ago, few seconds ago
  * @param {Date} time moment time
  */
-export const getStringTime = time => {
-  return moment(time).fromNow();
-};
+export const getStringTime = time => moment(time).fromNow();
 
 /**
  * calculate the price giving range of dates
@@ -47,7 +45,8 @@ export const getStringTime = time => {
  */
 export const calculatePrice = range => {
   if (!range) return 0;
-  let weeks, days;
+  let weeks;
+  let days;
   if (typeof range === "number") {
     weeks = Math.trunc(range / 7);
     days = range % 7;
@@ -88,7 +87,7 @@ const filterFields = {
   amount: 1,
   bankName: 1,
   accountNumber: 1,
-  bankSortCode: 1
+  bankSortCode: 1,
 };
 
 /**
@@ -144,3 +143,10 @@ export const titleCase = str =>
     .split(" ")
     .map(capitalizeFirstLetter)
     .join(" ");
+
+export const wordLengthValidator = (length, field) => value => {
+  if (value.split(" ").length <= length) {
+    return value;
+  }
+  throw new Error(`${field} length must be less than or equal ${length} words`);
+};
