@@ -46,8 +46,8 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   padding-top: 1rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: ${({ justfyContent }) => justfyContent || "start"};
+  align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
 export const HeaderDiv = styled.div`

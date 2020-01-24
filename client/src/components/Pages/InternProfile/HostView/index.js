@@ -1,11 +1,12 @@
+/* eslint-disable global-require */
 import React, { Component } from "react";
 import { Spin, Icon, message } from "antd";
 import axios from "axios";
 import moment from "moment";
 
-import { API_INTERN_PROFILE_URL } from "./../../../../constants/apiRoutes";
+import { API_INTERN_PROFILE_URL } from "../../../../constants/apiRoutes";
 
-//styles
+// styles
 import {
   Wrapper,
   LinkDiv,
@@ -19,63 +20,51 @@ import {
   SubHeadline,
   ParagraphHeadline,
   Paragraph,
-  Card
+  Card,
 } from "../../../Common/Profile/Profiles.style";
 
 import {
   MainSection,
   MoreAboutSection,
   BioSection,
-  JobTitle,
   ProfilePicDiv,
   SymbolDiv,
   Symbol,
   SymbolHeadline,
   SymbolContainer,
   IconDiv,
-  BioContainer,
   AboutSection,
   AboutSectionDataContainer,
   AboutSectionDataRow,
-  AboutSectionDataCell
+  AboutSectionDataCell,
 } from "./HostView.style";
 
 import {
   useReasonQuestion,
   issueQuestion,
   storyQuestion,
-  mentorDescribeQuestion
+  mentorDescribeQuestion,
 } from "./questions.json";
 
 import "antd/dist/antd.css";
 
-import referIcon from "./../../../../assets/refer.svg";
-import verifiedIcon from "./../../../../assets/verified.svg";
+import referIcon from "../../../../assets/refer.svg";
+import verifiedIcon from "../../../../assets/verified.svg";
 
 class HostView extends Component {
   state = {
     isLoading: true,
-    moneyGoTo: "host",
     internData: null,
-    reviews: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { id: internId } = this.props.match.params;
     axios
-      .get(
-        `${API_INTERN_PROFILE_URL.replace(
-          ":id",
-          internId
-        )}?expand=bookings&expand=reviews`
-      )
-      .then(({ data }) => {
-        const { internData, reviews, nextBooking } = data;
+      .get(`${API_INTERN_PROFILE_URL.replace(":id", internId)}`)
+      .then(({ data: internData }) => {
         this.setState({
           isLoading: false,
           internData,
-          reviews,
-          nextBooking
         });
       })
       .catch(err => {
@@ -95,30 +84,23 @@ class HostView extends Component {
 
     const { internData } = this.state;
 
-    const { name, profile } = internData;
-
     const {
-      bio,
-      jobTitle,
-      profileImage,
-      verified,
-      organisation,
-      gender,
+      name,
       birthDate,
+      profileImage,
+      bio,
+      school,
       hometown,
-      university: school,
-      areaOfInterest,
+      interests: areaOfInterest,
+      gender,
+      organisation,
       useReasonAnswer,
       issueAnswer,
       storyAnswer,
       mentorDescribeAnswer,
-      reference1,
-      reference2
-    } = profile;
-
-    const referencesLength =
-      ((reference1 && reference1.name && 1) || 0) +
-      ((reference2 && reference2.name && 1) || 0);
+      verified,
+      referencesNum,
+    } = internData;
 
     return (
       <Wrapper>
@@ -133,12 +115,10 @@ class HostView extends Component {
             </BackLink>
           </BackLinkDiv>
         </LinkDiv>
-        {/* Header */}
-        <Header flex>
+        <Header>
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeaderDiv>
             <Headline>{name}</Headline>
-            <JobTitle>{jobTitle}</JobTitle>
             <SymbolDiv>
               {verified ? (
                 <SymbolContainer>
@@ -154,18 +134,14 @@ class HostView extends Component {
 
               <SymbolContainer>
                 <Symbol src={referIcon} />
-                <SymbolHeadline>{referencesLength} References</SymbolHeadline>
+                <SymbolHeadline>{referencesNum} References</SymbolHeadline>
                 <IconDiv>
                   <Icon type="info-circle" />
                 </IconDiv>
               </SymbolContainer>
             </SymbolDiv>
-            <BioContainer>
-              <Paragraph>{bio}</Paragraph>
-            </BioContainer>
           </HeaderDiv>
         </Header>
-        {/* Main section */}
         <MainSection>
           <AboutSection>
             <Card mt="30px" mh="450px">
