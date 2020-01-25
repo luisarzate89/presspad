@@ -54,6 +54,7 @@ export default {
     label: "Bio",
     name: "bio",
     requiredForHost: true,
+    placeholder: "No more than 250 words",
   },
   // intern + host
   organisation: {

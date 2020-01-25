@@ -63,6 +63,7 @@ class App extends Component {
           });
         });
     }
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {

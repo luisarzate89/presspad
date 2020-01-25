@@ -1,3 +1,5 @@
 {
   "eslint.workingDirectories": ["client","server"],
+  "prettier.trailingComma": "all",
+  "editor.formatOnSave": true
 }

@@ -47,9 +47,9 @@ module.exports = {
       "error",
       {
         trailingComma: "all",
-        singleQuote: false
+        singleQuote: false,
       }
-    ]
+    ],
   },
   plugins: ["react", "prettier"]
 };
