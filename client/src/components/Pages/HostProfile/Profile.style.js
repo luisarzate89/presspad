@@ -80,6 +80,10 @@ export const ProfilePic = styled.img`
   object-fit: cover;
   object-position: center center;
   ${props => !props.adminView && blurPic}
+  @media (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 export const Address = styled.h3`

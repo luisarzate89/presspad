@@ -16,12 +16,12 @@ import {
   getDiscountDays,
   calculatePrice,
   createInstallments,
-  getFirstUnpaidInstallment
+  getFirstUnpaidInstallment,
 } from "./helpers";
 
 import {
   API_GET_BOOKING_URL,
-  API_COUPON_URL
+  API_COUPON_URL,
 } from "../../../constants/apiRoutes";
 import { Error404, Error500 } from "../../../constants/navRoutes";
 
@@ -29,7 +29,7 @@ import {
   PageWrapper,
   SectionWrapperContent,
   SectionTitle,
-  BlueLink
+  BlueLink,
 } from "../../Common/general";
 import {
   Header,
@@ -39,16 +39,16 @@ import {
   Address,
   Symbol,
   ParagraphHeadline,
-  Paragraph
+  Paragraph,
 } from "../../Common/Profile/Profiles.style";
 
 import {
   AboutSectionDataContainer,
   AboutSectionDataRow,
-  AboutSectionDataCell
+  AboutSectionDataCell,
 } from "../InternProfile/HostView/HostView.style";
 
-import starSign from "./../../../assets/star-sign-symbol.svg";
+import starSign from "../../../assets/star-sign-symbol.svg";
 
 export default class BookingView extends Component {
   state = {
@@ -57,7 +57,7 @@ export default class BookingView extends Component {
     newInstallments: [],
     listing: {
       userProfile: { organisation: {}, profileImage: {} },
-      photos: []
+      photos: [],
     },
     bookingInfo: {},
     couponInfo: {
@@ -66,12 +66,12 @@ export default class BookingView extends Component {
       discountRate: 0,
       couponDiscount: 0,
       isCouponLoading: null,
-      error: ""
+      error: "",
     },
     coupons: [],
     payNow: false,
     upfront: true,
-    isLoading: null
+    isLoading: null,
   };
 
   async componentDidMount() {
@@ -79,7 +79,7 @@ export default class BookingView extends Component {
     this.setState({ isLoading: true, role });
     const getBookingUrl = API_GET_BOOKING_URL.replace(
       ":id",
-      this.props.match.params.id
+      this.props.match.params.id,
     );
     try {
       const {
@@ -95,9 +95,9 @@ export default class BookingView extends Component {
             endDate,
             coupons,
             intern: internId,
-            _id: bookingId
-          }
-        }
+            _id: bookingId,
+          },
+        },
       } = await axios.get(getBookingUrl);
       const checklistObj = checkList.reduce((acc, curr) => {
         acc[curr._id] = { ...curr };
@@ -115,10 +115,10 @@ export default class BookingView extends Component {
           startDate,
           endDate,
           internId,
-          bookingId
+          bookingId,
         },
         coupons,
-        isLoading: false
+        isLoading: false,
       });
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -137,19 +137,19 @@ export default class BookingView extends Component {
   handleChecklistChange = async e => {
     const {
       dataset: { id },
-      checked
+      checked,
     } = e.target;
 
     const { checklistObj } = this.state;
     try {
       await axios.patch(`/api/checkilsts/answers/${id}`, {
-        isChecked: checked
+        isChecked: checked,
       });
       this.setState({
         checklistObj: {
           ...checklistObj,
-          [id]: { ...checklistObj[id], isChecked: checked }
-        }
+          [id]: { ...checklistObj[id], isChecked: checked },
+        },
       });
     } catch (err) {
       message.destroy();
@@ -166,8 +166,8 @@ export default class BookingView extends Component {
           isCouponLoading: false,
           couponDiscount: 0,
           couponCode: "",
-          error: ""
-        }
+          error: "",
+        },
       });
     }
     // only send requests if the code is valid
@@ -178,7 +178,7 @@ export default class BookingView extends Component {
       code.length > 14
     ) {
       this.setState({
-        couponInfo: { ...this.state.couponInfo, couponCode: code }
+        couponInfo: { ...this.state.couponInfo, couponCode: code },
       });
     } else {
       this.setState(
@@ -187,26 +187,26 @@ export default class BookingView extends Component {
             ...this.state.couponInfo,
             couponCode: code,
             isCouponLoading: true,
-            error: false
-          }
+            error: false,
+          },
         },
         async () => {
           try {
             const {
               data: {
-                data: [couponInfo]
-              }
+                data: [couponInfo],
+              },
             } = await axios.get(`${API_COUPON_URL}?code=${code}`);
 
             const {
               startDate: couponStart,
               endDate: couponEnd,
               discountRate,
-              usedDays
+              usedDays,
             } = couponInfo;
 
             const {
-              bookingInfo: { startDate, endDate }
+              bookingInfo: { startDate, endDate },
             } = this.state;
 
             const { discountDays } = getDiscountDays({
@@ -214,7 +214,7 @@ export default class BookingView extends Component {
               bookingEnd: endDate,
               couponStart,
               couponEnd,
-              usedDays
+              usedDays,
             });
             this.setState(prevState => {
               const newCouponState = {
@@ -224,7 +224,7 @@ export default class BookingView extends Component {
                 couponDiscount:
                   (calculatePrice(discountDays) * discountRate) / 100,
                 isCouponLoading: false,
-                error: false
+                error: false,
               };
               if (discountDays === 0) {
                 newCouponState.error =
@@ -242,16 +242,17 @@ export default class BookingView extends Component {
                 ...this.state.couponInfo,
                 isCouponLoading: false,
                 error: errorMsg,
-                couponDiscount: 0
-              }
+                couponDiscount: 0,
+              },
             });
           }
-        }
+        },
       );
     }
   };
 
   handlePayNowClick = payNow => this.setState({ payNow });
+
   handlePaymentMethod = upfront => this.setState({ upfront });
 
   render() {
@@ -268,8 +269,8 @@ export default class BookingView extends Component {
           user,
           school,
           hometown,
-          gender
-        }
+          gender,
+        },
       },
       checklistObj,
       installments,
@@ -279,7 +280,7 @@ export default class BookingView extends Component {
       bookingInfo,
       payNow,
       upfront,
-      role
+      role,
     } = this.state;
     const name = user && user[0] && user[0].name;
 
@@ -305,7 +306,7 @@ export default class BookingView extends Component {
         netAmount,
         startDate,
         endDate,
-        upfront
+        upfront,
       );
     }
 
@@ -328,8 +329,14 @@ export default class BookingView extends Component {
           />
         </Elements>
         <Header>
-          <Row type="flex" style={{ justifyContent: "space-between" }}>
-            <div style={{ display: "flex", width: "80%" }}>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", width: "90%" }}>
               <ProfilePicDiv
                 src={(profileImage && profileImage.url) || randomProfile}
                 onError={e => (e.target.src = randomProfile)}
@@ -340,21 +347,21 @@ export default class BookingView extends Component {
                   {name}
                   <span>
                     {(jobTitle || organisation) &&
-                      ` (A ${jobTitle ? jobTitle : "_"} at ${
-                        organisation ? organisation.name : "_"
-                      })`}
+                      ` - A ${jobTitle || "_"} at ${
+                      organisation ? organisation.name : "_"
+                      }`}
                   </span>
                 </Headline>
 
                 <Address>
                   {address &&
-                    `${address.street ? address.street + ", " : ""}
+                    `${address.street ? `${address.street}, ` : ""}
                 ${address.city ? address.city : ""}`}
                 </Address>
               </HeaderDiv>
             </div>
             {badge && <Symbol src={starSign} />}
-          </Row>
+          </div>
         </Header>
         <ListingGallery {...listingPhotos} isLoading={isLoading} />
         <Row gutter={24}>
@@ -467,14 +474,14 @@ export default class BookingView extends Component {
                     newInstallments,
                     isLoading,
                     ...bookingInfo,
-                    couponInfo
+                    couponInfo,
                   }}
                   role={role}
                 />
               </>
             ) : (
-              ""
-            )}
+                ""
+              )}
           </Col>
           <Col lg={8} md={10} sm={24}>
             <BookingInfo
@@ -486,7 +493,7 @@ export default class BookingView extends Component {
                 installments,
                 firstUnpaidInstallment,
                 coupons,
-                couponDiscount: couponInfo.couponDiscount
+                couponDiscount: couponInfo.couponDiscount,
               }}
               role={role}
             />

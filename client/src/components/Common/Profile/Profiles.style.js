@@ -46,29 +46,40 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   padding-top: 1rem;
   display: flex;
-  justify-content: ${({ justfyContent }) => justfyContent || "start"};
-  align-items: ${({ alignItems }) => alignItems || "start"};
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
+  align-items: ${({ alignItems }) => alignItems || "center"};
 `;
 
 export const HeaderDiv = styled.div`
   margin-left: 1rem;
   text-align: left;
 
-  @media (max-width: 575.98px) {
+  @media (max-width: 600px) {
     height: auto;
     width: 100%;
     margin-left: 0px;
     text-align: center;
+    padding: 0 0.5rem 0 0.8rem;
+    text-align: left;
   }
 `;
 
 export const Headline = styled.h1`
   font-weight: 900;
-  font-size: 30px;
-  color: ${colors.fontPrimary};
+  font-size: 1.9rem;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  color: ${colors.fontBlack};
+  margin-bottom: 0;
   span {
     font-weight: 500;
     font-size: 26px;
+    @media (max-width: 600px) {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 600px) {
+    font-size: 1.3rem;
   }
 `;
 
@@ -179,6 +190,11 @@ export const ProfilePicDiv = styled.div`
   background-size: cover;
   background-image: url(${({ src }) => src});
   ${props => !props.adminView && blurPic};
+
+  @media (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 export const Address = styled.h3`
