@@ -40,6 +40,7 @@ import {
   Symbol,
   ParagraphHeadline,
   Paragraph,
+  ShowMoreSection,
 } from "../../Common/Profile/Profiles.style";
 
 import {
@@ -347,9 +348,9 @@ export default class BookingView extends Component {
                   {name}
                   <span>
                     {(jobTitle || organisation) &&
-                      ` - A ${jobTitle || "_"} at ${
+                      ` (A ${jobTitle || "_"} at ${
                       organisation ? organisation.name : "_"
-                      }`}
+                      })`}
                   </span>
                 </Headline>
 
@@ -437,13 +438,13 @@ export default class BookingView extends Component {
                   )}
                 </AboutSectionDataContainer>
               </SectionWrapperContent>
-              <Row type="flex" style={{ marginBottom: "2rem" }}>
+              <ShowMoreSection>
                 <DisabledPopOver>
                   <BlueLink to="#">Show other Info</BlueLink>
                 </DisabledPopOver>
                 <DisabledPopOver>
                   <BlueLink marginl="3rem" to="#">
-                    Show pressPad offer
+                    Show PressPad offer
                   </BlueLink>
                 </DisabledPopOver>
                 <DisabledPopOver>
@@ -451,7 +452,7 @@ export default class BookingView extends Component {
                     Show Reviews
                   </BlueLink>
                 </DisabledPopOver>
-              </Row>
+              </ShowMoreSection>
             </section>
             {role === "host" && (
               <BookingRequestSection

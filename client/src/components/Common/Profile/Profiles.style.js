@@ -261,3 +261,33 @@ export const SubImage = styled.div`
   background-position: center center;
   background-image: url(${({ src }) => src});
 `;
+
+export const ShowMoreSection = styled.div`
+  display: flex;
+  margin: 0 auto;
+  margin-top: 2rem;
+  width: 90%;
+  justify-content: space-between;
+
+  @media (max-width: 900px) {
+    width: 100%;
+
+    a {
+      margin: 0;
+      padding: 0.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
+
+    div {
+      width: 100%;
+    }
+
+    a {
+      padding: 1rem;
+    }
+  }
+`;
