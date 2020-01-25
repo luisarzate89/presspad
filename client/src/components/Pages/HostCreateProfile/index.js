@@ -1,24 +1,89 @@
-import React, { Component } from "react";
-
+import { Alert, message, Modal } from "antd";
 import axios from "axios";
-import { Modal, Alert, message } from "antd";
-import Content from "./Content";
+import React, { Component } from "react";
 import {
   API_HOST_COMPLETE_PROFILE,
-  DASHBOARD_URL,
   API_MY_PROFILE_URL,
+  DASHBOARD_URL,
 } from "../../../constants/apiRoutes";
-
+import Content from "./Content";
 import {
-  disabledStartDate,
-  disabledEndDate,
   checkSelectedRange,
+  disabledEndDate,
+  disabledStartDate,
   getValidDAtes,
 } from "./helpers";
+import { detailsSchema, offerSchema, profileSchema } from "./Schema";
+
+const INITIAL_STATE = {
+  birthDate: null,
+  hometown: null,
+  gender: null,
+  school: null,
+  profileImage: {
+    fileName: null,
+    isPrivate: false,
+  },
+  interests: null,
+  bio: null,
+  jobTitle: null,
+  organisation: null,
+  workingArea: null,
+  hostingReasonAnswer: null,
+  mentoringExperienceAnswer: null,
+  industryExperienceAnswer: null,
+  backgroundAnswer: null,
+  photos1: {
+    fileName: null,
+    isPrivate: false,
+  },
+  photos2: {
+    fileName: null,
+    isPrivate: false,
+  },
+  photos3: {
+    fileName: null,
+    isPrivate: false,
+  },
+  address: null,
+  accommodationChecklist: null,
+  neighbourhoodDescription: null,
+  otherInfo: null,
+  photoID: {
+    fileName: null,
+    isPrivate: true,
+    url: null,
+  },
+  hearAboutPressPadAnswer: null,
+  reference1: {
+    name: null,
+    email: null,
+  },
+  reference2: {
+    name: null,
+    email: null,
+  },
+  DBSCheck: {
+    fileName: null,
+    isPrivate: true,
+  },
+  pressCard: {
+    fileName: null,
+    isPrivate: false,
+  },
+  sexualOrientation: null,
+  degreeLevel: null,
+  ethnicity: null,
+  earningOfParents: null,
+  disability: null,
+  parentsWorkInPress: null,
+  caringResponsibilities: null,
+};
+const TABS = { PROFILE: "Profile", OFFER: "Offer", DETAILS: "Details" };
 
 export default class HostCreateProfile extends Component {
   state = {
-    activeKey: "Profile",
+    activeKey: TABS.PROFILE,
     availableDates: [
       {
         startDate: null,
@@ -26,133 +91,9 @@ export default class HostCreateProfile extends Component {
         endOpen: false,
       },
     ],
-    data: {
-      birthDate: null,
-      hometown: null,
-      gender: null,
-      school: null,
-      profileImage: {
-        fileName: null,
-        isPrivate: false,
-      },
-      interests: null,
-      bio: null,
-      jobTitle: null,
-      organisation: null,
-      workingArea: null,
-      hostingReasonAnswer: null,
-      mentoringExperienceAnswer: null,
-      industryExperienceAnswer: null,
-      backgroundAnswer: null,
-      photos1: {
-        fileName: null,
-        isPrivate: false,
-      },
-      photos2: {
-        fileName: null,
-        isPrivate: false,
-      },
-      photos3: {
-        fileName: null,
-        isPrivate: false,
-      },
-      address: null,
-      accommodationChecklist: [],
-      neighbourhoodDescription: null,
-      otherInfo: null,
-      photoID: {
-        fileName: null,
-        isPrivate: true,
-        url: null,
-      },
-      hearAboutPressPadAnswer: null,
-      reference1: {
-        name: null,
-        email: null,
-      },
-      reference2: {
-        name: null,
-        email: null,
-      },
-      DBSCheck: {
-        fileName: null,
-        isPrivate: true,
-      },
-      pressCard: {
-        fileName: null,
-        isPrivate: false,
-      },
-      sexualOrientation: null,
-      degreeLevel: null,
-      ethnicity: null,
-      earningOfParents: null,
-      disability: null,
-      parentsWorkInPress: null,
-      caringResponsibilities: null,
-    },
-    errors: {
-      birthDate: null,
-      hometown: null,
-      gender: null,
-      school: null,
-      profileImage: {
-        fileName: null,
-        isPrivate: false,
-      },
-      interests: null,
-      bio: null,
-      jobTitle: null,
-      organisation: null,
-      workingArea: null,
-      hostingReasonAnswer: null,
-      mentoringExperienceAnswer: null,
-      industryExperienceAnswer: null,
-      backgroundAnswer: null,
-      photos1: {
-        fileName: null,
-        isPrivate: false,
-      },
-      photos2: {
-        fileName: null,
-        isPrivate: false,
-      },
-      photos3: {
-        fileName: null,
-        isPrivate: false,
-      },
-      address: null,
-      accommodationChecklist: null,
-      neighbourhoodDescription: null,
-      otherInfo: null,
-      photoID: {
-        fileName: null,
-        isPrivate: false,
-      },
-      hearAboutPressPadAnswer: null,
-      reference1: {
-        name: null,
-        email: null,
-      },
-      reference2: {
-        name: null,
-        email: null,
-      },
-      DBSCheck: {
-        fileName: null,
-        isPrivate: true,
-      },
-      pressCard: {
-        fileName: null,
-        isPrivate: false,
-      },
-      sexualOrientation: null,
-      degreeLevel: null,
-      ethnicity: null,
-      earningOfParents: null,
-      disability: null,
-      parentsWorkInPress: null,
-      caringResponsibilities: null,
-    },
+    validData: {},
+    data: INITIAL_STATE,
+    errors: INITIAL_STATE,
   };
 
   componentDidMount() {
@@ -193,18 +134,20 @@ export default class HostCreateProfile extends Component {
 
   handleChange = ({ value, key, parent }) => {
     if (parent) {
-      this.setState(prevState => ({
+      this.setState(({ data, errors }) => ({
         data: {
-          ...prevState.data,
-          [parent]: { ...prevState.data[parent], [key]: value },
+          ...data,
+          [parent]: { ...data[parent], [key]: value },
         },
+        errors: { ...errors, [parent]: { ...errors[parent], [key]: null } },
       }));
     } else {
-      this.setState(prevState => ({
+      this.setState(({ data, errors }) => ({
         data: {
-          ...prevState.data,
+          ...data,
           [key]: value,
         },
+        errors: { ...errors, [key]: null },
       }));
     }
   };
@@ -227,17 +170,61 @@ export default class HostCreateProfile extends Component {
     }
   };
 
-  onChangeTabs = activeKey => {
-    // TODO: run validation
-    this.setState({ activeKey });
+  handleValidationError = ({ inner }) => {
+    const newErrors = {};
+    inner.forEach(({ path, message: errorMessage }) => {
+      if (path.includes(".")) {
+        const [parent, childrenPath] = path.split(".");
+        newErrors[path] = newErrors[path] || {};
+        newErrors[parent] = {
+          ...newErrors[parent],
+          [childrenPath]: errorMessage,
+        };
+      } else {
+        newErrors[path] = errorMessage;
+      }
+    });
+    return newErrors;
   };
 
-  handleSubmit = () => {
+  onChangeTabs = async newKey => {
     // TODO: run validation
+    const { activeKey, data, availableDates } = this.state;
+    if (newKey === TABS.DETAILS && activeKey !== TABS.OFFER) return;
+    try {
+      if (activeKey === TABS.PROFILE)
+        await profileSchema.validate({ ...data }, { abortEarly: false });
+      if (activeKey === TABS.OFFER && newKey !== TABS.PROFILE)
+        await offerSchema.validate(
+          { ...data, availableDates },
+          { abortEarly: false },
+        );
+      this.setState({ activeKey: newKey });
+    } catch (e) {
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+    }
+  };
+
+  handleSubmit = async () => {
+    // TODO: run validation
+    try {
+      await detailsSchema.validate(
+        { ...this.state.data },
+        { abortEarly: false },
+      );
+    } catch (e) {
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+      return;
+    }
     const {
       data: { photos1, photos2, photos3 },
       availableDates,
     } = this.state;
+
     const photos = [
       { fileName: photos1.fileName, isPrivate: false },
       { fileName: photos2.fileName, isPrivate: false },
