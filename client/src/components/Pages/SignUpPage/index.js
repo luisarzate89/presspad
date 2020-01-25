@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   API_SIGNUP_URL,
   API_GET_ORGS_URL,
-  DASHBOARD_URL
+  DASHBOARD_URL,
 } from "./../../../constants/apiRoutes";
 
 import USER_TYPES from "./../../../constants/userTypes";
@@ -13,7 +13,7 @@ import USER_TYPES from "./../../../constants/userTypes";
 import {
   HOST_COMPLETE_PROFILE_URL,
   INTERN_COMPLETE_PROFILE_URL,
-  Error500
+  Error500,
 } from "./../../../constants/navRoutes";
 
 import SignUp from "./SignUp";
@@ -25,7 +25,7 @@ export default class SignUpPage extends Component {
     msg: null,
     userType: null,
     existingOrgs: [],
-    isLoading: false
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -33,6 +33,8 @@ export default class SignUpPage extends Component {
     this.setState({ userType });
 
     userType === "organisation" && this.getAllOrgs();
+
+    window.scrollTo(0, 0);
   }
 
   // host checkbox function
@@ -40,7 +42,7 @@ export default class SignUpPage extends Component {
     const { fields } = this.state;
     fields[e.target.name] = e.target.checked;
     this.setState({
-      fields
+      fields,
     });
   };
 
@@ -53,7 +55,7 @@ export default class SignUpPage extends Component {
         const orgNames = orgs.data.map(organisation => {
           return {
             name: organisation.name,
-            email: organisation.orgDetails.email
+            email: organisation.orgDetails.email,
           };
         });
         this.setState({ existingOrgs: orgNames });
@@ -69,7 +71,8 @@ export default class SignUpPage extends Component {
     const { organisation } = fields;
 
     const matchedOrg = existingOrgs.filter(
-      org => org.name.toLowerCase().trim() === organisation.toLowerCase().trim()
+      org =>
+        org.name.toLowerCase().trim() === organisation.toLowerCase().trim(),
     );
 
     return matchedOrg;
@@ -79,7 +82,7 @@ export default class SignUpPage extends Component {
     const { fields } = this.state;
     fields[e.target.name] = e.target.value;
     this.setState({
-      fields
+      fields,
     });
 
     if (["password", "password2"].includes(e.target.name))
@@ -94,8 +97,12 @@ export default class SignUpPage extends Component {
     // regex for password validation
     const pattern = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/g);
 
-    if (!pattern.test(fields.password)) {
+    if (fields.password && fields.password.length < 8) {
       errors.passwordError = "Password is too short.";
+      formIsValid = false;
+    } else if (!pattern.test(fields.password)) {
+      errors.passwordError =
+        "Password requires 8 characters including at least 1 uppercase character and 1 number.";
       formIsValid = false;
     } else if (fields.password !== fields.password2) {
       errors.password2Error = "Passwords do not match.";
@@ -103,7 +110,7 @@ export default class SignUpPage extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return formIsValid;
@@ -133,16 +140,14 @@ export default class SignUpPage extends Component {
       const matchedOrg = this.checkOrg(fields.organisation);
       if (matchedOrg.length > 0) {
         formIsValid = false;
-        errors.organisationError = `* ${
-          matchedOrg[0].name
-        } already has an account created by ${matchedOrg[0].email}`;
+        errors.organisationError = `* ${matchedOrg[0].name} already has an account created by ${matchedOrg[0].email}`;
       }
     }
 
     if (typeof fields.email !== "undefined") {
       // regular expression for email validation
       const pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i,
       );
       if (!pattern.test(fields.email)) {
         formIsValid = false;
@@ -152,12 +157,16 @@ export default class SignUpPage extends Component {
 
     // regex for password validation
     const passwordPattern = new RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/g
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/g,
     );
 
-    if (!passwordPattern.test(fields.password)) {
+    if (fields.password && fields.password.length < 8) {
+      errors.passwordError = "Password is too short.";
       formIsValid = false;
-      errors.passwordError = "Password is too short";
+    } else if (!passwordPattern.test(fields.password)) {
+      errors.passwordError =
+        "Password requires 8 characters including at least 1 uppercase character and 1 number.";
+      formIsValid = false;
     }
 
     if (fields.password !== fields.password2) {
@@ -173,7 +182,7 @@ export default class SignUpPage extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return formIsValid;
@@ -206,9 +215,9 @@ export default class SignUpPage extends Component {
           if (err.response.data.error.includes("Email")) {
             this.setState({
               errors: {
-                emailError: err.response.data.error
+                emailError: err.response.data.error,
               },
-              isLoading: false
+              isLoading: false,
             });
           } else
             this.setState({ msg: err.response.data.error, isLoading: false });

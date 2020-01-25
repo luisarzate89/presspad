@@ -1,11 +1,13 @@
 import React from "react";
 import { Input, Checkbox } from "antd";
-import { Link } from "react-router-dom";
 // COMMON COMPONENTS
 import Button from "./../../Common/Button";
 
 import USER_TYPES from "./../../../constants/userTypes";
-import { TERMS_CONDITIONS, PRIVACY_POLICY } from "../../../constants/navRoutes";
+import {
+  TERMS_CONDITIONS,
+  PRIVACY_POLICY,
+} from "../../../constants/externalLinks";
 
 // STYLING
 import {
@@ -19,7 +21,7 @@ import {
   ButtonWrapper,
   Disclaimer,
   DisclaimerText,
-  DisclaimerWrapper
+  DisclaimerWrapper,
 } from "./SignUpPage.style";
 
 export default props => {
@@ -31,7 +33,7 @@ export default props => {
     onFormSubmit,
     onCheckboxChange,
     userType,
-    isLoading
+    isLoading,
   } = props;
   const { email, password, password2, name, organisation, checkbox } = fields;
   const {
@@ -40,7 +42,7 @@ export default props => {
     organisationError,
     passwordError,
     password2Error,
-    disclaimerError
+    disclaimerError,
   } = errors;
 
   return (
@@ -137,11 +139,21 @@ export default props => {
               />
               <DisclaimerText>
                 By signing up, I agree to the
-                <Link to={TERMS_CONDITIONS}>
+                <a
+                  href={TERMS_CONDITIONS}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   &nbsp;Terms & Conditions&nbsp;
-                </Link>
+                </a>
                 and PressPad
-                <Link to={PRIVACY_POLICY}>&nbsp;Privacy Policy</Link>
+                <a
+                  href={PRIVACY_POLICY}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  &nbsp;Privacy Policy
+                </a>
               </DisclaimerText>
             </Disclaimer>
           </DisclaimerWrapper>
