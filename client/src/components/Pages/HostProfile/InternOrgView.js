@@ -49,7 +49,7 @@ import "antd/dist/antd.css";
 import starSign from "../../../assets/star-sign-symbol.svg";
 import profilePlaceholder from "../../../assets/random-profile.jpg";
 
-export default class HostProfile extends Component {
+export default class InternView extends Component {
   state = {
     isLoading: true,
     profileData: null,

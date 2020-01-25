@@ -1,8 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-// import HostView from "./old_index";
-import InternView from "./InternView";
+import HostView from "./HostView";
+import InternOrgView from "./InternOrgView";
 import AdminView from "./AdminView";
 
 export default function HostProfile(props) {
@@ -10,10 +10,11 @@ export default function HostProfile(props) {
   switch (role) {
     case "admin":
       return <AdminView {...props} />;
+    case "organisation":
     case "intern":
-      return <InternView {...props} />;
+      return <InternOrgView {...props} />;
     case "host":
-      return <h1>HOST_PROFILE -- Host View (MY PROFILE)</h1>;
+      return <HostView {...props} />;
     default:
       return <Redirect to="/404" />;
   }
