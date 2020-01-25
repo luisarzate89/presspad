@@ -64,21 +64,21 @@ const profileSchema = new Schema(
     emergencyContact: {
       name: {
         type: String,
-        required: true,
+        required: false,
       },
       email: {
         type: String,
-        required: true,
+        required: false,
       },
       phoneNumber: {
         type: String,
-        required: true,
+        required: false,
       },
     },
     DBSCheck: {
       fileName: {
         type: String,
-        required: true,
+        required: false,
       },
       isPrivate: {
         type: Boolean,
@@ -205,7 +205,7 @@ const profileSchema = new Schema(
     pressCard: {
       fileName: {
         type: String,
-        required: true,
+        required: false,
       },
       isPrivate: {
         type: Boolean,

@@ -5,7 +5,6 @@ const {
   createNewProfile,
 } = require("./../../database/queries/profiles");
 
-
 module.exports = async (req, res, next) => {
   const { user } = req;
   const { profileImage, bio } = req.body;
@@ -18,6 +17,7 @@ module.exports = async (req, res, next) => {
   try {
     const profileData = {
       user: user._id,
+      verified: true,
     };
 
     Object.entries(req.body).forEach(([key, value]) => {
