@@ -30,8 +30,8 @@
   "scripts": {
     "start": "node ./server/index.js",
     "dev": "concurrently --kill-others-on-fail \"cd client && npm start\" \"nodemon ./server/index.js\"",
-    "server":"nodemon server",
-    "client":"cd client && npm start", 
+    "server": "nodemon server",
+    "client": "cd client && npm start",
     "client:init": "cd client && npm i",
     "build": "cd client && npm run build",
     "init:both": "npm i && npm run client:init",

@@ -53,7 +53,18 @@ export default {
   interests: ["option A", "option B"], // waiting for PO to send over
   degreeLevel: ["option A", "option B"], // waiting for PO to send over
   earningOfParents: ["option A", "option B"], // waiting for PO to send over
-  workingArea: ["option A", "option B"],
+  workingArea: [
+    "Publishing",
+    "broadcast",
+    " radio",
+    "TV",
+    "documentary",
+    " print",
+    "online",
+    "social",
+    "magazine",
+    "other",
+  ],
   accommodationChecklist: [
     "Lock on the bathroom door",
     "Lock on the bedroom door",

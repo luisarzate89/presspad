@@ -82,6 +82,17 @@ export default {
     fullHeight: true,
     fullWidth: true,
   },
+
+  storyAnswer: {
+    label: `Tell us a story that shows you have the determination and dedication to enter the journalism and media profession
+    `,
+    type: "textArea",
+    placeholder: "No more than 250 words",
+    max: 250,
+    name: "storyAnswer",
+    fullHeight: true,
+    fullWidth: true,
+  },
   mentorDescribeAnswer: {
     label: `Describe what you are looking for in a mentor as well as your long-term career ambitions`,
     type: "textArea",

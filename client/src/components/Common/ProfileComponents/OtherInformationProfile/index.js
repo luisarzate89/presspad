@@ -58,6 +58,16 @@ const OtherInformation = ({
               {...props}
             />
           </Col>
+
+          <Col xs={24}>
+            <Field
+              {...fields["storyAnswer"]}
+              value={data["storyAnswer"]}
+              error={errors["storyAnswer"]}
+              {...props}
+            />
+          </Col>
+
           <Col xs={24}>
             <Field
               {...fields["mentorDescribeAnswer"]}
