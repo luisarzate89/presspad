@@ -347,9 +347,9 @@ export default class BookingView extends Component {
                   {name}
                   <span>
                     {(jobTitle || organisation) &&
-                      ` (A ${jobTitle || "_"} at ${
-                        organisation ? organisation.name : "_"
-                      })`}
+                      ` - A ${jobTitle || "_"} at ${
+                      organisation ? organisation.name : "_"
+                      }`}
                   </span>
                 </Headline>
 
@@ -480,8 +480,8 @@ export default class BookingView extends Component {
                 />
               </>
             ) : (
-              ""
-            )}
+                ""
+              )}
           </Col>
           <Col lg={8} md={10} sm={24}>
             <BookingInfo
