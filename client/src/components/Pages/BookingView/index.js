@@ -328,10 +328,10 @@ export default class BookingView extends Component {
           />
         </Elements>
         <Header>
-          <Row type="flex" style={{ justifyContent: "space-between" }}>
-            <div style={{ display: "flex", width: "80%" }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", width: "90%" }}>
               <ProfilePicDiv
-                src={(profileImage && profileImage.url) || randomProfile}
+                src={"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"}
                 onError={e => (e.target.src = randomProfile)}
                 adminView={bookingInfo.status === "confirmed"}
               />
@@ -354,7 +354,7 @@ export default class BookingView extends Component {
               </HeaderDiv>
             </div>
             {badge && <Symbol src={starSign} />}
-          </Row>
+          </div>
         </Header>
         <ListingGallery {...listingPhotos} isLoading={isLoading} />
         <Row gutter={24}>
