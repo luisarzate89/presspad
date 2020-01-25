@@ -144,6 +144,8 @@ export default class AdminView extends Component {
               },
               availableDates,
               adminApprovedProfile: profile.verified,
+              adminApprovedProfileLoading: false,
+              profileId: profile._id,
             }));
           }
         },
@@ -156,7 +158,8 @@ export default class AdminView extends Component {
   }
 
   // Admin function - approve/unapprove profile
-  verifyProfile = (profileId, bool) => {
+  verifyProfile = bool => {
+    const { profileId } = this.state;
     this.setState({ adminApprovedProfileLoading: true }, () => {
       axios
         .post(API_VERIFY_PROFILE_URL, { profileId, verify: bool })
@@ -238,37 +241,39 @@ export default class AdminView extends Component {
             <BlueLink onClick={triggerHostView}>
               back to search results
             </BlueLink>
-            <AdminApproveAndRejectButton>
-              {adminApprovedProfile && adminApprovedProfileLoading !== null ? (
-                <Button
-                  label="Unapprove profile"
-                  type="verification"
-                  color="red"
-                  spinnerColor="red"
-                  onClick={() => this.verifyProfile(userId, false)}
-                  loading={adminApprovedProfileLoading}
-                />
-              ) : (
-                <MultipleButtons>
-                  <a href={`mailto:${hostEmail}`}>
-                    <Button
-                      label="Request changes"
-                      type="verification"
-                      color="orange"
-                      margin="0 1rem 0 0"
-                    />
-                  </a>
+            {adminApprovedProfileLoading !== null && (
+              <AdminApproveAndRejectButton>
+                {adminApprovedProfile ? (
                   <Button
-                    label="Approve profile"
+                    label="Unapprove profile"
                     type="verification"
-                    color="green"
-                    spinnerColor="green"
-                    onClick={() => this.verifyProfile(userId, true)}
+                    color="red"
+                    spinnerColor="red"
+                    onClick={() => this.verifyProfile(false)}
                     loading={adminApprovedProfileLoading}
                   />
-                </MultipleButtons>
-              )}
-            </AdminApproveAndRejectButton>
+                ) : (
+                  <MultipleButtons>
+                    <a href={`mailto:${hostEmail}`}>
+                      <Button
+                        label="Request changes"
+                        type="verification"
+                        color="orange"
+                        margin="0 1rem 0 0"
+                      />
+                    </a>
+                    <Button
+                      label="Approve profile"
+                      type="verification"
+                      color="green"
+                      spinnerColor="green"
+                      onClick={() => this.verifyProfile(true)}
+                      loading={adminApprovedProfileLoading}
+                    />
+                  </MultipleButtons>
+                )}
+              </AdminApproveAndRejectButton>
+            )}
           </BackLinkDiv>
           <TabbedView
             activeKey={activeKey}
