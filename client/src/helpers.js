@@ -161,9 +161,6 @@ yup.addMethod(yup.string, "wordLengthValidator", function wordLengthValidator(
 });
 
 export const optionalWordLengthValidator = length => value => {
-  if (value) return yup.string().wordLengthValidator(length);
-  return yup
-    .string()
-    .ensure()
-    .default("");
+  if (value) return yup.string().wordLengthValidator(length); // if it was a fine value check normally
+  return yup.string().ensure(); // this one sets .default('') and coerces null to ''
 };
