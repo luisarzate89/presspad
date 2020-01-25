@@ -52,7 +52,18 @@ module.exports = {
     gender: ["male", "female", "other", "prefer not to say"],
     disability: ["option A", "option B"], // waiting for PO to send over
     interests: ["option A", "option B"], // waiting for PO to send over
-    workingArea: ["option A", "option B"],
+    workingArea: [
+      "Publishing",
+      "broadcast",
+      " radio",
+      "TV",
+      "documentary",
+      " print",
+      "online",
+      "social",
+      "magazine",
+      "other",
+    ],
     accommodationChecklist: [
       "Lock on the bathroom door",
       "Lock on the bedroom door",
