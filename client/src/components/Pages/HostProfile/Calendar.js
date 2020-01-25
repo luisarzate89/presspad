@@ -24,7 +24,7 @@ import {
   ErrorDiv,
 } from "./Calendar.style";
 
-import { INTERN_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
 
 const bookingRequest = (url, data) => axios.post(url, data);
 
@@ -123,7 +123,7 @@ class CalendarComponent extends Component {
       host: hostId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
       endDate: moment(dates[1]).format("YYYY-MM-DD"),
-      price: price,
+      price,
     };
 
     let message = "";
@@ -191,7 +191,7 @@ class CalendarComponent extends Component {
         this.setState({
           isBooking: false,
           messageType: "error",
-          message: message,
+          message,
         });
       }
     }
@@ -243,13 +243,13 @@ class CalendarComponent extends Component {
             locale="en-t-jp"
             maxDetail="month"
             minDetail="month"
-            selectRange={true}
+            selectRange
             formatShortWeekday={(locale, value) =>
               ["S", "M", "T", "W", "T", "F", "S"][moment(value).day()]
             }
           />
         </CalendarWrapper>
-        {role !== "host" && role !== "superhost" && (
+        {role !== "host" && role !== "superhost" && role !== "organisation" && (
           <PricingDiv>
             <PriceHeadline>Full price for period</PriceHeadline>
             <PriceLabel>£{price}</PriceLabel>
@@ -259,6 +259,7 @@ class CalendarComponent extends Component {
                 <Alert message={message} type={messageType} />
               </ErrorDiv>
             )}
+
             <RequestBtn
               onClick={this.handleClick}
               disabled={
@@ -270,7 +271,11 @@ class CalendarComponent extends Component {
                 indicator={
                   <Icon
                     type="loading"
-                    style={{ fontSize: 24, marginRight: "8px", color: "white" }}
+                    style={{
+                      fontSize: 24,
+                      marginRight: "8px",
+                      color: "white",
+                    }}
                     spin
                   />
                 }

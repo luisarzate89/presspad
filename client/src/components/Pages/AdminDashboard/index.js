@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -7,10 +8,10 @@ import { Input, Button, Icon, message } from "antd";
 import ClientTable from "./ClientTable";
 import InternTable from "./InternTable";
 import HostTable from "./HostTable";
-import HostProfile from "../HostProfile/index";
 import PaymentsTable from "./PaymentsTable";
 import SearchBar from "../../Common/SearchBar";
 import InternProfile from "../InternProfile/AdminOrInternView";
+import HostProfile from "../HostProfile";
 
 // STYLING
 import {
@@ -21,7 +22,6 @@ import {
   MenuItem,
   MainSection,
   ContentTitle,
-  ProfileWrapper,
   HostWrapper,
 } from "./AdminDashboard.style";
 
@@ -39,11 +39,16 @@ export default class AdminDashboard extends Component {
     data: [],
     filteredData: [],
     highlightVal: "",
-    hostProfile: false,
     axiosSource: null,
     internView: {
       on: false,
-      internId: null,
+      internId: "",
+    },
+    hostView: {
+      on: false,
+      hostId: "",
+      hostName: "",
+      email: "",
     },
   };
 
@@ -60,6 +65,17 @@ export default class AdminDashboard extends Component {
     });
   };
 
+  triggerHostView = (hostId = "", hostName = "", email = "") => {
+    this.setState(prev => {
+      const newState = { ...prev };
+      newState.hostView.on = !newState.hostView.on;
+      newState.hostView.hostId = hostId;
+      newState.hostView.hostName = hostName;
+      newState.hostView.email = email;
+      return newState;
+    });
+  };
+
   selectSection = section => {
     const { axiosSource } = this.state;
 
@@ -71,9 +87,9 @@ export default class AdminDashboard extends Component {
         loading: true,
         data: [],
         filteredData: [],
-        hostProfile: null,
         axiosSource: axios.CancelToken.source(),
-        internView: { on: false },
+        internView: { on: false, internId: "" },
+        hostView: { on: false, hostId: "" },
       },
       () => {
         const { axiosSource: newAxiosSource } = this.state;
@@ -172,7 +188,6 @@ export default class AdminDashboard extends Component {
 
   hideProfile = () => {
     const { activeLink } = this.state;
-    this.setState({ hostProfile: null });
     this.selectSection(activeLink);
   };
 
@@ -220,8 +235,8 @@ export default class AdminDashboard extends Component {
       loading,
       filteredData,
       highlightVal,
-      hostProfile,
       internView,
+      hostView,
     } = this.state;
 
     return (
@@ -243,13 +258,13 @@ export default class AdminDashboard extends Component {
             </MenuItem>
             <MenuItem
               onClick={() => this.selectSection("hosts")}
-              active={activeLink === "hosts" || hostProfile}
+              active={activeLink === "hosts"}
             >
               Hosts
             </MenuItem>
             <MenuItem
               onClick={() => this.selectSection("payments")}
-              active={activeLink === "payments" || hostProfile} // change here
+              active={activeLink === "payments"} // change here
             >
               Payments
             </MenuItem>
@@ -261,9 +276,17 @@ export default class AdminDashboard extends Component {
             internId={internView.internId}
             triggerInternView={this.triggerInternView}
           />
+        ) : hostView.on ? (
+          <HostProfile
+            {...this.props}
+            hostId={hostView.hostId}
+            hostName={hostView.hostName}
+            hostEmail={hostView.email}
+            triggerHostView={this.triggerHostView}
+          />
         ) : (
           <MainSection>
-            <ContentTitle hide={hostProfile}>Your {activeLink}</ContentTitle>
+            <ContentTitle>Your {activeLink}</ContentTitle>
             <SearchBar
               data={filteredData}
               handleSearchBar={this.handleSearchBar}
@@ -287,17 +310,18 @@ export default class AdminDashboard extends Component {
               />
             )}
             {activeLink === "hosts" && (
-              <HostWrapper hide={hostProfile}>
+              <HostWrapper>
                 <HostTable
                   getColumnSearchProps={this.getColumnSearchProps}
                   loading={loading}
                   data={filteredData}
                   highlightVal={highlightVal}
+                  triggerHostView={this.triggerHostView}
                 />
               </HostWrapper>
             )}
             {activeLink === "payments" && (
-              <HostWrapper hide={hostProfile}>
+              <HostWrapper>
                 <PaymentsTable
                   getColumnSearchProps={this.getColumnSearchProps}
                   loading={loading}
@@ -307,15 +331,6 @@ export default class AdminDashboard extends Component {
                   handleConfirm={this.handleConfirm}
                 />
               </HostWrapper>
-            )}
-            {hostProfile && (
-              <ProfileWrapper>
-                <HostProfile
-                  hostId={hostProfile}
-                  adminView
-                  hideProfile={this.hideProfile}
-                />
-              </ProfileWrapper>
             )}
           </MainSection>
         )}

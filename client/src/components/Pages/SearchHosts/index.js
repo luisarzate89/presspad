@@ -6,12 +6,12 @@ import moment from "moment";
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
-  API_GET_ALL_CETIES_URL
+  API_GET_ALL_CETIES_URL,
 } from "../../../constants/apiRoutes";
 import Button from "../../Common/Button";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
 
 import { TABLET_WIDTH } from "../../../constants/screenWidths";
 
@@ -38,7 +38,7 @@ import {
   DisabledHostResult,
   SignUpPromo,
   SearchButtonDiv,
-  SearchButton
+  SearchButton,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
@@ -46,7 +46,7 @@ export default class index extends Component {
     listings: null,
     hometowns: [],
     searchFields: { hometown: null, startDate: null, endDate: null },
-    errors: {}
+    errors: {},
   };
 
   async componentDidMount() {
@@ -72,7 +72,7 @@ export default class index extends Component {
       .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors
+          errors,
         });
       });
   };
@@ -167,7 +167,7 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return searchIsValid;
@@ -190,7 +190,7 @@ export default class index extends Component {
     if (dates.length > 0) {
       const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY"
+        "Do MMM YYYY",
       );
     }
     return moment(dates).format("Do MMM YYYY");

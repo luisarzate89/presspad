@@ -6,18 +6,13 @@ import Highlighter from "react-highlight-words";
 
 import { tagColors, colors } from "../../../theme";
 
-// import helpers
-import getUserId from "../../../helpers/getUserId";
-
-export default function InternTable(props) {
-  const {
-    getColumnSearchProps,
-    data,
-    loading,
-    highlightVal,
-    triggerInternView,
-  } = props;
-
+export default function InternTable({
+  getColumnSearchProps,
+  data,
+  loading,
+  highlightVal,
+  triggerInternView,
+}) {
   const columns = [
     {
       title: "Name",
@@ -26,12 +21,12 @@ export default function InternTable(props) {
       ...getColumnSearchProps("name"),
       sorter: (a, b) => a.name.localeCompare(b.name),
       className: "nameCol",
-      render: text => (
+      render: (text, { userId }) => (
         <span
           style={{ cursor: "pointer" }}
-          onClick={triggerInternView.bind(null, getUserId(data, text))}
+          onClick={triggerInternView.bind(null, userId)}
           role="button"
-          tabIndex={-1}
+          tabIndex={0}
         >
           <Highlighter
             highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}

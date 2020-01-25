@@ -77,7 +77,7 @@ const filterFields = {
   nextInstallmentDueDate: 1,
 
   // hosts
-  city: 1,
+  hometown: 1,
   hosted: 1,
   totalIncome: 1,
   approvalStatus: 1,
@@ -136,9 +136,10 @@ const _filterArray = (arr, searchVal) =>
 export const filterArray = (array, searchVal) => _filterArray(array, searchVal);
 
 export const capitalizeFirstLetter = str =>
-  str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
+  str && str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
 
 export const titleCase = str =>
+  str &&
   str
     .split(" ")
     .map(capitalizeFirstLetter)
