@@ -48,6 +48,7 @@ export default class AdminDashboard extends Component {
       on: false,
       hostId: "",
       hostName: "",
+      email: "",
     },
   };
 
@@ -64,12 +65,13 @@ export default class AdminDashboard extends Component {
     });
   };
 
-  triggerHostView = (hostId = "", hostName = "") => {
+  triggerHostView = (hostId = "", hostName = "", email = "") => {
     this.setState(prev => {
       const newState = { ...prev };
       newState.hostView.on = !newState.hostView.on;
       newState.hostView.hostId = hostId;
       newState.hostView.hostName = hostName;
+      newState.hostView.email = email;
       return newState;
     });
   };
@@ -279,6 +281,7 @@ export default class AdminDashboard extends Component {
             {...this.props}
             hostId={hostView.hostId}
             hostName={hostView.hostName}
+            hostEmail={hostView.email}
             triggerHostView={this.triggerHostView}
           />
         ) : (

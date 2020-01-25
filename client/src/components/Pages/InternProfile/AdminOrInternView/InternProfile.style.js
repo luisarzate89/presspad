@@ -46,7 +46,6 @@ export const HiText = styled.h1`
   color: #07294a;
   margin-bottom: 0;
   align-items: center;
-  padding-let: ;
 `;
 
 export const Section = styled.div``;
@@ -139,4 +138,15 @@ export const EditButton = styled(Link)`
   display: block;
   width: 110px;
   text-align: center;
+`;
+
+export const MultipleButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const AdminApproveAndRejectButton = styled.div`
+  display: flex;
+  margin-left: auto;
 `;

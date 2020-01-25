@@ -47,6 +47,7 @@ module.exports.getAllHostStats = () =>
       $project: {
         _id: 1,
         name: 1,
+        email: 1,
         "listing.hometown": 1,
         "profile.verified": 1,
         "profile._id": 1,

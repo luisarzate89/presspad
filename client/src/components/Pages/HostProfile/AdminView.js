@@ -2,7 +2,12 @@ import React, { Component } from "react";
 
 import axios from "axios";
 import { message } from "antd";
-import { API_ADMIN_HOST_PROFILE } from "../../../constants/apiRoutes";
+import {
+  API_ADMIN_HOST_PROFILE,
+  API_VERIFY_PROFILE_URL,
+} from "../../../constants/apiRoutes";
+
+import Button from "../../Common/Button";
 
 import {
   disabledStartDate,
@@ -28,11 +33,15 @@ import {
   BackLinkDiv,
   Arrow,
   BlueLink,
+  MultipleButtons,
+  AdminApproveAndRejectButton,
 } from "../InternProfile/AdminOrInternView/InternProfile.style";
 
 export default class AdminView extends Component {
   state = {
     activeKey: "Profile",
+    adminApprovedProfile: false,
+    adminApprovedProfileLoading: null,
     availableDates: [
       {
         startDate: null,
@@ -134,6 +143,7 @@ export default class AdminView extends Component {
                 photos3,
               },
               availableDates,
+              adminApprovedProfile: profile.verified,
             }));
           }
         },
@@ -144,6 +154,21 @@ export default class AdminView extends Component {
         message.error(error || "Something went wrong");
       });
   }
+
+  // Admin function - approve/unapprove profile
+  verifyProfile = (profileId, bool) => {
+    this.setState({ adminApprovedProfileLoading: true }, () => {
+      axios
+        .post(API_VERIFY_PROFILE_URL, { profileId, verify: bool })
+        .then(() =>
+          this.setState({
+            adminApprovedProfile: bool,
+            adminApprovedProfileLoading: false,
+          }),
+        )
+        .catch(err => console.error(err));
+    });
+  };
 
   handleChange = ({ value, key, parent }) => {
     if (parent) {
@@ -187,8 +212,21 @@ export default class AdminView extends Component {
   };
 
   render() {
-    const { triggerHostView, userId, hostName = "" } = this.props;
-    const { errors, data, activeKey, availableDates } = this.state;
+    const {
+      triggerHostView,
+      userId,
+      hostName = "",
+      hostEmail = "",
+    } = this.props;
+
+    const {
+      errors,
+      data,
+      activeKey,
+      availableDates,
+      adminApprovedProfile,
+      adminApprovedProfileLoading,
+    } = this.state;
 
     const handleChange = _ => _;
     const role = "admin";
@@ -200,6 +238,37 @@ export default class AdminView extends Component {
             <BlueLink onClick={triggerHostView}>
               back to search results
             </BlueLink>
+            <AdminApproveAndRejectButton>
+              {adminApprovedProfile && adminApprovedProfileLoading !== null ? (
+                <Button
+                  label="Unapprove profile"
+                  type="verification"
+                  color="red"
+                  spinnerColor="red"
+                  onClick={() => this.verifyProfile(userId, false)}
+                  loading={adminApprovedProfileLoading}
+                />
+              ) : (
+                <MultipleButtons>
+                  <a href={`mailto:${hostEmail}`}>
+                    <Button
+                      label="Request changes"
+                      type="verification"
+                      color="orange"
+                      margin="0 1rem 0 0"
+                    />
+                  </a>
+                  <Button
+                    label="Approve profile"
+                    type="verification"
+                    color="green"
+                    spinnerColor="green"
+                    onClick={() => this.verifyProfile(userId, true)}
+                    loading={adminApprovedProfileLoading}
+                  />
+                </MultipleButtons>
+              )}
+            </AdminApproveAndRejectButton>
           </BackLinkDiv>
           <TabbedView
             activeKey={activeKey}

@@ -25,10 +25,10 @@ export default function HostTable({
       ...getColumnSearchProps("name"),
       sorter: (a, b) => a.name.localeCompare(b.name),
       className: "nameCol",
-      render: (text, { userId }) => (
+      render: (text, { userId, email }) => (
         <span
           style={{ cursor: "pointer" }}
-          onClick={triggerHostView.bind(null, userId, text)}
+          onClick={triggerHostView.bind(null, userId, text, email)}
           role="button"
           tabIndex={0}
         >
@@ -79,16 +79,13 @@ export default function HostTable({
       ],
       onFilter: (value, record) => record.hosted < value,
       sorter: (a, b) => a.hosted - b.hosted,
-      render: (text, d) => (
-        <>
-          <Highlighter
-            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
-            searchWords={[highlightVal]}
-            autoEscape
-            textToHighlight={text.toString()}
-          />
-          {console.log(d)}
-        </>
+      render: text => (
+        <Highlighter
+          highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+          searchWords={[highlightVal]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
       ),
     },
     {
