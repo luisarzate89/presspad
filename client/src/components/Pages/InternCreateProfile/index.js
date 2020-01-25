@@ -128,129 +128,9 @@ export default class InternCreateProfile extends Component {
     }
   };
 
-  onChangeTabs = async () => {
-    const {
-      activeKey,
-      data: {
-        // first tab state
-        birthDate,
-        gender,
-        hometown,
-        school,
-        profileImage,
-        interests,
-        bio,
-        organisation,
-        useReasonAnswer,
-        issueAnswer,
-        storyAnswer,
-      },
-    } = this.state;
-    if (!activeKey)
-      try {
-        const validData = await profileSchema.validate(
-          {
-            birthDate,
-            gender,
-            hometown,
-            school,
-            profileImage,
-            interests,
-            bio,
-            organisation,
-            useReasonAnswer,
-            issueAnswer,
-            storyAnswer,
-          },
-          { abortEarly: false },
-        );
-        this.setState(({ data }) => ({ data: { ...data, ...validData } }));
-      } catch (err) {
-        const { inner } = err;
-        const newErrors = {};
-        inner.forEach(({ path, message: errorMessage }) => {
-          if (path.includes(".")) {
-            const [parent, childrenPath] = path.split(".");
-            newErrors[path] = newErrors[path] || {};
-            newErrors[parent] = {
-              ...newErrors[parent],
-              [childrenPath]: errorMessage,
-            };
-          } else {
-            newErrors[path] = errorMessage;
-          }
-        });
-
-        this.setState(({ errors }) => ({
-          errors: { ...errors, ...newErrors },
-        }));
-        return;
-      }
-    this.setState(({ activeKey: currTab }) => ({
-      activeKey: +!currTab,
-    }));
-    window.scroll(0, 0);
-  };
-
-  handleSubmit = async () => {
-    const {
-      data: {
-        // second tab state
-        mentorDescribeAnswer,
-        photoID,
-        hearAboutPressPadAnswer,
-        phoneNumber,
-        reference1,
-        reference2,
-        offerLetter,
-        internshipOfficeAddress,
-        emergencyContact,
-        DBSCheck,
-        sexualOrientation,
-        degreeLevel,
-        ethnicity,
-        earningOfParents,
-        disability,
-        parentsWorkInPress,
-        caringResponsibilities,
-        allergies,
-        backgroundAnswer,
-        consentedOnPressPadTerms,
-      },
-    } = this.state;
-
-    try {
-      this.setState({ loading: true });
-      const validData = await detailsSchema.validate(
-        {
-          mentorDescribeAnswer,
-          photoID,
-          hearAboutPressPadAnswer,
-          phoneNumber,
-          reference1,
-          reference2,
-          offerLetter,
-          internshipOfficeAddress,
-          emergencyContact,
-          DBSCheck,
-          sexualOrientation,
-          degreeLevel,
-          ethnicity,
-          earningOfParents,
-          disability,
-          parentsWorkInPress,
-          caringResponsibilities,
-          allergies,
-          backgroundAnswer,
-          consentedOnPressPadTerms,
-        },
-        { abortEarly: false },
-      );
-      this.setState(({ data }) => ({ data: { ...data, ...validData } }));
-    } catch ({ inner }) {
-      this.setState({ loading: false });
-
-      const newErrors = {};
+  handleValidationError = ({ inner }) => {
+    const newErrors = {};
+    if (inner)
       inner.forEach(({ path, message: errorMessage }) => {
         if (path.includes(".")) {
           const [parent, childrenPath] = path.split(".");
@@ -263,11 +143,52 @@ export default class InternCreateProfile extends Component {
           newErrors[path] = errorMessage;
         }
       });
+    return newErrors;
+  };
 
-      this.setState(({ errors }) => ({
-        errors: { ...errors, ...newErrors },
+  onChangeTabs = async () => {
+    const { activeKey, data } = this.state;
+    window.scroll(0, 0);
+    if (!activeKey)
+      try {
+        const validData = await profileSchema.validate(
+          { ...data },
+          {
+            abortEarly: false,
+          },
+        );
+        this.setState(({ data: newData }) => ({
+          data: { ...newData, ...validData },
+        }));
+      } catch (e) {
+        this.setState({ loading: false });
+        this.setState(({ errors }) => ({
+          errors: { ...errors, ...this.handleValidationError(e) },
+        }));
+        return;
+      }
+    this.setState(({ activeKey: currTab }) => ({
+      activeKey: +!currTab,
+    }));
+  };
+
+  handleSubmit = async () => {
+    const { data } = this.state;
+
+    this.setState({ loading: true });
+    try {
+      const validData = await detailsSchema.validate(
+        { ...data },
+        { abortEarly: false },
+      );
+      this.setState(({ data: newData }) => ({
+        data: { ...newData, ...validData },
       }));
-
+    } catch (e) {
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+      this.setState(() => ({ loading: false }));
       return;
     }
     try {
@@ -286,7 +207,6 @@ export default class InternCreateProfile extends Component {
           this.props.history.push(DASHBOARD_URL);
         },
         type: "success",
-        // this.setState({ loading: false, success: true });
       });
     } catch (err) {
       Modal.destroyAll();
@@ -302,7 +222,8 @@ export default class InternCreateProfile extends Component {
         type: "error",
       });
     }
-    this.setState({ loading: false });
+    this.setState(() => ({ loading: false }));
+    window.scroll(0, 0);
   };
 
   render() {

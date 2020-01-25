@@ -89,7 +89,9 @@ const internProfileSchema = Joi.object({
   backgroundAnswer: Joi.string()
     .allow("")
     .custom(wordLengthValidator(250, "backgroundAnswer")),
-  consentedOnPressPadTerms: Joi.boolean().required(),
+  consentedOnPressPadTerms: Joi.boolean()
+    .only()
+    .allow(true),
 });
 
 module.exports = internProfileSchema;

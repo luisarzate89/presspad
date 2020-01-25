@@ -189,6 +189,7 @@ export default class HostCreateProfile extends Component {
 
   onChangeTabs = async newKey => {
     // TODO: run validation
+    window.scrollTo(0, 0);
     const { activeKey, data, availableDates } = this.state;
     if (newKey === TABS.DETAILS && activeKey !== TABS.OFFER) return;
     try {
@@ -255,7 +256,7 @@ export default class HostCreateProfile extends Component {
           },
           type: "success",
         });
-        this.setState({ loading: false, success: true });
+        this.setState({ loading: false });
       })
       .catch(err => {
         Modal.destroyAll();
@@ -270,8 +271,9 @@ export default class HostCreateProfile extends Component {
           ),
           type: "error",
         });
-        this.setState({ loading: false, erros: err.response.data });
+        this.setState({ loading: false });
       });
+    window.scrollTo(0, 0);
   };
 
   disabledStartDate = (index, startDate) => {

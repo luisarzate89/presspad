@@ -9,12 +9,15 @@ export default {
     placeholder: "",
     name: "birthDate",
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   hometown: {
     type: "text",
     label: "Hometown",
     name: "hometown",
+    requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   gender: {
@@ -24,12 +27,14 @@ export default {
     placeholder: "Please choose an option",
     name: "gender",
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   school: {
     type: "text",
     label: "University / School",
     name: "school",
+    requiredForIntern: true,
   },
   // intern + host
   profileImage: {
@@ -39,6 +44,7 @@ export default {
     parent: "profileImage",
     isPrivate: false,
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   interests: {
@@ -47,6 +53,7 @@ export default {
     placeholder: "Please choose an option",
     options: types.interests,
     name: "interests",
+    requiredForIntern: true,
   },
   // intern + host
   bio: {
@@ -54,6 +61,7 @@ export default {
     label: "Bio",
     name: "bio",
     requiredForHost: true,
+    requiredForIntern: true,
     placeholder: "No more than 250 words",
   },
   // intern + host
@@ -64,6 +72,7 @@ export default {
     name: "organisation",
     hostLabel: "Organisation you work for",
     internLabel: "Name of organisation you are or are going to be working for",
+    requiredForHost: true,
   },
   useReasonAnswer: {
     label: "Explain why you want to use PressPad",
@@ -111,6 +120,7 @@ export default {
     name: "fileName",
     parent: "photoID",
     isPrivate: true,
+    requiredForIntern: true,
   },
   // host and intern
   hearAboutPressPadAnswer: {
@@ -121,6 +131,7 @@ export default {
     max: 50,
     fullHeight: true,
     fullWidth: true,
+    requiredForIntern: true,
   },
   phoneNumber: {
     label: `Phone Number`,
@@ -129,6 +140,7 @@ export default {
     name: "phoneNumber",
     fullHeight: true,
     max: 50,
+    requiredForIntern: true,
   },
   reference1Name: {
     parent: "reference1",
@@ -285,6 +297,7 @@ export default {
     name: "consentedOnPressPadTerms",
     label: `Do you give consent to the terms in the PressPad Media Release form?`,
     type: "yesNo",
+    requiredForIntern: true,
   },
 
   // host only
@@ -293,6 +306,7 @@ export default {
     max: 10,
     name: "jobTitle",
     label: `Job title`,
+    requiredForHost: true,
   },
   workingArea: {
     type: "select",

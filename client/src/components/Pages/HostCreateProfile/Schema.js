@@ -1,18 +1,17 @@
-import { object, date, string, boolean, array } from "yup";
-import { wordLengthValidator } from "../../../helpers";
+import { array, boolean, date, object, string, lazy } from "yup";
+import { optionalWordLengthValidator } from "../../../helpers";
 
-export const profileSchema = object({
+export const profileSchema = object().shape({
   birthDate: date().required(),
   hometown: string()
     .ensure()
-    .transform(wordLengthValidator(10, "hometown")),
+    .wordLengthValidator(10)
+    .required(),
   gender: string().required(),
-  school: string()
-    .ensure()
-    .transform(wordLengthValidator(10, "school")),
+  school: lazy(optionalWordLengthValidator(10)),
   bio: string()
     .ensure()
-    .transform(wordLengthValidator(250, "bio"))
+    .wordLengthValidator(250)
     .required(),
   profileImage: object({
     fileName: string().required(),
@@ -20,25 +19,17 @@ export const profileSchema = object({
   }).required(),
   jobTitle: string()
     .ensure()
-    .transform(wordLengthValidator(10, "jobTitle"))
+    .wordLengthValidator(10)
     .required(),
   organisation: string()
     .ensure()
-    .transform(wordLengthValidator(10, "organisation"))
+    .wordLengthValidator(10)
     .required(),
   workingArea: string().required(),
-  hostingReasonAnswer: string().transform(
-    wordLengthValidator(250, "hostingReasonAnswer"),
-  ),
-  mentoringExperienceAnswer: string().transform(
-    wordLengthValidator(250, "mentoringExperienceAnswer"),
-  ),
-  industryExperienceAnswer: string().transform(
-    wordLengthValidator(250, "industryExperienceAnswer"),
-  ),
-  backgroundAnswer: string().transform(
-    wordLengthValidator(250, "backgroundAnswer"),
-  ),
+  hostingReasonAnswer: string().wordLengthValidator(250),
+  mentoringExperienceAnswer: string().wordLengthValidator(250),
+  industryExperienceAnswer: string().wordLengthValidator(250),
+  backgroundAnswer: string().wordLengthValidator(250),
 });
 export const offerSchema = object({
   photos1: object({
@@ -67,7 +58,7 @@ export const offerSchema = object({
   neighbourhoodDescription: string().max(250),
   otherInfo: string()
     .ensure()
-    .transform(wordLengthValidator(250, "otherInfo")),
+    .wordLengthValidator(250),
 });
 export const detailsSchema = object({
   photoID: object({
@@ -76,7 +67,7 @@ export const detailsSchema = object({
   }).required(),
   hearAboutPressPadAnswer: string()
     .ensure()
-    .transform(wordLengthValidator(50, "hearAboutPressPadAnswer"))
+    .wordLengthValidator(50)
     .required(),
   phoneNumber: string()
     .max(50)
@@ -102,11 +93,13 @@ export const detailsSchema = object({
     isPrivate: boolean().default(true),
   }),
   sexualOrientation: string(),
-  degreeLevel: string(),
-  ethnicity: string(),
-  earningOfParents: string(),
-  disability: string(),
-  parentsWorkInPress: string(),
-  caringResponsibilities: string(),
-  consentedOnPressPadTerms: boolean(),
+  degreeLevel: lazy(optionalWordLengthValidator(20)),
+  ethnicity: lazy(optionalWordLengthValidator(20)),
+  earningOfParents: lazy(optionalWordLengthValidator(20)),
+  disability: lazy(optionalWordLengthValidator(15)),
+  parentsWorkInPress: lazy(optionalWordLengthValidator(2)),
+  caringResponsibilities: lazy(optionalWordLengthValidator(250)),
+  consentedOnPressPadTerms: boolean()
+    .oneOf([true], "You must agree to the terms in order to use PressPad")
+    .required(),
 });

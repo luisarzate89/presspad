@@ -7,7 +7,10 @@ const hostProfileSchema = Joi.object({
   birthDate: Joi.date().required(),
   hometown: Joi.string().custom(wordLengthValidator(10, "hometown")),
   gender: Joi.string().required(),
-  school: Joi.string().custom(wordLengthValidator(10, "school")),
+  school: Joi.string()
+    .allow("")
+    .custom(wordLengthValidator(10, "school")),
+  interests: Joi.string().allow(""),
   bio: Joi.string()
     .custom(wordLengthValidator(250, "bio"))
     .required(),
@@ -96,7 +99,9 @@ const hostProfileSchema = Joi.object({
   disability: Joi.string(),
   parentsWorkInPress: Joi.string(),
   caringResponsibilities: Joi.string(),
-  consentedOnPressPadTerms: Joi.boolean(),
+  consentedOnPressPadTerms: Joi.boolean()
+    .only()
+    .allow(true),
 });
 
 module.exports = hostProfileSchema;

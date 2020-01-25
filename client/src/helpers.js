@@ -1,5 +1,7 @@
 import moment from "moment";
 
+import * as yup from "yup";
+
 export const createDatesArray = (start, end) => {
   const datesArray = [];
 
@@ -145,9 +147,23 @@ export const titleCase = str =>
     .map(capitalizeFirstLetter)
     .join(" ");
 
-export const wordLengthValidator = (length, field) => value => {
-  if (value.split(" ").length <= length) {
-    return value;
-  }
-  throw new Error(`${field} length must be less than or equal ${length} words`);
+yup.addMethod(yup.string, "wordLengthValidator", function wordLengthValidator(
+  length,
+) {
+  return this.test(function(value) {
+    if (!value) return "";
+    return value.split(" ").length <= length
+      ? value
+      : this.createError({
+          message: `${this.path} length must be less than or equal ${length} words`,
+        });
+  });
+});
+
+export const optionalWordLengthValidator = length => value => {
+  if (value) return yup.string().wordLengthValidator(length);
+  return yup
+    .string()
+    .ensure()
+    .default("");
 };
