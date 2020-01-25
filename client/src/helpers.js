@@ -77,7 +77,7 @@ const filterFields = {
   nextInstallmentDueDate: 1,
 
   // hosts
-  city: 1,
+  hometown: 1,
   hosted: 1,
   totalIncome: 1,
   approvalStatus: 1,

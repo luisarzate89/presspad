@@ -4,9 +4,6 @@ import Highlighter from "react-highlight-words";
 
 import { colors } from "../../../theme";
 
-// import helpers
-import getUserId from "../../../helpers/getUserId";
-
 //  set colours for tags in the table
 const tagColors = {
   "Waiting for approval": colors.primary,
@@ -28,10 +25,10 @@ export default function HostTable({
       ...getColumnSearchProps("name"),
       sorter: (a, b) => a.name.localeCompare(b.name),
       className: "nameCol",
-      render: text => (
+      render: (text, { userId }) => (
         <span
           style={{ cursor: "pointer" }}
-          onClick={triggerHostView.bind(null, getUserId(data, text), text)}
+          onClick={triggerHostView.bind(null, userId, text)}
           role="button"
           tabIndex={0}
         >
@@ -48,11 +45,11 @@ export default function HostTable({
       ),
     },
     {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
-      ...getColumnSearchProps("city"),
-      sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
+      title: "Hometown",
+      dataIndex: "hometown",
+      key: "hometown",
+      ...getColumnSearchProps("hometown"),
+      sorter: (a, b) => (a.hometown || "").localeCompare(b.hometown || ""),
       render: text => (
         <Highlighter
           highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
@@ -82,13 +79,16 @@ export default function HostTable({
       ],
       onFilter: (value, record) => record.hosted < value,
       sorter: (a, b) => a.hosted - b.hosted,
-      render: text => (
-        <Highlighter
-          highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
-          searchWords={[highlightVal]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
+      render: (text, d) => (
+        <>
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+          {console.log(d)}
+        </>
       ),
     },
     {

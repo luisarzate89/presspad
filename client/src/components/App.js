@@ -102,7 +102,6 @@ class App extends Component {
   render() {
     const { isLoggedIn, role, stripe, windowWidth } = this.state;
 
-    console.log({ windowWidth });
     return (
       <StripeProvider stripe={stripe}>
         <Router>
