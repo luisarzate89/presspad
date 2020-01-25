@@ -5,9 +5,9 @@ import { Modal, Alert, message } from "antd";
 import Content from "./Content";
 import {
   API_INTERN_COMPLETE_PROFILE,
-  DASHBOARD_URL,
   API_MY_PROFILE_URL,
 } from "../../../constants/apiRoutes";
+import { DASHBOARD_URL } from "../../../constants/navRoutes";
 import { profileSchema, detailsSchema } from "./Schema";
 
 const INITIAL_STATE = {
@@ -165,7 +165,8 @@ export default class InternCreateProfile extends Component {
           { abortEarly: false },
         );
         this.setState(({ data }) => ({ data: { ...data, ...validData } }));
-      } catch ({ inner }) {
+      } catch (err) {
+        const { inner } = err;
         const newErrors = {};
         inner.forEach(({ path, message: errorMessage }) => {
           if (path.includes(".")) {
@@ -188,6 +189,7 @@ export default class InternCreateProfile extends Component {
     this.setState(({ activeKey: currTab }) => ({
       activeKey: +!currTab,
     }));
+    window.scroll(0, 0);
   };
 
   handleSubmit = async () => {
@@ -270,13 +272,13 @@ export default class InternCreateProfile extends Component {
     }
     try {
       await axios.post(API_INTERN_COMPLETE_PROFILE, { ...this.state.data });
-      // Modal.destroyAll();
+      Modal.destroyAll();
       Modal.success({
         title: "Done",
         content: (
           <Alert
             message="Thank you"
-            description="Your info has been updated"
+            description="Your profile has been saved"
             type="success"
           />
         ),

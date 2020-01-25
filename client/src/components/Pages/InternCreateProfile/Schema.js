@@ -2,34 +2,43 @@ import * as yup from "yup";
 import { wordLengthValidator } from "../../../helpers";
 
 export const profileSchema = yup.object({
-  birthDate: yup.date().required(),
-  gender: yup.string().required(),
+  birthDate: yup
+    .date()
+    .typeError("Please select a date")
+    .required(),
+  gender: yup
+    .string()
+    .typeError("Please select a gender")
+    .required(),
   hometown: yup
     .string()
-    .required()
+    .required("Please enter your hometown")
     .ensure()
     .transform(wordLengthValidator(10, "hometown")),
   school: yup
     .string()
-    .required()
+    .required("Please enter your school or university")
     .ensure()
     .transform(wordLengthValidator(10, "school"))
-    .required(),
+    .required("Please enter your school or university"),
   profileImage: yup
     .object({
       fileName: yup
         .string()
         .ensure()
-        .required(),
+        .required("Please upload a photo of yourself"),
       isPrivate: yup.boolean().default(false),
     })
+    .required("Please upload a photo of yourself"),
+  interests: yup
+    .string()
+    .typeError("Please select an area of interest")
     .required(),
-  interests: yup.string().required(),
   bio: yup
     .string()
     .ensure()
     .transform(wordLengthValidator(250, "bio"))
-    .required(),
+    .required("Please write a short bio about yourself"),
   organisation: yup
     .string()
     .ensure()
@@ -58,7 +67,7 @@ export const detailsSchema = yup.object({
       fileName: yup
         .string()
         .ensure()
-        .required(),
+        .required("Please upload photographic proof of identity"),
       isPrivate: yup.boolean().default(true),
     })
     .required(),
@@ -66,11 +75,12 @@ export const detailsSchema = yup.object({
     .string()
     .ensure()
     .transform(wordLengthValidator(50, "hearAboutPressPadAnswer"))
-    .required(),
+    .required("Please tell us how your heard about PressPad"),
   phoneNumber: yup
     .string()
-    .max(50)
-    .required(),
+    .typeError("Please enter your phone number")
+    .max(50, "Invalid phone number")
+    .required("Please enter your phone number"),
   reference1: yup.object({
     name: yup
       .string()
@@ -128,6 +138,6 @@ export const detailsSchema = yup.object({
     .transform(wordLengthValidator(250, "backgroundAnswer")),
   consentedOnPressPadTerms: yup
     .boolean()
-    .oneOf([true], "You must agree on the terms of PressPad")
+    .oneOf([true], "You must agree to the terms in order to use PressPad")
     .required(),
 });
