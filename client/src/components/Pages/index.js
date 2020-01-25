@@ -34,11 +34,11 @@ import {
   BOOKING_VIEW_URL,
   MYPROFILE_URL,
   ADD_REVIWE_URL,
-  INTERN_PROFILE,
+  INTERN_PROFILE
 } from "../../constants/navRoutes";
 
 export default function Pages(props) {
-  const { handleChangeState, isLoggedIn, role } = props;
+  const { handleChangeState, isLoggedIn, role, windowWidth } = props;
 
   return (
     <>
@@ -60,7 +60,9 @@ export default function Pages(props) {
         <Route
           exact
           path={HOSTS_URL}
-          render={() => <SearchHosts isLoggedIn={isLoggedIn} />}
+          render={() => (
+            <SearchHosts isLoggedIn={isLoggedIn} windowWidth={windowWidth} />
+          )}
         />
         <PrivateRoute
           exact

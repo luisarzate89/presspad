@@ -7,7 +7,12 @@ import YesNoRadio from "./YesNoRadio";
 import Checkist from "./Checkist";
 import DateRanges from "./DateRanges";
 
-import { Label, RequiredSpan, GrayHint } from "../ProfileComponents.style";
+import {
+  Label,
+  RequiredSpan,
+  GrayHint,
+  FieldWrapper,
+} from "../ProfileComponents.style";
 
 export default function Field({
   type,
@@ -24,6 +29,9 @@ export default function Field({
   hint,
   userId,
   isPrivate,
+  padding,
+  paddingSmall,
+  fieldPadding,
   requiredForIntern,
   requiredForHost,
   role,
@@ -37,6 +45,7 @@ export default function Field({
   handleAddMoreRanges,
   deleteDate,
   availableDates,
+  readOnly,
 }) {
   let url;
 
@@ -64,11 +73,14 @@ export default function Field({
   }
 
   return (
-    <>
+    <FieldWrapper padding={fieldPadding}>
       <Label
         htmlFor={
           parent ? `${parent}${name[0].toUpperCase()}${name.slice(1)}` : name
         }
+        padding={padding}
+        paddingSmall={paddingSmall}
+        error={error}
       >
         {label}
         {isRequiredForThisUser && <RequiredSpan>(required)</RequiredSpan>}
@@ -83,6 +95,8 @@ export default function Field({
           error={error}
           name={name}
           parent={parent}
+          fullHeight={fullHeight}
+          readOnly={readOnly}
         />
       )}
 
@@ -96,6 +110,7 @@ export default function Field({
           parent={parent}
           showAsTextArea
           fullHeight={fullHeight}
+          readOnly={readOnly}
         />
       )}
 
@@ -108,6 +123,7 @@ export default function Field({
           name={name}
           parent={parent}
           options={options}
+          readOnly={readOnly}
         />
       )}
 
@@ -119,6 +135,7 @@ export default function Field({
           error={error}
           name={name}
           parent={parent}
+          readOnly={readOnly}
         />
       )}
 
@@ -134,6 +151,7 @@ export default function Field({
           userId={userId}
           isPrivate={isPrivate}
           url={url}
+          readOnly={readOnly}
         />
       )}
 
@@ -145,6 +163,7 @@ export default function Field({
           name={name}
           parent={parent}
           handleError={handleError}
+          readOnly={readOnly}
         />
       )}
 
@@ -158,6 +177,7 @@ export default function Field({
           deleteDate={deleteDate}
           availableDates={availableDates}
           error={error}
+          readOnly={readOnly}
         />
       )}
 
@@ -170,8 +190,9 @@ export default function Field({
           parent={parent}
           handleError={handleError}
           options={options}
+          readOnly={readOnly}
         />
       )}
-    </>
+    </FieldWrapper>
   );
 }

@@ -1,8 +1,11 @@
 import React from "react";
 import { Row, Col } from "antd";
-import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
+import {
+  SectionWrapper,
+  SectionContent,
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 
@@ -34,6 +37,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
         <Col xs={24} sm={12}>
@@ -45,6 +49,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
       </Row>
@@ -58,6 +63,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
         <Col xs={24} sm={12}>
@@ -69,6 +75,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
       </Row>
@@ -82,6 +89,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
         <Col xs={24} sm={12}>
@@ -93,6 +101,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
       </Row>
@@ -107,6 +116,7 @@ const Demographic = ({
             handleError={handleError}
             userId={userId}
             role={role}
+            fieldPadding="0 0 0.5rem 0"
           />
         </Col>
       </Row>

@@ -5,6 +5,11 @@ export const ImageSection = styled.section`
   height: 400px;
   display: flex;
   align-items: center;
+
+  .ant-carousel {
+    width: 100%;
+  }
+
   @media (max-width: 775.98px) {
     height: auto;
     flex-direction: column;

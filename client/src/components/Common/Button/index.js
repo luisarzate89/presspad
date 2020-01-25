@@ -99,13 +99,11 @@ export const ButtonSpinner = ({ color }) => {
   return <Spin indicator={antIcon} style={{ marginRight: ".5rem" }} />;
 };
 
-const Button = ({ label, loading, disabled, ...props }) => {
-  return (
-    <StyledButton aria-label={label} {...props} disabled={disabled || loading}>
-      {loading && <ButtonSpinner color={"#FFFFFF"} />}
-      {label}
-    </StyledButton>
-  );
-};
+const Button = ({ label, loading, disabled, ...props }) => (
+  <StyledButton aria-label={label} {...props} disabled={disabled || loading}>
+    {loading && <ButtonSpinner color="#FFFFFF" />}
+    {label}
+  </StyledButton>
+);
 
 export default Button;

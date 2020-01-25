@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from "react";
 import {
   Row,
@@ -9,13 +10,13 @@ import {
   DatePicker,
   Empty,
   Icon,
-  Skeleton,
+  Skeleton
 } from "antd";
 import moment from "moment";
 import { Elements } from "react-stripe-elements";
 
-import Button from "./../../Common/Button";
-import { calculatePrice } from "./../../../helpers";
+import Button from "../../Common/Button";
+import { calculatePrice } from "../../../helpers";
 
 import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
@@ -35,7 +36,6 @@ import {
   InfoTable,
   InfoTableRow,
   TD,
-  TH,
   Card,
   BlueLink,
   InternsTableWrapper,
@@ -44,13 +44,14 @@ import {
   ModalDescription,
   Label,
   Error,
-  ErrorWrapper,
+  ErrorWrapper
 } from "./OrgDashboard.style";
-import { colors } from "./../../../theme";
+import { colors } from "../../../theme";
 
-import homeIcon from "./../../../assets/home-icon.svg";
-import invoiceIcon from "./../../../assets/invoice-icon.svg";
-import contantIcon from "./../../../assets/contact-icon.svg";
+import homeIcon from "../../../assets/home-icon.svg";
+import invoiceIcon from "../../../assets/invoice-icon.svg";
+import contantIcon from "../../../assets/contact-icon.svg";
+
 const { Option } = Select;
 
 class Content extends Component {
@@ -75,7 +76,7 @@ class Content extends Component {
       handleSubmitCreateCoupon,
       handlePayNowClick,
       handleAccountUpdate,
-      stripe,
+      stripe
     } = this.props;
 
     const {
@@ -89,7 +90,7 @@ class Content extends Component {
       endOpen,
       errors,
       showAddFunds,
-      discountPrice,
+      discountPrice
     } = state;
     if (startValue && endValue) {
       const range = moment.range(startValue, endValue);
@@ -107,7 +108,7 @@ class Content extends Component {
     const liveCoupons = coupons.filter(
       item =>
         moment(item.endDate).valueOf() > moment().valueOf() &&
-        moment(item.startDate).valueOf() <= moment().valueOf(),
+        moment(item.startDate).valueOf() <= moment().valueOf()
     ).length;
 
     return (
@@ -139,7 +140,7 @@ class Content extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)",
+                    border: "1px solid rgba(0, 0, 0, 0.15)"
                   }}
                 />
               </Col>
@@ -161,7 +162,7 @@ class Content extends Component {
                 height: "auto",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: "space-between"
               }}
             >
               <Section style={{ marginBottom: "20px" }}>
@@ -180,7 +181,7 @@ class Content extends Component {
               </Section>
 
               <Section>
-                <Row gutter={20} type="flex" justify="start">
+                <Row gutter={24} type="flex" justify="start">
                   <Col xs={24} sm={8} style={{ height: "auto" }}>
                     <SectionWrapperContent>
                       <Card>
@@ -214,7 +215,7 @@ class Content extends Component {
                 </Row>
               </Section>
             </Col>
-            <Col sm={24} lg={8}>
+            <Col xs={24} sm={24} lg={8}>
               <Section>
                 <SectionWrapperContent
                   style={{ padding: "5px", height: "393px" }}
@@ -229,19 +230,23 @@ class Content extends Component {
                   <InfoTable>
                     <tbody>
                       <InfoTableRow header className="header">
-                        <TH position="left">Available funds:</TH>
-                        <TH position="center">
+                        <TD position="left" bold>
+                          Available funds:
+                        </TD>
+                        <TD position="center" bold>
                           {(account && account.currentBalance) || 0}
-                        </TH>
-                        <TH position="right">
+                        </TD>
+                        <TD position="right">
                           <BlueLink onClick={() => handlePayNowClick(true)}>
                             Add funds
                           </BlueLink>
-                        </TH>
+                        </TD>
                       </InfoTableRow>
                       <InfoTableRow>
                         <TD position="left">Live Discount codes:</TD>
-                        <TD position="center">{liveCoupons || 0}</TD>
+                        <TD position="center" bold>
+                          {liveCoupons || 0}
+                        </TD>
                         <TD position="right">
                           {account.currentBalance > 0 ? (
                             <>
@@ -272,14 +277,16 @@ class Content extends Component {
 
                       <InfoTableRow>
                         <TD position="left">Your Codes values:</TD>
-                        <TD position="center">
+                        <TD position="center" bold>
                           {(account && account.couponsValue) || 0}
                         </TD>
                       </InfoTableRow>
 
                       <InfoTableRow>
                         <TD position="left">Currently hosted:</TD>
-                        <TD position="center">{currentlyHosted}</TD>
+                        <TD position="center" bold>
+                          {currentlyHosted}
+                        </TD>
                         <TD position="right" />
                       </InfoTableRow>
                     </tbody>
@@ -353,7 +360,7 @@ class Content extends Component {
                   style={{
                     width: "100%",
                     marginBottom:
-                      errors.internName || errors.internId ? "20px" : 0,
+                      errors.internName || errors.internId ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
@@ -363,7 +370,7 @@ class Content extends Component {
                     <ErrorWrapper>
                       <Select
                         labelInValue
-                        placeholder={"Select your Intern"}
+                        placeholder="Select your Intern"
                         onSelect={onSelectInternChange}
                         showSearch
                         onSearch={onInternSearch}
@@ -373,7 +380,7 @@ class Content extends Component {
                           border:
                             errors.internName || errors.internId
                               ? "1px solid red"
-                              : "1px solid #d9d9d9",
+                              : "1px solid #d9d9d9"
                         }}
                         optionLabelProp="label"
                       >
@@ -387,7 +394,7 @@ class Content extends Component {
                               <div
                                 style={{
                                   display: "flex",
-                                  justifyContent: "space-between",
+                                  justifyContent: "space-between"
                                 }}
                               >
                                 {item.name}
@@ -415,7 +422,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.startDate ? "20px" : 0,
+                    marginBottom: errors.startDate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
@@ -434,7 +441,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.startDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            : "1px solid #d9d9d9"
                         }}
                       />
                       <Error>{errors.startDate}</Error>
@@ -449,7 +456,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.endDate ? "20px" : 0,
+                    marginBottom: errors.endDate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
@@ -469,7 +476,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.endDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            : "1px solid #d9d9d9"
                         }}
                       />
                       <Error>{errors.endDate}</Error>
@@ -486,7 +493,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.discountRate ? "20px" : 0,
+                    marginBottom: errors.discountRate ? "20px" : 0
                   }}
                 >
                   <Col span={8}>
@@ -502,7 +509,7 @@ class Content extends Component {
                           width: "140px",
                           border: errors.discountRate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            : "1px solid #d9d9d9"
                         }}
                       >
                         {/* add discount rates */}
@@ -546,7 +553,7 @@ class Content extends Component {
                 align="middle"
                 style={{
                   width: "100%",
-                  marginBottom: errors.withdrawValue ? "20px" : 0,
+                  marginBottom: errors.withdrawValue ? "20px" : 0
                 }}
               >
                 <div style={{ maxWidth: "200px" }}>

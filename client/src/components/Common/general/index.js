@@ -16,7 +16,7 @@ export const PageWrapper = styled.main`
 
 export const HeaderWrapper = styled.div`
   margin-top: 50px;
-  margin-bottom: 60px;
+  margin-bottom: 3rem;
 `;
 
 export const HiText = styled.h1`
@@ -30,6 +30,7 @@ export const HiText = styled.h1`
   height: 100%;
   display: flex;
   align-items: center;
+  padding-left: 1rem;
 `;
 
 export const SectionWrapperContent = styled.div`

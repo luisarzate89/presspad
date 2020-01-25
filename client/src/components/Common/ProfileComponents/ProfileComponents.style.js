@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "./../../../theme";
+import { colors, size } from "../../../theme";
 
 export const SectionWrapper = styled.div``;
 
@@ -8,6 +8,12 @@ export const TitleWrapper = styled.div`
   align-items: center;
   position: relative;
   padding: 0 1rem;
+  margin-top: 1.5rem;
+
+  @media (max-width: ${size.mobileXL}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const SectionTitle = styled.h3`
@@ -15,7 +21,7 @@ export const SectionTitle = styled.h3`
   font-size: 25px;
   line-height: 29px;
   color: #353942;
-  margin: 0 0.5rem 0 0;
+  margin: 0 1rem 0 0;
 
   :before {
     content: "";
@@ -39,14 +45,25 @@ export const GrayHint = styled.p`
   margin: 0;
 `;
 
+export const FieldWrapper = styled.div`
+  padding: ${({ padding }) => padding && padding};
+`;
+
 export const Label = styled.label`
   font-family: Roboto;
   font-style: normal;
   font-weight: ${({ light }) => (light ? "lighter" : "bold")};
-  font-size: 16px;
   line-height: 25px;
-  color: #393939;
+  color: ${({ error }) => (error ? "red" : "#393939")};
   display: block;
+
+  @media (max-width: 767px) {
+    padding: ${({ padding }) => padding && padding};
+  }
+
+  @media (max-width: 575px) {
+    padding: ${({ paddingSmall }) => paddingSmall && paddingSmall};
+  }
 `;
 
 export const SectionContent = styled.div`
@@ -56,9 +73,20 @@ export const SectionContent = styled.div`
 export const ErrorWrapper = styled.div`
   border: ${({ error }) => (error ? "1px solid red" : "initial")};
   margin-bottom: ${({ marginBottom }) => marginBottom};
-  height:${({fullHeight})=> fullHeight? "auto" :"calc(100% - 27px)"};
+  height: ${({ fullHeight }) => (fullHeight ? "auto" : "calc(100% - 27px)")};
   border-radius: 4px;
   position: relative;
+
+  .ant-select-disabled .ant-select-selection {
+    background: transparent;
+    cursor: auto;
+  }
+
+  input:read-only,
+  textarea:read-only {
+    color: #8a8a8a;
+    background: #fff;
+  }
 `;
 
 export const Error = styled.p`

@@ -8,10 +8,14 @@ import {
   API_SEARCH_PROFILES_URL,
   API_GET_ALL_CETIES_URL,
 } from "../../../constants/apiRoutes";
+import Button from "../../Common/Button";
 
 // import Nav routes
 import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
 
+import { TABLET_WIDTH } from "../../../constants/screenWidths";
+
+import placeholder from "../../../assets/listing-placeholder.jpg";
 // import styled components
 import {
   Wrapper,
@@ -19,11 +23,9 @@ import {
   HeaderTitle,
   HeaderText,
   SearchForm,
-  FirstSearchInputDiv,
   SearchLabel,
   SearchInputDiv,
   ErrorMsg,
-  SearchButton,
   ResultsWrapper,
   ResultsText,
   Hosts,
@@ -35,15 +37,29 @@ import {
   HostLocation,
   DisabledHostResult,
   SignUpPromo,
+  SearchButtonDiv,
+  SearchButton,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
   state = {
     listings: null,
-    cities: [],
-    searchFields: { city: null, startDate: null, endDate: null },
+    hometowns: [],
+    searchFields: { hometown: null, startDate: null, endDate: null },
     errors: {},
   };
+
+  async componentDidMount() {
+    // fetch all hometowns from the listing
+    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
+    const hometowns = data
+      .filter(({ hometown }) => !!hometown)
+      .reduce((acc, curr) => {
+        acc.add(curr.hometown.toLowerCase());
+        return acc;
+      }, new Set());
+    this.setState({ hometowns: [...hometowns] });
+  }
 
   fetchListings = () => {
     const { searchFields, errors } = this.state;
@@ -53,7 +69,7 @@ export default class index extends Component {
       .then(({ data }) => {
         this.setState({ listings: data });
       })
-      .catch(err => {
+      .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
           errors,
@@ -69,8 +85,8 @@ export default class index extends Component {
       newSearchFields[e.target.name] = e.target.value;
       this.setState({ searchFields: newSearchFields });
     } else {
-      // e is the city <Select>  value
-      newSearchFields.city = e;
+      // e is the hometown <Select>  value
+      newSearchFields.hometown = e;
       this.setState({ searchFields: newSearchFields }, () => {
         const isValid = this.validateSearch();
         if (isValid) {
@@ -107,8 +123,6 @@ export default class index extends Component {
 
   onStartChange = value => {
     this.onDateInputChange("startDate", value);
-    const dateString = moment(value).format("YYYY-MM-DD");
-    console.log(dateString);
   };
 
   onEndChange = value => {
@@ -129,7 +143,7 @@ export default class index extends Component {
     let searchIsValid = true;
 
     if (
-      !searchFields.city &&
+      !searchFields.hometown &&
       !searchFields.startDate &&
       !searchFields.endDate
     ) {
@@ -161,9 +175,7 @@ export default class index extends Component {
 
   // checks if lisitng image exists and goes to right folder
   getListingPic = listingPic =>
-    listingPic && listingPic.length > 0
-      ? listingPic
-      : require("./../../../assets/listing-placeholder.jpg");
+    listingPic && listingPic.length > 0 ? listingPic : placeholder;
 
   showStartDate = dates => {
     if (dates.length > 0) {
@@ -184,62 +196,55 @@ export default class index extends Component {
     return moment(dates).format("Do MMM YYYY");
   };
 
-  async componentDidMount() {
-    // fetch all cities from the listing
-    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
-    const cities = data.reduce((acc, curr) => {
-      if (curr.city) acc.add(curr.city.toLowerCase());
-      return acc;
-    }, new Set());
-    this.setState({ cities: [...cities] });
-  }
-
   render() {
-    const { searchFields, errors, listings, cities } = this.state;
-    const { isLoggedIn } = this.props;
+    const { searchFields, errors, listings, hometowns } = this.state;
+    const { isLoggedIn, windowWidth } = this.props;
     const { startDate, endDate } = searchFields;
     const { searchError } = errors;
+
     return (
       <Wrapper>
         <Header>
           <HeaderTitle>Hosts offering a PressPad</HeaderTitle>
           <HeaderText>
-            You can search for hosts by filling in the city and dates you're
-            looking for, as well as any interests you might have so we can find
-            the perfect match for you.
+            You can search for hosts by filling in the hometown and dates
+            you&apos;re looking for, as well as any interests you might have so
+            we can find the perfect match for you.
           </HeaderText>
         </Header>
         <SearchForm>
-          <FirstSearchInputDiv>
-            <SearchLabel htmlFor="city">City</SearchLabel>
+          <SearchInputDiv order={0}>
+            <SearchLabel htmlFor="hometown">Hometown</SearchLabel>
             <Select
               showSearch
-              placeholder="Enter your city"
-              name="city"
-              id="city"
+              placeholder="Enter your hometown"
+              name="hometown"
+              id="hometown"
               autoFocus
               style={{ width: 150 }}
               onSelect={this.onInputChange}
             >
-              {cities.map(city => (
-                <Select.Option value={city} key={city}>
-                  {city}
+              {hometowns.map(hometown => (
+                <Select.Option value={hometown} key={hometown}>
+                  {hometown}
                 </Select.Option>
               ))}
             </Select>
-          </FirstSearchInputDiv>
-          <SearchInputDiv>
+          </SearchInputDiv>
+          <SearchInputDiv order={1}>
             <SearchLabel htmlFor="startDate">Between</SearchLabel>
             <DatePicker
               name="startDate"
               disabledDate={this.disabledStartDate}
               id="startDate"
               type="date"
-              style={{ marginRight: 8 }}
+              style={{ width: 150 }}
               value={startDate}
               onChange={this.onStartChange}
               format="YYYY-MM-DD"
             />
+          </SearchInputDiv>
+          <SearchInputDiv order={2}>
             <SearchLabel htmlFor="endDate">and</SearchLabel>
             <DatePicker
               name="endDate"
@@ -249,9 +254,10 @@ export default class index extends Component {
               value={endDate}
               onChange={this.onEndChange}
               format="YYYY-MM-DD"
+              style={{ width: 150 }}
             />
           </SearchInputDiv>
-          <SearchInputDiv disabled>
+          <SearchInputDiv order={3} disabled>
             <SearchLabel htmlFor="interests">Interests</SearchLabel>
             <Input
               name="interests"
@@ -261,11 +267,20 @@ export default class index extends Component {
               onChange={this.onInputChange}
             />
           </SearchInputDiv>
-          <SearchInputDiv>
-            <SearchButton onClick={this.onSearchSubmit}>
-              <Icon type="search" style={{ fontSize: 24 }} />
-            </SearchButton>
-          </SearchInputDiv>
+
+          <SearchButtonDiv>
+            {windowWidth < TABLET_WIDTH ? (
+              <Button
+                label="search"
+                type="primary"
+                onClick={this.onSearchSubmit}
+              />
+            ) : (
+              <SearchButton onClick={this.onSearchSubmit}>
+                <Icon type="search" style={{ fontSize: 24 }} />
+              </SearchButton>
+            )}
+          </SearchButtonDiv>
         </SearchForm>
         <ErrorMsg>{searchError}</ErrorMsg>
         {listings && (
@@ -275,15 +290,15 @@ export default class index extends Component {
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>
-                {listings.map((listing, index) => (
+                {listings.map(listing => (
                   <HostResult
-                    key={index}
+                    key={listing._id}
                     underThree={listings.length < 3}
                     to={`${HOSTS_URL}/${listing.userID}`}
                   >
                     <HostHeader>
                       <HostTitle>
-                        {listing.address.borough || listing.address.city}
+                        {listing.address.borough || listing.address.hometown}
                       </HostTitle>
                     </HostHeader>
                     <HostImg src={this.getListingPic(listing.photos[0])} />
@@ -295,7 +310,9 @@ export default class index extends Component {
                       {listing.address.borough && (
                         <>{listing.address.borough}, </>
                       )}
-                      {listing.address.city && <>{listing.address.city}, </>}
+                      {listing.address.hometown && (
+                        <>{listing.address.hometown}, </>
+                      )}
                       {listing.address.postcode && (
                         <>{listing.address.postcode}</>
                       )}
@@ -306,15 +323,15 @@ export default class index extends Component {
             ) : (
               <>
                 <Hosts>
-                  {listings.slice(0, 3).map((listing, index) => (
+                  {listings.slice(0, 3).map(listing => (
                     <DisabledHostResult
-                      key={index}
+                      key={`${listing._id}2`}
                       to={`${HOSTS_URL}/${listing.userID}`}
                       isLoggedIn={isLoggedIn}
                     >
                       <HostHeader>
                         <HostTitle>
-                          {listing.address.borough || listing.address.city}
+                          {listing.address.borough || listing.address.hometown}
                         </HostTitle>
                       </HostHeader>
                       <HostImg src={this.getListingPic(listing.photos[0])} />
@@ -326,7 +343,9 @@ export default class index extends Component {
                         {listing.address.borough && (
                           <>{listing.address.borough}, </>
                         )}
-                        {listing.address.city && <>{listing.address.city}, </>}
+                        {listing.address.hometown && (
+                          <>{listing.address.hometown}, </>
+                        )}
                         {listing.address.postcode && (
                           <>{listing.address.postcode}</>
                         )}

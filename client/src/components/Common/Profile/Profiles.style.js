@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
 import { Rate } from "antd";
 
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
-import { shadows, colors } from "../../../theme";
+import { shadows, colors, size } from "../../../theme";
 
 export const Wrapper = styled.div`
   width: 80%;
@@ -19,16 +18,20 @@ export const Wrapper = styled.div`
 // Backlink
 export const LinkDiv = styled.div`
   margin-top: 15px;
-  height: 25px;
 `;
 
 export const BackLinkDiv = styled.div`
-  margin-left: -10px;
   display: flex;
   justify-content: flex-start;
+  padding: 1rem 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
-export const BackLink = styled(Link)`
+export const BackLink = styled.p`
   color: ${colors.links};
   text-decoration: none;
   font-weight: 500;
@@ -36,15 +39,15 @@ export const BackLink = styled(Link)`
 `;
 
 export const Arrow = styled(BackArrowIcon)`
-  width: 4vw;
+  margin-right: 0.5rem;
 `;
 
 // Header
 export const Header = styled.header`
-  margin: 1rem 0;
+  padding-top: 1rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: ${({ justfyContent }) => justfyContent || "start"};
+  align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
 export const HeaderDiv = styled.div`
@@ -119,6 +122,19 @@ export const TopDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0;
+`;
+
+export const AdminTopDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+
+  @media (max-width: ${size.mobileXL}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const BackToAdmin = styled.div`

@@ -1,157 +1,204 @@
 const Listing = require("../../models/Listing");
 
-module.exports.searchProfiles = searchInfo => new Promise((resolve, reject) => {
-  const { city, startDate, endDate } = searchInfo;
-
-  // if only city get all listings that match that city
-  if (!startDate && !endDate) {
-    Listing.aggregate([
-      {
-        $match: { "address.city": new RegExp(city, "i") },
-      },
-      //  get the user id so we can link to the right profile
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "user",
+module.exports.searchProfiles = ({ hometown, startDate, endDate }) =>
+  new Promise((resolve, reject) => {
+    // if only hometown get all listings that match that hometown
+    if (!startDate && !endDate) {
+      Listing.aggregate([
+        {
+          $match: { hometown: new RegExp(hometown, "i") },
         },
-      },
-      {
-        $unwind: "$user",
-      },
-      {
-        $addFields: {
-          userID: "$user._id",
+        //  get the user id so we can link to the right profile
+        {
+          $lookup: {
+            from: "users",
+            localField: "user",
+            foreignField: "_id",
+            as: "user",
+          },
         },
-      },
-      {
-        $project: {
-          address: 1,
-          availableDates: 1,
-          photos: 1,
-          userID: 1,
+        {
+          $unwind: "$user",
         },
-      },
-    ])
-      .then(listings => resolve(listings))
-      .catch(error => reject(error));
-  } else if (!city) {
-    // if only dates get all listing that match those dates
-    Listing.aggregate([
-      // get any listings that have an end date later than today
-      {
-        $match: { "availableDates.endDate": { $gte: new Date() } },
-      },
-      //  get the user id so we can link to the right profile
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "user",
+        {
+          $addFields: {
+            userID: "$user._id",
+          },
         },
-      },
-      {
-        $unwind: "$user",
-      },
-      {
-        $addFields: {
-          userID: "$user._id",
+        {
+          $lookup: {
+            from: "profiles",
+            localField: "user._id",
+            foreignField: "user",
+            as: "profile",
+          },
         },
-      },
-      //  filter the availableDates so only availableDate objects within the time range remain
-      {
-        $project: {
-          availableDates: {
-            $filter: {
-              input: "$availableDates",
-              as: "availableDate",
-              cond: {
-                $and: [
-                  { $gte: ["$$availableDate.endDate", new Date(startDate)] },
-                  { $lte: ["$$availableDate.startDate", new Date(endDate)] },
-                ],
+        {
+          $unwind: "$profile",
+        },
+        {
+          $match: {
+            "profile.verified": true,
+          },
+        },
+        {
+          $project: {
+            address: 1,
+            availableDates: 1,
+            photos: 1,
+            userID: 1,
+          },
+        },
+      ])
+        .then(listings => resolve(listings))
+        .catch(error => reject(error));
+    } else if (!hometown) {
+      // if only dates get all listing that match those dates
+      Listing.aggregate([
+        // get any listings that have an end date later than today
+        {
+          $match: { "availableDates.endDate": { $gte: new Date() } },
+        },
+        //  get the user id so we can link to the right profile
+        {
+          $lookup: {
+            from: "users",
+            localField: "user",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: "$user",
+        },
+        {
+          $addFields: {
+            userID: "$user._id",
+          },
+        },
+        {
+          $lookup: {
+            from: "profiles",
+            localField: "user._id",
+            foreignField: "user",
+            as: "profile",
+          },
+        },
+        {
+          $unwind: "$profile",
+        },
+        {
+          $match: {
+            "profile.verified": true,
+          },
+        },
+        //  filter the availableDates so only availableDate objects within the time range remain
+        {
+          $project: {
+            availableDates: {
+              $filter: {
+                input: "$availableDates",
+                as: "availableDate",
+                cond: {
+                  $and: [
+                    { $gte: ["$$availableDate.endDate", new Date(startDate)] },
+                    { $lte: ["$$availableDate.startDate", new Date(endDate)] },
+                  ],
+                },
               },
             },
+            address: 1,
+            photos: 1,
+            userID: 1,
           },
-          address: 1,
-          photos: 1,
-          userID: 1,
         },
-      },
-      {
-        $addFields: {
-          totalDates: { $size: "$availableDates" },
+        {
+          $addFields: {
+            totalDates: { $size: "$availableDates" },
+          },
         },
-      },
-      // remove any listings that don't have any available dates within the range
-      {
-        $match: { totalDates: { $gt: 0 } },
-      },
-    ])
-      .then(listings => resolve(listings))
-      .catch(error => reject(error));
-  } else {
-    // otherwise find those that match city AND dates
-    Listing.aggregate([
-      // get any listings that match the city
-      {
-        $match: { "address.city": new RegExp(city, "i") },
-      },
-      // get any listings that have an end date later than today
-      {
-        $match: { "availableDates.endDate": { $gte: new Date() } },
-      },
-      //  get the user id so we can link to the right profile
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "user",
+        // remove any listings that don't have any available dates within the range
+        {
+          $match: { totalDates: { $gt: 0 } },
         },
-      },
-      {
-        $unwind: "$user",
-      },
-      {
-        $addFields: {
-          userID: "$user._id",
+      ])
+        .then(listings => resolve(listings))
+        .catch(error => reject(error));
+    } else {
+      // otherwise find those that match hometown AND dates
+      Listing.aggregate([
+        // get any listings that match the hometown
+        {
+          $match: { hometown: new RegExp(hometown, "i") },
         },
-      },
-      //  filter the availableDates so only availableDate objects within the time range remain
-      {
-        $project: {
-          availableDates: {
-            $filter: {
-              input: "$availableDates",
-              as: "availableDate",
-              cond: {
-                $and: [
-                  { $gte: ["$$availableDate.endDate", new Date(startDate)] },
-                  { $lte: ["$$availableDate.startDate", new Date(endDate)] },
-                ],
+        // get any listings that have an end date later than today
+        {
+          $match: { "availableDates.endDate": { $gte: new Date() } },
+        },
+        //  get the user id so we can link to the right profile
+        {
+          $lookup: {
+            from: "users",
+            localField: "user",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: "$user",
+        },
+        {
+          $addFields: {
+            userID: "$user._id",
+          },
+        },
+        {
+          $lookup: {
+            from: "profiles",
+            localField: "user._id",
+            foreignField: "user",
+            as: "profile",
+          },
+        },
+        {
+          $unwind: "$profile",
+        },
+        {
+          $match: {
+            "profile.verified": true,
+          },
+        },
+        //  filter the availableDates so only availableDate objects within the time range remain
+        {
+          $project: {
+            availableDates: {
+              $filter: {
+                input: "$availableDates",
+                as: "availableDate",
+                cond: {
+                  $and: [
+                    { $gte: ["$$availableDate.endDate", new Date(startDate)] },
+                    { $lte: ["$$availableDate.startDate", new Date(endDate)] },
+                  ],
+                },
               },
             },
+            address: 1,
+            photos: 1,
+            userID: 1,
           },
-          address: 1,
-          photos: 1,
-          userID: 1,
         },
-      },
-      {
-        $addFields: {
-          totalDates: { $size: "$availableDates" },
+        {
+          $addFields: {
+            totalDates: { $size: "$availableDates" },
+          },
         },
-      },
-      // remove any listings that don't have any available dates within the range
-      {
-        $match: { totalDates: { $gt: 0 } },
-      },
-    ])
-      .then(listings => resolve(listings))
-      .catch(error => reject(error));
-  }
-});
+        // remove any listings that don't have any available dates within the range
+        {
+          $match: { totalDates: { $gt: 0 } },
+        },
+      ])
+        .then(listings => resolve(listings))
+        .catch(error => reject(error));
+    }
+  });

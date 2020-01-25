@@ -93,6 +93,7 @@ const profileSchema = new Schema(
     degreeLevel: {
       type: String,
       required: false,
+      enum: types.degreeLevel,
     },
     ethnicity: {
       type: String,
@@ -101,6 +102,7 @@ const profileSchema = new Schema(
     earningOfParents: {
       type: String,
       required: false,
+      enum: types.earningOfParents,
     },
     disability: {
       type: String,

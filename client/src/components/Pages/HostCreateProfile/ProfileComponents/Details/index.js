@@ -4,9 +4,9 @@ import {
   SectionWrapper,
   SectionContent,
   Description,
-} from "../ProfileComponents.style";
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 

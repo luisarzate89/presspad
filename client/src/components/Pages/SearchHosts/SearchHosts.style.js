@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { colors, shadows, size } from "./../../../theme";
+import { colors, shadows, size } from "../../../theme";
 
 export const Wrapper = styled.div`
   padding: 7rem 5rem;
@@ -9,13 +9,12 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (max-width: ${size.laptop}) {
+  @media (max-width: ${size.laptopL}) {
     padding: 7rem 2rem;
   }
 `;
 
 export const Header = styled.div`
-  padding: 0 3rem;
   text-align: center;
   margin-bottom: 2rem;
 `;
@@ -28,39 +27,51 @@ export const HeaderTitle = styled.h1`
 
 export const HeaderText = styled.p`
   text-align: justify;
-  padding-left: 7rem;
-  padding-right: 7rem;
   font-weight: 300;
+  max-width: ${size.mobileXL};
 `;
 
 export const SearchForm = styled.form`
   display: flex;
   background-color: ${colors.white};
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   box-shadow: ${shadows.main};
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  width: 100%;
+  width: auto;
 
-  @media (max-width: ${size.laptop}) {
+  @media (max-width: ${size.tablet}) {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 2.5rem;
+  }
+
+  @media (max-width: ${size.mobileXL}) {
     padding: 2rem 1rem;
   }
 `;
 
-export const FirstSearchInputDiv = styled.label`
+export const FirstSearchInputDiv = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
   @media (max-width: ${size.tablet}) {
     margin-bottom: 1rem;
   }
 `;
 
 export const SearchLabel = styled.label`
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
+
+  @media (max-width: ${size.tablet}) {
+    width: ${({ small }) => (small ? "auto" : "80px")};
+  }
 `;
 
 export const SearchInputDiv = styled.div`
-  margin-left: 2rem;
   display: flex;
   align-items: center;
+  margin: 0 0.5rem;
 
   /* this styling is currently in here to make interests inactive */
   position: relative;
@@ -74,12 +85,31 @@ export const SearchInputDiv = styled.div`
   }
 
   @media (max-width: ${size.laptop}) {
-    margin-left: 1rem;
+    margin: 0;
   }
 
   @media (max-width: ${size.tablet}) {
     margin-left: 0;
     margin-bottom: 1rem;
+  }
+`;
+
+export const DateItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+`;
+
+export const Item = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const SearchButtonDiv = styled(SearchInputDiv)`
+  @media (max-width: ${size.tablet}) {
+    justify-content: center;
+    width: 100%;
+    padding-top: 1rem;
   }
 `;
 
@@ -96,6 +126,7 @@ export const SearchButton = styled.button`
   border: 0;
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   transition: all ease 0.15s;
+  margin-left: 1rem;
 
   &:hover,
   &:active {

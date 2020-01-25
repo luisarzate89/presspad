@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import HostView from "./HostView";
 import InternOrgView from "./InternOrgView";
 import AdminView from "./AdminView";
+import { Error404 } from "../../../constants/navRoutes";
 
 export default function HostProfile(props) {
   const { role } = props;
@@ -16,6 +17,6 @@ export default function HostProfile(props) {
     case "host":
       return <HostView {...props} />;
     default:
-      return <Redirect to="/404" />;
+      return <Redirect to={Error404} />;
   }
 }

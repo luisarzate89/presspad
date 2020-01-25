@@ -4,7 +4,7 @@ import {
   SectionTitle,
   GrayHint,
   TitleWrapper
-} from "./ProfileComponents.style";
+} from "../../../Common/ProfileComponents/ProfileComponents.style";
 
 export default function Title({ title, hint }) {
   return (

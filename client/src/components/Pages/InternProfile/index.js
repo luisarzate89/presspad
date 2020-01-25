@@ -3,19 +3,19 @@ import { Redirect } from "react-router-dom";
 
 import AdminOrInternView from "./AdminOrInternView";
 import HostView from "./HostView";
+import { Error404 } from "../../../constants/navRoutes";
 
 export default function InternProfile(props) {
   const { role } = props;
   switch (role) {
     case "intern":
-    case "admin":
       return <AdminOrInternView {...props} />;
 
     case "host":
-    case "superhost":
+    case "organisation":
       return <HostView {...props} />;
 
     default:
-      return <Redirect to="/404" />;
+      return <Redirect to={Error404} />;
   }
 }

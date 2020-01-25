@@ -115,6 +115,7 @@ export default {
     type: "text",
     placeholder: "",
     name: "phoneNumber",
+    fullHeight: true,
     max: 50,
   },
   reference1Name: {

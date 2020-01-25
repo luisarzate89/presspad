@@ -23,7 +23,7 @@ import {
   CarouselWrapper,
   Quote,
   TestimonialWords,
-  Arrow
+  Arrow,
 } from "./LandingPage.style";
 
 // import images
@@ -37,12 +37,12 @@ import internFindMore from "./../../../assets/intern.png";
 
 class LandingPage extends Component {
   state = {
-    slideIndex: 0
+    slideIndex: 0,
   };
 
   afterChange = slideIndex => {
     this.setState({
-      slideIndex
+      slideIndex,
     });
   };
 
@@ -57,7 +57,7 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
-      {/*<Arrow />*/}
+        {/*<Arrow />*/}
         <HeroSection src={heroImage}>
           <Iframe
             src="https://www.youtube.com/embed/OCWj5xgu5Ng"
@@ -106,7 +106,7 @@ class LandingPage extends Component {
                 <CardButton to="/sign-up/organisation">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
-                <CardIcon src={hostFindMore} />
+                <CardIcon src={internFindMore} />
                 <CardTitle>Intern</CardTitle>
                 <CardDescription>
                   Looking to learn more from industry professionals? If your
@@ -117,7 +117,7 @@ class LandingPage extends Component {
                 <CardButton to="/sign-up/intern">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
-                <CardIcon src={internFindMore} />
+                <CardIcon src={hostFindMore} />
                 <CardTitle>Host</CardTitle>
                 <CardDescription>
                   Want to be a mentor and a host? At the moment, our hosting

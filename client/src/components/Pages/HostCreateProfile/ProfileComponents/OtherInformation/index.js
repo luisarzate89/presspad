@@ -1,8 +1,11 @@
 import React from "react";
 import { Row, Col } from "antd";
-import { SectionWrapper, SectionContent } from "../ProfileComponents.style";
+import {
+  SectionWrapper,
+  SectionContent
+} from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
-import Title from "../Title";
+import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
 
@@ -12,7 +15,7 @@ const OtherInformationDetails = ({
   handleChange,
   handleError,
   userId,
-  role,
+  role
 }) => (
   <SectionWrapper>
     <Title title="Other information" />

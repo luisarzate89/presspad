@@ -9,7 +9,7 @@ class InternProfile extends Component {
   state = {
     viewNumber: 3,
     userInfo: {},
-    bookingsWithReviews: [],
+    bookingsWithReviews: []
   };
 
   componentDidMount() {
@@ -24,14 +24,14 @@ class InternProfile extends Component {
       .get(
         `${API_INTERN_PROFILE_URL.replace(
           ":id",
-          id,
-        )}?expand=bookings&expand=reviews`,
+          id
+        )}?expand=bookings&expand=reviews`
       )
       .then(res => {
         this.setState({
           // isLoading: false,
           userInfo: res.data.userInfo,
-          bookingsWithReviews: res.data.bookingsWithReviews,
+          bookingsWithReviews: res.data.bookingsWithReviews
         });
       })
       .catch(err => {
@@ -71,7 +71,7 @@ class InternProfile extends Component {
       reference1 = {},
       reference2 = {},
       photoID = {},
-      offerLetter = {},
+      offerLetter = {}
     } = profile;
 
     const { title, author, description, link } = favouriteArticle;

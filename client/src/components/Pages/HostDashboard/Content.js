@@ -9,7 +9,7 @@ import {
   Table,
   Modal,
   InputNumber,
-  Input
+  Input,
 } from "antd";
 import { getStringTime } from "./../../../helpers";
 
@@ -36,7 +36,7 @@ import {
   Label,
   BoldTitle,
   Error,
-  ErrorWrapper
+  ErrorWrapper,
 } from "./HostDashboard.style";
 
 import BookingSection from "./../../Common/BookingSection";
@@ -74,7 +74,7 @@ const Content = ({
   handleOpenModal,
   handleCloseModals,
   handleSubmitDonate,
-  handleSubmitWithdrawRequest
+  handleSubmitWithdrawRequest,
 }) => {
   return (
     <PageWrapper className="wrapper">
@@ -96,7 +96,7 @@ const Content = ({
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)"
+                    border: "1px solid rgba(0, 0, 0, 0.15)",
                   }}
                 />
               </div>
@@ -130,8 +130,8 @@ const Content = ({
               "N/A"
             }
             bookingId={nextBooking._id}
-            startDate={nextBooking.endDate}
-            endDate={nextBooking.startDate}
+            startDate={nextBooking.startDate}
+            endDate={nextBooking.endDate}
             profileImage={
               (nextGuestProfile.profileImage &&
                 nextGuestProfile.profileImage.url) ||
@@ -177,7 +177,7 @@ const Content = ({
                     onRow={record => {
                       return {
                         onClick: () => history.push(`booking/${record._id}`),
-                        style: { cursor: "pointer" }
+                        style: { cursor: "pointer" },
                       };
                     }}
                   />
@@ -287,7 +287,7 @@ const Content = ({
                   width: "140px",
                   border: errors.donateValue
                     ? "1px solid red"
-                    : "1px solid #d9d9d9"
+                    : "1px solid #d9d9d9",
                 }}
                 formatter={value =>
                   `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -336,7 +336,7 @@ const Content = ({
             align="middle"
             style={{
               width: "100%",
-              marginBottom: errors.bankName ? "20px" : 0
+              marginBottom: errors.bankName ? "20px" : 0,
             }}
           >
             <Col span={10}>
@@ -361,7 +361,7 @@ const Content = ({
             align="middle"
             style={{
               width: "100%",
-              marginBottom: errors.bankSortCode ? "20px" : 0
+              marginBottom: errors.bankSortCode ? "20px" : 0,
             }}
           >
             <Col span={10}>
@@ -386,7 +386,7 @@ const Content = ({
             align="middle"
             style={{
               width: "100%",
-              marginBottom: errors.accountNumber ? "20px" : 0
+              marginBottom: errors.accountNumber ? "20px" : 0,
             }}
           >
             <Col span={10}>
@@ -412,7 +412,7 @@ const Content = ({
             align="middle"
             style={{
               width: "100%",
-              marginBottom: errors.withdrawValue ? "20px" : 0
+              marginBottom: errors.withdrawValue ? "20px" : 0,
             }}
           >
             <Col span={10}>
@@ -431,7 +431,7 @@ const Content = ({
                     width: "140px",
                     border: errors.withdrawValue
                       ? "1px solid red"
-                      : "1px solid #d9d9d9"
+                      : "1px solid #d9d9d9",
                   }}
                   formatter={value =>
                     `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")

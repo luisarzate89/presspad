@@ -1,32 +1,49 @@
 import styled from "styled-components";
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows, size } from "./../../../theme";
 
 export const Wrapper = styled.div`
-  padding: 6rem 0;
+  padding: 6rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+
+  @media (max-width: ${size.mobileXL}) {
+    padding: 4rem 1rem;
+  }
 `;
 
 export const HeaderText = styled.h2`
   margin: 3rem 0;
-  width: 600px;
+  max-width: ${size.mobileXL};
   text-align: center;
   color: #07294a;
   font-size: 1.7rem;
+
+  @media (max-width: ${size.mobileXL}) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const SignUpForm = styled.form`
   background-color: ${colors.white};
   box-shadow: ${shadows.main};
-  padding: 3rem 1rem;
-  width: 600px;
+  padding: 3rem 10rem;
+  max-width: ${size.laptop};
+  min-width: ${size.mobileXL};
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: ${size.mobileXL}) {
+    min-width: 300px;
+    padding: 2rem 4rem;
+  }
+
+  @media (max-width: ${size.mobileL}) {
+    padding: 2rem 1rem;
+  }
 `;
 
 export const FormHeader = styled.h3`
@@ -34,10 +51,14 @@ export const FormHeader = styled.h3`
   line-height: 30px;
   font-size: 1.25rem;
   font-weight: 300;
-  padding: 0 2rem;
   margin: 0 auto;
   margin-bottom: 2rem;
-  width: 60%;
+  max-width: ${size.mobileL};
+
+  @media (max-width: ${size.mobileXL}) {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 export const InputLabel = styled.label`
@@ -47,8 +68,10 @@ export const InputLabel = styled.label`
 `;
 
 export const InputDiv = styled.div`
-  width: 50%;
   margin-bottom: 1rem;
+  width: 100%;
+  max-width: ${size.mobileL};
+
   .ant-input {
     color: ${props =>
       props.isError ? colors.redSecond : "inherit"} !important;
