@@ -5,6 +5,8 @@ import {
   SectionContent,
 } from "../../../../Common/ProfileComponents/ProfileComponents.style";
 
+import ListingGallery from "../../../../Common/Profile/ListingGallery";
+
 import Title from "../../../../Common/ProfileComponents/Title";
 import Field from "../../../../Common/ProfileComponents/Field";
 import fields from "../../../../../constants/fields";
@@ -33,42 +35,50 @@ const OfferDetails = ({
     />
     <SectionContent>
       <Row gutter={25}>
-        <Col xs={24} sm={8}>
-          <Row gutter={25}>
-            <Col xs={24}>
-              <Field
-                {...fields.photos1}
-                value={data.photos1}
-                error={errors.photos1}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-            </Col>
-            <Col xs={24}>
-              <Field
-                {...fields.photos2}
-                value={data.photos2}
-                error={errors.photos2}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-            </Col>
-            <Col xs={24}>
-              <Field
-                {...fields.photos3}
-                value={data.photos3}
-                error={errors.photos3}
-                handleChange={handleChange}
-                handleError={handleError}
-                userId={userId}
-                role={role}
-              />
-            </Col>
-          </Row>
+        <Col xs={24} sm={isAdmin ? 24 : 8}>
+          {isAdmin ? (
+            <ListingGallery
+              img1={data.photos1 && data.photos1.fileName}
+              img2={data.photos2 && data.photos2.fileName}
+              img3={data.photos3 && data.photos3.fileName}
+            />
+          ) : (
+            <Row gutter={25}>
+              <Col xs={24}>
+                <Field
+                  {...fields.photos1}
+                  value={data.photos1}
+                  error={errors.photos1}
+                  handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
+                  role={role}
+                />
+              </Col>
+              <Col xs={24}>
+                <Field
+                  {...fields.photos2}
+                  value={data.photos2}
+                  error={errors.photos2}
+                  handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
+                  role={role}
+                />
+              </Col>
+              <Col xs={24}>
+                <Field
+                  {...fields.photos3}
+                  value={data.photos3}
+                  error={errors.photos3}
+                  handleChange={handleChange}
+                  handleError={handleError}
+                  userId={userId}
+                  role={role}
+                />
+              </Col>
+            </Row>
+          )}
         </Col>
         <Col xs={24} sm={16}>
           <Field

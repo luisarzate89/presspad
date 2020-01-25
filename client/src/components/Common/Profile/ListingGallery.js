@@ -6,13 +6,13 @@ import {
   MainImageDiv,
   MainImage,
   SubImage,
-  SideImageDiv
-} from "./ListingGallery.style.js";
+  SideImageDiv,
+} from "./ListingGallery.style";
 
 // assets
 import ListingPlaceholder from "../../../assets/listing-placeholder.jpg";
 
-function ListingGallery({ img1, img2, img3, windowWidth }) {
+function ListingGallery({ img1, img2, img3, windowWidth = window.innerWidth }) {
   return (
     <ImageSection>
       {windowWidth < 776 ? (
