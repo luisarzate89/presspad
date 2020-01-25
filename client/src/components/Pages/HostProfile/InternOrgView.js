@@ -54,6 +54,7 @@ export default class InternView extends Component {
     isLoading: true,
     profileData: null,
     internBookings: [],
+    showFullData: false,
   };
 
   componentDidMount() {
@@ -82,6 +83,7 @@ export default class InternView extends Component {
           this.setState({
             isLoading: false,
             profileData: data,
+            showFullData: data.showFullData,
           });
         }
       })
@@ -132,6 +134,7 @@ export default class InternView extends Component {
           otherInfo,
           description,
           accommodationChecklist,
+          neighbourhoodDescription,
         },
         profile: {
           bio,
@@ -146,12 +149,13 @@ export default class InternView extends Component {
           hometown,
           gender,
           school,
+          workingArea,
         },
         name,
       },
       internBookings,
+      showFullData,
     } = this.state;
-
     const { match, id: currentUserId, role } = this.props;
     const { id: hostId } = match.params;
 
@@ -160,28 +164,38 @@ export default class InternView extends Component {
         <LinkDiv>
           <BackLinkDiv>
             <Arrow />
-            <BackLink to="/">Back to Search Results</BackLink>
+            <BackLink
+              onClick={() => this.props.history.push("/hosts")}
+              as="button"
+            >
+              Back to Search Results
+            </BackLink>
           </BackLinkDiv>
         </LinkDiv>
         <Header>
           <TopDiv>
             <ProfilePic
               src={profileImage.url || profilePlaceholder}
-              adminView={role === "admin" || userId === currentUserId}
+              adminView={role === "admin" || userId === currentUserId || !!name}
               onError={this.handleImageFail}
+              blur={!showFullData}
             />
             <HeaderDiv>
               {role === "admin" ? (
-                <Headline>{name}</Headline>
+                <Headline>{name || "Anonymous"}</Headline>
               ) : (
                 <Headline>
-                  {jobTitle &&
-                    `A ${titleCase(jobTitle)} ${
-                      organisation ? `at ${titleCase(organisation)}` : ""
-                    }`}
+                  {name
+                    ? `${name} (${jobTitle &&
+                        `A ${titleCase(jobTitle)} ${organisation &&
+                          `at ${titleCase(organisation)}`}`})`
+                    : jobTitle &&
+                      `A ${titleCase(jobTitle)} ${
+                        organisation ? `at ${titleCase(organisation)}` : ""
+                      }`}
                 </Headline>
               )}
-              <Address>{`${address.street}, ${address.city}`}</Address>
+              <Address>{address}</Address>
             </HeaderDiv>
           </TopDiv>
           <TopDiv>
@@ -225,6 +239,11 @@ export default class InternView extends Component {
                       <Strong>Gender:</Strong> {titleCase(gender)}
                     </span>
                   )}
+                  {workingArea && (
+                    <span>
+                      <Strong>Working Area:</Strong> {titleCase(workingArea)}
+                    </span>
+                  )}
                 </Paragraph>
               </InfoCard>
             </Card>
@@ -237,6 +256,14 @@ export default class InternView extends Component {
                       <ListItem key={li}>{li}</ListItem>
                     ))}
                   </List>
+                </InfoCard>
+              </Card>
+            )}
+            {neighbourhoodDescription && (
+              <Card>
+                <InfoCard>
+                  <SubHeadline>The Neighbourhood</SubHeadline>
+                  <Paragraph>{neighbourhoodDescription}</Paragraph>
                 </InfoCard>
               </Card>
             )}
@@ -293,7 +320,7 @@ export default class InternView extends Component {
                   {backgroundAnswer && (
                     <>
                       <ParagraphHeadline>
-                        My experience getting into the industry
+                        Something you should know
                       </ParagraphHeadline>
                       <Paragraph>{backgroundAnswer}</Paragraph>
                     </>

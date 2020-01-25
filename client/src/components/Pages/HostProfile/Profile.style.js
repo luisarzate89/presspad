@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows } from "../../../theme";
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
 const classNames = {
   reactCalendar: ".react-calendar",
-  reactCalendarNavigation: ".react-calendar__navigation"
+  reactCalendarNavigation: ".react-calendar__navigation",
 };
 
 export const MainSection = styled.section`
@@ -69,8 +69,8 @@ export const BackLink = styled(Link)`
 `;
 
 const blurPic = css`
-  filter: blur(2px);
-  -webkit-filter: blur(2px);
+  filter: ${({ blur }) => (blur ? "blur(2px)" : "none")};
+  -webkit-filter: ${({ blur }) => (blur ? "blur(2px)" : "none")};
 `;
 
 export const ProfilePic = styled.img`

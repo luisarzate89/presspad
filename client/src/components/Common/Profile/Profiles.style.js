@@ -31,11 +31,14 @@ export const BackLinkDiv = styled.div`
   }
 `;
 
-export const BackLink = styled.p`
+export const BackLink = styled.button`
   color: ${colors.links};
   text-decoration: none;
   font-weight: 500;
   line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export const Arrow = styled(BackArrowIcon)`
@@ -125,8 +128,8 @@ export const Paragraph = styled.p`
   font-size: 16px;
   text-align: left;
   font-weight: 300;
-  color: ${colors.fontLightBlack};
-  margin-top: 8px;
+  color: #8a8a8a;
+  margin-bottom: 2rem;
 `;
 
 export const TopDiv = styled.div`

@@ -249,7 +249,7 @@ class CalendarComponent extends Component {
             }
           />
         </CalendarWrapper>
-        {role !== "host" && role !== "superhost" && role !== "organisation" && (
+        {role === "intern" && (
           <PricingDiv>
             <PriceHeadline>Full price for period</PriceHeadline>
             <PriceLabel>£{price}</PriceLabel>

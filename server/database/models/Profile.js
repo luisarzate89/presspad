@@ -159,11 +159,6 @@ const profileSchema = new Schema(
       validate: wordLengthValidator(50, "internshipOfficeAddress"),
       required: false,
     },
-    address: {
-      type: String,
-      validate: wordLengthValidator(50, "address"),
-      required: false, // for host
-    },
     interests: {
       type: String,
       trim: true,
