@@ -110,9 +110,8 @@ class HostView extends Component {
             role="button"
             onClick={() => this.props.history.goBack()}
           >
-            <BackLink>
-              <Arrow /> Back
-            </BackLink>
+            <Arrow />
+            <BackLink>Back</BackLink>
           </BackLinkDiv>
         </LinkDiv>
         <Header>

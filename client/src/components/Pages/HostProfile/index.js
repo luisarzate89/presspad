@@ -5,7 +5,7 @@ import { Spin, message } from "antd";
 import axios from "axios";
 import {
   API_VERIFY_PROFILE_URL,
-  API_GET_USER_BOOKINGS_URL
+  API_GET_USER_BOOKINGS_URL,
 } from "../../../constants/apiRoutes";
 
 import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
@@ -26,14 +26,13 @@ import {
   AdminTopDiv,
   MultipleButtons,
   Arrow,
-  BackToAdmin,
   BackLink,
   Header,
   HeaderDiv,
   Headline,
   SubHeadline,
   ParagraphHeadline,
-  Paragraph
+  Paragraph,
   // StarRate
 } from "../../Common/Profile/Profiles.style";
 
@@ -50,7 +49,7 @@ import {
   List,
   ListItem,
   EditButton,
-  Strong
+  Strong,
   // Reviews,
   // ReviewsBox,
   // MoreReviewsLink,
@@ -74,7 +73,7 @@ class HostProfile extends Component {
     internBookings: [],
     availableDates: [],
     profileId: null,
-    adminApprovedProfile: false
+    adminApprovedProfile: false,
   };
 
   // functions
@@ -104,7 +103,7 @@ class HostProfile extends Component {
           this.setState({
             profileData: data,
             adminApprovedProfile: data.profile.verified,
-            isLoading: false
+            isLoading: false,
           });
         }
       })
@@ -121,7 +120,7 @@ class HostProfile extends Component {
                 You don't have profile
                 <br /> You will be redirected to complete your profile
               </p>,
-              1
+              1,
             )
             .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         } else {
@@ -165,7 +164,7 @@ class HostProfile extends Component {
           photos,
           otherInfo,
           description,
-          accommodationChecklist
+          accommodationChecklist,
         },
         profile: {
           bio,
@@ -179,21 +178,15 @@ class HostProfile extends Component {
           badge,
           hometown,
           gender,
-          school
+          school,
         },
         name,
-        email
+        email,
       },
       internBookings,
-      adminApprovedProfile
+      adminApprovedProfile,
     } = this.state;
-    const {
-      hideProfile,
-      match,
-      id: currentUserId,
-      role,
-      windowWidth
-    } = this.props;
+    const { match, id: currentUserId, role, windowWidth } = this.props;
     const { id: hostId } = match.params;
 
     return (
@@ -201,9 +194,12 @@ class HostProfile extends Component {
         <LinkDiv>
           {role === "admin" ? (
             <AdminTopDiv>
-              <BackLinkDiv>
+              <BackLinkDiv
+                role="button"
+                onClick={() => this.props.history.goBack()}
+              >
                 <Arrow />
-                <BackToAdmin onClick={hideProfile}>back to hosts</BackToAdmin>
+                <BackLink>Back to hosts</BackLink>
               </BackLinkDiv>
               {adminApprovedProfile ? (
                 <Button

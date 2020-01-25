@@ -112,7 +112,7 @@ export default class AdminView extends React.Component {
         <ContentWrapper>
           <BackLinkDiv>
             <Arrow />
-            <BlueLink onClick={goBack}>back to search results</BlueLink>
+            <BlueLink onClick={goBack}>Back to search results</BlueLink>
           </BackLinkDiv>
           <TabbedView
             activeKey={activeKey}
