@@ -6,6 +6,8 @@ import moment from "moment";
 
 import { API_INTERN_PROFILE_URL } from "../../../../constants/apiRoutes";
 
+import Reviews from "../../../Common/Reviews";
+
 // styles
 import {
   Wrapper,
@@ -83,6 +85,7 @@ class HostView extends Component {
     if (this.state.isLoading) return <Spin tip="Loading Request" />;
 
     const { internData } = this.state;
+    const { id: internId } = this.props.match.params;
 
     const {
       name,
@@ -242,6 +245,12 @@ class HostView extends Component {
                 {mentorDescribeAnswer || "Answer is not available"}
               </Paragraph>
             </InnerCard>
+          </Card>
+        </MoreAboutSection>
+
+        <MoreAboutSection style={{ marginTop: "3rem" }}>
+          <Card>
+            <Reviews userId={internId} />
           </Card>
         </MoreAboutSection>
       </Wrapper>
