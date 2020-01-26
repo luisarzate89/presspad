@@ -10,6 +10,10 @@ export const ContentWrapper = styled.div`
   max-width: 1140px;
   width: 80%;
   margin: 0 auto;
+
+  @media (max-width: 600px) {
+    width: 93%;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
