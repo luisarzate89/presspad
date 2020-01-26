@@ -13,7 +13,9 @@ export const MainTitle = styled.h3`
   margin-bottom: 1.75rem;
 `;
 
-export const ReviewWrapper = styled.h3``;
+export const ReviewWrapper = styled.div`
+  margin-bottom: 2rem;
+`;
 
 export const ReviewHeader = styled.div`
   display: flex;

@@ -248,9 +248,9 @@ class HostView extends Component {
           </Card>
         </MoreAboutSection>
 
-        <MoreAboutSection style={{ marginTop: "3rem" }}>
+        <MoreAboutSection style={{ marginTop: "5rem" }}>
           <Card>
-            <Reviews userId={internId} />
+            <Reviews userId={internId} name={name} userRole="intern" />
           </Card>
         </MoreAboutSection>
       </Wrapper>

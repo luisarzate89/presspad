@@ -9,7 +9,7 @@ import {
   ReviewBody,
 } from "./Reviews.style";
 
-const Review = ({ rate, name, jobTitle, reviewBody }) => (
+const Review = ({ rate, name, jobTitle, message }) => (
   <ReviewWrapper>
     <ReviewHeader>
       <SubTitle>
@@ -17,7 +17,7 @@ const Review = ({ rate, name, jobTitle, reviewBody }) => (
       </SubTitle>{" "}
       <Rate disabled defaultValue={rate} style={{ color: "#5EBFD0" }} />
     </ReviewHeader>
-    <ReviewBody>{reviewBody}</ReviewBody>
+    <ReviewBody>{message}</ReviewBody>
   </ReviewWrapper>
 );
 
