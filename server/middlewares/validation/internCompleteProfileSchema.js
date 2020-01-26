@@ -62,7 +62,7 @@ const internCompleteProfileSchema = Joi.object({
   sexualOrientation: Joi.string().required(),
   degreeLevel: Joi.string().required(),
   ethnicity: Joi.string().required(),
-  earningOfParents: Joi.string().required(),
+  parentProfession: Joi.string().required(),
   disability: Joi.string().required(),
   parentsWorkInPress: Joi.string().required(),
   caringResponsibilities: Joi.string().required(),

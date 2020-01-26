@@ -52,8 +52,8 @@ export const offerSchema = object({
       endDate: date(),
     }),
   ).required(),
-  accommodationChecklist: array()
-    .of(string())
+  accommodationChecklist: array(string())
+    .min(1)
     .required(),
   neighbourhoodDescription: string().max(250),
   otherInfo: string()
@@ -92,12 +92,13 @@ export const detailsSchema = object({
     fileName: string().required(),
     isPrivate: boolean().default(true),
   }),
-  sexualOrientation: string(),
-  degreeLevel: lazy(optionalWordLengthValidator(20)),
-  ethnicity: lazy(optionalWordLengthValidator(20)),
-  earningOfParents: lazy(optionalWordLengthValidator(20)),
-  disability: lazy(optionalWordLengthValidator(15)),
-  parentsWorkInPress: lazy(optionalWordLengthValidator(2)),
+  // options
+  sexualOrientation: lazy(optionalWordLengthValidator(6)),
+  degreeLevel: lazy(optionalWordLengthValidator(22)),
+  ethnicity: lazy(optionalWordLengthValidator(6)),
+  parentProfession: lazy(optionalWordLengthValidator(22)),
+  disability: lazy(optionalWordLengthValidator(11)),
+  parentsWorkInPress: lazy(optionalWordLengthValidator(5)),
   caringResponsibilities: lazy(optionalWordLengthValidator(250)),
   consentedOnPressPadTerms: boolean()
     .oneOf([true], "You must agree to the terms in order to use PressPad")

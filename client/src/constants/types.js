@@ -69,15 +69,14 @@ export default {
   ],
   degreeLevel: [
     "GCSEs",
-    "A levels or equivalent (International Baccalaureate diploma, HNC, NVQ Level",
-    "4-5 HNC, HND, RSA Higher Diploma, BTEX Higher Level, non-UK qualification equivalent)",
+    "A levels or equivalent (International Baccalaureate diploma, HNC, NVQ Level 4-5, HNC, HND, RSA Higher Diploma, BTEC Higher Level, non-UK qualification equivalent))",
     "Undergraduate degree or equivalent",
     "Professional qualification (e.g. teaching, nursing, accountancy",
     "Master's degree",
     "PhD/Doctoral degree",
     "I'd prefer not to say",
   ],
-  earningOfParents: [
+  parentProfession: [
     "Modern professional occupations such as (teacher, nurse, physiotherapist, social worker, musician, police officer (sergeant or above), software designer)",
     "Clerical and intermediate occupations (such as secretary, personal assistant, clerical worker, call centre agent, nursery nurse)",
     "Senior managers or administrators usually responsible for planning, organising and co-ordinator work, and for finance (such as finance manager, chief executive)",
