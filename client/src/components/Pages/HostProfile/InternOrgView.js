@@ -346,6 +346,7 @@ export default class InternView extends Component {
                   internBookings={internBookings}
                   price={price}
                   adminView={role === "admin"}
+                  getHostProfile={this.getHostProfile}
                 />
               </CalendarDiv>
             </Card>
