@@ -99,10 +99,10 @@ const profileSchema = new Schema(
       type: String,
       enum: types.ethnicity,
     },
-    earningOfParents: {
+    parentProfession: {
       type: String,
       required: false,
-      enum: types.earningOfParents,
+      enum: types.parentProfession,
     },
     disability: {
       type: String,

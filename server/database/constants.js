@@ -102,7 +102,7 @@ module.exports = {
       "PhD/Doctoral degree",
       "I'd prefer not to say",
     ], // waiting for PO to send over
-    earningOfParents: [
+    parentProfession: [
       "Modern professional occupations such as (teacher, nurse, physiotherapist, social worker, musician, police officer (sergeant or above), software designer)",
       "Clerical and intermediate occupations (such as secretary, personal assistant, clerical worker, call centre agent, nursery nurse)",
       "Senior managers or administrators usually responsible for planning, organising and co-ordinator work, and for finance (such as finance manager, chief executive)",

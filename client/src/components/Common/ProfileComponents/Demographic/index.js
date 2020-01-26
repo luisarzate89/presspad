@@ -85,9 +85,9 @@ const Demographic = ({
           </Col>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["earningOfParents"]}
-              value={data["earningOfParents"]}
-              error={errors["earningOfParents"]}
+              {...fields["parentProfession"]}
+              value={data["parentProfession"]}
+              error={errors["parentProfession"]}
               {...props}
               fieldPadding="0 0 0.5rem 0"
             />
