@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { colors, shadows, size } from "./../../../theme";
+import { colors, shadows, size } from "../../../theme";
 
 export const Wrapper = styled.div`
   padding: 6rem 1rem;
@@ -79,7 +79,7 @@ export const InputDiv = styled.div`
 `;
 
 export const DisclaimerWrapper = styled.div`
-  width: 50%;
+  max-width: 425px;
   font-size: 1rem;
 `;
 

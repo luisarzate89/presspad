@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Moment from "moment";
-import schema from "./schema";
-import { calculatePrice } from "./../../../helpers";
 import { extendMoment } from "moment-range";
 import { message } from "antd";
+import schema from "./schema";
+import { calculatePrice } from "../../../helpers";
 
 import {
   API_ORGS_DASHBOARD_URL,
   API_INTERNS_URL,
   API_COUPONS_URL,
-} from "./../../../constants/apiRoutes";
+} from "../../../constants/apiRoutes";
 
 import Content from "./Content";
 
@@ -175,6 +175,8 @@ class OrganizationDashboard extends Component {
   handleStartOpenChange = open => {
     if (!open) {
       this.setState({ endOpen: true });
+    } else {
+      this.setState({ endValue: undefined });
     }
   };
 
