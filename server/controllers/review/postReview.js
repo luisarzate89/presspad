@@ -5,10 +5,7 @@ const {
 } = require("../../database/queries/review");
 const { createNotification } = require("../../database/queries/notification");
 
-const reviewControllers = {};
-module.exports = reviewControllers;
-
-reviewControllers.createReview = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { to, rating, message, from } = req.body;
 
   const { id: booking } = req.params;
