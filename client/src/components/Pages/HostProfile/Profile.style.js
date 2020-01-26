@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
-import { colors, shadows } from "../../../theme";
+import { colors, shadows, size } from "../../../theme";
 import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
 
 const classNames = {
@@ -13,6 +13,7 @@ export const MainSection = styled.section`
   width: 100%;
   margin-top: 7px;
   display: flex;
+  position: relative;
 
   @media (max-width: 775.98px) {
     margin-top: 0px;
@@ -93,12 +94,10 @@ export const Address = styled.h3`
 `;
 
 export const SymbolDiv = styled.div`
-  position: relative;
+  position: absolute;
+  right: 0;
   width: 25%;
-
-  @media (max-width: 775.98px) {
-    width: 100%;
-  }
+  padding-top: 1rem;
 `;
 
 export const Symbol = styled.div`
@@ -168,6 +167,26 @@ export const Card = styled.div`
   width: 100%;
   box-shadow: ${shadows.card};
   background-color: ${colors.white};
+
+  @media (max-width: ${size.mobileM}) {
+    padding: 1rem;
+  }
+
+  ${({ mobile }) =>
+    mobile &&
+    css`
+      padding: 1rem 2rem;
+      position: relative;
+    `}
+
+  ${({ mobileSmall }) =>
+    mobileSmall &&
+    css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+    `}
 `;
 
 const InnerCard = styled.div`
@@ -249,10 +268,18 @@ export const AvailableHosting = styled.div`
   background-color: ${colors.white};
   height: auto;
 
-  @media (max-width: 775.98px) {
+  @media (max-width: 775.99px) {
     width: 100%;
     margin-left: 0;
     padding-top: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  @media (max-width: ${size.mobileM}) {
+    overflow-y: scrollable;
+    z-index: 99;
   }
 `;
 
@@ -291,8 +318,19 @@ export const SubHeadline = styled.h2`
   font-weight: 600;
   font-size: 22px;
   text-align: left;
-  color: ${colors.fontLightBlack};
-  margin-top: 5px;
+  margin: 5px 1rem 0 0;
+`;
+
+export const MobileSubHeadline = styled.h2`
+  font-weight: 600;
+  font-size: 18px;
+  text-align: left;
+  padding-right: 2rem;
+  padding-top: 0.5rem;
+
+  @media (max-width: ${size.mobileM}) {
+    padding-right: 0.25rem;
+  }
 `;
 
 export const List = styled.div`

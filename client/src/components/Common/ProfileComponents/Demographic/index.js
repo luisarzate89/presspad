@@ -65,9 +65,9 @@ const Demographic = ({
           </Col>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["earningOfParents"]}
-              value={data["earningOfParents"]}
-              error={errors["earningOfParents"]}
+              {...fields["disability"]}
+              value={data["disability"]}
+              error={errors["disability"]}
               {...props}
               fieldPadding="0 0 0.5rem 0"
             />
@@ -76,18 +76,18 @@ const Demographic = ({
         <Row gutter={25}>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["disability"]}
-              value={data["disability"]}
-              error={errors["disability"]}
+              {...fields["parentsWorkInPress"]}
+              value={data["parentsWorkInPress"]}
+              error={errors["parentsWorkInPress"]}
               {...props}
               fieldPadding="0 0 0.5rem 0"
             />
           </Col>
           <Col xs={24} sm={12}>
             <Field
-              {...fields["parentsWorkInPress"]}
-              value={data["parentsWorkInPress"]}
-              error={errors["parentsWorkInPress"]}
+              {...fields["earningOfParents"]}
+              value={data["earningOfParents"]}
+              error={errors["earningOfParents"]}
               {...props}
               fieldPadding="0 0 0.5rem 0"
             />
