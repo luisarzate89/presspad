@@ -205,7 +205,7 @@ export default class InternView extends Component {
                       }`}
                 </Headline>
               )}
-              <Address>{address}</Address>
+              <Address>{address || ""}</Address>
             </HeaderDiv>
           </TopDiv>
           <TopDiv>

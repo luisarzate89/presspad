@@ -285,12 +285,14 @@ export default class BookingView extends Component {
                 <span>
                   {(jobTitle || organisation) &&
                     ` (${jobTitle ? `A ${jobTitle}` : ""} ${
-                      organisation ? `at${organisation}` : ""
+                      organisation ? `at ${organisation}` : ""
                     })`}
                 </span>
               </Headline>
 
-              <Address>{renderedAddress && renderedAddress}</Address>
+              <Address>
+                {!renderedAddress.includes("undefined") ? renderedAddress : ""}
+              </Address>
             </HeaderDiv>
           </div>
           {badge && <Symbol src={starSign} />}
