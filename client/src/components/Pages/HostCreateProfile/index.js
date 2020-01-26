@@ -210,13 +210,16 @@ export default class HostCreateProfile extends Component {
 
   handleSubmit = async () => {
     // TODO: run validation
+    this.setState({ loading: true });
     try {
       await detailsSchema.validate(
         { ...this.state.data },
         { abortEarly: false },
       );
     } catch (e) {
+      window.scrollTo(0, 0);
       this.setState(({ errors }) => ({
+        loading: false,
         errors: { ...errors, ...this.handleValidationError(e) },
       }));
       return;
@@ -233,7 +236,6 @@ export default class HostCreateProfile extends Component {
     ];
 
     const _availableDates = getValidDAtes(availableDates);
-
     axios
       .post(API_HOST_COMPLETE_PROFILE, {
         ...this.state.data,
@@ -273,7 +275,6 @@ export default class HostCreateProfile extends Component {
         });
         this.setState({ loading: false });
       });
-    window.scrollTo(0, 0);
   };
 
   disabledStartDate = (index, startDate) => {
@@ -360,7 +361,7 @@ export default class HostCreateProfile extends Component {
 
   render() {
     const { name, id, role } = this.props;
-    const { errors, data, activeKey, availableDates } = this.state;
+    const { errors, data, activeKey, availableDates, loading } = this.state;
 
     const {
       profileImage: { url: profilePhotoUrl },
@@ -378,6 +379,7 @@ export default class HostCreateProfile extends Component {
         handleSubmit={this.handleSubmit}
         profilePhotoUrl={profilePhotoUrl}
         role={role}
+        loading={loading}
         // dates
         disabledStartDate={this.disabledStartDate}
         disabledEndDate={this.disabledEndDate}

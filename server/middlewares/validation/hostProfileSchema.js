@@ -5,9 +5,7 @@ const wordLengthValidator = require("./wordLengthValidator");
 const hostProfileSchema = Joi.object({
   // profile
   birthDate: Joi.date().required(),
-  hometown: Joi.string()
-    .custom(wordLengthValidator(10, "hometown"))
-    .allow(""),
+  hometown: Joi.string().custom(wordLengthValidator(10, "hometown")),
   gender: Joi.string().required(),
   school: Joi.string()
     .allow("")
