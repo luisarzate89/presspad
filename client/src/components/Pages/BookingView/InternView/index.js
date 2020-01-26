@@ -40,6 +40,7 @@ import {
   Symbol,
   ParagraphHeadline,
   Paragraph,
+  ShowMoreSection,
 } from "../../../Common/Profile/Profiles.style";
 
 import {
@@ -298,7 +299,7 @@ export default class BookingView extends Component {
           {badge && <Symbol src={starSign} />}
         </Header>
         <ListingGallery {...listingPhotos} isLoading={isLoading} />
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginRight: 0 }}>
           {/* ToDo add loading skeleton */}
           <Col lg={16} md={14} sm={24}>
             <section>
@@ -349,21 +350,17 @@ export default class BookingView extends Component {
                   )}
                 </AboutSectionDataContainer>
               </SectionWrapperContent>
-              <Row type="flex" style={{ marginBottom: "2rem" }}>
+              <ShowMoreSection type="flex" style={{ marginBottom: "2rem" }}>
                 <DisabledPopOver>
                   <BlueLink to="#">Show other Info</BlueLink>
                 </DisabledPopOver>
                 <DisabledPopOver>
-                  <BlueLink marginl="3rem" to="#">
-                    Show pressPad offer
-                  </BlueLink>
+                  <BlueLink to="#">Show PressPad offer</BlueLink>
                 </DisabledPopOver>
                 <DisabledPopOver>
-                  <BlueLink marginl="3rem" to="#">
-                    Show Reviews
-                  </BlueLink>
+                  <BlueLink to="#">Show Reviews</BlueLink>
                 </DisabledPopOver>
-              </Row>
+              </ShowMoreSection>
             </section>
             {bookingInfo.status === "confirmed" ? (
               <>
