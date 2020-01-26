@@ -1,5 +1,8 @@
 const boom = require("boom");
 const { getReviewsGiventToUser } = require("../../database/queries/review");
+const {
+  countCompletedBookingsByUser,
+} = require("./../../database/queries/bookings");
 
 const {
   isValidMongoObjectId,
@@ -10,11 +13,15 @@ module.exports = async (req, res, next) => {
     const { to } = req.query;
     if (to && isValidMongoObjectId(to)) {
       // get the taken reviews fot this user
-      const reviews = await getReviewsGiventToUser(to);
-      return res.json(reviews);
-    }
+      const [reviews, completedBookingsCount] = await Promise.all([
+        getReviewsGiventToUser(to),
+        countCompletedBookingsByUser(to),
+      ]);
 
-    //  get given reviews here
+      return res.json({ reviews, completedBookingsCount });
+    }
+    //  get given reviews goes here
+
     return next(boom.badData(new Error("invalid user id")));
   } catch (error) {
     return next(boom.badImplementation(error));

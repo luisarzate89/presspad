@@ -21,7 +21,7 @@ module.exports = userId =>
     },
     {
       $lookup: {
-        from: "profile",
+        from: "profiles",
         localField: "from",
         foreignField: "user",
         as: "profile",

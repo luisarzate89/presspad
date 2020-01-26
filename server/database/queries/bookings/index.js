@@ -10,6 +10,7 @@ const getBooking = require("./getBooking");
 const getBookingWithUsers = require("./getBookingWithUsers");
 const getHostNextBooking = require("./getHostNextBooking");
 const getInternNextBooking = require("./getInternNextBooking");
+const countCompletedBookingsByUser = require("./countCompletedBookingsByUser");
 
 module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) =>
   Booking.findOneAndUpdate(
@@ -176,3 +177,4 @@ module.exports.getBookingById = getBookingById;
 module.exports.getBookingWithUsers = getBookingWithUsers;
 module.exports.getHostNextBooking = getHostNextBooking;
 module.exports.getInternNextBooking = getInternNextBooking;
+module.exports.countCompletedBookingsByUser = countCompletedBookingsByUser;
