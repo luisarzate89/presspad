@@ -22,6 +22,7 @@ import {
   PriceLabel,
   RequestBtn,
   ErrorDiv,
+  PriceTopDiv,
 } from "./Calendar.style";
 
 import { INTERN_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
@@ -258,9 +259,10 @@ class CalendarComponent extends Component {
         </CalendarWrapper>
         {role === "intern" && (
           <PricingDiv>
-            <PriceHeadline>Full price for period</PriceHeadline>
-            <PriceLabel>£{price}</PriceLabel>
-
+            <PriceTopDiv>
+              <PriceHeadline>Full price for period</PriceHeadline>
+              <PriceLabel>£{price}</PriceLabel>
+            </PriceTopDiv>
             {message && (
               <ErrorDiv>
                 <Alert message={message} type={messageType} />

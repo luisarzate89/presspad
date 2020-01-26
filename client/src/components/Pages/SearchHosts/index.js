@@ -286,7 +286,8 @@ export default class index extends Component {
         {listings && (
           <ResultsWrapper>
             <ResultsText>
-              Your search returned {listings.length} results
+              Your search returned {listings.length}{" "}
+              {listings.length === 1 ? "result" : "results"}
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>

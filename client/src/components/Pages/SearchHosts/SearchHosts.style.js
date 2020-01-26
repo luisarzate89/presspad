@@ -176,6 +176,10 @@ export const HostResult = styled(Link)`
   &:active {
     color: ${colors.fontLightBlack};
   }
+
+  @media (max-width: ${size.mobileXL}) {
+    width: 100%;
+  }
 `;
 
 export const DisabledHostResult = styled.div`

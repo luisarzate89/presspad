@@ -49,7 +49,8 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   padding-top: 1rem;
   display: flex;
-  justify-content: ${({ justifyContent }) => justifyContent || "start"};
+  // position: relative;
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
   align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
@@ -122,6 +123,10 @@ export const ParagraphHeadline = styled.h3`
   font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
+
+  @media (max-width: ${size.mobileM}) {
+    font-size: 14px;
+  }
 `;
 
 export const Paragraph = styled.p`
@@ -137,6 +142,7 @@ export const TopDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  position: relative;
 `;
 
 export const AdminTopDiv = styled.div`
