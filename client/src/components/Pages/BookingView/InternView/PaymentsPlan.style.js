@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, shadows, borders } from "../../../theme";
+import { colors, shadows, borders } from "../../../../theme";
 
 export const InfoMessage = styled.p`
   color: #a5a3a3;

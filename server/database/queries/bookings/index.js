@@ -6,47 +6,43 @@ const createDatesArray = require("../../../helpers/createDatesArray");
 const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
 const getNextPendingBooking = require("./getNextPendingBooking");
 const getBookingById = require("./getBookingById");
+const getBooking = require("./getBooking");
 const getBookingWithUsers = require("./getBookingWithUsers");
 const getHostNextBooking = require("./getHostNextBooking");
 const getInternNextBooking = require("./getInternNextBooking");
 
+module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) =>
+  Booking.findOneAndUpdate(
+    //  filter
+    { _id: bookingId, host: hostId },
+    // update date
+    {
+      status: "confirmed",
+      moneyGoTo,
+      confirmDate: moment.utc(),
+    },
+    {
+      new: true,
+    },
+  );
 
-module.exports.hostAcceptBookingById = ({
-  bookingId,
-  hostId,
-  moneyGoTo,
-}) => Booking.findOneAndUpdate(
-  //  filter
-  { _id: bookingId, host: hostId },
-  // update date
-  {
-    status: "confirmed",
-    moneyGoTo,
-    confirmDate: moment.utc(),
-  }, {
-    new: true,
-  },
-);
-
-module.exports.hostRejectBookingById = ({
-  bookingId,
-  hostId,
-}) => Booking.findOneAndUpdate(
-  //  filter
-  { _id: bookingId, host: hostId },
-  // update date
-  {
-    status: "canceled",
-    canceledBy: hostId,
-  }, {
-    new: true,
-  },
-);
-
+module.exports.hostRejectBookingById = ({ bookingId, hostId }) =>
+  Booking.findOneAndUpdate(
+    //  filter
+    { _id: bookingId, host: hostId },
+    // update date
+    {
+      status: "canceled",
+      canceledBy: hostId,
+    },
+    {
+      new: true,
+    },
+  );
 
 module.exports.getNextPendingBooking = getNextPendingBooking;
 // get all bookings of user
-module.exports.getUserBookings = async (intern) => {
+module.exports.getUserBookings = async intern => {
   const bookings = await Booking.find({ intern });
   const userBookingDates = bookings.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
@@ -63,7 +59,9 @@ module.exports.checkOtherBookingExists = async (userId, start, end) => {
 
   const bookingRequestDates = createDatesArray(start, end);
   // check if any of the current booking request dates is included in users bookings
-  const bookingDateFound = bookingRequestDates.some(date => userBookingDates.includes(date));
+  const bookingDateFound = bookingRequestDates.some(date =>
+    userBookingDates.includes(date),
+  );
   return bookingDateFound ? { bookingExists: true } : { bookingExists: false };
 };
 
@@ -83,14 +81,18 @@ module.exports.checkIfListingAvailable = async (listingId, bs, be) => {
   const bookingRequestDates = createDatesArray(bs, be);
 
   // if any date of booking request is not in listing availability => error
-  const listingFullyAvailable = bookingRequestDates.every(date => listingAvDates.includes(date));
+  const listingFullyAvailable = bookingRequestDates.every(date =>
+    listingAvDates.includes(date),
+  );
 
-  return listingFullyAvailable ? { listingUnavailable: false } : { listingUnavailable: true };
+  return listingFullyAvailable
+    ? { listingUnavailable: false }
+    : { listingUnavailable: true };
 };
 
 // 2)
 // creates new booking
-module.exports.createNewBooking = async (data) => {
+module.exports.createNewBooking = async data => {
   const newBooking = await Booking.create(data);
   return newBooking;
 };
@@ -168,6 +170,7 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
   return update;
 };
 
+module.exports.getBooking = getBooking;
 module.exports.getInternBookingsWithReviews = getInternBookingsWithReviews;
 module.exports.getBookingById = getBookingById;
 module.exports.getBookingWithUsers = getBookingWithUsers;

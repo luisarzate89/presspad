@@ -39,6 +39,7 @@ export const SectionWrapperContent = styled.div`
   padding: 25px;
   padding-left: 1.875rem;
   margin-bottom: 20px;
+  margin-top: ${({ mtop }) => mtop || 0};
 `;
 
 export const SectionTitle = styled.h4`
@@ -59,6 +60,7 @@ export const BlueLink = styled(Link)`
   text-align: center;
   color: #0ac7e7;
   display: inline-block;
+  margin-top: ${({ margint }) => margint};
   margin-bottom: ${({ marginb }) => marginb};
   margin-left: ${({ marginl }) => marginl};
 `;
@@ -108,7 +110,7 @@ export const PayButton = styled.button`
   border: none;
   padding: 0.5rem 5rem;
   margin: 0;
-  margin-top: ${({ mtop }) => (mtop ? mtop : "")};
+  margin-top: ${({ mtop }) => mtop || ""};
   margin-bottom: 10px;
   text-decoration: none;
   cursor: pointer;

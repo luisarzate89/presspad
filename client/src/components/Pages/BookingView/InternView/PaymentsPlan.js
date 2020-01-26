@@ -8,13 +8,13 @@ import {
   InfoMessage,
   TabPanWrapper,
   InfoText,
-  InfoValue
+  InfoValue,
 } from "./PaymentsPlan.style";
 import {
   SectionWrapperContent,
   SectionTitle,
-  PayButton
-} from "../../Common/general";
+  PayButton,
+} from "../../../Common/general";
 
 const { TabPane } = Tabs;
 
@@ -24,21 +24,21 @@ const columns = [
     dataIndex: "dueDate",
     sorter: (a, b) => moment(a.dueDate) - moment(b.dueDate),
     sortOrder: "ascend",
-    render: text => <span>{moment(text).format("DD MMM YYYY")}</span>
+    render: text => <span>{moment(text).format("DD MMM YYYY")}</span>,
   },
   {
     title: "Amount due",
     dataIndex: "amount",
-    render: text => <span>£{text.toFixed(2)}</span>
-  }
+    render: text => <span>£{text.toFixed(2)}</span>,
+  },
 ];
 
 const renderPaymentsInstallment = (installments, role) => {
   columns[2] = {
     title: "Status",
-    render: (text, record) => {
-      return <span>{record.transaction ? "paid" : "not paid"}</span>;
-    }
+    render: (text, record) => (
+      <span>{record.transaction ? "paid" : "not paid"}</span>
+    ),
   };
   return (
     <SectionWrapperContent>
@@ -60,7 +60,7 @@ const PaymentsPlan = ({
   handleCouponChange,
   handlePayNowClick,
   handlePaymentMethod,
-  role
+  role,
 }) => {
   const handleTabChange = activeKey => {
     if (activeKey === "1") {
@@ -76,7 +76,7 @@ const PaymentsPlan = ({
     startDate,
     endDate,
     price: totalPrice,
-    couponInfo
+    couponInfo,
   } = data;
 
   if (isLoading || isLoading === null) {
@@ -98,7 +98,7 @@ const PaymentsPlan = ({
     discountDays,
     discountRate,
     isCouponLoading,
-    error
+    error,
   } = couponInfo;
   const remainPrice = totalPrice - couponDiscount;
 
@@ -151,7 +151,7 @@ const PaymentsPlan = ({
                 <InfoMessage>
                   {moment().isAfter(endDate)
                     ? `This booking has ended at ${moment(endDate).format(
-                        "DD MMM YYYY"
+                        "DD MMM YYYY",
                       )}`
                     : "You must pay to finalize the booking"}
                 </InfoMessage>
@@ -170,7 +170,7 @@ const PaymentsPlan = ({
                 <InfoMessage>
                   {moment().isAfter(endDate)
                     ? `This booking has ended at ${moment(endDate).format(
-                        "DD MMM YYYY"
+                        "DD MMM YYYY",
                       )}`
                     : "You must pay the first installment to finalize the booking"}
                 </InfoMessage>

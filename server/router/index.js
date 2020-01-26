@@ -44,7 +44,10 @@ const hostDonation = require("../controllers/payments/hostDonation");
 const { orgPayment } = require("../controllers/payments/index");
 const { getAllCities } = require("../controllers/listing");
 const deletListingPhotos = require("../controllers/profile/deletListingPhotos");
-const updateChecklistAnswer = require("../controllers/checklist/updateChecklistAnswer");
+const {
+  updateChecklistAnswer,
+  getChecklist,
+} = require("../controllers/checklist");
 
 // controller for admin to view all withdraw requests in presspad
 const viewWithdrawRequests = require("../controllers/withdrawRequests");
@@ -93,6 +96,7 @@ const {
   FIND_WITHDRAW_REQUESTS_URL,
   GET_ALL_CETIES_URL,
   UPDATE_CHECKLIST_ANSWER,
+  GET_CHECKLIST,
   ADMIN_INTERN_PROFILE,
   ADMIN_HOST_PROFILE,
 } = require("../../client/src/constants/apiRoutes");
@@ -219,5 +223,8 @@ router.get(GET_ALL_CETIES_URL, getAllCities);
 
 // host | intern update the checklist answer
 router.patch(UPDATE_CHECKLIST_ANSWER, authentication, updateChecklistAnswer);
+
+// host | intern get the checklist for a booking
+router.get(GET_CHECKLIST, authentication, getChecklist);
 
 module.exports = router;

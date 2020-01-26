@@ -23,6 +23,8 @@ module.exports = async (req, res, next) => {
     // get intern's basic profile data
     const profileData = await internProfileData(internId);
 
+    if (!profileData[0]) return next(boom.notFound());
+
     if (profileData[0].profile && profileData[0].profile.profileImage) {
       await generateUrl(profileData[0].profile.profileImage);
     }

@@ -7,16 +7,16 @@ import { withRouter } from "react-router-dom";
 import {
   CardWrapper,
   PaymentModalTitle,
-  InfoMessage
+  InfoMessage,
 } from "./PaymentsPlan.style";
 
-import { API_INTERN_PAYMENT_URL } from "../../../constants/apiRoutes";
+import { API_INTERN_PAYMENT_URL } from "../../../../constants/apiRoutes";
 
 class PayNowModal extends Component {
   state = {
     error: "",
     isLoading: false,
-    success: false
+    success: false,
   };
 
   handleServerResponse = async response => {
@@ -25,7 +25,7 @@ class PayNowModal extends Component {
       this.setState({ error: response.error.message, isLoading: false });
     } else if (response.requires_action) {
       const result = await this.props.stripe.handleCardAction(
-        response.payment_intent_client_secret
+        response.payment_intent_client_secret,
       );
       if (result.error) {
         this.setState({ error: result.error.message, isLoading: false });
@@ -37,8 +37,8 @@ class PayNowModal extends Component {
             paymentInfo,
             couponInfo,
             bookingId,
-            paymentIntent: result.paymentIntent
-          }
+            paymentIntent: result.paymentIntent,
+          },
         );
         await this.handleServerResponse(paymentResult);
       }
@@ -58,7 +58,7 @@ class PayNowModal extends Component {
 
       const { error, paymentMethod } = await stripe.createPaymentMethod(
         "card",
-        cardElement
+        cardElement,
       );
 
       if (error) {
@@ -70,8 +70,8 @@ class PayNowModal extends Component {
             paymentInfo,
             paymentMethod,
             bookingId,
-            couponInfo
-          }
+            couponInfo,
+          },
         );
 
         await this.handleServerResponse(paymentResult);
@@ -80,13 +80,13 @@ class PayNowModal extends Component {
       if (error.response && error.response.status === 402) {
         return this.setState({
           error: error.response.data.error,
-          isLoading: false
+          isLoading: false,
         });
       }
       message.error("something went wrong", 5);
       this.setState({
         error: "something went wrong try again later",
-        isLoading: false
+        isLoading: false,
       });
     }
   };

@@ -3,15 +3,15 @@ import moment from "moment";
 
 import { Row, Skeleton, Alert } from "antd";
 
-import { calculatePrice } from "./helpers";
+// import { calculatePrice } from "../helpers";
 
 import { BookingInfoWrapper, InfoText, InfoValue } from "./PaymentsPlan.style";
 
 import {
   SectionWrapperContent,
   SectionTitle,
-  PayButton
-} from "../../Common/general";
+  PayButton,
+} from "../../../Common/general";
 
 const BookingInfo = props => {
   const { isLoading, data, handlePayNowClick, role } = props;
@@ -25,7 +25,7 @@ const BookingInfo = props => {
     installments,
     firstUnpaidInstallment,
     couponDiscount,
-    coupons
+    coupons,
   } = data;
 
   let discounts = 0;
@@ -33,13 +33,15 @@ const BookingInfo = props => {
     discounts = couponDiscount;
   } else {
     // get all coupons that have been used for this bookings
-    coupons.forEach(coupon => {
-      coupon.transactions &&
-        coupon.transactions.forEach(transaction => {
+    coupons.forEach(({ transactions }) => {
+      if (transactions) {
+        transactions.forEach(transaction => {
           if (transaction.booking === bookingId) {
-            discounts += calculatePrice(transaction.usedDays);
+            // discounts += calculatePrice(transaction.usedDays);
+            discounts += transaction.amount;
           }
         });
+      }
     });
   }
 

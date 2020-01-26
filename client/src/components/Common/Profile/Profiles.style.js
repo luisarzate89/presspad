@@ -49,8 +49,8 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   padding-top: 1rem;
   display: flex;
-  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
-  align-items: ${({ alignItems }) => alignItems || "center"};
+  justify-content: ${({ justifyContent }) => justifyContent || "start"};
+  align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
 export const HeaderDiv = styled.div`
@@ -191,7 +191,9 @@ export const ProfilePicDiv = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url(${({ src }) => src});
+  // background: image(${({ src }) => src})
+  background-image: ${({ src, defaultPic }) =>
+    `url(${src}), url(${defaultPic})`};
   ${props => !props.adminView && blurPic};
 
   @media (max-width: 600px) {
