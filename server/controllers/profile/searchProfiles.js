@@ -11,10 +11,22 @@ const {
 
 module.exports = async (req, res, next) => {
   try {
-    const { hometown, startDate, endDate } = req.body;
+    const { city, startDate, endDate } = req.body;
 
-    const listings = await searchProfiles({ hometown, startDate, endDate });
-    if (listings[0]) await Promise.all(listings[0].photos.map(generateUrl));
+    const listings = await searchProfiles({ city, startDate, endDate });
+    if (listings.length) {
+      await Promise.all(
+        listings.map(listing => generateUrl(listing.photos[0])),
+      );
+    }
+
+    // get first 2-3 chars from postcode
+    listings.forEach(({ address = {} }) => {
+      // eslint-disable-next-line no-param-reassign
+      address.postcode = address.postcode
+        ? address.postcode.substring(0, address.postcode.length - 3)
+        : "";
+    });
 
     res.json(listings);
   } catch (err) {
