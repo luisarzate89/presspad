@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { DASHBOARD_URL } from "../../../constants/navRoutes";
 
 import HostCreateProfile from "../HostCreateProfile";
-import InternProfile from "../InternProfile";
+import InternCreateProfile from "../InternCreateProfile";
 
 const MyProfile = props => {
   const { role } = props;
@@ -14,7 +14,7 @@ const MyProfile = props => {
   }
 
   if (role === "intern") {
-    return <InternProfile {...props} />;
+    return <InternCreateProfile {...props} />;
   }
 
   if (role === "organisation") {
