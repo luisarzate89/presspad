@@ -6,7 +6,7 @@ const getInternNextBooking = internId =>
     {
       $match: {
         intern: mongoose.Types.ObjectId(internId),
-        status: { $in: ["pending", "confirmed", "completed"] },
+        status: "confirmed",
         startDate: { $gte: new Date() },
       },
     },

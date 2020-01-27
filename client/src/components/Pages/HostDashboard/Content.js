@@ -79,9 +79,8 @@ const Content = ({
   <PageWrapper className="wrapper">
     <ContentWrapper className="child">
       <HeaderWrapper>
-        <Row style={{ width: "100%" }} type="flex" justify="start">
-          <Col xs={7} sm={4} lg={3}>
-            {/* neccesarry for ProgressRing */}
+        <Row gutter={20} type="flex" justify="start">
+          <Col xs={24} sm={4} lg={3}>
             <div style={{ position: "relative", width: 86 }}>
               <Avatar
                 size="large"
@@ -261,7 +260,7 @@ const Content = ({
           </ModalDescription>
           <div>
             <ModalDescription bold>Funds available: </ModalDescription>
-            <ModalDescription bold>£{account.currentBalance} </ModalDescription>
+            <ModalDescription bold>£{account.currentBalance}</ModalDescription>
           </div>
           <ErrorWrapper>
             <InputNumber
