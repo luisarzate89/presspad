@@ -117,8 +117,8 @@ class HostView extends Component {
             <BackLink>Back</BackLink>
           </BackLinkDiv>
         </LinkDiv>
-        <Header>
-          <ProfilePicDiv src={this.getProfilePic(profileImage)} />
+        <Header justifyContent="start">
+          <ProfilePicDiv src={this.getProfilePic(profileImage.url)} />
           <HeaderDiv>
             <Headline>{name}</Headline>
             <SymbolDiv>
