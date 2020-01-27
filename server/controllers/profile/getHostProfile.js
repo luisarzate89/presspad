@@ -25,6 +25,7 @@ const getHostProfile = async (req, res, next) => {
     if (role === "intern") {
       booking = await getConfirmedBooking(userId, hostId);
       if (booking) [hostProfile] = await hostProfileData(hostId, true);
+      // TODO 1- generate address as text eg. Canada Water SE8 (no booking)
       else [hostProfile] = await hostProfileData(hostId);
     } else [hostProfile] = await hostProfileData(hostId);
 
