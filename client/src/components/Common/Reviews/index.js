@@ -9,7 +9,6 @@ import { Wrapper, MainTitle, SubTitle } from "./Reviews.style";
 export default class Reviews extends Component {
   state = {
     reviews: [],
-    completedBookingsCount: null,
     loading: false,
   };
 
@@ -18,45 +17,21 @@ export default class Reviews extends Component {
 
     this.setState({ loading: true }, async () => {
       const {
-        data: { reviews, completedBookingsCount },
+        data: { reviews },
       } = await axios.get(API_REVIEWS, {
         params: { to: userId },
       });
-      this.setState({ loading: false, reviews, completedBookingsCount });
+      this.setState({ loading: false, reviews });
     });
   }
 
   render() {
-    const { completedBookingsCount, reviews, loading } = this.state;
-    const { name, userRole: role } = this.props;
+    const { reviews, loading } = this.state;
+    const { name } = this.props;
 
     return (
       <Wrapper>
-        <MainTitle>
-          {role === "intern" ? (
-            <>
-              {completedBookingsCount ? (
-                <>
-                  {name} has stayed with {completedBookingsCount} host
-                  {completedBookingsCount > 1 ? "s" : ""} so far
-                </>
-              ) : (
-                <>{name} hasn&apos;t completed any stay yet</>
-              )}
-            </>
-          ) : (
-            <>
-              {completedBookingsCount ? (
-                <>
-                  {name} has hosted {completedBookingsCount} intern
-                  {completedBookingsCount > 1 ? "s" : ""} so far
-                </>
-              ) : (
-                <>{name} hasn&apos;t hosted any interns yet</>
-              )}
-            </>
-          )}
-        </MainTitle>
+        <MainTitle>Reviews</MainTitle>
         <Skeleton loading={loading} active avatar>
           {reviews && reviews.length ? (
             reviews.map(({ rate, name: reviewerName, jobTitle, message }) => (

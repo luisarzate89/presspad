@@ -1,8 +1,8 @@
 const boom = require("boom");
 const { getReviewsGiventToUser } = require("../../database/queries/review");
-const {
-  countCompletedBookingsByUser,
-} = require("./../../database/queries/bookings");
+// const {
+//   countCompletedBookingsByUser,
+// } = require("./../../database/queries/bookings");
 
 const {
   isValidMongoObjectId,
@@ -13,12 +13,15 @@ module.exports = async (req, res, next) => {
     const { to } = req.query;
     if (to && isValidMongoObjectId(to)) {
       // get the taken reviews fot this user
-      const [reviews, completedBookingsCount] = await Promise.all([
-        getReviewsGiventToUser(to),
-        countCompletedBookingsByUser(to),
-      ]);
 
-      return res.json({ reviews, completedBookingsCount });
+      // const [reviews, completedBookingsCount] = await Promise.all([
+      //   getReviewsGiventToUser(to),
+      //   countCompletedBookingsByUser(to),
+      // ]);
+
+      const [reviews] = await Promise.all([getReviewsGiventToUser(to)]);
+
+      return res.json({ reviews });
     }
     //  get given reviews goes here
 
