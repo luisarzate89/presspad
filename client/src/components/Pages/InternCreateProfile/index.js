@@ -110,19 +110,19 @@ export default class InternCreateProfile extends Component {
     }
   };
 
-  handleError = ({ value, key, parent }) => {
+  handleError = ({ errorMsg, key, parent }) => {
     if (parent) {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          [parent]: { ...prevState.errors[parent], [key]: value },
+          [parent]: { ...prevState.errors[parent], [key]: errorMsg },
         },
       }));
     } else {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          [key]: value,
+          [key]: errorMsg,
         },
       }));
     }
