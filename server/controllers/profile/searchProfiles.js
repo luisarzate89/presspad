@@ -2,6 +2,7 @@
 // responds with list of relevant listings
 
 const boom = require("boom");
+const generateUrl = require("../../helpers/generateFileURL");
 
 // QUERIES
 const {
@@ -9,9 +10,14 @@ const {
 } = require("./../../database/queries/profile/searchProfiles");
 
 module.exports = async (req, res, next) => {
-  const { hometown, startDate, endDate } = req.body;
+  try {
+    const { hometown, startDate, endDate } = req.body;
 
-  searchProfiles({ hometown, startDate, endDate })
-    .then(listings => res.json(listings))
-    .catch(err => next(boom.badRequest(err)));
+    const listings = await searchProfiles({ hometown, startDate, endDate });
+    if (listings[0]) await Promise.all(listings[0].photos.map(generateUrl));
+
+    res.json(listings);
+  } catch (err) {
+    next(boom.badRequest(err));
+  }
 };

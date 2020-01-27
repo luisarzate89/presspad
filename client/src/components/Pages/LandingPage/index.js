@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Carousel } from "antd";
 
 // import components
-import Footer from "./../../Common/Footer";
+import Footer from "../../Common/Footer";
 
 // import styled components
 import {
@@ -27,18 +27,27 @@ import {
 } from "./LandingPage.style";
 
 // import images
-import heroImage from "./../../../assets/landin-page-hero-image.png";
-import descriptionImage from "./../../../assets/description-image.png";
-import descriptionImage2 from "./../../../assets/description-image-2.png";
-import quote from "./../../../assets/quote.png";
-import organizationFindMore from "./../../../assets/organization.png";
-import hostFindMore from "./../../../assets/host.png";
-import internFindMore from "./../../../assets/intern.png";
+import heroImage from "../../../assets/landin-page-hero-image.png";
+import descriptionImage from "../../../assets/description-image.png";
+import descriptionImage2 from "../../../assets/description-image-2.png";
+import quote from "../../../assets/quote.png";
+import organizationFindMore from "../../../assets/organization.png";
+import hostFindMore from "../../../assets/host.png";
+import internFindMore from "../../../assets/intern.png";
 
 class LandingPage extends Component {
   state = {
     slideIndex: 0,
   };
+
+  element = createRef();
+
+  componentDidMount() {
+    const {
+      location: { hash },
+    } = this.props;
+    if (hash) this.element.current.scrollIntoView();
+  }
 
   afterChange = slideIndex => {
     this.setState({
@@ -57,7 +66,7 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
-        {/*<Arrow />*/}
+        {/* <Arrow /> */}
         <HeroSection src={heroImage}>
           <Iframe
             src="https://www.youtube.com/embed/OCWj5xgu5Ng"
@@ -93,7 +102,7 @@ class LandingPage extends Component {
                 field thus diversifying the media industry.
               </Description>
             </div>
-            <FindMoreWrapper>
+            <FindMoreWrapper id="findMoreSection" ref={this.element}>
               <FindMoreCard>
                 <CardIcon src={organizationFindMore} />
                 <CardTitle>Organisation</CardTitle>
