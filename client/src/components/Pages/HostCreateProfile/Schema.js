@@ -26,10 +26,10 @@ export const profileSchema = object().shape({
     .wordLengthValidator(10)
     .required(),
   workingArea: string().required(),
-  hostingReasonAnswer: string().wordLengthValidator(250),
-  mentoringExperienceAnswer: string().wordLengthValidator(250),
-  industryExperienceAnswer: string().wordLengthValidator(250),
-  backgroundAnswer: string().wordLengthValidator(250),
+  hostingReasonAnswer: lazy(optionalWordLengthValidator(250)),
+  mentoringExperienceAnswer: lazy(optionalWordLengthValidator(250)),
+  industryExperienceAnswer: lazy(optionalWordLengthValidator(250)),
+  backgroundAnswer: lazy(optionalWordLengthValidator(250)),
 });
 export const offerSchema = object({
   photos1: object({
@@ -56,9 +56,7 @@ export const offerSchema = object({
     .min(1)
     .required(),
   neighbourhoodDescription: string().max(250),
-  otherInfo: string()
-    .ensure()
-    .wordLengthValidator(250),
+  otherInfo: lazy(optionalWordLengthValidator(250)),
 });
 export const detailsSchema = object({
   photoID: object({
