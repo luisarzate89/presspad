@@ -16,6 +16,8 @@ import {
   Card,
 } from "../../../Common/Profile/Profiles.style";
 
+import PaymentsTable from "./PaymentsTable";
+
 import { SectionWrapperContent } from "../../../Common/general";
 
 import "antd/dist/antd.css";
@@ -32,12 +34,11 @@ class HostView extends Component {
   render() {
     const { bookingStatus } = this.state;
     const { bookingInfo } = this.props;
-    const { status, intern } = bookingInfo;
+    const { status, intern, installments = [] } = bookingInfo;
     const { _id: internId, name } = intern;
 
     return (
       <Wrapper>
-        {/* Backlink */}
         <LinkDiv>
           <BackLinkDiv
             role="button"
@@ -67,7 +68,10 @@ class HostView extends Component {
         )}
 
         {(status === "confirmed" || bookingStatus === "confirmed") && (
-          <Checklist bookingInfo={bookingInfo} userRole="host" />
+          <>
+            <Checklist bookingInfo={bookingInfo} userRole="host" />
+            <PaymentsTable installments={installments} />
+          </>
         )}
         <Card>
           <Reviews userId={internId} name={name} userRole="intern" />
