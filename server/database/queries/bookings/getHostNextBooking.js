@@ -6,7 +6,7 @@ const getHostNextBooking = hostId =>
     {
       $match: {
         host: mongoose.Types.ObjectId(hostId),
-        status: { $in: ["pending", "confirmed", "completed"] },
+        status: { $in: ["confirmed"] },
         startDate: { $gte: new Date() },
       },
     },
