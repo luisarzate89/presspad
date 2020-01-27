@@ -4,6 +4,7 @@ import { Alert } from "antd";
 import InternInfo from "./InternInfo";
 import BookingRequestSection from "../BookingRequestSection";
 import Checklist from "../Checklist";
+import Reviews from "../../../Common/Reviews";
 
 // styles
 import {
@@ -12,6 +13,7 @@ import {
   BackLinkDiv,
   Arrow,
   BackLink,
+  Card,
 } from "../../../Common/Profile/Profiles.style";
 
 import { SectionWrapperContent } from "../../../Common/general";
@@ -31,6 +33,7 @@ class HostView extends Component {
     const { bookingStatus } = this.state;
     const { bookingInfo } = this.props;
     const { status, intern } = bookingInfo;
+    const { _id: internId, name } = intern;
 
     return (
       <Wrapper>
@@ -45,7 +48,7 @@ class HostView extends Component {
             </BackLink>
           </BackLinkDiv>
         </LinkDiv>
-        <InternInfo internId={intern._id} />
+        <InternInfo internId={internId} />
         {(status === "canceled" || bookingStatus === "canceled") && (
           <SectionWrapperContent mtop="20px">
             <Alert
@@ -55,15 +58,20 @@ class HostView extends Component {
             />
           </SectionWrapperContent>
         )}
+
         {status === "pending" && !bookingStatus && (
           <BookingRequestSection
             bookingInfo={bookingInfo}
             handleBooking={this.handleBooking}
           />
         )}
+
         {(status === "confirmed" || bookingStatus === "confirmed") && (
           <Checklist bookingInfo={bookingInfo} userRole="host" />
         )}
+        <Card>
+          <Reviews userId={internId} name={name} userRole="intern" />
+        </Card>
       </Wrapper>
     );
   }
