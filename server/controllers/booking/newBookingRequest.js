@@ -9,7 +9,7 @@ const {
 } = require("../../database/queries/bookings");
 const { calculatePrice } = require("../../helpers/payments");
 
-const { createNotification } = require("./../../database/queries/notification");
+const { registerNotification } = require("../../services/notifications");
 
 module.exports = async (req, res, next) => {
   try {
@@ -59,18 +59,20 @@ module.exports = async (req, res, next) => {
       return next(boom.badRequest("Price doesn't match!"));
     }
 
+    const [booking] = await Promise.all([
+      createNewBooking(data),
+      updateListingAvailability(listing, startDate, endDate),
+    ]);
+
     const notification = {
-      private: false,
       user: host,
       secondParty: intern,
       type: "stayRequest",
+      private: false,
+      booking: booking._id,
     };
 
-    await Promise.all([
-      createNewBooking(data),
-      updateListingAvailability(listing, startDate, endDate),
-      createNotification(notification),
-    ]);
+    await registerNotification(notification);
 
     return res.json({ success: true });
   } catch (error) {

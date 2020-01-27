@@ -118,7 +118,7 @@ class InternInfo extends Component {
 
     return (
       <>
-        <Header>
+        <Header justifyContent="flex-start">
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeaderDiv>
             <Headline style={{ marginBottom: "1rem" }}>{name}</Headline>

@@ -3,7 +3,7 @@ const {
   createReview,
   findReviewByBooking,
 } = require("../../database/queries/review");
-const { createNotification } = require("../../database/queries/notification");
+const { registerNotification } = require("../../services/notifications");
 
 module.exports = async (req, res, next) => {
   const { to, rating, message, from } = req.body;
@@ -31,10 +31,11 @@ module.exports = async (req, res, next) => {
     });
 
     // send a notification to the reviewee
-    await createNotification({
+    await registerNotification({
       user: to, // gets the notification
       secondParty: from, // sends the notification
       type: "getReview",
+      booking,
     });
 
     return res.json({ success: true });

@@ -3,19 +3,21 @@ const mongoose = require("mongoose");
 const Organisation = require("./../../models/Organisation");
 const Coupon = require("./../../models/Coupon");
 
-module.exports = (id) => {
+module.exports = id => {
   // Org details
   const details = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
-    }, {
+    },
+    {
       $lookup: {
         from: "accounts",
         localField: "account",
         foreignField: "_id",
         as: "account",
       },
-    }, {
+    },
+    {
       $addFields: {
         account: { $arrayElemAt: ["$account", 0] },
       },
@@ -51,8 +53,10 @@ module.exports = (id) => {
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ["$$user", "$user"] },
-                  { $eq: ["$private", false] }],
+                $and: [
+                  { $eq: ["$$user", "$user"] },
+                  { $eq: ["$private", false] },
+                ],
               },
             },
           },
@@ -109,14 +113,16 @@ module.exports = (id) => {
           ],
         },
       },
-    }, {
+    },
+    {
       $lookup: {
         from: "users",
         localField: "intern",
         foreignField: "_id",
         as: "intern",
       },
-    }, {
+    },
+    {
       $addFields: {
         intern: { $arrayElemAt: ["$intern", 0] },
       },
@@ -170,7 +176,12 @@ module.exports = (id) => {
               cond: {
                 $and: [
                   { $gt: ["$$booking.startDate", new Date()] },
-                  { $eq: ["$$booking.status", "confirmed"] },
+                  {
+                    $or: [
+                      { $eq: ["$$booking.status", "confirmed"] },
+                      { $eq: ["$$booking.status", "completed"] },
+                    ],
+                  },
                 ],
               },
             },
@@ -184,22 +195,19 @@ module.exports = (id) => {
           $cond: {
             if: { $gt: ["$liveBookings", 0] },
             then: "At host",
-            else:
-           {
-             $cond: {
-               if: { $gt: ["$pendingBookings", 0] },
-               then: "Pending request",
-               else:
-            {
+            else: {
               $cond: {
-                if: { $gt: ["$confirmedBookings", 0] },
-                then: "Booking confirmed",
-                else:
-             "Looking for host",
+                if: { $gt: ["$pendingBookings", 0] },
+                then: "Pending request",
+                else: {
+                  $cond: {
+                    if: { $gt: ["$confirmedBookings", 0] },
+                    then: "Booking confirmed",
+                    else: "Looking for host",
+                  },
+                },
               },
             },
-             },
-           },
           },
         },
       },
