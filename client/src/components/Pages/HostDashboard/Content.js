@@ -120,11 +120,7 @@ const Content = ({
           bio={nextGuestProfile.bio}
           name={nextGuest.name}
           userId={nextGuest._id}
-          organisationName={
-            (nextGuestProfile.organisation &&
-              nextGuestProfile.organisation.name) ||
-            "N/A"
-          }
+          organisationName={nextGuestProfile.organisation || "N/A"}
           bookingId={nextBooking._id}
           startDate={nextBooking.startDate}
           endDate={nextBooking.endDate}
