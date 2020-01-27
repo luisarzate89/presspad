@@ -9,6 +9,7 @@ module.exports = {
       "Questioning",
       "Other/not listed",
       "I'd prefer not to say",
+      "",
     ],
     ethnicity: [
       "White British",
@@ -30,6 +31,7 @@ module.exports = {
       "Mix/Multiple ethnic background",
       "Middle Eastern/Arab",
       "I'd prefer not to say",
+      "",
     ],
     parentsWorkInPress: [
       "Mom",
@@ -37,6 +39,7 @@ module.exports = {
       "Both",
       "Neither",
       "I'd prefer not to say",
+      "",
     ],
     gender: [
       "Female",
@@ -54,6 +57,7 @@ module.exports = {
       "Yes, I have (or have previously had) an invisible disability",
       "No, I don't have a disability",
       "I'd prefer not to say",
+      "",
     ],
     interests: [
       "Broadcast",
@@ -67,6 +71,7 @@ module.exports = {
       "Publishing",
       "PR",
       "Other",
+      "",
     ],
     workingArea: [
       "Broadcast",
@@ -101,7 +106,8 @@ module.exports = {
       "Master's degree",
       "PhD/Doctoral degree",
       "I'd prefer not to say",
-    ], // waiting for PO to send over
+      "",
+    ],
     parentProfession: [
       "Modern professional occupations such as (teacher, nurse, physiotherapist, social worker, musician, police officer (sergeant or above), software designer)",
       "Clerical and intermediate occupations (such as secretary, personal assistant, clerical worker, call centre agent, nursery nurse)",
@@ -113,6 +119,7 @@ module.exports = {
       "Traditional professional occupations (such as accountant, solicitor, medical practitioner, scientist, civil / mechanical engineer)",
       "Unemployed",
       "I'd prefer not to say",
+      "",
     ],
   },
 };
