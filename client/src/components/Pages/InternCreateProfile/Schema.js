@@ -1,30 +1,29 @@
 import { boolean, date, object, string, lazy } from "yup";
 import { optionalWordLengthValidator } from "../../../helpers";
+import errMsgs from "../../../constants/errorMessages";
 
 export const profileSchema = object({
   birthDate: date()
-    .typeError("Please select a date")
+    .typeError(errMsgs.BIRTHDATE)
     .required(),
-  gender: string()
-    .typeError("Please select a gender")
-    .required(),
+  gender: string().required(errMsgs.GENDER),
   hometown: string()
-    .required()
     .ensure()
-    .wordLengthValidator(10),
+    .wordLengthValidator(10)
+    .required(errMsgs.HOMETOWN),
   school: string()
-    .required("Please enter your school or university")
     .ensure()
-    .wordLengthValidator(10),
+    .wordLengthValidator(10)
+    .required(errMsgs.SCHOOL),
   profileImage: object({
-    fileName: string()
+    fileName: string(errMsgs.PROFILE_IMAGE)
       .ensure()
-      .required("Please upload a photo of yourself"),
+      .required(errMsgs.PROFILE_IMAGE),
     isPrivate: boolean().default(false),
-  }).required("Please upload a photo of yourself"),
+  }).required(errMsgs.PROFILE_IMAGE),
   interests: string()
-    .typeError("Please select an area of interest")
-    .required(),
+    .typeError(errMsgs.AREA_OF_INTEREST)
+    .required(errMsgs.AREA_OF_INTEREST),
   bio: string()
     .ensure()
     .wordLengthValidator(250)
@@ -48,12 +47,12 @@ export const detailsSchema = object({
     .wordLengthValidator(50)
     .required("Please tell us how your heard about PressPad"),
   phoneNumber: string()
-    .typeError("Please enter your phone number")
+    .typeError(errMsgs.PHONE_NUMBER)
     .max(50, "Invalid phone number")
-    .required("Please enter your phone number"),
+    .required(errMsgs.PHONE_NUMBER),
   reference1: object({
     name: string()
-      .max(50)
+      .max(50, errMsgs.MAX(50))
       .ensure(),
     email: string()
       .email()
@@ -61,7 +60,7 @@ export const detailsSchema = object({
   }),
   reference2: object({
     name: string()
-      .max(50)
+      .max(50, errMsgs.MAX(50))
       .ensure(),
     email: string()
       .email()
@@ -93,6 +92,6 @@ export const detailsSchema = object({
   allergies: lazy(optionalWordLengthValidator(50)),
   backgroundAnswer: lazy(optionalWordLengthValidator(250)),
   consentedOnPressPadTerms: boolean()
-    .oneOf([true], "You must agree to the terms in order to use PressPad")
+    .oneOf([true], errMsgs.CONSENT)
     .required(),
 });

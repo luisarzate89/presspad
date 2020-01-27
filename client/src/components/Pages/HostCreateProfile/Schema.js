@@ -1,95 +1,87 @@
 import { array, boolean, date, object, string, lazy } from "yup";
 import { optionalWordLengthValidator } from "../../../helpers";
+import errMsgs from "../../../constants/errorMessages";
 
 export const profileSchema = object().shape({
-  birthDate: date().required(),
-  hometown: string()
+  birthDate: date()
+    .typeError(errMsgs.BIRTHDATE)
+    .required(errMsgs.BIRTHDATE),
+  hometown: string(errMsgs.HOMETOWN)
     .ensure()
     .wordLengthValidator(10)
-    .required(),
-  gender: string().required(),
+    .required(errMsgs.HOMETOWN),
+  gender: string(errMsgs.GENDER).required(errMsgs.GENDER),
   school: lazy(optionalWordLengthValidator(10)),
-  bio: string()
+  bio: string(errMsgs.BIO)
     .ensure()
     .wordLengthValidator(250)
-    .required(),
+    .required(errMsgs.BIO),
   profileImage: object({
-    fileName: string().required(),
+    fileName: string().required(errMsgs.PROFILE_IMAGE),
     isPrivate: boolean().default(false),
   }).required(),
   jobTitle: string()
     .ensure()
     .wordLengthValidator(10)
-    .required(),
+    .required(errMsgs.JOB_TITLE),
   organisation: string()
     .ensure()
     .wordLengthValidator(10)
-    .required(),
-  workingArea: string().required(),
-  hostingReasonAnswer: string().wordLengthValidator(250),
-  mentoringExperienceAnswer: string().wordLengthValidator(250),
-  industryExperienceAnswer: string().wordLengthValidator(250),
-  backgroundAnswer: string().wordLengthValidator(250),
+    .required(errMsgs.ORGANISATION),
+  workingArea: string().required(errMsgs.WORKING_AREA),
+  hostingReasonAnswer: lazy(optionalWordLengthValidator(250)),
+  mentoringExperienceAnswer: lazy(optionalWordLengthValidator(250)),
+  industryExperienceAnswer: lazy(optionalWordLengthValidator(250)),
+  backgroundAnswer: lazy(optionalWordLengthValidator(250)),
 });
 export const offerSchema = object({
   photos1: object({
-    fileName: string().required(),
+    fileName: string().required(errMsgs.LISTING_PHOTOS_ERROR),
     isPrivate: boolean().default(false),
-  }).required(),
+  }).required(errMsgs.LISTING_PHOTOS_ERROR),
   photos2: object({
-    fileName: string().required(),
+    fileName: string().required(errMsgs.LISTING_PHOTOS_ERROR),
     isPrivate: boolean().default(false),
-  }).required(),
+  }).required(errMsgs.LISTING_PHOTOS_ERROR),
   photos3: object({
-    fileName: string().required(),
+    fileName: string().required(errMsgs.LISTING_PHOTOS_ERROR),
     isPrivate: boolean().default(false),
-  }).required(),
-  //  /* waiting for confirmation on address
+  }).required(errMsgs.LISTING_PHOTOS_ERROR),
   address: string().required(),
   availableDates: array(
     object({
       startDate: date(),
       endDate: date(),
     }),
-  ).required(),
-  accommodationChecklist: array(string())
-    .min(1)
-    .required(),
-  neighbourhoodDescription: string().max(250),
-  otherInfo: string()
-    .ensure()
-    .wordLengthValidator(250),
+  ).required(errMsgs.AVAILABLE_DATES),
+  accommodationChecklist: array(string()).required(
+    errMsgs.ACCOMMODATION_CHECKLIST,
+  ),
+  neighbourhoodDescription: string().max(250, errMsgs.MAX(250)),
+  otherInfo: lazy(optionalWordLengthValidator(250)),
 });
 export const detailsSchema = object({
   photoID: object({
-    fileName: string().required(),
+    fileName: string().required(errMsgs.PHOTO_ID),
     isPrivate: boolean().default(true),
   }).required(),
   hearAboutPressPadAnswer: string()
     .ensure()
     .wordLengthValidator(50)
-    .required(),
+    .required(errMsgs.REQUIRED),
   phoneNumber: string()
     .max(50)
-    .required(),
+    .required(errMsgs.PHONE_NUMBER),
   reference1: object({
-    name: string()
-      .max(50)
-      .required(),
-    email: string()
-      .email()
-      .required(),
+    name: string().max(50),
+    email: string().email(errMsgs.EMAIL),
   }),
   reference2: object({
-    name: string()
-      .max(50)
-      .required(),
-    email: string()
-      .email()
-      .required(),
+    name: string().max(50),
+    email: string().email(errMsgs.EMAIL),
   }),
   DBSCheck: object({
-    fileName: string().required(),
+    fileName: string(),
     isPrivate: boolean().default(true),
   }),
   // options
@@ -101,6 +93,6 @@ export const detailsSchema = object({
   parentsWorkInPress: lazy(optionalWordLengthValidator(5)),
   caringResponsibilities: lazy(optionalWordLengthValidator(250)),
   consentedOnPressPadTerms: boolean()
-    .oneOf([true], "You must agree to the terms in order to use PressPad")
-    .required(),
+    .oneOf([true], errMsgs.CONSENT)
+    .required(errMsgs.CONSENT),
 });
