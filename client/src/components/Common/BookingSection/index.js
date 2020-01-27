@@ -34,7 +34,7 @@ export default function BookingSection(props) {
   return (
     <>
       <section>
-        <Row gutter={20} type="flex">
+        <Row type="flex">
           <Col lg={16} md={14} sm={24}>
             <SectionWrapperContent style={{ minHeight: 420 }}>
               <>
@@ -66,7 +66,7 @@ export default function BookingSection(props) {
                     <Bio>{bio}</Bio>
                   </Col>
                 </Row>
-                <Row type="flex" justify="space-between" gutter={30}>
+                <Row type="flex" justify="space-between" gutter={0}>
                   {role === "intern" && (
                     <Col>
                       <InternalLink href="#viewBooking">

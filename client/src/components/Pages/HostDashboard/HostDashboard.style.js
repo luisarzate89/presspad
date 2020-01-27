@@ -11,8 +11,17 @@ export const ContentWrapper = styled.div`
   width: 80%;
   margin: 0 auto;
 
+  /* For the width of the row from Ant Design */
+  .ant-row-flex {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    width: 90%;
+  }
+
   @media (max-width: 600px) {
-    width: 93%;
+    width: 100%;
   }
 `;
 

@@ -79,7 +79,7 @@ const Content = ({
   <PageWrapper className="wrapper">
     <ContentWrapper className="child">
       <HeaderWrapper>
-        <Row type="flex" justify="start">
+        <Row style={{ width: "100%" }} type="flex" justify="start">
           <Col xs={7} sm={4} lg={3}>
             {/* neccesarry for ProgressRing */}
             <div style={{ position: "relative", width: 86 }}>
@@ -157,7 +157,7 @@ const Content = ({
           </UpdateList>
         </SectionWrapperContent>
       </section>
-      <Row gutter={20} type="flex" justify="start">
+      <Row gutter={20} style={{ width: "100%" }} type="flex" justify="start">
         <Col lg={24} xl={16} xs={24} sm={24}>
           <SectionWrapperContent
             style={{ minHeight: 357, height: "calc(100% - 20px)" }}

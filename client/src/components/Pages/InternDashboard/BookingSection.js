@@ -54,7 +54,7 @@ export default function BookingSectionWrapper(props) {
   return (
     <SectionWrapper>
       <HeaderWrapper>
-        <Row type="flex" justify="start">
+        <Row style={{ width: "100%" }} type="flex" justify="start">
           <Col xs={6} sm={4} lg={3}>
             <Avatar
               size="large"
@@ -74,12 +74,22 @@ export default function BookingSectionWrapper(props) {
           </Col>
           <Col xs={18} sm={20}>
             {firstBooking ? (
-              <HiText>
-                Hi {name.split(" ")[0]}, your host is expecting you
-                <BoldTitle>{timeString} </BoldTitle>.
+              <HiText style={{ paddingLeft: "0.7rem" }}>
+                Hi
+                <span style={{ textTransform: "capitalize" }}>
+                  &nbsp;{name.split(" ")[0]}
+                </span>
+                , your host is expecting you
+                <BoldTitle>&nbsp;{timeString} </BoldTitle>.
               </HiText>
             ) : (
-              <HiText> Hi {name.split(" ")[0]}, .</HiText>
+              <HiText style={{ paddingLeft: "0.7rem" }}>
+                Hi
+                <span style={{ textTransform: "capitalize" }}>
+                  &nbsp;{name.split(" ")[0]}
+                </span>
+                , .
+              </HiText>
             )}
           </Col>
         </Row>

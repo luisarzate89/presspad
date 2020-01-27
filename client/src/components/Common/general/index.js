@@ -36,6 +36,7 @@ export const HiText = styled.h1`
 
   @media (max-width: 600px) {
     font-size: 1.2rem;
+    padding-left: 0;
   }
 `;
 
@@ -50,6 +51,7 @@ export const SectionWrapperContent = styled.div`
   @media (max-width: 600px) {
     padding: 0.6rem;
     padding-left: 0.6rem;
+    font-size: 1rem;
   }
 `;
 
@@ -161,6 +163,7 @@ export const BoldTitle = styled.span`
 
 export const SectionWrapper = styled.section`
   @media (max-width: 600px) {
-    width: 93%;
+    max-width: 98%;
+    margin: 0 auto;
   }
 `;

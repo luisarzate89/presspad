@@ -45,6 +45,7 @@ export const Bio = styled.p`
   color: #595959;
 
   @media (max-width: 600px) {
-    padding: 1.5rem 0;
+    padding: 1rem 0;
+    font-size: 1rem;
   }
 `;
