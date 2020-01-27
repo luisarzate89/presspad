@@ -173,14 +173,12 @@ export default class InternView extends Component {
     return (
       <Wrapper>
         <LinkDiv>
-          <BackLinkDiv>
+          <BackLinkDiv
+            onClick={() => this.props.history.goBack()}
+            role="button"
+          >
             <Arrow />
-            <BackLink
-              onClick={() => this.props.history.push("/hosts")}
-              as="button"
-            >
-              Back to Search Results
-            </BackLink>
+            <BackLink>Go Back</BackLink>
           </BackLinkDiv>
         </LinkDiv>
         <Header>
