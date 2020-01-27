@@ -24,6 +24,8 @@ const DisabledLink = props => {
       content={content || defaultContent}
       title={title || defaultTitle}
       placement="topLeft"
+      arrowPointAtCenter
+      autoAdjustOverflow
     >
       <ContentWrapper>{children}</ContentWrapper>
     </Popover>

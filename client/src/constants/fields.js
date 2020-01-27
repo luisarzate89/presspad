@@ -247,12 +247,14 @@ export default {
     name: "ethnicity",
     options: types.ethnicity,
   },
-  earningOfParents: {
+  parentProfession: {
     type: "select",
-    label: "Earnings of parents",
+    label: "Parent's profession",
+    hint:
+      "When you were aged 14, which best describes the sort of work the main/highest income earner in your household did in their main job?",
     placeholder: "Please choose an option",
-    name: "earningOfParents",
-    options: types.earningOfParents,
+    name: "parentProfession",
+    options: types.parentProfession,
   },
   disability: {
     type: "select",

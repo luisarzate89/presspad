@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Spin, message } from "antd";
+import { Spin, message, Icon } from "antd";
 
 import axios from "axios";
 import {
@@ -12,6 +12,7 @@ import Reviews from "../../Common/Reviews";
 
 import Calendar from "./Calendar";
 
+import Button from "../../Common/Button";
 import ListingGallery from "../../Common/Profile/ListingGallery";
 
 import {
@@ -43,6 +44,7 @@ import {
   ListItem,
   EditButton,
   Strong,
+  MobileSubHeadline,
 } from "./Profile.style";
 import { titleCase } from "../../../helpers";
 import "antd/dist/antd.css";
@@ -55,6 +57,7 @@ export default class InternView extends Component {
     isLoading: true,
     profileData: null,
     internBookings: [],
+    expandDateSection: false,
     showFullData: false,
   };
 
@@ -121,6 +124,11 @@ export default class InternView extends Component {
       .catch(err => message.error(err || "Something went wrong"));
   };
 
+  toggleDateSection = () => {
+    const { expandDateSection } = this.state;
+    this.setState({ expandDateSection: !expandDateSection });
+  };
+
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Profile" />;
     const {
@@ -156,8 +164,10 @@ export default class InternView extends Component {
       },
       internBookings,
       showFullData,
+      expandDateSection,
     } = this.state;
-    const { match, id: currentUserId, role } = this.props;
+
+    const { match, id: currentUserId, role, windowWidth } = this.props;
     const { id: hostId } = match.params;
 
     return (
@@ -196,7 +206,7 @@ export default class InternView extends Component {
                       }`}
                 </Headline>
               )}
-              <Address>{address}</Address>
+              <Address>{address || ""}</Address>
             </HeaderDiv>
           </TopDiv>
           <TopDiv>
@@ -330,27 +340,93 @@ export default class InternView extends Component {
               <Reviews userId={userId} name={name} userRole="host" />
             </Card>
           </TextContentDiv>
-          <AvailableHosting>
-            <Card>
-              <CalendarDiv userRole={role}>
-                <SubHeadline>Available hosting</SubHeadline>
-                <ParagraphHeadline>
-                  Choose a slot to view price and request a stay with this host
-                </ParagraphHeadline>
-
-                <Calendar
-                  currentUserId={currentUserId}
-                  hostId={hostId}
-                  role={role}
-                  listingId={_id}
-                  availableDates={availableDates}
-                  internBookings={internBookings}
-                  price={price}
-                  adminView={role === "admin"}
-                />
-              </CalendarDiv>
-            </Card>
-          </AvailableHosting>
+          {windowWidth < 776 ? (
+            <AvailableHosting mobile expanded={expandDateSection}>
+              {expandDateSection ? (
+                <Card mobile>
+                  <Icon
+                    type="close"
+                    style={{
+                      fontSize: "32px",
+                      color: "primary",
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: "1rem",
+                      right: "1rem",
+                    }}
+                    onClick={this.toggleDateSection}
+                  />
+                  <CalendarDiv userRole={role}>
+                    {role === "host" && (
+                      <SubHeadline>Your available Dates</SubHeadline>
+                    )}
+                    {role !== "host" && (
+                      <>
+                        <MobileSubHeadline>Available hosting</MobileSubHeadline>
+                        <ParagraphHeadline>
+                          Choose a slot to view price and request a stay with
+                          this host
+                        </ParagraphHeadline>
+                      </>
+                    )}
+                    <Calendar
+                      currentUserId={currentUserId}
+                      hostId={hostId}
+                      role={role}
+                      listingId={_id}
+                      availableDates={availableDates}
+                      internBookings={internBookings}
+                      price={price}
+                      adminView={role === "admin"}
+                      getHostProfile={this.getHostProfile}
+                    />
+                  </CalendarDiv>
+                </Card>
+              ) : (
+                <Card mobileSmall>
+                  <MobileSubHeadline>
+                    View available dates & price to stay
+                  </MobileSubHeadline>
+                  <Button
+                    type="secondary"
+                    label="View dates"
+                    width="180px"
+                    onClick={this.toggleDateSection}
+                  />
+                </Card>
+              )}
+            </AvailableHosting>
+          ) : (
+            <AvailableHosting>
+              <Card>
+                <CalendarDiv userRole={role}>
+                  {role === "host" && (
+                    <SubHeadline>Your available Dates</SubHeadline>
+                  )}
+                  {role !== "host" && (
+                    <>
+                      <SubHeadline>Available hosting</SubHeadline>
+                      <ParagraphHeadline>
+                        Choose a slot to view price and request a stay with this
+                        host
+                      </ParagraphHeadline>
+                    </>
+                  )}
+                  <Calendar
+                    currentUserId={currentUserId}
+                    hostId={hostId}
+                    role={role}
+                    listingId={_id}
+                    availableDates={availableDates}
+                    internBookings={internBookings}
+                    price={price}
+                    adminView={role === "admin"}
+                    getHostProfile={this.getHostProfile}
+                  />
+                </CalendarDiv>
+              </Card>
+            </AvailableHosting>
+          )}
         </MainSection>
       </Wrapper>
     );

@@ -25,18 +25,18 @@ const hostProfileSchema = Joi.object({
     .custom(wordLengthValidator(10, "organisation"))
     .required(),
   workingArea: Joi.string().required(),
-  hostingReasonAnswer: Joi.string().custom(
-    wordLengthValidator(250, "hostingReasonAnswer"),
-  ),
-  mentoringExperienceAnswer: Joi.string().custom(
-    wordLengthValidator(250, "mentoringExperienceAnswer"),
-  ),
-  industryExperienceAnswer: Joi.string().custom(
-    wordLengthValidator(250, "industryExperienceAnswer"),
-  ),
-  backgroundAnswer: Joi.string().custom(
-    wordLengthValidator(250, "backgroundAnswer"),
-  ),
+  hostingReasonAnswer: Joi.string()
+    .custom(wordLengthValidator(250, "hostingReasonAnswer"))
+    .allow(""),
+  mentoringExperienceAnswer: Joi.string()
+    .custom(wordLengthValidator(250, "mentoringExperienceAnswer"))
+    .allow(""),
+  industryExperienceAnswer: Joi.string()
+    .custom(wordLengthValidator(250, "industryExperienceAnswer"))
+    .allow(""),
+  backgroundAnswer: Joi.string()
+    .custom(wordLengthValidator(250, "backgroundAnswer"))
+    .allow(""),
   // offer
   photos: Joi.array()
     .length(3)
@@ -59,8 +59,12 @@ const hostProfileSchema = Joi.object({
     )
     .required(),
   accommodationChecklist: Joi.array().items(Joi.string()),
-  neighbourhoodDescription: Joi.string().max(250),
-  otherInfo: Joi.string().custom(wordLengthValidator(250, "otherInfo")),
+  neighbourhoodDescription: Joi.string()
+    .max(250)
+    .allow(""),
+  otherInfo: Joi.string()
+    .custom(wordLengthValidator(250, "otherInfo"))
+    .allow(""),
   // details
   photoID: Joi.object({
     fileName: Joi.string().required(),
@@ -92,13 +96,13 @@ const hostProfileSchema = Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(true),
   }),
-  sexualOrientation: Joi.string(),
-  degreeLevel: Joi.string(),
-  ethnicity: Joi.string(),
-  earningOfParents: Joi.string(),
-  disability: Joi.string(),
-  parentsWorkInPress: Joi.string(),
-  caringResponsibilities: Joi.string(),
+  sexualOrientation: Joi.string().allow(""),
+  degreeLevel: Joi.string().allow(""),
+  ethnicity: Joi.string().allow(""),
+  parentProfession: Joi.string().allow(""),
+  disability: Joi.string().allow(""),
+  parentsWorkInPress: Joi.string().allow(""),
+  caringResponsibilities: Joi.string().allow(""),
   consentedOnPressPadTerms: Joi.boolean()
     .only()
     .allow(true),

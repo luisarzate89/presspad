@@ -47,9 +47,9 @@ export const Arrow = styled(BackArrowIcon)`
 
 // Header
 export const Header = styled.header`
-  padding-top: 1rem;
+  padding-top: 2rem;
   display: flex;
-  justify-content: ${({ justifyContent }) => justifyContent || "start"};
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
   align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
@@ -88,10 +88,15 @@ export const Headline = styled.h1`
 
 export const Card = styled.div`
   width: 100%;
+  padding: 0.8rem;
   box-shadow: ${shadows.card};
   margin-top: ${props => props.mt};
   min-height: ${props => props.mh};
   width: ${props => props.w};
+
+  @media (max-width: 600px) {
+    min-height: 250px;
+  }
 `;
 
 export const InnerCard = styled.div`
@@ -114,6 +119,10 @@ export const SubHeadline = styled.h2`
   text-align: left;
   color: ${colors.fontLightBlack};
   margin-top: 10px;
+
+  @media (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 export const ParagraphHeadline = styled.h3`
@@ -122,6 +131,10 @@ export const ParagraphHeadline = styled.h3`
   font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
+
+  @media (max-width: ${size.mobileM}) {
+    font-size: 14px;
+  }
 `;
 
 export const Paragraph = styled.p`
@@ -137,6 +150,7 @@ export const TopDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  position: relative;
 `;
 
 export const AdminTopDiv = styled.div`
@@ -269,21 +283,24 @@ export const SubImage = styled.div`
 
 export const ShowMoreSection = styled.div`
   display: flex;
-  margin: 0 auto;
   margin-top: 2rem;
   width: 90%;
   justify-content: space-between;
 
-  @media (max-width: 900px) {
+  a {
     width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    width: 110%;
 
     a {
-      margin: 0;
       padding: 0.5rem;
     }
   }
 
   @media (max-width: 600px) {
+    width: 100%;
     flex-direction: column;
     text-align: center;
 

@@ -13,10 +13,10 @@ import {
   DASHBOARD_URL,
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
-  SIGNIN_URL
+  SIGNIN_URL,
 } from "../../../constants/navRoutes";
 
-import USER_TYPES from "./../../../constants/userTypes";
+import USER_TYPES from "../../../constants/userTypes";
 
 const Wrapper = styled.div`
   ${({ isMobile }) =>
@@ -62,7 +62,7 @@ const Options = styled.div`
     `}
 `;
 
-const MenuItem = styled(NavLink)`
+const MenuItem = styled(({ isMobile, ...rest }) => <NavLink {...rest} />)`
   margin: 0 0 0 3rem;
   text-decoration: none;
   color: ${colors.white};
@@ -107,125 +107,121 @@ const Menu = ({
   menuButtonClick,
   isMobile,
   userType,
-  isLoggedIn
-}) => {
-  return (
-    <Wrapper isMobile={isMobile}>
-      {/* NOT LOGGED IN */}
-      {!isLoggedIn && (
-        <Options isMobile={isMobile}>
-          {isMobile && (
-            <Icon
-              type="close"
-              style={{
-                fontSize: "32px",
-                color: "white",
-                cursor: "pointer",
-                position: "absolute",
-                top: "1rem",
-                right: "1rem"
-              }}
-              onClick={toggleMenu}
-            />
-          )}
-          <MenuItem to={HOME_URL} onClick={toggleMenu} isMobile={isMobile}>
-            Home
-          </MenuItem>
-          <MenuItem to={ABOUT_URL} onClick={toggleMenu} isMobile={isMobile}>
-            About
-          </MenuItem>
-          <MenuItem to={HOSTS_URL} onClick={toggleMenu} isMobile={isMobile}>
-            Hosts
-          </MenuItem>
-          <MenuItem to={SIGNIN_URL} onClick={toggleMenu} isMobile={isMobile}>
-            Sign in
-          </MenuItem>
-        </Options>
-      )}
-
-      {/* LOGGED IN  */}
-      {isLoggedIn && (
-        <Options isMobile={isMobile}>
-          {isMobile && (
-            <Icon
-              type="close"
-              style={{
-                fontSize: "32px",
-                color: "white",
-                cursor: "pointer",
-                position: "absolute",
-                top: "1rem",
-                right: "1rem"
-              }}
-              onClick={toggleMenu}
-            />
-          )}
-          <MenuItem
-            to={
-              userType === USER_TYPES.admin
-                ? ADMIN_DASHBOARD_URL
-                : DASHBOARD_URL
-            }
+  isLoggedIn,
+}) => (
+  <Wrapper isMobile={isMobile}>
+    {/* NOT LOGGED IN */}
+    {!isLoggedIn && (
+      <Options isMobile={isMobile}>
+        {isMobile && (
+          <Icon
+            type="close"
+            style={{
+              fontSize: "32px",
+              color: "white",
+              cursor: "pointer",
+              position: "absolute",
+              top: "1rem",
+              right: "1rem",
+            }}
             onClick={toggleMenu}
-            isMobile={isMobile}
-          >
-            Dashboard
-          </MenuItem>
-          {userType === USER_TYPES.intern && (
-            <>
-              <MenuItem
-                to={MYPROFILE_URL}
-                onClick={toggleMenu}
-                isMobile={isMobile}
-              >
-                My profile
-              </MenuItem>
-              <MenuItem to={HOSTS_URL} onClick={toggleMenu} isMobile={isMobile}>
-                Hosts
-              </MenuItem>
-            </>
-          )}
-          {userType === USER_TYPES.host && (
-            <>
-              <MenuItem
-                to={MYPROFILE_URL}
-                onClick={toggleMenu}
-                isMobile={isMobile}
-              >
-                My profile
-              </MenuItem>
-            </>
-          )}
-          {userType === USER_TYPES.superhost && (
-            <>
-              <MenuItem
-                to={MYPROFILE_URL}
-                onClick={toggleMenu}
-                isMobile={isMobile}
-              >
-                My profile
-              </MenuItem>
-            </>
-          )}
-          {userType === USER_TYPES.organisation && (
-            <>
-              <MenuItem
-                to={MYPROFILE_URL}
-                onClick={toggleMenu}
-                isMobile={isMobile}
-              >
-                My profile
-              </MenuItem>
-            </>
-          )}
+          />
+        )}
+        <MenuItem to={HOME_URL} onClick={toggleMenu} isMobile={isMobile}>
+          Home
+        </MenuItem>
+        <MenuItem to={ABOUT_URL} onClick={toggleMenu} isMobile={isMobile}>
+          About
+        </MenuItem>
+        <MenuItem to={HOSTS_URL} onClick={toggleMenu} isMobile={isMobile}>
+          Hosts
+        </MenuItem>
+        <MenuItem to={SIGNIN_URL} onClick={toggleMenu} isMobile={isMobile}>
+          Sign in
+        </MenuItem>
+      </Options>
+    )}
 
-          <MenuButton onClick={menuButtonClick} isMobile={isMobile}>
-            Sign out
-          </MenuButton>
-        </Options>
-      )}
-    </Wrapper>
-  );
-};
+    {/* LOGGED IN  */}
+    {isLoggedIn && (
+      <Options isMobile={isMobile}>
+        {isMobile && (
+          <Icon
+            type="close"
+            style={{
+              fontSize: "32px",
+              color: "white",
+              cursor: "pointer",
+              position: "absolute",
+              top: "1rem",
+              right: "1rem",
+            }}
+            onClick={toggleMenu}
+          />
+        )}
+        <MenuItem
+          to={
+            userType === USER_TYPES.admin ? ADMIN_DASHBOARD_URL : DASHBOARD_URL
+          }
+          onClick={toggleMenu}
+          isMobile={isMobile}
+        >
+          Dashboard
+        </MenuItem>
+        {userType === USER_TYPES.intern && (
+          <>
+            <MenuItem
+              to={MYPROFILE_URL}
+              onClick={toggleMenu}
+              isMobile={isMobile}
+            >
+              My profile
+            </MenuItem>
+            <MenuItem to={HOSTS_URL} onClick={toggleMenu} isMobile={isMobile}>
+              Hosts
+            </MenuItem>
+          </>
+        )}
+        {userType === USER_TYPES.host && (
+          <>
+            <MenuItem
+              to={MYPROFILE_URL}
+              onClick={toggleMenu}
+              isMobile={isMobile}
+            >
+              My profile
+            </MenuItem>
+          </>
+        )}
+        {userType === USER_TYPES.superhost && (
+          <>
+            <MenuItem
+              to={MYPROFILE_URL}
+              onClick={toggleMenu}
+              isMobile={isMobile}
+            >
+              My profile
+            </MenuItem>
+          </>
+        )}
+        {userType === USER_TYPES.organisation && (
+          <>
+            <MenuItem
+              to={MYPROFILE_URL}
+              onClick={toggleMenu}
+              isMobile={isMobile}
+            >
+              My profile
+            </MenuItem>
+          </>
+        )}
+
+        <MenuButton onClick={menuButtonClick} isMobile={isMobile}>
+          Sign out
+        </MenuButton>
+      </Options>
+    )}
+  </Wrapper>
+);
 
 export default withRouter(Menu);

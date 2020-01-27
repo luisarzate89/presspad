@@ -86,7 +86,7 @@ export const detailsSchema = object({
   sexualOrientation: lazy(optionalWordLengthValidator(250)),
   degreeLevel: lazy(optionalWordLengthValidator(250)),
   ethnicity: lazy(optionalWordLengthValidator(250)),
-  earningOfParents: lazy(optionalWordLengthValidator(250)),
+  parentProfession: lazy(optionalWordLengthValidator(250)),
   disability: lazy(optionalWordLengthValidator(250)),
   parentsWorkInPress: lazy(optionalWordLengthValidator(250)),
   caringResponsibilities: lazy(optionalWordLengthValidator(250)),

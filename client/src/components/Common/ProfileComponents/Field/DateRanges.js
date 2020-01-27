@@ -17,7 +17,7 @@ class DateRanges extends Component {
       deleteDate,
       availableDates,
       error,
-      readOnly
+      readOnly,
     } = this.props;
 
     return (
@@ -26,12 +26,12 @@ class DateRanges extends Component {
           <Row gutter={25} type="flex">
             <Col xs={24} md={20} lg={20}>
               {availableDates.map((item, index) => (
-                <div style={{ marginBottom: "25px" }}>
+                <div key={item._id} style={{ marginBottom: "25px" }}>
                   {index !== 0 && (
                     <Divider
                       style={{
                         marginTop: "25px",
-                        background: "none"
+                        background: "none",
                       }}
                     />
                   )}
@@ -71,7 +71,7 @@ class DateRanges extends Component {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        height: "32px"
+                        height: "32px",
                       }}
                     >
                       <Icon
@@ -90,7 +90,7 @@ class DateRanges extends Component {
               <UploadText
                 style={{
                   marginTop: "20px",
-                  display: "block"
+                  display: "block",
                 }}
                 onClick={handleAddMoreRanges}
               >
