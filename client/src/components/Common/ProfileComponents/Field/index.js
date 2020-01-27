@@ -76,7 +76,7 @@ export default function Field({
         }
         padding={padding}
         paddingSmall={paddingSmall}
-        error={error}
+        error={type !== "mainLabel" && error}
       >
         {label}
         {isRequired && <RequiredSpan>*</RequiredSpan>}

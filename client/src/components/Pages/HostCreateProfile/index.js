@@ -45,7 +45,12 @@ const INITIAL_STATE = {
     fileName: "",
     isPrivate: false,
   },
-  address: "",
+  address: {
+    addressline1: "",
+    addressline2: "",
+    city: "",
+    postcode: "",
+  },
   accommodationChecklist: "",
   neighbourhoodDescription: "",
   otherInfo: "",

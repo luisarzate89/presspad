@@ -338,6 +338,7 @@ export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: left;
+  margin-bottom: 2rem;
 
   @media (max-width: 775.98px) {
     flex-direction: column;
@@ -347,7 +348,7 @@ export const List = styled.div`
 export const ListItem = styled.li`
   margin-top: 8px;
   font-weight: 300;
-  width: calc(100% / 3);
+  width: 100%;
 
   @media (max-width: 775.98px) {
     width: 100%;

@@ -138,10 +138,14 @@ export default class InternView extends Component {
           _id,
           availableDates,
           price,
-          address,
+          address: {
+            addressline1 = "",
+            addressline2 = "",
+            postcode = "",
+            city = "",
+          } = {},
           photos,
           otherInfo,
-          description,
           accommodationChecklist,
           neighbourhoodDescription,
         },
@@ -204,7 +208,9 @@ export default class InternView extends Component {
                       }`}
                 </Headline>
               )}
-              <Address>{address || ""}</Address>
+              <Address>
+                {city} {postcode}
+              </Address>
             </HeaderDiv>
           </TopDiv>
           <TopDiv>
@@ -234,106 +240,103 @@ export default class InternView extends Component {
                 <Paragraph>{bio}</Paragraph>
                 <Paragraph style={{ display: "flex", flexDirection: "column" }}>
                   {hometown && (
-                    <span>
+                    <span style={{ marginTop: "0.5rem" }}>
                       <Strong>Hometown:</Strong> {titleCase(hometown)}
                     </span>
                   )}
+
+                  {showFullData && (
+                    <div style={{ display: "flex", marginTop: "0.5rem" }}>
+                      <Strong>Address:</Strong>{" "}
+                      <div
+                        style={{ display: "inline-block", paddingLeft: "1rem" }}
+                      >
+                        <div>{titleCase(addressline1)}</div>
+                        {addressline2 && <div>{titleCase(addressline2)}</div>}
+                        <div>{titleCase(city)}</div>
+                        <div>{postcode}</div>
+                      </div>
+                    </div>
+                  )}
+
                   {school && (
-                    <span>
+                    <span style={{ marginTop: "0.5rem" }}>
                       <Strong>University / School:</Strong> {titleCase(school)}
                     </span>
                   )}
                   {gender && (
-                    <span>
+                    <span style={{ marginTop: "0.5rem" }}>
                       <Strong>Gender:</Strong> {titleCase(gender)}
                     </span>
                   )}
                   {workingArea && (
-                    <span>
+                    <span style={{ marginTop: "0.5rem" }}>
                       <Strong>Working Area:</Strong> {titleCase(workingArea)}
                     </span>
                   )}
                 </Paragraph>
               </InfoCard>
             </Card>
-            {accommodationChecklist && accommodationChecklist.length && (
-              <Card>
-                <InfoCard>
-                  <SubHeadline>About my home</SubHeadline>
+            <Card>
+              <InfoCard>
+                <SubHeadline>About my home</SubHeadline>
+                {accommodationChecklist && accommodationChecklist.length && (
                   <List>
                     {accommodationChecklist.map(li => (
                       <ListItem key={li}>{li}</ListItem>
                     ))}
                   </List>
-                </InfoCard>
-              </Card>
-            )}
-            {neighbourhoodDescription && (
-              <Card>
-                <InfoCard>
-                  <SubHeadline>The Neighbourhood</SubHeadline>
-                  <Paragraph>{neighbourhoodDescription}</Paragraph>
-                </InfoCard>
-              </Card>
-            )}
-            {otherInfo && (
-              <Card>
-                <InfoCard>
-                  <SubHeadline>Other Info / House Rules</SubHeadline>
-                  <Paragraph>{otherInfo}</Paragraph>
-                </InfoCard>
-              </Card>
-            )}
+                )}
 
-            {address && description && (
-              <Card>
-                <InfoCard>
-                  <SubHeadline>My PressPad Offer</SubHeadline>
-                  <ParagraphHeadline>
-                    {`${address.street}, ${address.city}, ${address.postcode}`}
-                  </ParagraphHeadline>
-                  <Paragraph>{description}</Paragraph>
-                </InfoCard>
-              </Card>
-            )}
+                <SubHeadline>The Neighbourhood</SubHeadline>
+                <Paragraph>{neighbourhoodDescription || "N/A"}</Paragraph>
 
-            <Card>
-              <InfoCard>
-                <SubHeadline>More about me</SubHeadline>
-                {hostingReasonAnswer && (
-                  <>
-                    <ParagraphHeadline>
-                      Why I want to be a PressPad host
-                    </ParagraphHeadline>
-                    <Paragraph>{hostingReasonAnswer}</Paragraph>
-                  </>
-                )}
-                {mentoringExperienceAnswer && (
-                  <>
-                    <ParagraphHeadline>
-                      My mentoring experience
-                    </ParagraphHeadline>
-                    <Paragraph>{mentoringExperienceAnswer}</Paragraph>
-                  </>
-                )}
-                {industryExperienceAnswer && (
-                  <>
-                    <ParagraphHeadline>
-                      My experience getting into the industry
-                    </ParagraphHeadline>
-                    <Paragraph>{industryExperienceAnswer}</Paragraph>
-                  </>
-                )}
-                {backgroundAnswer && (
-                  <>
-                    <ParagraphHeadline>
-                      Something you should know
-                    </ParagraphHeadline>
-                    <Paragraph>{backgroundAnswer}</Paragraph>
-                  </>
-                )}
+                <SubHeadline>Other Info / House Rules</SubHeadline>
+                <Paragraph>{otherInfo || "N/A"}</Paragraph>
               </InfoCard>
             </Card>
+
+            {(hostingReasonAnswer ||
+              mentoringExperienceAnswer ||
+              industryExperienceAnswer) && (
+              <Card>
+                <InfoCard>
+                  <SubHeadline>More about me</SubHeadline>
+                  {hostingReasonAnswer && (
+                    <>
+                      <ParagraphHeadline>
+                        Why I want to be a PressPad host
+                      </ParagraphHeadline>
+                      <Paragraph>{hostingReasonAnswer}</Paragraph>
+                    </>
+                  )}
+                  {mentoringExperienceAnswer && (
+                    <>
+                      <ParagraphHeadline>
+                        My mentoring experience
+                      </ParagraphHeadline>
+                      <Paragraph>{mentoringExperienceAnswer}</Paragraph>
+                    </>
+                  )}
+                  {industryExperienceAnswer && (
+                    <>
+                      <ParagraphHeadline>
+                        My experience getting into the industry
+                      </ParagraphHeadline>
+                      <Paragraph>{industryExperienceAnswer}</Paragraph>
+                    </>
+                  )}
+                  {backgroundAnswer && (
+                    <>
+                      <ParagraphHeadline>
+                        Something you should know
+                      </ParagraphHeadline>
+                      <Paragraph>{backgroundAnswer}</Paragraph>
+                    </>
+                  )}
+                </InfoCard>
+              </Card>
+            )}
             <Card>
               <Reviews userId={userId} name={name} userRole="host" />
             </Card>

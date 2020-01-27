@@ -47,8 +47,20 @@ const hostProfileSchema = Joi.object({
       }),
     )
     .required(),
-  //  /* waiting for confirmation on address
-  address: Joi.string().required(),
+  address: Joi.object({
+    addressline1: Joi.string()
+      .custom(wordLengthValidator(50, "addressline1"))
+      .required(),
+    addressline2: Joi.string()
+      .custom(wordLengthValidator(50, "addressline2"))
+      .allow(""),
+    city: Joi.string()
+      .custom(wordLengthValidator(50, "city"))
+      .required(),
+    postcode: Joi.string()
+      .custom(wordLengthValidator(50, "postcode"))
+      .required(),
+  }),
   availableDates: Joi.array()
     .min(1)
     .items(

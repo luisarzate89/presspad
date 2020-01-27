@@ -119,6 +119,7 @@ export const SubHeadline = styled.h2`
   text-align: left;
   color: ${colors.fontLightBlack};
   margin-top: 10px;
+  margin-bottom: 0px;
 
   @media (max-width: 600px) {
     text-align: center;
@@ -131,6 +132,7 @@ export const ParagraphHeadline = styled.h3`
   font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
+  margin-bottom: 0;
 
   @media (max-width: ${size.mobileM}) {
     font-size: 14px;

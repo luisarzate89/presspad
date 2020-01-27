@@ -81,12 +81,48 @@ const OfferDetails = ({
             )}
           </Col>
           <Col xs={24} sm={16}>
-            <Field
-              {...fields.address}
-              value={data.address}
-              error={errors.address}
-              {...props}
-            />
+            <Row gutter={0}>
+              <Field
+                {...fields.address}
+                value={data.address}
+                error={errors.address}
+                {...props}
+              />
+            </Row>
+            <Row gutter={0}>
+              <Field
+                {...fields.addressline1}
+                value={data.address}
+                error={errors.address}
+                {...props}
+              />
+            </Row>
+            <Row gutter={0}>
+              <Field
+                {...fields.addressline2}
+                value={data.address}
+                error={errors.address}
+                {...props}
+              />
+            </Row>
+            <Row gutter={25}>
+              <Col xs={24} md={12}>
+                <Field
+                  {...fields.city}
+                  value={data.address}
+                  error={errors.address}
+                  {...props}
+                />
+              </Col>
+              <Col xs={24} md={12}>
+                <Field
+                  {...fields.postcode}
+                  value={data.address}
+                  error={errors.address}
+                  {...props}
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row gutter={25}>

@@ -3,6 +3,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Row, Col, message, Spin } from "antd";
 import { Elements } from "react-stripe-elements";
+import {
+  getDiscountDays,
+  calculatePrice,
+  createInstallments,
+  getFirstUnpaidInstallment,
+} from "../helpers";
+
+import { titleCase } from "../../../../helpers";
 
 import randomProfile from "../../../../assets/random-profile.jpg";
 import DisabledPopOver from "../../../Common/DisabledPopOver";
@@ -24,13 +32,6 @@ import Checklist from "../Checklist";
 import PaymentsPlan from "./PaymentsPlan";
 import BookingInfo from "./BookingInfo";
 import PayNowModal from "./PayNowModal";
-
-import {
-  getDiscountDays,
-  calculatePrice,
-  createInstallments,
-  getFirstUnpaidInstallment,
-} from "../helpers";
 
 import {
   API_COUPON_URL,
@@ -214,7 +215,10 @@ export default class BookingView extends Component {
       upfront,
     } = this.state;
 
-    const { photos, address } = listing;
+    const {
+      photos,
+      address: { city, postcode, addressline1, addressline2 } = {},
+    } = listing;
     const {
       profileImage,
       badge,
@@ -255,13 +259,6 @@ export default class BookingView extends Component {
       ? firstUnpaidInstallment
       : newInstallments;
 
-    let renderedAddress = address;
-    if (bookingInfo.status !== "confirmed") {
-      const addressArr = address ? address.split("\n") : [];
-      renderedAddress = `${addressArr[0]} `;
-      if (addressArr[2]) renderedAddress += addressArr[2].slice(0, 3);
-    }
-
     if (isLoading) return <Spin />;
     return (
       <PageWrapper>
@@ -293,10 +290,7 @@ export default class BookingView extends Component {
                     })`}
                 </span>
               </Headline>
-
-              <Address>
-                {!renderedAddress.includes("undefined") ? renderedAddress : ""}
-              </Address>
+              {city} {postcode}
             </HeaderDiv>
           </div>
           {badge && <Symbol src={starSign} />}
@@ -319,16 +313,27 @@ export default class BookingView extends Component {
                       <AboutSectionDataCell>{name}</AboutSectionDataCell>
                     </AboutSectionDataRow>
                   )}
-                  {!!renderedAddress && (
-                    <AboutSectionDataRow>
+
+                  <Address>
+                    <div style={{ display: "flex", marginTop: "0.5rem" }}>
                       <AboutSectionDataCell bold>Address:</AboutSectionDataCell>
-                      <AboutSectionDataCell>
-                        {renderedAddress.split("\n").map(data => (
-                          <div key={data}>{data}</div>
-                        ))}
-                      </AboutSectionDataCell>
-                    </AboutSectionDataRow>
-                  )}
+                      <div style={{ display: "inline-block" }}>
+                        <AboutSectionDataCell>
+                          {titleCase(addressline1)}
+                        </AboutSectionDataCell>
+                        {addressline2 && (
+                          <AboutSectionDataCell>
+                            {titleCase(addressline2)}
+                          </AboutSectionDataCell>
+                        )}
+                        <AboutSectionDataCell>
+                          {titleCase(city)}
+                        </AboutSectionDataCell>
+                        <AboutSectionDataCell>{postcode}</AboutSectionDataCell>
+                      </div>
+                    </div>
+                  </Address>
+
                   {!!school && (
                     <AboutSectionDataRow>
                       <AboutSectionDataCell bold>

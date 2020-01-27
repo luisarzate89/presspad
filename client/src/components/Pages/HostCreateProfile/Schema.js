@@ -46,8 +46,19 @@ export const offerSchema = object({
   photos3: object({
     fileName: string().required(errMsgs.LISTING_PHOTOS_ERROR),
     isPrivate: boolean().default(false),
-  }).required(errMsgs.LISTING_PHOTOS_ERROR),
-  address: string().required(),
+  }).required(),
+  address: object({
+    addressline1: string()
+      .max(50)
+      .required("Required"),
+    addressline2: string().max(50),
+    city: string()
+      .max(50)
+      .required("Required"),
+    postcode: string()
+      .max(50)
+      .required("Required"),
+  }),
   availableDates: array(
     object({
       startDate: date(),

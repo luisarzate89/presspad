@@ -1,12 +1,12 @@
 const Listing = require("../../models/Listing");
 
-module.exports.searchProfiles = ({ hometown, startDate, endDate }) =>
+module.exports.searchProfiles = ({ city, startDate, endDate }) =>
   new Promise((resolve, reject) => {
-    // if only hometown get all listings that match that hometown
+    // if only city get all listings that match that city
     if (!startDate && !endDate) {
       Listing.aggregate([
         {
-          $match: { hometown: new RegExp(hometown, "i") },
+          $match: { "address.city": new RegExp(city, "i") },
         },
         //  get the user id so we can link to the right profile
         {
@@ -43,7 +43,8 @@ module.exports.searchProfiles = ({ hometown, startDate, endDate }) =>
         },
         {
           $project: {
-            address: 1,
+            "address.city": 1,
+            "address.postcode": 1,
             availableDates: 1,
             photos: 1,
             userID: 1,
@@ -52,7 +53,7 @@ module.exports.searchProfiles = ({ hometown, startDate, endDate }) =>
       ])
         .then(listings => resolve(listings))
         .catch(error => reject(error));
-    } else if (!hometown) {
+    } else if (!city) {
       // if only dates get all listing that match those dates
       Listing.aggregate([
         // get any listings that have an end date later than today
@@ -125,11 +126,11 @@ module.exports.searchProfiles = ({ hometown, startDate, endDate }) =>
         .then(listings => resolve(listings))
         .catch(error => reject(error));
     } else {
-      // otherwise find those that match hometown AND dates
+      // otherwise find those that match city AND dates
       Listing.aggregate([
-        // get any listings that match the hometown
+        // get any listings that match the city
         {
-          $match: { hometown: new RegExp(hometown, "i") },
+          $match: { "address.city": new RegExp(city, "i") },
         },
         // get any listings that have an end date later than today
         {
