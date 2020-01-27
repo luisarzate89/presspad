@@ -58,7 +58,7 @@ const colorCodes = {
   fontBlack: "#313234",
   fontLightBlack: "#393939",
 
-  //borders
+  // borders
   borderGray: "#d9d9d9",
 
   // general
@@ -112,4 +112,5 @@ export const bookingStatus = {
   pending: colors.orange,
   confirmed: colors.green,
   canceled: colors.red,
+  completed: colors.gray,
 };

@@ -14,11 +14,13 @@ export const Image = styled.img`
   max-height: 12rem;
   margin-right: 30px;
   margin-bottom: 2.5rem;
-`;
 
-export const HostInfo = styled.div`
-  max-width: 480px;
-  margin-bottom: 2.5rem;
+  @media (max-width: 600px) {
+    width: 8rem;
+    height: 8rem;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 `;
 
 export const HostName = styled.span`
@@ -26,7 +28,6 @@ export const HostName = styled.span`
   font-weight: 900;
   font-size: 2.25rem;
   color: #595959;
-  margin-bottom: 10px;
   display: block;
 `;
 
@@ -34,11 +35,17 @@ export const JopTitle = styled.span`
   font-family: Roboto;
   font-style: italic;
   color: #595959;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   display: block;
+  text-transform: capitalize;
 `;
 
 export const Bio = styled.p`
   font-family: Roboto;
   color: #595959;
+
+  @media (max-width: 600px) {
+    padding: 1rem 0;
+    font-size: 1rem;
+  }
 `;

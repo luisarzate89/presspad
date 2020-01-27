@@ -88,6 +88,7 @@ const StyledButton = styled.button`
   ${props => props.type === "outline" && outlineStyles}
   ${props => props.type === "verification" && squareStyles}
   ${props => props.type === "verification" && outlineStyles}
+  font-size: 0.8rem;
 `;
 
 export const ButtonSpinner = ({ color }) => {
