@@ -9,7 +9,6 @@ import randomProfile from "../../../assets/random-profile.jpg";
 import {
   SectionTitle,
   Image,
-  HostInfo,
   HostName,
   JopTitle,
   Bio,
@@ -36,34 +35,46 @@ export default function BookingSection(props) {
   return (
     <>
       <section>
-        <Row gutter={20} type="flex">
+        <Row type="flex">
           <Col lg={16} md={14} sm={24}>
             <SectionWrapperContent style={{ minHeight: 420 }}>
               <>
                 <Row type="flex" justify="space-between" align="middle">
                   <SectionTitle>{title}</SectionTitle>
                   <DisabledPopOver>
-                    <BlueLink to="#" style={{ fontWeight: "normal" }}>
+                    <BlueLink
+                      to="#"
+                      style={{
+                        fontWeight: "normal",
+                        textAlign: "left",
+                        width: "100%",
+                      }}
+                    >
                       view on map&nbsp;
                       <Icon component={MapPin} />
                     </BlueLink>
                   </DisabledPopOver>
                 </Row>
-                <Row type="flex">
-                  <Image
-                    src={profileImage || randomProfile}
-                    onError={e => (e.target.src = randomProfile)}
-                    alt="host profile image"
-                  />
-                  <HostInfo>
+                <Row gutter={10} type="flex">
+                  <Col xs={9} sm={20}>
+                    <Image
+                      src={profileImage || randomProfile}
+                      onError={e => (e.target.src = randomProfile)}
+                      alt="host profile image"
+                    />
+                  </Col>
+                  <Col xs={14} sm={24} style={{ paddingLeft: "1rem" }}>
                     <HostName>{name}</HostName>
                     <JopTitle>
-                      {jobTitle} at the {organisationName}
+                      {jobTitle && `A ${jobTitle}`}
+                      {organisationName && ` at the ${organisationName}`}
                     </JopTitle>
+                  </Col>
+                  <Col xs={24}>
                     <Bio>{bio}</Bio>
-                  </HostInfo>
+                  </Col>
                 </Row>
-                <Row type="flex" gutter={30}>
+                <Row type="flex" justify="space-around" gutter={0}>
                   {role === "intern" && (
                     <Col>
                       <BlueLink
@@ -102,7 +113,7 @@ export default function BookingSection(props) {
               </>
             </SectionWrapperContent>
           </Col>
-          <Col lg={8} md={10} sm={24}>
+          <Col lg={8} md={10} sm={24} xs={24}>
             <SectionWrapperContent
               style={{ minHeight: 422, height: "calc(100% - 20px)" }}
             >

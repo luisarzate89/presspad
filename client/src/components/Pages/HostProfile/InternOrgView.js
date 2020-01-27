@@ -8,6 +8,7 @@ import {
 } from "../../../constants/apiRoutes";
 
 import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
+import Reviews from "../../Common/Reviews";
 
 import Calendar from "./Calendar";
 
@@ -295,47 +296,47 @@ export default class InternView extends Component {
                 </InfoCard>
               </Card>
             )}
-            {(hostingReasonAnswer ||
-              mentoringExperienceAnswer ||
-              industryExperienceAnswer) && (
-              <Card>
-                <InfoCard>
-                  <SubHeadline>More about me</SubHeadline>
-                  {hostingReasonAnswer && (
-                    <>
-                      <ParagraphHeadline>
-                        Why I want to be a PressPad host
-                      </ParagraphHeadline>
-                      <Paragraph>{hostingReasonAnswer}</Paragraph>
-                    </>
-                  )}
-                  {mentoringExperienceAnswer && (
-                    <>
-                      <ParagraphHeadline>
-                        My mentoring experience
-                      </ParagraphHeadline>
-                      <Paragraph>{mentoringExperienceAnswer}</Paragraph>
-                    </>
-                  )}
-                  {industryExperienceAnswer && (
-                    <>
-                      <ParagraphHeadline>
-                        My experience getting into the industry
-                      </ParagraphHeadline>
-                      <Paragraph>{industryExperienceAnswer}</Paragraph>
-                    </>
-                  )}
-                  {backgroundAnswer && (
-                    <>
-                      <ParagraphHeadline>
-                        Something you should know
-                      </ParagraphHeadline>
-                      <Paragraph>{backgroundAnswer}</Paragraph>
-                    </>
-                  )}
-                </InfoCard>
-              </Card>
-            )}
+
+            <Card>
+              <InfoCard>
+                <SubHeadline>More about me</SubHeadline>
+                {hostingReasonAnswer && (
+                  <>
+                    <ParagraphHeadline>
+                      Why I want to be a PressPad host
+                    </ParagraphHeadline>
+                    <Paragraph>{hostingReasonAnswer}</Paragraph>
+                  </>
+                )}
+                {mentoringExperienceAnswer && (
+                  <>
+                    <ParagraphHeadline>
+                      My mentoring experience
+                    </ParagraphHeadline>
+                    <Paragraph>{mentoringExperienceAnswer}</Paragraph>
+                  </>
+                )}
+                {industryExperienceAnswer && (
+                  <>
+                    <ParagraphHeadline>
+                      My experience getting into the industry
+                    </ParagraphHeadline>
+                    <Paragraph>{industryExperienceAnswer}</Paragraph>
+                  </>
+                )}
+                {backgroundAnswer && (
+                  <>
+                    <ParagraphHeadline>
+                      Something you should know
+                    </ParagraphHeadline>
+                    <Paragraph>{backgroundAnswer}</Paragraph>
+                  </>
+                )}
+              </InfoCard>
+            </Card>
+            <Card>
+              <Reviews userId={userId} name={name} userRole="host" />
+            </Card>
           </TextContentDiv>
           {windowWidth < 776 ? (
             <AvailableHosting mobile expanded={expandDateSection}>
