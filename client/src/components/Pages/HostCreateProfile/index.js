@@ -99,32 +99,26 @@ export default class HostCreateProfile extends Component {
   componentDidMount() {
     axios
       .get(API_MY_PROFILE_URL)
-      .then(
-        ({
-          data: {
-            profile,
-            listing: {
-              photos: [photos1, photos2, photos3],
-              availableDates = [],
-              ...restListing
+      .then(({ data: { profile, listing } }) => {
+        const { photos = [], availableDates = [], ...restListing } =
+          listing || {};
+
+        const [photos1, photos2, photos3] = photos;
+
+        if (profile) {
+          this.setState(prevState => ({
+            data: {
+              ...prevState,
+              ...profile,
+              ...restListing,
+              photos1,
+              photos2,
+              photos3,
             },
-          },
-        }) => {
-          if (profile) {
-            this.setState(prevState => ({
-              data: {
-                ...prevState,
-                ...profile,
-                ...restListing,
-                photos1,
-                photos2,
-                photos3,
-              },
-              availableDates,
-            }));
-          }
-        },
-      )
+            availableDates,
+          }));
+        }
+      })
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;

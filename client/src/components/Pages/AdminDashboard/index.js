@@ -286,7 +286,11 @@ export default class AdminDashboard extends Component {
           />
         ) : (
           <MainSection>
-            <ContentTitle>Your {activeLink}</ContentTitle>
+            <ContentTitle>
+              {activeLink.toLowerCase() === "payments"
+                ? "Withdraw requests"
+                : `Your ${activeLink}`}
+            </ContentTitle>
             <SearchBar
               data={filteredData}
               handleSearchBar={this.handleSearchBar}
