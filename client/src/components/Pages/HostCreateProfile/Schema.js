@@ -45,7 +45,18 @@ export const offerSchema = object({
     isPrivate: boolean().default(false),
   }).required(),
   //  /* waiting for confirmation on address
-  address: string().required(),
+  address: object({
+    addressline1: string()
+      .max(50)
+      .required("Required"),
+    addressline2: string().max(50),
+    city: string()
+      .max(50)
+      .required("Required"),
+    postcode: string()
+      .max(50)
+      .required("Required"),
+  }),
   availableDates: array(
     object({
       startDate: date(),

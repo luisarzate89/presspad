@@ -367,13 +367,37 @@ export default {
     requiredForHost: true,
   },
   address: {
-    type: "textArea",
-    name: "address",
+    type: "mainLabel",
     label: `Address`,
     hint:
       "Please note your exact address will not be made public only the first part of your postcode",
-    max: 50,
-    fullHeight: true,
+  },
+  addressline1: {
+    label: "Address Line 1",
+    type: "text",
+    name: "addressline1",
+    parent: "address",
+    requiredForHost: true,
+  },
+  addressline2: {
+    label: "Address Line 2",
+    type: "text",
+    name: "addressline2",
+    parent: "address",
+  },
+  city: {
+    label: "City",
+    type: "text",
+    name: "city",
+    parent: "address",
+    requiredForHost: true,
+  },
+  postcode: {
+    label: "Postcode",
+    type: "text",
+    name: "postcode",
+    parent: "address",
+    requiredForHost: true,
   },
   availableDates: {
     type: "dateRanges",
