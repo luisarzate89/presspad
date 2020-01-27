@@ -14,8 +14,21 @@ import { titleCase } from "../../../../helpers";
 
 import randomProfile from "../../../../assets/random-profile.jpg";
 import DisabledPopOver from "../../../Common/DisabledPopOver";
-import Checklist from "../Checklist";
 import ListingGallery from "../../../Common/Profile/ListingGallery";
+import {
+  Card,
+  Header,
+  ProfilePicDiv,
+  HeaderDiv,
+  Headline,
+  Address,
+  Symbol,
+  ParagraphHeadline,
+  Paragraph,
+  ShowMoreSection,
+} from "../../../Common/Profile/Profiles.style";
+import Reviews from "../../../Common/Reviews";
+import Checklist from "../Checklist";
 import PaymentsPlan from "./PaymentsPlan";
 import BookingInfo from "./BookingInfo";
 import PayNowModal from "./PayNowModal";
@@ -32,17 +45,6 @@ import {
   SectionTitle,
   BlueLink,
 } from "../../../Common/general";
-import {
-  Header,
-  ProfilePicDiv,
-  HeaderDiv,
-  Headline,
-  Address,
-  Symbol,
-  ParagraphHeadline,
-  Paragraph,
-  ShowMoreSection,
-} from "../../../Common/Profile/Profiles.style";
 
 import {
   AboutSectionDataContainer,
@@ -202,6 +204,7 @@ export default class BookingView extends Component {
     const { _id: bookingId, installments, coupons } = bookingInfo;
 
     const name = bookingInfo.host && bookingInfo.host.name;
+    const hostId = bookingInfo.host && bookingInfo.host._id;
 
     const {
       isLoading,
@@ -403,6 +406,9 @@ export default class BookingView extends Component {
             />
           </Col>
         </Row>
+        <Card>
+          <Reviews userId={hostId} name={name} userRole="host" />
+        </Card>
       </PageWrapper>
     );
   }

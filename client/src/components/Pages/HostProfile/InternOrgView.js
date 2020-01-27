@@ -8,6 +8,7 @@ import {
 } from "../../../constants/apiRoutes";
 
 import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
+import Reviews from "../../Common/Reviews";
 
 import Calendar from "./Calendar";
 
@@ -338,6 +339,9 @@ export default class InternView extends Component {
                 </InfoCard>
               </Card>
             )}
+            <Card>
+              <Reviews userId={userId} name={name} userRole="host" />
+            </Card>
           </TextContentDiv>
           {windowWidth < 776 ? (
             <AvailableHosting mobile expanded={expandDateSection}>

@@ -17,7 +17,7 @@ class CalendarComponent extends Component {
     isLoading: true,
     dates: new Date(),
     noNights: null,
-    bookingExists: false
+    bookingExists: false,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -31,7 +31,7 @@ class CalendarComponent extends Component {
         .toDate(), // change it to Date object
       moment(endDate)
         .endOf("day")
-        .toDate()
+        .toDate(),
     ];
 
     return { ...state, startDate, endDate, dates, isLoading: false };
@@ -80,7 +80,7 @@ class CalendarComponent extends Component {
 
 CalendarComponent.propTypes = {
   startDate: PropTypes.string,
-  endDate: PropTypes.string
+  endDate: PropTypes.string,
 };
 
 export default CalendarComponent;

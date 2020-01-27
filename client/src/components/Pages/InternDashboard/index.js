@@ -10,7 +10,7 @@ import { SectionTitle } from "./InternDashboard.style";
 import {
   PageWrapper,
   SectionWrapperContent,
-  UpdateList
+  UpdateList,
 } from "../../Common/general";
 
 import { API_INTERN_DASHBOARD_URL } from "../../../constants/apiRoutes";
@@ -21,7 +21,7 @@ export default class InternDashboard extends Component {
     installments: [],
     notifications: [],
     name: "",
-    profileImage: ""
+    profileImage: "",
   };
 
   async componentDidMount() {
@@ -33,9 +33,9 @@ export default class InternDashboard extends Component {
           notifications,
           name,
           profile,
-          nextBookingWithDetails
-        }
-      }
+          nextBookingWithDetails,
+        },
+      },
     } = await axios.get(API_INTERN_DASHBOARD_URL);
 
     this.setState({
@@ -44,7 +44,7 @@ export default class InternDashboard extends Component {
       notifications,
       name,
       profileImage: profile && profile.profileImage,
-      nextBookingWithDetails
+      nextBookingWithDetails,
     });
   }
 
@@ -55,7 +55,7 @@ export default class InternDashboard extends Component {
       profileImage,
       bookings,
       installments,
-      nextBookingWithDetails
+      nextBookingWithDetails,
     } = this.state;
     const { windowWidth, role } = this.props;
 
