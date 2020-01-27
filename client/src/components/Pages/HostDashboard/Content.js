@@ -52,11 +52,13 @@ const Content = ({
   name,
   role,
   viewNumber,
+  viewNotificationNum,
   bankName,
   bankSortCode,
   accountNumber,
   bookings,
   updates,
+  slicedUpdates,
   withdrawModalOpen,
   donateModalOpen,
   nextGuest,
@@ -79,6 +81,7 @@ const Content = ({
   handleCloseModals,
   handleSubmitDonate,
   handleSubmitWithdrawRequest,
+  markAsSeen,
 }) => (
   <PageWrapper className="wrapper">
     <ContentWrapper className="child">
@@ -143,17 +146,30 @@ const Content = ({
         </SectionWrapperContent>
       )}
       <section>
-        <SectionWrapperContent style={{ minHeight: 200 }}>
+        <SectionWrapperContent
+          onMouseEnter={markAsSeen}
+          onTouchStart={markAsSeen}
+          style={{ minHeight: 200 }}
+        >
           <SectionTitle>Your updates</SectionTitle>
           <UpdateList>
-            {updates.length > 0 ? (
-              updates.map(item => (
+            {slicedUpdates.length > 0 ? (
+              slicedUpdates.map(item => (
                 <Update item={item} key={item._id} userRole="host" />
               ))
             ) : (
               <Empty description="No updates, chill out :)" />
             )}
           </UpdateList>
+          {updates.length > 3 && (
+            <BlueLink
+              data-name="updates"
+              onClick={handleViewMoreToggle}
+              style={{ marginTop: "2rem", textAlign: "center" }}
+            >
+              {viewNotificationNum ? "View more" : "View less"}
+            </BlueLink>
+          )}
         </SectionWrapperContent>
       </section>
       <Row gutter={20} style={{ width: "100%" }} type="flex" justify="start">

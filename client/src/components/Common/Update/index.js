@@ -2,11 +2,13 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../general";
+import LoadingBallPulseSync from "../LoadingBallPulseSync";
 
 import { getStringTime } from "../../../helpers";
 
 const Update = ({ item, userRole }) => {
-  const { type, secondParty, createdAt, seen, booking } = item;
+  const { type, secondParty, createdAt, seen, booking, loading } = item;
+
   const timeString = getStringTime(createdAt);
   switch (userRole) {
     case "intern":
@@ -19,7 +21,8 @@ const Update = ({ item, userRole }) => {
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp; has been rejected - <UpdateDate>{timeString}</UpdateDate>
-              {!seen && <Badge>new</Badge>}
+              {!seen && !loading && <Badge>new</Badge>}
+              {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
@@ -31,7 +34,8 @@ const Update = ({ item, userRole }) => {
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp; has been approved - <UpdateDate>{timeString}</UpdateDate>
-              {!seen && <Badge>new</Badge>}
+              {!seen && !loading && <Badge>new</Badge>}
+              {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
@@ -43,7 +47,8 @@ const Update = ({ item, userRole }) => {
                 <BlueSpan>{secondParty.name}</BlueSpan>
               </Link>
               &nbsp;has been completed - <UpdateDate>{timeString}</UpdateDate>
-              {!seen && <Badge>new</Badge>}
+              {!seen && !loading && <Badge>new</Badge>}
+              {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
@@ -53,7 +58,8 @@ const Update = ({ item, userRole }) => {
               <UpdateItem>
                 You’re so close to completing your profile! Just add a few more
                 fields - <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );
@@ -65,7 +71,8 @@ const Update = ({ item, userRole }) => {
                 You have received a new review from&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan> -&nbsp;
                 <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );
@@ -77,7 +84,8 @@ const Update = ({ item, userRole }) => {
                 Please leave a review for&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan>&nbsp; -&nbsp;
                 <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );
@@ -95,7 +103,8 @@ const Update = ({ item, userRole }) => {
               </Link>{" "}
               &nbsp;requested to stay with you -{" "}
               <UpdateDate>{timeString}</UpdateDate>
-              {!seen && <Badge>new</Badge>}
+              {!seen && !loading && <Badge>new</Badge>}
+              {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
@@ -107,7 +116,8 @@ const Update = ({ item, userRole }) => {
               </Link>{" "}
               &nbsp;has completed his stay with you -{" "}
               <UpdateDate>{timeString}</UpdateDate>
-              {!seen && <Badge>new</Badge>}
+              {!seen && !loading && <Badge>new</Badge>}
+              {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
@@ -117,7 +127,8 @@ const Update = ({ item, userRole }) => {
               <UpdateItem>
                 You’re so close to completing your profile! Just add a few more
                 fields - <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );
@@ -129,7 +140,8 @@ const Update = ({ item, userRole }) => {
                 You have received a new review from&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan> -&nbsp;
                 <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );
@@ -141,7 +153,8 @@ const Update = ({ item, userRole }) => {
                 Please leave a review for&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan>&nbsp; -&nbsp;
                 <UpdateDate>{timeString}</UpdateDate>
-                {!seen && <Badge>new</Badge>}
+                {!seen && !loading && <Badge>new</Badge>}
+                {loading && !seen && <LoadingBallPulseSync />}
               </UpdateItem>
             </Link>
           );

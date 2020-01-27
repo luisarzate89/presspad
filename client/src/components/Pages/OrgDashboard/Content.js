@@ -77,12 +77,13 @@ class Content extends Component {
       handleSubmitCreateCoupon,
       handlePayNowClick,
       handleAccountUpdate,
+      markAsSeen,
+      handleViewMoreToggle,
       stripe,
     } = this.props;
 
     const {
       details,
-      notifications,
       account,
       coupons,
       discountRate,
@@ -92,6 +93,9 @@ class Content extends Component {
       errors,
       showAddFunds,
       discountPrice,
+      notifications,
+      slicedNotifications,
+      viewNotificationNum,
     } = state;
     if (startValue && endValue) {
       const range = moment.range(startValue, endValue);
@@ -168,17 +172,30 @@ class Content extends Component {
               }}
             >
               <Section style={{ marginBottom: "20px" }}>
-                <SectionWrapperContent style={{ minHeight: "200px" }}>
+                <SectionWrapperContent
+                  style={{ minHeight: "200px" }}
+                  onMouseEnter={markAsSeen}
+                  onTouchStart={markAsSeen}
+                >
                   <SectionTitle>Your updates</SectionTitle>
                   <UpdateList>
-                    {notifications && notifications.length > 0 ? (
-                      notifications.map(item => (
+                    {slicedNotifications.length > 0 ? (
+                      slicedNotifications.map(item => (
                         <Update key={item._id} item={item} />
                       ))
                     ) : (
                       <Empty description="No Updates" />
                     )}
                   </UpdateList>
+                  {notifications.length > 3 && (
+                    <BlueLink
+                      data-name="updates"
+                      onClick={handleViewMoreToggle}
+                      style={{ marginTop: "2rem", textAlign: "center" }}
+                    >
+                      {viewNotificationNum ? "View more" : "View less"}
+                    </BlueLink>
+                  )}
                 </SectionWrapperContent>
               </Section>
 
