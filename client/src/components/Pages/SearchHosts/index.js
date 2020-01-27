@@ -174,8 +174,10 @@ export default class index extends Component {
   };
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic =>
-    listingPic && listingPic.length > 0 ? listingPic : placeholder;
+  getListingPic = pics => {
+    if (!pics || !pics.length) return placeholder;
+    return pics.find(pic => !pic.isPrivate).url || placeholder;
+  };
 
   showStartDate = dates => {
     if (dates.length > 0) {
@@ -302,7 +304,7 @@ export default class index extends Component {
                         {listing.address.borough || listing.address.hometown}
                       </HostTitle>
                     </HostHeader>
-                    <HostImg src={this.getListingPic(listing.photos[0])} />
+                    <HostImg src={this.getListingPic(listing.photos)} />
                     <HostDates>
                       {this.showStartDate(listing.availableDates)} -{" "}
                       {this.showEndDate(listing.availableDates)}
@@ -335,7 +337,7 @@ export default class index extends Component {
                           {listing.address.borough || listing.address.hometown}
                         </HostTitle>
                       </HostHeader>
-                      <HostImg src={this.getListingPic(listing.photos[0])} />
+                      <HostImg src={this.getListingPic(listing.photos)} />
                       <HostDates>
                         {this.showStartDate(listing.availableDates)} -{" "}
                         {this.showEndDate(listing.availableDates)}
