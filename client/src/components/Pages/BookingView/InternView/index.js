@@ -201,6 +201,7 @@ export default class BookingView extends Component {
     const { _id: bookingId, installments, coupons } = bookingInfo;
 
     const name = bookingInfo.host && bookingInfo.host.name;
+    const hostId = bookingInfo.host._id;
 
     const {
       isLoading,
@@ -351,9 +352,7 @@ export default class BookingView extends Component {
                 </AboutSectionDataContainer>
               </SectionWrapperContent>
               <ShowMoreSection type="flex" style={{ marginBottom: "2rem" }}>
-                <DisabledPopOver>
-                  <BlueLink to="#">Show other Info</BlueLink>
-                </DisabledPopOver>
+                  <BlueLink to={`/hosts/${hostId}`}>Show other Info</BlueLink>
                 <DisabledPopOver>
                   <BlueLink to="#">Show PressPad offer</BlueLink>
                 </DisabledPopOver>
