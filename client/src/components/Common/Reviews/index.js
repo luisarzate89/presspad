@@ -6,7 +6,7 @@ import Review from "./Review";
 import { API_REVIEWS } from "../../../constants/apiRoutes";
 import { Wrapper, MainTitle, SubTitle } from "./Reviews.style";
 
-class Reviews extends Component {
+export default class Reviews extends Component {
   state = {
     reviews: [],
     completedBookingsCount: null,
@@ -41,18 +41,18 @@ class Reviews extends Component {
                   {completedBookingsCount > 1 ? "s" : ""} so far
                 </>
               ) : (
-                <>{name} hans&apos;t completed any stay yet</>
+                <>{name} hasn&apos;t completed any stay yet</>
               )}
             </>
           ) : (
             <>
               {completedBookingsCount ? (
                 <>
-                  {name} hans&apos;t hosted {completedBookingsCount} intern
+                  {name} has hosted {completedBookingsCount} intern
                   {completedBookingsCount > 1 ? "s" : ""} so far
                 </>
               ) : (
-                <>{name} hans&apos;t hosted any intern yet</>
+                <>{name} hasn&apos;t hosted any interns yet</>
               )}
             </>
           )}
@@ -76,4 +76,3 @@ class Reviews extends Component {
     );
   }
 }
-export default Reviews;
