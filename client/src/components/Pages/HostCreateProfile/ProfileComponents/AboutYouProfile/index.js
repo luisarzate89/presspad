@@ -94,7 +94,7 @@ const AboutYou = ({
                   role={role}
                 />
               </Col>
-              <Col xs={24} md={12}>
+              {/* <Col xs={24} md={12}>
                 <Field
                   {...fields.interests}
                   value={data.interests}
@@ -102,7 +102,7 @@ const AboutYou = ({
                   {...props}
                   handleChange={handleChange}
                 />
-              </Col>
+              </Col> */}
             </Row>
           </Col>
           <Col xs={24} sm={12}>

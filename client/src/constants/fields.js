@@ -121,6 +121,7 @@ export default {
     parent: "photoID",
     isPrivate: true,
     requiredForIntern: true,
+    requiredForHost: true,
   },
   // host and intern
   hearAboutPressPadAnswer: {
@@ -132,6 +133,7 @@ export default {
     fullHeight: true,
     fullWidth: true,
     requiredForIntern: true,
+    requiredForHost: true,
   },
   phoneNumber: {
     label: `Phone Number`,
@@ -141,6 +143,7 @@ export default {
     fullHeight: true,
     max: 50,
     requiredForIntern: true,
+    requiredForHost: true,
   },
   reference1Name: {
     parent: "reference1",
@@ -381,13 +384,14 @@ export default {
     label: `Availability`,
     hint:
       "Please try to include as many dates as you can over the next 3 to 6 months",
+    requiredForHost: true,
   },
   accommodationChecklist: {
     type: "checklist",
-    requiredForHost: true,
     label: "Accommodation checklist",
     name: "accommodationChecklist",
     options: types.accommodationChecklist,
+    requiredForHost: true,
   },
   neighbourhoodDescription: {
     name: "neighbourhoodDescription",

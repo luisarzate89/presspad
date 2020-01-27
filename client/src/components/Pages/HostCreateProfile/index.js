@@ -24,7 +24,7 @@ const INITIAL_STATE = {
     fileName: "",
     isPrivate: false,
   },
-  interests: "",
+  // interests: "",
   bio: "",
   jobTitle: "",
   organisation: "",
