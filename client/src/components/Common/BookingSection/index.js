@@ -41,7 +41,14 @@ export default function BookingSection(props) {
                 <Row type="flex" justify="space-between" align="middle">
                   <SectionTitle>{title}</SectionTitle>
                   <DisabledPopOver>
-                    <BlueLink to="#" style={{ fontWeight: "normal" }}>
+                    <BlueLink
+                      to="#"
+                      style={{
+                        fontWeight: "normal",
+                        textAlign: "left",
+                        width: "100%",
+                      }}
+                    >
                       view on map&nbsp;
                       <Icon component={MapPin} />
                     </BlueLink>
@@ -66,7 +73,7 @@ export default function BookingSection(props) {
                     <Bio>{bio}</Bio>
                   </Col>
                 </Row>
-                <Row type="flex" justify="space-between" gutter={0}>
+                <Row type="flex" justify="space-around" gutter={0}>
                   {role === "intern" && (
                     <Col>
                       <InternalLink href="#viewBooking">
