@@ -20,8 +20,6 @@ import randomProfile from "../../../assets/random-profile.jpg";
 import {
   PageWrapper,
   ContentWrapper,
-  HeaderWrapper,
-  HiText,
   SectionWrapperContent,
   SectionTitle,
   UpdateList,
@@ -38,6 +36,8 @@ import {
   Error,
   ErrorWrapper,
 } from "./HostDashboard.style";
+
+import { HiText, HeaderWrapper } from "../../Common/general/index";
 
 import BookingSection from "../../Common/BookingSection";
 import { bookingsColumns, withdrawRequestsColumns } from "./TablesColumns";
@@ -99,7 +99,7 @@ const Content = ({
               />
             </div>
           </Col>
-          <Col span={20}>
+          <Col flex xs={16} sm={20}>
             <HiText>
               Hi {name.split(" ")[0]}
               {Object.keys(nextBooking).length > 0 &&
@@ -124,11 +124,7 @@ const Content = ({
           bio={nextGuestProfile.bio}
           name={nextGuest.name}
           userId={nextGuest._id}
-          organisationName={
-            (nextGuestProfile.organisation &&
-              nextGuestProfile.organisation.name) ||
-            "N/A"
-          }
+          organisationName={nextGuestProfile.organisation || "N/A"}
           bookingId={nextBooking._id}
           startDate={nextBooking.startDate}
           endDate={nextBooking.endDate}
@@ -161,7 +157,7 @@ const Content = ({
           </UpdateList>
         </SectionWrapperContent>
       </section>
-      <Row gutter={20} type="flex" justify="start">
+      <Row gutter={20} style={{ width: "100%" }} type="flex" justify="start">
         <Col lg={24} xl={16} xs={24} sm={24}>
           <SectionWrapperContent
             style={{ minHeight: 357, height: "calc(100% - 20px)" }}

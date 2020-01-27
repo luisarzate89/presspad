@@ -120,6 +120,9 @@ const API_UPDATE_CHECKLIST_ANSWER = `${API_PREFIX}${UPDATE_CHECKLIST_ANSWER}`;
 const GET_CHECKLIST = "/checklists/bookings/:bookingId/user/:userId";
 const API_GET_CHECKLIST = `${API_PREFIX}${GET_CHECKLIST}`;
 
+const REVIEWS = "/reviews";
+const API_REVIEWS = `${API_PREFIX}${REVIEWS}`;
+
 module.exports = {
   // CLIENT
   API_LOGIN_URL,
@@ -162,6 +165,7 @@ module.exports = {
   API_GET_CHECKLIST,
   API_ADMIN_INTERN_PROFILE,
   API_ADMIN_HOST_PROFILE,
+  API_REVIEWS,
 
   // SERVER
   LOGIN_URL,
@@ -204,4 +208,5 @@ module.exports = {
   GET_CHECKLIST,
   ADMIN_INTERN_PROFILE,
   ADMIN_HOST_PROFILE,
+  REVIEWS,
 };

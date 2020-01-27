@@ -161,7 +161,7 @@ class HostProfile extends Component {
     const { donateValue } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(donateSchema).then(res => {
-        if (res)
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_DONATION_URL, { amount: donateValue })
@@ -178,6 +178,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
@@ -186,7 +187,7 @@ class HostProfile extends Component {
     const { withdrawValue, bankName, bankSortCode, accountNumber } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(withdrawSchema).then(res => {
-        if (res)
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_WITHDRAW_REQUEST_URL, {
@@ -208,6 +209,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
