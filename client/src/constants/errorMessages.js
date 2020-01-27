@@ -19,4 +19,5 @@ export default {
   PHONE_NUMBER: "You must provide a phone number",
   ORGANISATION: "Organisation is required",
   WORKING_AREA: "Working area is required",
+  EMAIL: "Unvalid email",
 };

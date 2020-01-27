@@ -47,7 +47,6 @@ export const offerSchema = object({
     fileName: string().required(errMsgs.LISTING_PHOTOS_ERROR),
     isPrivate: boolean().default(false),
   }).required(errMsgs.LISTING_PHOTOS_ERROR),
-  //  /* waiting for confirmation on address
   address: string().required(),
   availableDates: array(
     object({
@@ -74,23 +73,15 @@ export const detailsSchema = object({
     .max(50)
     .required(errMsgs.PHONE_NUMBER),
   reference1: object({
-    name: string()
-      .max(50)
-      .required(errMsgs.REFERENCE),
-    email: string()
-      .email()
-      .required(errMsgs.REFERENCE),
+    name: string().max(50),
+    email: string().email(errMsgs.EMAIL),
   }),
   reference2: object({
-    name: string()
-      .max(50)
-      .required(errMsgs.REFERENCE),
-    email: string()
-      .email()
-      .required(errMsgs.REFERENCE),
+    name: string().max(50),
+    email: string().email(errMsgs.EMAIL),
   }),
   DBSCheck: object({
-    fileName: string().required(errMsgs.REQUIRED),
+    fileName: string(),
     isPrivate: boolean().default(true),
   }),
   // options
