@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // COMMON COMPONENTS
 import Button from "../../Common/Button";
@@ -148,9 +149,22 @@ export default class SignInPage extends Component {
             label="Sign in"
             type="primary"
             onClick={onFormSubmit}
-            style={msg && { marginTop: "0.5rem" }}
+            style={
+              msg ? { marginTop: "0.5rem", margin: "1rem" } : { margin: "1rem" }
+            }
           />
         </SignInForm>
+        <p>
+          Already have an account?
+          <Link
+            to={{
+              pathname: "/",
+              hash: "findMoreSection",
+            }}
+          >
+            &nbsp;Sign Up
+          </Link>
+        </p>
       </Wrapper>
     );
   }
