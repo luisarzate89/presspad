@@ -91,21 +91,21 @@ const hostProfileSchema = Joi.object({
   reference1: Joi.object({
     name: Joi.string()
       .max(50)
-      .required(),
+      .allow(""),
     email: Joi.string()
       .email()
-      .required(),
+      .allow(""),
   }),
   reference2: Joi.object({
     name: Joi.string()
       .max(50)
-      .required(),
+      .allow(""),
     email: Joi.string()
       .email()
-      .required(),
+      .allow(""),
   }),
   DBSCheck: Joi.object({
-    fileName: Joi.string().required(),
+    fileName: Joi.string().allow(""),
     isPrivate: Joi.boolean().default(true),
   }),
   sexualOrientation: Joi.string().allow(""),

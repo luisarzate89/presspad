@@ -14,7 +14,7 @@ import {
   Bio,
 } from "./InternDashboard.style";
 
-import { SectionWrapperContent, BlueLink, InternalLink } from "../general";
+import { SectionWrapperContent, BlueLink } from "../general";
 
 export default function BookingSection(props) {
   const {
@@ -24,6 +24,7 @@ export default function BookingSection(props) {
     userId,
     profileImage,
     organisationName,
+    bookingId,
     role,
     startDate,
     endDate,
@@ -76,9 +77,24 @@ export default function BookingSection(props) {
                 <Row type="flex" justify="space-around" gutter={0}>
                   {role === "intern" && (
                     <Col>
-                      <InternalLink href="#viewBooking">
+                      <BlueLink
+                        to={`/booking/${bookingId}`}
+                        style={{
+                          fontFamily: "Roboto",
+                          fontStyle: "normal",
+                          fontWeight: "bold",
+                          fontSize: "1rem",
+                          lineHeight: "1.19rem",
+                          textAlign: "center",
+                          color: "#0ac7e7",
+                          display: "inline-block",
+                          marginBottom: "1.25rem",
+                          marginLeft: "1.25rem",
+                        }}
+                        href="#viewBooking"
+                      >
                         View booking
-                      </InternalLink>
+                      </BlueLink>
                     </Col>
                   )}
                   <Col>

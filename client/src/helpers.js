@@ -155,7 +155,7 @@ yup.addMethod(yup.string, "wordLengthValidator", function wordLengthValidator(
     return value.split(" ").length <= length
       ? value
       : this.createError({
-          message: `${this.path} length must be less than or equal ${length} words`,
+          message: `Must be less than or equal ${length} words`,
         });
   });
 });
