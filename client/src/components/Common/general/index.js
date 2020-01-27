@@ -37,6 +37,8 @@ export const HiText = styled.h1`
   @media (max-width: 600px) {
     font-size: 1.2rem;
     padding-left: 0;
+    text-align: center;
+    width: 100%;
   }
 `;
 
@@ -165,5 +167,14 @@ export const SectionWrapper = styled.section`
   @media (max-width: 600px) {
     max-width: 98%;
     margin: 0 auto;
+  }
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  @media (max-width: 575.98px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;

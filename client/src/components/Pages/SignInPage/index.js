@@ -10,7 +10,6 @@ import Button from "../../Common/Button";
 import { API_LOGIN_URL } from "../../../constants/apiRoutes";
 import {
   DASHBOARD_URL,
-  MYPROFILE_URL,
   ADMIN_DASHBOARD_URL,
 } from "../../../constants/navRoutes";
 
@@ -88,9 +87,8 @@ export default class SignInPage extends Component {
           handleChangeState({ ...data, isLoggedIn: true });
 
           const { role } = data;
-          if (role === "organisation") history.push(DASHBOARD_URL);
-          else if (role === "admin") history.push(ADMIN_DASHBOARD_URL);
-          else history.push(MYPROFILE_URL);
+          if (role === "admin") history.push(ADMIN_DASHBOARD_URL);
+          else history.push(DASHBOARD_URL);
         })
         .catch(loginError => {
           const { response } = loginError;

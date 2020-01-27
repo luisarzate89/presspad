@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import {
   API_HOST_COMPLETE_PROFILE,
   API_MY_PROFILE_URL,
-  DASHBOARD_URL,
 } from "../../../constants/apiRoutes";
+import { DASHBOARD_URL } from "../../../constants/navRoutes";
 import Content from "./Content";
 import {
   checkSelectedRange,

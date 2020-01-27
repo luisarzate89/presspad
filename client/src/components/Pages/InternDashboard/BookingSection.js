@@ -10,7 +10,6 @@ import {
   SectionWrapperContent,
   HeaderWrapper,
   HiText,
-  BoldTitle,
   SectionWrapper,
 } from "../../Common/general";
 
@@ -54,8 +53,12 @@ export default function BookingSectionWrapper(props) {
   return (
     <SectionWrapper>
       <HeaderWrapper>
-        <Row style={{ width: "100%" }} type="flex" justify="start">
-          <Col xs={6} sm={4} lg={3}>
+        <Row
+          style={{ width: "100%", paddingLeft: "1rem" }}
+          type="flex"
+          justify="start"
+        >
+          <Col xs={24} sm={4} lg={3}>
             <Avatar
               size="large"
               icon="user"
@@ -72,24 +75,14 @@ export default function BookingSectionWrapper(props) {
               }}
             />
           </Col>
-          <Col xs={18} sm={20}>
+          <Col xs={24} sm={20}>
             {firstBooking ? (
-              <HiText style={{ paddingLeft: "0.7rem" }}>
-                Hi
-                <span style={{ textTransform: "capitalize" }}>
-                  &nbsp;{name.split(" ")[0]}
-                </span>
-                , your host is expecting you
-                <BoldTitle>&nbsp;{timeString} </BoldTitle>.
+              <HiText>
+                Hi {name.split(" ")[0]}, your host is expecting you {timeString}
+                .
               </HiText>
             ) : (
-              <HiText style={{ paddingLeft: "0.7rem" }}>
-                Hi
-                <span style={{ textTransform: "capitalize" }}>
-                  &nbsp;{name.split(" ")[0]}
-                </span>
-                , .
-              </HiText>
+              <HiText>Hi {name}</HiText>
             )}
           </Col>
         </Row>

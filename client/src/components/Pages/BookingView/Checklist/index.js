@@ -36,7 +36,7 @@ class Checklist extends Component {
       this.setState({ checklistObj, isLoading: false, error: "" });
     } catch (err) {
       const error = "Something went wrong, please try again later";
-      message.error(error);
+      if (err.response && err.response.status !== 404) message.error(error);
       this.setState({ isLoading: false, error });
     }
   }
@@ -70,7 +70,7 @@ class Checklist extends Component {
           <SectionWrapperContent>
             <SectionTitle>Your checklist</SectionTitle>
             <Alert
-              message="Fetching checklist error"
+              message="Error fetching checklist"
               description={error}
               type="error"
             />

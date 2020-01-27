@@ -37,7 +37,11 @@ import {
   ErrorWrapper,
 } from "./HostDashboard.style";
 
-import { HiText, HeaderWrapper } from "../../Common/general/index";
+import {
+  HiText,
+  HeaderWrapper,
+  AvatarWrapper,
+} from "../../Common/general/index";
 
 import BookingSection from "../../Common/BookingSection";
 import { bookingsColumns, withdrawRequestsColumns } from "./TablesColumns";
@@ -81,7 +85,7 @@ const Content = ({
       <HeaderWrapper>
         <Row gutter={20} type="flex" justify="start">
           <Col xs={24} sm={4} lg={3}>
-            <div style={{ position: "relative", width: 86 }}>
+            <AvatarWrapper>
               <Avatar
                 size="large"
                 icon="user"
@@ -97,9 +101,9 @@ const Content = ({
                   border: "1px solid rgba(0, 0, 0, 0.15)",
                 }}
               />
-            </div>
+            </AvatarWrapper>
           </Col>
-          <Col flex xs={16} sm={20}>
+          <Col flex xs={24} sm={20}>
             <HiText>
               Hi {name.split(" ")[0]}
               {Object.keys(nextBooking).length > 0 && (
@@ -198,7 +202,7 @@ const Content = ({
               <Button
                 label="Withdraw funds"
                 type="secondary"
-                style={{ width: "135px" }}
+                style={{ width: "145px" }}
                 onClick={handleOpenModal}
                 name="withdrawModalOpen"
                 disabled={

@@ -36,6 +36,7 @@ import "antd/dist/antd.css";
 
 import referIcon from "../../../../assets/refer.svg";
 import verifiedIcon from "../../../../assets/verified.svg";
+import RandomProfileImg from "../../../../assets/random-profile.jpg";
 
 class InternInfo extends Component {
   state = {
@@ -81,11 +82,10 @@ class InternInfo extends Component {
     }
   }
 
-  getProfilePic = img =>
-    img && img.length > 0
-      ? img
-      : // eslint-disable-next-line global-require
-        require("./../../../../assets/random-profile.jpg");
+  getProfilePic = pic => {
+    if (!pic || !pic.url) return RandomProfileImg;
+    return pic.url;
+  };
 
   render() {
     const { internId } = this.props;
