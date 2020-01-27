@@ -1,14 +1,15 @@
 const boom = require("boom");
-const { createReview, findReviewByBooking } = require("../../database/queries/review");
-const { createNotification } = require("../../database/queries/notification");
+const {
+  createReview,
+  findReviewByBooking,
+} = require("../../database/queries/review");
+const { registerNotification } = require("../../services/notifications");
 
 const reviewControllers = {};
 module.exports = reviewControllers;
 
 reviewControllers.createReview = async (req, res, next) => {
-  const {
-    to, rating, message, from,
-  } = req.body;
+  const { to, rating, message, from } = req.body;
 
   const { id: booking } = req.params;
   // VALIDATES USER INPUT
@@ -18,19 +19,27 @@ reviewControllers.createReview = async (req, res, next) => {
     // validates that no review for current booking was created
     const existingReview = await findReviewByBooking(booking);
     if (existingReview.length) {
-      return next(boom.badRequest("You have already submitted a review for this booking"));
+      return next(
+        boom.badRequest("You have already submitted a review for this booking"),
+      );
     }
 
     // create a review
     await createReview({
-      to, from, rating, message, booking,
+      to,
+      from,
+      rating,
+      message,
+      booking,
     });
 
     // send a notification to the reviewee
-    await createNotification({
+    await registerNotification({
       user: to, // gets the notification
       secondParty: from, // sends the notification
       type: "getReview",
+      private: false,
+      booking,
     });
 
     return res.json({ success: true });

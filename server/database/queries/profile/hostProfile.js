@@ -150,5 +150,10 @@ exports.hostProfileData = (hostId, isPrivate = false) => {
     },
   ]);
 };
+
 exports.getConfirmedBooking = (internId, hostId) =>
-  Booking.findOne({ intern: internId, host: hostId, status: "confirmed" });
+  Booking.findOne({
+    intern: internId,
+    host: hostId,
+    status: { $in: ["confirmed", "completed"] },
+  });

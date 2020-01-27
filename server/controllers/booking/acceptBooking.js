@@ -1,11 +1,17 @@
 const boom = require("boom");
 
-const { hostAcceptBookingById, getBookingWithUsers } = require("../../database/queries/bookings");
-const { createNotification } = require("./../../database/queries/notification");
+const {
+  hostAcceptBookingById,
+  getBookingWithUsers,
+} = require("../../database/queries/bookings");
+const { registerNotification } = require("../../services/notifications");
 const requestAcceptedToIntern = require("./../../helpers/mailHelper/requestAcceptedToIntern");
 const requestAcceptedToAdmin = require("./../../helpers/mailHelper/requestAcceptedToAdmin");
 const { scheduleReminderEmails } = require("./../../services/mailing");
-const { findAllQuestions, createChecklistAnswers } = require("./../../database/queries/checkList");
+const {
+  findAllQuestions,
+  createChecklistAnswers,
+} = require("./../../database/queries/checkList");
 
 const createBookingChecklistAnswers = require("../../helpers/createBookingChecklistAnswers");
 
@@ -19,13 +25,18 @@ const acceptBooking = async (req, res, next) => {
       return next(boom.forbidden());
     }
 
-    const updatedBookingRequest = await hostAcceptBookingById({ bookingId, hostId, moneyGoTo });
+    const updatedBookingRequest = await hostAcceptBookingById({
+      bookingId,
+      hostId,
+      moneyGoTo,
+    });
 
     const notification = {
       private: false,
       user: updatedBookingRequest.intern,
       secondParty: updatedBookingRequest.host,
       type: "stayApproved",
+      booking: bookingId,
     };
 
     // get emails data
@@ -43,7 +54,7 @@ const acceptBooking = async (req, res, next) => {
 
     let promiseArray = [
       // create a notification for intern
-      createNotification(notification),
+      registerNotification(notification),
       scheduleReminderEmails({
         bookingId,
         startDate: updatedBookingRequest.startDate,
@@ -55,7 +66,8 @@ const acceptBooking = async (req, res, next) => {
     ];
 
     if (process.env.NODE_ENV === "production") {
-      promiseArray = [...promiseArray, // send email to intern
+      promiseArray = [
+        ...promiseArray, // send email to intern
         requestAcceptedToIntern(bookingDetails),
         // send email to admin
         requestAcceptedToAdmin(bookingDetails),

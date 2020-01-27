@@ -103,8 +103,8 @@ export const ProfilePicDiv = styled.div`
   background-image: url(${({ src }) => src});
 
   @media (max-width: 575.98px) {
-    width: 150px;
-    height: 150px;
+    width: 170px;
+    height: 140px;
     margin-bottom: 20px;
   }
 `;

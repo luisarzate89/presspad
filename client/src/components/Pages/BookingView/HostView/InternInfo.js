@@ -118,10 +118,10 @@ class InternInfo extends Component {
 
     return (
       <>
-        <Header>
+        <Header justifyContent="flex-start">
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeaderDiv>
-            <Headline>{name}</Headline>
+            <Headline style={{ marginBottom: "1rem" }}>{name}</Headline>
             <SymbolDiv>
               {verified ? (
                 <SymbolContainer>
@@ -227,7 +227,10 @@ class InternInfo extends Component {
             </Card>
           </BioSection>
         </MainSection>
-        <BlueLink margint="20px" to={`/interns/${internId}`}>
+        <BlueLink
+          style={{ width: "100%", textAlign: "center", margin: "2rem 0" }}
+          to={`/interns/${internId}`}
+        >
           Show more about Andrew
         </BlueLink>
       </>

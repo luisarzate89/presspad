@@ -108,7 +108,7 @@ export default class AdminView extends Component {
       sexualOrientation: null,
       degreeLevel: null,
       ethnicity: null,
-      earningOfParents: null,
+      parentProfession: null,
       disability: null,
       parentsWorkInPress: null,
       caringResponsibilities: null,

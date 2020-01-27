@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { colors, shadows } from "./../../../../theme";
+import { colors, shadows } from "../../../../theme";
 
 export const BookingDetailsCard = styled.div`
   box-shadow: ${shadows.card};
@@ -40,6 +40,11 @@ export const BookingDetailsDiv = styled.div`
   color: ${colors.fontLightBlack};
   text-align: left;
   color: ${colors.fontLightBlack};
+
+  @media (max-width: 600px) {
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 export const BookingDetailsHeadline = styled.h3`
@@ -54,6 +59,10 @@ export const BookingDetailsText = styled.p`
 
 export const RadioContainer = styled.div`
   text-align: left;
+
+  @media (max-width: 600px) {
+    padding-left: 2rem;
+  }
 `;
 
 export const ButtonDiv = styled.div`

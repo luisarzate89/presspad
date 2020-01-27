@@ -47,9 +47,9 @@ const OfferDetails = ({
           <Col xs={24} sm={isAdmin ? 24 : 8}>
             {isAdmin ? (
               <ListingGallery
-                img1={data.photos1 && data.photos1.fileName}
-                img2={data.photos2 && data.photos2.fileName}
-                img3={data.photos3 && data.photos3.fileName}
+                img1={data.photos1 && data.photos1.url}
+                img2={data.photos2 && data.photos2.url}
+                img3={data.photos3 && data.photos3.url}
               />
             ) : (
               <Row gutter={25}>

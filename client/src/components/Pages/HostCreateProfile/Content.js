@@ -27,6 +27,7 @@ export default ({
   handleSubmit,
   profilePhotoUrl,
   role,
+  loading,
   // Date
   disabledStartDate,
   disabledEndDate,
@@ -139,7 +140,12 @@ export default ({
                 marginBottom: "2rem",
               }}
             >
-              <Button label="Submit" type="primary" onClick={handleSubmit} />
+              <Button
+                label="Submit"
+                type="primary"
+                onClick={handleSubmit}
+                loading={loading}
+              />
             </div>
           </>,
         ]}

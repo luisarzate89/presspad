@@ -1,12 +1,12 @@
 import React from "react";
 
-import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../general";
 import { Link } from "react-router-dom";
+import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../general";
 
 import { getStringTime } from "../../../helpers";
 
 const Update = ({ item, userRole }) => {
-  const { type, secondParty, createdAt, seen } = item;
+  const { type, secondParty, createdAt, seen, booking } = item;
   const timeString = getStringTime(createdAt);
   switch (userRole) {
     case "intern":
@@ -49,7 +49,7 @@ const Update = ({ item, userRole }) => {
 
         case "completeProfileRemind":
           return (
-            <Link to={`/my-profile`}>
+            <Link to="/my-profile">
               <UpdateItem>
                 You’re so close to completing your profile! Just add a few more
                 fields - <UpdateDate>{timeString}</UpdateDate>
@@ -60,7 +60,7 @@ const Update = ({ item, userRole }) => {
 
         case "getReview":
           return (
-            <Link to={`/booking/:bookingId/review`}>
+            <Link to={`/booking/${booking}`}>
               <UpdateItem>
                 You have received a new review from&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan> -&nbsp;
@@ -70,9 +70,9 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "giveReview":
+        case "giveReviewReminder":
           return (
-            <Link to={`/booking/:bookingId/review`}>
+            <Link to={`/review-info/${booking}`}>
               <UpdateItem>
                 Please leave a review for&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan>&nbsp; -&nbsp;
@@ -113,7 +113,7 @@ const Update = ({ item, userRole }) => {
 
         case "completeProfileRemind":
           return (
-            <Link to={`/my-profile`}>
+            <Link to="/my-profile">
               <UpdateItem>
                 You’re so close to completing your profile! Just add a few more
                 fields - <UpdateDate>{timeString}</UpdateDate>
@@ -124,7 +124,7 @@ const Update = ({ item, userRole }) => {
 
         case "getReview":
           return (
-            <Link to={`/booking/:bookingId/review`}>
+            <Link to={`/booking/${booking}`}>
               <UpdateItem>
                 You have received a new review from&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan> -&nbsp;
@@ -134,9 +134,9 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "giveReview":
+        case "giveReviewReminder":
           return (
-            <Link to={`/booking/:bookingId/review`}>
+            <Link to={`/review-info/${booking}`}>
               <UpdateItem>
                 Please leave a review for&nbsp;
                 <BlueSpan>{secondParty.name}</BlueSpan>&nbsp; -&nbsp;
@@ -151,7 +151,7 @@ const Update = ({ item, userRole }) => {
       }
 
     default:
-      break;
+      return null;
   }
 };
 
