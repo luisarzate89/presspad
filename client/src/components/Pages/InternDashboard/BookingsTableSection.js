@@ -17,13 +17,11 @@ function BookingsSection(props) {
         <Table
           dataSource={data}
           columns={bookingsColumns(windowWidth)}
-          rowKey={"_id"}
-          onRow={record => {
-            return {
-              onClick: () => history.push(`/booking/${record._id}`),
-              style: { cursor: "pointer" }
-            };
-          }}
+          rowKey="_id"
+          onRow={record => ({
+            onClick: () => history.push(`/booking/${record._id}`),
+            style: { cursor: "pointer" },
+          })}
         />
       </SectionWrapperContent>
     </section>
