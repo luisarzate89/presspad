@@ -352,7 +352,7 @@ export default class BookingView extends Component {
                 </AboutSectionDataContainer>
               </SectionWrapperContent>
               <ShowMoreSection type="flex" style={{ marginBottom: "2rem" }}>
-                  <BlueLink to={`/hosts/${hostId}`}>Show other Info</BlueLink>
+                <BlueLink to={`/hosts/${hostId}`}>Show other Info</BlueLink>
                 <DisabledPopOver>
                   <BlueLink to="#">Show PressPad offer</BlueLink>
                 </DisabledPopOver>
