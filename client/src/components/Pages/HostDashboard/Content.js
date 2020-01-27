@@ -102,23 +102,18 @@ const Content = ({
           <Col flex xs={16} sm={20}>
             <HiText>
               Hi {name.split(" ")[0]}
-              {Object.keys(nextBooking).length > 0 &&
-                nextBooking.status === "confirmed" && (
-                  <>
-                    , your next guest is arriving
-                    <BoldTitle>
-                      {" "}
-                      {getStringTime(nextBooking.startDate)}
-                    </BoldTitle>
-                    .
-                  </>
-                )}
+              {Object.keys(nextBooking).length > 0 && (
+                <>
+                  , your next guest is arriving
+                  <BoldTitle> {getStringTime(nextBooking.startDate)}</BoldTitle>
+                  .
+                </>
+              )}
             </HiText>
           </Col>
         </Row>
       </HeaderWrapper>
-      {Object.keys(nextBooking).length > 0 &&
-      nextBooking.status === "confirmed" ? (
+      {Object.keys(nextBooking).length > 0 ? (
         <BookingSection
           jobTitle={nextGuestProfile.jobTitle}
           bio={nextGuestProfile.bio}
