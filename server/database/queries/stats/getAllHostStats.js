@@ -64,7 +64,12 @@ module.exports.getAllHostStats = () =>
               cond: {
                 $and: [
                   { $lte: ["$$booking.startDate", new Date()] },
-                  { $eq: ["$$booking.status", "confirmed"] },
+                  {
+                    $or: [
+                      { $eq: ["$$booking.status", "confirmed"] },
+                      { $eq: ["$$booking.status", "completed"] },
+                    ],
+                  },
                 ],
               },
             },
