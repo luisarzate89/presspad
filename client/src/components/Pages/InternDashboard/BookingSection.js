@@ -1,37 +1,41 @@
 import React from "react";
 import { Row, Col, Avatar, Empty } from "antd";
 
-import { getStringTime } from "./../../../helpers";
+import { getStringTime } from "../../../helpers";
 import randomProfile from "../../../assets/random-profile.jpg";
-import BookingSection from "./../../Common/BookingSection";
+import BookingSection from "../../Common/BookingSection";
 import { SectionTitle } from "./InternDashboard.style";
 
-import { SectionWrapperContent } from "../../Common/general";
-
-import { HeaderWrapper, HiText } from "../../Common/general";
+import {
+  SectionWrapperContent,
+  HeaderWrapper,
+  HiText,
+  BoldTitle,
+  SectionWrapper,
+} from "../../Common/general";
 
 export default function BookingSectionWrapper(props) {
   const {
     data: { profileImage, name, nextBookingWithDetails },
-    role
+    role,
   } = props;
 
   const firstBooking = nextBookingWithDetails;
 
-  let jobTitle,
-    bio,
-    hostName,
-    hostId,
-    hostProfileImage,
-    organisationName,
-    bookingId,
-    startDate,
-    timeString,
-    endDate;
+  let jobTitle;
+  let bio;
+  let hostName;
+  let hostId;
+  let hostProfileImage;
+  let organisationName;
+  let bookingId;
+  let startDate;
+  let timeString;
+  let endDate;
 
   if (firstBooking) {
     const {
-      host: { profile }
+      host: { profile },
     } = firstBooking;
 
     jobTitle = profile.jobTitle;
@@ -48,10 +52,10 @@ export default function BookingSectionWrapper(props) {
   const title = "Your host";
 
   return (
-    <>
+    <SectionWrapper>
       <HeaderWrapper>
-        <Row gutter={20} type="flex" justify="start">
-          <Col xs={24} sm={4} lg={3}>
+        <Row style={{ width: "100%" }} type="flex" justify="start">
+          <Col xs={6} sm={4} lg={3}>
             <Avatar
               size="large"
               icon="user"
@@ -64,19 +68,28 @@ export default function BookingSectionWrapper(props) {
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "42px",
-                border: "1px solid rgba(0, 0, 0, 0.15)"
+                border: "1px solid rgba(0, 0, 0, 0.15)",
               }}
             />
           </Col>
-          <Col span={20}>
+          <Col xs={18} sm={20}>
             {firstBooking ? (
-              <HiText>
-                {" "}
-                Hi {name.split(" ")[0]}, your host is expecting you {timeString}
-                .
+              <HiText style={{ paddingLeft: "0.7rem" }}>
+                Hi
+                <span style={{ textTransform: "capitalize" }}>
+                  &nbsp;{name.split(" ")[0]}
+                </span>
+                , your host is expecting you
+                <BoldTitle>&nbsp;{timeString} </BoldTitle>.
               </HiText>
             ) : (
-              <HiText> Hi {name.split(" ")[0]}, .</HiText>
+              <HiText style={{ paddingLeft: "0.7rem" }}>
+                Hi
+                <span style={{ textTransform: "capitalize" }}>
+                  &nbsp;{name.split(" ")[0]}
+                </span>
+                , .
+              </HiText>
             )}
           </Col>
         </Row>
@@ -97,7 +110,7 @@ export default function BookingSectionWrapper(props) {
           }
           title={title}
           role={role}
-          userRole={"host"}
+          userRole="host"
         />
       ) : (
         <SectionWrapperContent style={{ minHeight: 200 }}>
@@ -106,6 +119,6 @@ export default function BookingSectionWrapper(props) {
           <Empty description="You don't have upcoming stays" />
         </SectionWrapperContent>
       )}
-    </>
+    </SectionWrapper>
   );
 }

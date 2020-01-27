@@ -28,7 +28,7 @@ const {
 } = require("./../controllers/dashboard");
 const getMyProfile = require("../controllers/profile/getMyProfile");
 const { getUploadSignedURL } = require("../controllers/storage");
-const { createReview } = require("../controllers/review");
+const { postReview, getReviews } = require("../controllers/review");
 const signOut = require("../controllers/user/signOut");
 const { getCoupons } = require("../controllers/coupon");
 const getInternStatus = require("../controllers/profile/getInternStatus");
@@ -99,6 +99,7 @@ const {
   GET_CHECKLIST,
   ADMIN_INTERN_PROFILE,
   ADMIN_HOST_PROFILE,
+  REVIEWS,
 } = require("../../client/src/constants/apiRoutes");
 
 // add validation middleware
@@ -202,7 +203,7 @@ router.patch(
 router.post(ORG_PAYMENT_URL, authentication, orgPayment);
 
 // Reviews
-router.route(REVIEW_URL).post(authentication, createReview);
+router.route(REVIEW_URL).post(authentication, postReview);
 
 // Coupons
 router.route(COUPON_URL).get(authentication, getCoupons);
@@ -227,4 +228,6 @@ router.patch(UPDATE_CHECKLIST_ANSWER, authentication, updateChecklistAnswer);
 // host | intern get the checklist for a booking
 router.get(GET_CHECKLIST, authentication, getChecklist);
 
+// get reviews (given || taken)
+router.get(REVIEWS, authentication, getReviews);
 module.exports = router;

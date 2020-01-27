@@ -6,8 +6,8 @@ import Content from "./Content";
 import {
   API_HOST_DASHBOARD_URL,
   API_DONATION_URL,
-  API_WITHDRAW_REQUEST_URL
-} from "./../../../constants/apiRoutes";
+  API_WITHDRAW_REQUEST_URL,
+} from "../../../constants/apiRoutes";
 
 import { withdrawSchema, donateSchema } from "./schemas";
 
@@ -41,8 +41,9 @@ class HostProfile extends Component {
     withdrawModalOpen: false,
     donateModalOpen: false,
     apiLoading: false,
-    profile: {}
+    profile: {},
   };
+
   async componentDidMount() {
     this.fetchData();
     document.addEventListener("keypress", e => {
@@ -69,7 +70,7 @@ class HostProfile extends Component {
         "9",
         "0",
         ".",
-        ","
+        ",",
       ];
       if (!numbers.includes(e.key) && isNumberInputActive) {
         e.preventDefault();
@@ -90,7 +91,7 @@ class HostProfile extends Component {
       profile = {},
       account = {},
       withdrawRequests,
-      nextBookingWithDetails: nextBooking = {}
+      nextBookingWithDetails: nextBooking = {},
     } = data;
     const nextGuest = (nextBooking && nextBooking.intern) || {};
     const { profile: nextGuestProfile = {} } = nextGuest;
@@ -101,11 +102,11 @@ class HostProfile extends Component {
       profile,
       nextGuest,
       nextGuestProfile,
-      nextBooking: nextBooking,
+      nextBooking,
       account,
       donateValue: account.currentBalance,
       withdrawValue: account.currentBalance,
-      withdrawRequests
+      withdrawRequests,
     });
   };
 
@@ -152,7 +153,7 @@ class HostProfile extends Component {
       withdrawModalOpen: false,
       donateModalOpen: false,
       errors: {},
-      attemptedToSubmit: false
+      attemptedToSubmit: false,
     });
   };
 
@@ -160,7 +161,7 @@ class HostProfile extends Component {
     const { donateValue } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(donateSchema).then(res => {
-        res &&
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_DONATION_URL, { amount: donateValue })
@@ -168,7 +169,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
                 this.handleCloseModals();
                 message.success(
-                  `Done!, You have successfully donated by £${donateValue}`
+                  `Done!, You have successfully donated by £${donateValue}`,
                 );
                 this.fetchData();
               })
@@ -177,6 +178,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
@@ -185,20 +187,20 @@ class HostProfile extends Component {
     const { withdrawValue, bankName, bankSortCode, accountNumber } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(withdrawSchema).then(res => {
-        res &&
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_WITHDRAW_REQUEST_URL, {
                 amount: withdrawValue,
                 bankName,
                 bankSortCode,
-                accountNumber
+                accountNumber,
               })
               .then(() => {
                 this.setState({ apiLoading: false });
                 this.handleCloseModals();
                 message.success(
-                  `Done!, You have requested to withdraw £${withdrawValue}`
+                  `Done!, You have requested to withdraw £${withdrawValue}`,
                 );
                 this.fetchData();
               })
@@ -207,6 +209,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
@@ -247,7 +250,7 @@ class HostProfile extends Component {
       errors,
       withdrawRequests,
       profile,
-      viewNumber
+      viewNumber,
     } = this.state;
     return (
       <Content
