@@ -74,7 +74,12 @@ export default class HostView extends Component {
         fileName: null,
         isPrivate: false,
       },
-      address: null,
+      address: {
+        addressline1: null,
+        addressline2: null,
+        postcode: null,
+        city: null,
+      },
       accommodationChecklist: [],
       neighbourhoodDescription: null,
       otherInfo: null,
