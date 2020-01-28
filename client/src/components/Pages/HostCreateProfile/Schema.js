@@ -49,14 +49,14 @@ export const offerSchema = object({
   }).required(),
   address: object({
     addressline1: string()
-      .max(50)
+      .max(50, errMsgs.MAX(50))
       .required("Required"),
-    addressline2: string().max(50),
+    addressline2: string().max(50, errMsgs.MAX(50)),
     city: string()
-      .max(50)
+      .max(50, errMsgs.MAX(50))
       .required("Required"),
     postcode: string()
-      .max(50)
+      .max(50, errMsgs.MAX(50))
       .required("Required"),
   }),
   availableDates: array(
@@ -68,7 +68,7 @@ export const offerSchema = object({
   accommodationChecklist: array(string()).required(
     errMsgs.ACCOMMODATION_CHECKLIST,
   ),
-  neighbourhoodDescription: string().max(250, errMsgs.MAX(250)),
+  neighbourhoodDescription: lazy(optionalWordLengthValidator(250)),
   otherInfo: lazy(optionalWordLengthValidator(250)),
 });
 export const detailsSchema = object({
@@ -81,14 +81,14 @@ export const detailsSchema = object({
     .wordLengthValidator(50)
     .required(errMsgs.REQUIRED),
   phoneNumber: string()
-    .max(50)
+    .max(50, errMsgs.MAX(50))
     .required(errMsgs.PHONE_NUMBER),
   reference1: object({
-    name: string().max(50),
+    name: string().max(50, errMsgs.MAX(50)),
     email: string().email(errMsgs.EMAIL),
   }),
   reference2: object({
-    name: string().max(50),
+    name: string().max(50, errMsgs.MAX(50)),
     email: string().email(errMsgs.EMAIL),
   }),
   DBSCheck: object({

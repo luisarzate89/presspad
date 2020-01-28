@@ -72,7 +72,7 @@ const hostProfileSchema = Joi.object({
     .required(),
   accommodationChecklist: Joi.array().items(Joi.string()),
   neighbourhoodDescription: Joi.string()
-    .max(250)
+    .custom(wordLengthValidator(250, "neighbourhoodDescription"))
     .allow(""),
   otherInfo: Joi.string()
     .custom(wordLengthValidator(250, "otherInfo"))

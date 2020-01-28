@@ -61,7 +61,7 @@ const listingSchema = new Schema(
     hometown: {
       type: String,
       validate: wordLengthValidator(10, "hometown"),
-      required: false, // required for Intern
+      required: false,
     },
   },
 
