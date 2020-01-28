@@ -54,7 +54,7 @@ export const calculatePrice = range => {
     days = range % 7;
   } else {
     range.start.startOf("day");
-    range.end.add(1, "day");
+    range.end.add(1, "day").endOf("day");
     weeks = range.diff("weeks");
     days = range.diff("days") % 7;
   }
