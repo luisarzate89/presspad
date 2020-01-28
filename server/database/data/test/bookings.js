@@ -3,54 +3,71 @@ const User = require("../../models/User");
 const Booking = require("../../models/Booking");
 
 module.exports = async () => {
-  const interns = await User.find({ role: "intern" });
-  const listings = await Listing.find();
+  const interns = await User.find({ role: "intern" }).sort({ name: 1, email: 1 });
+  const listings = await Listing.find().sort({ "address.postcode": 1 });
 
   const bookings = [
     {
       listing: listings[0],
-      user: interns[0],
-      startDate: "2019-06-19",
-      endDate: "2019-06-30",
-      payment: 300,
-    },
-    {
-      listing: listings[2],
-      user: interns[0],
-      startDate: "2019-07-24",
-      endDate: "2019-08-12",
-      payment: 400,
+      intern: interns[0],
+      host: listings[0].user,
+      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
+      price: 300,
     },
     {
       listing: listings[0],
-      user: interns[1],
-      startDate: "2019-05-20",
-      endDate: "2019-06-12",
-      status: "canceled",
-      payment: 200,
+      intern: interns[1],
+      host: listings[0].user,
+      startDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      price: 436,
     },
     {
       listing: listings[1],
-      user: interns[1],
-      startDate: "2019-05-16",
-      endDate: "2019-06-16",
+      intern: interns[0],
+      host: listings[1].user,
+      startDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      price: 400,
+    },
+    {
+      listing: listings[0],
+      intern: interns[1],
+      host: listings[0].user,
+      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
+      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
       status: "confirmed",
-      payment: 100,
+      price: 300,
     },
     {
       listing: listings[1],
-      user: interns[2],
-      startDate: "2019-06-14",
-      endDate: "2019-07-16",
+      intern: interns[1],
+      host: listings[1].user,
+      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
+      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
       status: "confirmed",
-      payment: 200,
+      price: 100,
+    },
+    {
+      listing: listings[1],
+      intern: interns[2],
+      host: listings[1].user,
+      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
+      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
+      status: "confirmed",
+      price: 200,
     },
     {
       listing: listings[2],
-      user: interns[2],
-      startDate: "2019-10-14",
-      endDate: "2019-11-16",
-      payment: 300,
+      intern: interns[1],
+      host: listings[2].user,
+      startDate: Date.now() + 10 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
+      price: 300,
     },
   ];
   await Booking.create(bookings);

@@ -1,17 +1,40 @@
-const shortid = require("shortid");
 const User = require("../../models/User");
 const Organisation = require("../../models/Organisation");
-const OrgCodes = require("../../models/OrgCodes");
+const Account = require("../../models/Account");
 
 module.exports = async () => {
+  const accounts = await Account.find();
+  const [
+    adminAccount,
+    internsAccount1,
+    internsAccount2,
+    internsAccount3,
+    internsAccount4,
+    hostAccount1,
+    hostAccount2,
+    hostAccount3,
+    hostAccount4,
+    hostAccount5,
+    orgAccount1,
+    orgAccount2,
+    orgAccount3,
+    orgAccount4,
+  ] = accounts;
   // organisation codes
-  const organisations = await Organisation.find();
+  // const organisations = await Organisation.find();
+
+  const BBC = await Organisation.findOne({ name: "BBC" });
+  const FTimes = await Organisation.findOne({ name: "Financial Times" });
+  const Guardian = await Organisation.findOne({ name: "The Guardian" });
+  const AFP = await Organisation.findOne({ name: "AFP" });
+
   // create admin
   const admin = {
     email: "mark@presspad.co.uk",
     name: "Mark Upton",
     password: "123456",
     role: "admin",
+    account: adminAccount._id,
   };
   await User.create(admin);
 
@@ -22,36 +45,35 @@ module.exports = async () => {
       name: "Michael Peters",
       password: "123456",
       role: "organisation",
-      organisation: organisations[0],
+      organisation: FTimes._id,
       plan: "basic",
-      credits: 500,
+      account: orgAccount1._id,
     },
     {
       email: "josephine@guardian.co.uk",
       name: "Josephine Doeski",
       password: "123456",
       role: "organisation",
-      organisation: organisations[1],
+      organisation: Guardian._id,
       plan: "basic",
-      credits: 1500,
+      account: orgAccount2._id,
     },
     {
       email: "brian@bbc.co.uk",
       name: "Brian Meyer",
       password: "123456",
       role: "organisation",
-      organisation: organisations[2],
-      plan: "basic",
-      credits: 750,
+      organisation: BBC._id,
+      account: orgAccount3._id,
     },
     {
       email: "luise@afp.co.uk",
       name: "Luise Michaels",
       password: "123456",
       role: "organisation",
-      organisation: organisations[3],
+      organisation: AFP._id,
       plan: "basic",
-      credits: 200,
+      account: orgAccount4._id,
     },
   ];
 
@@ -63,6 +85,7 @@ module.exports = async () => {
     name: "Alexandra Lions",
     password: "123456",
     role: "superhost",
+    account: hostAccount1._id,
   };
 
   const storedSuperhost = await User.create(superhost);
@@ -75,7 +98,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      credits: 3200,
+      account: hostAccount2._id,
     },
     {
       email: "eve@hello.com",
@@ -83,7 +106,8 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      credits: 6100,
+      account: hostAccount3._id,
+
     },
     {
       email: "hilda@bbc.co.uk",
@@ -91,7 +115,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      credits: 3500,
+      account: hostAccount4._id,
     },
     {
       email: "simon@gmail.com",
@@ -99,7 +123,7 @@ module.exports = async () => {
       password: "123456",
       role: "host",
       referral: storedSuperhost,
-      credits: 1700,
+      account: hostAccount5._id,
     },
   ];
 
@@ -112,32 +136,32 @@ module.exports = async () => {
       name: "Mone Dupree",
       password: "123456",
       role: "intern",
-      organisation: organisations[0],
-      credits: 1200,
+      organisation: BBC._id,
+      account: internsAccount1._id,
     },
     {
       email: "newby@gmail.com",
       name: "Newby French",
       password: "123456",
       role: "intern",
-      organisation: organisations[0],
-      credits: 2200,
+      organisation: AFP._id,
+      account: internsAccount2._id,
     },
     {
       email: "joe@hello.com",
       name: "Joe The Friel",
       password: "123456",
       role: "intern",
-      organisation: organisations[1],
-      credits: 3100,
+      organisation: Guardian._id,
+      account: internsAccount3._id,
     },
     {
       email: "ramy@rambo.co.uk",
       name: "Ramy Rambo",
       password: "123456",
       role: "intern",
-      organisation: organisations[2],
-      credits: 1400,
+      organisation: FTimes._id,
+      account: internsAccount4._id,
     },
   ];
 

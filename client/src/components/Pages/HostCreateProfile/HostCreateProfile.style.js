@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { size } from "../../../theme";
+
 export const PageWrapper = styled.div`
   padding-top: 4rem;
   padding-bottom: 8rem;
@@ -12,7 +14,18 @@ export const ContentWrapper = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
+  padding-top: 50px;
+  margin-bottom: 1.5rem;
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  width: 86px;
+
+  @media (max-width: ${size.mobileXL}) {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const HiText = styled.h1`
@@ -22,7 +35,8 @@ export const HiText = styled.h1`
   font-size: 30px;
   line-height: 35px;
   color: #07294a;
-  margin-bottom: 14px;
+  margin-bottom: 0;
+  padding-left: 1rem;
 `;
 
 export const HeaderButtonsWrapper = styled.div`
@@ -34,7 +48,7 @@ export const HeaderButtonsWrapper = styled.div`
 
 export const Section = styled.div``;
 
-export const SectionTitile = styled.h4`
+export const SectionTitle = styled.h4`
   margin: 20px auto;
   font-family: Roboto;
   font-style: normal;
@@ -69,31 +83,29 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   margin-bottom: 20px;
 `;
 
 export const PhotoWrapper = styled.div`
   background: #ffffff;
-border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
+  border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ small }) => (small ? "calc( 50% - 12.5px)" : "257px")};
-  
-  margin-${({ direction }) => direction}: 12.5px;
+  ${({ small }) => (small ? "height: 100%" : "height: 257px")};
+  ${({ direction }) => (direction ? `margin-${direction}: 12.5px;` : "")}
 
-  @media (max-width: 575.98px) { 
+  @media (max-width: 575.98px) {
     height: 257px;
     margin: 0;
-    margin-bottom:12.5px;
-   }
+  }
 
   background-repeat: no-repeat;
   background-size: cover;
   background-image: ${({ imageSrc }) =>
-    imageSrc ? `url(${imageSrc})` : "none"};
+    imageSrc ? `url("${imageSrc}")` : "none"};
 `;
 
 export const UploadButton = styled.button`
@@ -106,7 +118,7 @@ export const UploadButton = styled.button`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
 export const ErrorWrapper = styled.div`
@@ -116,6 +128,7 @@ export const ErrorWrapper = styled.div`
   border-radius: 4px;
   position: relative;
 `;
+
 export const Error = styled.p`
   position: absolute;
   top: 100%;

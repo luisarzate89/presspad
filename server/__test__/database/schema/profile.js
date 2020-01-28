@@ -26,12 +26,12 @@ describe("Test Profile schema", () => {
   });
 
   test("should store a new Profile correctly", async (done) => {
+    await Profile.collection.dropIndexes();
     const interns = await User.find({ role: "intern" });
     const newProfile = {
       user: interns[0],
       bio: "test",
       jobTitle: "Journalist",
-      pressPass: "simon-presspass.jpg",
     };
     const storedProfile = await Profile.create(newProfile);
     expect(storedProfile).toBeDefined();

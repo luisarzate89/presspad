@@ -1,23 +1,52 @@
-const Organisation = require("../models/Organisation");
-const Referal = require("../models/Referal");
-const User = require("../models/User");
-const Profile = require("../models/Profile");
-const Review = require("../models/Review");
-const Listing = require("../models/Listing");
-const Booking = require("../models/Booking");
-const Notification = require("../models/Notification");
-const Transaction = require("../models/Transaction");
+const {
+  Account,
+  Booking,
+  ChecklistAnswer,
+  ChecklistQuestion,
+  Coupon,
+  ExternalTransaction,
+  Installment,
+  InternalTransaction,
+  Listing,
+  Notification,
+  OrgCodes,
+  Organisation,
+  Profile,
+  Referal,
+  Review,
+  ScheduledEmail,
+  ScheduledNotification,
+  Transaction,
+  User,
+  WithdrawRequest,
+} = require("./../models");
 
 const resetDB = async () => {
-  await Organisation.deleteMany();
-  await Referal.deleteMany();
-  await User.deleteMany();
-  await Profile.deleteMany();
-  await Review.deleteMany();
-  await Listing.deleteMany();
-  await Booking.deleteMany();
-  await Notification.deleteMany();
-  await Transaction.deleteMany();
+  try {
+    await Account.deleteMany();
+    await Booking.deleteMany();
+    await ChecklistAnswer.deleteMany();
+    await ChecklistQuestion.deleteMany();
+    await Coupon.deleteMany();
+    await ExternalTransaction.deleteMany();
+    await Installment.deleteMany();
+    await InternalTransaction.deleteMany();
+    await Listing.deleteMany();
+    await Notification.deleteMany();
+    await OrgCodes.deleteMany();
+    await Organisation.deleteMany();
+    await Profile.deleteMany();
+    await Referal.deleteMany();
+    await Review.deleteMany();
+    await ScheduledEmail.deleteMany();
+    await ScheduledNotification.deleteMany();
+    await Transaction.deleteMany();
+    await User.deleteMany();
+    await WithdrawRequest.deleteMany();
+  } catch (err) {
+    console.log("Error during resting the db, try again", err);
+    throw err;
+  }
 };
 
 module.exports = resetDB;

@@ -2,10 +2,10 @@ const shortid = require("shortid");
 const Organisation = require("../../models/Organisation");
 const OrgCodes = require("../../models/OrgCodes");
 
-module.exports.addOrg = (name, logo) => Organisation.create({
+module.exports.addOrg = (name, logo, account) => Organisation.create({
   name,
   logo,
-  code: shortid.generate(),
+  account,
 });
 
 module.exports.getOrgByName = name => Organisation.find({ name });

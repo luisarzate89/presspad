@@ -1,14 +1,22 @@
 import React, { Component } from "react";
-import { Input, DatePicker, Icon } from "antd";
+import { Input, DatePicker, Icon, Select } from "antd";
 import axios from "axios";
 import moment from "moment";
 
 // import API routes
-import { API_SEARCH_PROFILES_URL } from "./../../../constants/apiRoutes";
+import {
+  API_SEARCH_PROFILES_URL,
+  API_GET_ALL_CETIES_URL,
+} from "../../../constants/apiRoutes";
+import Button from "../../Common/Button";
+import { titleCase } from "../../../helpers";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
 
+import { TABLET_WIDTH } from "../../../constants/screenWidths";
+
+import placeholder from "../../../assets/listing-placeholder.jpg";
 // import styled components
 import {
   Wrapper,
@@ -16,11 +24,9 @@ import {
   HeaderTitle,
   HeaderText,
   SearchForm,
-  FirstSearchInputDiv,
   SearchLabel,
   SearchInputDiv,
   ErrorMsg,
-  SearchButton,
   ResultsWrapper,
   ResultsText,
   Hosts,
@@ -31,15 +37,30 @@ import {
   HostDates,
   HostLocation,
   DisabledHostResult,
-  SignUpPromo
+  SignUpPromo,
+  SearchButtonDiv,
+  SearchButton,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
   state = {
     listings: null,
+    cities: [],
     searchFields: { city: null, startDate: null, endDate: null },
-    errors: {}
+    errors: {},
   };
+
+  async componentDidMount() {
+    // fetch all cities from the listing
+    const { data } = await axios.get(API_GET_ALL_CETIES_URL);
+    const cities = data
+      .filter(({ address: { city } = {} }) => !!city)
+      .reduce((acc, curr) => {
+        acc.add(curr.address.city.toLowerCase());
+        return acc;
+      }, new Set());
+    this.setState({ cities: [...cities] });
+  }
 
   fetchListings = () => {
     const { searchFields, errors } = this.state;
@@ -49,18 +70,31 @@ export default class index extends Component {
       .then(({ data }) => {
         this.setState({ listings: data });
       })
-      .catch(err => {
+      .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors
+          errors,
         });
       });
   };
 
   onInputChange = e => {
     const { searchFields } = this.state;
-    searchFields[e.target.name] = e.target.value;
-    this.setState({ searchFields });
+    const newSearchFields = { ...searchFields };
+
+    if (e.target) {
+      newSearchFields[e.target.name] = e.target.value;
+      this.setState({ searchFields: newSearchFields });
+    } else {
+      // e is the city <Select>  value
+      newSearchFields.city = e;
+      this.setState({ searchFields: newSearchFields }, () => {
+        const isValid = this.validateSearch();
+        if (isValid) {
+          this.fetchListings();
+        }
+      });
+    }
   };
 
   // HANDLING DATE INPUTS
@@ -90,8 +124,6 @@ export default class index extends Component {
 
   onStartChange = value => {
     this.onDateInputChange("startDate", value);
-    const dateString = moment(value).format("YYYY-MM-DD");
-    console.log(dateString);
   };
 
   onEndChange = value => {
@@ -136,80 +168,86 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return searchIsValid;
   };
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic => {
-    return listingPic && listingPic.length > 0
-      ? listingPic
-      : require("./../../../assets/listing-placeholder.jpg");
+  getListingPic = pics => {
+    if (!pics || !pics.length) return placeholder;
+    return pics.find(pic => !pic.isPrivate).url || placeholder;
   };
 
   showStartDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.startDate - a.startDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.startDate - a.startDate);
 
-      return moment(sortedDates[0].startDate).format("Do MMM");
-    } else return moment(dates[0].startDate).format("Do MMM YYYY");
+      return moment(sortedDates[0].startDate).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
   showEndDate = dates => {
     if (dates.length > 0) {
-      const sortedDates = dates.sort((a, b) => {
-        return b.endDate - a.endDate;
-      });
+      const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY"
+        "Do MMM YYYY",
       );
-    } else return moment(dates[0].endDate).format("Do MMM YYYY");
+    }
+    return moment(dates).format("Do MMM YYYY");
   };
 
   render() {
-    const { searchFields, errors, listings } = this.state;
-    const { isLoggedIn } = this.props;
-    const { city, startDate, endDate } = searchFields;
+    const { searchFields, errors, listings, cities } = this.state;
+    const { isLoggedIn, windowWidth } = this.props;
+    const { startDate, endDate } = searchFields;
     const { searchError } = errors;
+
     return (
       <Wrapper>
         <Header>
           <HeaderTitle>Hosts offering a PressPad</HeaderTitle>
           <HeaderText>
-            You can search for hosts by filling in the city and dates you're
-            looking for, as well as any interests you might have so we can find
-            the perfect match for you.
+            You can search for hosts by filling in the city and dates
+            you&apos;re looking for, as well as any interests you might have so
+            we can find the perfect match for you.
           </HeaderText>
         </Header>
         <SearchForm>
-          <FirstSearchInputDiv>
+          <SearchInputDiv order={0}>
             <SearchLabel htmlFor="city">City</SearchLabel>
-            <Input
+            <Select
+              showSearch
               placeholder="Enter your city"
               name="city"
               id="city"
-              type="text"
+              autoFocus
               style={{ width: 150 }}
-              value={city}
-              onChange={this.onInputChange}
-            />
-          </FirstSearchInputDiv>
-          <SearchInputDiv>
+              onSelect={this.onInputChange}
+            >
+              {cities.map(city => (
+                <Select.Option value={city} key={city}>
+                  {titleCase(city)}
+                </Select.Option>
+              ))}
+            </Select>
+          </SearchInputDiv>
+          <SearchInputDiv order={1}>
             <SearchLabel htmlFor="startDate">Between</SearchLabel>
             <DatePicker
               name="startDate"
               disabledDate={this.disabledStartDate}
               id="startDate"
               type="date"
-              style={{ marginRight: 8 }}
+              style={{ width: 150 }}
               value={startDate}
               onChange={this.onStartChange}
               format="YYYY-MM-DD"
             />
+          </SearchInputDiv>
+          <SearchInputDiv order={2}>
             <SearchLabel htmlFor="endDate">and</SearchLabel>
             <DatePicker
               name="endDate"
@@ -219,9 +257,10 @@ export default class index extends Component {
               value={endDate}
               onChange={this.onEndChange}
               format="YYYY-MM-DD"
+              style={{ width: 150 }}
             />
           </SearchInputDiv>
-          <SearchInputDiv disabled>
+          <SearchInputDiv order={3} disabled>
             <SearchLabel htmlFor="interests">Interests</SearchLabel>
             <Input
               name="interests"
@@ -231,40 +270,45 @@ export default class index extends Component {
               onChange={this.onInputChange}
             />
           </SearchInputDiv>
-          <SearchInputDiv>
-            <SearchButton onClick={this.onSearchSubmit}>
-              <Icon type="search" style={{ fontSize: 24 }} />
-            </SearchButton>
-          </SearchInputDiv>
+
+          <SearchButtonDiv>
+            {windowWidth < TABLET_WIDTH ? (
+              <Button
+                label="search"
+                type="primary"
+                onClick={this.onSearchSubmit}
+              />
+            ) : (
+              <SearchButton onClick={this.onSearchSubmit}>
+                <Icon type="search" style={{ fontSize: 24 }} />
+              </SearchButton>
+            )}
+          </SearchButtonDiv>
         </SearchForm>
         <ErrorMsg>{searchError}</ErrorMsg>
         {listings && (
           <ResultsWrapper>
             <ResultsText>
-              Your search returned {listings.length} results
+              Your search returned {listings.length}{" "}
+              {listings.length === 1 ? "result" : "results"}
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>
-                {listings.map((listing, index) => (
+                {listings.map(listing => (
                   <HostResult
-                    key={index}
+                    key={listing._id}
                     underThree={listings.length < 3}
                     to={`${HOSTS_URL}/${listing.userID}`}
                   >
                     <HostHeader>
-                      <HostTitle>
-                        {listing.address.borough || listing.address.city}
-                      </HostTitle>
+                      <HostTitle>{listing.address.city}</HostTitle>
                     </HostHeader>
-                    <HostImg src={this.getListingPic(listing.photos[0])} />
+                    <HostImg src={this.getListingPic(listing.photos)} />
                     <HostDates>
                       {this.showStartDate(listing.availableDates)} -{" "}
                       {this.showEndDate(listing.availableDates)}
                     </HostDates>
                     <HostLocation>
-                      {listing.address.borough && (
-                        <>{listing.address.borough}, </>
-                      )}
                       {listing.address.city && <>{listing.address.city}, </>}
                       {listing.address.postcode && (
                         <>{listing.address.postcode}</>
@@ -276,9 +320,9 @@ export default class index extends Component {
             ) : (
               <>
                 <Hosts>
-                  {listings.slice(0, 3).map((listing, index) => (
+                  {listings.slice(0, 3).map(listing => (
                     <DisabledHostResult
-                      key={index}
+                      key={`${listing._id}2`}
                       to={`${HOSTS_URL}/${listing.userID}`}
                       isLoggedIn={isLoggedIn}
                     >
@@ -287,7 +331,7 @@ export default class index extends Component {
                           {listing.address.borough || listing.address.city}
                         </HostTitle>
                       </HostHeader>
-                      <HostImg src={this.getListingPic(listing.photos[0])} />
+                      <HostImg src={this.getListingPic(listing.photos)} />
                       <HostDates>
                         {this.showStartDate(listing.availableDates)} -{" "}
                         {this.showEndDate(listing.availableDates)}

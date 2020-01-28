@@ -14,17 +14,23 @@ const { findByEmail } = require("./../../database/queries/user");
 module.exports = (req, res, next) => {
   const { email, password: plainPassword } = req.body;
 
-  findByEmail(email).then((user) => {
+  findByEmail(email).then(user => {
     if (!user) {
+      req.sqreen.auth_track(false, { email });
       // no user found so return error
       return next(boom.unauthorized("Login failed. User does not exist"));
     }
 
     // validate password
     return compare(plainPassword, user.password)
-      .then((matched) => {
+      .then(matched => {
         if (!matched) {
-          return next(boom.unauthorized("Login failed. Email or password cannot be recognised"));
+          req.sqreen.auth_track(false, { email });
+          return next(
+            boom.unauthorized(
+              "Login failed. Email or password cannot be recognised",
+            ),
+          );
         }
 
         // data to send in response
@@ -39,8 +45,12 @@ module.exports = (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.SECRET, {
           expiresIn: tokenMaxAge.string,
         });
-        res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
+        res.cookie("token", token, {
+          maxAge: tokenMaxAge.number,
+          httpOnly: true,
+        });
 
+        req.sqreen.auth_track(true, { email });
         // send user info in response
         return res.json(userInfo);
       })

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, borders } from "./../../../theme";
+import { colors, borders, size } from "./../../../theme";
 
 const classNames = {
   reactCalendar: ".react-calendar",
@@ -20,7 +20,7 @@ const classNames = {
   reactCalendarTileHasActive: ".react-calendar__tile--hasActive",
   reactCalendarTileActive: ".react-calendar__tile--active",
   reactCalendarSelectRange: ".react-calendar--selectRange",
-  reactCalendarTileHover: ".react-calendar__tile--hover"
+  reactCalendarTileHover: ".react-calendar__tile--hover",
 };
 
 export const CalendarWrapper = styled.div.attrs(classNames)`
@@ -85,9 +85,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     font-weight: bold;
   }
 
-  ${classNames.reactCalendarMonthViewWeekNumbers}, ${
-  classNames.reactCalendarTile
-} {
+  ${classNames.reactCalendarMonthViewWeekNumbers}, ${classNames.reactCalendarTile} {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,11 +101,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
   ${classNames.reactCalendarMonthViewDaysDayNeighboringMonth} {
     color: ${colors.lightGray};
   }
-  ${classNames.reactCalendarYearView} ${classNames.reactCalendarTile},${
-  classNames.reactCalendarDecadeView
-} ${classNames.reactCalendarTile},${classNames.reactCalendarCenturyView} ${
-  classNames.reactCalendarTile
-} {
+  ${classNames.reactCalendarYearView} ${classNames.reactCalendarTile},${classNames.reactCalendarDecadeView} ${classNames.reactCalendarTile},${classNames.reactCalendarCenturyView} ${classNames.reactCalendarTile} {
     padding: 2em 0.5em;
   }
   ${classNames.reactCalendarTile} {
@@ -146,10 +140,9 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     }
   }
   ${classNames.reactCalendarSelectRange} ${classNames.reactCalendarTileHover} {
-    background-color: ${colors.lightBlue}
+    background-color: ${colors.lightBlue};
     color: ${colors.white};
   }
-
 `;
 
 export const PricingDiv = styled.div`
@@ -159,6 +152,11 @@ export const PricingDiv = styled.div`
   margin-right: auto;
   border-top: ${borders.lightDivider};
   height: 185px;
+
+  @media (max-width: ${size.mobileM}) {
+    height: auto;
+    padding-bottom: 1rem;
+  }
 `;
 
 export const PriceHeadline = styled.h4`
@@ -167,36 +165,51 @@ export const PriceHeadline = styled.h4`
   line-height: 2;
   text-align: left;
   margin-top: 10px;
+
+  @media (max-width: ${size.mobileM}) {
+    line-height: 1.5;
+  }
 `;
 export const PriceLabel = styled.h1`
   font-weight: bold;
   font-size: 2rem;
+
+  @media (max-width: ${size.mobileM}) {
+    margin: 0;
+  }
 `;
 
 export const RequestBtn = styled.button`
   background: ${props =>
-    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`}
-    opacity: ${props => (props.disabled ? "0.7" : "")};
+    props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`};
+  opacity: ${props => (props.disabled ? "0.7" : "")};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
   border: none;
-  padding: 0.5rem 5rem;
+  padding: 0.5rem 4rem;
   margin: 0;
   text-decoration: none;
   cursor: pointer;
   text-align: center;
-  transition: background 250ms ease-in-out,
-  transform 150ms ease;
+  transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  :focus, :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")}
-
+  :focus,
+  :hover {
+    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
   }
 `;
 
 export const ErrorDiv = styled.div`
   margin-bottom: 25px;
+`;
+
+export const PriceTopDiv = styled.div`
+  @media (max-width: ${size.mobileM}) {
+    display: flex;
+    padding: 0.5rem 0;
+    justify-content: space-between;
+  }
 `;

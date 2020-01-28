@@ -1,205 +1,251 @@
 import React, { Component } from "react";
-import Content from "./Content";
-import { Modal, Spin, Alert } from "antd";
-import * as Yup from "yup";
+
 import axios from "axios";
+import { Modal, Alert, message } from "antd";
+import Content from "./Content";
+import {
+  API_INTERN_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL,
+} from "../../../constants/apiRoutes";
+import { DASHBOARD_URL } from "../../../constants/navRoutes";
+import { profileSchema, detailsSchema } from "./Schema";
 
-import { API_INTERN_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
-import { HOSTS_URL } from "./../../../constants/navRoutes";
-
-const schema = Yup.object().shape({
-  profileImage: Yup.mixed().required("Required"),
-
-  bio: Yup.string().required("Required"),
-  favouriteArticle: Yup.string(),
-  jobTitle: Yup.string(),
-  pressPass: Yup.mixed().required("Required")
-});
+const INITIAL_STATE = {
+  birthDate: "",
+  hometown: "",
+  gender: "",
+  school: "",
+  profileImage: {
+    fileName: "",
+    isPrivate: false,
+  },
+  interests: "",
+  bio: "",
+  organisation: "",
+  useReasonAnswer: "",
+  issueAnswer: "",
+  mentorDescribeAnswer: "",
+  photoID: {
+    fileName: "",
+    isPrivate: true,
+    url: "",
+  },
+  hearAboutPressPadAnswer: "",
+  phoneNumber: "",
+  reference1: {
+    name: "",
+    email: "",
+  },
+  reference2: {
+    name: "",
+    email: "",
+  },
+  offerLetter: {
+    fileName: "",
+    isPrivate: true,
+  },
+  internshipOfficeAddress: "",
+  emergencyContact: {
+    name: "",
+    phoneNumber: "",
+    email: "",
+  },
+  DBSCheck: {
+    fileName: "",
+    isPrivate: true,
+  },
+  sexualOrientation: "",
+  degreeLevel: "",
+  ethnicity: "",
+  parentProfession: "",
+  disability: "",
+  parentsWorkInPress: "",
+  caringResponsibilities: "",
+  allergies: "",
+  backgroundAnswer: "",
+  consentedOnPressPadTerms: "",
+};
+const Tabs = ["Profile", "Details"];
 
 export default class InternCreateProfile extends Component {
   state = {
-    attemptedToSubmit: false,
-    loading: true,
-    profileImage: {
-      dataUrl: null,
-      file: null
-    },
-    bio: "",
-    favouriteArticle: "",
-    jobTitle: "",
-
-    pressPass: {
-      dataUrl: null,
-      file: null
-    },
-    offerLetter: {
-      dataUrl: null,
-      file: null
-    },
-    photoIDFile: {
-      dataUrl: null,
-      file: null
-    },
-    errors: {}
+    activeKey: 0,
+    data: INITIAL_STATE,
+    errors: INITIAL_STATE,
   };
 
-  handleAddFile = ({ target }) => {
-    const { files, name } = target;
-    const image = files && files[0];
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile } }) => {
+        if (profile) {
+          this.setState(prevState => ({
+            data: {
+              ...prevState.data,
+              ...profile,
+            },
+          }));
+        }
+      })
+      .catch(() => message.error("internal server error"));
+  }
 
-    var reader = new FileReader();
-
-    reader.onload = () => {
-      var dataUrl = reader.result;
-      this.setState(
-        {
-          [name]: {
-            dataUrl,
-            file: image
-          }
+  handleChange = ({ value, key, parent }) => {
+    if (parent) {
+      this.setState(({ data, errors }) => ({
+        data: {
+          ...data,
+          [parent]: { ...data[parent], [key]: value },
         },
-        () => this.state.attemptedToSubmit && this.updateErrors()
-      );
-    };
-
-    image && reader.readAsDataURL(image);
+        errors: { ...errors, [parent]: { ...errors[parent], [key]: null } },
+      }));
+    } else {
+      this.setState(({ data, errors }) => ({
+        data: {
+          ...data,
+          [key]: value,
+        },
+        errors: { ...errors, [key]: null },
+      }));
+    }
   };
 
-  updateErrors = async () => {
-    await this.validate();
+  handleError = ({ errorMsg, key, parent }) => {
+    if (parent) {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [parent]: { ...prevState.errors[parent], [key]: errorMsg },
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [key]: errorMsg,
+        },
+      }));
+    }
   };
 
-  handleInputChange = ({ target }) => {
-    const { value, name } = target;
-    this.setState(
-      { [name]: value },
-      () => this.state.attemptedToSubmit && this.updateErrors()
-    );
-  };
-
-  validate = () => {
-    const { profileImage, pressPass, offerLetter, photoIDFile } = this.state;
-
-    const state = {
-      ...this.state,
-      profileImage: profileImage.file,
-      pressPass: pressPass.dataUrl,
-      offerLetter: offerLetter.dataUrl,
-      photoIDFile: photoIDFile.dataUrl
-    };
-
-    return schema.validate(state, { abortEarly: false }).catch(err => {
-      const errors = {};
-      err.inner.forEach(element => {
-        errors[element.path] = element.message;
+  handleValidationError = ({ inner }) => {
+    const newErrors = {};
+    if (inner)
+      inner.forEach(({ path, message: errorMessage }) => {
+        if (path.includes(".")) {
+          const [parent, childrenPath] = path.split(".");
+          newErrors[path] = newErrors[path] || {};
+          newErrors[parent] = {
+            ...newErrors[parent],
+            [childrenPath]: errorMessage,
+          };
+        } else {
+          newErrors[path] = errorMessage;
+        }
       });
-      this.setState({ errors });
-    });
+    return newErrors;
   };
 
-  handleSubmit = e => {
-    const {
-      profileImage,
-      bio,
-      favouriteArticle,
-      jobTitle,
-      pressPass,
-      offerLetter,
-      photoIDFile
-    } = this.state;
-
-    const form = new FormData();
-    e.preventDefault();
-    this.setState({ attemptedToSubmit: true });
-
-    this.validate().then(res => {
-      if (res) {
-        this.setState({ errors: {}, uploading: true });
-        Modal.destroyAll();
-        Modal.info({
-          title: "Uploading",
-          content: (
-            <Spin spinning={this.state.loading}>
-              <Alert
-                message="updating your info"
-                description="this might take sometime"
-                type="info"
-              />
-            </Spin>
-          ),
-          okButtonProps: {
-            disabled: true
-          }
-        });
-
-        // info
-        bio && form.append("bio", bio);
-        favouriteArticle && form.append("favouriteArticle", favouriteArticle);
-        jobTitle && form.append("jobTitle", jobTitle);
-
-        // files
-        profileImage.file && form.append("profileImage", profileImage.file);
-        pressPass.file && form.append("pressPass", pressPass.file);
-        offerLetter.file && form.append("offerLetter", offerLetter.file);
-        photoIDFile.file && form.append("photoIDFile", photoIDFile.file);
-
-        axios({
-          method: "post",
-          url: API_INTERN_COMPLETE_PROFILE,
-          data: form,
-          headers: {
-            "content-type": `multipart/form-data; boundary=${form._boundary}`
-          }
-        })
-          .then(({ data }) => {
-            Modal.destroyAll();
-            Modal.success({
-              title: "Done",
-              content: (
-                <Alert
-                  message="Thank you"
-                  description="Your info has been updated"
-                  type="success"
-                />
-              ),
-
-              onOk: () => {
-                this.props.history.push(HOSTS_URL);
-              },
-              type: "success"
-            });
-            this.setState({ loading: false, success: true });
-          })
-          .catch(err => {
-            Modal.destroyAll();
-            Modal.error({
-              title: "Error",
-              content: (
-                <Alert
-                  message="Error"
-                  description={err.response.data.error}
-                  type="error"
-                />
-              ),
-              type: "error"
-            });
-            this.setState({ loading: false, erros: err.response.data });
-          });
+  onChangeTabs = async () => {
+    const { activeKey, data } = this.state;
+    window.scroll(0, 0);
+    if (!activeKey)
+      try {
+        const validData = await profileSchema.validate(
+          { ...data },
+          {
+            abortEarly: false,
+          },
+        );
+        this.setState(({ data: newData }) => ({
+          data: { ...newData, ...validData },
+        }));
+      } catch (e) {
+        this.setState({ loading: false });
+        this.setState(({ errors }) => ({
+          errors: { ...errors, ...this.handleValidationError(e) },
+        }));
+        return;
       }
-    });
+    this.setState(({ activeKey: currTab }) => ({
+      activeKey: +!currTab,
+    }));
+  };
+
+  handleSubmit = async () => {
+    const { data } = this.state;
+
+    this.setState({ loading: true });
+    try {
+      const validData = await detailsSchema.validate(
+        { ...data },
+        { abortEarly: false },
+      );
+      this.setState(({ data: newData }) => ({
+        data: { ...newData, ...validData },
+      }));
+    } catch (e) {
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+      this.setState(() => ({ loading: false }));
+      return;
+    }
+    try {
+      await axios.post(API_INTERN_COMPLETE_PROFILE, { ...this.state.data });
+      Modal.destroyAll();
+      Modal.success({
+        title: "Done",
+        content: (
+          <Alert
+            message="Thank you"
+            description="Your profile has been saved"
+            type="success"
+          />
+        ),
+        onOk: () => {
+          this.props.history.push(DASHBOARD_URL);
+        },
+        type: "success",
+      });
+    } catch (err) {
+      Modal.destroyAll();
+      Modal.error({
+        title: "Error",
+        content: (
+          <Alert
+            message="Error"
+            description={err.response.data.error}
+            type="error"
+          />
+        ),
+        type: "error",
+      });
+    }
+    this.setState(() => ({ loading: false }));
+    window.scroll(0, 0);
   };
 
   render() {
-    const { name, id } = this.props;
-
+    const { name, id, role } = this.props;
+    const { errors, data, activeKey, loading } = this.state;
+    const {
+      profileImage: { url: profilePhotoUrl },
+    } = data;
     return (
       <Content
         name={name}
-        id={id}
-        state={this.state}
-        handleAddFile={this.handleAddFile}
-        handleInputChange={this.handleInputChange}
+        errors={errors}
+        data={data}
+        handleChange={this.handleChange}
+        handleError={this.handleError}
+        userId={id}
+        onChangeTabs={this.onChangeTabs}
+        activeKey={Tabs[activeKey]}
         handleSubmit={this.handleSubmit}
+        profilePhotoUrl={profilePhotoUrl}
+        role={role}
+        loading={loading}
       />
     );
   }

@@ -1,27 +1,62 @@
-// expect userID
-// responds with data obj: user info, profile, listings, reviews
-
 const boom = require("boom");
-
 // QUERIES
-const { hostProfileData, hostReviews } = require("./../../database/queries/profile/hostProfile");
+const {
+  hostProfileData,
+  getConfirmedBooking,
+} = require("./../../database/queries/profile/hostProfile");
 
-module.exports = async (req, res, next) => {
-  const { userId } = req.body;
+const generateUrl = require("../../helpers/generateFileURL");
+const { isValidMongoObjectId } = require("../../helpers/isValidMongoObjectId");
 
-  // check if user id is in request
-  if (!userId) {
-    return next(boom.badRequest("error loading profile"));
-  }
-  const profileData = id => Promise.all([hostProfileData(id), hostReviews(id)]);
+// expect hostId as query param
+// responds with data obj: user info, profile, listings, reviews
+const getHostProfile = async (req, res, next) => {
+  const { id: hostId } = req.params;
+  const { id: userId, role } = req.user;
 
-  return profileData(userId)
-    .then((data) => {
-      // if no profile data return 404
-      if (!data[0].length) {
-        return next(boom.notFound("Cannot find the profile you're looking for"));
+  if (!hostId) return next(boom.badRequest("User does not exist"));
+  let address = {};
+
+  try {
+    if (!isValidMongoObjectId(hostId))
+      return next(boom.notFound("Invalid Host ID"));
+
+    let hostProfile;
+    let booking;
+    if (role === "intern") {
+      booking = await getConfirmedBooking(userId, hostId);
+      if (booking) [hostProfile] = await hostProfileData(hostId, true);
+      else {
+        // TODO 1- generate address as text eg. Canada Water SE8 (no booking)
+        [hostProfile] = await hostProfileData(hostId);
       }
-      return res.json(data);
-    })
-    .catch(() => next(boom.badRequest("error loading profile")));
+    } else [hostProfile] = await hostProfileData(hostId);
+
+    const {
+      listing: { address: { postcode = "", city = "" } = {} } = {},
+    } = hostProfile;
+
+    address = {
+      addressline1: "",
+      addressline2: "",
+      postcode: postcode.substring(0, postcode.length - 3),
+      city,
+    };
+
+    hostProfile.listing.address = address;
+
+    if (!hostProfile || !hostProfile.profile || !hostProfile.listing)
+      return next(boom.notFound("Host has no profile or does not exist"));
+
+    if (hostProfile.listing.photos)
+      await Promise.all(hostProfile.listing.photos.map(generateUrl));
+
+    await generateUrl(hostProfile.profile.profileImage);
+
+    return res.json({ ...hostProfile, showFullData: !!booking });
+  } catch (err) {
+    return next(boom.badImplementation(err));
+  }
 };
+
+module.exports = getHostProfile;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StripeProvider } from "react-stripe-elements";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 
@@ -22,7 +23,7 @@ import "antd/lib/modal/style/index.css";
 import "antd/lib/spin/style/index.css";
 import "antd/lib/alert/style/index.css";
 
-import { API_USER_URL } from "./../constants/apiRoutes";
+import { API_USER_URL } from "../constants/apiRoutes";
 
 import Navbar from "./Common/Navbar";
 
@@ -35,13 +36,39 @@ export const initialState = {
   email: null,
   isMounted: false,
   role: null,
-  windowWidth: null
+  stripe: null,
 };
 
 class App extends Component {
   state = {
-    ...initialState
+    ...initialState,
+    windowWidth: window.innerWidth,
   };
+
+  componentDidMount() {
+    this.getUserInfo();
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+    if (window.Stripe) {
+      this.setState({
+        stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY),
+      });
+    } else {
+      // eslint-disable-next-line no-unused-expressions
+      document.querySelector("#stripe-js") &&
+        document.querySelector("#stripe-js").addEventListener("load", () => {
+          // Create Stripe instance once Stripe.js loads
+          this.setState({
+            stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY),
+          });
+        });
+    }
+    window.scrollTo(0, 0);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
 
   handleChangeState = data => {
     this.setState({ ...data, isMounted: true });
@@ -49,19 +76,13 @@ class App extends Component {
 
   updateWindowDimensions = () => {
     this.setState({
-      windowWidth: window.innerWidth
+      windowWidth: window.innerWidth,
     });
   };
 
-  componentDidMount() {
-    this.getUserInfo();
-    this.updateWindowDimensions();
-    window.addEventListener("resize", this.updateWindowDimensions);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWindowDimensions);
-  }
+  resetState = () => {
+    this.setState(initialState);
+  };
 
   getUserInfo = () => {
     axios
@@ -70,26 +91,36 @@ class App extends Component {
         if (data.user) {
           this.setState({ ...data.user, isLoggedIn: true, isMounted: true });
         } else {
-          this.setState({ ...initialState, isMounted: true });
+          this.setState({
+            ...initialState,
+            isMounted: true,
+          });
         }
       })
       .catch(err => this.setState({ error: err.responses, isMounted: true }));
   };
 
   render() {
-    const { isLoggedIn, role } = this.state;
+    const { isLoggedIn, role, stripe, windowWidth } = this.state;
 
     return (
-      <Router>
-        <div className="App">
-          <Navbar isLoggedIn={isLoggedIn} userType={role} />
-          <Pages
-            handleChangeState={this.handleChangeState}
-            isLoggedIn={isLoggedIn}
-            {...this.state}
-          />
-        </div>
-      </Router>
+      <StripeProvider stripe={stripe}>
+        <Router>
+          <div className="App">
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              userType={role}
+              resetState={this.resetState}
+              windowWidth={windowWidth}
+            />
+            <Pages
+              handleChangeState={this.handleChangeState}
+              isLoggedIn={isLoggedIn}
+              {...this.state}
+            />
+          </div>
+        </Router>
+      </StripeProvider>
     );
   }
 }

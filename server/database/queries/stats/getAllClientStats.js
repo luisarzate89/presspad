@@ -17,7 +17,7 @@ module.exports.getAllClientStats = async () => {
         _id: 1,
         name: 1,
         plan: 1,
-        credits: 1,
+        account: 1,
         interns: {
           $filter: {
             input: "$users",
@@ -35,10 +35,10 @@ module.exports.getAllClientStats = async () => {
     },
     {
       $lookup: {
-        from: "transactions",
-        localField: "_id",
-        foreignField: "sendingOrganisation",
-        as: "transactions",
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "account",
       },
     },
     {
@@ -50,7 +50,9 @@ module.exports.getAllClientStats = async () => {
         "interns._id": 1,
         "interns.name": 1,
         numberOfInterns: 1,
-        spentCredits: { $sum: "$transactions.credits" },
+        couponsValue: { $arrayElemAt: ["$account.couponsValue", 0] },
+        currentBalance: { $arrayElemAt: ["$account.currentBalance", 0] },
+        totalPayments: { $arrayElemAt: ["$account.income", 0] },
       },
     },
   ]);

@@ -1,18 +1,36 @@
 import styled from "styled-components";
 
+import { size } from "../../../theme";
+
 export const PageWrapper = styled.div`
   padding-top: 4rem;
   padding-bottom: 8rem;
+
+  @media (max-width: ${size.mobileXL}) {
+    padding-top: 2rem;
+  }
 `;
 
 export const ContentWrapper = styled.div`
-  max-width: 1140px;
-  width: 80%;
+  max-width: ${size.laptop};
+  width: 100%;
+  padding: 1rem;
   margin: 0 auto;
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
+  padding-top: 50px;
+  margin-bottom: 1.5rem;
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  width: 86px;
+
+  @media (max-width: ${size.mobileXL}) {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const HiText = styled.h1`
@@ -22,7 +40,8 @@ export const HiText = styled.h1`
   font-size: 30px;
   line-height: 35px;
   color: #07294a;
-  margin-bottom: 14px;
+  margin-bottom: 0;
+  padding-left: 1rem;
 `;
 
 export const HeaderButtonsWrapper = styled.div`
@@ -34,7 +53,7 @@ export const HeaderButtonsWrapper = styled.div`
 
 export const Section = styled.div``;
 
-export const SectionTitile = styled.h4`
+export const SectionTitle = styled.h4`
   margin: 20px auto;
   font-family: Roboto;
   font-style: normal;
@@ -69,8 +88,9 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   margin-bottom: 20px;
+  display: block;
 `;
 
 export const UploadButton = styled.button`
@@ -83,7 +103,7 @@ export const UploadButton = styled.button`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
 export const ErrorWrapper = styled.div`
@@ -95,7 +115,7 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const Error = styled.p`
-  position: absolute;
+  position: ${({ block }) => (block ? "block" : "absolute")};
   top: 100%;
   color: red;
   font-size: 12px;

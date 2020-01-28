@@ -6,7 +6,6 @@ const app = require("./../../app");
 
 const { API_SIGNUP_URL } = require("../../../client/src/constants/apiRoutes");
 
-const OrgCodes = require("./../../database/models/OrgCodes");
 const User = require("./../../database/models/User");
 
 describe("Testing for signup route", () => {
@@ -20,15 +19,12 @@ describe("Testing for signup route", () => {
   });
 
   test("test correct intern details", async (done) => {
-    const org = await OrgCodes.findOne();
-
     const data = {
       userInfo: {
         email: "intern@test.com",
         name: "Ted Test",
         password: "a123456A",
         role: "intern",
-        orgCode: org.code,
       },
     };
 
@@ -54,7 +50,6 @@ describe("Testing for signup route", () => {
         name: "Ted Test",
         password: "a123456A",
         role: "intern",
-        orgCode: "11111",
       },
     };
 
@@ -66,29 +61,6 @@ describe("Testing for signup route", () => {
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body.error).toBe("Email already taken");
-        done(err);
-      });
-  });
-
-  test("test intern with incorrect code", async (done) => {
-    const data = {
-      userInfo: {
-        email: "newIntern@test.com",
-        name: "Ted Test",
-        password: "a123456A",
-        role: "intern",
-        orgCode: "11111",
-      },
-    };
-
-    request(app)
-      .post(API_SIGNUP_URL)
-      .send(data)
-      .expect("Content-Type", /json/)
-      .expect(404)
-      .end((err, res) => {
-        expect(res).toBeDefined();
-        expect(res.body.error).toBe("Code has expired or does not exist");
         done(err);
       });
   });

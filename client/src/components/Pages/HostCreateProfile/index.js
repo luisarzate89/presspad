@@ -1,258 +1,279 @@
-import React, { Component } from "react";
-import { message, Modal, Spin, Alert } from "antd";
-import * as Yup from "yup";
+import { Alert, message, Modal } from "antd";
 import axios from "axios";
-
-import { API_HOST_COMPLETE_PROFILE } from "../../../constants/apiRoutes";
-
-import { DASHBOARD_URL } from "./../../../constants/navRoutes";
-
+import React, { Component } from "react";
 import {
+  API_HOST_COMPLETE_PROFILE,
+  API_MY_PROFILE_URL,
+} from "../../../constants/apiRoutes";
+import { DASHBOARD_URL } from "../../../constants/navRoutes";
+import Content from "./Content";
+import {
+  checkSelectedRange,
   disabledEndDate,
   disabledStartDate,
-  checkSelectedRange,
-  getValidDAtes
+  getValidDAtes,
 } from "./helpers";
+import { detailsSchema, offerSchema, profileSchema } from "./Schema";
 
-import Content from "./Content";
+const INITIAL_STATE = {
+  birthDate: "",
+  hometown: "",
+  gender: "",
+  school: "",
+  profileImage: {
+    fileName: "",
+    isPrivate: false,
+  },
+  // interests: "",
+  bio: "",
+  jobTitle: "",
+  organisation: "",
+  workingArea: "",
+  hostingReasonAnswer: "",
+  mentoringExperienceAnswer: "",
+  industryExperienceAnswer: "",
+  backgroundAnswer: "",
+  photos1: {
+    fileName: "",
+    isPrivate: false,
+  },
+  photos2: {
+    fileName: "",
+    isPrivate: false,
+  },
+  photos3: {
+    fileName: "",
+    isPrivate: false,
+  },
+  address: {
+    addressline1: "",
+    addressline2: "",
+    city: "",
+    postcode: "",
+  },
+  accommodationChecklist: "",
+  neighbourhoodDescription: "",
+  otherInfo: "",
+  photoID: {
+    fileName: "",
+    isPrivate: true,
+    url: "",
+  },
+  hearAboutPressPadAnswer: "",
+  reference1: {
+    name: "",
+    email: "",
+  },
+  reference2: {
+    name: "",
+    email: "",
+  },
+  DBSCheck: {
+    fileName: "",
+    isPrivate: true,
+  },
+  pressCard: {
+    fileName: "",
+    isPrivate: false,
+  },
+  sexualOrientation: "",
+  degreeLevel: "",
+  ethnicity: "",
+  parentProfession: "",
+  disability: "",
+  parentsWorkInPress: "",
+  caringResponsibilities: "",
+};
+const TABS = { PROFILE: "Profile", OFFER: "Offer", DETAILS: "Details" };
 
-const schema = Yup.object().shape({
-  profileImage: Yup.mixed().required("Required"),
-  offerImages1: Yup.mixed().required("Required"),
-  offerImages2: Yup.mixed().required("Required"),
-  offerImages3: Yup.mixed().required("Required"),
-
-  bio: Yup.string().required("Required"),
-  organisationName: Yup.string().required("Required"),
-  organisationWebsite: Yup.string()
-    .url("Not a valid link")
-    .required("Required"),
-  jobTitle: Yup.string().required("Required"),
-  pressPass: Yup.mixed().required("Required"),
-  addressLine1: Yup.string().required("Required"),
-  addressLine2: Yup.string(),
-  addressCity: Yup.string().required("Required"),
-  addressPostCode: Yup.string().required("Required"),
-  offerDescription: Yup.string().required("Required"),
-  availableDates: Yup.mixed().test(
-    "avialable-dates",
-    "Must select avialable dates",
-    function(availableDates) {
-      const { startDate, endDate } = availableDates[0];
-      if (!startDate || !endDate) {
-        return false;
-      }
-      return true;
-    }
-  )
-});
-
-class HostCreateProfile extends Component {
+export default class HostCreateProfile extends Component {
   state = {
-    attemptedToSubmit: false,
-    loading: true,
-    profileImage: {
-      dataUrl: null,
-      file: null
-    },
-    bio: "",
-    interests: "",
-    organisationName: "",
-    organisationWebsite: "",
-
-    jobTitle: "",
-    addressLine1: "",
-    addressLine2: "",
-    addressCity: "",
-    addressPostCode: "",
-    offerDescription: "",
-    offerOtherInfo: [],
-
+    activeKey: TABS.PROFILE,
     availableDates: [
       {
         startDate: null,
         endDate: null,
-        endOpen: false
-      }
+        endOpen: false,
+      },
     ],
-
-    offerImages1: {
-      dataUrl: null,
-      file: null
-    },
-    offerImages2: {
-      dataUrl: null,
-      file: null
-    },
-    offerImages3: {
-      dataUrl: null,
-      file: null
-    },
-    pressPass: {
-      dataUrl: null,
-      file: null
-    },
-    errors: {}
+    validData: {},
+    data: INITIAL_STATE,
+    errors: INITIAL_STATE,
   };
 
-  handleOtherInfo = offerOtherInfo => {
-    this.setState({ offerOtherInfo });
-  };
+  componentDidMount() {
+    axios
+      .get(API_MY_PROFILE_URL)
+      .then(({ data: { profile, listing } }) => {
+        const { photos = [], availableDates = [], ...restListing } =
+          listing || {};
 
-  handleAddProfile = ({ target }) => {
-    const { files, name } = target;
-    const image = files && files[0];
+        const [photos1, photos2, photos3] = photos;
 
-    var reader = new FileReader();
+        if (profile) {
+          this.setState(prevState => ({
+            data: {
+              ...prevState,
+              ...profile,
+              ...restListing,
+              photos1,
+              photos2,
+              photos3,
+            },
+            availableDates,
+          }));
+        }
+      })
+      .catch(err => {
+        const error =
+          err.response && err.response.data && err.response.data.error;
+        message.error(error || "Something went wrong");
+      });
+  }
 
-    reader.onload = () => {
-      var dataUrl = reader.result;
-      this.setState(
-        {
-          [name]: {
-            dataUrl,
-            file: image
-          }
+  handleChange = ({ value, key, parent }) => {
+    if (parent) {
+      this.setState(({ data, errors }) => ({
+        data: {
+          ...data,
+          [parent]: { ...data[parent], [key]: value },
         },
-        () => this.state.attemptedToSubmit && this.updateErrors()
+        errors: { ...errors, [parent]: { ...errors[parent], [key]: null } },
+      }));
+    } else {
+      this.setState(({ data, errors }) => ({
+        data: {
+          ...data,
+          [key]: value,
+        },
+        errors: { ...errors, [key]: null },
+      }));
+    }
+  };
+
+  handleError = ({ errorMsg, key, parent }) => {
+    if (parent) {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [parent]: { ...prevState.errors[parent], [key]: errorMsg },
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [key]: errorMsg,
+        },
+      }));
+    }
+  };
+
+  handleValidationError = ({ inner }) => {
+    const newErrors = {};
+    inner.forEach(({ path, message: errorMessage }) => {
+      if (path.includes(".")) {
+        const [parent, childrenPath] = path.split(".");
+        newErrors[path] = newErrors[path] || {};
+        newErrors[parent] = {
+          ...newErrors[parent],
+          [childrenPath]: errorMessage,
+        };
+      } else {
+        newErrors[path] = errorMessage;
+      }
+    });
+    return newErrors;
+  };
+
+  onChangeTabs = async newKey => {
+    // TODO: run validation
+    window.scrollTo(0, 0);
+    const { activeKey, data, availableDates } = this.state;
+    if (newKey === TABS.DETAILS && activeKey !== TABS.OFFER) return;
+    try {
+      if (activeKey === TABS.PROFILE)
+        await profileSchema.validate({ ...data }, { abortEarly: false });
+      if (activeKey === TABS.OFFER && newKey !== TABS.PROFILE)
+        await offerSchema.validate(
+          { ...data, availableDates },
+          { abortEarly: false },
+        );
+      this.setState({ activeKey: newKey });
+    } catch (e) {
+      this.setState(({ errors }) => ({
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+    }
+  };
+
+  handleSubmit = async () => {
+    // TODO: run validation
+    this.setState({ loading: true });
+    try {
+      await detailsSchema.validate(
+        { ...this.state.data },
+        { abortEarly: false },
       );
-    };
-
-    image && reader.readAsDataURL(image);
-  };
-
-  handleInputChange = ({ target }) => {
-    const { value, name } = target;
-    this.setState(
-      { [name]: value },
-      () => this.state.attemptedToSubmit && this.updateErrors()
-    );
-  };
-
-  validate = () => {
+    } catch (e) {
+      window.scrollTo(0, 0);
+      this.setState(({ errors }) => ({
+        loading: false,
+        errors: { ...errors, ...this.handleValidationError(e) },
+      }));
+      return;
+    }
     const {
-      profileImage,
-      pressPass,
-      offerImages1,
-      offerImages2,
-      offerImages3
+      data: { photos1, photos2, photos3 },
+      availableDates,
     } = this.state;
 
-    const state = {
-      ...this.state,
-      profileImage: profileImage.file,
-      pressPass: pressPass.dataUrl,
-      offerImages1: offerImages1.dataUrl,
-      offerImages2: offerImages2.dataUrl,
-      offerImages3: offerImages3.dataUrl
-    };
+    const photos = [
+      { fileName: photos1.fileName, isPrivate: false },
+      { fileName: photos2.fileName, isPrivate: false },
+      { fileName: photos3.fileName, isPrivate: false },
+    ];
 
-    return schema.validate(state, { abortEarly: false }).catch(err => {
-      const errors = {};
-      err.inner.forEach(element => {
-        errors[element.path] = element.message;
-      });
-
-      this.setState({ errors });
-    });
-  };
-
-  updateErrors = async () => {
-    await this.validate();
-  };
-
-  handleSubmit = e => {
-    const form = new FormData();
-    e.preventDefault();
-    this.setState({ attemptedToSubmit: true });
-    this.validate().then(res => {
-      if (res) {
-        this.setState({ errors: {}, uploading: true });
+    const _availableDates = getValidDAtes(availableDates);
+    axios
+      .post(API_HOST_COMPLETE_PROFILE, {
+        ...this.state.data,
+        photos,
+        availableDates: _availableDates,
+      })
+      .then(() => {
         Modal.destroyAll();
-        Modal.info({
-          title: "Uploading",
+        Modal.success({
+          title: "Done",
           content: (
-            <Spin spinning={this.state.loading}>
-              <Alert
-                message="updating your info"
-                description="this might take sometime"
-                type="info"
-              />
-            </Spin>
+            <Alert
+              message="Thank you"
+              description="Your info has been updated"
+              type="success"
+            />
           ),
-          okButtonProps: {
-            disabled: true
-          }
+          onOk: () => {
+            this.props.history.push(DASHBOARD_URL);
+          },
+          type: "success",
         });
-
-        form.append("bio", this.state.bio);
-        form.append("interests", this.state.interests);
-        form.append("organisationName", this.state.organisationName);
-        form.append("organisationWebsite", this.state.organisationWebsite);
-        form.append("jobTitle", this.state.jobTitle);
-        form.append("addressLine1", this.state.addressLine1);
-        form.append("addressLine2", this.state.addressLine2);
-        form.append("addressCity", this.state.addressCity);
-        form.append("addressPostCode", this.state.addressPostCode);
-        form.append("offerDescription", this.state.offerDescription);
-        form.append(
-          "offerOtherInfo",
-          JSON.stringify(this.state.offerOtherInfo)
-        );
-        form.append(
-          "availableDates",
-          JSON.stringify(getValidDAtes(this.state.availableDates))
-        );
-        form.append("offerImages1", this.state.offerImages1.file);
-        form.append("offerImages2", this.state.offerImages2.file);
-        form.append("offerImages3", this.state.offerImages3.file);
-        form.append("pressPass", this.state.pressPass.file);
-        form.append("profileImage", this.state.profileImage.file);
-
-        axios({
-          method: "post",
-          url: API_HOST_COMPLETE_PROFILE,
-          data: form,
-          headers: {
-            "content-type": `multipart/form-data; boundary=${form._boundary}`
-          }
-        })
-          .then(({ data }) => {
-            Modal.destroyAll();
-            Modal.success({
-              title: "Done",
-              content: (
-                <Alert
-                  message="Thank you"
-                  description="Your info has been updated"
-                  type="success"
-                />
-              ),
-
-              onOk: () => {
-                this.props.history.push(DASHBOARD_URL);
-              },
-              type: "success"
-            });
-            this.setState({ loading: false, success: true });
-          })
-          .catch(err => {
-            Modal.destroyAll();
-            Modal.error({
-              title: "Error",
-              content: (
-                <Alert
-                  message="Error"
-                  description={err.response.data.error}
-                  type="error"
-                />
-              ),
-              type: "error"
-            });
-            this.setState({ loading: false, erros: err.response.data });
-          });
-      }
-    });
+        this.setState({ loading: false });
+      })
+      .catch(err => {
+        Modal.destroyAll();
+        Modal.error({
+          title: "Error",
+          content: (
+            <Alert
+              message="Error"
+              description={err.response.data.error}
+              type="error"
+            />
+          ),
+          type: "error",
+        });
+        this.setState({ loading: false });
+      });
   };
 
   disabledStartDate = (index, startDate) => {
@@ -265,12 +286,20 @@ class HostCreateProfile extends Component {
     return disabledEndDate(index, endDate, availableDates);
   };
 
+  onEndChange = (index, value) => {
+    this.changeSelectedDate(index, "endDate", value);
+  };
+
+  onStartChange = (index, value) => {
+    this.changeSelectedDate(index, "startDate", value);
+  };
+
   changeSelectedDate = (index, field, value) => {
     const { availableDates } = this.state;
 
     const newAvailableDates = [...availableDates];
     const obj = {
-      [field]: value
+      [field]: value,
     };
     const { startDate } = newAvailableDates[index];
 
@@ -289,18 +318,10 @@ class HostCreateProfile extends Component {
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
 
-    this.setState(
+    return this.setState(
       { availableDates: newAvailableDates },
-      () => this.state.attemptedToSubmit && this.updateErrors()
+      () => this.state.attemptedToSubmit && this.updateErrors(),
     );
-  };
-
-  onStartChange = (index, value) => {
-    this.changeSelectedDate(index, "startDate", value);
-  };
-
-  onEndChange = (index, value) => {
-    this.changeSelectedDate(index, "endDate", value);
   };
 
   // add new available dates range
@@ -315,7 +336,7 @@ class HostCreateProfile extends Component {
       return prev || false;
     }, false);
 
-    if (emptyRanges) {
+    if (emptyRanges && availableDates.length > 0) {
       return message.warning("fill the previous ranges");
     }
 
@@ -323,30 +344,50 @@ class HostCreateProfile extends Component {
     newAvailableDates.push({
       startDate: null,
       endDate: null,
-      endOpen: false
+      endOpen: false,
     });
-    this.setState({ availableDates: newAvailableDates });
+    return this.setState({ availableDates: newAvailableDates });
+  };
+
+  // remove dates
+  deleteDate = dateIndex => {
+    const { availableDates } = this.state;
+    const filteredAvailableDates = availableDates.filter(
+      (date, index) => index !== dateIndex,
+    );
+    this.setState({ availableDates: filteredAvailableDates });
   };
 
   render() {
-    const { name, id } = this.props;
+    const { name, id, role } = this.props;
+    const { errors, data, activeKey, availableDates, loading } = this.state;
+
+    const {
+      profileImage: { url: profilePhotoUrl },
+    } = data;
     return (
       <Content
         name={name}
-        id={id}
-        handleOtherInfo={this.handleOtherInfo}
-        handleAddProfile={this.handleAddProfile}
-        handleInputChange={this.handleInputChange}
+        errors={errors}
+        data={data}
+        handleChange={this.handleChange}
+        handleError={this.handleError}
+        userId={id}
+        onChangeTabs={this.onChangeTabs}
+        activeKey={activeKey}
         handleSubmit={this.handleSubmit}
+        profilePhotoUrl={profilePhotoUrl}
+        role={role}
+        loading={loading}
+        // dates
         disabledStartDate={this.disabledStartDate}
         disabledEndDate={this.disabledEndDate}
         onEndChange={this.onEndChange}
         onStartChange={this.onStartChange}
         handleAddMoreRanges={this.handleAddMoreRanges}
-        state={this.state}
+        deleteDate={this.deleteDate}
+        availableDates={availableDates}
       />
     );
   }
 }
-
-export default HostCreateProfile;

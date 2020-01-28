@@ -11,43 +11,36 @@ const userSchema = new Schema({
     trim: true,
     lowercase: true,
   },
+
   name: {
     type: String,
     required: true,
     trim: true,
   },
+
   password: {
     type: String,
     required: true,
   },
-  // // generate a code for the User
-  // // (this is to help generate unique codes for interns by organisations,
-  // // combining the orgCode and this code )
-  // // this could also be used for the host referral potentially rather than id
-  // userCode: {
-  //   type: String,
-  //   required: true,
-  // },
-  // this is currently only for hosts as they need to be
-  // referred by a superhost. once that code is submitted
-  // a transaction gets stored in the referrals table.
-  referral: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-  },
+
   // this is for interns and organisation users
   // we need to store the id that's linked to an org
   organisation: {
     type: Schema.Types.ObjectId,
     ref: "organisations",
   },
+
   role: {
     type: String,
-    enum: ["admin", "organisation", "superhost", "host", "intern"],
+    enum: ["admin", "organisation", "host", "intern"],
     required: true,
   },
-  // if they are part of an organisation, the credits are stored in the orgs table
-  credits: Number,
+
+  account: {
+    type: Schema.Types.ObjectId,
+    ref: "accounts",
+    required: true,
+  },
 });
 
 userSchema.pre("save", async function hashPassword() {

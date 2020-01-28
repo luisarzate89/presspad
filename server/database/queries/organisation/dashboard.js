@@ -1,12 +1,26 @@
 const mongoose = require("mongoose");
 
 const Organisation = require("./../../models/Organisation");
+const Coupon = require("./../../models/Coupon");
 
-module.exports = (id) => {
+module.exports = id => {
   // Org details
   const details = Organisation.aggregate([
     {
       $match: { _id: mongoose.Types.ObjectId(id) },
+    },
+    {
+      $lookup: {
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "account",
+      },
+    },
+    {
+      $addFields: {
+        account: { $arrayElemAt: ["$account", 0] },
+      },
     },
   ]);
 
@@ -39,8 +53,10 @@ module.exports = (id) => {
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ["$$user", "$user"] },
-                  { $eq: ["$private", false] }],
+                $and: [
+                  { $eq: ["$$user", "$user"] },
+                  { $eq: ["$private", false] },
+                ],
               },
             },
           },
@@ -85,51 +101,43 @@ module.exports = (id) => {
     },
   ]);
 
-  // interns details
-  const interns = Organisation.aggregate([
+  // coupons details
+  const coupons = Coupon.aggregate([
     {
-      $match: { _id: mongoose.Types.ObjectId(id) },
-    }, {
+      $match: {
+        $expr: {
+          $and: [
+            { $eq: ["$organisation", mongoose.Types.ObjectId(id)] },
+            // { $lte: ["$startDate", new Date()] },
+            // { $gt: ["$endDate", new Date()] },
+          ],
+        },
+      },
+    },
+    {
       $lookup: {
         from: "users",
-        let: { orgId: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [{ $eq: ["$$orgId", "$organisation"] },
-                  { $ne: ["$role", "organisation"] }],
-              },
-            },
-          },
-        ],
-        as: "users",
+        localField: "intern",
+        foreignField: "_id",
+        as: "intern",
       },
-    }, {
-      $unwind: "$users",
     },
-    { $replaceRoot: { newRoot: "$users" } },
     {
-      $lookup: {
-        from: "transactions",
-        localField: "_id",
-        foreignField: "sender",
-        as: "transactions",
+      $addFields: {
+        intern: { $arrayElemAt: ["$intern", 0] },
       },
-    }, {
-
+    },
+    {
       $lookup: {
         from: "bookings",
         localField: "_id",
         foreignField: "user",
         as: "bookings",
       },
-
-    }, {
+    },
+    {
       $addFields: {
         key: "$_id",
-        spentCredits: { $sum: "$transactions.credits" },
-        totalCredits: { $sum: [{ $sum: "$transactions.credits" }, "$credits"] },
         liveBookings: {
           $size: {
             $filter: {
@@ -168,47 +176,48 @@ module.exports = (id) => {
               cond: {
                 $and: [
                   { $gt: ["$$booking.startDate", new Date()] },
-                  { $eq: ["$$booking.status", "confirmed"] },
+                  {
+                    $or: [
+                      { $eq: ["$$booking.status", "confirmed"] },
+                      { $eq: ["$$booking.status", "completed"] },
+                    ],
+                  },
                 ],
               },
             },
           },
         },
       },
-    }, {
+    },
+    {
       $addFields: {
         status: {
           $cond: {
-            if: { $gte: ["$liveBookings", 0] },
+            if: { $gt: ["$liveBookings", 0] },
             then: "At host",
-            else:
-           {
-             $cond: {
-               if: { $gte: ["$pendingBookings", 0] },
-               then: "Pending request",
-               else:
-            {
+            else: {
               $cond: {
-                if: { $gte: ["$confirmedBookings", 0] },
-                then: "Booking confirmed",
-                else:
-             "Looking for host",
+                if: { $gt: ["$pendingBookings", 0] },
+                then: "Pending request",
+                else: {
+                  $cond: {
+                    if: { $gt: ["$confirmedBookings", 0] },
+                    then: "Booking confirmed",
+                    else: "Looking for host",
+                  },
+                },
               },
             },
-             },
-           },
           },
         },
       },
     },
     {
       $project: {
-        bookings: 0,
-        transactions: 0,
-        password: 0,
+        "intern.password": 0,
       },
     },
   ]);
 
-  return Promise.all([details, notifications, interns]);
+  return Promise.all([details, notifications, coupons]);
 };

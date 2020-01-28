@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Carousel } from "antd";
 
 // import components
-import Footer from "./../../Common/Footer";
+import Footer from "../../Common/Footer";
 
 // import styled components
 import {
@@ -23,26 +23,35 @@ import {
   CarouselWrapper,
   Quote,
   TestimonialWords,
-  Arrow
+  Arrow,
 } from "./LandingPage.style";
 
 // import images
-import heroImage from "./../../../assets/landin-page-hero-image.png";
-import descriptionImage from "./../../../assets/description-image.png";
-import descriptionImage2 from "./../../../assets/description-image-2.png";
-import quote from "./../../../assets/quote.png";
-import organizationFindMore from "./../../../assets/organization.png";
-import hostFindMore from "./../../../assets/host.png";
-import internFindMore from "./../../../assets/intern.png";
+import heroImage from "../../../assets/landin-page-hero-image.png";
+import descriptionImage from "../../../assets/description-image.png";
+import descriptionImage2 from "../../../assets/description-image-2.png";
+import quote from "../../../assets/quote.png";
+import organizationFindMore from "../../../assets/organization.png";
+import hostFindMore from "../../../assets/host.png";
+import internFindMore from "../../../assets/intern.png";
 
 class LandingPage extends Component {
   state = {
-    slideIndex: 0
+    slideIndex: 0,
   };
+
+  element = createRef();
+
+  componentDidMount() {
+    const {
+      location: { hash },
+    } = this.props;
+    if (hash) this.element.current.scrollIntoView();
+  }
 
   afterChange = slideIndex => {
     this.setState({
-      slideIndex
+      slideIndex,
     });
   };
 
@@ -57,7 +66,7 @@ class LandingPage extends Component {
   render() {
     return (
       <Wrapper>
-        <Arrow />
+        {/* <Arrow /> */}
         <HeroSection src={heroImage}>
           <Iframe
             src="https://www.youtube.com/embed/OCWj5xgu5Ng"
@@ -93,7 +102,7 @@ class LandingPage extends Component {
                 field thus diversifying the media industry.
               </Description>
             </div>
-            <FindMoreWrapper>
+            <FindMoreWrapper id="findMoreSection" ref={this.element}>
               <FindMoreCard>
                 <CardIcon src={organizationFindMore} />
                 <CardTitle>Organisation</CardTitle>
@@ -103,29 +112,29 @@ class LandingPage extends Component {
                   not create a custom one and let your interns start their
                   search for a host and mentor.
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/organisation">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
-                <CardIcon src={hostFindMore} />
-                <CardTitle>Host</CardTitle>
+                <CardIcon src={internFindMore} />
+                <CardTitle>Intern</CardTitle>
                 <CardDescription>
                   Looking to learn more from industry professionals? If your
                   organisation is already a PressPad member, all you need to do
                   is ask to be invited. If they’re not, find out how you can
                   introduce them to PressPad.
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/intern">Get Started</CardButton>
               </FindMoreCard>
               <FindMoreCard>
-                <CardIcon src={internFindMore} />
-                <CardTitle>Intern</CardTitle>
+                <CardIcon src={hostFindMore} />
+                <CardTitle>Host</CardTitle>
                 <CardDescription>
                   Want to be a mentor and a host? At the moment, our hosting
                   programme works on referral only basis, but we’ll soon start
                   receiving applications. Sign up to our newsletter and we’ll
                   let you know..
                 </CardDescription>
-                <CardButton>Find out more</CardButton>
+                <CardButton to="/sign-up/host/">Get Started</CardButton>
               </FindMoreCard>
             </FindMoreWrapper>
           </div>

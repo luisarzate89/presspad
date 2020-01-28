@@ -5,28 +5,28 @@ const {
   createNewProfile,
 } = require("./../../database/queries/profiles");
 
-
 module.exports = async (req, res, next) => {
   const { user } = req;
-  const { profileImage, pressPass, bio } = req.body;
+  const { profileImage, bio } = req.body;
 
   // check for required fields
-  if (!profileImage || !pressPass || !bio) {
+  if (!profileImage || !bio) {
     return next(boom.badRequest("missed data"));
   }
 
   try {
     const profileData = {
       user: user._id,
+      verified: true,
     };
 
-    Object.keys(req.body).forEach((key) => {
-      profileData[key] = req.body[key];
+    Object.entries(req.body).forEach(([key, value]) => {
+      if (value) {
+        profileData[key] = value;
+      }
     });
 
-
     const foundProfile = await findProfile(user._id);
-
 
     // update the intern profile
     if (foundProfile) {
@@ -36,7 +36,7 @@ module.exports = async (req, res, next) => {
     }
 
     return res.json({ success: true });
-  } catch (error) {
-    return next(boom.badImplementation());
+  } catch (err) {
+    return next(boom.badImplementation(err));
   }
 };

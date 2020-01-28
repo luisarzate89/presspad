@@ -51,7 +51,7 @@ export const MainSection = styled.div`
   background-color: ${colors.blueGray};
   width: 100%;
   display: flex;
-  padding: 4rem 10rem;
+  padding: 4rem 3rem;
   flex-direction: column;
   position: relative;
 
@@ -81,7 +81,7 @@ export const MainSection = styled.div`
   }
 
   /* styling of organisation field */
-  .orgCol {
+  .mainCol {
     font-weight: 900 !important;
   }
 

@@ -2,7 +2,7 @@ const User = require("../../models/User");
 const Listing = require("../../models/Listing");
 
 module.exports = async () => {
-  const hosts = await User.find({ role: "host" });
+  const hosts = await User.find({ role: "host" }).sort({ name: 1 });
 
   const listings = [
     {
@@ -18,9 +18,18 @@ module.exports = async () => {
       otherInfo: ["Pets allowed", "No other flatmates", "LGBTQ friendly", "Often away"],
       price: 30,
       photos: [
-        "https://i.ibb.co/rbBsRvD/1livingroom.jpg",
-        "https://i.ibb.co/hXFFfNz/1kitchen.jpg",
-        "https://i.ibb.co/VvXFwg4/1bathroom.jpg",
+        {
+          fileName: "test-image-1.png",
+          isPrivate: false,
+        },
+        {
+          fileName: "test-image-2.png",
+          isPrivate: false,
+        },
+        {
+          fileName: "test-image-3.png",
+          isPrivate: false,
+        },
       ],
       availableDates: [
         { startDate: "2019-05-16", endDate: "2019-07-16" },

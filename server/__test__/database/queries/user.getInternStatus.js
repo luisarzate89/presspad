@@ -17,9 +17,9 @@ describe("Test for user getIntern status query", () => {
   });
 
   test("Return the interns status", async (done) => {
-    const intern = await User.findOne({ role: "intern" });
+    const intern = await User.findOne({ role: "intern", name: "Mone Dupree" });
 
-    getInternStatus(intern.id).then((res) => {
+    getInternStatus(intern._id).then((res) => {
       expect(res).toBeDefined();
       expect(res[0].status).toBeDefined();
       done();

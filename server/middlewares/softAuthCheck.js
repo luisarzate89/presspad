@@ -16,18 +16,20 @@ module.exports = (req, res, next) => {
   return verify(cookies.token, process.env.SECRET, (err, decoded) => {
     // if not valid then clear and proceed as a user who's not logged in
     if (err) {
+      req.sqreen.auth_track(false);
       res.clearCookie("token");
-      next();
+      return next();
     }
 
     // get the user Id from token
     const { id } = decoded;
     return getUserById(id, true)
-      .then((user) => {
+      .then(user => {
         // put the user info in the req to be accessed in the next middlewares
+        req.sqreen.auth_track(true, { email: user.email });
         req.user = user;
         next();
       })
-      .catch(() => next(boom.badImplementation()));
-  }).catch(() => next(boom.badImplementation()));
+      .catch(error => next(boom.badImplementation(error)));
+  });
 };

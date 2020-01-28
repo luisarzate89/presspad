@@ -2,41 +2,66 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
-const bookingSchema = new Schema({
-  listing: {
-    type: Schema.Types.ObjectId,
-    ref: "listings",
+const bookingSchema = new Schema(
+  {
+    intern: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
+    host: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
+    listing: {
+      type: Schema.Types.ObjectId,
+      ref: "listings",
+      required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    confirmDate: {
+      type: Date,
+    },
+    // bookings need to be confirmed or canceled by [host,intern,admin]
+    status: {
+      type: String,
+      enum: ["pending", "confirmed", "canceled", "completed"],
+      default: "pending",
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    payedAmount: {
+      type: Number,
+      default: 0,
+    },
+    // user's ID who canceled the booking
+    canceledBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    // when intern pay to booking, where should money go
+    moneyGoTo: {
+      type: String,
+      enum: ["presspad", "host"],
+      required: true,
+      default: "host",
+    },
   },
-  // intern that requests booking
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
+  {
+    timestamps: true,
   },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
-  // bookings need to be confirmed or canceled by host
-  // tracking also canceled bookings might be a good idea ?
-  status: {
-    type: String,
-    enum: ["pending", "confirmed", "canceled"],
-    default: "pending",
-    required: true,
-  },
-  payment: {
-    type: Number,
-    required: true,
-  },
-  payed: {
-    type: Boolean,
-    default: false,
-  },
-});
+);
 
 const Booking = model("bookings", bookingSchema);
 

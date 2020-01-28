@@ -23,11 +23,18 @@ module.exports = (req, res, next) => {
     // get the user  Id from token
     const { id } = decoded;
     return getUserById(id, true)
-      .then((user) => {
+      .then(user => {
+        if (!user) {
+          req.sqreen.auth_track(false, { email: user.email });
+          res.clearCookie("token");
+          return next(boom.unauthorized("credentials are not valid"));
+        }
+
+        req.sqreen.identify(req, { email: user.email });
         // put the user info in the req to be accessed in the next middlewares
         req.user = user;
-        next();
+        return next();
       })
-      .catch(() => next(boom.badImplementation()));
-  }).catch(() => next(boom.badImplementation()));
+      .catch(error => next(boom.badImplementation(error)));
+  });
 };

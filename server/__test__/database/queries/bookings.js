@@ -23,9 +23,9 @@ describe("Tests for booking queries", () => {
   });
 
   test("Test check other booking request query with duplicate booking request", async (done) => {
-    const interns = await User.find({ role: "intern" });
+    const interns = await User.find({ role: "intern" }).sort({ name: 1, email: 1 });
     // get bookings made by intern
-    const bookings = await Booking.find({ user: interns[0]._id });
+    const bookings = await Booking.find({ intern: interns[0]._id });
     expect(bookings).toBeDefined();
 
     // run query with existing booking dates
@@ -65,17 +65,18 @@ describe("Tests for booking queries", () => {
 
     const data = {
       listing: listing._id,
-      user: interns[0]._id,
+      intern: interns[0]._id,
+      host: listing.user,
       startDate: "2019-07-01T00:00:00.000Z",
       endDate: "2019-07-04T00:00:00.000Z",
-      payment: 40,
+      price: 40,
     };
     // run query
     await createNewBooking(data).then((result) => {
       expect(result).toBeDefined();
       expect(result._id).toBeDefined();
       expect(result.status).toBe("pending");
-      expect(result.user).toBe(interns[0]._id);
+      expect(result.intern).toBe(interns[0]._id);
     });
     done();
   });

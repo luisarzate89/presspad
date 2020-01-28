@@ -1,12 +1,13 @@
 import React from "react";
 
-import { Badge, UpdateItem, BlueSpan, UpdateDate } from "./OrgDashboard.style";
 import { Link } from "react-router-dom";
+import { Badge, UpdateItem, BlueSpan, UpdateDate } from "./OrgDashboard.style";
 
-import { getStringTime } from "./../../../helpers";
+import { getStringTime } from "../../../helpers";
+import LoadingBallPulseSync from "../../Common/LoadingBallPulseSync";
 
 const Update = ({ item }) => {
-  const { user, type, secondParty, createdAt, seen, _id } = item;
+  const { user, type, secondParty, createdAt, seenForOrg, loading, _id } = item;
   const timeString = getStringTime(createdAt);
 
   switch (type) {
@@ -18,7 +19,8 @@ const Update = ({ item }) => {
             <BlueSpan>{secondParty.name}</BlueSpan>
           </Link>{" "}
           - <UpdateDate>{timeString}</UpdateDate>
-          {!seen && <Badge>new</Badge>}
+          {!seenForOrg && !loading && <Badge>new</Badge>}
+          {loading && !seenForOrg && <LoadingBallPulseSync />}
         </UpdateItem>
       );
 
@@ -27,7 +29,8 @@ const Update = ({ item }) => {
         <UpdateItem key={_id}>
           {user.name} has received a new review -{" "}
           <UpdateDate>{timeString}</UpdateDate>
-          {!seen && <Badge>new</Badge>}
+          {!seenForOrg && !loading && <Badge>new</Badge>}
+          {loading && !seenForOrg && <LoadingBallPulseSync />}
         </UpdateItem>
       );
 
@@ -36,7 +39,8 @@ const Update = ({ item }) => {
         <UpdateItem key={_id}>
           {user.name} has completed his stay -{" "}
           <UpdateDate>{timeString}</UpdateDate>
-          {!seen && <Badge>new</Badge>}
+          {!seenForOrg && !loading && <Badge>new</Badge>}
+          {loading && !seenForOrg && <LoadingBallPulseSync />}
         </UpdateItem>
       );
 

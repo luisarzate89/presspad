@@ -1,7 +1,8 @@
 const Profile = require("./../models/Profile");
 
-module.exports.updateUserProfile = (userId, data) => Profile.updateOne({ user: userId }, data);
+module.exports.updateUserProfile = (userId, data, session) => Profile
+  .updateOne({ user: userId }, data, { omitUndefined: true, session });
 
-module.exports.findProfile = userId => Profile.find({ user: userId });
+module.exports.findProfile = userId => Profile.findOne({ user: userId });
 
-module.exports.createNewProfile = data => Profile.create(data);
+module.exports.createNewProfile = (data, session) => Profile.create([data], { session });

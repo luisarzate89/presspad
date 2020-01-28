@@ -1,35 +1,8 @@
 import React, { Component } from "react";
 
-import { Table, Tag } from "antd";
-
-import { colors } from "./../../../theme";
-
-const tagColors = {
-  pro: colors.primary,
-  custom: colors.green,
-  basic: colors.gray
-};
-
-// const data = [
-//   {
-//     key: "1",
-//     organisation: "Financial Times",
-//     totalCredits: 1600,
-//     creditsSpent: 1200,
-//     interns: 5,
-//     currentlyHosted: 4,
-//     plan: "pro"
-//   },
-//   {
-//     key: "2",
-//     organisation: "The Guardian",
-//     totalCredits: 600,
-//     creditsSpent: 450,
-//     interns: 1,
-//     currentlyHosted: 3,
-//     plan: "basic"
-//   }
-// ];
+import { Table } from "antd";
+import Highlighter from "react-highlight-words";
+import { colors } from "../../../theme";
 
 export default class ClientTable extends Component {
   state = {
@@ -37,46 +10,29 @@ export default class ClientTable extends Component {
   };
 
   render() {
-    const { getColumnSearchProps, data, loading } = this.props;
+    const { getColumnSearchProps, data, loading, highlightVal } = this.props;
 
     const columns = [
       {
         title: "Organisation",
-        dataIndex: "organisation",
-        key: "organisation",
-        ...getColumnSearchProps("organisation"),
-        sorter: (a, b) => a.organisation.localeCompare(b.organisation),
-        className: "orgCol"
+        dataIndex: "name",
+        key: "name",
+        ...getColumnSearchProps("name"),
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        className: "mainCol",
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text}
+          />
+        )
       },
       {
-        title: "Plan",
-        dataIndex: "plan",
-        key: "plan",
-        render: plan => (
-          <Tag color={tagColors[plan]} key={plan}>
-            {plan.toUpperCase()}
-          </Tag>
-        ),
-        filters: [
-          {
-            text: "Basic",
-            value: "basic"
-          },
-          {
-            text: "Custom",
-            value: "custom"
-          },
-          {
-            text: "Pro",
-            value: "pro"
-          }
-        ],
-        onFilter: (value, record) => record.plan.indexOf(value) === 0
-      },
-      {
-        title: "Total Credits",
-        dataIndex: "totalCredits",
-        key: "totalCredits",
+        title: "Total Payments",
+        dataIndex: "totalPayments",
+        key: "totalPayments",
         filters: [
           {
             text: "< 500",
@@ -91,13 +47,21 @@ export default class ClientTable extends Component {
             value: 999999999999999999
           }
         ],
-        onFilter: (value, record) => record.totalCredits < value,
-        sorter: (a, b) => a.totalCredits - b.totalCredits
+        onFilter: (value, record) => record.totalPayments < value,
+        sorter: (a, b) => a.totalPayments - b.totalPayments,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
-        title: "Credits spent",
-        dataIndex: "creditsSpent",
-        key: "creditsSpent",
+        title: "Current Balance",
+        dataIndex: "currentBalance",
+        key: "currentBalance",
         filters: [
           {
             text: "< 500",
@@ -112,22 +76,47 @@ export default class ClientTable extends Component {
             value: 999999999999999999
           }
         ],
-        onFilter: (value, record) => record.creditsSpent < value,
-        sorter: (a, b) => a.creditsSpent - b.creditsSpent
+        onFilter: (value, record) => record.currentBalance < value,
+        sorter: (a, b) => a.currentBalance - b.currentBalance,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Interns",
-        dataIndex: "interns",
-        key: "interns",
-        sorter: (a, b) => a.interns - b.interns
+        dataIndex: "numberOfInterns",
+        key: "numberOfInterns",
+        sorter: (a, b) => a.numberOfInterns - b.numberOfInterns,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       },
       {
         title: "Currently hosted",
         dataIndex: "currentlyHosted",
         key: "currentlyHosted",
-        sorter: (a, b) => a.currentlyHosted - b.currentlyHosted
+        sorter: (a, b) => a.currentlyHosted - b.currentlyHosted,
+        render: text => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
+            searchWords={[highlightVal]}
+            autoEscape={true}
+            textToHighlight={text.toString()}
+          />
+        )
       }
     ];
+
     return (
       <Table
         columns={columns}
@@ -135,6 +124,7 @@ export default class ClientTable extends Component {
         pagination={{ pageSize: 5 }}
         scroll={{ x: "100%" }}
         loading={loading}
+        rowKey={"_id"}
       />
     );
   }

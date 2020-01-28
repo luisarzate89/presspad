@@ -1,4 +1,6 @@
 const boom = require("boom");
+const mongoose = require("mongoose");
+
 const {
   updateUserProfile,
   findProfile,
@@ -6,49 +8,140 @@ const {
 } = require("./../database/queries/profiles");
 const { createNewListing } = require("./../database/queries/listings");
 
+const { updateListing } = require("../database/queries/listing");
+const { getListing } = require("../database/queries/listing/getListing");
+
 module.exports = async (req, res, next) => {
   const { user } = req;
-  try {
-    const profileData = {
-      user: user._id,
-      bio: req.body.bio,
-      interests: req.body.interests,
-      organisation: {
-        name: req.body.organisationName,
-        website: req.body.organisationWebsite,
-      },
-      jobTitle: req.body.jobTitle,
-      pressPass: req.body.pressPass,
-      profileImage: req.body.profileImage,
-    };
 
-    const listingData = {
-      user: user._id,
-      address: {
-        street: req.body.addressLine1,
-        borough: req.body.addressLine2,
-        city: req.body.addressCity,
-        postcode: req.body.addressPostCode,
-      },
-      description: req.body.offerDescription,
-      otherInfo: JSON.parse(req.body.offerOtherInfo),
-      photos: [req.body.offerImages1, req.body.offerImages2, req.body.offerImages3],
-      availableDates: JSON.parse(req.body.availableDates),
-    };
+  if (user.role !== "host") {
+    return next(boom.forbidden("only host can update his profile"));
+  }
+
+  const {
+    birthDate,
+    hometown,
+    gender,
+    school,
+    bio,
+    profileImage,
+    fileName,
+    isPrivate,
+    jobTitle,
+    organisation,
+    workingArea,
+    hostingReasonAnswer,
+    mentoringExperienceAnswer,
+    industryExperienceAnswer,
+    backgroundAnswer,
+    photos,
+    address,
+    availableDates,
+    accommodationChecklist,
+    neighbourhoodDescription,
+    otherInfo,
+    photoID,
+    hearAboutPressPadAnswer,
+    phoneNumber,
+    reference1,
+    reference2,
+    DBSCheck,
+    sexualOrientation,
+    degreeLevel,
+    ethnicity,
+    parentProfession,
+    disability,
+    parentsWorkInPress,
+    caringResponsibilities,
+    consentedOnPressPadTerms,
+  } = req.body;
+
+  const profileData = {
+    user: user._id,
+    birthDate,
+    hometown,
+    gender,
+    school,
+    bio,
+    profileImage,
+    fileName,
+    isPrivate,
+    jobTitle,
+    organisation,
+    workingArea,
+    hostingReasonAnswer,
+    mentoringExperienceAnswer,
+    industryExperienceAnswer,
+    backgroundAnswer,
+    photoID,
+    hearAboutPressPadAnswer,
+    phoneNumber,
+    reference1,
+    reference2,
+    DBSCheck,
+    sexualOrientation,
+    degreeLevel,
+    ethnicity,
+    parentProfession,
+    disability,
+    parentsWorkInPress,
+    caringResponsibilities,
+    consentedOnPressPadTerms,
+  };
+
+  const listingData = {
+    user: user._id,
+    photos,
+    address,
+    availableDates,
+    accommodationChecklist,
+    neighbourhoodDescription,
+    otherInfo,
+    hometown,
+  };
+
+  try {
     const foundProfile = await findProfile(user._id);
+    const foundHostListing = await getListing(user._id);
 
     // update the host profile
     if (foundProfile) {
-      await updateUserProfile(user._id, profileData);
-    } else {
-      await createNewProfile(profileData);
-    }
+      const session = await mongoose.startSession();
+      session.startTransaction();
 
-    // create new listing
-    await createNewListing(listingData);
+      try {
+        await updateUserProfile(user._id, profileData, session);
+        if (foundHostListing) {
+          await updateListing(user._id, listingData, session);
+        } else {
+          await createNewListing(listingData, session);
+        }
+
+        await session.commitTransaction();
+        session.endSession();
+      } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
+        throw err;
+      }
+    } else {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        await createNewProfile(profileData, session);
+        await createNewListing(listingData, session);
+        await session.commitTransaction();
+        await session.endSession();
+      } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
+        throw err;
+      }
+    }
 
     res.json({ success: true });
   } catch (error) {
-    next(boom.badImplementation());
+    next(boom.badImplementation(error));
   }
 };

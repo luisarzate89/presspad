@@ -7,6 +7,8 @@ const { addOrg, checkCode, deleteCode } = require("./../../../database/queries/u
 
 const User = require("../../../database/models/User");
 const Organisation = require("../../../database/models/Organisation");
+const Account = require("../../../database/models/Account");
+
 const OrgCode = require("../../../database/models/OrgCodes");
 
 describe("Test for add and find organisation queries", () => {
@@ -20,10 +22,10 @@ describe("Test for add and find organisation queries", () => {
   });
 
   test("Test addOrg", async (done) => {
-    addOrg("Test Organisation").then((response) => {
+    const account = await Account.create({});
+    addOrg("Test Organisation", "logo", account._id).then((response) => {
       expect(response).toBeDefined();
       expect(response.name).toBe("Test Organisation");
-      expect(response.code).toBeDefined();
       done();
     });
   });
@@ -71,7 +73,6 @@ describe("Test addNewUser query", () => {
     addNewUser(userInfo).then((newUser) => {
       expect(newUser).toBeDefined();
       expect(newUser.email).toBe(userInfo.email);
-      expect(newUser.organisation.id).toBe(org.id);
       done();
     });
   });

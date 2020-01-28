@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import { size } from "../../../theme";
+
 export const PageWrapper = styled.div`
   padding-top: 4rem;
   padding-bottom: 8rem;
@@ -13,8 +15,11 @@ export const ContentWrapper = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
-  margin-bottom: 60px;
+  margin: 50px 0;
+
+  @media (max-width: ${size.mobileXL}) {
+    margin: 2rem 0;
+  }
 `;
 
 export const HiText = styled.h1`
@@ -28,11 +33,15 @@ export const HiText = styled.h1`
   height: 100%;
   display: flex;
   align-items: center;
+
+  @media (max-width: ${size.mobileXL}) {
+    padding-top: 1rem;
+  }
 `;
 
 export const Section = styled.div``;
 
-export const SectionTitile = styled.h4`
+export const SectionTitle = styled.h4`
   margin: 20px auto;
   font-family: Roboto;
   font-style: normal;
@@ -107,10 +116,14 @@ export const TD = styled.td`
   text-align: ${({ position }) =>
     position === "right" ? "left" : position === "left" ? "right" : "center"};
 
-  font-weight: ${({ position }) =>
-    position === "center" ? "500" : position === "left" ? "normal" : "bold"};
+  font-weight: ${({ bold }) => (bold ? "bold" : "normal")};
 
   border: 10px solid transparent;
+
+  @media (max-width: ${size.tablet}) {
+    margin: 0 auto;
+    width: ${({ position }) => (position === "center" ? "2rem" : "100px")};
+  }
 `;
 
 export const TH = styled.th`
@@ -129,9 +142,22 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  min-height: 84px;
+  min-height: 68px;
 `;
 
+export const BlueLink1 = styled(Link)`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+
+  @media (max-width: ${size.mobileXL}) {
+    font-size: 14px;
+  }
+`;
 export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-family: Roboto;
   font-style: normal;
@@ -139,7 +165,11 @@ export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #0ac7e7;
+  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+
+  @media (max-width: ${size.mobileXL}) {
+    font-size: 14px;
+  }
 `;
 
 export const InternsTableWrapper = styled.div`
@@ -156,4 +186,58 @@ export const InternsTableWrapper = styled.div`
   .ant-table-thead tr {
     background-color: transparent;
   }
+`;
+
+export const ModalTitle = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 35px;
+  color: #07294a;
+`;
+
+export const ModalContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem;
+  justify-content: space-between;
+  & > * {
+    margin-top: 0.75rem;
+  }
+`;
+
+export const ModalDescription = styled.span`
+  font-style: normal;
+  font-weight: ${({ bold }) => (bold ? "bold" : 300)};
+  font-size: ${({ large }) => (large ? "25px" : "16px")};
+  line-height: 25px;
+  color: ${({ red }) => (red ? "red" : "#393939")};
+`;
+
+export const Label = styled.label`
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 25px;
+  color: #393939;
+  text-align: right;
+  width: 100%;
+  display: inline-block;
+`;
+
+export const Error = styled.p`
+  position: absolute;
+  top: 100%;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+`;
+
+export const ErrorWrapper = styled.div`
+  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  margin-bottom: ${({ marginBottom }) => marginBottom};
+  border-radius: 4px;
+  position: relative;
 `;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ReactComponent as ArrowIcon } from "../../../assets/arrow.svg";
 import { size, colors } from "./../../../theme";
+import { Link } from "react-router-dom";
 
 export const Wrapper = styled.div`
   .ant-carousel .slick-slide {
@@ -145,7 +146,7 @@ export const CardDescription = styled.p`
   line-height: 30px;
 `;
 
-export const CardButton = styled.button`
+export const CardButton = styled(Link)`
   display: block;
   color: ${colors.white};
   background: ${colors.lightBlue};
@@ -163,6 +164,7 @@ export const CardButton = styled.button`
   transform: translateX(-50%);
   left: 50%;
   cursor: pointer;
+  to: ${props => props.to};
 `;
 
 export const FindMoreWrapper = styled.div`

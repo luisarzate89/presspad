@@ -13,14 +13,25 @@ const bookings = require("./bookings");
 const reviews = require("./reviews");
 const notifications = require("./notifications");
 const transactions = require("./transactions");
+const accounts = require("./accounts");
+const internalTransaction = require("./internalTransaction");
+const coupons = require("./coupons");
+const scheduledNotifications = require("./scheduledNotifications");
+const externalTransactions = require("./externalTransactions");
+const installments = require("./installments");
+const scheduledEmails = require("./scheduledEmails");
+const checklistQuestions = require("./checklistQuestions");
+const checklistAnswers = require("./checklistAnswers");
+const withdrawRequests = require("./withdrawRequests");
 
 const buildDevData = () => new Promise((resolve, reject) => {
   dbConnection()
     .then(async () => {
       await resetDb();
+      await accounts();
       await organisations();
-      await orgCodes();
       await users();
+      await orgCodes();
       await referrals();
       await profiles();
       await listings();
@@ -28,6 +39,15 @@ const buildDevData = () => new Promise((resolve, reject) => {
       await reviews();
       await notifications();
       await transactions();
+      await internalTransaction();
+      await coupons();
+      await scheduledNotifications();
+      await externalTransactions();
+      await installments();
+      await scheduledEmails();
+      await checklistQuestions();
+      await checklistAnswers();
+      await withdrawRequests();
     })
     .then(resolve)
     .catch(reject);

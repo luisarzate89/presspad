@@ -1,35 +1,74 @@
 const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
+const { wordLengthValidator } = require("../utils");
+const { types } = require("./../constants");
 
-const listingSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-  },
-  address: {
-    street: {
-      type: String,
-      required: true,
+const listingSchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
     },
-    borough: String,
-    city: {
-      type: String,
-      required: true,
+    address: {
+      addressline1: {
+        type: String,
+        required: true,
+      },
+      addressline2: {
+        type: String,
+        required: false,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      postcode: {
+        type: String,
+        required: true,
+      },
     },
-    postcode: {
+    neighbourhoodDescription: {
       type: String,
-      required: true,
+      required: false,
+      validate: wordLengthValidator(250, "neighbourhoodDescription"),
+    },
+    otherInfo: {
+      type: String,
+      required: false,
+      validate: wordLengthValidator(250, "otherInfo"),
+    },
+    accommodationChecklist: [
+      { type: String, enum: types.accommodationChecklist },
+    ],
+    photos: [
+      {
+        _id: { type: Schema.ObjectId, auto: true },
+        fileName: String,
+        isPrivate: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+    availableDates: [
+      {
+        _id: { type: Schema.ObjectId, auto: true },
+        startDate: Date,
+        endDate: Date,
+      },
+    ],
+    hometown: {
+      type: String,
+      validate: wordLengthValidator(10, "hometown"),
+      required: false,
     },
   },
-  description: {
-    type: String,
-    required: true,
+
+  {
+    timestamps: true,
   },
-  otherInfo: [String],
-  photos: [String],
-  availableDates: [{ _id: false, startDate: Date, endDate: Date }],
-});
+);
 
 const Listing = model("listings", listingSchema);
 
