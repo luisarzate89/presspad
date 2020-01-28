@@ -5,13 +5,13 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const Sentry = require("@sentry/node");
+const Sqreen = require("sqreen");
 
 const router = require("./router");
 const cronJobs = require("./helpers/cronjobs");
 
 const app = express();
 require("dotenv").config();
-
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({ dsn: process.env.SENTRY_DSN });
@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 8080;
 app.set("port", port);
 
+app.use(Sqreen.middleware);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,14 +42,13 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(boom.notFound("Not Found"));
 });
 
 if (process.env.NODE_ENV === "production") {
-// The error handler must be before any other error middleware and after all controllers
+  // The error handler must be before any other error middleware and after all controllers
   app.use(Sentry.Handlers.errorHandler());
 }
 

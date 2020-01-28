@@ -44,6 +44,8 @@ module.exports = (req, res, next) => {
               email: user.email,
               name: user.name,
             };
+
+            req.sqreen.signup_track({ email: user.email });
             return res.json(newUserInfo);
           })
           .catch(err => next(boom.badImplementation(err)));
@@ -68,6 +70,7 @@ module.exports = (req, res, next) => {
             name: user.name,
           };
 
+          req.sqreen.signup_track({ email: user.email });
           return res.json(newUserInfo);
         })
         .catch(err => next(boom.badImplementation(err)));
