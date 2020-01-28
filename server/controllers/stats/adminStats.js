@@ -54,7 +54,7 @@ module.exports = async (req, res, next) => {
           const internObj = {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
-            organisation: intern.organisationName,
+            organisation: intern.organisationName || intern.orgName,
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,

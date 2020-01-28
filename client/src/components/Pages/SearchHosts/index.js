@@ -9,6 +9,7 @@ import {
   API_GET_ALL_CETIES_URL,
 } from "../../../constants/apiRoutes";
 import Button from "../../Common/Button";
+import { titleCase } from "../../../helpers";
 
 // import Nav routes
 import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
@@ -228,7 +229,7 @@ export default class index extends Component {
             >
               {cities.map(city => (
                 <Select.Option value={city} key={city}>
-                  {city}
+                  {titleCase(city)}
                 </Select.Option>
               ))}
             </Select>

@@ -27,7 +27,6 @@ export default class Reviews extends Component {
 
   render() {
     const { reviews, loading } = this.state;
-    const { name } = this.props;
 
     return (
       <Wrapper>
@@ -43,7 +42,7 @@ export default class Reviews extends Component {
               />
             ))
           ) : (
-            <SubTitle>{name} has no reviews yet</SubTitle>
+            <SubTitle>Currently no reviews</SubTitle>
           )}
         </Skeleton>
         {loading && <Skeleton loading={loading} active avatar />}

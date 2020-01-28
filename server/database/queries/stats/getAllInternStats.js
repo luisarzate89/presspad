@@ -88,19 +88,29 @@ module.exports.getAllInternStats = () =>
       },
     },
     {
+      $lookup: {
+        from: "profiles",
+        localField: "_id",
+        foreignField: "user",
+        as: "profile",
+      },
+    },
+    {
       $group: {
         _id: {
           _id: "$_id",
           name: "$name",
           totalPayments: { $arrayElemAt: ["$account.income", 0] },
+          // org name from org collection
           organisationName: { $arrayElemAt: ["$organisation.name", 0] },
+          // org name from profile collections
+          orgName: { $arrayElemAt: ["$profile.organisation", 0] },
         },
         account: { $push: "$account" },
         bookings: { $push: "$bookings" },
         nextInstallment: { $first: "$nextInstallment" },
       },
     },
-
     {
       $project: {
         _id: "$_id._id",
@@ -109,6 +119,7 @@ module.exports.getAllInternStats = () =>
         bookings: "$bookings",
         nextInstallment: "$nextInstallment",
         totalPayments: "$_id.totalPayments",
+        orgName: "$_id.orgName",
       },
     },
     {
@@ -116,6 +127,7 @@ module.exports.getAllInternStats = () =>
         _id: 1,
         name: 1,
         organisationName: 1,
+        orgName: 1,
         nextInstallmentDueDate: "$nextInstallment.dueDate",
         nextInstallmentPaid: {
           $cond: [
