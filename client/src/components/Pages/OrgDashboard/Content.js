@@ -254,7 +254,7 @@ class Content extends Component {
                           Available funds:
                         </TD>
                         <TD position="center" bold>
-                          {(account && account.currentBalance) || 0}
+                          £{(account && account.currentBalance) || 0}
                         </TD>
                         <TD position="right">
                           <BlueLink onClick={() => handlePayNowClick(true)}>
@@ -298,7 +298,7 @@ class Content extends Component {
                       <InfoTableRow>
                         <TD position="left">Your Codes values:</TD>
                         <TD position="center" bold>
-                          {(account && account.couponsValue) || 0}
+                          £{(account && account.couponsValue) || 0}
                         </TD>
                       </InfoTableRow>
 
@@ -415,6 +415,7 @@ class Content extends Component {
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
+                                  textTransform: "capitalize",
                                 }}
                               >
                                 {item.name}
@@ -566,23 +567,31 @@ class Content extends Component {
                 />
               </>
             ) : (
-              <Row
-                gutter={30}
-                type="flex"
-                justify="space-around"
-                align="middle"
-                style={{
-                  width: "100%",
-                  marginBottom: errors.withdrawValue ? "20px" : 0,
-                }}
-              >
-                <div style={{ maxWidth: "200px" }}>
-                  <ModalDescription bold>Created Code: </ModalDescription>
-                  <ModalDescription bold style={{ color: colors.lightBlue }}>
-                    {state.code}
+              <>
+                <Row
+                  gutter={30}
+                  type="flex"
+                  justify="space-around"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0,
+                  }}
+                >
+                  <div style={{ maxWidth: "200px" }}>
+                    <ModalDescription bold>Created Code: </ModalDescription>
+                    <ModalDescription bold style={{ color: colors.lightBlue }}>
+                      {state.code}
+                    </ModalDescription>
+                  </div>
+                </Row>
+                <Row>
+                  <ModalDescription style={{ textDecoration: "center" }}>
+                    Please copy and share this code with your intern so they can
+                    use it when finding a place to stay.
                   </ModalDescription>
-                </div>
-              </Row>
+                </Row>
+              </>
             )}
           </ModalContentWrapper>
         </Modal>

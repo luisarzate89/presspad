@@ -39,11 +39,7 @@ export default windowWidth => {
 
   columnsObject.push({
     title: "Total potential cost",
-    render: (_, row) => (
-      <span>
-        £{moment(row.endDate).diff(moment(row.startDate), "days") * 20}
-      </span>
-    ),
+    render: (_, row) => <span>£{row.reservedAmount}</span>,
   });
 
   if (windowWidth > 690) {
