@@ -13,16 +13,20 @@ const confirmOrCancelWithdrawRequest = async (req, res, next) => {
   const { role } = req.user;
 
   // Autherizations
-  if (role !== "admin") return next(boom.forbidden("only admin allow to confirm/cancel withdraw"));
+  if (role !== "admin")
+    return next(boom.forbidden("only admin allow to confirm/cancel withdraw"));
   // validate the types [transfered, canceled]
-  if (type !== "transfered" && type !== "canceled") return next(boom.badData("bad type value"));
-
+  if (type !== "transfered" && type !== "canceled")
+    return next(boom.badData("bad type value"));
 
   let session;
   try {
     const { status } = await getWithdrawRequestById(withdrawId);
 
-    if (status !== "pending") return next(boom.forbidden("this operation only for pending withdraw requests"));
+    if (status !== "pending")
+      return next(
+        boom.forbidden("this operation only for pending withdraw requests"),
+      );
 
     // start a mongodb session
     session = await mongoose.startSession();
@@ -46,9 +50,7 @@ const confirmOrCancelWithdrawRequest = async (req, res, next) => {
 };
 
 const withdrawRequest = async (req, res, next) => {
-  const {
-    amount, bankName, bankSortCode, accountNumber,
-  } = req.body;
+  const { amount, bankName, bankSortCode, accountNumber } = req.body;
   const { role, account, _id } = req.user;
 
   // check for user role

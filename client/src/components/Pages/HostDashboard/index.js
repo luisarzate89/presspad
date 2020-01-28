@@ -97,6 +97,7 @@ class HostProfile extends Component {
       account = {},
       withdrawRequests,
       nextBookingWithDetails: nextBooking = {},
+      requestedAmount,
     } = data;
     const nextGuest = (nextBooking && nextBooking.intern) || {};
     const { profile: nextGuestProfile = {} } = nextGuest;
@@ -121,6 +122,7 @@ class HostProfile extends Component {
       donateValue: account.currentBalance,
       withdrawValue: account.currentBalance,
       withdrawRequests,
+      requestedAmount,
     }));
   };
 
@@ -133,9 +135,19 @@ class HostProfile extends Component {
   };
 
   handleNumberChange = (name, value) => {
-    const { attemptedToSubmit, withdrawModalOpen } = this.state;
+    const {
+      attemptedToSubmit,
+      withdrawModalOpen,
+      account,
+      requestedAmount,
+    } = this.state;
 
-    this.setState({ [name]: value }, () => {
+    let _value = value;
+    if (name === "withdrawValue" || name === "donateValue") {
+      _value = account.currentBalance - requestedAmount > 0 ? value : 0;
+    }
+
+    this.setState({ [name]: _value }, () => {
       if (attemptedToSubmit) {
         this.validate(withdrawModalOpen ? withdrawSchema : donateSchema);
       }
@@ -241,8 +253,8 @@ class HostProfile extends Component {
   };
 
   validate = schema => {
-    const { account } = this.state;
-    return schema(account.currentBalance)
+    const { account, requestedAmount } = this.state;
+    return schema(account.currentBalance, requestedAmount)
       .validate(this.state, { abortEarly: false })
       .then(res => {
         this.setState({ errors: {} });
@@ -323,6 +335,7 @@ class HostProfile extends Component {
       profile,
       viewNumber,
       viewNotificationNum,
+      requestedAmount,
     } = this.state;
     return (
       <Content
@@ -359,6 +372,7 @@ class HostProfile extends Component {
         handleSubmitDonate={this.handleSubmitDonate}
         handleSubmitWithdrawRequest={this.handleSubmitWithdrawRequest}
         markAsSeen={this.markAsSeen}
+        requestedAmount={requestedAmount}
       />
     );
   }

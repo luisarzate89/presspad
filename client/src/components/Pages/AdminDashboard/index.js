@@ -198,7 +198,7 @@ export default class AdminDashboard extends Component {
   };
 
   handleConfirm = async (id, type) => {
-    const { _data, _filteredData } = this.state;
+    const { data: _data, filteredData: _filteredData } = this.state;
     try {
       await axios.patch(
         `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,

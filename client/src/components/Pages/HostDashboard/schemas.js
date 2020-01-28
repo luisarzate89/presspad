@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const withdrawSchema = availableBalance =>
+export const withdrawSchema = (availableBalance, requestedAmount) =>
   Yup.object().shape({
     bankName: Yup.string()
       .typeError("must be a string")
@@ -16,9 +16,10 @@ export const withdrawSchema = availableBalance =>
       .required("Required")
       .min(1, "must be valid value")
       .max(
-        availableBalance,
-        `can't donate more than what you have: ${availableBalance}`
-      )
+        availableBalance - requestedAmount,
+        `can't donate more than what you have: ${availableBalance -
+          requestedAmount}`,
+      ),
   });
 
 export const donateSchema = availableBalance =>
@@ -29,6 +30,6 @@ export const donateSchema = availableBalance =>
       .min(1, "must be valid value")
       .max(
         availableBalance,
-        `can't donate more than what you have: ${availableBalance}`
-      )
+        `can't donate more than what you have: ${availableBalance}`,
+      ),
   });
