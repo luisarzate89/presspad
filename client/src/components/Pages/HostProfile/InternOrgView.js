@@ -46,7 +46,7 @@ import {
   Strong,
   MobileSubHeadline,
 } from "./Profile.style";
-import { titleCase } from "../../../helpers";
+import { titleCase, truncatePostcode } from "../../../helpers";
 import "antd/dist/antd.css";
 
 import starSign from "../../../assets/star-sign-symbol.svg";
@@ -209,7 +209,7 @@ export default class InternView extends Component {
                 </Headline>
               )}
               <Address>
-                {city} {postcode}
+                {city} {showFullData ? postcode : truncatePostcode(postcode)}
               </Address>
             </HeaderDiv>
           </TopDiv>

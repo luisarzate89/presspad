@@ -9,7 +9,7 @@ import { ContentWrapper } from "./DisabledPopOver.style";
 // accepts title, content, message, if any isn't provided then will take the default
 
 const DisabledLink = props => {
-  const { title, content, children, message } = props;
+  const { title, content, children, message, position } = props;
 
   const defaultContent = (
     <div>
@@ -27,7 +27,7 @@ const DisabledLink = props => {
       arrowPointAtCenter
       autoAdjustOverflow
     >
-      <ContentWrapper>{children}</ContentWrapper>
+      <ContentWrapper position={position}>{children}</ContentWrapper>
     </Popover>
   );
 };

@@ -15,6 +15,7 @@ const getHostProfile = async (req, res, next) => {
   const { id: userId, role } = req.user;
 
   if (!hostId) return next(boom.badRequest("User does not exist"));
+  let address = {};
 
   try {
     if (!isValidMongoObjectId(hostId))
@@ -22,27 +23,27 @@ const getHostProfile = async (req, res, next) => {
 
     let hostProfile;
     let booking;
-    let address = {};
     if (role === "intern") {
       booking = await getConfirmedBooking(userId, hostId);
       if (booking) [hostProfile] = await hostProfileData(hostId, true);
       else {
         // TODO 1- generate address as text eg. Canada Water SE8 (no booking)
         [hostProfile] = await hostProfileData(hostId);
-        {
-          const {
-            listing: { address: { postcode = "", city = "" } = {} } = {},
-          } = hostProfile;
-          address = {
-            addressline1: "",
-            addressline2: "",
-            postcode: postcode.substring(0, postcode.length - 3),
-            city,
-          };
-          hostProfile.listing.address = address;
-        }
       }
     } else [hostProfile] = await hostProfileData(hostId);
+
+    const {
+      listing: { address: { postcode = "", city = "" } = {} } = {},
+    } = hostProfile;
+
+    address = {
+      addressline1: "",
+      addressline2: "",
+      postcode: postcode.substring(0, postcode.length - 3),
+      city,
+    };
+
+    hostProfile.listing.address = address;
 
     if (!hostProfile || !hostProfile.profile || !hostProfile.listing)
       return next(boom.notFound("Host has no profile or does not exist"));

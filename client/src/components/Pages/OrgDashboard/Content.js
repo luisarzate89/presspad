@@ -23,6 +23,8 @@ import CouponsColumns from "./CouponsColumns";
 import AddFundsModal from "./AddFundsModal";
 import DisabledPopOver from "../../Common/DisabledPopOver";
 
+import { HOSTS_URL } from "../../../constants/navRoutes";
+
 import {
   PageWrapper,
   ContentWrapper,
@@ -38,6 +40,7 @@ import {
   TD,
   Card,
   BlueLink,
+  BlueLink1,
   InternsTableWrapper,
   ModalTitle,
   ModalContentWrapper,
@@ -162,6 +165,7 @@ class Content extends Component {
           <Row gutter={20} type="flex" justify="start">
             {/* Your updates col */}
             <Col
+              xs={24}
               sm={24}
               lg={16}
               style={{
@@ -215,9 +219,9 @@ class Content extends Component {
                     <SectionWrapperContent>
                       <Card>
                         <img src={homeIcon} alt="View Hosts" />
-                        <DisabledPopOver>
-                          <BlueLink>View Hosts</BlueLink>
-                        </DisabledPopOver>
+                        {/* <DisabledPopOver> */}
+                        <BlueLink1 to={HOSTS_URL}>View Hosts</BlueLink1>
+                        {/* </DisabledPopOver> */}
                       </Card>
                     </SectionWrapperContent>
                   </Col>
@@ -234,10 +238,10 @@ class Content extends Component {
                 </Row>
               </Section>
             </Col>
-            <Col xs={24} sm={24} lg={8}>
-              <Section>
+            <Col xs={24} sm={24} lg={8} style={{ marginBottom: "20px" }}>
+              <Section style={{ height: "100%" }}>
                 <SectionWrapperContent
-                  style={{ padding: "5px", height: "393px" }}
+                  style={{ marginBottom: 0, height: "100%" }}
                 >
                   <ProfileImage
                     src={
@@ -270,15 +274,16 @@ class Content extends Component {
                         <TD position="right">
                           {account.currentBalance > 0 ? (
                             <>
-                              <BlueLink>
-                                <Skeleton
-                                  loading={state.addCouponLoading}
-                                  title={false}
-                                  active
-                                  paragraph={{ rows: 1, width: "95%" }}
-                                />
-                              </BlueLink>
-                              {!state.addCouponLoading && (
+                              {state.addCouponLoading ? (
+                                <BlueLink>
+                                  <Skeleton
+                                    loading={state.addCouponLoading}
+                                    title={false}
+                                    active
+                                    paragraph={{ rows: 1, width: "95%" }}
+                                  />
+                                </BlueLink>
+                              ) : (
                                 <BlueLink onClick={handleOpenModal}>
                                   Add codes
                                 </BlueLink>
@@ -288,6 +293,7 @@ class Content extends Component {
                             <DisabledPopOver
                               title="No Enough Fund"
                               message="Add More Funds"
+                              position="left"
                             >
                               Add codes
                             </DisabledPopOver>

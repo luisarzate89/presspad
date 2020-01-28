@@ -164,3 +164,10 @@ export const optionalWordLengthValidator = length => value => {
   if (value) return yup.string().wordLengthValidator(length); // if it was a fine value check normally
   return yup.string().ensure(); // this one sets .default('') and coerces null to ''
 };
+
+export const truncatePostcode = postcode => {
+  if (postcode.length > 5) {
+    return postcode.substr(0, 3);
+  }
+  return postcode.substr(0, 2);
+};

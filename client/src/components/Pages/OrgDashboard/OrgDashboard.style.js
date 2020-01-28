@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { size } from "./../../../theme";
+import { size } from "../../../theme";
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -153,6 +153,10 @@ export const BlueLink1 = styled(Link)`
   line-height: 19px;
   text-align: center;
   color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+
+  @media (max-width: ${size.mobileXL}) {
+    font-size: 14px;
+  }
 `;
 export const BlueLink = styled(Link).attrs({ to: "#" })`
   font-family: Roboto;
@@ -165,7 +169,6 @@ export const BlueLink = styled(Link).attrs({ to: "#" })`
 
   @media (max-width: ${size.mobileXL}) {
     font-size: 14px;
-    text-align: center;
   }
 `;
 
