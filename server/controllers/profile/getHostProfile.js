@@ -8,6 +8,19 @@ const {
 const generateUrl = require("../../helpers/generateFileURL");
 const { isValidMongoObjectId } = require("../../helpers/isValidMongoObjectId");
 
+const firstPart = postcode => {
+  // split by space
+  const splited = postcode && postcode.split(" ");
+  // get first part
+  if (splited && splited.length > 1) {
+    // eslint-disable-next-line no-param-reassign
+    return splited[0].substring(0, 4);
+  }
+  // eslint-disable-next-line no-param-reassign
+  return postcode
+    ? postcode.substring(0, postcode.length - 3).substring(0, 4)
+    : "";
+};
 // expect hostId as query param
 // responds with data obj: user info, profile, listings, reviews
 const getHostProfile = async (req, res, next) => {
@@ -39,7 +52,7 @@ const getHostProfile = async (req, res, next) => {
     address = {
       addressline1: "",
       addressline2: "",
-      postcode: postcode.substring(0, postcode.length - 3),
+      postcode: firstPart(postcode),
       city,
     };
 

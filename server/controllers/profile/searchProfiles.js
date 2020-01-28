@@ -22,10 +22,20 @@ module.exports = async (req, res, next) => {
 
     // get first 2-3 chars from postcode
     listings.forEach(({ address = {} }) => {
-      // eslint-disable-next-line no-param-reassign
-      address.postcode = address.postcode
-        ? address.postcode.substring(0, address.postcode.length - 3)
-        : "";
+      // split by space
+      const splited = address.postcode && address.postcode.split(" ");
+      // get first part
+      if (splited && splited.length > 1) {
+        // eslint-disable-next-line no-param-reassign
+        address.postcode = splited[0].substring(0, 4);
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        address.postcode = address.postcode
+          ? address.postcode
+              .substring(0, address.postcode.length - 3)
+              .substring(0, 4)
+          : "";
+      }
     });
 
     res.json(listings);
