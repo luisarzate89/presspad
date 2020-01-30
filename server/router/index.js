@@ -55,7 +55,7 @@ const viewWithdrawRequests = require("../controllers/withdrawRequests");
 
 // IMPORT MIDDLEWARES
 const authentication = require("./../middlewares/authentication");
-const softAuthCheck = require("./../middlewares/softAuthCheck");
+// const softAuthCheck = require("./../middlewares/softAuthCheck");
 const { validation } = require("./../middlewares/validation");
 
 // API ROUTES
@@ -132,10 +132,10 @@ router.patch(HOST_COMPLETE_PROFILE, authentication, deletListingPhotos);
 router.post(INTERN_COMPLETE_PROFILE, authentication, internsCompleteProfile);
 
 // get user info from the cookie if it exists and send to front end
-router.get(USER_URL, softAuthCheck, userInfo);
+router.get(USER_URL, authentication, userInfo);
 
 // gets intern profile data
-router.get(INTERN_PROFILE_URL, softAuthCheck, getInternProfile);
+router.get(INTERN_PROFILE_URL, authentication, getInternProfile);
 
 // approve or reject profile
 router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
