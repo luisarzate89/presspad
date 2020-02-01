@@ -11,17 +11,15 @@ import {
   InputNumber,
   Input,
 } from "antd";
-import { getStringTime } from "./../../../helpers";
+import { getStringTime } from "../../../helpers";
 
-import Update from "./../../Common/Update";
-import Button from "./../../Common/Button";
+import Update from "../../Common/Update";
+import Button from "../../Common/Button";
 import randomProfile from "../../../assets/random-profile.jpg";
 
 import {
   PageWrapper,
   ContentWrapper,
-  HeaderWrapper,
-  HiText,
   SectionWrapperContent,
   SectionTitle,
   UpdateList,
@@ -39,7 +37,13 @@ import {
   ErrorWrapper,
 } from "./HostDashboard.style";
 
-import BookingSection from "./../../Common/BookingSection";
+import {
+  HiText,
+  HeaderWrapper,
+  AvatarWrapper,
+} from "../../Common/general/index";
+
+import BookingSection from "../../Common/BookingSection";
 import { bookingsColumns, withdrawRequestsColumns } from "./TablesColumns";
 
 const Content = ({
@@ -48,22 +52,25 @@ const Content = ({
   name,
   role,
   viewNumber,
+  viewNotificationNum,
   bankName,
   bankSortCode,
   accountNumber,
   bookings,
   updates,
+  slicedUpdates,
   withdrawModalOpen,
   donateModalOpen,
   nextGuest,
   nextGuestProfile,
   nextBooking,
-  account,
+  account = {},
   profile,
   apiLoading,
   withdrawRequests,
   errors,
   history,
+  requestedAmount,
 
   // functions
   handleViewMoreToggle,
@@ -75,15 +82,30 @@ const Content = ({
   handleCloseModals,
   handleSubmitDonate,
   handleSubmitWithdrawRequest,
+  markAsSeen,
 }) => {
+  const {
+    income = 0,
+    donation = 0,
+    withdrawal = 0,
+    currentBalance = 0,
+  } = account;
+
+  const canBeWithdraw = window
+    .Number(
+      currentBalance - requestedAmount >= 0
+        ? currentBalance - requestedAmount
+        : 0,
+    )
+    .toFixed(2);
+
   return (
     <PageWrapper className="wrapper">
       <ContentWrapper className="child">
         <HeaderWrapper>
           <Row gutter={20} type="flex" justify="start">
             <Col xs={24} sm={4} lg={3}>
-              {/*neccesarry for ProgressRing*/}
-              <div style={{ position: "relative", width: 86 }}>
+              <AvatarWrapper>
                 <Avatar
                   size="large"
                   icon="user"
@@ -99,9 +121,9 @@ const Content = ({
                     border: "1px solid rgba(0, 0, 0, 0.15)",
                   }}
                 />
-              </div>
+              </AvatarWrapper>
             </Col>
-            <Col span={20}>
+            <Col flex xs={24} sm={20}>
               <HiText>
                 Hi {name.split(" ")[0]}
                 {Object.keys(nextBooking).length > 0 && (
@@ -124,11 +146,7 @@ const Content = ({
             bio={nextGuestProfile.bio}
             name={nextGuest.name}
             userId={nextGuest._id}
-            organisationName={
-              (nextGuestProfile.organisation &&
-                nextGuestProfile.organisation.name) ||
-              "N/A"
-            }
+            organisationName={nextGuestProfile.organisation || "N/A"}
             bookingId={nextBooking._id}
             startDate={nextBooking.startDate}
             endDate={nextBooking.endDate}
@@ -137,8 +155,8 @@ const Content = ({
                 nextGuestProfile.profileImage.url) ||
               randomProfile
             }
-            title={"Your next guest"}
-            userRole={"intern"}
+            title="Your next guest"
+            userRole="intern"
             role={role}
           />
         ) : (
@@ -148,20 +166,33 @@ const Content = ({
           </SectionWrapperContent>
         )}
         <section>
-          <SectionWrapperContent style={{ minHeight: 200 }}>
+          <SectionWrapperContent
+            onMouseEnter={markAsSeen}
+            onTouchStart={markAsSeen}
+            style={{ minHeight: 200 }}
+          >
             <SectionTitle>Your updates</SectionTitle>
             <UpdateList>
-              {updates.length > 0 ? (
-                updates.map(item => (
+              {slicedUpdates.length > 0 ? (
+                slicedUpdates.map(item => (
                   <Update item={item} key={item._id} userRole="host" />
                 ))
               ) : (
                 <Empty description="No updates, chill out :)" />
               )}
             </UpdateList>
+            {updates.length > 3 && (
+              <BlueLink
+                data-name="updates"
+                onClick={handleViewMoreToggle}
+                style={{ marginTop: "2rem", textAlign: "center" }}
+              >
+                {viewNotificationNum ? "View more" : "View less"}
+              </BlueLink>
+            )}
           </SectionWrapperContent>
         </section>
-        <Row gutter={20} type="flex" justify="start">
+        <Row gutter={20} style={{ width: "100%" }} type="flex" justify="start">
           <Col lg={24} xl={16} xs={24} sm={24}>
             <SectionWrapperContent
               style={{ minHeight: 357, height: "calc(100% - 20px)" }}
@@ -172,14 +203,12 @@ const Content = ({
                   <Table
                     columns={bookingsColumns(windowWidth)}
                     dataSource={bookings.slice(0, viewNumber)}
-                    rowKey={"_id"}
+                    rowKey="_id"
                     pagination={false}
-                    onRow={record => {
-                      return {
-                        onClick: () => history.push(`booking/${record._id}`),
-                        style: { cursor: "pointer" },
-                      };
-                    }}
+                    onRow={record => ({
+                      onClick: () => history.push(`booking/${record._id}`),
+                      style: { cursor: "pointer" },
+                    })}
                   />
                   {bookings.length > 3 && (
                     <BlueLink
@@ -198,23 +227,23 @@ const Content = ({
           <Col xl={8} lg={24} md={24} xs={24}>
             <SectionWrapperContent style={{ minHeight: 357 }}>
               <ListItem>How much you’ve earned so far</ListItem>
-              <Number blue>£{account.income}</Number>
+              <Number blue>£{window.Number(income).toFixed(2)}</Number>
               <ListItem>How much you’ve donated</ListItem>
-              <Number>£{account.donation}</Number>
+              <Number>£{window.Number(donation).toFixed(2)}</Number>
               <ListItem>How much you’ve withdrew</ListItem>
-              <Number>£{account.withdrawal}</Number>
+              <Number>£{window.Number(withdrawal).toFixed(2)}</Number>
+              <ListItem>In process withdraw requests</ListItem>
+              <Number>£{window.Number(requestedAmount).toFixed(2)}</Number>
               <ListItem>How much you can withdraw</ListItem>
-              <Number>£{account.currentBalance}</Number>
+              <Number>£{window.Number(canBeWithdraw).toFixed(2) || 0}</Number>
               <ButtonsWrapper>
                 <Button
                   label="Withdraw funds"
                   type="secondary"
-                  style={{ width: "135px" }}
+                  style={{ width: "145px" }}
                   onClick={handleOpenModal}
                   name="withdrawModalOpen"
-                  disabled={
-                    !account.currentBalance || !account.currentBalance > 0
-                  }
+                  disabled={!canBeWithdraw || canBeWithdraw <= 0}
                 />
                 <Button
                   label="Donate funds"
@@ -222,9 +251,7 @@ const Content = ({
                   style={{ width: "135px" }}
                   onClick={handleOpenModal}
                   name="donateModalOpen"
-                  disabled={
-                    !account.currentBalance || !account.currentBalance > 0
-                  }
+                  disabled={!canBeWithdraw || canBeWithdraw <= 0}
                 />
               </ButtonsWrapper>
             </SectionWrapperContent>
@@ -240,7 +267,7 @@ const Content = ({
                 <Table
                   columns={withdrawRequestsColumns(windowWidth)}
                   dataSource={withdrawRequests.slice(0, viewNumber)}
-                  rowKey={"_id"}
+                  rowKey="_id"
                   pagination={false}
                 />
                 {bookings.length > 3 && (
@@ -271,16 +298,14 @@ const Content = ({
             </ModalDescription>
             <div>
               <ModalDescription bold>Funds available: </ModalDescription>
-              <ModalDescription bold>
-                £{account.currentBalance}{" "}
-              </ModalDescription>
+              <ModalDescription bold>£{canBeWithdraw}</ModalDescription>
             </div>
             <ErrorWrapper>
               <InputNumber
                 onBlur={handleBlurNumberInput}
                 onFocus={handleFocusNumberInput}
-                defaultValue={account.currentBalance}
-                max={account.currentBalance}
+                defaultValue={canBeWithdraw || 0}
+                max={canBeWithdraw || 0}
                 min={0}
                 size="large"
                 style={{
@@ -326,7 +351,7 @@ const Content = ({
           </ModalDescription>
           <div>
             <ModalDescription bold>Funds available: </ModalDescription>
-            <ModalDescription bold>£{account.currentBalance} </ModalDescription>
+            <ModalDescription bold>£{canBeWithdraw} </ModalDescription>
           </div>
 
           <Row
@@ -423,8 +448,8 @@ const Content = ({
                 <InputNumber
                   onBlur={handleBlurNumberInput}
                   onFocus={handleFocusNumberInput}
-                  defaultValue={account.currentBalance}
-                  max={account.currentBalance}
+                  defaultValue={canBeWithdraw || 0}
+                  max={canBeWithdraw}
                   min={0}
                   size="large"
                   style={{
@@ -445,7 +470,7 @@ const Content = ({
           </Row>
 
           <Button
-            label="Donate funds"
+            label="withdraw funds"
             type="secondary"
             style={{ width: "135px" }}
             onClick={handleSubmitWithdrawRequest}

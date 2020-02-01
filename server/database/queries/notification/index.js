@@ -1,6 +1,5 @@
 const createNotification = require("./createNotification");
+const markAsSeen = require("./markAsSeen");
 
-const notificationQueries = {};
-module.exports = notificationQueries;
-
-notificationQueries.createNotification = createNotification;
+exports.createNotification = createNotification;
+exports.markAsSeen = markAsSeen;

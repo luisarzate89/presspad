@@ -8,128 +8,139 @@ const User = require("../../models/User");
  * @param {string} id the Host Id
  * @returns {promise} not fully fledge
  */
-const hostDashboard = id => User.aggregate([
-  { $match: { _id: mongoose.Types.ObjectId(id) } },
-  {
-    $lookup: {
-      from: "withdrawrequests",
-      localField: "_id",
-      foreignField: "user",
-      as: "withdrawRequests",
+const hostDashboard = id =>
+  User.aggregate([
+    { $match: { _id: mongoose.Types.ObjectId(id) } },
+    {
+      $lookup: {
+        from: "withdrawrequests",
+        localField: "_id",
+        foreignField: "user",
+        as: "withdrawRequests",
+      },
     },
-  },
-  // Host profile
-  {
-    $lookup: {
-      from: "profiles",
-      let: { host: "$_id" },
-      pipeline: [
-        { $match: { $expr: { $eq: ["$$host", "$user"] } } },
-      ],
-      as: "profile",
+    // Host profile
+    {
+      $lookup: {
+        from: "profiles",
+        let: { host: "$_id" },
+        pipeline: [{ $match: { $expr: { $eq: ["$$host", "$user"] } } }],
+        as: "profile",
+      },
     },
-  },
-  {
-    $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
-  },
-  // host notification
-  {
-    $lookup: {
-      from: "notifications",
-      let: { host: "$_id" },
-      pipeline: [
-        { $match: { $expr: { $eq: ["$$host", "$user"] } } },
-        // SecondParty name
-        {
-          $lookup: {
-            from: "users",
-            let: { secondParty: "$secondParty" },
-            pipeline: [
-              { $match: { $expr: { $eq: ["$$secondParty", "$_id"] } } },
-              {
-                $project: { name: 1 },
-              },
-            ],
-            as: "secondParty",
-          },
-        },
-        {
-          $unwind: { path: "$secondParty", preserveNullAndEmptyArrays: true },
-        },
-      ],
-      as: "notifications",
+    {
+      $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
     },
-  },
-
-  // host bookings
-  {
-    $lookup: {
-      from: "bookings",
-      let: { host: "$_id" },
-      pipeline: [
-        {
-          $match: {
-            $expr: {
-              $and: [
-                { $eq: ["$$host", "$host"] },
-                { $ne: ["$status", "canceled"] },
+    // host notification
+    {
+      $lookup: {
+        from: "notifications",
+        let: { host: "$_id" },
+        pipeline: [
+          { $match: { $expr: { $eq: ["$$host", "$user"] } } },
+          // SecondParty name
+          {
+            $lookup: {
+              from: "users",
+              let: { secondParty: "$secondParty" },
+              pipeline: [
+                { $match: { $expr: { $eq: ["$$secondParty", "$_id"] } } },
+                {
+                  $project: { name: 1 },
+                },
               ],
+              as: "secondParty",
             },
           },
-        },
-        // intern name
-        {
-          $lookup: {
-            from: "users",
-            let: { intern: "$intern" },
-            pipeline: [
-              { $match: { $expr: { $eq: ["$$intern", "$_id"] } } },
-              // host profile
-              {
-                $lookup: {
-                  from: "profiles",
-                  let: { intern: "$_id" },
-                  pipeline: [
-                    { $match: { $expr: { $eq: ["$$intern", "$user"] } } },
-                  ],
-                  as: "profile",
-                },
-              },
-              {
-                $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
-              },
-
-              {
-                $project: {
-                  password: 0,
-                },
-              },
-            ],
-            as: "intern",
+          {
+            $unwind: { path: "$secondParty", preserveNullAndEmptyArrays: true },
           },
-        },
-        {
-          $unwind: { path: "$intern", preserveNullAndEmptyArrays: true },
-        },
-      ],
-      as: "bookings",
+        ],
+        as: "notifications",
+      },
     },
-  }, {
-    $lookup: {
-      from: "accounts",
-      localField: "account",
-      foreignField: "_id",
-      as: "account",
+
+    // host bookings
+    {
+      $lookup: {
+        from: "bookings",
+        let: { host: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$$host", "$host"] },
+                  { $ne: ["$status", "canceled"] },
+                ],
+              },
+            },
+          },
+          // intern name
+          {
+            $lookup: {
+              from: "users",
+              let: { intern: "$intern" },
+              pipeline: [
+                { $match: { $expr: { $eq: ["$$intern", "$_id"] } } },
+                // host profile
+                {
+                  $lookup: {
+                    from: "profiles",
+                    let: { intern: "$_id" },
+                    pipeline: [
+                      { $match: { $expr: { $eq: ["$$intern", "$user"] } } },
+                    ],
+                    as: "profile",
+                  },
+                },
+                {
+                  $unwind: {
+                    path: "$profile",
+                    preserveNullAndEmptyArrays: true,
+                  },
+                },
+
+                {
+                  $project: {
+                    password: 0,
+                  },
+                },
+              ],
+              as: "intern",
+            },
+          },
+          {
+            $unwind: { path: "$intern", preserveNullAndEmptyArrays: true },
+          },
+        ],
+        as: "bookings",
+      },
     },
-  },
-  {
-    $unwind: { path: "$account", preserveNullAndEmptyArrays: true },
-  },
-  {
-    $project: {
-      password: 0,
+    {
+      $lookup: {
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "account",
+      },
     },
-  },
-]);
+    {
+      $lookup: {
+        from: "withdrawrequests",
+        localField: "_id",
+        foreignField: "user",
+        as: "withdrawRequests",
+      },
+    },
+    {
+      $unwind: { path: "$account", preserveNullAndEmptyArrays: true },
+    },
+    {
+      $project: {
+        password: 0,
+      },
+    },
+  ]);
 
 module.exports = hostDashboard;

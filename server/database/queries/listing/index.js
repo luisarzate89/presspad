@@ -19,8 +19,7 @@ const getAllCities = () =>
     },
     {
       $project: {
-        address: 1,
-        hometown: 1,
+        "address.city": 1,
         verified: { $arrayElemAt: ["$profile.verified", 0] },
         _id: 0,
       },

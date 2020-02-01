@@ -2,19 +2,18 @@ const boom = require("boom");
 const mongoose = require("mongoose");
 
 const generateUrl = require("../../helpers/generateFileURL");
-const { internProfileData } = require("./../../database/queries/profile/internProfile");
-const { getNextPendingBooking } = require("./../../database/queries/bookings");
-const { getUserReviews } = require("./../../database/queries/user/index");
-
+const internProfileData = require("./../../database/queries/profile/internPublicProfile");
 
 module.exports = async (req, res, next) => {
   try {
     const { id: internId } = req.params;
-    const { role, id: hostId } = req.user;
+    const { role } = req.user;
     // check for role
-    // go to next route
-    if (role !== "host" && role !== "superhost") {
+    if (!["host", "organisation"].includes(role)) {
       return next();
+
+      // ToDo check autherization for the other route??
+      // return next(boom.forbidden());
     }
 
     if (!mongoose.Types.ObjectId.isValid(internId)) {
@@ -22,25 +21,27 @@ module.exports = async (req, res, next) => {
     }
 
     // get intern's basic profile data
-    const _profileData = internProfileData(internId);
-    // get intern review
-    const _internReviews = getUserReviews(internId);
-    // get the intern-host most upcoming booking with status 'status = pending'
-    const _nextPendingBooking = getNextPendingBooking({ internId, hostId });
+    const profileData = await internProfileData(internId);
 
-    const [profileData, internReviews, nextPendingBooking] = await Promise.all(
-      [_profileData, _internReviews, _nextPendingBooking],
-    );
+    if (!profileData[0]) return next(boom.notFound());
 
     if (profileData[0].profile && profileData[0].profile.profileImage) {
       await generateUrl(profileData[0].profile.profileImage);
     }
 
-    return res.json({
-      internData: profileData[0],
-      reviews: internReviews,
-      nextBooking: nextPendingBooking[0],
-    });
+    const {
+      reference1,
+      reference2,
+      ...publicProfileData
+    } = profileData[0].profile;
+    const referencesNum =
+      ((reference1 && reference1.name && 1) || 0) +
+      ((reference2 && reference2.name && 1) || 0);
+
+    publicProfileData.referencesNum = referencesNum;
+    publicProfileData.name = profileData[0].name;
+
+    return res.json(publicProfileData);
   } catch (error) {
     return next(boom.badImplementation(error));
   }

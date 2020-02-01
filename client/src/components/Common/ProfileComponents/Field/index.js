@@ -56,13 +56,9 @@ export default function Field({
     url = _value && _value.url;
   }
 
-  let isRequiredForThisUser = false;
-  if (
+  const isRequired =
     (role === "intern" && requiredForIntern) ||
-    (role === "host" && requiredForHost)
-  ) {
-    isRequiredForThisUser = true;
-  }
+    (role === "host" && requiredForHost);
 
   let label = _label;
   if (role === "intern") {
@@ -80,10 +76,10 @@ export default function Field({
         }
         padding={padding}
         paddingSmall={paddingSmall}
-        error={error}
+        error={type !== "mainLabel" && error}
       >
         {label}
-        {isRequiredForThisUser && <RequiredSpan>(required)</RequiredSpan>}
+        {isRequired && <RequiredSpan>*</RequiredSpan>}
       </Label>
       {hint && <GrayHint>{hint}</GrayHint>}
 

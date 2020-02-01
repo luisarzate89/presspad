@@ -39,7 +39,9 @@ const sharedStyles = css`
 
 export const roundStyles = css`
   height: ${props => props.height || "35px"};
-  width: ${props => props.width || "158px"};
+  width: ${props => props.width};
+  padding: 0 1rem;
+
   border-radius: 17.5px;
   &::after {
     border-radius: 17.5px;
@@ -48,7 +50,8 @@ export const roundStyles = css`
 
 export const squareStyles = css`
   height: ${props => props.height || "35px"};
-  width: ${props => props.width || "158px"};
+  width: ${props => props.width};
+  padding: 0 1rem;
 `;
 
 export const primaryStyles = css`
@@ -85,6 +88,7 @@ const StyledButton = styled.button`
   ${props => props.type === "outline" && outlineStyles}
   ${props => props.type === "verification" && squareStyles}
   ${props => props.type === "verification" && outlineStyles}
+  font-size: 0.8rem;
 `;
 
 export const ButtonSpinner = ({ color }) => {
@@ -99,9 +103,9 @@ export const ButtonSpinner = ({ color }) => {
   return <Spin indicator={antIcon} style={{ marginRight: ".5rem" }} />;
 };
 
-const Button = ({ label, loading, disabled, ...props }) => (
+const Button = ({ label, loading, disabled, spinnerColor, ...props }) => (
   <StyledButton aria-label={label} {...props} disabled={disabled || loading}>
-    {loading && <ButtonSpinner color="#FFFFFF" />}
+    {loading && <ButtonSpinner color={spinnerColor || "#FFFFFF"} />}
     {label}
   </StyledButton>
 );

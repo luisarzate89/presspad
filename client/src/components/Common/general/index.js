@@ -15,12 +15,15 @@ export const PageWrapper = styled.main`
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-top: 50px;
-  margin-bottom: 3rem;
+  margin: 3rem 0;
+
+  @media (max-width: 600px) {
+    margin: 2rem 0;
+  }
 `;
 
 export const HiText = styled.h1`
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 30px;
@@ -28,9 +31,15 @@ export const HiText = styled.h1`
   color: #07294a;
   margin-bottom: 0;
   height: 100%;
-  display: flex;
   align-items: center;
   padding-left: 1rem;
+
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+    padding-left: 0;
+    text-align: center;
+    width: 100%;
+  }
 `;
 
 export const SectionWrapperContent = styled.div`
@@ -39,6 +48,13 @@ export const SectionWrapperContent = styled.div`
   padding: 25px;
   padding-left: 1.875rem;
   margin-bottom: 20px;
+  margin-top: ${({ mtop }) => mtop || 0};
+
+  @media (max-width: 600px) {
+    padding: 0.6rem;
+    padding-left: 0.6rem;
+    font-size: 1rem;
+  }
 `;
 
 export const SectionTitle = styled.h4`
@@ -59,8 +75,13 @@ export const BlueLink = styled(Link)`
   text-align: center;
   color: #0ac7e7;
   display: inline-block;
+  margin-top: ${({ margint }) => margint};
   margin-bottom: ${({ marginb }) => marginb};
   margin-left: ${({ marginl }) => marginl};
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const UpdateList = styled.ul`
@@ -108,7 +129,7 @@ export const PayButton = styled.button`
   border: none;
   padding: 0.5rem 5rem;
   margin: 0;
-  margin-top: ${({ mtop }) => (mtop ? mtop : "")};
+  margin-top: ${({ mtop }) => mtop || ""};
   margin-bottom: 10px;
   text-decoration: none;
   cursor: pointer;
@@ -120,5 +141,40 @@ export const PayButton = styled.button`
   :focus,
   :hover {
     transform: ${props => (!props.disabled ? "scale(1.05)" : "")};
+  }
+`;
+
+export const InternalLink = styled.a`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.19rem;
+  text-align: center;
+  color: #0ac7e7;
+  display: inline-block;
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
+`;
+
+export const BoldTitle = styled.span`
+  font-weight: 900;
+`;
+
+export const SectionWrapper = styled.section`
+  @media (max-width: 600px) {
+    max-width: 98%;
+    margin: 0 auto;
+  }
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  @media (max-width: 575.98px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;

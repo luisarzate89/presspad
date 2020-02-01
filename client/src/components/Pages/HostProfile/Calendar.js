@@ -22,9 +22,10 @@ import {
   PriceLabel,
   RequestBtn,
   ErrorDiv,
+  PriceTopDiv,
 } from "./Calendar.style";
 
-import { INTERN_COMPLETE_PROFILE_URL } from "./../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
 
 const bookingRequest = (url, data) => axios.post(url, data);
 
@@ -68,7 +69,7 @@ class CalendarComponent extends Component {
 
   // to disable "Request Stay" button when the user starts to select a range
   onDayClick = () => {
-    this.setState({ isRangeSelected: false });
+    this.setState({ isRangeSelected: false, message: "" });
   };
 
   // updates state
@@ -123,12 +124,12 @@ class CalendarComponent extends Component {
       host: hostId,
       startDate: moment(dates[0]).format("YYYY-MM-DD"),
       endDate: moment(dates[1]).format("YYYY-MM-DD"),
-      price: price,
+      price,
     };
 
     let message = "";
     try {
-      this.setState({ isBooking: true });
+      this.setState({ isBooking: true, message: "" });
       const {
         data: { verified, isComplete },
       } = await axios.get(API_GET_INTERN_STATUS);
@@ -141,16 +142,23 @@ class CalendarComponent extends Component {
 
       if (!verified || !isComplete) {
         this.showAlertAndRedirectToProfile(message);
+        this.setState({ message, messageType: "error", isBooking: false });
       }
 
-      this.setState({ message, messageType: "error" });
       if (verified && isComplete) {
         bookingRequest(API_BOOKING_REQUEST_URL, data)
-          .then(res => {
+          .then(() => {
             this.setState({
               message: "Booking request sent successfully",
               messageType: "success",
               isBooking: false,
+              dates: null,
+              isRangeSelected: false,
+              price: "0",
+            });
+            Modal.success({
+              title: "Done!",
+              content: "your booking successfully sent",
             });
             // update parent state
             getHostProfile();
@@ -184,14 +192,14 @@ class CalendarComponent extends Component {
       }
     } catch (err) {
       if (err && err.response && err.response.status === 404) {
-        const message =
+        const errorMessage =
           "You need to have a profile in order to be able to book stay";
 
-        this.showAlertAndRedirectToProfile(message);
+        this.showAlertAndRedirectToProfile(errorMessage);
         this.setState({
           isBooking: false,
           messageType: "error",
-          message: message,
+          message: errorMessage,
         });
       }
     }
@@ -209,11 +217,11 @@ class CalendarComponent extends Component {
     // disable request btn
     return bookingDatesFound
       ? this.setState({
-          bookingExists: true,
-          messageType: "error",
-          message:
-            "It seems like you have already requested a booking during those dates. You can only make one request at a time.",
-        })
+        bookingExists: true,
+        messageType: "error",
+        message:
+          "It seems like you have already requested a booking during those dates. You can only make one request at a time.",
+      })
       : this.setState({ bookingExists: false });
   };
 
@@ -243,22 +251,24 @@ class CalendarComponent extends Component {
             locale="en-t-jp"
             maxDetail="month"
             minDetail="month"
-            selectRange={true}
+            selectRange
             formatShortWeekday={(locale, value) =>
               ["S", "M", "T", "W", "T", "F", "S"][moment(value).day()]
             }
           />
         </CalendarWrapper>
-        {role !== "host" && role !== "superhost" && (
+        {role === "intern" && (
           <PricingDiv>
-            <PriceHeadline>Full price for period</PriceHeadline>
-            <PriceLabel>£{price}</PriceLabel>
-
+            <PriceTopDiv>
+              <PriceHeadline>Full price for period</PriceHeadline>
+              <PriceLabel>£{price}</PriceLabel>
+            </PriceTopDiv>
             {message && (
               <ErrorDiv>
                 <Alert message={message} type={messageType} />
               </ErrorDiv>
             )}
+
             <RequestBtn
               onClick={this.handleClick}
               disabled={
@@ -270,7 +280,11 @@ class CalendarComponent extends Component {
                 indicator={
                   <Icon
                     type="loading"
-                    style={{ fontSize: 24, marginRight: "8px", color: "white" }}
+                    style={{
+                      fontSize: 24,
+                      marginRight: "8px",
+                      color: "white",
+                    }}
                     spin
                   />
                 }

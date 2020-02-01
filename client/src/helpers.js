@@ -1,5 +1,7 @@
 import moment from "moment";
 
+import * as yup from "yup";
+
 export const createDatesArray = (start, end) => {
   const datesArray = [];
 
@@ -52,7 +54,7 @@ export const calculatePrice = range => {
     days = range % 7;
   } else {
     range.start.startOf("day");
-    range.end.add(1, "day");
+    range.end.add(1, "day").endOf("day");
     weeks = range.diff("weeks");
     days = range.diff("days") % 7;
   }
@@ -77,7 +79,7 @@ const filterFields = {
   nextInstallmentDueDate: 1,
 
   // hosts
-  city: 1,
+  hometown: 1,
   hosted: 1,
   totalIncome: 1,
   approvalStatus: 1,
@@ -136,17 +138,36 @@ const _filterArray = (arr, searchVal) =>
 export const filterArray = (array, searchVal) => _filterArray(array, searchVal);
 
 export const capitalizeFirstLetter = str =>
-  str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
+  str && str[0].toUpperCase() + str.substr(1, str.length).toLowerCase();
 
 export const titleCase = str =>
+  str &&
   str
     .split(" ")
     .map(capitalizeFirstLetter)
     .join(" ");
 
-export const wordLengthValidator = (length, field) => value => {
-  if (value.split(" ").length <= length) {
-    return value;
+yup.addMethod(yup.string, "wordLengthValidator", function wordLengthValidator(
+  length,
+) {
+  return this.test(function(value) {
+    if (!value) return "";
+    return value.split(" ").length <= length
+      ? value
+      : this.createError({
+          message: `Must be less than or equal ${length} words`,
+        });
+  });
+});
+
+export const optionalWordLengthValidator = length => value => {
+  if (value) return yup.string().wordLengthValidator(length); // if it was a fine value check normally
+  return yup.string().ensure(); // this one sets .default('') and coerces null to ''
+};
+
+export const truncatePostcode = postcode => {
+  if (postcode.length > 5) {
+    return postcode.substr(0, 3);
   }
-  throw new Error(`${field} length must be less than or equal ${length} words`);
+  return postcode.substr(0, 2);
 };

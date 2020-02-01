@@ -14,26 +14,29 @@ export default class File extends Component {
 
   directUploadToGoogle = async e => {
     const { name, parent, userId, isPrivate } = this.props;
+    try {
+      const {
+        files: [image],
+      } = e.target;
 
-    const {
-      files: [image],
-    } = e.target;
+      if (!image) {
+        if (!this.state[name].name) {
+          return this.setState({
+            error: "please upload a file",
+          });
+        }
+        return undefined;
+      }
 
-    if (!image) {
-      if (!this.state[name].name) {
-        return this.setState({
-          error: "please upload a file",
+      if (image.size > 4e6) {
+        return this.props.handleError({
+          errorMsg: 'File too large, "max size 4MB"',
+          key: name,
+          parent,
         });
       }
-      return undefined;
-    }
 
-    if (image.size > 4e6) {
-      return this.props.handleError('File too large, "max size 4MB"');
-    }
-
-    // get signed url from google
-    try {
+      // get signed url from google
       this.setState({
         loading: 0,
         isLoading: true,
@@ -71,7 +74,7 @@ export default class File extends Component {
                 key: name,
                 parent,
               });
-              return this.props.handleError("");
+              return this.props.handleError({});
             },
           );
         },
@@ -86,9 +89,14 @@ export default class File extends Component {
       });
     } catch (error) {
       message.error("something went wrong, try again later");
-      return this.setState({
+      this.setState({
         loading: 0,
         isLoading: false,
+      });
+      return this.props.handleError({
+        errorMsg: "something went wrong, try again later",
+        key: name,
+        parent,
       });
     }
   };

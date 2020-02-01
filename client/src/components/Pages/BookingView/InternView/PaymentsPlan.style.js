@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, shadows, borders } from "../../../theme";
+import { colors, shadows, borders } from "../../../../theme";
 
 export const InfoMessage = styled.p`
   color: #a5a3a3;
@@ -28,6 +28,10 @@ export const InputDiv = styled.div`
 export const BookingInfoWrapper = styled.div`
   border-bottom: 1px solid ${colors.lightGray};
   margin-bottom: 3.13rem;
+
+  @media (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 export const InfoText = styled.p`

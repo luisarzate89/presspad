@@ -54,7 +54,7 @@ module.exports = async (req, res, next) => {
           const internObj = {
             key: stats.indexOf(intern) + 1,
             name: intern.name,
-            organisation: intern.organisationName,
+            organisation: intern.organisationName || intern.orgName,
             totalPayments: intern.totalPayments || 0,
             status,
             userId: intern._id,
@@ -78,7 +78,8 @@ module.exports = async (req, res, next) => {
           const hostObj = {
             key: stats.indexOf(host) + 1,
             name: host.name,
-            address: host.listing.address,
+            email: host.email,
+            hometown: host.listing.hometown,
             hosted: host.internsHosted,
             approvalStatus: host.profile[0].verified
               ? "Approved"

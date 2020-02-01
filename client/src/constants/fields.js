@@ -9,12 +9,15 @@ export default {
     placeholder: "",
     name: "birthDate",
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   hometown: {
     type: "text",
     label: "Hometown",
     name: "hometown",
+    requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   gender: {
@@ -24,12 +27,14 @@ export default {
     placeholder: "Please choose an option",
     name: "gender",
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   school: {
     type: "text",
     label: "University / School",
     name: "school",
+    requiredForIntern: true,
   },
   // intern + host
   profileImage: {
@@ -39,6 +44,7 @@ export default {
     parent: "profileImage",
     isPrivate: false,
     requiredForHost: true,
+    requiredForIntern: true,
   },
   // intern + host
   interests: {
@@ -47,6 +53,7 @@ export default {
     placeholder: "Please choose an option",
     options: types.interests,
     name: "interests",
+    requiredForIntern: true,
   },
   // intern + host
   bio: {
@@ -54,6 +61,8 @@ export default {
     label: "Bio",
     name: "bio",
     requiredForHost: true,
+    requiredForIntern: true,
+    placeholder: "No more than 250 words",
   },
   // intern + host
   organisation: {
@@ -63,6 +72,7 @@ export default {
     name: "organisation",
     hostLabel: "Organisation you work for",
     internLabel: "Name of organisation you are or are going to be working for",
+    requiredForHost: true,
   },
   useReasonAnswer: {
     label: "Explain why you want to use PressPad",
@@ -79,6 +89,17 @@ export default {
     placeholder: "No more than 250 words",
     max: 250,
     name: "issueAnswer",
+    fullHeight: true,
+    fullWidth: true,
+  },
+
+  storyAnswer: {
+    label: `Tell us a story that shows you have the determination and dedication to enter the journalism and media profession
+    `,
+    type: "textArea",
+    placeholder: "No more than 250 words",
+    max: 250,
+    name: "storyAnswer",
     fullHeight: true,
     fullWidth: true,
   },
@@ -99,6 +120,8 @@ export default {
     name: "fileName",
     parent: "photoID",
     isPrivate: true,
+    requiredForIntern: true,
+    requiredForHost: true,
   },
   // host and intern
   hearAboutPressPadAnswer: {
@@ -109,6 +132,8 @@ export default {
     max: 50,
     fullHeight: true,
     fullWidth: true,
+    requiredForIntern: true,
+    requiredForHost: true,
   },
   phoneNumber: {
     label: `Phone Number`,
@@ -117,6 +142,8 @@ export default {
     name: "phoneNumber",
     fullHeight: true,
     max: 50,
+    requiredForIntern: true,
+    requiredForHost: true,
   },
   reference1Name: {
     parent: "reference1",
@@ -223,12 +250,14 @@ export default {
     name: "ethnicity",
     options: types.ethnicity,
   },
-  earningOfParents: {
+  parentProfession: {
     type: "select",
-    label: "Earnings of parents",
+    label: "Parent's profession",
+    hint:
+      "When you were aged 14, which best describes the sort of work the main/highest income earner in your household did in their main job?",
     placeholder: "Please choose an option",
-    name: "earningOfParents",
-    options: types.earningOfParents,
+    name: "parentProfession",
+    options: types.parentProfession,
   },
   disability: {
     type: "select",
@@ -273,6 +302,7 @@ export default {
     name: "consentedOnPressPadTerms",
     label: `Do you give consent to the terms in the PressPad Media Release form?`,
     type: "yesNo",
+    requiredForIntern: true,
   },
 
   // host only
@@ -281,6 +311,7 @@ export default {
     max: 10,
     name: "jobTitle",
     label: `Job title`,
+    requiredForHost: true,
   },
   workingArea: {
     type: "select",
@@ -339,13 +370,37 @@ export default {
     requiredForHost: true,
   },
   address: {
-    type: "textArea",
-    name: "address",
+    type: "mainLabel",
     label: `Address`,
     hint:
       "Please note your exact address will not be made public only the first part of your postcode",
-    max: 50,
-    fullHeight: true,
+  },
+  addressline1: {
+    label: "Address Line 1",
+    type: "text",
+    name: "addressline1",
+    parent: "address",
+    requiredForHost: true,
+  },
+  addressline2: {
+    label: "Address Line 2",
+    type: "text",
+    name: "addressline2",
+    parent: "address",
+  },
+  city: {
+    label: "City",
+    type: "text",
+    name: "city",
+    parent: "address",
+    requiredForHost: true,
+  },
+  postcode: {
+    label: "Postcode",
+    type: "text",
+    name: "postcode",
+    parent: "address",
+    requiredForHost: true,
   },
   availableDates: {
     type: "dateRanges",
@@ -353,13 +408,14 @@ export default {
     label: `Availability`,
     hint:
       "Please try to include as many dates as you can over the next 3 to 6 months",
+    requiredForHost: true,
   },
   accommodationChecklist: {
     type: "checklist",
-    requiredForHost: true,
     label: "Accommodation checklist",
     name: "accommodationChecklist",
     options: types.accommodationChecklist,
+    requiredForHost: true,
   },
   neighbourhoodDescription: {
     name: "neighbourhoodDescription",

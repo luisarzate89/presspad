@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { message } from "antd";
+import moment from "moment";
 
 import Content from "./Content";
 import {
   API_HOST_DASHBOARD_URL,
   API_DONATION_URL,
-  API_WITHDRAW_REQUEST_URL
-} from "./../../../constants/apiRoutes";
+  API_WITHDRAW_REQUEST_URL,
+  API_NOTIFICATION_URL,
+} from "../../../constants/apiRoutes";
 
 import { withdrawSchema, donateSchema } from "./schemas";
 
@@ -23,6 +25,7 @@ class HostProfile extends Component {
     attemptedToSubmit: false,
     // number of rows to be visible in the bookings table
     viewNumber: 3,
+    viewNotificationNum: 3,
     // the amount of money that user want to donate
     donateValue: null,
     // the amount of money that user want to withdraw
@@ -35,14 +38,17 @@ class HostProfile extends Component {
     // Values came from api request
     bookings: [],
     updates: [],
+    slicedUpdates: [],
+    markAsSeen: false,
     withdrawRequests: [],
 
     // MODALS
     withdrawModalOpen: false,
     donateModalOpen: false,
     apiLoading: false,
-    profile: {}
+    profile: {},
   };
+
   async componentDidMount() {
     this.fetchData();
     document.addEventListener("keypress", e => {
@@ -69,7 +75,7 @@ class HostProfile extends Component {
         "9",
         "0",
         ".",
-        ","
+        ",",
       ];
       if (!numbers.includes(e.key) && isNumberInputActive) {
         e.preventDefault();
@@ -90,23 +96,34 @@ class HostProfile extends Component {
       profile = {},
       account = {},
       withdrawRequests,
-      nextBookingWithDetails: nextBooking = {}
+      nextBookingWithDetails: nextBooking = {},
+      requestedAmount,
     } = data;
     const nextGuest = (nextBooking && nextBooking.intern) || {};
     const { profile: nextGuestProfile = {} } = nextGuest;
-    this.setState({
+
+    const sortedNotification = notifications.sort((a, b) => {
+      if (moment(a.createdAt).isAfter(b.createdAt)) {
+        return -1;
+      }
+      return 1;
+    });
+
+    this.setState(({ viewNotificationNum }) => ({
       name,
-      updates: notifications,
+      updates: sortedNotification,
+      slicedUpdates: sortedNotification.slice(0, viewNotificationNum),
       bookings,
       profile,
       nextGuest,
       nextGuestProfile,
-      nextBooking: nextBooking,
+      nextBooking,
       account,
       donateValue: account.currentBalance,
       withdrawValue: account.currentBalance,
-      withdrawRequests
-    });
+      withdrawRequests,
+      requestedAmount,
+    }));
   };
 
   handleBlurNumberInput = () => {
@@ -118,9 +135,19 @@ class HostProfile extends Component {
   };
 
   handleNumberChange = (name, value) => {
-    const { attemptedToSubmit, withdrawModalOpen } = this.state;
+    const {
+      attemptedToSubmit,
+      withdrawModalOpen,
+      account,
+      requestedAmount,
+    } = this.state;
 
-    this.setState({ [name]: value }, () => {
+    let _value = value;
+    if (name === "withdrawValue" || name === "donateValue") {
+      _value = account.currentBalance - requestedAmount > 0 ? value : 0;
+    }
+
+    this.setState({ [name]: _value }, () => {
       if (attemptedToSubmit) {
         this.validate(withdrawModalOpen ? withdrawSchema : donateSchema);
       }
@@ -137,9 +164,21 @@ class HostProfile extends Component {
     });
   };
 
-  handleViewMoreToggle = () => {
-    const { viewNumber } = this.state;
-    this.setState({ viewNumber: viewNumber ? undefined : 3 });
+  handleViewMoreToggle = ({
+    target: {
+      dataset: { name },
+    },
+  }) => {
+    if (name === "updates") {
+      this.setState(({ viewNotificationNum, updates }) => ({
+        viewNotificationNum: viewNotificationNum ? undefined : 3,
+        slicedUpdates: viewNotificationNum ? updates : updates.slice(0, 3),
+        markAsSeen: false,
+      }));
+    } else {
+      const { viewNumber } = this.state;
+      this.setState({ viewNumber: viewNumber ? undefined : 3 });
+    }
   };
 
   handleOpenModal = e => {
@@ -152,7 +191,7 @@ class HostProfile extends Component {
       withdrawModalOpen: false,
       donateModalOpen: false,
       errors: {},
-      attemptedToSubmit: false
+      attemptedToSubmit: false,
     });
   };
 
@@ -160,7 +199,7 @@ class HostProfile extends Component {
     const { donateValue } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(donateSchema).then(res => {
-        res &&
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_DONATION_URL, { amount: donateValue })
@@ -168,7 +207,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
                 this.handleCloseModals();
                 message.success(
-                  `Done!, You have successfully donated by £${donateValue}`
+                  `Done!, You have successfully donated by £${donateValue}`,
                 );
                 this.fetchData();
               })
@@ -177,6 +216,7 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
@@ -185,20 +225,20 @@ class HostProfile extends Component {
     const { withdrawValue, bankName, bankSortCode, accountNumber } = this.state;
     this.setState({ attemptedToSubmit: true }, () => {
       this.validate(withdrawSchema).then(res => {
-        res &&
+        if (res) {
           this.setState({ apiLoading: true }, () => {
             axios
               .post(API_WITHDRAW_REQUEST_URL, {
                 amount: withdrawValue,
                 bankName,
                 bankSortCode,
-                accountNumber
+                accountNumber,
               })
               .then(() => {
                 this.setState({ apiLoading: false });
                 this.handleCloseModals();
                 message.success(
-                  `Done!, You have requested to withdraw £${withdrawValue}`
+                  `Done!, You have requested to withdraw £${withdrawValue}`,
                 );
                 this.fetchData();
               })
@@ -207,13 +247,14 @@ class HostProfile extends Component {
                 this.setState({ apiLoading: false });
               });
           });
+        }
       });
     });
   };
 
   validate = schema => {
-    const { account } = this.state;
-    return schema(account.currentBalance)
+    const { account, requestedAmount } = this.state;
+    return schema(account.currentBalance, requestedAmount)
       .validate(this.state, { abortEarly: false })
       .then(res => {
         this.setState({ errors: {} });
@@ -228,6 +269,50 @@ class HostProfile extends Component {
       });
   };
 
+  markAsSeen = async () => {
+    const { slicedUpdates, updates, markAsSeen } = this.state;
+    if (!markAsSeen) {
+      try {
+        const newUpdates = slicedUpdates.map(ele => ({ ...ele }));
+        const notificationsIds = slicedUpdates.reduce((acc, curr, i) => {
+          if (!curr.seen) {
+            acc.push(curr._id);
+            newUpdates[i].loading = true;
+          }
+          return acc;
+        }, []);
+
+        this.setState({ markAsSeen: true, slicedUpdates: newUpdates });
+
+        if (notificationsIds[0]) {
+          this.setState({ updates: newUpdates });
+          await axios.patch(`${API_NOTIFICATION_URL}/seen`, notificationsIds);
+
+          const updatedNotifications = updates.map(update => {
+            if (notificationsIds.includes(update._id)) {
+              return {
+                ...update,
+                seen: true,
+                loading: false,
+              };
+            }
+            return update;
+          });
+
+          this.setState(({ viewNotificationNum }) => ({
+            updates: updatedNotifications,
+            slicedUpdates: viewNotificationNum
+              ? updatedNotifications.slice(0, viewNotificationNum)
+              : updatedNotifications,
+          }));
+        }
+      } catch (error) {
+        this.setState({ markAsSeen: false, slicedUpdates });
+        message.error("Something went wrong");
+      }
+    }
+  };
+
   render() {
     const { windowWidth, role } = this.props;
     const {
@@ -239,6 +324,7 @@ class HostProfile extends Component {
       accountNumber,
       bookings,
       updates,
+      slicedUpdates,
       withdrawModalOpen,
       donateModalOpen,
       nextBooking,
@@ -247,7 +333,9 @@ class HostProfile extends Component {
       errors,
       withdrawRequests,
       profile,
-      viewNumber
+      viewNumber,
+      viewNotificationNum,
+      requestedAmount,
     } = this.state;
     return (
       <Content
@@ -259,7 +347,10 @@ class HostProfile extends Component {
         bankSortCode={bankSortCode}
         accountNumber={accountNumber}
         bookings={bookings}
+        viewNumber={viewNumber}
+        viewNotificationNum={viewNotificationNum}
         updates={updates}
+        slicedUpdates={slicedUpdates}
         withdrawModalOpen={withdrawModalOpen}
         donateModalOpen={donateModalOpen}
         nextGuest={nextGuest}
@@ -280,7 +371,8 @@ class HostProfile extends Component {
         handleCloseModals={this.handleCloseModals}
         handleSubmitDonate={this.handleSubmitDonate}
         handleSubmitWithdrawRequest={this.handleSubmitWithdrawRequest}
-        viewNumber={viewNumber}
+        markAsSeen={this.markAsSeen}
+        requestedAmount={requestedAmount}
       />
     );
   }

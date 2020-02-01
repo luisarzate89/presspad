@@ -1,47 +1,35 @@
 const boom = require("boom");
-const { Types: { ObjectId } } = require("mongoose");
-const { getBookingById } = require("../../database/queries/bookings");
-const generateFileUrl = require("../../helpers/generateFileURL");
-
-const addLinksIntoQuestion = require("../../helpers/addLinksIntoQuestion");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
+const { getBooking } = require("../../database/queries/bookings");
 
 module.exports = async (req, res, next) => {
   const { id: bookingId } = req.params;
-  const { role: userType } = req.user;
+  const { role: userType, id: userId } = req.user;
+
+  if (!["host", "intern"].includes(userType)) {
+    return next(boom.forbidden());
+  }
 
   try {
     if (!ObjectId.isValid(bookingId) || !ObjectId(bookingId) === bookingId) {
       return next(boom.badData("invalid ObjectId"));
     }
-    const [booking] = await getBookingById(bookingId, userType).exec();
+
+    const [booking] = await getBooking(bookingId).exec();
+
     if (!booking) {
       return next(boom.notFound());
     }
 
-    // embed the links into question object
-    booking.checkList.forEach(({ question }) => {
-      addLinksIntoQuestion(question);
-    });
+    if (userType === "host" && booking.host._id.toString() !== userId) {
+      return next(boom.forbidden());
+    }
+    if (userType === "intern" && booking.intern._id.toString() !== userId) {
+      return next(boom.forbidden());
+    }
 
-
-    // generate url for all files
-    const { listing: { photos, userProfile } } = booking;
-    const waitingAsync = photos.map(photoRef => generateFileUrl(photoRef));
-    waitingAsync.push(generateFileUrl(userProfile.profileImage));
-
-    await Promise.all(waitingAsync);
-
-    // filter coupons
-    booking.coupons = booking.coupons.filter((coupon) => {
-      for (let i = 0; i < coupon.transactions.length; i += 1) {
-        const transactionBooking = coupon.transactions[i].booking;
-
-        if (transactionBooking.toString() === booking._id.toString()) {
-          return true;
-        }
-      }
-      return false;
-    });
     return res.json({ data: booking });
   } catch (error) {
     return next(boom.badImplementation(error));

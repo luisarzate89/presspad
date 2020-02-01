@@ -2,14 +2,7 @@ const mongoose = require("mongoose");
 
 const { ObjectId } = mongoose.Types;
 
-const isValidMongoObjectId = (id) => {
-  if (ObjectId.isValid(id)) {
-    if (ObjectId(id).toString() === id) {
-      return true;
-    }
-    return false;
-  }
-  return false;
-};
+const isValidMongoObjectId = id =>
+  ObjectId.isValid(id) && ObjectId(id).toString() === id;
 
 module.exports = { isValidMongoObjectId };

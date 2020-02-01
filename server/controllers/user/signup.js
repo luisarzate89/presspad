@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
 
   // check if the email already exists
   findByEmail(email)
-    .then((storedUser) => {
+    .then(storedUser => {
       if (storedUser) {
         return next(boom.conflict("Email already taken"));
       }
@@ -27,12 +27,15 @@ module.exports = (req, res, next) => {
 
         // add new user
         return addNewUser(userInfo)
-          .then((user) => {
+          .then(user => {
             const token = jwt.sign({ id: user._id }, process.env.SECRET, {
               expiresIn: tokenMaxAge.string,
             });
 
-            res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
+            res.cookie("token", token, {
+              maxAge: tokenMaxAge.number,
+              httpOnly: true,
+            });
 
             // data to be sent in the response
             const newUserInfo = {
@@ -41,6 +44,8 @@ module.exports = (req, res, next) => {
               email: user.email,
               name: user.name,
             };
+
+            req.sqreen.signup_track({ email: user.email });
             return res.json(newUserInfo);
           })
           .catch(err => next(boom.badImplementation(err)));
@@ -48,12 +53,15 @@ module.exports = (req, res, next) => {
 
       // FOR HOST AND ORGANISATION
       return addNewUser(userInfo)
-        .then((user) => {
+        .then(user => {
           const token = jwt.sign({ id: user._id }, process.env.SECRET, {
             expiresIn: tokenMaxAge.string,
           });
 
-          res.cookie("token", token, { maxAge: tokenMaxAge.number, httpOnly: true });
+          res.cookie("token", token, {
+            maxAge: tokenMaxAge.number,
+            httpOnly: true,
+          });
 
           const newUserInfo = {
             id: user._id,
@@ -62,6 +70,7 @@ module.exports = (req, res, next) => {
             name: user.name,
           };
 
+          req.sqreen.signup_track({ email: user.email });
           return res.json(newUserInfo);
         })
         .catch(err => next(boom.badImplementation(err)));

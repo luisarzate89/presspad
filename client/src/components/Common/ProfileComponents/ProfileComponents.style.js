@@ -129,4 +129,5 @@ export const RequiredSpan = styled.span`
   font-weight: normal;
   font-size: 14px;
   margin-left: 0.5rem;
+  color: red;
 `;

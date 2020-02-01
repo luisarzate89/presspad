@@ -17,9 +17,7 @@ const _getProfileBasedRole = async (_id, role, res) => {
   // you should check the object on the frontEnd
   if (!profile) return res.json({});
 
-  const {
-    profileImage, photoID, offerLetter, DBSCheck,
-  } = profile;
+  const { profileImage, photoID, offerLetter, DBSCheck } = profile;
   await Promise.all([
     generateUrl(profileImage),
     generateUrl(photoID),
@@ -41,7 +39,8 @@ const _getProfileBasedRole = async (_id, role, res) => {
 
 module.exports = async (req, res, next) => {
   const _id = req.params.id || req.user._id;
-  const { role } = req.user;
+  const role = req.query.role || req.user.role;
+
   try {
     await _getProfileBasedRole(_id, role, res);
   } catch (err) {

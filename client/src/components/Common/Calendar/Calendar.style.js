@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, borders } from "./../../../theme";
+import { colors, borders } from "../../../theme";
 
 const classNames = {
   reactCalendar: ".react-calendar",
@@ -22,7 +22,7 @@ const classNames = {
   reactCalendarSelectRange: ".react-calendar--selectRange",
   reactCalendarTileRangeStart: ".react-calendar__tile--rangeStart",
   reactCalendarTileRangeEnd: ".react-calendar__tile--rangeEnd",
-  reactCalendarTileHover: ".react-calendar__tile--hover"
+  reactCalendarTileHover: ".react-calendar__tile--hover",
 };
 
 export const CalendarWrapper = styled.div.attrs(classNames)`
@@ -32,6 +32,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     font-family: Roboto;
     line-height: 1.125em;
     pointer-events: none;
+    
 
     *,
     *:before,
@@ -90,9 +91,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
     font-weight: bold;
   }
 
-  ${classNames.reactCalendarMonthViewWeekNumbers}, ${
-  classNames.reactCalendarTile
-} {
+  ${classNames.reactCalendarMonthViewWeekNumbers}, ${classNames.reactCalendarTile} {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -108,11 +107,7 @@ export const CalendarWrapper = styled.div.attrs(classNames)`
   ${classNames.reactCalendarMonthViewDaysDayNeighboringMonth} {
     color: ${colors.lightGray};
   }
-  ${classNames.reactCalendarYearView} ${classNames.reactCalendarTile},${
-  classNames.reactCalendarDecadeView
-} ${classNames.reactCalendarTile},${classNames.reactCalendarCenturyView} ${
-  classNames.reactCalendarTile
-} {
+  ${classNames.reactCalendarYearView} ${classNames.reactCalendarTile},${classNames.reactCalendarDecadeView} ${classNames.reactCalendarTile},${classNames.reactCalendarCenturyView} ${classNames.reactCalendarTile} {
     padding: 2em 0.5em;
   }
   ${classNames.reactCalendarTile} {

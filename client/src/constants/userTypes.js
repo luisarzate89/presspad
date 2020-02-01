@@ -3,7 +3,7 @@ const USER_TYPES = {
   host: "host",
   organisation: "organisation",
   admin: "admin",
-  superhost: "superhost"
+  superhost: "superhost",
 };
 
 export default USER_TYPES;

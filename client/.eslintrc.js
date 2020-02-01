@@ -41,7 +41,7 @@ module.exports = {
         trailingComma: "all",
         singleQuote: true
       }
-    ]
+    ],
   },
   plugins: ["react", "prettier"]
 };

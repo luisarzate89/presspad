@@ -31,11 +31,14 @@ export const BackLinkDiv = styled.div`
   }
 `;
 
-export const BackLink = styled.p`
+export const BackLink = styled.button`
   color: ${colors.links};
   text-decoration: none;
   font-weight: 500;
   line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export const Arrow = styled(BackArrowIcon)`
@@ -44,40 +47,56 @@ export const Arrow = styled(BackArrowIcon)`
 
 // Header
 export const Header = styled.header`
-  padding-top: 1rem;
+  padding-top: 2rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
+  align-items: ${({ alignItems }) => alignItems || "start"};
 `;
 
 export const HeaderDiv = styled.div`
   margin-left: 1rem;
   text-align: left;
 
-  @media (max-width: 575.98px) {
+  @media (max-width: 600px) {
     height: auto;
     width: 100%;
     margin-left: 0px;
     text-align: center;
+    padding: 0 0.5rem 0 0.8rem;
+    text-align: left;
   }
 `;
 
 export const Headline = styled.h1`
   font-weight: 900;
-  font-size: 30px;
-  color: ${colors.fontPrimary};
+  font-size: 1.9rem;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  color: ${colors.fontBlack};
+  margin-bottom: 0;
   span {
     font-weight: 500;
     font-size: 26px;
+    @media (max-width: 600px) {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 600px) {
+    font-size: 1.3rem;
   }
 `;
 
 export const Card = styled.div`
   width: 100%;
+  padding: 0.8rem;
   box-shadow: ${shadows.card};
   margin-top: ${props => props.mt};
   min-height: ${props => props.mh};
   width: ${props => props.w};
+
+  @media (max-width: 600px) {
+    min-height: 250px;
+  }
 `;
 
 export const InnerCard = styled.div`
@@ -100,6 +119,11 @@ export const SubHeadline = styled.h2`
   text-align: left;
   color: ${colors.fontLightBlack};
   margin-top: 10px;
+  margin-bottom: 0px;
+
+  @media (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 export const ParagraphHeadline = styled.h3`
@@ -108,14 +132,19 @@ export const ParagraphHeadline = styled.h3`
   font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
+  margin-bottom: 0;
+
+  @media (max-width: ${size.mobileM}) {
+    font-size: 14px;
+  }
 `;
 
 export const Paragraph = styled.p`
   font-size: 16px;
   text-align: left;
   font-weight: 300;
-  color: ${colors.fontLightBlack};
-  margin-top: 8px;
+  color: #8a8a8a;
+  margin-bottom: 2rem;
 `;
 
 export const TopDiv = styled.div`
@@ -123,6 +152,7 @@ export const TopDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  position: relative;
 `;
 
 export const AdminTopDiv = styled.div`
@@ -177,8 +207,15 @@ export const ProfilePicDiv = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url(${({ src }) => src});
+  // background: image(${({ src }) => src})
+  background-image: ${({ src, defaultPic }) =>
+    `url(${src}), url(${defaultPic})`};
   ${props => !props.adminView && blurPic};
+
+  @media (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 export const Address = styled.h3`
@@ -244,4 +281,37 @@ export const SubImage = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url(${({ src }) => src});
+`;
+
+export const ShowMoreSection = styled.div`
+  display: flex;
+  margin-top: 2rem;
+  width: 90%;
+  justify-content: space-between;
+
+  a {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    width: 110%;
+
+    a {
+      padding: 0.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+
+    div {
+      width: 100%;
+    }
+
+    a {
+      padding: 1rem;
+    }
+  }
 `;

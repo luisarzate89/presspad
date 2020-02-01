@@ -17,8 +17,8 @@ exports.createInstallments = (netAmount, startDate, endDate, upfront) => {
       key: 1,
       dueDate: moment().isBefore(moment(startDate).subtract(7, "day"))
         ? moment(startDate)
-          .subtract(7, "day")
-          .toISOString()
+            .subtract(7, "day")
+            .toISOString()
         : moment().toISOString(),
       amount: netAmount,
     };
@@ -33,8 +33,8 @@ exports.createInstallments = (netAmount, startDate, endDate, upfront) => {
   // split payments dueDate
   const firstDueDate = moment().isBefore(moment(startDate).subtract(7, "day"))
     ? moment(startDate)
-      .subtract(7, "day")
-      .toISOString()
+        .subtract(7, "day")
+        .toISOString()
     : moment().toISOString();
   const secondDueDate = moment(startDate)
     .add(Math.round(moment(endDate).diff(startDate, "days") / 2), "day")
@@ -69,7 +69,7 @@ exports.getIntersectRange = getIntersectRange;
  * get the discount days giving the booking range and the coupon range
  * @param {Object} dates {bookingStart, bookingEnd, couponStart, couponEnd}
  */
-exports.getDiscountDays = (dates) => {
+exports.getDiscountDays = dates => {
   const intersectRange = getIntersectRange(dates);
 
   if (!intersectRange) return { discountDays: 0 };
@@ -86,7 +86,7 @@ exports.getDiscountDays = (dates) => {
  * calculate the price giving range of dates
  * @param {import("moment-range").MomentRange} range moment range OR number
  */
-exports.calculatePrice = (range) => {
+exports.calculatePrice = range => {
   if (!range) return 0;
   let weeks;
   let days;
@@ -95,7 +95,7 @@ exports.calculatePrice = (range) => {
     days = range % 7;
   } else {
     range.start.startOf("day");
-    range.end.add(1, "day");
+    range.end.add(1, "day").endOf("day");
     weeks = range.diff("weeks");
     days = range.diff("days") % 7;
   }
@@ -106,11 +106,13 @@ exports.calculatePrice = (range) => {
  * get the first unpaid installment
  * @param {Array} installments
  */
-exports.getFirstUnpaidInstallment = (installments) => {
-  if (!installments || !Array.isArray(installments) || !installments[0]) { return undefined; }
+exports.getFirstUnpaidInstallment = installments => {
+  if (!installments || !Array.isArray(installments) || !installments[0]) {
+    return undefined;
+  }
 
   let firstUnpaidInstallment;
-  installments.forEach((installment) => {
+  installments.forEach(installment => {
     if (!installment.transaction) {
       if (!firstUnpaidInstallment) {
         firstUnpaidInstallment = installment;
@@ -138,7 +140,12 @@ exports.compareInstallments = (oldInstallments, newInstallments) => {
     const { amount: oldAmount, dueDate: oldDueDate } = oldInstallments;
 
     if (oldAmount !== amount) return false;
-    if (!moment(dueDate).startOf("day").isSame(moment(oldDueDate).startOf("day"))) return false;
+    if (
+      !moment(dueDate)
+        .startOf("day")
+        .isSame(moment(oldDueDate).startOf("day"))
+    )
+      return false;
 
     return true;
   }
@@ -147,7 +154,12 @@ exports.compareInstallments = (oldInstallments, newInstallments) => {
     const { amount: oldAmount, dueDate: oldDueDate } = curr;
 
     if (oldAmount !== amount) return false;
-    if (!moment(dueDate).startOf("day").isSame(moment(oldDueDate).startOf("day"))) return false;
+    if (
+      !moment(dueDate)
+        .startOf("day")
+        .isSame(moment(oldDueDate).startOf("day"))
+    )
+      return false;
     return acc;
   }, true);
 };

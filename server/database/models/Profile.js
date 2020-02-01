@@ -64,21 +64,21 @@ const profileSchema = new Schema(
     emergencyContact: {
       name: {
         type: String,
-        required: true,
+        required: false,
       },
       email: {
         type: String,
-        required: true,
+        required: false,
       },
       phoneNumber: {
         type: String,
-        required: true,
+        required: false,
       },
     },
     DBSCheck: {
       fileName: {
         type: String,
-        required: true,
+        required: false,
       },
       isPrivate: {
         type: Boolean,
@@ -99,10 +99,10 @@ const profileSchema = new Schema(
       type: String,
       enum: types.ethnicity,
     },
-    earningOfParents: {
+    parentProfession: {
       type: String,
       required: false,
-      enum: types.earningOfParents,
+      enum: types.parentProfession,
     },
     disability: {
       type: String,
@@ -159,11 +159,6 @@ const profileSchema = new Schema(
       validate: wordLengthValidator(50, "internshipOfficeAddress"),
       required: false,
     },
-    address: {
-      type: String,
-      validate: wordLengthValidator(50, "address"),
-      required: false, // for host
-    },
     interests: {
       type: String,
       trim: true,
@@ -205,7 +200,7 @@ const profileSchema = new Schema(
     pressCard: {
       fileName: {
         type: String,
-        required: true,
+        required: false,
       },
       isPrivate: {
         type: Boolean,

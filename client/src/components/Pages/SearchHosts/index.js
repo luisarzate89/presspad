@@ -6,12 +6,13 @@ import moment from "moment";
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
-  API_GET_ALL_CETIES_URL
+  API_GET_ALL_CETIES_URL,
 } from "../../../constants/apiRoutes";
 import Button from "../../Common/Button";
+import { titleCase } from "../../../helpers";
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "./../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
 
 import { TABLET_WIDTH } from "../../../constants/screenWidths";
 
@@ -38,27 +39,27 @@ import {
   DisabledHostResult,
   SignUpPromo,
   SearchButtonDiv,
-  SearchButton
+  SearchButton,
 } from "./SearchHosts.style";
 
 export default class index extends Component {
   state = {
     listings: null,
-    hometowns: [],
-    searchFields: { hometown: null, startDate: null, endDate: null },
-    errors: {}
+    cities: [],
+    searchFields: { city: null, startDate: null, endDate: null },
+    errors: {},
   };
 
   async componentDidMount() {
-    // fetch all hometowns from the listing
+    // fetch all cities from the listing
     const { data } = await axios.get(API_GET_ALL_CETIES_URL);
-    const hometowns = data
-      .filter(({ hometown }) => !!hometown)
+    const cities = data
+      .filter(({ address: { city } = {} }) => !!city)
       .reduce((acc, curr) => {
-        acc.add(curr.hometown.toLowerCase());
+        acc.add(curr.address.city.toLowerCase());
         return acc;
       }, new Set());
-    this.setState({ hometowns: [...hometowns] });
+    this.setState({ cities: [...cities] });
   }
 
   fetchListings = () => {
@@ -72,7 +73,7 @@ export default class index extends Component {
       .catch(() => {
         errors.searchError = "Sorry, there was an error getting the listings";
         this.setState({
-          errors
+          errors,
         });
       });
   };
@@ -85,8 +86,8 @@ export default class index extends Component {
       newSearchFields[e.target.name] = e.target.value;
       this.setState({ searchFields: newSearchFields });
     } else {
-      // e is the hometown <Select>  value
-      newSearchFields.hometown = e;
+      // e is the city <Select>  value
+      newSearchFields.city = e;
       this.setState({ searchFields: newSearchFields }, () => {
         const isValid = this.validateSearch();
         if (isValid) {
@@ -143,7 +144,7 @@ export default class index extends Component {
     let searchIsValid = true;
 
     if (
-      !searchFields.hometown &&
+      !searchFields.city &&
       !searchFields.startDate &&
       !searchFields.endDate
     ) {
@@ -167,15 +168,17 @@ export default class index extends Component {
     }
 
     this.setState({
-      errors
+      errors,
     });
 
     return searchIsValid;
   };
 
   // checks if lisitng image exists and goes to right folder
-  getListingPic = listingPic =>
-    listingPic && listingPic.length > 0 ? listingPic : placeholder;
+  getListingPic = pics => {
+    if (!pics || !pics.length) return placeholder;
+    return pics.find(pic => !pic.isPrivate).url || placeholder;
+  };
 
   showStartDate = dates => {
     if (dates.length > 0) {
@@ -190,14 +193,14 @@ export default class index extends Component {
     if (dates.length > 0) {
       const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY"
+        "Do MMM YYYY",
       );
     }
     return moment(dates).format("Do MMM YYYY");
   };
 
   render() {
-    const { searchFields, errors, listings, hometowns } = this.state;
+    const { searchFields, errors, listings, cities } = this.state;
     const { isLoggedIn, windowWidth } = this.props;
     const { startDate, endDate } = searchFields;
     const { searchError } = errors;
@@ -207,26 +210,26 @@ export default class index extends Component {
         <Header>
           <HeaderTitle>Hosts offering a PressPad</HeaderTitle>
           <HeaderText>
-            You can search for hosts by filling in the hometown and dates
+            You can search for hosts by filling in the city and dates
             you&apos;re looking for, as well as any interests you might have so
             we can find the perfect match for you.
           </HeaderText>
         </Header>
         <SearchForm>
           <SearchInputDiv order={0}>
-            <SearchLabel htmlFor="hometown">Hometown</SearchLabel>
+            <SearchLabel htmlFor="city">City</SearchLabel>
             <Select
               showSearch
-              placeholder="Enter your hometown"
-              name="hometown"
-              id="hometown"
+              placeholder="Enter your city"
+              name="city"
+              id="city"
               autoFocus
               style={{ width: 150 }}
               onSelect={this.onInputChange}
             >
-              {hometowns.map(hometown => (
-                <Select.Option value={hometown} key={hometown}>
-                  {hometown}
+              {cities.map(city => (
+                <Select.Option value={city} key={city}>
+                  {titleCase(city)}
                 </Select.Option>
               ))}
             </Select>
@@ -286,7 +289,8 @@ export default class index extends Component {
         {listings && (
           <ResultsWrapper>
             <ResultsText>
-              Your search returned {listings.length} results
+              Your search returned {listings.length}{" "}
+              {listings.length === 1 ? "result" : "results"}
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>
@@ -297,22 +301,15 @@ export default class index extends Component {
                     to={`${HOSTS_URL}/${listing.userID}`}
                   >
                     <HostHeader>
-                      <HostTitle>
-                        {listing.address.borough || listing.address.hometown}
-                      </HostTitle>
+                      <HostTitle>{listing.address.city}</HostTitle>
                     </HostHeader>
-                    <HostImg src={this.getListingPic(listing.photos[0])} />
+                    <HostImg src={this.getListingPic(listing.photos)} />
                     <HostDates>
                       {this.showStartDate(listing.availableDates)} -{" "}
                       {this.showEndDate(listing.availableDates)}
                     </HostDates>
                     <HostLocation>
-                      {listing.address.borough && (
-                        <>{listing.address.borough}, </>
-                      )}
-                      {listing.address.hometown && (
-                        <>{listing.address.hometown}, </>
-                      )}
+                      {listing.address.city && <>{listing.address.city}, </>}
                       {listing.address.postcode && (
                         <>{listing.address.postcode}</>
                       )}
@@ -331,10 +328,10 @@ export default class index extends Component {
                     >
                       <HostHeader>
                         <HostTitle>
-                          {listing.address.borough || listing.address.hometown}
+                          {listing.address.borough || listing.address.city}
                         </HostTitle>
                       </HostHeader>
-                      <HostImg src={this.getListingPic(listing.photos[0])} />
+                      <HostImg src={this.getListingPic(listing.photos)} />
                       <HostDates>
                         {this.showStartDate(listing.availableDates)} -{" "}
                         {this.showEndDate(listing.availableDates)}
@@ -343,9 +340,7 @@ export default class index extends Component {
                         {listing.address.borough && (
                           <>{listing.address.borough}, </>
                         )}
-                        {listing.address.hometown && (
-                          <>{listing.address.hometown}, </>
-                        )}
+                        {listing.address.city && <>{listing.address.city}, </>}
                         {listing.address.postcode && (
                           <>{listing.address.postcode}</>
                         )}

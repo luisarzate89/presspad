@@ -10,7 +10,7 @@ import {
   DatePicker,
   Empty,
   Icon,
-  Skeleton
+  Skeleton,
 } from "antd";
 import moment from "moment";
 import { Elements } from "react-stripe-elements";
@@ -22,7 +22,9 @@ import Update from "./Update";
 import CouponsColumns from "./CouponsColumns";
 import AddFundsModal from "./AddFundsModal";
 import DisabledPopOver from "../../Common/DisabledPopOver";
-import randomProfile from "../../../assets/listing-placeholder.jpg";
+
+import { HOSTS_URL } from "../../../constants/navRoutes";
+
 import {
   PageWrapper,
   ContentWrapper,
@@ -38,19 +40,21 @@ import {
   TD,
   Card,
   BlueLink,
+  BlueLink1,
   InternsTableWrapper,
   ModalTitle,
   ModalContentWrapper,
   ModalDescription,
   Label,
   Error,
-  ErrorWrapper
+  ErrorWrapper,
 } from "./OrgDashboard.style";
 import { colors } from "../../../theme";
 
 import homeIcon from "../../../assets/home-icon.svg";
 import invoiceIcon from "../../../assets/invoice-icon.svg";
 import contantIcon from "../../../assets/contact-icon.svg";
+import logPlaceholder from "../../../assets/logo-placeholder.png";
 
 const { Option } = Select;
 
@@ -76,12 +80,13 @@ class Content extends Component {
       handleSubmitCreateCoupon,
       handlePayNowClick,
       handleAccountUpdate,
-      stripe
+      markAsSeen,
+      handleViewMoreToggle,
+      stripe,
     } = this.props;
 
     const {
       details,
-      notifications,
       account,
       coupons,
       discountRate,
@@ -90,7 +95,10 @@ class Content extends Component {
       endOpen,
       errors,
       showAddFunds,
-      discountPrice
+      discountPrice,
+      notifications,
+      slicedNotifications,
+      viewNotificationNum,
     } = state;
     if (startValue && endValue) {
       const range = moment.range(startValue, endValue);
@@ -108,7 +116,7 @@ class Content extends Component {
     const liveCoupons = coupons.filter(
       item =>
         moment(item.endDate).valueOf() > moment().valueOf() &&
-        moment(item.startDate).valueOf() <= moment().valueOf()
+        moment(item.startDate).valueOf() <= moment().valueOf(),
     ).length;
 
     return (
@@ -130,7 +138,8 @@ class Content extends Component {
                   size="large"
                   icon="user"
                   src={
-                    (details && details.logo && details.logo.url) || undefined
+                    (details && details.logo && details.logo.url) ||
+                    logPlaceholder
                   }
                   style={{
                     width: "80px",
@@ -140,7 +149,7 @@ class Content extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)"
+                    border: "1px solid rgba(0, 0, 0, 0.15)",
                   }}
                 />
               </Col>
@@ -156,27 +165,41 @@ class Content extends Component {
           <Row gutter={20} type="flex" justify="start">
             {/* Your updates col */}
             <Col
+              xs={24}
               sm={24}
               lg={16}
               style={{
                 height: "auto",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
               }}
             >
               <Section style={{ marginBottom: "20px" }}>
-                <SectionWrapperContent style={{ minHeight: "200px" }}>
+                <SectionWrapperContent
+                  style={{ minHeight: "200px" }}
+                  onMouseEnter={markAsSeen}
+                  onTouchStart={markAsSeen}
+                >
                   <SectionTitle>Your updates</SectionTitle>
                   <UpdateList>
-                    {notifications && notifications.length > 0 ? (
-                      notifications.map(item => (
+                    {slicedNotifications.length > 0 ? (
+                      slicedNotifications.map(item => (
                         <Update key={item._id} item={item} />
                       ))
                     ) : (
                       <Empty description="No Updates" />
                     )}
                   </UpdateList>
+                  {notifications.length > 3 && (
+                    <BlueLink
+                      data-name="updates"
+                      onClick={handleViewMoreToggle}
+                      style={{ marginTop: "2rem", textAlign: "center" }}
+                    >
+                      {viewNotificationNum ? "View more" : "View less"}
+                    </BlueLink>
+                  )}
                 </SectionWrapperContent>
               </Section>
 
@@ -196,9 +219,9 @@ class Content extends Component {
                     <SectionWrapperContent>
                       <Card>
                         <img src={homeIcon} alt="View Hosts" />
-                        <DisabledPopOver>
-                          <BlueLink>View Hosts</BlueLink>
-                        </DisabledPopOver>
+                        {/* <DisabledPopOver> */}
+                        <BlueLink1 to={HOSTS_URL}>View Hosts</BlueLink1>
+                        {/* </DisabledPopOver> */}
                       </Card>
                     </SectionWrapperContent>
                   </Col>
@@ -215,16 +238,17 @@ class Content extends Component {
                 </Row>
               </Section>
             </Col>
-            <Col xs={24} sm={24} lg={8}>
-              <Section>
+            <Col xs={24} sm={24} lg={8} style={{ marginBottom: "20px" }}>
+              <Section style={{ height: "100%" }}>
                 <SectionWrapperContent
-                  style={{ padding: "5px", height: "393px" }}
+                  style={{ marginBottom: 0, height: "100%" }}
                 >
                   <ProfileImage
                     src={
-                      (details && details.logo && details.logo.url) || undefined
+                      (details && details.logo && details.logo.url) ||
+                      logPlaceholder
                     }
-                    onError={e => (e.target.src = randomProfile)}
+                    onError={e => (e.target.src = logPlaceholder)}
                   />
 
                   <InfoTable>
@@ -234,7 +258,7 @@ class Content extends Component {
                           Available funds:
                         </TD>
                         <TD position="center" bold>
-                          {(account && account.currentBalance) || 0}
+                          £{(account && account.currentBalance) || 0}
                         </TD>
                         <TD position="right">
                           <BlueLink onClick={() => handlePayNowClick(true)}>
@@ -250,15 +274,16 @@ class Content extends Component {
                         <TD position="right">
                           {account.currentBalance > 0 ? (
                             <>
-                              <BlueLink>
-                                <Skeleton
-                                  loading={state.addCouponLoading}
-                                  title={false}
-                                  active
-                                  paragraph={{ rows: 1, width: "95%" }}
-                                />
-                              </BlueLink>
-                              {!state.addCouponLoading && (
+                              {state.addCouponLoading ? (
+                                <BlueLink>
+                                  <Skeleton
+                                    loading={state.addCouponLoading}
+                                    title={false}
+                                    active
+                                    paragraph={{ rows: 1, width: "95%" }}
+                                  />
+                                </BlueLink>
+                              ) : (
                                 <BlueLink onClick={handleOpenModal}>
                                   Add codes
                                 </BlueLink>
@@ -268,6 +293,7 @@ class Content extends Component {
                             <DisabledPopOver
                               title="No Enough Fund"
                               message="Add More Funds"
+                              position="left"
                             >
                               Add codes
                             </DisabledPopOver>
@@ -278,7 +304,7 @@ class Content extends Component {
                       <InfoTableRow>
                         <TD position="left">Your Codes values:</TD>
                         <TD position="center" bold>
-                          {(account && account.couponsValue) || 0}
+                          £{(account && account.couponsValue) || 0}
                         </TD>
                       </InfoTableRow>
 
@@ -360,7 +386,7 @@ class Content extends Component {
                   style={{
                     width: "100%",
                     marginBottom:
-                      errors.internName || errors.internId ? "20px" : 0
+                      errors.internName || errors.internId ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -380,7 +406,7 @@ class Content extends Component {
                           border:
                             errors.internName || errors.internId
                               ? "1px solid red"
-                              : "1px solid #d9d9d9"
+                              : "1px solid #d9d9d9",
                         }}
                         optionLabelProp="label"
                       >
@@ -394,7 +420,8 @@ class Content extends Component {
                               <div
                                 style={{
                                   display: "flex",
-                                  justifyContent: "space-between"
+                                  justifyContent: "space-between",
+                                  textTransform: "capitalize",
                                 }}
                               >
                                 {item.name}
@@ -422,7 +449,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.startDate ? "20px" : 0
+                    marginBottom: errors.startDate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -441,7 +468,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.startDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
                       />
                       <Error>{errors.startDate}</Error>
@@ -456,7 +483,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.endDate ? "20px" : 0
+                    marginBottom: errors.endDate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -476,7 +503,7 @@ class Content extends Component {
                           width: "100%",
                           border: errors.endDate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
                       />
                       <Error>{errors.endDate}</Error>
@@ -493,7 +520,7 @@ class Content extends Component {
                   align="middle"
                   style={{
                     width: "100%",
-                    marginBottom: errors.discountRate ? "20px" : 0
+                    marginBottom: errors.discountRate ? "20px" : 0,
                   }}
                 >
                   <Col span={8}>
@@ -509,12 +536,12 @@ class Content extends Component {
                           width: "140px",
                           border: errors.discountRate
                             ? "1px solid red"
-                            : "1px solid #d9d9d9"
+                            : "1px solid #d9d9d9",
                         }}
                       >
                         {/* add discount rates */}
-                        {[0, 10, 25, 50, 100].map((rate, idx) => (
-                          <Option key={`RateSelectOption-${idx}`} value={rate}>
+                        {[10, 25, 50, 100].map(rate => (
+                          <Option key={rate} value={rate}>
                             % {rate}
                           </Option>
                         ))}
@@ -532,7 +559,7 @@ class Content extends Component {
                 <Button
                   label="Create Coupon"
                   type="secondary"
-                  style={{ width: "135px", marginTop: "2rem" }}
+                  style={{ marginTop: "2rem" }}
                   onClick={handleSubmitCreateCoupon}
                   loading={state.apiLoading}
                   disabled={account.currentBalance - potentialCost < 0}
@@ -546,23 +573,31 @@ class Content extends Component {
                 />
               </>
             ) : (
-              <Row
-                gutter={30}
-                type="flex"
-                justify="space-around"
-                align="middle"
-                style={{
-                  width: "100%",
-                  marginBottom: errors.withdrawValue ? "20px" : 0
-                }}
-              >
-                <div style={{ maxWidth: "200px" }}>
-                  <ModalDescription bold>Created Code: </ModalDescription>
-                  <ModalDescription bold style={{ color: colors.lightBlue }}>
-                    {state.code}
+              <>
+                <Row
+                  gutter={30}
+                  type="flex"
+                  justify="space-around"
+                  align="middle"
+                  style={{
+                    width: "100%",
+                    marginBottom: errors.withdrawValue ? "20px" : 0,
+                  }}
+                >
+                  <div style={{ maxWidth: "200px" }}>
+                    <ModalDescription bold>Created Code: </ModalDescription>
+                    <ModalDescription bold style={{ color: colors.lightBlue }}>
+                      {state.code}
+                    </ModalDescription>
+                  </div>
+                </Row>
+                <Row>
+                  <ModalDescription style={{ textDecoration: "center" }}>
+                    Please copy and share this code with your intern so they can
+                    use it when finding a place to stay.
                   </ModalDescription>
-                </div>
-              </Row>
+                </Row>
+              </>
             )}
           </ModalContentWrapper>
         </Modal>

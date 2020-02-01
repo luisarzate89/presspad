@@ -4,22 +4,20 @@ import { Row, Col, Input, Skeleton, Alert } from "antd";
 
 import { InputLabel } from "./PaymentsPlan.style";
 
-const PaymentInfoRow = ({ data: { key, value } }) => {
-  return (
-    <Row
-      style={{ height: "2.3rem", borderBottom: "1px solid #d9d9d9" }}
-      type="flex"
-      align="middle"
-    >
-      <Col offset={1} span={14}>
-        {key}:&nbsp;
-      </Col>
-      <Col span={9} style={{ color: "rgba(0, 0, 0, 0.5)", fontWeight: 600 }}>
-        {value}
-      </Col>
-    </Row>
-  );
-};
+const PaymentInfoRow = ({ data: { key, value } }) => (
+  <Row
+    style={{ height: "2.3rem", borderBottom: "1px solid #d9d9d9" }}
+    type="flex"
+    align="middle"
+  >
+    <Col offset={1} span={14}>
+      {key}:&nbsp;
+    </Col>
+    <Col span={9} style={{ color: "rgba(0, 0, 0, 0.5)", fontWeight: 600 }}>
+      {value}
+    </Col>
+  </Row>
+);
 
 const CouponCode = props => {
   const {
@@ -29,7 +27,7 @@ const CouponCode = props => {
     isLoading,
     handleCouponChange,
     couponDiscount,
-    error
+    error,
   } = props;
 
   return (

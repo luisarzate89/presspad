@@ -14,7 +14,7 @@ export default function InputWithLabel({
   showAsTextArea,
   fullHeight,
   parent,
-  readOnly = false
+  readOnly = false,
 }) {
   const onChange = ({ target: { name: fieldName, value: fieldValue } }) => {
     handleChange({ key: fieldName, value: fieldValue, parent });
@@ -39,7 +39,6 @@ export default function InputWithLabel({
               border: error ? "none" : "1px solid #d9d9d9",
               height: "100%",
               minHeight: fullHeight ? "230px" : undefined,
-              margin: fullHeight ? "0.5rem 0" : undefined
             }}
             readOnly={readOnly}
           />
@@ -56,7 +55,7 @@ export default function InputWithLabel({
             value={value || ""}
             data-parent="favouriteArticle"
             style={{
-              border: error ? "none" : "1px solid #d9d9d9"
+              border: error ? "none" : "1px solid #d9d9d9",
             }}
             readOnly={readOnly}
           />

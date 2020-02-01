@@ -23,7 +23,7 @@ import "antd/lib/modal/style/index.css";
 import "antd/lib/spin/style/index.css";
 import "antd/lib/alert/style/index.css";
 
-import { API_USER_URL } from "./../constants/apiRoutes";
+import { API_USER_URL } from "../constants/apiRoutes";
 
 import Navbar from "./Common/Navbar";
 
@@ -36,23 +36,13 @@ export const initialState = {
   email: null,
   isMounted: false,
   role: null,
-  windowWidth: null,
-  stripe: null
+  stripe: null,
 };
 
 class App extends Component {
   state = {
-    ...initialState
-  };
-
-  handleChangeState = data => {
-    this.setState({ ...data, isMounted: true });
-  };
-
-  updateWindowDimensions = () => {
-    this.setState({
-      windowWidth: window.innerWidth
-    });
+    ...initialState,
+    windowWidth: window.innerWidth,
   };
 
   componentDidMount() {
@@ -61,22 +51,34 @@ class App extends Component {
     window.addEventListener("resize", this.updateWindowDimensions);
     if (window.Stripe) {
       this.setState({
-        stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+        stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY),
       });
     } else {
+      // eslint-disable-next-line no-unused-expressions
       document.querySelector("#stripe-js") &&
         document.querySelector("#stripe-js").addEventListener("load", () => {
           // Create Stripe instance once Stripe.js loads
           this.setState({
-            stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+            stripe: window.Stripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY),
           });
         });
     }
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
+
+  handleChangeState = data => {
+    this.setState({ ...data, isMounted: true });
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({
+      windowWidth: window.innerWidth,
+    });
+  };
 
   resetState = () => {
     this.setState(initialState);
@@ -89,7 +91,10 @@ class App extends Component {
         if (data.user) {
           this.setState({ ...data.user, isLoggedIn: true, isMounted: true });
         } else {
-          this.setState({ ...initialState, isMounted: true });
+          this.setState({
+            ...initialState,
+            isMounted: true,
+          });
         }
       })
       .catch(err => this.setState({ error: err.responses, isMounted: true }));

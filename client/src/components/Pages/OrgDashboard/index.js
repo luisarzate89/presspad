@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Moment from "moment";
-import schema from "./schema";
-import { calculatePrice } from "./../../../helpers";
 import { extendMoment } from "moment-range";
 import { message } from "antd";
+import schema from "./schema";
+import { calculatePrice } from "../../../helpers";
 
 import {
   API_ORGS_DASHBOARD_URL,
   API_INTERNS_URL,
   API_COUPONS_URL,
-} from "./../../../constants/apiRoutes";
+  API_NOTIFICATION_URL,
+} from "../../../constants/apiRoutes";
 
 import Content from "./Content";
 
@@ -20,6 +21,9 @@ class OrganizationDashboard extends Component {
   state = {
     details: {},
     notifications: [],
+    slicedNotifications: [],
+    viewNotificationNum: 3,
+    markAsSeen: false,
     coupons: [],
     account: {},
     interns: [],
@@ -81,14 +85,24 @@ class OrganizationDashboard extends Component {
       .then(res => {
         const [details, notifications, coupons] = res.data;
 
+        const sortedNotification = notifications.sort((a, b) => {
+          if (Moment(a.createdAt).isAfter(b.createdAt)) {
+            return -1;
+          }
+          return 1;
+        });
         const { account } = details[0];
-        this.setState({
+        this.setState(({ viewNotificationNum }) => ({
           details: details[0] || {},
-          notifications,
+          notifications: sortedNotification,
+          slicedNotifications: sortedNotification.slice(
+            0,
+            viewNotificationNum + 1,
+          ),
           account,
           coupons,
           loaded: true,
-        });
+        }));
       })
       .catch(err => {
         const error =
@@ -175,6 +189,8 @@ class OrganizationDashboard extends Component {
   handleStartOpenChange = open => {
     if (!open) {
       this.setState({ endOpen: true });
+    } else {
+      this.setState({ endValue: undefined });
     }
   };
 
@@ -339,6 +355,67 @@ class OrganizationDashboard extends Component {
   handleAccountUpdate = account =>
     this.setState({ account, showAddFunds: false });
 
+  markAsSeen = async () => {
+    const { notifications, slicedNotifications, markAsSeen } = this.state;
+    if (!markAsSeen) {
+      try {
+        const newNotifications = slicedNotifications.map(ele => ({ ...ele }));
+        const notificationsIds = slicedNotifications.reduce((acc, curr, i) => {
+          if (!curr.seenForOrg) {
+            acc.push(curr._id);
+            newNotifications[i].loading = true;
+          }
+          return acc;
+        }, []);
+
+        this.setState({
+          markAsSeen: true,
+          slicedNotifications: newNotifications,
+        });
+        if (notificationsIds[0]) {
+          await axios.patch(`${API_NOTIFICATION_URL}/seen`, notificationsIds);
+
+          const updatedNotifications = notifications.map(update => {
+            if (notificationsIds.includes(update._id)) {
+              return {
+                ...update,
+                seenForOrg: true,
+                loading: false,
+              };
+            }
+            return update;
+          });
+
+          this.setState(({ viewNotificationNum }) => ({
+            notifications: updatedNotifications,
+            slicedNotifications: viewNotificationNum
+              ? updatedNotifications.slice(0, viewNotificationNum)
+              : updatedNotifications,
+          }));
+        }
+      } catch (error) {
+        this.setState({ markAsSeen: false, slicedNotifications });
+        message.error("Something went wrong");
+      }
+    }
+  };
+
+  handleViewMoreToggle = ({
+    target: {
+      dataset: { name },
+    },
+  }) => {
+    if (name === "updates") {
+      this.setState(({ viewNotificationNum, notifications }) => ({
+        viewNotificationNum: viewNotificationNum ? undefined : 3,
+        slicedNotifications: viewNotificationNum
+          ? notifications
+          : notifications.slice(0, 3),
+        markAsSeen: false,
+      }));
+    }
+  };
+
   render() {
     const { name, windowWidth, stripe } = this.props;
 
@@ -366,6 +443,8 @@ class OrganizationDashboard extends Component {
         handleSubmitCreateCoupon={this.handleSubmitCreateCoupon}
         handlePayNowClick={this.handlePayNowClick}
         handleAccountUpdate={this.handleAccountUpdate}
+        markAsSeen={this.markAsSeen}
+        handleViewMoreToggle={this.handleViewMoreToggle}
       />
     );
   }

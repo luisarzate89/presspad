@@ -3,23 +3,24 @@ import { Redirect } from "react-router-dom";
 
 import { DASHBOARD_URL } from "../../../constants/navRoutes";
 
-import HostProfile from "../HostProfile";
-import InternProfile from "./../InternProfile";
+import HostCreateProfile from "../HostCreateProfile";
+import InternCreateProfile from "../InternCreateProfile";
 
 const MyProfile = props => {
   const { role } = props;
 
   if (role === "host" || role === "superhost") {
-    return <HostProfile {...props} />;
+    return <HostCreateProfile {...props} />;
   }
 
   if (role === "intern") {
-    return <InternProfile {...props} />;
+    return <InternCreateProfile {...props} />;
   }
 
   if (role === "organisation") {
     return <Redirect to={DASHBOARD_URL} />;
   }
+  return null;
 };
 
 export default MyProfile;
