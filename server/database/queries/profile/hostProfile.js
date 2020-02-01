@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const User = require("../../models/User");
-const Booking = require("../../models/Booking");
+const mongoose = require('mongoose');
+const User = require('../../models/User');
+const Booking = require('../../models/Booking');
 
 exports.hostProfileData = (hostId, isPrivate = false) => {
   const listingProject = {
     profile: 1,
-    "listing._id": 1,
-    "listing.photos": 1,
-    "listing.availableDates": 1,
-    "listing.accommodationChecklist": 1,
-    "listing.neighbourhoodDescription": 1,
-    "listing.otherInfo": 1,
-    "listing.address": 1,
+    'listing._id': 1,
+    'listing.photos': 1,
+    'listing.availableDates': 1,
+    'listing.accommodationChecklist': 1,
+    'listing.neighbourhoodDescription': 1,
+    'listing.otherInfo': 1,
+    'listing.address': 1,
     reviews: 1,
   };
 
@@ -40,66 +40,66 @@ exports.hostProfileData = (hostId, isPrivate = false) => {
     {
       $match: {
         _id: mongoose.Types.ObjectId(hostId),
-        role: "host",
+        role: 'host',
       },
     },
     // lookup profile
     {
       $lookup: {
-        from: "profiles",
-        let: { id: "$_id" },
+        from: 'profiles',
+        let: { id: '$_id' },
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ["$user", "$$id"] },
+              $expr: { $eq: ['$user', '$$id'] },
             },
           },
           {
             $project: profileProject,
           },
         ],
-        as: "profile",
+        as: 'profile',
       },
     },
     {
       $unwind: {
-        path: "$profile",
+        path: '$profile',
         preserveNullAndEmptyArrays: true,
       },
     },
     // lookup listings
     {
       $lookup: {
-        from: "listings",
-        localField: "_id",
-        foreignField: "user",
-        as: "listing",
+        from: 'listings',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'listing',
       },
     },
     {
       $unwind: {
-        path: "$listing",
+        path: '$listing',
         preserveNullAndEmptyArrays: true,
       },
     },
     {
       $lookup: {
-        from: "reviews",
-        let: { user_id: "$_id" },
+        from: 'reviews',
+        let: { user_id: '$_id' },
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ["$to", "$$user_id"] },
+              $expr: { $eq: ['$to', '$$user_id'] },
             },
           },
           {
             $lookup: {
-              from: "users",
-              let: { from: "$from" },
+              from: 'users',
+              let: { from: '$from' },
               pipeline: [
                 {
                   $match: {
-                    $expr: { $eq: ["$_id", "$$from"] },
+                    $expr: { $eq: ['$_id', '$$from'] },
                   },
                 },
                 {
@@ -110,12 +110,12 @@ exports.hostProfileData = (hostId, isPrivate = false) => {
                 },
                 {
                   $lookup: {
-                    from: "profiles",
-                    let: { id: "$_id" },
+                    from: 'profiles',
+                    let: { id: '$_id' },
                     pipeline: [
                       {
                         $match: {
-                          $expr: { $eq: ["$user", "$$id"] },
+                          $expr: { $eq: ['$user', '$$id'] },
                         },
                       },
                       {
@@ -124,25 +124,25 @@ exports.hostProfileData = (hostId, isPrivate = false) => {
                         },
                       },
                     ],
-                    as: "profile",
+                    as: 'profile',
                   },
                 },
                 {
                   $addFields: {
-                    profile: { $arrayElemAt: ["$profile", 0] },
+                    profile: { $arrayElemAt: ['$profile', 0] },
                   },
                 },
               ],
-              as: "from",
+              as: 'from',
             },
           },
           {
             $addFields: {
-              from: { $arrayElemAt: ["$from", 0] },
+              from: { $arrayElemAt: ['$from', 0] },
             },
           },
         ],
-        as: "reviews",
+        as: 'reviews',
       },
     },
     {
@@ -155,5 +155,5 @@ exports.getConfirmedBooking = (internId, hostId) =>
   Booking.findOne({
     intern: internId,
     host: hostId,
-    status: { $in: ["confirmed", "completed"] },
+    status: { $in: ['confirmed', 'completed'] },
   });

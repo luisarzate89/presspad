@@ -1,19 +1,19 @@
-const boom = require("boom");
+const boom = require('boom');
 
 const {
   hostAcceptBookingById,
   getBookingWithUsers,
-} = require("../../database/queries/bookings");
-const { registerNotification } = require("../../services/notifications");
-const requestAcceptedToIntern = require("./../../helpers/mailHelper/requestAcceptedToIntern");
-const requestAcceptedToAdmin = require("./../../helpers/mailHelper/requestAcceptedToAdmin");
-const { scheduleReminderEmails } = require("./../../services/mailing");
+} = require('../../database/queries/bookings');
+const { registerNotification } = require('../../services/notifications');
+const requestAcceptedToIntern = require('./../../helpers/mailHelper/requestAcceptedToIntern');
+const requestAcceptedToAdmin = require('./../../helpers/mailHelper/requestAcceptedToAdmin');
+const { scheduleReminderEmails } = require('./../../services/mailing');
 const {
   findAllQuestions,
   createChecklistAnswers,
-} = require("./../../database/queries/checkList");
+} = require('./../../database/queries/checkList');
 
-const createBookingChecklistAnswers = require("../../helpers/createBookingChecklistAnswers");
+const createBookingChecklistAnswers = require('../../helpers/createBookingChecklistAnswers');
 
 const acceptBooking = async (req, res, next) => {
   const { id: bookingId } = req.params;
@@ -21,7 +21,7 @@ const acceptBooking = async (req, res, next) => {
   const { moneyGoTo } = req.body;
   try {
     // check for role
-    if (role !== "host" && role !== "superhost") {
+    if (role !== 'host' && role !== 'superhost') {
       return next(boom.forbidden());
     }
 
@@ -35,7 +35,7 @@ const acceptBooking = async (req, res, next) => {
       private: false,
       user: updatedBookingRequest.intern,
       secondParty: updatedBookingRequest.host,
-      type: "stayApproved",
+      type: 'stayApproved',
       booking: bookingId,
     };
 
@@ -65,7 +65,7 @@ const acceptBooking = async (req, res, next) => {
       createChecklistAnswers(answers),
     ];
 
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === 'production') {
       promiseArray = [
         ...promiseArray, // send email to intern
         requestAcceptedToIntern(bookingDetails),

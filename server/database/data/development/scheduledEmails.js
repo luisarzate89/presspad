@@ -1,15 +1,14 @@
-
-const ScheduledEmail = require("../../models/ScheduledEmail");
-const Booking = require("../../models/Booking");
+const ScheduledEmail = require('../../models/ScheduledEmail');
+const Booking = require('../../models/Booking');
 
 module.exports = async () => {
   const bookings = await Booking.find();
 
   const scheduledEmails = [
     {
-      type: "BOOKING_REMINDER_1_WEEK",
+      type: 'BOOKING_REMINDER_1_WEEK',
       data: {
-        recipient: "test@gmail.com",
+        recipient: 'test@gmail.com',
         host: bookings[0].host,
         booking: bookings[0]._id,
       },

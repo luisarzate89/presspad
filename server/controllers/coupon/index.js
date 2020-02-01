@@ -1,3 +1,3 @@
-const getCoupons = require("./getCoupons");
+const getCoupons = require('./getCoupons');
 
 module.exports = { getCoupons };

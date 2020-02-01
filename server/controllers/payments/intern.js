@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
-const stripe = require("stripe")(process.env.stripeSK);
-const boom = require("boom");
+const mongoose = require('mongoose');
+const stripe = require('stripe')(process.env.stripeSK);
+const boom = require('boom');
 
-const { getBookingById } = require("../../database/queries/bookings");
-const { getCoupons } = require("../../database/queries/coupon");
+const { getBookingById } = require('../../database/queries/bookings');
+const { getCoupons } = require('../../database/queries/coupon');
 
-const generatePaymentResponse = require("./generatePaymentResponse");
-const internTransaction = require("./internTransaction");
+const generatePaymentResponse = require('./generatePaymentResponse');
+const internTransaction = require('./internTransaction');
 
-const { schedulePaymentReminders } = require("./../../services/mailing");
+const { schedulePaymentReminders } = require('./../../services/mailing');
 
 const {
   getDiscountDays,
@@ -16,7 +16,7 @@ const {
   createInstallments,
   compareInstallments,
   getFirstUnpaidInstallment,
-} = require("../../helpers/payments");
+} = require('../../helpers/payments');
 
 const internPayment = async (req, res, next) => {
   const {
@@ -28,17 +28,17 @@ const internPayment = async (req, res, next) => {
   } = req.body;
 
   try {
-    const [booking] = await getBookingById(bookingId, "intern");
+    const [booking] = await getBookingById(bookingId, 'intern');
     // check for Authorization
-    if (!req.user) return next(boom.forbidden("req.user undefined"));
-    if (req.user.role !== "intern")
-      return next(boom.forbidden("user is not an Intern"));
+    if (!req.user) return next(boom.forbidden('req.user undefined'));
+    if (req.user.role !== 'intern')
+      return next(boom.forbidden('user is not an Intern'));
     if (req.user._id.toString() !== booking.intern.toString())
       return next(boom.forbidden("user didn't match booking.internId"));
 
     // check if the booking is confirmed
-    if (booking.status !== "confirmed")
-      return next(boom.badData("booking is not confirmed"));
+    if (booking.status !== 'confirmed')
+      return next(boom.badData('booking is not confirmed'));
 
     let amount;
     let couponDiscount = 0;
@@ -50,7 +50,7 @@ const internPayment = async (req, res, next) => {
     if (Array.isArray(paymentInfo) || !paymentInfo._id) {
       // check for old installments
       if (booking.installments[0])
-        return next(boom.badData("booking already have installments"));
+        return next(boom.badData('booking already have installments'));
 
       // Coupon used
       if (couponInfo.couponCode) {
@@ -69,7 +69,7 @@ const internPayment = async (req, res, next) => {
 
         // Validate discount days
         if (discountDays !== couponInfo.discountDays)
-          return next(boom.badData("wrong coupon Info"));
+          return next(boom.badData('wrong coupon Info'));
 
         // Calculate coupon discount amount
         couponDiscount =
@@ -77,7 +77,7 @@ const internPayment = async (req, res, next) => {
 
         // Validate discount amount
         if (couponDiscount !== couponInfo.couponDiscount)
-          return next(boom.badData("wrong coupon Info"));
+          return next(boom.badData('wrong coupon Info'));
 
         couponDiscountDays = discountDays;
         couponOrganisationAccount = coupon.organisationAccount;
@@ -112,7 +112,7 @@ const internPayment = async (req, res, next) => {
       }
 
       if (!compareInstallments(paymentInfo, newInstallments))
-        return next(boom.badData("wrong installments info"));
+        return next(boom.badData('wrong installments info'));
     } else {
       // old installment
       const firstUnpaidInstallment = getFirstUnpaidInstallment(
@@ -123,9 +123,9 @@ const internPayment = async (req, res, next) => {
       amount = firstUnpaidInstallment.amount;
 
       if (paymentInfo._id.toString() !== firstUnpaidInstallment._id.toString())
-        return next(boom.badData("bad installment info"));
+        return next(boom.badData('bad installment info'));
       if (paymentInfo.amount !== firstUnpaidInstallment.amount)
-        return next(boom.badData("bad amount info"));
+        return next(boom.badData('bad amount info'));
     }
 
     // start a mongodb session
@@ -169,14 +169,14 @@ const internPayment = async (req, res, next) => {
         intent = await stripe.paymentIntents.create({
           payment_method: paymentMethod.id,
           amount: Math.floor(amount * 100),
-          currency: "gbp",
-          confirmation_method: "manual",
+          currency: 'gbp',
+          confirmation_method: 'manual',
           confirm: true,
         });
       } else if (paymentIntent) {
         intent = await stripe.paymentIntents.confirm(paymentIntent.id);
       } else {
-        throw boom.badData("no payment object from the client");
+        throw boom.badData('no payment object from the client');
       }
 
       const response = await generatePaymentResponse(intent);

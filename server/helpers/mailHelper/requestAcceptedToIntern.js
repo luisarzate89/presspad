@@ -1,16 +1,15 @@
-const { capitalizeName } = require("../general");
-const sendMail = require("./index");
-const { email, domain } = require("./../../config");
+const { capitalizeName } = require('../general');
+const sendMail = require('./index');
+const { email, domain } = require('./../../config');
 
 /**
  * send email to intern when thier booking request get accepted
  * @param {Object} options - required options to send email
  * { host: { name } }, { intern: { name, email } , _id: bookingId},
  */
-const requestAcceptedToIntern = (options) => {
+const requestAcceptedToIntern = options => {
   const hostName = capitalizeName(options.host.name);
   const internName = capitalizeName(options.intern.name);
-
 
   const html = `
     <p>Hi <span style="font-weight=700;">${internName}</span>.</p>

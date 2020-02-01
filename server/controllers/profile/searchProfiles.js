@@ -1,13 +1,13 @@
 // expects start/end dates and/or hometown
 // responds with list of relevant listings
 
-const boom = require("boom");
-const generateUrl = require("../../helpers/generateFileURL");
+const boom = require('boom');
+const generateUrl = require('../../helpers/generateFileURL');
 
 // QUERIES
 const {
   searchProfiles,
-} = require("./../../database/queries/profile/searchProfiles");
+} = require('./../../database/queries/profile/searchProfiles');
 
 module.exports = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
       // eslint-disable-next-line no-param-reassign
       address.postcode = address.postcode
         ? address.postcode.substring(0, address.postcode.length - 3)
-        : "";
+        : '';
     });
 
     res.json(listings);

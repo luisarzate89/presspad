@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
@@ -8,14 +8,14 @@ const scheduledEmailSchema = new Schema(
       type: String,
       enum: [
         // used
-        "BOOKING_REMINDER_1_WEEK",
-        "BOOKING_REMINDER_2_WEEKS",
-        "BOOKING_REMINDER_3_WEEKS",
-        "SECOND_PAYMENT_REMINDER",
-        "THIRD_PAYMENT_REMINDER",
+        'BOOKING_REMINDER_1_WEEK',
+        'BOOKING_REMINDER_2_WEEKS',
+        'BOOKING_REMINDER_3_WEEKS',
+        'SECOND_PAYMENT_REMINDER',
+        'THIRD_PAYMENT_REMINDER',
         // not used
-        "INTERN_STAY_APPROVED",
-        "ADMIN_REMINDER",
+        'INTERN_STAY_APPROVED',
+        'ADMIN_REMINDER',
       ],
     },
     data: {
@@ -27,7 +27,7 @@ const scheduledEmailSchema = new Schema(
       required: true,
       validate: {
         validator: value => Date.now() < value,
-        message: "due date is in the past",
+        message: 'due date is in the past',
       },
     },
     isSent: {
@@ -38,6 +38,6 @@ const scheduledEmailSchema = new Schema(
   { timestamps: true },
 );
 
-const ScheduledEmail = model("scheduledEmails", scheduledEmailSchema);
+const ScheduledEmail = model('scheduledEmails', scheduledEmailSchema);
 
 module.exports = ScheduledEmail;

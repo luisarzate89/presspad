@@ -1,5 +1,5 @@
-const Moment = require("moment");
-const { extendMoment } = require("moment-range");
+const Moment = require('moment');
+const { extendMoment } = require('moment-range');
 
 const moment = extendMoment(Moment);
 
@@ -15,9 +15,9 @@ exports.createInstallments = (netAmount, startDate, endDate, upfront) => {
   if (upfront) {
     return {
       key: 1,
-      dueDate: moment().isBefore(moment(startDate).subtract(7, "day"))
+      dueDate: moment().isBefore(moment(startDate).subtract(7, 'day'))
         ? moment(startDate)
-            .subtract(7, "day")
+            .subtract(7, 'day')
             .toISOString()
         : moment().toISOString(),
       amount: netAmount,
@@ -31,13 +31,13 @@ exports.createInstallments = (netAmount, startDate, endDate, upfront) => {
   const thirdPay = netAmount - firstPay - secondPay;
 
   // split payments dueDate
-  const firstDueDate = moment().isBefore(moment(startDate).subtract(7, "day"))
+  const firstDueDate = moment().isBefore(moment(startDate).subtract(7, 'day'))
     ? moment(startDate)
-        .subtract(7, "day")
+        .subtract(7, 'day')
         .toISOString()
     : moment().toISOString();
   const secondDueDate = moment(startDate)
-    .add(Math.round(moment(endDate).diff(startDate, "days") / 2), "day")
+    .add(Math.round(moment(endDate).diff(startDate, 'days') / 2), 'day')
     .toISOString();
   const thirdDueDate = endDate;
 
@@ -75,9 +75,9 @@ exports.getDiscountDays = dates => {
   if (!intersectRange) return { discountDays: 0 };
 
   // reset the time to 00:00 to calculate the start and the end day of the range
-  intersectRange.start.startOf("day");
+  intersectRange.start.startOf('day');
 
-  const discountDays = intersectRange.diff("day") + 1;
+  const discountDays = intersectRange.diff('day') + 1;
 
   return { discountDays, discountRange: intersectRange };
 };
@@ -90,14 +90,14 @@ exports.calculatePrice = range => {
   if (!range) return 0;
   let weeks;
   let days;
-  if (typeof range === "number") {
+  if (typeof range === 'number') {
     weeks = Math.trunc(range / 7);
     days = range % 7;
   } else {
-    range.start.startOf("day");
-    range.end.add(1, "day").endOf("day");
-    weeks = range.diff("weeks");
-    days = range.diff("days") % 7;
+    range.start.startOf('day');
+    range.end.add(1, 'day').endOf('day');
+    weeks = range.diff('weeks');
+    days = range.diff('days') % 7;
   }
   return weeks * 150 + days * 20;
 };
@@ -142,8 +142,8 @@ exports.compareInstallments = (oldInstallments, newInstallments) => {
     if (oldAmount !== amount) return false;
     if (
       !moment(dueDate)
-        .startOf("day")
-        .isSame(moment(oldDueDate).startOf("day"))
+        .startOf('day')
+        .isSame(moment(oldDueDate).startOf('day'))
     )
       return false;
 
@@ -156,8 +156,8 @@ exports.compareInstallments = (oldInstallments, newInstallments) => {
     if (oldAmount !== amount) return false;
     if (
       !moment(dueDate)
-        .startOf("day")
-        .isSame(moment(oldDueDate).startOf("day"))
+        .startOf('day')
+        .isSame(moment(oldDueDate).startOf('day'))
     )
       return false;
     return acc;

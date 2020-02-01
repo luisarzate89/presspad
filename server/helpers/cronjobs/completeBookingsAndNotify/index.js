@@ -1,8 +1,8 @@
-const Sentry = require("@sentry/node");
+const Sentry = require('@sentry/node');
 
-const getCompletedBookings = require("../../../database/queries/bookings/getCompletedBookings");
-const markBookingsCompleted = require("../../../database/queries/bookings/markBookingsCompleted");
-const { registerNotification } = require("../../../services/notifications");
+const getCompletedBookings = require('../../../database/queries/bookings/getCompletedBookings');
+const markBookingsCompleted = require('../../../database/queries/bookings/markBookingsCompleted');
+const { registerNotification } = require('../../../services/notifications');
 
 module.exports = async () => {
   try {
@@ -15,7 +15,7 @@ module.exports = async () => {
         registerNotification({
           user: booking.intern,
           secondParty: booking.host,
-          type: "stayCompleted",
+          type: 'stayCompleted',
           private: false,
           booking: booking._id,
         }),
@@ -26,7 +26,7 @@ module.exports = async () => {
         registerNotification({
           user: booking.host,
           secondParty: booking.intern,
-          type: "giveReviewReminder",
+          type: 'giveReviewReminder',
           private: true,
           booking: booking._id,
         }),
@@ -37,7 +37,7 @@ module.exports = async () => {
         registerNotification({
           user: booking.intern,
           secondParty: booking.host,
-          type: "giveReviewReminder",
+          type: 'giveReviewReminder',
           private: true,
           booking: booking._id,
         }),

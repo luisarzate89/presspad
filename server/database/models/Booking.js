@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
@@ -6,17 +6,17 @@ const bookingSchema = new Schema(
   {
     intern: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
       required: true,
     },
     host: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
       required: true,
     },
     listing: {
       type: Schema.Types.ObjectId,
-      ref: "listings",
+      ref: 'listings',
       required: true,
     },
     startDate: {
@@ -33,8 +33,8 @@ const bookingSchema = new Schema(
     // bookings need to be confirmed or canceled by [host,intern,admin]
     status: {
       type: String,
-      enum: ["pending", "confirmed", "canceled", "completed"],
-      default: "pending",
+      enum: ['pending', 'confirmed', 'canceled', 'completed'],
+      default: 'pending',
       required: true,
     },
     price: {
@@ -48,14 +48,14 @@ const bookingSchema = new Schema(
     // user's ID who canceled the booking
     canceledBy: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     // when intern pay to booking, where should money go
     moneyGoTo: {
       type: String,
-      enum: ["presspad", "host"],
+      enum: ['presspad', 'host'],
       required: true,
-      default: "host",
+      default: 'host',
     },
   },
   {
@@ -63,6 +63,6 @@ const bookingSchema = new Schema(
   },
 );
 
-const Booking = model("bookings", bookingSchema);
+const Booking = model('bookings', bookingSchema);
 
 module.exports = Booking;

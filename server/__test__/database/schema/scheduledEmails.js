@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const ScheduledEmail = require("../../../database/models/ScheduledEmail");
-const Booking = require("../../../database/models/Booking");
+const ScheduledEmail = require('../../../database/models/ScheduledEmail');
+const Booking = require('../../../database/models/Booking');
 
-const buildDB = require("../../../database/data/test");
+const buildDB = require('../../../database/data/test');
 
-describe("Test ScheduledEmail schema", () => {
+describe('Test ScheduledEmail schema', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -16,18 +16,18 @@ describe("Test ScheduledEmail schema", () => {
     mongoose.disconnect();
   });
 
-  test("should ScheduledEmail schema be defined", async () => {
+  test('should ScheduledEmail schema be defined', async () => {
     expect(ScheduledEmail).toBeDefined();
   });
 
-  test("should ScheduledEmail schema store correctly", async (done) => {
+  test('should ScheduledEmail schema store correctly', async done => {
     // users
     const bookings = await Booking.find();
 
     const scheduledEmail = {
-      type: "BOOKING_REMINDER_1_WEEK",
+      type: 'BOOKING_REMINDER_1_WEEK',
       data: {
-        recipient: "test@gmail.com",
+        recipient: 'test@gmail.com',
         host: bookings[0].host,
         booking: bookings[0]._id,
       },

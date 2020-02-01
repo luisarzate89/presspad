@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const User = require("../../models/User");
+const User = require('../../models/User');
 
 /**
  * get host dashboard information
@@ -13,65 +13,65 @@ const hostDashboard = id =>
     { $match: { _id: mongoose.Types.ObjectId(id) } },
     {
       $lookup: {
-        from: "withdrawrequests",
-        localField: "_id",
-        foreignField: "user",
-        as: "withdrawRequests",
+        from: 'withdrawrequests',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'withdrawRequests',
       },
     },
     // Host profile
     {
       $lookup: {
-        from: "profiles",
-        let: { host: "$_id" },
-        pipeline: [{ $match: { $expr: { $eq: ["$$host", "$user"] } } }],
-        as: "profile",
+        from: 'profiles',
+        let: { host: '$_id' },
+        pipeline: [{ $match: { $expr: { $eq: ['$$host', '$user'] } } }],
+        as: 'profile',
       },
     },
     {
-      $unwind: { path: "$profile", preserveNullAndEmptyArrays: true },
+      $unwind: { path: '$profile', preserveNullAndEmptyArrays: true },
     },
     // host notification
     {
       $lookup: {
-        from: "notifications",
-        let: { host: "$_id" },
+        from: 'notifications',
+        let: { host: '$_id' },
         pipeline: [
-          { $match: { $expr: { $eq: ["$$host", "$user"] } } },
+          { $match: { $expr: { $eq: ['$$host', '$user'] } } },
           // SecondParty name
           {
             $lookup: {
-              from: "users",
-              let: { secondParty: "$secondParty" },
+              from: 'users',
+              let: { secondParty: '$secondParty' },
               pipeline: [
-                { $match: { $expr: { $eq: ["$$secondParty", "$_id"] } } },
+                { $match: { $expr: { $eq: ['$$secondParty', '$_id'] } } },
                 {
                   $project: { name: 1 },
                 },
               ],
-              as: "secondParty",
+              as: 'secondParty',
             },
           },
           {
-            $unwind: { path: "$secondParty", preserveNullAndEmptyArrays: true },
+            $unwind: { path: '$secondParty', preserveNullAndEmptyArrays: true },
           },
         ],
-        as: "notifications",
+        as: 'notifications',
       },
     },
 
     // host bookings
     {
       $lookup: {
-        from: "bookings",
-        let: { host: "$_id" },
+        from: 'bookings',
+        let: { host: '$_id' },
         pipeline: [
           {
             $match: {
               $expr: {
                 $and: [
-                  { $eq: ["$$host", "$host"] },
-                  { $ne: ["$status", "canceled"] },
+                  { $eq: ['$$host', '$host'] },
+                  { $ne: ['$status', 'canceled'] },
                 ],
               },
             },
@@ -79,24 +79,24 @@ const hostDashboard = id =>
           // intern name
           {
             $lookup: {
-              from: "users",
-              let: { intern: "$intern" },
+              from: 'users',
+              let: { intern: '$intern' },
               pipeline: [
-                { $match: { $expr: { $eq: ["$$intern", "$_id"] } } },
+                { $match: { $expr: { $eq: ['$$intern', '$_id'] } } },
                 // host profile
                 {
                   $lookup: {
-                    from: "profiles",
-                    let: { intern: "$_id" },
+                    from: 'profiles',
+                    let: { intern: '$_id' },
                     pipeline: [
-                      { $match: { $expr: { $eq: ["$$intern", "$user"] } } },
+                      { $match: { $expr: { $eq: ['$$intern', '$user'] } } },
                     ],
-                    as: "profile",
+                    as: 'profile',
                   },
                 },
                 {
                   $unwind: {
-                    path: "$profile",
+                    path: '$profile',
                     preserveNullAndEmptyArrays: true,
                   },
                 },
@@ -107,34 +107,34 @@ const hostDashboard = id =>
                   },
                 },
               ],
-              as: "intern",
+              as: 'intern',
             },
           },
           {
-            $unwind: { path: "$intern", preserveNullAndEmptyArrays: true },
+            $unwind: { path: '$intern', preserveNullAndEmptyArrays: true },
           },
         ],
-        as: "bookings",
+        as: 'bookings',
       },
     },
     {
       $lookup: {
-        from: "accounts",
-        localField: "account",
-        foreignField: "_id",
-        as: "account",
+        from: 'accounts',
+        localField: 'account',
+        foreignField: '_id',
+        as: 'account',
       },
     },
     {
       $lookup: {
-        from: "withdrawrequests",
-        localField: "_id",
-        foreignField: "user",
-        as: "withdrawRequests",
+        from: 'withdrawrequests',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'withdrawRequests',
       },
     },
     {
-      $unwind: { path: "$account", preserveNullAndEmptyArrays: true },
+      $unwind: { path: '$account', preserveNullAndEmptyArrays: true },
     },
     {
       $project: {

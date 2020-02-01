@@ -1,7 +1,6 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { admin } = require("../config");
-
+const { admin } = require('../config');
 
 /**
  * function returns a middleware
@@ -19,14 +18,16 @@ module.exports = () => async (req, res, next) => {
     const requests = [];
     const fieldsNames = [];
     // iterate through the files
-    req.files.forEach((file) => {
+    req.files.forEach(file => {
       // make an array of promises to upload the files
       fieldsNames.push(file);
 
-      requests.push(bucket.upload(file.path, {
-        // Support for HTTP requests made with `Accept-Encoding: gzip`
-        gzip: true,
-      }));
+      requests.push(
+        bucket.upload(file.path, {
+          // Support for HTTP requests made with `Accept-Encoding: gzip`
+          gzip: true,
+        }),
+      );
     });
 
     // upload the files array
@@ -34,13 +35,14 @@ module.exports = () => async (req, res, next) => {
 
     // signed url options
     const options = {
-      action: "read",
-      expires: "03-17-3000",
+      action: 'read',
+      expires: '03-17-3000',
     };
 
     // create an array of getting signed urls requests
-    const urlRequests = uploadedFiles.map(item => bucket.file(item[0].name)
-      .getSignedUrl(options));
+    const urlRequests = uploadedFiles.map(item =>
+      bucket.file(item[0].name).getSignedUrl(options),
+    );
 
     // get the urls at once
     const urls = await Promise.all(urlRequests);
@@ -53,7 +55,7 @@ module.exports = () => async (req, res, next) => {
       req.body[fieldName.fieldname] = urlText;
     });
   } catch (error) {
-    next(boom.badImplementation("Error while uploading files"));
+    next(boom.badImplementation('Error while uploading files'));
   }
 
   return next();

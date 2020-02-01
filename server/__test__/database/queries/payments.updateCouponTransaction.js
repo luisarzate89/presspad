@@ -1,29 +1,31 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const buildDB = require("../../../database/data/test/index");
+const buildDB = require('../../../database/data/test/index');
 
 // get query
-const { updateCouponTransaction } = require("../../../database/queries/payments");
+const {
+  updateCouponTransaction,
+} = require('../../../database/queries/payments');
 
 // get models
-const User = require("../../../database/models/User");
-const InternalTransaction = require("../../../database/models/InternalTransaction");
-const Booking = require("../../../database/models/Booking");
-const Coupon = require("../../../database/models/Coupon");
+const User = require('../../../database/models/User');
+const InternalTransaction = require('../../../database/models/InternalTransaction');
+const Booking = require('../../../database/models/Booking');
+const Coupon = require('../../../database/models/Coupon');
 
-describe("Tests for updateCouponTransaction queries", () => {
-  beforeAll(async (done) => {
+describe('Tests for updateCouponTransaction queries', () => {
+  beforeAll(async done => {
     // build dummy data
     await buildDB();
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async done => {
     await mongoose.disconnect();
     done();
   });
 
-  test("Test updateCouponTransaction", async (done) => {
+  test('Test updateCouponTransaction', async done => {
     const [booking] = await Booking.find({ payedAmount: 0 });
 
     const { host: hostId, intern: internId } = booking;
@@ -37,11 +39,16 @@ describe("Tests for updateCouponTransaction queries", () => {
       from: coupon.organisationAccount,
       to: host.account,
       amount,
-      type: "couponTransaction",
+      type: 'couponTransaction',
     });
 
     const result = await updateCouponTransaction(
-      intern._id, coupon._id, internalTransaction._id, booking._id, 5, amount,
+      intern._id,
+      coupon._id,
+      internalTransaction._id,
+      booking._id,
+      5,
+      amount,
     );
 
     const [updatedCoupon] = await Coupon.find({ _id: coupon._id });
@@ -50,17 +57,19 @@ describe("Tests for updateCouponTransaction queries", () => {
     expect(result).toBeDefined();
     expect(updatedCoupon.usedDays).toBe(10);
     // check transactions udedDays
-    expect(updatedCoupon.transactions)
-      .toEqual(expect.arrayContaining([expect.objectContaining(
-        { usedDays: 5 },
-      )]));
+    expect(updatedCoupon.transactions).toEqual(
+      expect.arrayContaining([expect.objectContaining({ usedDays: 5 })]),
+    );
     // check transaction Id
-    expect(updatedCoupon.transactions)
-      .toEqual(expect.arrayContaining([expect.objectContaining(
-        { transaction: internalTransaction._id },
-      )]));
+    expect(updatedCoupon.transactions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ transaction: internalTransaction._id }),
+      ]),
+    );
     expect(updatedCoupon.intern.toString()).toBe(intern._id.toString());
-    expect(updatedUser.organisation.toString()).toBe(coupon.organisation.toString());
+    expect(updatedUser.organisation.toString()).toBe(
+      coupon.organisation.toString(),
+    );
     done();
   });
 });

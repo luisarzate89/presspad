@@ -1,8 +1,8 @@
-const boom = require("boom");
-const { getProfile } = require("../../database/queries/profile/getProfile");
-const { getListing } = require("../../database/queries/listing/getListing");
+const boom = require('boom');
+const { getProfile } = require('../../database/queries/profile/getProfile');
+const { getListing } = require('../../database/queries/listing/getListing');
 
-const generateUrl = require("./../../helpers/generateFileURL");
+const generateUrl = require('./../../helpers/generateFileURL');
 
 /**
  * get the profile data adn the listing based on the role
@@ -25,7 +25,7 @@ const _getProfileBasedRole = async (_id, role, res) => {
     generateUrl(DBSCheck),
   ]);
 
-  if (role === "host" || role === "superhost") {
+  if (role === 'host' || role === 'superhost') {
     const listing = await getListing(_id).lean();
 
     if (listing && listing.photos) {

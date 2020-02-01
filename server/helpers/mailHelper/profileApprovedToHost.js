@@ -1,6 +1,6 @@
-const { capitalizeName } = require("../general");
-const sendMail = require("./index");
-const { email, domain } = require("../../config");
+const { capitalizeName } = require('../general');
+const sendMail = require('./index');
+const { email, domain } = require('../../config');
 
 /**
  * send email to host when their profile get approved from admin
@@ -19,7 +19,7 @@ const profileApprovedToHost = options => {
   const messageDetails = {
     from: email,
     to: options.email,
-    subject: "Your profile has been approved",
+    subject: 'Your profile has been approved',
     html,
   };
 

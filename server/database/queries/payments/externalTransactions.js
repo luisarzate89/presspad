@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const ExternalTransaction = require("../../models/ExternalTransaction");
-const Account = require("../../models/Account");
-const User = require("../../models/User");
+const ExternalTransaction = require('../../models/ExternalTransaction');
+const Account = require('../../models/Account');
+const User = require('../../models/User');
 
 /**
  * Create an external transaction, Must be done inside a database transaction session
@@ -13,17 +13,34 @@ const User = require("../../models/User");
  * @param {string} type "widthraw" or "deposite"
  * @param {session} session Transaction session
  */
-const createExternalTransaction = async (userId, accountId, amount, stripeInfo, type, session) => {
-  const { account: pressPadAccountId } = await User.findOne({ role: "admin" }).session(session);
+const createExternalTransaction = async (
+  userId,
+  accountId,
+  amount,
+  stripeInfo,
+  type,
+  session,
+) => {
+  const { account: pressPadAccountId } = await User.findOne({
+    role: 'admin',
+  }).session(session);
 
-  const externaltransaction = ExternalTransaction.create([{
-    user: userId, account: accountId, amount, stripeInfo, type,
-  }], { session });
-
+  const externaltransaction = ExternalTransaction.create(
+    [
+      {
+        user: userId,
+        account: accountId,
+        amount,
+        stripeInfo,
+        type,
+      },
+    ],
+    { session },
+  );
 
   let bulkWriteArray;
 
-  if (type === "deposite") {
+  if (type === 'deposite') {
     bulkWriteArray = [
       // update user account
       {
@@ -44,10 +61,10 @@ const createExternalTransaction = async (userId, accountId, amount, stripeInfo, 
         },
       },
     ];
-  } else if (type === "withdraw") {
+  } else if (type === 'withdraw') {
     // check if the account has enough money
     const userAccount = await Account.findById(accountId).session(session);
-    if ((userAccount.currentBalance - amount) < 0) {
+    if (userAccount.currentBalance - amount < 0) {
       throw new Error("Account doesn't have sufficent balance");
     }
 
@@ -63,12 +80,15 @@ const createExternalTransaction = async (userId, accountId, amount, stripeInfo, 
       },
     ];
   } else {
-    throw new Error("type must be deposite or withdraw");
+    throw new Error('type must be deposite or withdraw');
   }
 
   const updatedAccounts = Account.bulkWrite(bulkWriteArray, { session });
 
-  const [exTransaction] = await Promise.all([externaltransaction, updatedAccounts]);
+  const [exTransaction] = await Promise.all([
+    externaltransaction,
+    updatedAccounts,
+  ]);
 
   return exTransaction[0];
 };

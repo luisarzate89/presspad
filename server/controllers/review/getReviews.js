@@ -1,12 +1,12 @@
-const boom = require("boom");
-const { getReviewsGiventToUser } = require("../../database/queries/review");
+const boom = require('boom');
+const { getReviewsGiventToUser } = require('../../database/queries/review');
 // const {
 //   countCompletedBookingsByUser,
 // } = require("./../../database/queries/bookings");
 
 const {
   isValidMongoObjectId,
-} = require("./../../helpers/isValidMongoObjectId");
+} = require('./../../helpers/isValidMongoObjectId');
 
 module.exports = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
     }
     //  get given reviews goes here
 
-    return next(boom.badData(new Error("invalid user id")));
+    return next(boom.badData(new Error('invalid user id')));
   } catch (error) {
     return next(boom.badImplementation(error));
   }

@@ -1,10 +1,10 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const buildDB = require("./../../database/data/test/index");
-const app = require("./../../app");
+const buildDB = require('./../../database/data/test/index');
+const app = require('./../../app');
 
-describe("Testing for login route", () => {
+describe('Testing for login route', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -14,56 +14,57 @@ describe("Testing for login route", () => {
     await mongoose.disconnect();
   });
 
-
-  test("test with correct email", (done) => {
+  test('test with correct email', done => {
     const data = {
-      email: "michael@financialtimes.co.uk",
-      password: "123456",
+      email: 'michael@financialtimes.co.uk',
+      password: '123456',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body.email).toBe(data.email);
-        expect(res.headers["set-cookie"][0]).toMatch("token");
+        expect(res.headers['set-cookie'][0]).toMatch('token');
         done(err);
       });
   });
 
-  test("test with invalid request email", (done) => {
+  test('test with invalid request email', done => {
     const data = {
-      email: "Wrong@email.com",
-      password: "123456",
+      email: 'Wrong@email.com',
+      password: '123456',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(401)
       .end((err, res) => {
-        expect(res.body.error).toMatch("Login failed. User does not exist");
+        expect(res.body.error).toMatch('Login failed. User does not exist');
         done(err);
       });
   });
 
-  test("test with invalid request password", (done) => {
+  test('test with invalid request password', done => {
     const data = {
-      email: "michael@financialtimes.co.uk",
-      password: "123456563322",
+      email: 'michael@financialtimes.co.uk',
+      password: '123456563322',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(401)
       .end((err, res) => {
-        expect(res.body.error).toMatch("Login failed. Email or password cannot be recognised");
+        expect(res.body.error).toMatch(
+          'Login failed. Email or password cannot be recognised',
+        );
         done(err);
       });
   });

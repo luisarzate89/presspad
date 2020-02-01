@@ -1,62 +1,62 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
 // IMPORT CONTROLLERS
-const loginController = require("./../controllers/user/login");
-const userInfo = require("./../controllers/user/userInfo");
-const signUpController = require("./../controllers/user/signup");
-const getUserByReferral = require("./../controllers/user/getUserByReferral");
-const getAllOrgs = require("./../controllers/user/getAllOrgs");
-const hostsCompleteProfile = require("./../controllers/hostsCompleteProfile");
-const internsCompleteProfile = require("./../controllers/user/internsCompleteProfile");
-const getHostProfile = require("./../controllers/profile/getHostProfile");
-const hostViewInternProfile = require("./../controllers/profile/hostViewInternProfile");
-const getInternProfile = require("./../controllers/profile/getInternProfile");
-const searchProfiles = require("./../controllers/profile/searchProfiles");
+const loginController = require('./../controllers/user/login');
+const userInfo = require('./../controllers/user/userInfo');
+const signUpController = require('./../controllers/user/signup');
+const getUserByReferral = require('./../controllers/user/getUserByReferral');
+const getAllOrgs = require('./../controllers/user/getAllOrgs');
+const hostsCompleteProfile = require('./../controllers/hostsCompleteProfile');
+const internsCompleteProfile = require('./../controllers/user/internsCompleteProfile');
+const getHostProfile = require('./../controllers/profile/getHostProfile');
+const hostViewInternProfile = require('./../controllers/profile/hostViewInternProfile');
+const getInternProfile = require('./../controllers/profile/getInternProfile');
+const searchProfiles = require('./../controllers/profile/searchProfiles');
 const {
   viewBooking,
   getUserBookings,
   newBookingRequest,
   acceptBooking,
   rejectBooking,
-} = require("./../controllers/booking");
-const adminStats = require("./../controllers/stats/adminStats");
-const verifyProfile = require("./../controllers/profile/verifyProfile");
-const orgsDashboard = require("./../controllers/organisation/dashboard");
+} = require('./../controllers/booking');
+const adminStats = require('./../controllers/stats/adminStats');
+const verifyProfile = require('./../controllers/profile/verifyProfile');
+const orgsDashboard = require('./../controllers/organisation/dashboard');
 const {
   internDashboard,
   hostDashboard,
-} = require("./../controllers/dashboard");
-const getMyProfile = require("../controllers/profile/getMyProfile");
-const { getUploadSignedURL } = require("../controllers/storage");
-const { postReview, getReviews } = require("../controllers/review");
-const signOut = require("../controllers/user/signOut");
-const { getCoupons } = require("../controllers/coupon");
-const getInternStatus = require("../controllers/profile/getInternStatus");
-const { getBookingsWithUsers } = require("../controllers/Bookings");
+} = require('./../controllers/dashboard');
+const getMyProfile = require('../controllers/profile/getMyProfile');
+const { getUploadSignedURL } = require('../controllers/storage');
+const { postReview, getReviews } = require('../controllers/review');
+const signOut = require('../controllers/user/signOut');
+const { getCoupons } = require('../controllers/coupon');
+const getInternStatus = require('../controllers/profile/getInternStatus');
+const { getBookingsWithUsers } = require('../controllers/Bookings');
 const {
   internPayment,
   withdrawRequest,
   confirmOrCancelWithdrawRequest,
-} = require("../controllers/payments");
-const { createCoupon } = require("../controllers/coupons");
-const getAllInterns = require("../controllers/user/getAllInterns");
-const hostDonation = require("../controllers/payments/hostDonation");
-const { orgPayment } = require("../controllers/payments/index");
-const { getAllCities } = require("../controllers/listing");
-const deletListingPhotos = require("../controllers/profile/deletListingPhotos");
+} = require('../controllers/payments');
+const { createCoupon } = require('../controllers/coupons');
+const getAllInterns = require('../controllers/user/getAllInterns');
+const hostDonation = require('../controllers/payments/hostDonation');
+const { orgPayment } = require('../controllers/payments/index');
+const { getAllCities } = require('../controllers/listing');
+const deletListingPhotos = require('../controllers/profile/deletListingPhotos');
 const {
   updateChecklistAnswer,
   getChecklist,
-} = require("../controllers/checklist");
-const { markAsSeen } = require("../controllers/notifications");
+} = require('../controllers/checklist');
+const { markAsSeen } = require('../controllers/notifications');
 
 // controller for admin to view all withdraw requests in presspad
-const viewWithdrawRequests = require("../controllers/withdrawRequests");
+const viewWithdrawRequests = require('../controllers/withdrawRequests');
 
 // IMPORT MIDDLEWARES
-const authentication = require("./../middlewares/authentication");
-const softAuthCheck = require("./../middlewares/softAuthCheck");
-const { validation } = require("./../middlewares/validation");
+const authentication = require('./../middlewares/authentication');
+const softAuthCheck = require('./../middlewares/softAuthCheck');
+const { validation } = require('./../middlewares/validation');
 
 // API ROUTES
 const {
@@ -102,7 +102,7 @@ const {
   ADMIN_HOST_PROFILE,
   NOTIFICATION_URL,
   REVIEWS,
-} = require("../../client/src/constants/apiRoutes");
+} = require('../../client/src/constants/apiRoutes');
 
 // add validation middleware
 router.use(validation);

@@ -19,7 +19,7 @@ const {
   Transaction,
   User,
   WithdrawRequest,
-} = require("./../models");
+} = require('./../models');
 
 const resetDB = async () => {
   try {
@@ -44,7 +44,7 @@ const resetDB = async () => {
     await User.deleteMany();
     await WithdrawRequest.deleteMany();
   } catch (err) {
-    console.log("Error during resting the db, try again", err);
+    console.log('Error during resting the db, try again', err);
     throw err;
   }
 };

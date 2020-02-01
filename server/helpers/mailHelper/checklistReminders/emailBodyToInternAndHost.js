@@ -1,7 +1,7 @@
-const moment = require("moment");
+const moment = require('moment');
 
-const { capitalizeName } = require("../../general");
-const { domain } = require("../../../config");
+const { capitalizeName } = require('../../general');
+const { domain } = require('../../../config');
 
 // creates email main body
 const emailBodyToInternAndHost = ({
@@ -10,7 +10,7 @@ const emailBodyToInternAndHost = ({
   startDate,
   bookingId,
 }) => {
-  const startDateString = moment(startDate).format("DD MMM YYYY");
+  const startDateString = moment(startDate).format('DD MMM YYYY');
   const bookingURL = `${domain}/booking/${bookingId}`;
   const html = `
   <div style="font-size: 16px; font-weight: 500;">
@@ -20,7 +20,7 @@ const emailBodyToInternAndHost = ({
       This is a reminder that your <a href="${bookingURL}">booking</a> is scheduled to start in one week from now, on <span style="font-weight=650;">${startDateString}</span>.
       See below the booking checklist.
       <ul>
-        ${checklistHtmlRows.join("\n")}
+        ${checklistHtmlRows.join('\n')}
       </ul>
     </p>
 

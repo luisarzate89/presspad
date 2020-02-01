@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Organisation = require("./../../models/Organisation");
-const Coupon = require("./../../models/Coupon");
+const Organisation = require('./../../models/Organisation');
+const Coupon = require('./../../models/Coupon');
 
 module.exports = id => {
   // Org details
@@ -11,15 +11,15 @@ module.exports = id => {
     },
     {
       $lookup: {
-        from: "accounts",
-        localField: "account",
-        foreignField: "_id",
-        as: "account",
+        from: 'accounts',
+        localField: 'account',
+        foreignField: '_id',
+        as: 'account',
       },
     },
     {
       $addFields: {
-        account: { $arrayElemAt: ["$account", 0] },
+        account: { $arrayElemAt: ['$account', 0] },
       },
     },
   ]);
@@ -31,72 +31,72 @@ module.exports = id => {
     },
     {
       $lookup: {
-        from: "users",
-        let: { orgId: "$_id" },
+        from: 'users',
+        let: { orgId: '$_id' },
         pipeline: [
           {
-            $match: { $expr: { $eq: ["$$orgId", "$organisation"] } },
+            $match: { $expr: { $eq: ['$$orgId', '$organisation'] } },
           },
         ],
-        as: "users",
+        as: 'users',
       },
     },
     {
-      $unwind: "$users",
+      $unwind: '$users',
     },
-    { $replaceRoot: { newRoot: "$users" } },
+    { $replaceRoot: { newRoot: '$users' } },
     {
       $lookup: {
-        from: "notifications",
-        let: { user: "$_id" },
+        from: 'notifications',
+        let: { user: '$_id' },
         pipeline: [
           {
             $match: {
               $expr: {
                 $and: [
-                  { $eq: ["$$user", "$user"] },
-                  { $eq: ["$private", false] },
+                  { $eq: ['$$user', '$user'] },
+                  { $eq: ['$private', false] },
                 ],
               },
             },
           },
         ],
-        as: "notifications",
+        as: 'notifications',
       },
     },
     {
-      $unwind: "$notifications",
+      $unwind: '$notifications',
     },
     {
       $lookup: {
-        from: "users",
-        localField: "notifications.secondParty",
-        foreignField: "_id",
-        as: "secondP",
+        from: 'users',
+        localField: 'notifications.secondParty',
+        foreignField: '_id',
+        as: 'secondP',
       },
     },
     {
       $project: {
         secondParty: {
-          _id: { $arrayElemAt: ["$secondP._id", 0] },
-          name: { $arrayElemAt: ["$secondP.name", 0] },
-          email: { $arrayElemAt: ["$secondP.email", 0] },
-          role: { $arrayElemAt: ["$secondP.role", 0] },
-          organisation: { $arrayElemAt: ["$secondP.organisation", 0] },
+          _id: { $arrayElemAt: ['$secondP._id', 0] },
+          name: { $arrayElemAt: ['$secondP.name', 0] },
+          email: { $arrayElemAt: ['$secondP.email', 0] },
+          role: { $arrayElemAt: ['$secondP.role', 0] },
+          organisation: { $arrayElemAt: ['$secondP.organisation', 0] },
         },
         user: {
-          _id: "$_id",
-          name: "$name",
-          email: "$email",
-          role: "$role",
-          organisation: "$organisation",
+          _id: '$_id',
+          name: '$name',
+          email: '$email',
+          role: '$role',
+          organisation: '$organisation',
         },
-        seen: "$notifications.seen",
-        _id: "$notifications._id",
-        seenForOrg: "$notifications.seenForOrg",
-        type: "$notifications.type",
-        private: "$notifications.private",
-        createdAt: "$notifications.createdAt",
+        seen: '$notifications.seen',
+        _id: '$notifications._id',
+        seenForOrg: '$notifications.seenForOrg',
+        type: '$notifications.type',
+        private: '$notifications.private',
+        createdAt: '$notifications.createdAt',
       },
     },
   ]);
@@ -107,7 +107,7 @@ module.exports = id => {
       $match: {
         $expr: {
           $and: [
-            { $eq: ["$organisation", mongoose.Types.ObjectId(id)] },
+            { $eq: ['$organisation', mongoose.Types.ObjectId(id)] },
             // { $lte: ["$startDate", new Date()] },
             // { $gt: ["$endDate", new Date()] },
           ],
@@ -116,37 +116,37 @@ module.exports = id => {
     },
     {
       $lookup: {
-        from: "users",
-        localField: "intern",
-        foreignField: "_id",
-        as: "intern",
+        from: 'users',
+        localField: 'intern',
+        foreignField: '_id',
+        as: 'intern',
       },
     },
     {
       $addFields: {
-        intern: { $arrayElemAt: ["$intern", 0] },
+        intern: { $arrayElemAt: ['$intern', 0] },
       },
     },
     {
       $lookup: {
-        from: "bookings",
-        localField: "_id",
-        foreignField: "user",
-        as: "bookings",
+        from: 'bookings',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'bookings',
       },
     },
     {
       $addFields: {
-        key: "$_id",
+        key: '$_id',
         liveBookings: {
           $size: {
             $filter: {
-              input: "$bookings",
-              as: "booking",
+              input: '$bookings',
+              as: 'booking',
               cond: {
                 $and: [
-                  { $lte: ["$$booking.startDate", new Date()] },
-                  { $gte: ["$$booking.endDate", new Date()] },
+                  { $lte: ['$$booking.startDate', new Date()] },
+                  { $gte: ['$$booking.endDate', new Date()] },
                 ],
               },
             },
@@ -156,12 +156,12 @@ module.exports = id => {
         pendingBookings: {
           $size: {
             $filter: {
-              input: "$bookings",
-              as: "booking",
+              input: '$bookings',
+              as: 'booking',
               cond: {
                 $and: [
-                  { $gt: ["$$booking.startDate", new Date()] },
-                  { $eq: ["$$booking.status", "pending"] },
+                  { $gt: ['$$booking.startDate', new Date()] },
+                  { $eq: ['$$booking.status', 'pending'] },
                 ],
               },
             },
@@ -171,15 +171,15 @@ module.exports = id => {
         confirmedBookings: {
           $size: {
             $filter: {
-              input: "$bookings",
-              as: "booking",
+              input: '$bookings',
+              as: 'booking',
               cond: {
                 $and: [
-                  { $gt: ["$$booking.startDate", new Date()] },
+                  { $gt: ['$$booking.startDate', new Date()] },
                   {
                     $or: [
-                      { $eq: ["$$booking.status", "confirmed"] },
-                      { $eq: ["$$booking.status", "completed"] },
+                      { $eq: ['$$booking.status', 'confirmed'] },
+                      { $eq: ['$$booking.status', 'completed'] },
                     ],
                   },
                 ],
@@ -193,17 +193,17 @@ module.exports = id => {
       $addFields: {
         status: {
           $cond: {
-            if: { $gt: ["$liveBookings", 0] },
-            then: "At host",
+            if: { $gt: ['$liveBookings', 0] },
+            then: 'At host',
             else: {
               $cond: {
-                if: { $gt: ["$pendingBookings", 0] },
-                then: "Pending request",
+                if: { $gt: ['$pendingBookings', 0] },
+                then: 'Pending request',
                 else: {
                   $cond: {
-                    if: { $gt: ["$confirmedBookings", 0] },
-                    then: "Booking confirmed",
-                    else: "Looking for host",
+                    if: { $gt: ['$confirmedBookings', 0] },
+                    then: 'Booking confirmed',
+                    else: 'Looking for host',
                   },
                 },
               },
@@ -214,7 +214,7 @@ module.exports = id => {
     },
     {
       $project: {
-        "intern.password": 0,
+        'intern.password': 0,
       },
     },
   ]);

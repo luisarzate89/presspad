@@ -9,27 +9,30 @@
  */
 
 const createBookingChecklistQandA = ({
-  questions, host, intern, bookingId,
+  questions,
+  host,
+  intern,
+  bookingId,
 }) => {
   const answers = [];
 
-  questions.forEach((question) => {
+  questions.forEach(question => {
     const users = [];
     switch (question.for) {
-    case "intern":
-      users.push(intern);
-      break;
-    case "host":
-      users.push(host);
-      break;
-    case "both":
-      users.push(host, intern);
-      break;
-    default:
-      break;
+      case 'intern':
+        users.push(intern);
+        break;
+      case 'host':
+        users.push(host);
+        break;
+      case 'both':
+        users.push(host, intern);
+        break;
+      default:
+        break;
     }
 
-    users.forEach((user) => {
+    users.forEach(user => {
       const answer = {
         user: user._id,
         question: question._id,

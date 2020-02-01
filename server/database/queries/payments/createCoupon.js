@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const Coupon = require("../../models/Coupon");
+const mongoose = require('mongoose');
+const Coupon = require('../../models/Coupon');
 
-const Account = require("../../models/Account");
+const Account = require('../../models/Account');
 
 const createCoupon = async ({
   organisationAccount,
@@ -19,38 +19,46 @@ const createCoupon = async ({
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const [createdCoupon] = await Coupon.create([{
-      organisationAccount,
-      organisation,
-      internName,
-      createdBy,
-      discountRate,
-      days,
-      startDate,
-      endDate,
-      usedDays,
-      intern,
-      reservedAmount: amount,
-    }], { session });
+    const [createdCoupon] = await Coupon.create(
+      [
+        {
+          organisationAccount,
+          organisation,
+          internName,
+          createdBy,
+          discountRate,
+          days,
+          startDate,
+          endDate,
+          usedDays,
+          intern,
+          reservedAmount: amount,
+        },
+      ],
+      { session },
+    );
 
-    const updatedOrgAccount = await Account.findOneAndUpdate({
-      _id: mongoose.Types.ObjectId(organisationAccount),
-    }, {
-      $inc: {
-        currentBalance: -1 * amount,
-        couponsValue: amount,
+    const updatedOrgAccount = await Account.findOneAndUpdate(
+      {
+        _id: mongoose.Types.ObjectId(organisationAccount),
       },
-    },
-    // options
-    {
-      session,
-      new: true,
-      useFindAndModify: false,
-    });
+      {
+        $inc: {
+          currentBalance: -1 * amount,
+          couponsValue: amount,
+        },
+      },
+      // options
+      {
+        session,
+        new: true,
+        useFindAndModify: false,
+      },
+    );
 
     // check if the org account has positive balance
     if (updatedOrgAccount.currentBalance < 0) {
-      throw new Error("No Enough money!");
+      throw new Error('No Enough money!');
     }
 
     await session.commitTransaction();

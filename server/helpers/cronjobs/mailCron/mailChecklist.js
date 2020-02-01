@@ -1,6 +1,8 @@
-const { findAnswersByBookingDate } = require("../../../database/queries/checkList/index");
-const getTargetDate = require("../../dateHelper");
-const { errorLogger, errorLogDir } = require("../../errorLogger");
+const {
+  findAnswersByBookingDate,
+} = require('../../../database/queries/checkList/index');
+const getTargetDate = require('../../dateHelper');
+const { errorLogger, errorLogDir } = require('../../errorLogger');
 
 const BookingsList = async () => {
   try {
@@ -8,14 +10,18 @@ const BookingsList = async () => {
     const twoWeeks = getTargetDate(2);
     const threeWeeks = getTargetDate(3);
 
-    const answers = await findAnswersByBookingDate(oneWeek, twoWeeks, threeWeeks);
+    const answers = await findAnswersByBookingDate(
+      oneWeek,
+      twoWeeks,
+      threeWeeks,
+    );
     // use this follwoing line only for testing until we properly mock the data.
     // const answers = await findAnswersByBookingDate();
 
     // initial objects to mutate inside the coming loop.
     const mailingObject = {};
     const answerList = []; // this will be inside the mailingObject
-    answers.forEach((answer) => {
+    answers.forEach(answer => {
       // specifies times to properly mark each mailing object.
       // Bookings are due in either 1, 2 or 3 weeks.
       const timeTable = {
@@ -53,12 +59,21 @@ const BookingsList = async () => {
        */
 
       // add a due date (in weeks) to each key of the mailing object.
-      if (answer.booking.startDate >= timeTable.oneWeek.startDate
-        && answer.booking.startDate < timeTable.oneWeek.endDate) dueDate = 1;
-      if (answer.booking.startDate >= timeTable.twoWeeks.startDate
-        && answer.booking.startDate < timeTable.twoWeeks.endDate) dueDate = 2;
-      if (answer.booking.startDate >= timeTable.threeWeeks.startDate
-        && answer.booking.startDate < timeTable.threeWeeks.endDate) dueDate = 3;
+      if (
+        answer.booking.startDate >= timeTable.oneWeek.startDate &&
+        answer.booking.startDate < timeTable.oneWeek.endDate
+      )
+        dueDate = 1;
+      if (
+        answer.booking.startDate >= timeTable.twoWeeks.startDate &&
+        answer.booking.startDate < timeTable.twoWeeks.endDate
+      )
+        dueDate = 2;
+      if (
+        answer.booking.startDate >= timeTable.threeWeeks.startDate &&
+        answer.booking.startDate < timeTable.threeWeeks.endDate
+      )
+        dueDate = 3;
 
       // starts populating the mailing object to look like the comment above.
       mailingObject[answer.booking.id] = { answerList, dueDate };

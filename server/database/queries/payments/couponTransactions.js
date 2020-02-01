@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const User = require("../../models/User");
-const Coupon = require("../../models/Coupon");
-const Booking = require("../../models/Booking");
+const User = require('../../models/User');
+const Coupon = require('../../models/Coupon');
+const Booking = require('../../models/Booking');
 
 /**
  * Update couponTransaction "Coupon.transactions",
@@ -16,7 +16,13 @@ const Booking = require("../../models/Booking");
  * @param {session} session Transaction session
  */
 const updateCouponTransaction = async (
-  userId, couponId, transactionId, bookingId, usedDays, amount, session,
+  userId,
+  couponId,
+  transactionId,
+  bookingId,
+  usedDays,
+  amount,
+  session,
 ) => {
   const updatedCoupon = await Coupon.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(couponId) },
@@ -27,7 +33,10 @@ const updateCouponTransaction = async (
       },
       $push: {
         transactions: {
-          usedDays, booking: bookingId, transaction: transactionId, amount,
+          usedDays,
+          booking: bookingId,
+          transaction: transactionId,
+          amount,
         },
       },
       intern: userId,
@@ -51,7 +60,6 @@ const updateCouponTransaction = async (
       { session },
     ),
   ]);
-
 
   return updatedCoupon;
 };

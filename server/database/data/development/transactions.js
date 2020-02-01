@@ -1,10 +1,10 @@
-const Transaction = require("../../models/Transaction");
-const User = require("../../models/User");
+const Transaction = require('../../models/Transaction');
+const User = require('../../models/User');
 
 module.exports = async () => {
-  const interns = await User.find({ role: "intern" });
-  const orgs = await User.find({ role: "organisation" });
-  const hosts = await User.find({ role: "host" });
+  const interns = await User.find({ role: 'intern' });
+  const orgs = await User.find({ role: 'organisation' });
+  const hosts = await User.find({ role: 'host' });
 
   const transactions = [
     {

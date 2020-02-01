@@ -1,15 +1,15 @@
-const Organisation = require("../../models/Organisation");
+const Organisation = require('../../models/Organisation');
 
-const { getInternStatus } = require("./../user/index");
+const { getInternStatus } = require('./../user/index');
 
 module.exports.getAllClientStats = async () => {
   const clientStats = await Organisation.aggregate([
     {
       $lookup: {
-        from: "users",
-        localField: "_id",
-        foreignField: "organisation",
-        as: "users",
+        from: 'users',
+        localField: '_id',
+        foreignField: 'organisation',
+        as: 'users',
       },
     },
     {
@@ -20,25 +20,25 @@ module.exports.getAllClientStats = async () => {
         account: 1,
         interns: {
           $filter: {
-            input: "$users",
-            as: "user",
-            cond: { $eq: ["$$user.role", "intern"] },
+            input: '$users',
+            as: 'user',
+            cond: { $eq: ['$$user.role', 'intern'] },
           },
         },
       },
     },
     {
       $addFields: {
-        numberOfInterns: { $size: "$interns" },
-        internList: "$interns",
+        numberOfInterns: { $size: '$interns' },
+        internList: '$interns',
       },
     },
     {
       $lookup: {
-        from: "accounts",
-        localField: "account",
-        foreignField: "_id",
-        as: "account",
+        from: 'accounts',
+        localField: 'account',
+        foreignField: '_id',
+        as: 'account',
       },
     },
     {
@@ -47,12 +47,12 @@ module.exports.getAllClientStats = async () => {
         name: 1,
         plan: 1,
         credits: 1,
-        "interns._id": 1,
-        "interns.name": 1,
+        'interns._id': 1,
+        'interns.name': 1,
         numberOfInterns: 1,
-        couponsValue: { $arrayElemAt: ["$account.couponsValue", 0] },
-        currentBalance: { $arrayElemAt: ["$account.currentBalance", 0] },
-        totalPayments: { $arrayElemAt: ["$account.income", 0] },
+        couponsValue: { $arrayElemAt: ['$account.couponsValue', 0] },
+        currentBalance: { $arrayElemAt: ['$account.currentBalance', 0] },
+        totalPayments: { $arrayElemAt: ['$account.income', 0] },
       },
     },
   ]);
@@ -60,7 +60,7 @@ module.exports.getAllClientStats = async () => {
   // additional function to get number of interns currently being hosted
   const completeClientStats = await Promise.all(
     // map through each of the clients
-    clientStats.map(async (client) => {
+    clientStats.map(async client => {
       // set up a new object for this client
       const newClientObj = client;
 
@@ -76,7 +76,7 @@ module.exports.getAllClientStats = async () => {
         const cleanBookings = internBookings.reduce((a, b) => a.concat(b), []);
         // filter so only have bookings where they are at the host
         newClientObj.currentlyHosted = cleanBookings.filter(
-          booking => booking.status === "At host",
+          booking => booking.status === 'At host',
         ).length;
       }
       return newClientObj;

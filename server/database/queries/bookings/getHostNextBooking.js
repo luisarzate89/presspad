@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const Booking = require("../../models/Booking");
+const mongoose = require('mongoose');
+const Booking = require('../../models/Booking');
 
 const getHostNextBooking = hostId =>
   Booking.aggregate([
     {
       $match: {
         host: mongoose.Types.ObjectId(hostId),
-        status: { $in: ["confirmed"] },
+        status: { $in: ['confirmed'] },
         startDate: { $gte: new Date() },
       },
     },

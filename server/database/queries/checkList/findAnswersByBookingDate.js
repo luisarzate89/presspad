@@ -1,5 +1,5 @@
-const moment = require("moment");
-const CheckListAnswer = require("../../models/ChecklistAnswer");
+const moment = require('moment');
+const CheckListAnswer = require('../../models/ChecklistAnswer');
 
 /**
  * finds the answers > populates them with the question (to get the text) and booking
@@ -11,9 +11,15 @@ const CheckListAnswer = require("../../models/ChecklistAnswer");
  */
 
 const findAnswersByBookingDate = async (oneWeek, twoWeeks, threeWeeks) => {
-  const endOfOneWeek = moment(oneWeek).endOf("day").toISOString();
-  const endOfTwoWeeks = moment(twoWeeks).endOf("day").toISOString();
-  const endOfThreeWeeks = moment(threeWeeks).endOf("day").toISOString();
+  const endOfOneWeek = moment(oneWeek)
+    .endOf('day')
+    .toISOString();
+  const endOfTwoWeeks = moment(twoWeeks)
+    .endOf('day')
+    .toISOString();
+  const endOfThreeWeeks = moment(threeWeeks)
+    .endOf('day')
+    .toISOString();
 
   /**
    * allows for the prams to be optional.
@@ -22,19 +28,19 @@ const findAnswersByBookingDate = async (oneWeek, twoWeeks, threeWeeks) => {
 
   if (!oneWeek && !twoWeeks && !threeWeeks) {
     const answerList = await CheckListAnswer.find()
-      .populate({ path: "question", model: "checklistQuestions" })
+      .populate({ path: 'question', model: 'checklistQuestions' })
       .populate({
-        path: "booking",
-        populate: [{ path: "intern" }, { path: "host" }], // deep populate on two keys.
+        path: 'booking',
+        populate: [{ path: 'intern' }, { path: 'host' }], // deep populate on two keys.
       })
       .exec();
     return answerList;
   }
 
   const answerList = await CheckListAnswer.find()
-    .populate({ path: "question", model: "checklistQuestions" })
+    .populate({ path: 'question', model: 'checklistQuestions' })
     .populate({
-      path: "booking",
+      path: 'booking',
       match: {
         $or: [
           { startDate: { $gte: oneWeek, $lte: endOfOneWeek } },
@@ -42,7 +48,7 @@ const findAnswersByBookingDate = async (oneWeek, twoWeeks, threeWeeks) => {
           { startDate: { $gte: threeWeeks, $lte: endOfThreeWeeks } },
         ],
       },
-      populate: [{ path: "intern" }, { path: "host" }], // deep populate on two keys.
+      populate: [{ path: 'intern' }, { path: 'host' }], // deep populate on two keys.
     })
     .exec();
   return answerList;

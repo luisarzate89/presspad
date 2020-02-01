@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const ChecklistQuestion = require("../../../database/models/ChecklistQuestion");
+const ChecklistQuestion = require('../../../database/models/ChecklistQuestion');
 
-const buildDB = require("../../../database/data/test");
+const buildDB = require('../../../database/data/test');
 
-describe("Test ChecklistQuestion schema", () => {
+describe('Test ChecklistQuestion schema', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -15,18 +15,20 @@ describe("Test ChecklistQuestion schema", () => {
     mongoose.disconnect();
   });
 
-  test("should ChecklistQuestion schema be defined", async () => {
+  test('should ChecklistQuestion schema be defined', async () => {
     expect(ChecklistQuestion).toBeDefined();
   });
 
-  test("should ChecklistQuestion schema store correctly", async (done) => {
+  test('should ChecklistQuestion schema store correctly', async done => {
     const checklistQuestion = {
-      text: "Sign the contract",
+      text: 'Sign the contract',
       isPublic: true,
-      for: "both",
+      for: 'both',
     };
 
-    const storedChecklistQuestion = await ChecklistQuestion.create(checklistQuestion);
+    const storedChecklistQuestion = await ChecklistQuestion.create(
+      checklistQuestion,
+    );
     expect(storedChecklistQuestion).toBeDefined();
 
     expect(storedChecklistQuestion.text).toBe(storedChecklistQuestion.text);

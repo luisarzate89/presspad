@@ -1,4 +1,4 @@
-const createCoupon = require("./createCoupon");
+const createCoupon = require('./createCoupon');
 
 module.exports = {
   createCoupon,

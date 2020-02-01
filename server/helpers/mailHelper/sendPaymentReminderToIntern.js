@@ -1,18 +1,23 @@
-const { capitalizeName } = require("../general");
-const sendMail = require("./index");
-const { email, domain } = require("../../config");
+const { capitalizeName } = require('../general');
+const sendMail = require('./index');
+const { email, domain } = require('../../config');
 
 /**
  * send email to intern when thier next payment is outstanding
  */
 const sendPaymentReminderToIntern = ({
-  internName, internEmail, bookingId, paymentNumber,
+  internName,
+  internEmail,
+  bookingId,
+  paymentNumber,
 }) => {
   const bookingURL = `${domain}/booking/${bookingId}`;
 
   const html = `
   <div style="font-size: 16px; font-weight: 500;">
-    <p>Hi <span style="font-weight=700;">${capitalizeName(internName)}</span>.</p>
+    <p>Hi <span style="font-weight=700;">${capitalizeName(
+      internName,
+    )}</span>.</p>
 
     <p>
       This is a kindly reminder that your ${paymentNumber} payment is due. 

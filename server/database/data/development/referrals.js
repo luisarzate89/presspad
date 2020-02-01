@@ -1,10 +1,10 @@
-const Referal = require("../../models/Referal");
-const User = require("../../models/User");
+const Referal = require('../../models/Referal');
+const User = require('../../models/User');
 
 module.exports = async () => {
-  const superhost = await User.find({ role: "superhost" });
+  const superhost = await User.find({ role: 'superhost' });
 
-  const hosts = await User.find({ role: "host" });
+  const hosts = await User.find({ role: 'host' });
 
   const referrals = [
     {

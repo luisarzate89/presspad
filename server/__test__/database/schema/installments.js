@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Installment = require("../../../database/models/Installment");
-const InternalTransaction = require("../../../database/models/InternalTransaction");
-const Booking = require("../../../database/models/Booking");
-const buildDB = require("../../../database/data/test");
+const Installment = require('../../../database/models/Installment');
+const InternalTransaction = require('../../../database/models/InternalTransaction');
+const Booking = require('../../../database/models/Booking');
+const buildDB = require('../../../database/data/test');
 
-describe("Test Installment schema", () => {
-  beforeAll(async (done) => {
+describe('Test Installment schema', () => {
+  beforeAll(async done => {
     // build dummy data
     await buildDB();
     done();
@@ -17,19 +17,21 @@ describe("Test Installment schema", () => {
     mongoose.disconnect();
   });
 
-  test("Installment schema should be defined", async () => {
+  test('Installment schema should be defined', async () => {
     expect(Installment).toBeDefined();
   });
 
-  test("should store Installment schema correctly", async (done) => {
+  test('should store Installment schema correctly', async done => {
     const installments = await Installment.find();
     expect(installments).toHaveLength(4);
     done();
   });
 
-  test("should store a new Installment correctly", async (done) => {
+  test('should store a new Installment correctly', async done => {
     const bookings = await Booking.find();
-    const internalTransaction = await InternalTransaction.findOne({ user: bookings[0].intern });
+    const internalTransaction = await InternalTransaction.findOne({
+      user: bookings[0].intern,
+    });
 
     const newInstallment = {
       booking: bookings[1]._id,

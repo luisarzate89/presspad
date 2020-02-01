@@ -1,5 +1,5 @@
-const boom = require("boom");
-const transporter = require("./transporter");
+const boom = require('boom');
+const transporter = require('./transporter');
 
 const mailTransporter = transporter(process.env.MAIL_TRANSPORTER);
 
@@ -14,23 +14,26 @@ const mailTransporter = transporter(process.env.MAIL_TRANSPORTER);
  * }
  */
 
-const sendMail = options => new Promise((resolve, reject) => {
-  if (!mailTransporter) {
-    throw boom.badData("mailHelper error: mailTransporter is not defined. Add the proper env variable");
-  }
+const sendMail = options =>
+  new Promise((resolve, reject) => {
+    if (!mailTransporter) {
+      throw boom.badData(
+        'mailHelper error: mailTransporter is not defined. Add the proper env variable',
+      );
+    }
 
-  if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
-    console.log("email suppose to be sent to");
-    // eslint-disable-next-line no-console
-    console.log("email details", { options });
-    return resolve();
-  }
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.log('email suppose to be sent to');
+      // eslint-disable-next-line no-console
+      console.log('email details', { options });
+      return resolve();
+    }
 
-  return mailTransporter.sendMail(options, (err, res) => {
-    if (err) return reject(err);
-    return resolve(res);
+    return mailTransporter.sendMail(options, (err, res) => {
+      if (err) return reject(err);
+      return resolve(res);
+    });
   });
-});
 
 module.exports = sendMail;

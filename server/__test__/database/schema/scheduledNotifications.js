@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const ScheduledNotification = require("../../../database/models/ScheduledNotification");
-const User = require("../../../database/models/User");
+const ScheduledNotification = require('../../../database/models/ScheduledNotification');
+const User = require('../../../database/models/User');
 
-const buildDB = require("../../../database/data/test");
+const buildDB = require('../../../database/data/test');
 
-describe("Test ScheduledNotification schema", () => {
+describe('Test ScheduledNotification schema', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -16,24 +16,26 @@ describe("Test ScheduledNotification schema", () => {
     mongoose.disconnect();
   });
 
-  test("should ScheduledNotification schema be defined", async () => {
+  test('should ScheduledNotification schema be defined', async () => {
     expect(ScheduledNotification).toBeDefined();
   });
 
-  test("should ScheduledNotification schema store correctly", async (done) => {
+  test('should ScheduledNotification schema store correctly', async done => {
     // users
-    const hosts = await User.find({ role: "host" });
-    const interns = await User.find({ role: "intern" });
+    const hosts = await User.find({ role: 'host' });
+    const interns = await User.find({ role: 'intern' });
 
     const scheduledNotification = {
       user: interns[0],
       secondParty: hosts[1],
-      type: "stayApproved",
+      type: 'stayApproved',
       private: false,
       dueDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
     };
 
-    const storedNotification = await ScheduledNotification.create(scheduledNotification);
+    const storedNotification = await ScheduledNotification.create(
+      scheduledNotification,
+    );
     expect(storedNotification).toBeDefined();
 
     // stored values
@@ -42,15 +44,15 @@ describe("Test ScheduledNotification schema", () => {
     done();
   });
 
-  test("should validation work correctly", async (done) => {
+  test('should validation work correctly', async done => {
     // users
-    const hosts = await User.find({ role: "host" });
-    const interns = await User.find({ role: "intern" });
+    const hosts = await User.find({ role: 'host' });
+    const interns = await User.find({ role: 'intern' });
 
     const scheduledNotification = {
       user: interns[0],
       secondParty: hosts[1],
-      type: "stayApproved",
+      type: 'stayApproved',
       private: false,
       dueDate: Date.now() - 7 * 24 * 60 * 60 * 1000, // before 7 days
     };

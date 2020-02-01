@@ -1,42 +1,43 @@
-const mongoose = require("mongoose");
-const User = require("../../models/User");
+const mongoose = require('mongoose');
+const User = require('../../models/User');
 
-module.exports.internProfileData = userId => new Promise((resolve, reject) => {
-  User.aggregate([
-    // match user
-    {
-      $match: { _id: mongoose.Types.ObjectId(userId) },
-    },
-    {
-      $project: {
-        password: 0,
+module.exports.internProfileData = userId =>
+  new Promise((resolve, reject) => {
+    User.aggregate([
+      // match user
+      {
+        $match: { _id: mongoose.Types.ObjectId(userId) },
       },
-    },
-    // lookup profile
-    {
-      $lookup: {
-        from: "profiles",
-        localField: "_id",
-        foreignField: "user",
-        as: "profile",
+      {
+        $project: {
+          password: 0,
+        },
       },
-    },
-    // lookup organisation
-    {
-      $lookup: {
-        from: "organisations",
-        localField: "organisation",
-        foreignField: "_id",
-        as: "organisation",
+      // lookup profile
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'profile',
+        },
       },
-    },
-    {
-      $addFields: {
-        profile: { $arrayElemAt: ["$profile", 0] },
-        organisation: { $arrayElemAt: ["$organisation", 0] },
+      // lookup organisation
+      {
+        $lookup: {
+          from: 'organisations',
+          localField: 'organisation',
+          foreignField: '_id',
+          as: 'organisation',
+        },
       },
-    },
-  ])
-    .then(response => resolve(response))
-    .catch(error => reject(error));
-});
+      {
+        $addFields: {
+          profile: { $arrayElemAt: ['$profile', 0] },
+          organisation: { $arrayElemAt: ['$organisation', 0] },
+        },
+      },
+    ])
+      .then(response => resolve(response))
+      .catch(error => reject(error));
+  });

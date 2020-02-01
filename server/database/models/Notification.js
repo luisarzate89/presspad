@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
@@ -7,27 +7,27 @@ const notificationSchema = new Schema(
     // the user who should get the notification
     user: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     // the user who sent the message/ request to stay/ reject the host etc...
     secondParty: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     // Notification type
     type: {
       type: String,
       enum: [
-        "stayRequest",
-        "stayApproved",
-        "stayRejected",
-        "stayCompleted",
-        "giveReviewReminder",
-        "getReview",
-        "completeProfileRemind",
+        'stayRequest',
+        'stayApproved',
+        'stayRejected',
+        'stayCompleted',
+        'giveReviewReminder',
+        'getReview',
+        'completeProfileRemind',
         // unused
-        "message",
-        "receivedCredits",
+        'message',
+        'receivedCredits',
       ],
       required: true,
     },
@@ -52,12 +52,12 @@ const notificationSchema = new Schema(
     },
     booking: {
       type: Schema.Types.ObjectId,
-      ref: "bookings",
+      ref: 'bookings',
     },
   },
   { timestamps: true },
 );
 
-const Notification = model("notifications", notificationSchema);
+const Notification = model('notifications', notificationSchema);
 
 module.exports = Notification;

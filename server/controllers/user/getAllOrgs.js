@@ -1,6 +1,6 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { getAllOrgs } = require("./../../database/queries/user/organisation");
+const { getAllOrgs } = require('./../../database/queries/user/organisation');
 
 module.exports = (req, res, next) => {
   getAllOrgs()

@@ -1,6 +1,8 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { getCoupons: getCouponsQuery } = require("../../database/queries/coupon");
+const {
+  getCoupons: getCouponsQuery,
+} = require('../../database/queries/coupon');
 
 module.exports = async (req, res, next) => {
   try {
@@ -8,12 +10,17 @@ module.exports = async (req, res, next) => {
     const { query } = req; // should be validated within a validate middlware
     let queryProject;
 
-    if (userRole === "intern") {
+    if (userRole === 'intern') {
       if (!query.code) {
-        return next(boom.badData("bad query parameters"));
+        return next(boom.badData('bad query parameters'));
       }
       queryProject = {
-        code: 1, days: 1, usedDays: 1, discountRate: 1, startDate: 1, endDate: 1,
+        code: 1,
+        days: 1,
+        usedDays: 1,
+        discountRate: 1,
+        startDate: 1,
+        endDate: 1,
       };
     }
     const coupon = await getCouponsQuery(query, queryProject).exec();

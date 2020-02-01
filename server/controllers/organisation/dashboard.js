@@ -1,14 +1,14 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const dashboardQuery = require("../../database/queries/organisation/dashboard.js");
-const generateFileURL = require("./../../helpers/generateFileURL");
+const dashboardQuery = require('../../database/queries/organisation/dashboard.js');
+const generateFileURL = require('./../../helpers/generateFileURL');
 
 module.exports = async (req, res, next) => {
   const { user } = req;
   const { role, organisation } = user;
 
   // check for user role
-  if (role !== "organisation" || !organisation) {
+  if (role !== 'organisation' || !organisation) {
     return next(boom.unauthorized());
   }
 

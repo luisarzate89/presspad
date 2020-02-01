@@ -1,4 +1,4 @@
-const Joi = require("@hapi/joi");
+const Joi = require('@hapi/joi');
 
 const internCompleteProfileSchema = Joi.object({
   // About you 1 (required for basic profile)

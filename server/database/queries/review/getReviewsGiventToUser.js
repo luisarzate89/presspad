@@ -1,5 +1,5 @@
-const { Types } = require("mongoose");
-const Review = require("../../models/Review");
+const { Types } = require('mongoose');
+const Review = require('../../models/Review');
 
 module.exports = userId =>
   Review.aggregate([
@@ -10,32 +10,32 @@ module.exports = userId =>
     },
     {
       $lookup: {
-        from: "users",
-        localField: "from",
-        foreignField: "_id",
-        as: "user",
+        from: 'users',
+        localField: 'from',
+        foreignField: '_id',
+        as: 'user',
       },
     },
     {
-      $unwind: "$user",
+      $unwind: '$user',
     },
     {
       $lookup: {
-        from: "profiles",
-        localField: "from",
-        foreignField: "user",
-        as: "profile",
+        from: 'profiles',
+        localField: 'from',
+        foreignField: 'user',
+        as: 'profile',
       },
     },
     {
-      $unwind: "$profile",
+      $unwind: '$profile',
     },
     {
       $project: {
-        name: "$user.name",
-        rate: "$rating",
-        jobTitle: "$profile.jobTitle",
-        message: "$message",
+        name: '$user.name',
+        rate: '$rating',
+        jobTitle: '$profile.jobTitle',
+        message: '$message',
       },
     },
   ]);

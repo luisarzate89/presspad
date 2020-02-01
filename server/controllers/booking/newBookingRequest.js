@@ -1,15 +1,15 @@
-const boom = require("boom");
-const moment = require("moment");
+const boom = require('boom');
+const moment = require('moment');
 
 const {
   checkOtherBookingExists,
   checkIfListingAvailable,
   createNewBooking,
   updateListingAvailability,
-} = require("../../database/queries/bookings");
-const { calculatePrice } = require("../../helpers/payments");
+} = require('../../database/queries/bookings');
+const { calculatePrice } = require('../../helpers/payments');
 
-const { registerNotification } = require("../../services/notifications");
+const { registerNotification } = require('../../services/notifications');
 
 module.exports = async (req, res, next) => {
   try {
@@ -33,24 +33,24 @@ module.exports = async (req, res, next) => {
     if (
       moment
         .utc()
-        .startOf("day")
-        .add(7, "days")
+        .startOf('day')
+        .add(7, 'days')
         .isAfter(startDate)
     ) {
       return next(
-        boom.badRequest("you have to book at least 7 days in advance"),
+        boom.badRequest('you have to book at least 7 days in advance'),
       );
     }
     // check if user already has booking request during requested dates
     if (userHasBooking.bookingExists) {
       return next(
-        boom.badRequest("user has already a booking request for those dates"),
+        boom.badRequest('user has already a booking request for those dates'),
       );
     }
     // check if booking request falls into available dates of listing
     if (listingUnavailable.listingUnavailable) {
       return next(
-        boom.badRequest("listing is not available during those dates"),
+        boom.badRequest('listing is not available during those dates'),
       );
     }
     // validate price
@@ -67,7 +67,7 @@ module.exports = async (req, res, next) => {
     const notification = {
       user: host,
       secondParty: intern,
-      type: "stayRequest",
+      type: 'stayRequest',
       private: false,
       booking: booking._id,
     };

@@ -1,3 +1,3 @@
-const releaseExpiredCouponsValue = require("./releaseExpiredCouponsValue");
+const releaseExpiredCouponsValue = require('./releaseExpiredCouponsValue');
 
 module.exports = { releaseExpiredCouponsValue };

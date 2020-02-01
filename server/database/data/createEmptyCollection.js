@@ -19,7 +19,7 @@ const {
   Transaction,
   User,
   WithdrawRequest,
-} = require("./../models");
+} = require('./../models');
 
 const createEmptyCollection = async () => {
   try {
@@ -45,7 +45,7 @@ const createEmptyCollection = async () => {
     await WithdrawRequest.createCollection();
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.log("Error during creating the collections, try again", err);
+    console.log('Error during creating the collections, try again', err);
     throw err;
   }
 };

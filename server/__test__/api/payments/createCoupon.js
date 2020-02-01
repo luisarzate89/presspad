@@ -1,15 +1,15 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const User = require("../../../database/models/User");
-const Coupon = require("../../../database/models/Coupon");
-const Account = require("../../../database/models/Account");
+const User = require('../../../database/models/User');
+const Coupon = require('../../../database/models/Coupon');
+const Account = require('../../../database/models/Account');
 
-const buildDB = require("../../../database/data/test/index");
-const app = require("../../../app");
+const buildDB = require('../../../database/data/test/index');
+const app = require('../../../app');
 
-describe("Testing for create Coupon route", () => {
-  beforeAll(async (done) => {
+describe('Testing for create Coupon route', () => {
+  beforeAll(async done => {
     // 1 minute for each test becuase it runs on atlas
     jest.setTimeout(60000);
     // build dummy data
@@ -17,23 +17,23 @@ describe("Testing for create Coupon route", () => {
     done();
   });
 
-
   afterAll(async () => {
     await mongoose.disconnect();
   });
 
-
-  test("test to create new coupon with valid data with intern that has an account", async (done) => {
-    const orgAdmin = await User.findOne({ email: "michael@financialtimes.co.uk" });
+  test('test to create new coupon with valid data with intern that has an account', async done => {
+    const orgAdmin = await User.findOne({
+      email: 'michael@financialtimes.co.uk',
+    });
 
     const orgAccountBefore = await Account.findById(orgAdmin.account);
 
     const loginData = {
-      email: "michael@financialtimes.co.uk",
-      password: "123456",
+      email: 'michael@financialtimes.co.uk',
+      password: '123456',
     };
 
-    const intern = await User.findOne({ role: "intern" });
+    const intern = await User.findOne({ role: 'intern' });
 
     const data = {
       internName: intern._id,
@@ -45,21 +45,21 @@ describe("Testing for create Coupon route", () => {
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(loginData)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((error, response) => {
-        const token = response.headers["set-cookie"][0].split(";")[0];
+        const token = response.headers['set-cookie'][0].split(';')[0];
         if (error) return done(error);
 
         // should create new coupon
         return request(app)
-          .post("/api/coupons")
+          .post('/api/coupons')
           .send(data)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .expect(200)
-          .expect("Content-Type", /json/)
+          .expect('Content-Type', /json/)
           .end(async (err, res) => {
             if (err) return done(err);
 
@@ -72,8 +72,12 @@ describe("Testing for create Coupon route", () => {
             expect(res.body.code).toBeDefined();
             expect(newCoupon.days).toBe(10);
 
-            expect(orgAccountAfter.currentBalance).toBe(orgAccountBefore.currentBalance - 105);
-            expect(orgAccountAfter.couponsValue).toBe(orgAccountBefore.couponsValue + 105);
+            expect(orgAccountAfter.currentBalance).toBe(
+              orgAccountBefore.currentBalance - 105,
+            );
+            expect(orgAccountAfter.couponsValue).toBe(
+              orgAccountBefore.couponsValue + 105,
+            );
 
             return done();
           });

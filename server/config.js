@@ -1,10 +1,10 @@
-const admin = require("firebase-admin");
+const admin = require('firebase-admin');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const privateKey = process.env.private_key
-  .replace(new RegExp("\\\\n", "g"), "\n")
-  .replace("\"", "");
+  .replace(new RegExp('\\\\n', 'g'), '\n')
+  .replace('"', '');
 
 const cred = {
   type: process.env.type,
@@ -38,5 +38,5 @@ module.exports.domain = process.env.DOMAIN;
 module.exports.links = {
   fb: process.env.FACEBOOK_GROUP_LINK,
   whatsapp: process.env.WHATSAPP_GROUP_LINK,
-  calendly: process.env.CALENDLY_LINK
+  calendly: process.env.CALENDLY_LINK,
 };

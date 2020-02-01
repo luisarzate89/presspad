@@ -1,6 +1,5 @@
-const { generateV4SignedUrl, getPublicFileUrl } = require("./storage");
-const { storageBucket: bucketName } = require("./../config");
-
+const { generateV4SignedUrl, getPublicFileUrl } = require('./storage');
+const { storageBucket: bucketName } = require('./../config');
 
 /**
  * get the image url from google cloud storage
@@ -10,15 +9,15 @@ const { storageBucket: bucketName } = require("./../config");
  * @param {string} fileRef.fileName
  * @param {boolean} fileRef.isPrivate
  */
-const generateUrl = async (fileRef) => {
+const generateUrl = async fileRef => {
   if (fileRef) {
     const { fileName, isPrivate } = fileRef;
     // check if the fileName is presented and not empty string
     if (fileName) {
       if (isPrivate) {
-      // add url property to the reference
-      // eslint-disable-next-line no-param-reassign
-        fileRef.url = await generateV4SignedUrl(bucketName, fileName, "read");
+        // add url property to the reference
+        // eslint-disable-next-line no-param-reassign
+        fileRef.url = await generateV4SignedUrl(bucketName, fileName, 'read');
         return;
       }
       // eslint-disable-next-line no-param-reassign

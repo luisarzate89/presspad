@@ -1,7 +1,7 @@
-const { verify } = require("jsonwebtoken");
-const boom = require("boom");
+const { verify } = require('jsonwebtoken');
+const boom = require('boom');
 
-const { getUserById } = require("../database/queries/user");
+const { getUserById } = require('../database/queries/user');
 
 module.exports = (req, res, next) => {
   // get cookies from the request
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     // if not valid then clear and proceed as a user who's not logged in
     if (err) {
       req.sqreen.auth_track(false);
-      res.clearCookie("token");
+      res.clearCookie('token');
       return next();
     }
 

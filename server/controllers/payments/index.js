@@ -1,9 +1,9 @@
-const orgPayment = require("./organisation");
-const internPayment = require("./intern");
+const orgPayment = require('./organisation');
+const internPayment = require('./intern');
 const {
   withdrawRequest,
   confirmOrCancelWithdrawRequest,
-} = require("./withdrawRequest");
+} = require('./withdrawRequest');
 
 module.exports = {
   internPayment,
