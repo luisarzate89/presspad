@@ -30,8 +30,8 @@
   "scripts": {
     "start": "node ./server/index.js",
     "dev": "concurrently --kill-others-on-fail \"cd client && npm start\" \"nodemon ./server/index.js\"",
-    "server":"nodemon server",
-    "client":"cd client && npm start", 
+    "server": "nodemon server",
+    "client": "cd client && npm start",
     "client:init": "cd client && npm i",
     "build": "cd client && npm run build",
     "init:both": "npm i && npm run client:init",
@@ -45,7 +45,11 @@
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=dev node server/database/data/development/index.js",
     "build:data:test": "cross-env NODE_ENV=build node server/database/data/test/index.js",
-    "build:data:prd": "node server/database/data/production/index.js"
+    "build:data:prd": "node server/database/data/production/index.js",
+    "lint:server": "eslint server",
+    "lint:client": "cd client && eslint .",
+    "lint-fix:server": "eslint server --fix",
+    "lint-fix:client": "cd client/ && eslint . --fix"
   },
   "devDependencies": {
     "codecov": "^3.6.1",

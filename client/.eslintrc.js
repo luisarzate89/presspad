@@ -34,20 +34,12 @@ module.exports = {
         extensions: [".js", ".jsx"]
       }
     ],
-    quotes: [
-      2,
-      'double',
-      {
-        avoidEscape: true, // allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
-        allowTemplateLiterals: true // allows strings to use backticks
-      }
-    ],
     // configure the prettier plugin
     "prettier/prettier": [
       "error",
       {
         trailingComma: "all",
-        singleQuote: false
+        singleQuote: true
       }
     ]
   },
