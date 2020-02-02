@@ -42,7 +42,7 @@ export default class File extends Component {
         isLoading: true,
       });
 
-      const generatedName = `${userId}/${Date.now()}.${image.name}`;
+      const generatedName = encodeURI(`${userId}/${Date.now()}.${image.name}`);
 
       const {
         data: { signedUrl, bucketName },
