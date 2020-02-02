@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import { colors, shadows, size } from "../../../theme";
+import { colors, shadows, size } from '../../../theme';
 
 export const Wrapper = styled.div`
   padding: 7rem 5rem;
@@ -64,7 +64,7 @@ export const SearchLabel = styled.label`
   margin: 0 0.5rem;
 
   @media (max-width: ${size.tablet}) {
-    width: ${({ small }) => (small ? "auto" : "80px")};
+    width: ${({ small }) => (small ? 'auto' : '80px')};
   }
 `;
 
@@ -76,9 +76,9 @@ export const SearchInputDiv = styled.div`
   /* this styling is currently in here to make interests inactive */
   position: relative;
   :after {
-    content: " ";
-    width: ${props => props.disabled && "100%"};
-    height: ${props => props.disabled && "100%"};
+    content: ' ';
+    width: ${props => props.disabled && '100%'};
+    height: ${props => props.disabled && '100%'};
     background: rgba(255, 255, 255, 0.6);
     cursor: not-allowed;
     position: absolute;
@@ -124,7 +124,7 @@ export const SearchButton = styled.button`
   text-decoration: none;
   outline: none;
   border: 0;
-  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   transition: all ease 0.15s;
   margin-left: 1rem;
 
@@ -156,7 +156,7 @@ export const Hosts = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: ${props =>
-    props.underThree ? "flex-start" : "space-between"};
+    props.underThree ? 'flex-start' : 'space-between'};
 `;
 
 export const HostResult = styled(Link)`
@@ -165,7 +165,7 @@ export const HostResult = styled(Link)`
   box-shadow: ${shadows.main};
   color: ${colors.fontLightBlack};
   margin-bottom: 1.25rem;
-  margin-right: ${props => props.underThree && "1.25rem"};
+  margin-right: ${props => props.underThree && '1.25rem'};
   transition: all ease 0.15s;
   cursor: pointer;
 
@@ -188,7 +188,7 @@ export const DisabledHostResult = styled.div`
   box-shadow: ${shadows.main};
   color: ${colors.fontLightBlack};
   margin-bottom: 1.25rem;
-  margin-right: ${props => props.underThree && "1.25rem"};
+  margin-right: ${props => props.underThree && '1.25rem'};
   cursor: not-allowed;
 `;
 

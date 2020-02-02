@@ -1,15 +1,15 @@
-const Joi = require("@hapi/joi");
+const Joi = require('@hapi/joi');
 
-const wordLengthValidator = require("./wordLengthValidator");
+const wordLengthValidator = require('./wordLengthValidator');
 
 const internProfileSchema = Joi.object({
   birthDate: Joi.date().required(),
   gender: Joi.string().required(),
   hometown: Joi.string()
-    .custom(wordLengthValidator(10, "hometown"))
+    .custom(wordLengthValidator(10, 'hometown'))
     .required(),
   school: Joi.string()
-    .custom(wordLengthValidator(10, "school"))
+    .custom(wordLengthValidator(10, 'school'))
     .required(),
   profileImage: Joi.object({
     fileName: Joi.string().required(),
@@ -17,29 +17,29 @@ const internProfileSchema = Joi.object({
   }).required(),
   interests: Joi.string().required(),
   bio: Joi.string()
-    .custom(wordLengthValidator(250, "bio"))
+    .custom(wordLengthValidator(250, 'bio'))
     .required(),
   organisation: Joi.string()
-    .allow("")
-    .custom(wordLengthValidator(10, "organisation")),
+    .allow('')
+    .custom(wordLengthValidator(10, 'organisation')),
   useReasonAnswer: Joi.string()
-    .custom(wordLengthValidator(250, "useReasonAnswer"))
-    .allow(""),
+    .custom(wordLengthValidator(250, 'useReasonAnswer'))
+    .allow(''),
   issueAnswer: Joi.string()
-    .custom(wordLengthValidator(250, "issueAnswer"))
-    .allow(""),
+    .custom(wordLengthValidator(250, 'issueAnswer'))
+    .allow(''),
   storyAnswer: Joi.string()
-    .custom(wordLengthValidator(250, "storyAnswer"))
-    .allow(""),
+    .custom(wordLengthValidator(250, 'storyAnswer'))
+    .allow(''),
   mentorDescribeAnswer: Joi.string()
-    .allow("")
-    .custom(wordLengthValidator(250, "mentorDescribeAnswer")),
+    .allow('')
+    .custom(wordLengthValidator(250, 'mentorDescribeAnswer')),
   photoID: Joi.object({
     fileName: Joi.string().required(),
     isPrivate: Joi.boolean().default(true),
   }).required(),
   hearAboutPressPadAnswer: Joi.string()
-    .custom(wordLengthValidator(50, "hearAboutPressPadAnswer"))
+    .custom(wordLengthValidator(50, 'hearAboutPressPadAnswer'))
     .required(),
   phoneNumber: Joi.string()
     .max(50)
@@ -47,48 +47,48 @@ const internProfileSchema = Joi.object({
   reference1: Joi.object({
     name: Joi.string()
       .max(50)
-      .allow(""),
+      .allow(''),
     email: Joi.string()
       .email()
-      .allow(""),
+      .allow(''),
   }),
   reference2: Joi.object({
     name: Joi.string()
       .max(50)
-      .allow(""),
+      .allow(''),
     email: Joi.string()
       .email()
-      .allow(""),
+      .allow(''),
   }),
   offerLetter: Joi.object({
-    fileName: Joi.string().allow(""),
+    fileName: Joi.string().allow(''),
     isPrivate: Joi.boolean().default(true),
   }),
   internshipOfficeAddress: Joi.string()
-    .custom(wordLengthValidator(50, "internshipOfficeAddress"))
-    .allow(""),
+    .custom(wordLengthValidator(50, 'internshipOfficeAddress'))
+    .allow(''),
   emergencyContact: Joi.object({
-    name: Joi.string().allow(""),
-    email: Joi.allow(""),
-    phoneNumber: Joi.string().allow(""),
+    name: Joi.string().allow(''),
+    email: Joi.allow(''),
+    phoneNumber: Joi.string().allow(''),
   }),
   DBSCheck: Joi.object({
-    fileName: Joi.string().allow(""),
+    fileName: Joi.string().allow(''),
     isPrivate: Joi.boolean().default(true),
   }),
-  sexualOrientation: Joi.string().allow(""),
-  degreeLevel: Joi.string().allow(""),
-  ethnicity: Joi.string().allow(""),
-  parentProfession: Joi.string().allow(""),
-  disability: Joi.string().allow(""),
-  parentsWorkInPress: Joi.string().allow(""),
-  caringResponsibilities: Joi.string().allow(""),
+  sexualOrientation: Joi.string().allow(''),
+  degreeLevel: Joi.string().allow(''),
+  ethnicity: Joi.string().allow(''),
+  parentProfession: Joi.string().allow(''),
+  disability: Joi.string().allow(''),
+  parentsWorkInPress: Joi.string().allow(''),
+  caringResponsibilities: Joi.string().allow(''),
   allergies: Joi.string()
-    .allow("")
-    .custom(wordLengthValidator(50, "allergies")),
+    .allow('')
+    .custom(wordLengthValidator(50, 'allergies')),
   backgroundAnswer: Joi.string()
-    .allow("")
-    .custom(wordLengthValidator(250, "backgroundAnswer")),
+    .allow('')
+    .custom(wordLengthValidator(250, 'backgroundAnswer')),
   consentedOnPressPadTerms: Joi.boolean()
     .only()
     .allow(true),

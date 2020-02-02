@@ -1,16 +1,16 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { getHostNextBooking } = require("./../../database/queries/bookings");
+const { getHostNextBooking } = require('./../../database/queries/bookings');
 
 const {
   hostDashboard: hostDashboardQuery,
-} = require("../../database/queries/dashboard");
-const generateFileURL = require("./../../helpers/generateFileURL");
+} = require('../../database/queries/dashboard');
+const generateFileURL = require('./../../helpers/generateFileURL');
 
 const hostDashboard = async (req, res, next) => {
   const { _id: hostId, role } = req.user;
 
-  if (role !== "host" && role !== "superhost") {
+  if (role !== 'host' && role !== 'superhost') {
     return next(boom.forbidden());
   }
   try {
@@ -26,7 +26,7 @@ const hostDashboard = async (req, res, next) => {
     const { profile, bookings, withdrawRequests } = dashboardData;
 
     const requestedAmount = withdrawRequests
-      .filter(request => request && request.status === "pending")
+      .filter(request => request && request.status === 'pending')
       .reduce((prev, cur) => {
         return prev + cur.amount;
       }, 0);

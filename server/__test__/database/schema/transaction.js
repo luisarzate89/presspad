@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const User = require("../../../database/models/User");
-const Transaction = require("../../../database/models/Transaction");
-const buildDB = require("../../../database/data/test");
+const User = require('../../../database/models/User');
+const Transaction = require('../../../database/models/Transaction');
+const buildDB = require('../../../database/data/test');
 
-describe("Test Transaction schema", () => {
-  beforeAll(async (done) => {
+describe('Test Transaction schema', () => {
+  beforeAll(async done => {
     // build dummy data
     await buildDB();
     done();
@@ -16,19 +16,19 @@ describe("Test Transaction schema", () => {
     mongoose.disconnect();
   });
 
-  test("Transaction schema should be defined", async () => {
+  test('Transaction schema should be defined', async () => {
     expect(Transaction).toBeDefined();
   });
 
-  test("should store Listing schema correctly", async (done) => {
+  test('should store Listing schema correctly', async done => {
     const transactions = await Transaction.find();
     expect(transactions.length).toBeGreaterThan(1);
     done();
   });
 
-  test("should store a new Transaction correctly", async (done) => {
-    const org = await User.findOne({ role: "organisation" });
-    const intern = await User.findOne({ role: "intern" });
+  test('should store a new Transaction correctly', async done => {
+    const org = await User.findOne({ role: 'organisation' });
+    const intern = await User.findOne({ role: 'intern' });
 
     const newTransaction = {
       credits: 500,

@@ -1,8 +1,8 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { Spin } from "antd";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { Spin } from 'antd';
 
-import { SIGNIN_URL } from "./../../../constants/navRoutes";
+import { SIGNIN_URL } from '../../../constants/navRoutes';
 
 // import { Wrapper, SpinWrapper } from "./PrivateRoute.style";
 
@@ -13,8 +13,8 @@ const PrivateRoute = ({
   path,
   exact,
   ...rest
-}) => {
-  return isMounted ? (
+}) =>
+  isMounted ? (
     <>
       <Route
         path={path}
@@ -33,6 +33,5 @@ const PrivateRoute = ({
       <Spin size="large" />
     </>
   );
-};
 
 export default PrivateRoute;

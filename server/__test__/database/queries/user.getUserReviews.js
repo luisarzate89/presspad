@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const buildDB = require("../../../database/data/test/index");
+const buildDB = require('../../../database/data/test/index');
 
 // get query
-const { getUserReviews } = require("../../../database/queries/user/index");
+const { getUserReviews } = require('../../../database/queries/user/index');
 
 // get models
-const User = require("../../../database/models/User");
+const User = require('../../../database/models/User');
 
-describe("Tests for getUserReviews query", () => {
+describe('Tests for getUserReviews query', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -18,10 +18,10 @@ describe("Tests for getUserReviews query", () => {
     mongoose.disconnect();
   });
 
-  test("Test getUserReviews query with valid id", async (done) => {
-    const hosts = await User.findOne({ email: "hilda@bbc.co.uk" });
+  test('Test getUserReviews query with valid id', async done => {
+    const hosts = await User.findOne({ email: 'hilda@bbc.co.uk' });
 
-    await getUserReviews(hosts._id).then((reviews) => {
+    await getUserReviews(hosts._id).then(reviews => {
       expect(reviews).toBeDefined();
       expect(reviews[0]).toBeDefined();
       expect(reviews[0].from_user.name).toBeDefined();
@@ -30,8 +30,8 @@ describe("Tests for getUserReviews query", () => {
     done();
   });
 
-  test("Test getUserReviewsquery with invalid id", async (done) => {
-    await getUserReviews("123456").catch((err) => {
+  test('Test getUserReviewsquery with invalid id', async done => {
+    await getUserReviews('123456').catch(err => {
       expect(err).toBeDefined();
     });
     done();

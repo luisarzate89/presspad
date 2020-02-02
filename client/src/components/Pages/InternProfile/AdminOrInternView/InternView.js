@@ -1,7 +1,7 @@
-import React from "react";
-import { Row, Col, Avatar, Table, Empty } from "antd";
+import React from 'react';
+import { Row, Col, Avatar, Table, Empty } from 'antd';
 
-import { INTERN_COMPLETE_PROFILE_URL } from "../../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from '../../../../constants/navRoutes';
 
 import {
   PageWrapper,
@@ -19,9 +19,9 @@ import {
   BoldSpan,
   BlueSpan,
   BookingsTableWrapper,
-  EditButton
-} from "./InternProfile.style";
-import BookingsColumns from "./BookingsColumns";
+  EditButton,
+} from './InternProfile.style';
+import BookingsColumns from './BookingsColumns';
 
 export default function InternView({
   name,
@@ -41,7 +41,7 @@ export default function InternView({
   profileImage,
   handleViewMoreToggle,
   viewNumber,
-  profile
+  profile,
 }) {
   return (
     <PageWrapper>
@@ -55,18 +55,18 @@ export default function InternView({
                 icon="user"
                 src={profileImage.url || undefined}
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "42px",
-                  border: "1px solid rgba(0, 0, 0, 0.15)"
+                  width: '80px',
+                  height: '80px',
+                  margin: '0 auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '42px',
+                  border: '1px solid rgba(0, 0, 0, 0.15)',
                 }}
               />
             </Col>
-            <Col span={20} style={{ display: "flex", alignItems: "center" }}>
+            <Col span={20} style={{ display: 'flex', alignItems: 'center' }}>
               <HiText>{name}</HiText>
             </Col>
           </Row>
@@ -101,7 +101,7 @@ export default function InternView({
                   <SubTitle>Favourite article</SubTitle>
                   <Paragraph>
                     <BoldSpan>
-                      {name.split(" ")[0]}’s favourite article this week is{" "}
+                      {name.split(' ')[0]}’s favourite article this week is{' '}
                       <BlueSpan
                         as="a"
                         disabled={!linkWithHttp}
@@ -192,9 +192,9 @@ export default function InternView({
                 {bookingsWithReviews.length > 3 && (
                   <BlueLink
                     onClick={handleViewMoreToggle}
-                    style={{ marginTop: "2rem", textAlign: "center" }}
+                    style={{ marginTop: '2rem', textAlign: 'center' }}
                   >
-                    {viewNumber ? "View more" : "View less"}
+                    {viewNumber ? 'View more' : 'View less'}
                   </BlueLink>
                 )}
               </BookingsTableWrapper>

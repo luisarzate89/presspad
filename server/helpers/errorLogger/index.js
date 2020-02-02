@@ -1,12 +1,12 @@
-const fs = require("fs");
-const path = require("path");
-const moment = require("moment");
+const fs = require('fs');
+const path = require('path');
+const moment = require('moment');
 
 // define dirname here so it will always resolve to the same directory
-const errorLogDir = path.join(__dirname, "..", "..", "logs");
+const errorLogDir = path.join(__dirname, '..', '..', 'logs');
 
 // log each day's errors separately
-const fileName = moment().format("YYYY-MM-DD");
+const fileName = moment().format('YYYY-MM-DD');
 
 /**
  * this is a logger function. Error that have nothing to do with user and should be handled by
@@ -24,11 +24,13 @@ const fileName = moment().format("YYYY-MM-DD");
 
 const errorLogger = (error, dir, currentPath) => {
   const errorObject = {
-    errorTime: moment().format("YYYY-MM-DD hh:mm a"),
+    errorTime: moment().format('YYYY-MM-DD hh:mm a'),
     errorStack: error,
     path: currentPath,
   };
-  const writeStream = fs.createWriteStream(path.join(dir, `${fileName}.txt`), { flags: "a" });
+  const writeStream = fs.createWriteStream(path.join(dir, `${fileName}.txt`), {
+    flags: 'a',
+  });
   const errorString = JSON.stringify(errorObject, null, 2); // format the json string with 2 spaces.
   writeStream.write(`${errorString},\n`);
   writeStream.end();

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors, shadows, borders } from "../../../../theme";
+import styled from 'styled-components';
+import { colors, shadows, borders } from '../../../../theme';
 
 export const InfoMessage = styled.p`
   color: #a5a3a3;
@@ -45,7 +45,7 @@ export const InfoValue = styled.span`
   font-weight: 800;
   font-size: 1.56rem;
   margin-bottom: ${({ mbottom }) => mbottom};
-  opacity: ${({ light }) => (light ? 0.7 : "")};
+  opacity: ${({ light }) => (light ? 0.7 : '')};
 `;
 
 export const CardWrapper = styled.div`

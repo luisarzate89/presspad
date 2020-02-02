@@ -1,15 +1,19 @@
-const InternalTransaction = require("./../../models/InternalTransaction");
-const User = require("./../../models/User");
-const Organisation = require("../../models/Organisation");
-
+const InternalTransaction = require('./../../models/InternalTransaction');
+const User = require('./../../models/User');
+const Organisation = require('../../models/Organisation');
 
 module.exports = async () => {
-  const BBC = await Organisation.findOne({ name: "BBC" });
+  const BBC = await Organisation.findOne({ name: 'BBC' });
 
-  const admin = await User.findOne({ role: "admin" }).sort({ name: 1 });
-  const [host1, host2] = await User.find({ role: "host" }).sort({ name: 1 });
-  const [intern1, intern2, intern4] = await User.find({ role: "intern" }).sort({ name: 1 });
-  const orgAdmin1 = await User.findOne({ role: "organisation", organisation: BBC._id }).sort({ name: 1 });
+  const admin = await User.findOne({ role: 'admin' }).sort({ name: 1 });
+  const [host1, host2] = await User.find({ role: 'host' }).sort({ name: 1 });
+  const [intern1, intern2, intern4] = await User.find({ role: 'intern' }).sort({
+    name: 1,
+  });
+  const orgAdmin1 = await User.findOne({
+    role: 'organisation',
+    organisation: BBC._id,
+  }).sort({ name: 1 });
 
   const internalTransactions = [
     // intern to host
@@ -18,28 +22,28 @@ module.exports = async () => {
       from: intern1.account,
       to: host1.account,
       amount: 900,
-      type: "installment",
+      type: 'installment',
     },
     {
       user: intern1._id,
       from: intern1.account,
       to: host2.account,
       amount: 1400,
-      type: "installment",
+      type: 'installment',
     },
     {
       user: intern2._id,
       from: intern2.account,
       to: host1.account,
       amount: 1000,
-      type: "installment",
+      type: 'installment',
     },
     {
       user: intern2._id,
       from: intern2.account,
       to: host2.account,
       amount: 700,
-      type: "installment",
+      type: 'installment',
     },
     // coupons transactions
     // from organsisation to host
@@ -49,28 +53,28 @@ module.exports = async () => {
       from: orgAdmin1.account,
       to: intern1.account,
       amount: 200,
-      type: "couponTransaction",
+      type: 'couponTransaction',
     },
     {
       user: orgAdmin1._id,
       from: orgAdmin1.account,
       to: intern2.account,
       amount: 300,
-      type: "couponTransaction",
+      type: 'couponTransaction',
     },
     {
       user: orgAdmin1._id,
       from: orgAdmin1.account,
       to: intern4.account,
       amount: 350,
-      type: "couponTransaction",
+      type: 'couponTransaction',
     },
     {
       user: orgAdmin1._id,
       from: orgAdmin1.account,
       to: intern1.account,
       amount: 250,
-      type: "couponTransaction",
+      type: 'couponTransaction',
     },
     // hosts donations
     {
@@ -79,7 +83,7 @@ module.exports = async () => {
       // to presspad account
       to: admin.account,
       amount: 920,
-      type: "donation",
+      type: 'donation',
     },
     {
       user: host1._id,
@@ -87,7 +91,7 @@ module.exports = async () => {
       // to presspad account
       to: admin.account,
       amount: 1200,
-      type: "donation",
+      type: 'donation',
     },
     {
       user: host2._id,
@@ -95,7 +99,7 @@ module.exports = async () => {
       // to presspad account
       to: admin.account,
       amount: 500,
-      type: "donation",
+      type: 'donation',
     },
   ];
   await InternalTransaction.create(internalTransactions);

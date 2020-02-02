@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { message, Skeleton, Alert } from "antd";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { message, Skeleton, Alert } from 'antd';
 
-import Checkbox from "./Checkbox";
-import HintText from "./HintText";
+import Checkbox from './Checkbox';
+import HintText from './HintText';
 
-import { SectionWrapperContent, SectionTitle } from "../../../Common/general";
-import { Paragraph } from "../../../Common/Profile/Profiles.style";
+import { SectionWrapperContent, SectionTitle } from '../../../Common/general';
+import { Paragraph } from '../../../Common/Profile/Profiles.style';
 
-import { API_GET_CHECKLIST } from "../../../../constants/apiRoutes";
+import { API_GET_CHECKLIST } from '../../../../constants/apiRoutes';
 
 class Checklist extends Component {
   state = {
     isLoading: false,
-    error: "",
+    error: '',
     checklistObj: {},
   };
 
@@ -22,9 +22,9 @@ class Checklist extends Component {
       const { bookingInfo, userRole } = this.props;
 
       const url = API_GET_CHECKLIST.replace(
-        ":bookingId",
+        ':bookingId',
         bookingInfo._id,
-      ).replace(":userId", bookingInfo[userRole]._id);
+      ).replace(':userId', bookingInfo[userRole]._id);
 
       this.setState({ isLoading: true });
 
@@ -33,9 +33,9 @@ class Checklist extends Component {
         acc[curr._id] = { ...curr };
         return acc;
       }, {});
-      this.setState({ checklistObj, isLoading: false, error: "" });
+      this.setState({ checklistObj, isLoading: false, error: '' });
     } catch (err) {
-      const error = "Something went wrong, please try again later";
+      const error = 'Something went wrong, please try again later';
       if (err.response && err.response.status !== 404) message.error(error);
       this.setState({ isLoading: false, error });
     }
@@ -117,8 +117,8 @@ class Checklist extends Component {
               />
             );
           })}
-          <div style={{ marginTop: "5vh", fontWeight: "bold" }}>
-            <div style={{ fontSize: "25px" }}>Other things to do:</div>
+          <div style={{ marginTop: '5vh', fontWeight: 'bold' }}>
+            <div style={{ fontSize: '25px' }}>Other things to do:</div>
             <div>
               {optionals.map(
                 ({
@@ -130,7 +130,7 @@ class Checklist extends Component {
                   links,
                 }) => (
                   <React.Fragment key={text}>
-                    <div style={{ marginTop: "10px" }}>{text}</div>
+                    <div style={{ marginTop: '10px' }}>{text}</div>
                     <HintText
                       hintText={hintText}
                       containsHostEmail={containsHostEmail}

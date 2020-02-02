@@ -1,31 +1,28 @@
-const generateListRow = require("./generateListRow");
+const generateListRow = require('./generateListRow');
 
+const createChecklistArray = ({ checklist, hostEmail, internEmail }) =>
+  checklist.map(checklistQuestion => {
+    const {
+      isChecked,
+      hintText,
+      containsHostEmail,
+      containsInternEmail,
+      links,
+      text,
+    } = checklistQuestion;
 
-const createChecklistArray = ({
-  checklist, hostEmail, internEmail,
-}) => checklist.map((checklistQuestion) => {
-  const {
-    isChecked,
-    hintText,
-    containsHostEmail,
-    containsInternEmail,
-    links,
-    text,
-  } = checklistQuestion;
+    const checklistHtmlRow = generateListRow({
+      hintText,
+      containsHostEmail,
+      containsInternEmail,
+      hostEmail,
+      internEmail,
+      links,
+      isChecked,
+      text,
+    });
 
-  const checklistHtmlRow = generateListRow({
-    hintText,
-    containsHostEmail,
-    containsInternEmail,
-    hostEmail,
-    internEmail,
-    links,
-    isChecked,
-    text,
+    return checklistHtmlRow;
   });
-
-  return checklistHtmlRow;
-});
-
 
 module.exports = createChecklistArray;

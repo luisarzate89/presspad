@@ -1,8 +1,10 @@
-const { getOutstandingPaymentReminders } = require("./../../database/queries/ScheduledEmail");
-const sendPaymentReminderToIntern = require("../../helpers/mailHelper/sendPaymentReminderToIntern");
+const {
+  getOutstandingPaymentReminders,
+} = require('./../../database/queries/ScheduledEmail');
+const sendPaymentReminderToIntern = require('../../helpers/mailHelper/sendPaymentReminderToIntern');
 
-const sendOutstandingPaymentReminders = async () => new Promise(
-  async (resolve, reject) => {
+const sendOutstandingPaymentReminders = async () =>
+  new Promise(async (resolve, reject) => {
     try {
       const emails = await getOutstandingPaymentReminders();
       if (!emails.length) {
@@ -13,22 +15,20 @@ const sendOutstandingPaymentReminders = async () => new Promise(
       const promises = [];
       const sentEmailsIds = [];
 
-      emails.forEach((email) => {
-        const {
-          intern, type, booking, _id,
-        } = email;
+      emails.forEach(email => {
+        const { intern, type, booking, _id } = email;
         let paymentNumber;
         switch (type) {
-        case "SECOND_PAYMENT_REMINDER":
-          paymentNumber = "second";
-          break;
+          case 'SECOND_PAYMENT_REMINDER':
+            paymentNumber = 'second';
+            break;
 
-        case "THIRD_PAYMENT_REMINDER":
-          paymentNumber = "third";
-          break;
+          case 'THIRD_PAYMENT_REMINDER':
+            paymentNumber = 'third';
+            break;
 
-        default:
-          break;
+          default:
+            break;
         }
 
         promises.push(
@@ -48,7 +48,6 @@ const sendOutstandingPaymentReminders = async () => new Promise(
     } catch (error) {
       return reject(error);
     }
-  },
-);
+  });
 
 module.exports = sendOutstandingPaymentReminders;

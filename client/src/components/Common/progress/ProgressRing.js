@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Icon } from "antd";
+import React, { Component } from 'react';
+import { Icon } from 'antd';
 
 /**
  * ProgressRing from CSS-tricks website
@@ -12,6 +12,7 @@ import { Icon } from "antd";
 
 class ProgressRing extends Component {
   normalizedRadius = this.props.radius - this.props.stroke * 2;
+
   circumference = this.normalizedRadius * 2 * Math.PI;
 
   render() {
@@ -25,24 +26,24 @@ class ProgressRing extends Component {
           <Icon
             type="check"
             style={{
-              color: "green",
-              fontSize: "18px",
-              position: "absolute",
+              color: 'green',
+              fontSize: '18px',
+              position: 'absolute',
               zIndex: 1,
-              transform: "translate(-50%, -50%)",
-              top: "50%"
+              transform: 'translate(-50%, -50%)',
+              top: '50%',
             }}
           />
         )}
         <svg height={radius * 2} width={radius * 2} style={style}>
           <circle
-            stroke={progress === 100 ? "green" : "blue"}
+            stroke={progress === 100 ? 'green' : 'blue'}
             fill="transparent"
             strokeWidth={stroke}
-            strokeDasharray={this.circumference + " " + this.circumference}
+            strokeDasharray={`${this.circumference} ${this.circumference}`}
             style={{
               strokeDashoffset,
-              transition: "stroke-dashoffset 2s linear"
+              transition: 'stroke-dashoffset 2s linear',
             }}
             r={this.normalizedRadius}
             cx={radius}

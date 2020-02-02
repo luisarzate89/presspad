@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ComponentWrapper = styled.div`
   padding-top: 8rem;

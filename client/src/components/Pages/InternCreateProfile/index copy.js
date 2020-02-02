@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import Content from "./Content";
-import { Modal, Spin, Alert, message } from "antd";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Modal, Spin, Alert, message } from 'antd';
+import axios from 'axios';
+import Content from './Content';
 
-import schema from "./Schema";
+import schema from './Schema';
 
 import {
   API_INTERN_COMPLETE_PROFILE,
-  API_MY_PROFILE_URL
-} from "../../../constants/apiRoutes";
-import { DASHBOARD_URL } from "./../../../constants/navRoutes";
+  API_MY_PROFILE_URL,
+} from '../../../constants/apiRoutes';
+import { DASHBOARD_URL } from '../../../constants/navRoutes';
 
 export default class InternCreateProfile extends Component {
   state = {
@@ -18,31 +18,31 @@ export default class InternCreateProfile extends Component {
     profileImage: {
       loading: 0,
       isLoading: false,
-      url: "",
-      fileName: ""
+      url: '',
+      fileName: '',
     },
-    bio: "",
+    bio: '',
     favouriteArticle: {
-      title: "",
-      author: "",
-      link: "",
-      description: ""
+      title: '',
+      author: '',
+      link: '',
+      description: '',
     },
-    jobTitle: "",
-    organisation: { name: "", website: "" },
+    jobTitle: '',
+    organisation: { name: '', website: '' },
     offerLetter: {
       loading: 0,
-      isLoading: false
+      isLoading: false,
     },
     photoIDFile: {
       loading: 0,
-      isLoading: false
+      isLoading: false,
     },
 
-    reference1: { name: "", contact: "" },
-    reference2: { name: "", contact: "" },
+    reference1: { name: '', contact: '' },
+    reference2: { name: '', contact: '' },
 
-    errors: {}
+    errors: {},
   };
 
   componentDidMount() {
@@ -54,35 +54,35 @@ export default class InternCreateProfile extends Component {
             ...profile,
             profileImage: {
               ...this.state.profileImage,
-              ...profile.profileImage
+              ...profile.profileImage,
             },
             reference1: {
               ...this.state.reference1,
-              ...profile.verification.reference1
+              ...profile.verification.reference1,
             },
             reference2: {
               ...this.state.reference2,
-              ...profile.verification.reference2
+              ...profile.verification.reference2,
             },
             photoIDFile: {
               ...this.state.photoIDFile,
-              ...profile.verification.photoID
+              ...profile.verification.photoID,
             },
             offerLetter: {
               ...this.state.photoIDFile,
-              ...profile.verification.offerLetter
-            }
+              ...profile.verification.offerLetter,
+            },
           });
         }
       })
-      .catch(err => message.error("internal server error"));
+      .catch(err => message.error('internal server error'));
   }
 
   directUploadToGoogle = async e => {
     const {
       files: [image],
       name,
-      dataset: { isPrivate }
+      dataset: { isPrivate },
     } = e.target;
 
     const { id: userId } = this.props;
@@ -91,7 +91,7 @@ export default class InternCreateProfile extends Component {
     if (!image) {
       if (!this.state[name].name) {
         return this.setState({
-          errors: { ...errors, [name]: "please upload a file" }
+          errors: { ...errors, [name]: 'please upload a file' },
         });
       }
       return;
@@ -99,30 +99,30 @@ export default class InternCreateProfile extends Component {
 
     if (image.size > 4e6) {
       return this.setState({
-        errors: { ...errors, [name]: 'File too large, "max size 4MB"' }
+        errors: { ...errors, [name]: 'File too large, "max size 4MB"' },
       });
     }
 
     // get signed url from google
     try {
       this.setState({
-        [name]: { ...this.state[name], loading: 0, isLoading: true }
+        [name]: { ...this.state[name], loading: 0, isLoading: true },
       });
 
       const generatedName = `${userId}/${Date.now()}.${image.name}`;
 
       const {
-        data: { signedUrl, bucketName }
+        data: { signedUrl, bucketName },
       } = await axios.get(`/api/upload/signed-url?fileName=${generatedName}`);
 
       const headers = {
-        "Content-Type": "application/octet-stream"
+        'Content-Type': 'application/octet-stream',
       };
 
-      let url = "";
+      let url = '';
 
-      if (isPrivate === "false") {
-        headers["x-goog-acl"] = "public-read";
+      if (isPrivate === 'false') {
+        headers['x-goog-acl'] = 'public-read';
         url = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
       await axios.put(signedUrl, image, {
@@ -132,11 +132,11 @@ export default class InternCreateProfile extends Component {
           this.setState({
             [name]: {
               loading: precent.toFixed(2),
-              isLoading: true
+              isLoading: true,
             },
-            errors: { ...errors, [name]: "" }
+            errors: { ...errors, [name]: '' },
           });
-        }
+        },
       });
 
       this.setState({
@@ -144,14 +144,14 @@ export default class InternCreateProfile extends Component {
           url,
           fileName: generatedName,
           loading: 100,
-          isLoading: false
+          isLoading: false,
         },
-        errors: { ...errors, [name]: "" }
+        errors: { ...errors, [name]: '' },
       });
     } catch (error) {
-      message.error("something went wrong, try again later", 5);
+      message.error('something went wrong, try again later', 5);
       this.setState({
-        [name]: { ...this.state[name], loading: 0, isLoading: false }
+        [name]: { ...this.state[name], loading: 0, isLoading: false },
       });
     }
   };
@@ -164,7 +164,7 @@ export default class InternCreateProfile extends Component {
     const {
       value,
       name,
-      dataset: { parent }
+      dataset: { parent },
     } = target;
     let newState;
     if (parent) {
@@ -179,8 +179,8 @@ export default class InternCreateProfile extends Component {
     });
   };
 
-  validate = () => {
-    return schema
+  validate = () =>
+    schema
       .validate(this.state, { abortEarly: false })
       .then(res => {
         this.setState({ errors: {} });
@@ -189,16 +189,15 @@ export default class InternCreateProfile extends Component {
       .catch(err => {
         const errors = {};
         err.inner.forEach(element => {
-          if (element.path.includes(".")) {
-            const newMessage = element.message.split(".").join(" ");
-            errors[element.path.split(".").join("")] = newMessage;
+          if (element.path.includes('.')) {
+            const newMessage = element.message.split('.').join(' ');
+            errors[element.path.split('.').join('')] = newMessage;
           } else {
-            errors[element.path.split(".")[0]] = element.message;
+            errors[element.path.split('.')[0]] = element.message;
           }
         });
         this.setState({ errors });
       });
-  };
 
   handleSubmit = e => {
     const {
@@ -210,7 +209,7 @@ export default class InternCreateProfile extends Component {
       offerLetter,
       photoIDFile,
       reference1,
-      reference2
+      reference2,
     } = this.state;
 
     e.preventDefault();
@@ -221,7 +220,7 @@ export default class InternCreateProfile extends Component {
         this.setState({ errors: {}, uploading: true });
         Modal.destroyAll();
         Modal.info({
-          title: "Uploading",
+          title: 'Uploading',
           content: (
             <Spin spinning={this.state.loading}>
               <Alert
@@ -232,15 +231,15 @@ export default class InternCreateProfile extends Component {
             </Spin>
           ),
           okButtonProps: {
-            disabled: true
-          }
+            disabled: true,
+          },
         });
 
         const formData = {
           profileImage: { fileName: profileImage.fileName, isPrivate: false },
           verification: this.state.verification || {},
           bio,
-          verified: true
+          verified: true,
         };
 
         // Add optional fields if they exists
@@ -251,47 +250,47 @@ export default class InternCreateProfile extends Component {
         photoIDFile.fileName &&
           (formData.verification.photoID = {
             fileName: photoIDFile.fileName,
-            isPrivate: true
+            isPrivate: true,
           });
 
         offerLetter.fileName &&
           (formData.verification.offerLetter = {
             fileName: offerLetter.fileName,
-            isPrivate: true
+            isPrivate: true,
           });
         reference1.name &&
           (formData.verification.reference1 = {
             ...formData.verification.reference1,
-            name: reference1.name
+            name: reference1.name,
           });
         reference1.contact &&
           (formData.verification.reference1 = {
             ...formData.verification.reference1,
-            contact: reference1.contact
+            contact: reference1.contact,
           });
         reference2.name &&
           (formData.verification.reference2 = {
             ...formData.verification.reference2,
-            name: reference2.name
+            name: reference2.name,
           });
         reference2.contact &&
           (formData.verification.reference2 = {
             ...formData.verification.reference2,
-            contact: reference2.contact
+            contact: reference2.contact,
           });
 
         axios({
-          method: "post",
+          method: 'post',
           url: API_INTERN_COMPLETE_PROFILE,
           data: formData,
           headers: {
-            "content-type": "application/json"
-          }
+            'content-type': 'application/json',
+          },
         })
           .then(({ data }) => {
             Modal.destroyAll();
             Modal.success({
-              title: "Done",
+              title: 'Done',
               content: (
                 <Alert
                   message="Thank you"
@@ -303,14 +302,14 @@ export default class InternCreateProfile extends Component {
               onOk: () => {
                 this.props.history.push(DASHBOARD_URL);
               },
-              type: "success"
+              type: 'success',
             });
             this.setState({ loading: false, success: true });
           })
           .catch(err => {
             Modal.destroyAll();
             Modal.error({
-              title: "Error",
+              title: 'Error',
               content: (
                 <Alert
                   message="Error"
@@ -318,7 +317,7 @@ export default class InternCreateProfile extends Component {
                   type="error"
                 />
               ),
-              type: "error"
+              type: 'error',
             });
             this.setState({ loading: false, erros: err.response.data });
           });

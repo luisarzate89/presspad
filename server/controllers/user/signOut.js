@@ -1,5 +1,3 @@
 module.exports = (req, res, next) => {
-  res
-    .clearCookie("token")
-    .json({ success: true });
+  res.clearCookie('token').json({ success: true });
 };

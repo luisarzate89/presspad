@@ -1,6 +1,6 @@
-const { releaseExpiredCouponsValue } = require("./../../../services/coupon");
+const { releaseExpiredCouponsValue } = require('./../../../services/coupon');
 
-module.exports = async (Sentry) => {
+module.exports = async Sentry => {
   try {
     await releaseExpiredCouponsValue();
   } catch (error) {

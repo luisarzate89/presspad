@@ -1,6 +1,6 @@
-import moment from "moment";
+import moment from 'moment';
 
-import * as yup from "yup";
+import * as yup from 'yup';
 
 export const createDatesArray = (start, end) => {
   const datesArray = [];
@@ -10,8 +10,8 @@ export const createDatesArray = (start, end) => {
   const stopDate = new Date(end);
 
   while (currentDate <= stopDate) {
-    datesArray.push(moment(currentDate).format("YYYY-MM-DD"));
-    currentDate = moment(currentDate).add(1, "days");
+    datesArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'days');
   }
 
   return datesArray;
@@ -26,8 +26,8 @@ export const getDateRangeFromArray = datesArray => {
     const stopDate = moment(el.endDate);
 
     while (currentDate <= stopDate) {
-      avDatesArray.push(moment(currentDate).format("YYYY-MM-DD"));
-      currentDate = moment(currentDate).add(1, "days");
+      avDatesArray.push(moment(currentDate).format('YYYY-MM-DD'));
+      currentDate = moment(currentDate).add(1, 'days');
     }
   });
   // get all days in month of current date and stop date
@@ -49,14 +49,14 @@ export const calculatePrice = range => {
   if (!range) return 0;
   let weeks;
   let days;
-  if (typeof range === "number") {
+  if (typeof range === 'number') {
     weeks = Math.trunc(range / 7);
     days = range % 7;
   } else {
-    range.start.startOf("day");
-    range.end.add(1, "day").endOf("day");
-    weeks = range.diff("weeks");
-    days = range.diff("days") % 7;
+    range.start.startOf('day');
+    range.end.add(1, 'day').endOf('day');
+    weeks = range.diff('weeks');
+    days = range.diff('days') % 7;
   }
   return weeks * 150 + days * 20;
 };
@@ -102,7 +102,7 @@ const filterFields = {
 const _filterObj = (obj, searchVal) =>
   Object.keys(obj).some(key => {
     const _val = obj[key];
-    if (typeof _val === "object") {
+    if (typeof _val === 'object') {
       return _filterObj(_val, searchVal);
     }
     if (filterFields[key]) {
@@ -143,16 +143,16 @@ export const capitalizeFirstLetter = str =>
 export const titleCase = str =>
   str &&
   str
-    .split(" ")
+    .split(' ')
     .map(capitalizeFirstLetter)
-    .join(" ");
+    .join(' ');
 
-yup.addMethod(yup.string, "wordLengthValidator", function wordLengthValidator(
+yup.addMethod(yup.string, 'wordLengthValidator', function wordLengthValidator(
   length,
 ) {
   return this.test(function(value) {
-    if (!value) return "";
-    return value.split(" ").length <= length
+    if (!value) return '';
+    return value.split(' ').length <= length
       ? value
       : this.createError({
           message: `Must be less than or equal ${length} words`,

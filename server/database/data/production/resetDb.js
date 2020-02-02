@@ -1,4 +1,4 @@
-const { Account, ChecklistQuestion, User } = require("./../../models");
+const { Account, ChecklistQuestion, User } = require('./../../models');
 
 const resetDB = async () => {
   try {
@@ -7,7 +7,7 @@ const resetDB = async () => {
     await ChecklistQuestion.deleteMany();
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.log("Error during resting the db, try again", err);
+    console.log('Error during resting the db, try again', err);
     throw err;
   }
 };

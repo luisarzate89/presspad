@@ -1,71 +1,71 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import axios from "axios";
-import { Modal, Alert, message } from "antd";
-import Content from "./Content";
+import axios from 'axios';
+import { Modal, Alert, message } from 'antd';
+import Content from './Content';
 import {
   API_INTERN_COMPLETE_PROFILE,
   API_MY_PROFILE_URL,
-} from "../../../constants/apiRoutes";
-import { DASHBOARD_URL } from "../../../constants/navRoutes";
-import { profileSchema, detailsSchema } from "./Schema";
+} from '../../../constants/apiRoutes';
+import { DASHBOARD_URL } from '../../../constants/navRoutes';
+import { profileSchema, detailsSchema } from './Schema';
 
 const INITIAL_STATE = {
-  birthDate: "",
-  hometown: "",
-  gender: "",
-  school: "",
+  birthDate: '',
+  hometown: '',
+  gender: '',
+  school: '',
   profileImage: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
-  interests: "",
-  bio: "",
-  organisation: "",
-  useReasonAnswer: "",
-  issueAnswer: "",
-  mentorDescribeAnswer: "",
+  interests: '',
+  bio: '',
+  organisation: '',
+  useReasonAnswer: '',
+  issueAnswer: '',
+  mentorDescribeAnswer: '',
   photoID: {
-    fileName: "",
+    fileName: '',
     isPrivate: true,
-    url: "",
+    url: '',
   },
-  hearAboutPressPadAnswer: "",
-  phoneNumber: "",
+  hearAboutPressPadAnswer: '',
+  phoneNumber: '',
   reference1: {
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   },
   reference2: {
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   },
   offerLetter: {
-    fileName: "",
+    fileName: '',
     isPrivate: true,
   },
-  internshipOfficeAddress: "",
+  internshipOfficeAddress: '',
   emergencyContact: {
-    name: "",
-    phoneNumber: "",
-    email: "",
+    name: '',
+    phoneNumber: '',
+    email: '',
   },
   DBSCheck: {
-    fileName: "",
+    fileName: '',
     isPrivate: true,
   },
-  sexualOrientation: "",
-  degreeLevel: "",
-  ethnicity: "",
-  parentProfession: "",
-  disability: "",
-  parentsWorkInPress: "",
-  caringResponsibilities: "",
-  allergies: "",
-  backgroundAnswer: "",
-  consentedOnPressPadTerms: "",
+  sexualOrientation: '',
+  degreeLevel: '',
+  ethnicity: '',
+  parentProfession: '',
+  disability: '',
+  parentsWorkInPress: '',
+  caringResponsibilities: '',
+  allergies: '',
+  backgroundAnswer: '',
+  consentedOnPressPadTerms: '',
 };
-const Tabs = ["Profile", "Details"];
+const Tabs = ['Profile', 'Details'];
 
 export default class InternCreateProfile extends Component {
   state = {
@@ -87,7 +87,7 @@ export default class InternCreateProfile extends Component {
           }));
         }
       })
-      .catch(() => message.error("internal server error"));
+      .catch(() => message.error('internal server error'));
   }
 
   handleChange = ({ value, key, parent }) => {
@@ -132,8 +132,8 @@ export default class InternCreateProfile extends Component {
     const newErrors = {};
     if (inner)
       inner.forEach(({ path, message: errorMessage }) => {
-        if (path.includes(".")) {
-          const [parent, childrenPath] = path.split(".");
+        if (path.includes('.')) {
+          const [parent, childrenPath] = path.split('.');
           newErrors[path] = newErrors[path] || {};
           newErrors[parent] = {
             ...newErrors[parent],
@@ -195,7 +195,7 @@ export default class InternCreateProfile extends Component {
       await axios.post(API_INTERN_COMPLETE_PROFILE, { ...this.state.data });
       Modal.destroyAll();
       Modal.success({
-        title: "Done",
+        title: 'Done',
         content: (
           <Alert
             message="Thank you"
@@ -206,12 +206,12 @@ export default class InternCreateProfile extends Component {
         onOk: () => {
           this.props.history.push(DASHBOARD_URL);
         },
-        type: "success",
+        type: 'success',
       });
     } catch (err) {
       Modal.destroyAll();
       Modal.error({
-        title: "Error",
+        title: 'Error',
         content: (
           <Alert
             message="Error"
@@ -219,7 +219,7 @@ export default class InternCreateProfile extends Component {
             type="error"
           />
         ),
-        type: "error",
+        type: 'error',
       });
     }
     this.setState(() => ({ loading: false }));

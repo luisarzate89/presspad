@@ -1,6 +1,6 @@
-import React from "react";
-import { Input, Button } from "antd";
-import moment from "moment";
+import React from 'react';
+import { Input, Button } from 'antd';
+import moment from 'moment';
 
 import {
   Wrapper,
@@ -12,7 +12,7 @@ import {
   IconWrapper,
   IconsWrapper,
   Icon,
-} from "./Footer.style";
+} from './Footer.style';
 
 const Footer = () => (
   <Wrapper>
@@ -21,7 +21,7 @@ const Footer = () => (
         <Title>Join our newsletter</Title>
         <div>
           <Input
-            style={{ width: "245px", marginRight: "20px" }}
+            style={{ width: '245px', marginRight: '20px' }}
             size="large"
             placeholder="Enter your email address"
             disabled
@@ -31,7 +31,7 @@ const Footer = () => (
             ghost
             block={false}
             size="large"
-            style={{ borderRadius: "0", cursor: "not-allowed" }}
+            style={{ borderRadius: '0', cursor: 'not-allowed' }}
           >
             Subscribe
           </Button>

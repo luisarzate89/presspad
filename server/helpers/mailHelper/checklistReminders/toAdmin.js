@@ -1,9 +1,9 @@
-const sendMail = require("../index");
-const { email } = require("../../../config");
+const sendMail = require('../index');
+const { email } = require('../../../config');
 
-const emailBodyToAdmin = require("./emailBodyToAdmin");
+const emailBodyToAdmin = require('./emailBodyToAdmin');
 
-const createChecklistArray = require("./createChecklistArray");
+const createChecklistArray = require('./createChecklistArray');
 
 const toAdmin = ({
   hostChecklist,
@@ -17,8 +17,7 @@ const toAdmin = ({
   internName,
   internId,
 }) => {
-  const subject = "Reminder: Booking starts in one week";
-
+  const subject = 'Reminder: Booking starts in one week';
 
   const hostChecklistHtmlRows = createChecklistArray({
     checklist: hostChecklist,
@@ -31,7 +30,6 @@ const toAdmin = ({
     hostEmail,
     internEmail,
   });
-
 
   const html = emailBodyToAdmin({
     hostName,
@@ -53,6 +51,5 @@ const toAdmin = ({
 
   return sendMail(messageDetails);
 };
-
 
 module.exports = toAdmin;

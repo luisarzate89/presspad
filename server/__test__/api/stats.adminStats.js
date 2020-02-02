@@ -1,14 +1,16 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const buildDB = require("./../../database/data/test/index");
-const app = require("./../../app");
+const buildDB = require('./../../database/data/test/index');
+const app = require('./../../app');
 
 // API ROUTE
-const { API_ADMIN_STATS_URL } = require("./../../../client/src/constants/apiRoutes");
+const {
+  API_ADMIN_STATS_URL,
+} = require('./../../../client/src/constants/apiRoutes');
 
-describe("Testing for get host profile route", () => {
-  beforeAll(async (done) => {
+describe('Testing for get host profile route', () => {
+  beforeAll(async done => {
     // build dummy data
     await buildDB();
     done();
@@ -18,27 +20,27 @@ describe("Testing for get host profile route", () => {
     mongoose.disconnect();
   });
 
-  test("test with correct user id and client", (done) => {
+  test('test with correct user id and client', done => {
     // must be an admin user
     const loginData = {
-      email: "mark@presspad.co.uk",
-      password: "123456",
+      email: 'mark@presspad.co.uk',
+      password: '123456',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(loginData)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end(async (err, res) => {
-        const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "clients" };
+        const token = res.headers['set-cookie'][0].split(';')[0];
+        const data = { userType: 'clients' };
 
         request(app)
           .post(API_ADMIN_STATS_URL)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .send(data)
-          .expect("Content-Type", /json/)
+          .expect('Content-Type', /json/)
           .expect(200)
           .end((error, result) => {
             expect(result).toBeDefined();
@@ -52,27 +54,27 @@ describe("Testing for get host profile route", () => {
       });
   });
 
-  test("test with correct user id and intern", (done) => {
+  test('test with correct user id and intern', done => {
     // must be an admin user
     const loginData = {
-      email: "mark@presspad.co.uk",
-      password: "123456",
+      email: 'mark@presspad.co.uk',
+      password: '123456',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(loginData)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end(async (err, res) => {
-        const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "interns" };
+        const token = res.headers['set-cookie'][0].split(';')[0];
+        const data = { userType: 'interns' };
 
         request(app)
           .post(API_ADMIN_STATS_URL)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .send(data)
-          .expect("Content-Type", /json/)
+          .expect('Content-Type', /json/)
           .expect(200)
           .end((error, result) => {
             expect(result).toBeDefined();
@@ -86,27 +88,27 @@ describe("Testing for get host profile route", () => {
       });
   });
 
-  test("test with correct user id and host", (done) => {
+  test('test with correct user id and host', done => {
     // must be an admin user
     const loginData = {
-      email: "mark@presspad.co.uk",
-      password: "123456",
+      email: 'mark@presspad.co.uk',
+      password: '123456',
     };
 
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(loginData)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end(async (err, res) => {
-        const token = res.headers["set-cookie"][0].split(";")[0];
-        const data = { userType: "hosts" };
+        const token = res.headers['set-cookie'][0].split(';')[0];
+        const data = { userType: 'hosts' };
 
         request(app)
           .post(API_ADMIN_STATS_URL)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .send(data)
-          .expect("Content-Type", /json/)
+          .expect('Content-Type', /json/)
           .expect(200)
           .end((error, result) => {
             expect(result).toBeDefined();

@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import axios from "axios";
-import { message, Modal, Alert } from "antd";
+import axios from 'axios';
+import { message, Modal, Alert } from 'antd';
 import {
   API_MY_PROFILE_URL,
   API_HOST_COMPLETE_PROFILE,
   DASHBOARD_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import Button from "../../Common/Button";
+import Button from '../../Common/Button';
 
 import {
   AboutYouProfile,
@@ -16,27 +16,27 @@ import {
   Details,
   OtherInformation,
   Demographic,
-} from "../HostCreateProfile/ProfileComponents";
+} from '../HostCreateProfile/ProfileComponents';
 
-import TabbedView from "../../Common/TabbedView";
+import TabbedView from '../../Common/TabbedView';
 
 import {
   PageWrapper,
   ContentWrapper,
-} from "../HostCreateProfile/HostCreateProfile.style";
+} from '../HostCreateProfile/HostCreateProfile.style';
 
 import {
   disabledStartDate,
   disabledEndDate,
   checkSelectedRange,
   getValidDAtes,
-} from "../HostCreateProfile/helpers";
+} from '../HostCreateProfile/helpers';
 // import { EditButton } from "../InternProfile/AdminOrInternView/InternProfile.style";
-import HeaderWrapper from "../HostCreateProfile/HeaderWrapper";
+import HeaderWrapper from '../HostCreateProfile/HeaderWrapper';
 
 export default class HostView extends Component {
   state = {
-    activeKey: "Profile",
+    activeKey: 'Profile',
     availableDates: [
       {
         startDate: null,
@@ -210,7 +210,7 @@ export default class HostView extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   }
 
@@ -278,7 +278,7 @@ export default class HostView extends Component {
       .then(() => {
         Modal.destroyAll();
         Modal.success({
-          title: "Done",
+          title: 'Done',
           content: (
             <Alert
               message="Thank you"
@@ -289,14 +289,14 @@ export default class HostView extends Component {
           onOk: () => {
             this.props.history.push(DASHBOARD_URL);
           },
-          type: "success",
+          type: 'success',
         });
         this.setState({ loading: false, success: true });
       })
       .catch(err => {
         Modal.destroyAll();
         Modal.error({
-          title: "Error",
+          title: 'Error',
           content: (
             <Alert
               message="Error"
@@ -304,7 +304,7 @@ export default class HostView extends Component {
               type="error"
             />
           ),
-          type: "error",
+          type: 'error',
         });
         this.setState({ loading: false, erros: err.response.data });
       });
@@ -321,11 +321,11 @@ export default class HostView extends Component {
   };
 
   onEndChange = (index, value) => {
-    this.changeSelectedDate(index, "endDate", value);
+    this.changeSelectedDate(index, 'endDate', value);
   };
 
   onStartChange = (index, value) => {
-    this.changeSelectedDate(index, "startDate", value);
+    this.changeSelectedDate(index, 'startDate', value);
   };
 
   changeSelectedDate = (index, field, value) => {
@@ -338,16 +338,16 @@ export default class HostView extends Component {
     const { startDate } = newAvailableDates[index];
 
     let isDatePicked;
-    if (field === "startDate") {
+    if (field === 'startDate') {
       obj.endOpen = true;
-    } else if (field === "endDate") {
+    } else if (field === 'endDate') {
       obj.endOpen = false;
 
       isDatePicked = checkSelectedRange(startDate, value, newAvailableDates);
     }
 
     if (isDatePicked) {
-      return message.warning("Cannot select intersected ranges");
+      return message.warning('Cannot select intersected ranges');
     }
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
@@ -371,7 +371,7 @@ export default class HostView extends Component {
     }, false);
 
     if (emptyRanges && availableDates.length > 0) {
-      return message.warning("fill the previous ranges");
+      return message.warning('fill the previous ranges');
     }
 
     const newAvailableDates = [...availableDates];
@@ -412,7 +412,7 @@ export default class HostView extends Component {
           <TabbedView
             activeKey={activeKey}
             onChange={this.onChangeTabs}
-            tabsTitle={["Profile", "Offer", "Details"]}
+            tabsTitle={['Profile', 'Offer', 'Details']}
             tabsContent={[
               <>
                 <AboutYouProfile
@@ -425,15 +425,15 @@ export default class HostView extends Component {
                 />
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: "2rem",
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginBottom: '2rem',
                   }}
                 >
                   <Button
                     label="Next"
                     type="primary"
-                    onClick={() => this.onChangeTabs("Offer")}
+                    onClick={() => this.onChangeTabs('Offer')}
                   />
                 </div>
               </>,
@@ -457,15 +457,15 @@ export default class HostView extends Component {
 
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: "2rem",
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginBottom: '2rem',
                   }}
                 >
                   <Button
                     label="Next"
                     type="primary"
-                    onClick={() => this.onChangeTabs("Details")}
+                    onClick={() => this.onChangeTabs('Details')}
                   />
                 </div>
               </>,
@@ -499,9 +499,9 @@ export default class HostView extends Component {
 
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: "2rem",
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginBottom: '2rem',
                   }}
                 >
                   <Button

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors } from "../../../theme";
+import styled from 'styled-components';
+import { colors } from '../../../theme';
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -104,7 +104,7 @@ export const Number = styled.p`
   font-size: 35px;
   line-height: 25px;
   text-align: center;
-  color: ${({ blue }) => (blue ? "#0ac7e7" : "#393939")};
+  color: ${({ blue }) => (blue ? '#0ac7e7' : '#393939')};
   margin: 1.25rem 0;
 `;
 
@@ -140,8 +140,8 @@ export const ModalContentWrapper = styled.div`
 
 export const ModalDescription = styled.span`
   font-style: normal;
-  font-weight: ${({ bold }) => (bold ? "bold" : 300)};
-  font-size: ${({ large }) => (large ? "25px" : "16px")};
+  font-weight: ${({ bold }) => (bold ? 'bold' : 300)};
+  font-size: ${({ large }) => (large ? '25px' : '16px')};
   line-height: 25px;
 
   color: #393939;
@@ -168,7 +168,7 @@ export const Error = styled.p`
 `;
 
 export const ErrorWrapper = styled.div`
-  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  border: ${({ error }) => (error ? '1px solid red' : 'initial')};
   margin-bottom: ${({ marginBottom }) => marginBottom};
 
   border-radius: 4px;

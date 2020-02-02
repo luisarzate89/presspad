@@ -1,5 +1,5 @@
-const boom = require("boom");
-const { getChecklistForUser } = require("../../database/queries/checkList");
+const boom = require('boom');
+const { getChecklistForUser } = require('../../database/queries/checkList');
 
 module.exports = async (req, res, next) => {
   try {

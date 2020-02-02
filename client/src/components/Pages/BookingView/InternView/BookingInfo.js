@@ -1,17 +1,17 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
-import { Row, Skeleton, Alert } from "antd";
+import { Row, Skeleton, Alert } from 'antd';
 
 // import { calculatePrice } from "../helpers";
 
-import { BookingInfoWrapper, InfoText, InfoValue } from "./PaymentsPlan.style";
+import { BookingInfoWrapper, InfoText, InfoValue } from './PaymentsPlan.style';
 
 import {
   SectionWrapperContent,
   SectionTitle,
   PayButton,
-} from "../../../Common/general";
+} from '../../../Common/general';
 
 const BookingInfo = props => {
   const { isLoading, data, handlePayNowClick, role } = props;
@@ -53,28 +53,28 @@ const BookingInfo = props => {
         {isLoading === false && (
           <>
             <InfoText>
-              {role === "intern"
+              {role === 'intern'
                 ? "You've booked your stay for"
-                : "You are booked for"}
+                : 'You are booked for'}
             </InfoText>
             <InfoValue mbottom="2.5rem" align="center">
-              {moment(startDate).format("DD MMM")}&nbsp;-&nbsp;
-              {moment(endDate).format("DD MMM")}
+              {moment(startDate).format('DD MMM')}&nbsp;-&nbsp;
+              {moment(endDate).format('DD MMM')}
             </InfoValue>
             <InfoText>Full price for period</InfoText>
             <InfoValue mbottom="2.5rem" align="center" light>
               £{fullPrice.toFixed(2)}
             </InfoValue>
-            {status === "confirmed" ? (
+            {status === 'confirmed' ? (
               <>
                 <InfoText>Coupon discounts</InfoText>
                 <InfoValue mbottom="2.5rem" align="center" light>
                   £{discounts.toFixed(2)}
                 </InfoValue>
                 <InfoText>
-                  {role === "intern"
-                    ? "So far you’ve paid"
-                    : "So far you’ve recieved"}
+                  {role === 'intern'
+                    ? 'So far you’ve paid'
+                    : 'So far you’ve recieved'}
                 </InfoText>
                 <InfoValue mbottom="2.5rem" align="center" light>
                   £{payedAmount.toFixed(2)}
@@ -86,24 +86,24 @@ const BookingInfo = props => {
       </BookingInfoWrapper>
       {isLoading === false &&
         installments[0] &&
-        status === "confirmed" &&
+        status === 'confirmed' &&
         firstUnpaidInstallment && (
           <>
             <InfoText>
-              {role === "intern"
-                ? "Your next payment is due"
-                : "Next payment is due"}
+              {role === 'intern'
+                ? 'Your next payment is due'
+                : 'Next payment is due'}
             </InfoText>
             <Row type="flex" justify="space-around">
               <InfoValue mbottom="2.5rem" align="center">
-                {moment(firstUnpaidInstallment.dueDate).format("DD MMM")}
+                {moment(firstUnpaidInstallment.dueDate).format('DD MMM')}
               </InfoValue>
               <InfoValue mbottom="2.5rem" align="center">
                 £
                 {firstUnpaidInstallment.amount &&
                   firstUnpaidInstallment.amount.toFixed(2)}
               </InfoValue>
-              {role === "intern" && (
+              {role === 'intern' && (
                 <PayButton onClick={() => handlePayNowClick(true)}>
                   Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
                 </PayButton>
@@ -111,7 +111,7 @@ const BookingInfo = props => {
             </Row>
           </>
         )}
-      {status !== "confirmed" ? (
+      {status !== 'confirmed' ? (
         <Alert type="warning" message={`Your booking status is ${status}`} />
       ) : null}
     </SectionWrapperContent>

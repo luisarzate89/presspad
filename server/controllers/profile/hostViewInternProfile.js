@@ -1,15 +1,15 @@
-const boom = require("boom");
-const mongoose = require("mongoose");
+const boom = require('boom');
+const mongoose = require('mongoose');
 
-const generateUrl = require("../../helpers/generateFileURL");
-const internProfileData = require("./../../database/queries/profile/internPublicProfile");
+const generateUrl = require('../../helpers/generateFileURL');
+const internProfileData = require('./../../database/queries/profile/internPublicProfile');
 
 module.exports = async (req, res, next) => {
   try {
     const { id: internId } = req.params;
     const { role } = req.user;
     // check for role
-    if (!["host", "organisation"].includes(role)) {
+    if (!['host', 'organisation'].includes(role)) {
       return next();
 
       // ToDo check autherization for the other route??

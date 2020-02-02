@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const { ChecklistAnswer } = require("../../models");
+const { ChecklistAnswer } = require('../../models');
 
 /**
  * get Checklist answers and questions for a Host/Intern by userId
@@ -14,8 +14,8 @@ module.exports = (userId, bookingId) =>
       $match: {
         $expr: {
           $and: [
-            { $eq: [mongoose.Types.ObjectId(bookingId), "$booking"] },
-            { $eq: [mongoose.Types.ObjectId(userId), "$user"] },
+            { $eq: [mongoose.Types.ObjectId(bookingId), '$booking'] },
+            { $eq: [mongoose.Types.ObjectId(userId), '$user'] },
           ],
         },
       },
@@ -23,10 +23,10 @@ module.exports = (userId, bookingId) =>
     // get the question text
     {
       $lookup: {
-        from: "checklistquestions",
-        let: { questionId: "$question" },
+        from: 'checklistquestions',
+        let: { questionId: '$question' },
         pipeline: [
-          { $match: { $expr: { $eq: ["$$questionId", "$_id"] } } },
+          { $match: { $expr: { $eq: ['$$questionId', '$_id'] } } },
           {
             $project: {
               text: 1,
@@ -38,12 +38,12 @@ module.exports = (userId, bookingId) =>
             },
           },
         ],
-        as: "question",
+        as: 'question',
       },
     },
     {
       $unwind: {
-        path: "$question",
+        path: '$question',
         preserveNullAndEmptyArrays: true,
       },
     },

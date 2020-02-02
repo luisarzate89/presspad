@@ -1,4 +1,4 @@
-const { links: configLinks } = require("../config");
+const { links: configLinks } = require('../config');
 
 /**
  * Injects the links from the env variables into the question object
@@ -9,7 +9,7 @@ const { links: configLinks } = require("../config");
  * @returns undefined
  */
 
-const addLinksIntoQuestion = (question) => {
+const addLinksIntoQuestion = question => {
   if (question && question.links && question.links.length) {
     const { links } = question;
     links.forEach((link, i) => {

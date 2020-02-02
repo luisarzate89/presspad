@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Input } from 'antd';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 // COMMON COMPONENTS
-import Button from "../../Common/Button";
+import Button from '../../Common/Button';
 
 // CONSTANTS
-import { API_LOGIN_URL } from "../../../constants/apiRoutes";
+import { API_LOGIN_URL } from '../../../constants/apiRoutes';
 import {
   DASHBOARD_URL,
   ADMIN_DASHBOARD_URL,
-} from "../../../constants/navRoutes";
+} from '../../../constants/navRoutes';
 
 // STYLING
 import {
@@ -21,7 +21,7 @@ import {
   InputLabel,
   InputDiv,
   ErrorMsg,
-} from "./SignInPage.style";
+} from './SignInPage.style';
 
 export default class SignInPage extends Component {
   state = {
@@ -44,26 +44,26 @@ export default class SignInPage extends Component {
     let formIsValid = true;
     if (!fields.email) {
       formIsValid = false;
-      errors.emailError = "* Please enter your email";
+      errors.emailError = '* Please enter your email';
     }
 
-    if (typeof fields.email !== "undefined") {
+    if (typeof fields.email !== 'undefined') {
       // regular expression for email validation
       const pattern = new RegExp(
         /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i,
       );
       if (!pattern.test(fields.email)) {
         formIsValid = false;
-        errors.emailError = "* Please enter valid email";
+        errors.emailError = '* Please enter valid email';
       }
     }
 
     if (!fields.password) {
       formIsValid = false;
-      errors.passwordError = "* Please enter your password";
+      errors.passwordError = '* Please enter your password';
     } else if (fields.password.length < 6) {
       formIsValid = false;
-      errors.passwordError = "* Password must be 6 characters or longer";
+      errors.passwordError = '* Password must be 6 characters or longer';
     }
 
     this.setState({
@@ -87,7 +87,7 @@ export default class SignInPage extends Component {
           handleChangeState({ ...data, isLoggedIn: true });
 
           const { role } = data;
-          if (role === "admin") history.push(ADMIN_DASHBOARD_URL);
+          if (role === 'admin') history.push(ADMIN_DASHBOARD_URL);
           else history.push(DASHBOARD_URL);
         })
         .catch(loginError => {
@@ -98,11 +98,11 @@ export default class SignInPage extends Component {
               data: { error },
             } = response;
             if (status === 401)
-              this.setState({ msg: "Please check your email or password" });
+              this.setState({ msg: 'Please check your email or password' });
             else if (status === 500)
-              this.setState({ msg: "Something went wrong, try again later" });
+              this.setState({ msg: 'Something went wrong, try again later' });
             else this.setState({ msg: error });
-          } else this.setState({ msg: "Please check your wifi connection" });
+          } else this.setState({ msg: 'Please check your wifi connection' });
         });
     }
   };
@@ -148,7 +148,7 @@ export default class SignInPage extends Component {
             type="primary"
             onClick={onFormSubmit}
             style={
-              msg ? { marginTop: "0.5rem", margin: "1rem" } : { margin: "1rem" }
+              msg ? { marginTop: '0.5rem', margin: '1rem' } : { margin: '1rem' }
             }
           />
         </SignInForm>
@@ -156,8 +156,8 @@ export default class SignInPage extends Component {
           Already have an account?
           <Link
             to={{
-              pathname: "/",
-              hash: "findMoreSection",
+              pathname: '/',
+              hash: 'findMoreSection',
             }}
           >
             &nbsp;Sign Up

@@ -1,43 +1,43 @@
-import React from "react";
+import React from 'react';
 
-import { Link } from "react-router-dom";
-import { Badge, UpdateItem, BlueSpan, UpdateDate } from "./OrgDashboard.style";
+import { Link } from 'react-router-dom';
+import { Badge, UpdateItem, BlueSpan, UpdateDate } from './OrgDashboard.style';
 
-import { getStringTime } from "../../../helpers";
-import LoadingBallPulseSync from "../../Common/LoadingBallPulseSync";
+import { getStringTime } from '../../../helpers';
+import LoadingBallPulseSync from '../../Common/LoadingBallPulseSync';
 
 const Update = ({ item }) => {
   const { user, type, secondParty, createdAt, seenForOrg, loading, _id } = item;
   const timeString = getStringTime(createdAt);
 
   switch (type) {
-    case "stayApproved":
+    case 'stayApproved':
       return (
         <UpdateItem key={_id}>
-          {user.name} has matched with{" "}
+          {user.name} has matched with{' '}
           <Link to={`/host/${secondParty._id}`}>
             <BlueSpan>{secondParty.name}</BlueSpan>
-          </Link>{" "}
+          </Link>{' '}
           - <UpdateDate>{timeString}</UpdateDate>
           {!seenForOrg && !loading && <Badge>new</Badge>}
           {loading && !seenForOrg && <LoadingBallPulseSync />}
         </UpdateItem>
       );
 
-    case "getReview":
+    case 'getReview':
       return (
         <UpdateItem key={_id}>
-          {user.name} has received a new review -{" "}
+          {user.name} has received a new review -{' '}
           <UpdateDate>{timeString}</UpdateDate>
           {!seenForOrg && !loading && <Badge>new</Badge>}
           {loading && !seenForOrg && <LoadingBallPulseSync />}
         </UpdateItem>
       );
 
-    case "stayCompleted":
+    case 'stayCompleted':
       return (
         <UpdateItem key={_id}>
-          {user.name} has completed his stay -{" "}
+          {user.name} has completed his stay -{' '}
           <UpdateDate>{timeString}</UpdateDate>
           {!seenForOrg && !loading && <Badge>new</Badge>}
           {loading && !seenForOrg && <LoadingBallPulseSync />}

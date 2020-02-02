@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { Modal, Button, message, Skeleton, Alert } from "antd";
-import { injectStripe, CardElement } from "react-stripe-elements";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Modal, Button, message, Skeleton, Alert } from 'antd';
+import { injectStripe, CardElement } from 'react-stripe-elements';
+import { withRouter } from 'react-router-dom';
 
 import {
   CardWrapper,
   PaymentModalTitle,
   InfoMessage,
-} from "./PaymentsPlan.style";
+} from './PaymentsPlan.style';
 
-import { API_INTERN_PAYMENT_URL } from "../../../../constants/apiRoutes";
+import { API_INTERN_PAYMENT_URL } from '../../../../constants/apiRoutes';
 
 class PayNowModal extends Component {
   state = {
-    error: "",
+    error: '',
     isLoading: false,
     success: false,
   };
@@ -57,7 +57,7 @@ class PayNowModal extends Component {
       this.setState({ isLoading: true });
 
       const { error, paymentMethod } = await stripe.createPaymentMethod(
-        "card",
+        'card',
         cardElement,
       );
 
@@ -83,9 +83,9 @@ class PayNowModal extends Component {
           isLoading: false,
         });
       }
-      message.error("something went wrong", 5);
+      message.error('something went wrong', 5);
       this.setState({
-        error: "something went wrong try again later",
+        error: 'something went wrong try again later',
         isLoading: false,
       });
     }
@@ -119,7 +119,7 @@ class PayNowModal extends Component {
           <InfoMessage>Your payment proccesed successful</InfoMessage>
           <Button
             type="link"
-            onClick={() => this.props.history.push("/dashboard")}
+            onClick={() => this.props.history.push('/dashboard')}
           >
             back to dashboard
           </Button>
@@ -131,21 +131,21 @@ class PayNowModal extends Component {
       <>
         <CardWrapper>
           <CardElement
-            onChange={() => this.setState({ error: "" })}
+            onChange={() => this.setState({ error: '' })}
             onReady={this.handleReady}
-            style={{ base: { fontSize: "17px" } }}
+            style={{ base: { fontSize: '17px' } }}
           />
           <Skeleton
             loading={isLoading}
             title={false}
             active
-            paragraph={{ rows: 1, width: "95%" }}
+            paragraph={{ rows: 1, width: '95%' }}
           />
         </CardWrapper>
-        {error ? <Alert type="error" message={error} /> : ""}
+        {error ? <Alert type="error" message={error} /> : ''}
         <Button
           type="primary"
-          style={{ margin: "2.5rem auto 0", display: "block" }}
+          style={{ margin: '2.5rem auto 0', display: 'block' }}
           onClick={this.handleSubmit}
           disabled={isLoading}
         >

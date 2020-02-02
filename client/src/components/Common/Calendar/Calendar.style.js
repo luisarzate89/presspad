@@ -1,28 +1,28 @@
-import styled from "styled-components";
-import { colors, borders } from "../../../theme";
+import styled from 'styled-components';
+import { colors, borders } from '../../../theme';
 
 const classNames = {
-  reactCalendar: ".react-calendar",
-  reactCalendarNavigation: ".react-calendar__navigation",
-  reactCalendarMonthViewWeekdays: ".react-calendar__month-view__weekdays",
+  reactCalendar: '.react-calendar',
+  reactCalendarNavigation: '.react-calendar__navigation',
+  reactCalendarMonthViewWeekdays: '.react-calendar__month-view__weekdays',
   reactCalendarMonthViewWeekdaysWeekday:
-    ".react-calendar__month-view__weekdays__weekday",
-  reactCalendarMonthViewWeekNumbers: ".react-calendar__month-view__weekNumbers",
-  reactCalendarMonthViewDaysDay: ".react-calendar__month-view__days__day",
+    '.react-calendar__month-view__weekdays__weekday',
+  reactCalendarMonthViewWeekNumbers: '.react-calendar__month-view__weekNumbers',
+  reactCalendarMonthViewDaysDay: '.react-calendar__month-view__days__day',
   reactCalendarMonthViewDaysDayWeekend:
-    ".react-calendar__month-view__days__day--weekend",
+    '.react-calendar__month-view__days__day--weekend',
   reactCalendarMonthViewDaysDayNeighboringMonth:
-    ".react-calendar__month-view__days__day--neighboringMonth",
-  reactCalendarYearView: ".react-calendar__year-view",
-  reactCalendarDecadeView: ".react-calendar__decade-view",
-  reactCalendarCenturyView: ".react-calendar__century-view",
-  reactCalendarTile: ".react-calendar__tile",
-  reactCalendarTileHasActive: ".react-calendar__tile--hasActive",
-  reactCalendarTileActive: ".react-calendar__tile--active",
-  reactCalendarSelectRange: ".react-calendar--selectRange",
-  reactCalendarTileRangeStart: ".react-calendar__tile--rangeStart",
-  reactCalendarTileRangeEnd: ".react-calendar__tile--rangeEnd",
-  reactCalendarTileHover: ".react-calendar__tile--hover",
+    '.react-calendar__month-view__days__day--neighboringMonth',
+  reactCalendarYearView: '.react-calendar__year-view',
+  reactCalendarDecadeView: '.react-calendar__decade-view',
+  reactCalendarCenturyView: '.react-calendar__century-view',
+  reactCalendarTile: '.react-calendar__tile',
+  reactCalendarTileHasActive: '.react-calendar__tile--hasActive',
+  reactCalendarTileActive: '.react-calendar__tile--active',
+  reactCalendarSelectRange: '.react-calendar--selectRange',
+  reactCalendarTileRangeStart: '.react-calendar__tile--rangeStart',
+  reactCalendarTileRangeEnd: '.react-calendar__tile--rangeEnd',
+  reactCalendarTileHover: '.react-calendar__tile--hover',
 };
 
 export const CalendarWrapper = styled.div.attrs(classNames)`
@@ -183,7 +183,7 @@ export const PriceLabel = styled.h1`
 export const RequestBtn = styled.button`
   background: ${props =>
     props.disabled ? `${colors.lightGray}` : `${colors.lightBlue}`};
-  opacity: ${props => (props.disabled ? "0.7" : "")};
+  opacity: ${props => (props.disabled ? '0.7' : '')};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
@@ -199,7 +199,7 @@ export const RequestBtn = styled.button`
 
   :focus,
   :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
+    transform: ${props => (!props.disabled ? 'scale(1.1)' : '')};
   }
 `;
 

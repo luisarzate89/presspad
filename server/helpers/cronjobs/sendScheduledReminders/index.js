@@ -1,6 +1,9 @@
-const { sendOutstandingReminders, markScheduledEmailsAsSent } = require("./../../../services/mailing");
+const {
+  sendOutstandingReminders,
+  markScheduledEmailsAsSent,
+} = require('./../../../services/mailing');
 
-const sendScheduledReminders = async (Sentry) => {
+const sendScheduledReminders = async Sentry => {
   try {
     const sentEmailsIds = await sendOutstandingReminders();
     await markScheduledEmailsAsSent(sentEmailsIds);

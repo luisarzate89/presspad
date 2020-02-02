@@ -1,5 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Row,
   Col,
@@ -11,19 +11,19 @@ import {
   Empty,
   Icon,
   Skeleton,
-} from "antd";
-import moment from "moment";
-import { Elements } from "react-stripe-elements";
+} from 'antd';
+import moment from 'moment';
+import { Elements } from 'react-stripe-elements';
 
-import Button from "../../Common/Button";
-import { calculatePrice } from "../../../helpers";
+import Button from '../../Common/Button';
+import { calculatePrice } from '../../../helpers';
 
-import Update from "./Update";
-import CouponsColumns from "./CouponsColumns";
-import AddFundsModal from "./AddFundsModal";
-import DisabledPopOver from "../../Common/DisabledPopOver";
+import Update from './Update';
+import CouponsColumns from './CouponsColumns';
+import AddFundsModal from './AddFundsModal';
+import DisabledPopOver from '../../Common/DisabledPopOver';
 
-import { HOSTS_URL } from "../../../constants/navRoutes";
+import { HOSTS_URL } from '../../../constants/navRoutes';
 
 import {
   PageWrapper,
@@ -48,13 +48,13 @@ import {
   Label,
   Error,
   ErrorWrapper,
-} from "./OrgDashboard.style";
-import { colors } from "../../../theme";
+} from './OrgDashboard.style';
+import { colors } from '../../../theme';
 
-import homeIcon from "../../../assets/home-icon.svg";
-import invoiceIcon from "../../../assets/invoice-icon.svg";
-import contantIcon from "../../../assets/contact-icon.svg";
-import logPlaceholder from "../../../assets/logo-placeholder.png";
+import homeIcon from '../../../assets/home-icon.svg';
+import invoiceIcon from '../../../assets/invoice-icon.svg';
+import contantIcon from '../../../assets/contact-icon.svg';
+import logPlaceholder from '../../../assets/logo-placeholder.png';
 
 const { Option } = Select;
 
@@ -107,11 +107,11 @@ class Content extends Component {
       potentialCost = (calculatePrice(range) * discountRate) / 100;
     }
 
-    const currentlyHosted = coupons.filter(item => item.status === "At host")
+    const currentlyHosted = coupons.filter(item => item.status === 'At host')
       .length;
 
     const internsWithNewOne = state.addedNewInternName
-      ? [...state.interns, { _id: "removeIt", name: state.addedNewInternName }]
+      ? [...state.interns, { _id: 'removeIt', name: state.addedNewInternName }]
       : state.interns;
     const liveCoupons = coupons.filter(
       item =>
@@ -142,20 +142,20 @@ class Content extends Component {
                     logPlaceholder
                   }
                   style={{
-                    width: "80px",
-                    height: "80px",
-                    margin: "0 auto",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)",
+                    width: '80px',
+                    height: '80px',
+                    margin: '0 auto',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '42px',
+                    border: '1px solid rgba(0, 0, 0, 0.15)',
                   }}
                 />
               </Col>
               <Col span={20}>
                 <HiText>
-                  Hi {name.split(" ")[0]}, here’s how your interns are doing
+                  Hi {name.split(' ')[0]}, here’s how your interns are doing
                 </HiText>
               </Col>
             </Row>
@@ -169,15 +169,15 @@ class Content extends Component {
               sm={24}
               lg={16}
               style={{
-                height: "auto",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
+                height: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
               }}
             >
-              <Section style={{ marginBottom: "20px" }}>
+              <Section style={{ marginBottom: '20px' }}>
                 <SectionWrapperContent
-                  style={{ minHeight: "200px" }}
+                  style={{ minHeight: '200px' }}
                   onMouseEnter={markAsSeen}
                   onTouchStart={markAsSeen}
                 >
@@ -195,9 +195,9 @@ class Content extends Component {
                     <BlueLink
                       data-name="updates"
                       onClick={handleViewMoreToggle}
-                      style={{ marginTop: "2rem", textAlign: "center" }}
+                      style={{ marginTop: '2rem', textAlign: 'center' }}
                     >
-                      {viewNotificationNum ? "View more" : "View less"}
+                      {viewNotificationNum ? 'View more' : 'View less'}
                     </BlueLink>
                   )}
                 </SectionWrapperContent>
@@ -205,7 +205,7 @@ class Content extends Component {
 
               <Section>
                 <Row gutter={24} type="flex" justify="start">
-                  <Col xs={24} sm={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: 'auto' }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={invoiceIcon} alt="Invoices" />
@@ -215,7 +215,7 @@ class Content extends Component {
                       </Card>
                     </SectionWrapperContent>
                   </Col>
-                  <Col xs={24} sm={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: 'auto' }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={homeIcon} alt="View Hosts" />
@@ -225,7 +225,7 @@ class Content extends Component {
                       </Card>
                     </SectionWrapperContent>
                   </Col>
-                  <Col xs={24} sm={8} style={{ height: "auto" }}>
+                  <Col xs={24} sm={8} style={{ height: 'auto' }}>
                     <SectionWrapperContent>
                       <Card>
                         <img src={contantIcon} alt="Contact PressPad" />
@@ -238,10 +238,10 @@ class Content extends Component {
                 </Row>
               </Section>
             </Col>
-            <Col xs={24} sm={24} lg={8} style={{ marginBottom: "20px" }}>
-              <Section style={{ height: "100%" }}>
+            <Col xs={24} sm={24} lg={8} style={{ marginBottom: '20px' }}>
+              <Section style={{ height: '100%' }}>
                 <SectionWrapperContent
-                  style={{ marginBottom: 0, height: "100%" }}
+                  style={{ marginBottom: 0, height: '100%' }}
                 >
                   <ProfileImage
                     src={
@@ -280,7 +280,7 @@ class Content extends Component {
                                     loading={state.addCouponLoading}
                                     title={false}
                                     active
-                                    paragraph={{ rows: 1, width: "95%" }}
+                                    paragraph={{ rows: 1, width: '95%' }}
                                   />
                                 </BlueLink>
                               ) : (
@@ -326,10 +326,10 @@ class Content extends Component {
             gutter={20}
             type="flex"
             justify="start"
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: '20px' }}
           >
             <Col sm={24}>
-              <Section style={{ marginBottom: "20px" }}>
+              <Section style={{ marginBottom: '20px' }}>
                 <SectionWrapperContent style={{ padding: 0 }}>
                   <InternsTableWrapper>
                     <Table
@@ -352,7 +352,7 @@ class Content extends Component {
             <div>
               <ModalDescription bold>Funds available: </ModalDescription>
               <ModalDescription bold>
-                £{account.currentBalance}{" "}
+                £{account.currentBalance}{' '}
               </ModalDescription>
             </div>
 
@@ -362,7 +362,7 @@ class Content extends Component {
                 bold
                 red={account.currentBalance - potentialCost < 0}
               >
-                £{potentialCost || "0"}{" "}
+                £{potentialCost || '0'}{' '}
               </ModalDescription>
             </div>
 
@@ -384,9 +384,9 @@ class Content extends Component {
                   justify="center"
                   align="middle"
                   style={{
-                    width: "100%",
+                    width: '100%',
                     marginBottom:
-                      errors.internName || errors.internId ? "20px" : 0,
+                      errors.internName || errors.internId ? '20px' : 0,
                   }}
                 >
                   <Col span={8}>
@@ -402,11 +402,11 @@ class Content extends Component {
                         onSearch={onInternSearch}
                         filterOption={handleFilterInInterns}
                         style={{
-                          width: "100%",
+                          width: '100%',
                           border:
                             errors.internName || errors.internId
-                              ? "1px solid red"
-                              : "1px solid #d9d9d9",
+                              ? '1px solid red'
+                              : '1px solid #d9d9d9',
                         }}
                         optionLabelProp="label"
                       >
@@ -419,13 +419,13 @@ class Content extends Component {
                             >
                               <div
                                 style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  textTransform: "capitalize",
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  textTransform: 'capitalize',
                                 }}
                               >
                                 {item.name}
-                                {item._id !== "removeIt" && (
+                                {item._id !== 'removeIt' && (
                                   <Icon
                                     type="user"
                                     style={{ color: colors.lightBlue }}
@@ -448,8 +448,8 @@ class Content extends Component {
                   justify="center"
                   align="middle"
                   style={{
-                    width: "100%",
-                    marginBottom: errors.startDate ? "20px" : 0,
+                    width: '100%',
+                    marginBottom: errors.startDate ? '20px' : 0,
                   }}
                 >
                   <Col span={8}>
@@ -465,10 +465,10 @@ class Content extends Component {
                         onChange={onStartChange}
                         onOpenChange={handleStartOpenChange}
                         style={{
-                          width: "100%",
+                          width: '100%',
                           border: errors.startDate
-                            ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            ? '1px solid red'
+                            : '1px solid #d9d9d9',
                         }}
                       />
                       <Error>{errors.startDate}</Error>
@@ -482,8 +482,8 @@ class Content extends Component {
                   justify="center"
                   align="middle"
                   style={{
-                    width: "100%",
-                    marginBottom: errors.endDate ? "20px" : 0,
+                    width: '100%',
+                    marginBottom: errors.endDate ? '20px' : 0,
                   }}
                 >
                   <Col span={8}>
@@ -500,10 +500,10 @@ class Content extends Component {
                         open={endOpen}
                         onOpenChange={handleEndOpenChange}
                         style={{
-                          width: "100%",
+                          width: '100%',
                           border: errors.endDate
-                            ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            ? '1px solid red'
+                            : '1px solid #d9d9d9',
                         }}
                       />
                       <Error>{errors.endDate}</Error>
@@ -519,8 +519,8 @@ class Content extends Component {
                   justify="center"
                   align="middle"
                   style={{
-                    width: "100%",
-                    marginBottom: errors.discountRate ? "20px" : 0,
+                    width: '100%',
+                    marginBottom: errors.discountRate ? '20px' : 0,
                   }}
                 >
                   <Col span={8}>
@@ -533,10 +533,10 @@ class Content extends Component {
                         placeholder="Pick %"
                         onChange={handleDiscountChange}
                         style={{
-                          width: "140px",
+                          width: '140px',
                           border: errors.discountRate
-                            ? "1px solid red"
-                            : "1px solid #d9d9d9",
+                            ? '1px solid red'
+                            : '1px solid #d9d9d9',
                         }}
                       >
                         {/* add discount rates */}
@@ -559,7 +559,7 @@ class Content extends Component {
                 <Button
                   label="Create Coupon"
                   type="secondary"
-                  style={{ marginTop: "2rem" }}
+                  style={{ marginTop: '2rem' }}
                   onClick={handleSubmitCreateCoupon}
                   loading={state.apiLoading}
                   disabled={account.currentBalance - potentialCost < 0}
@@ -568,7 +568,7 @@ class Content extends Component {
                   label="Cancel"
                   type="cancel"
                   nobgc
-                  style={{ width: "135px" }}
+                  style={{ width: '135px' }}
                   onClick={handleCloseModals}
                 />
               </>
@@ -580,11 +580,11 @@ class Content extends Component {
                   justify="space-around"
                   align="middle"
                   style={{
-                    width: "100%",
-                    marginBottom: errors.withdrawValue ? "20px" : 0,
+                    width: '100%',
+                    marginBottom: errors.withdrawValue ? '20px' : 0,
                   }}
                 >
-                  <div style={{ maxWidth: "200px" }}>
+                  <div style={{ maxWidth: '200px' }}>
                     <ModalDescription bold>Created Code: </ModalDescription>
                     <ModalDescription bold style={{ color: colors.lightBlue }}>
                       {state.code}
@@ -592,7 +592,7 @@ class Content extends Component {
                   </div>
                 </Row>
                 <Row>
-                  <ModalDescription style={{ textDecoration: "center" }}>
+                  <ModalDescription style={{ textDecoration: 'center' }}>
                     Please copy and share this code with your intern so they can
                     use it when finding a place to stay.
                   </ModalDescription>

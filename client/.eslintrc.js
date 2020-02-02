@@ -22,7 +22,7 @@ module.exports = {
     "no-underscore-dangle": 0,
     "destructuring-assignment": 0,
     "dot-notation": 0,
-    "react/destructuring-assignment":0,
+    "react/destructuring-assignment": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     // disables the windows/unix linebreak checks.
     "linebreak-style": 0,
@@ -34,22 +34,14 @@ module.exports = {
         extensions: [".js", ".jsx"]
       }
     ],
-    quotes: [
-      2,
-      'double',
-      {
-        avoidEscape: true, // allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
-        allowTemplateLiterals: true // allows strings to use backticks
-      }
-    ],
     // configure the prettier plugin
     "prettier/prettier": [
       "error",
       {
         trailingComma: "all",
-        singleQuote: false,
+        singleQuote: true
       }
-    ],
+    ]
   },
   plugins: ["react", "prettier"]
 };

@@ -1,3 +1,3 @@
-const markAsSeen = require("./markAsSeen");
+const markAsSeen = require('./markAsSeen');
 
 module.exports.markAsSeen = markAsSeen;

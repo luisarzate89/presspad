@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CheckIcon = styled.span`
   color: #00d22b;
@@ -19,7 +19,7 @@ export const CheckboxContainer = styled.label`
   cursor: pointer;
 `;
 
-export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
+export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -41,7 +41,7 @@ export const StyledCheckbox = styled.div`
   }
 
   ${CheckIcon} {
-    visibility: ${props => (props.checked ? "visible" : "hidden")};
+    visibility: ${props => (props.checked ? 'visible' : 'hidden')};
   }
 
   .ant-spin.ant-spin-spinning {

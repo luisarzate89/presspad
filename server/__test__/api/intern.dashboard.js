@@ -1,13 +1,15 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const app = require("./../../app");
-const buildDB = require("../../database/data/test/index");
+const app = require('./../../app');
+const buildDB = require('../../database/data/test/index');
 
-const { API_INTERN_DASHBOARD_URL } = require("../../../client/src/constants/apiRoutes");
+const {
+  API_INTERN_DASHBOARD_URL,
+} = require('../../../client/src/constants/apiRoutes');
 
-describe("Testing for intern dashboard route", () => {
-  beforeAll(async (done) => {
+describe('Testing for intern dashboard route', () => {
+  beforeAll(async done => {
     // build dummy data
     try {
       await buildDB();
@@ -19,37 +21,42 @@ describe("Testing for intern dashboard route", () => {
 
   afterAll(() => mongoose.disconnect());
 
-  test("test with an intern user's role", (done) => {
+  test("test with an intern user's role", done => {
     const loginData = {
-      email: "mone@gmail.com",
-      password: "123456",
+      email: 'mone@gmail.com',
+      password: '123456',
     };
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(loginData)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end(async (err, res) => {
         if (err) {
           done(err);
           return;
         }
-        const token = res.headers["set-cookie"][0].split(";")[0];
+        const token = res.headers['set-cookie'][0].split(';')[0];
 
         request(app)
           .get(API_INTERN_DASHBOARD_URL)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .expect(200)
           .end((error, result) => {
             expect(result).toBeDefined();
             const {
-              name, profile, notifications, installments, bookings,
+              name,
+              profile,
+              notifications,
+              installments,
+              bookings,
             } = result.body.data;
 
-
-            expect(name).toBe("Mone Dupree");
+            expect(name).toBe('Mone Dupree');
             expect(profile).toBeDefined();
-            expect(profile.profileImage.url).toMatch(/https:\/\/storage.googleapis.com\/*\/*.*/);
+            expect(profile.profileImage.url).toMatch(
+              /https:\/\/storage.googleapis.com\/*\/*.*/,
+            );
 
             expect(notifications).toBeDefined();
             expect(notifications).toHaveLength(2);

@@ -1,15 +1,15 @@
 // expect email and plain password
 // respond with user info and create new token
 
-const jwt = require("jsonwebtoken");
-const boom = require("boom");
-const { compare } = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const boom = require('boom');
+const { compare } = require('bcryptjs');
 
 // CONSTANTS
-const { tokenMaxAge } = require("./../../constants");
+const { tokenMaxAge } = require('./../../constants');
 
 // QUERIES
-const { findByEmail } = require("./../../database/queries/user");
+const { findByEmail } = require('./../../database/queries/user');
 
 module.exports = (req, res, next) => {
   const { email, password: plainPassword } = req.body;
@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
     if (!user) {
       req.sqreen.auth_track(false, { email });
       // no user found so return error
-      return next(boom.unauthorized("Login failed. User does not exist"));
+      return next(boom.unauthorized('Login failed. User does not exist'));
     }
 
     // validate password
@@ -28,7 +28,7 @@ module.exports = (req, res, next) => {
           req.sqreen.auth_track(false, { email });
           return next(
             boom.unauthorized(
-              "Login failed. Email or password cannot be recognised",
+              'Login failed. Email or password cannot be recognised',
             ),
           );
         }
@@ -45,7 +45,7 @@ module.exports = (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.SECRET, {
           expiresIn: tokenMaxAge.string,
         });
-        res.cookie("token", token, {
+        res.cookie('token', token, {
           maxAge: tokenMaxAge.number,
           httpOnly: true,
         });

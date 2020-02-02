@@ -1,14 +1,14 @@
 // sign up controller
 // respond with user info and create new token
 
-const boom = require("boom");
-const jwt = require("jsonwebtoken");
+const boom = require('boom');
+const jwt = require('jsonwebtoken');
 
 // QUERIES
-const { findByEmail, addNewUser } = require("./../../database/queries/user");
+const { findByEmail, addNewUser } = require('./../../database/queries/user');
 
 // CONSTANTS
-const { tokenMaxAge } = require("./../../constants");
+const { tokenMaxAge } = require('./../../constants');
 
 module.exports = (req, res, next) => {
   const { userInfo } = req.body;
@@ -18,11 +18,11 @@ module.exports = (req, res, next) => {
   findByEmail(email)
     .then(storedUser => {
       if (storedUser) {
-        return next(boom.conflict("Email already taken"));
+        return next(boom.conflict('Email already taken'));
       }
 
       // MORE CHECKS REQUIRED FOR INTERN
-      if (role === "intern") {
+      if (role === 'intern') {
         // get code from userInfo
 
         // add new user
@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
               expiresIn: tokenMaxAge.string,
             });
 
-            res.cookie("token", token, {
+            res.cookie('token', token, {
               maxAge: tokenMaxAge.number,
               httpOnly: true,
             });
@@ -58,7 +58,7 @@ module.exports = (req, res, next) => {
             expiresIn: tokenMaxAge.string,
           });
 
-          res.cookie("token", token, {
+          res.cookie('token', token, {
             maxAge: tokenMaxAge.number,
             httpOnly: true,
           });

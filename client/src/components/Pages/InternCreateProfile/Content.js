@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react';
 
 import {
   AboutYouProfile,
   OtherInformationProfile,
   AboutYouDetails,
   OtherInformationDetails,
-  Demographic
-} from "../../Common/ProfileComponents";
-import TabbedView from "../../Common/TabbedView";
-import Button from "../../Common/Button";
+  Demographic,
+} from '../../Common/ProfileComponents';
+import TabbedView from '../../Common/TabbedView';
+import Button from '../../Common/Button';
 
-import { PageWrapper, ContentWrapper } from "./InternCreateProfile.style";
+import { PageWrapper, ContentWrapper } from './InternCreateProfile.style';
 
-import HeaderWrapper from "./HeaderWrapper";
+import HeaderWrapper from './HeaderWrapper';
 
 export default ({
   name,
@@ -26,7 +26,7 @@ export default ({
   handleSubmit,
   profilePhotoUrl,
   role,
-  loading
+  loading,
 }) => (
   <PageWrapper>
     <ContentWrapper>
@@ -39,7 +39,7 @@ export default ({
       <TabbedView
         activeKey={activeKey}
         onChange={onChangeTabs}
-        tabsTitle={["Profile", "Details"]}
+        tabsTitle={['Profile', 'Details']}
         tabsContent={[
           <>
             <AboutYouProfile
@@ -60,15 +60,15 @@ export default ({
             />
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "2rem"
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: '2rem',
               }}
             >
               <Button
                 label="Next"
                 type="primary"
-                onClick={() => onChangeTabs("Details")}
+                onClick={() => onChangeTabs('Details')}
               />
             </div>
           </>,
@@ -99,9 +99,9 @@ export default ({
             />
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "2rem"
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: '2rem',
               }}
             >
               <Button
@@ -111,7 +111,7 @@ export default ({
                 loading={loading}
               />
             </div>
-          </>
+          </>,
         ]}
       />
     </ContentWrapper>

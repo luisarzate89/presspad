@@ -1,5 +1,5 @@
-const postReview = require("./postReview");
-const getReviews = require("./getReviews");
+const postReview = require('./postReview');
+const getReviews = require('./getReviews');
 
 module.exports = {
   postReview,

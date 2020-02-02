@@ -1,7 +1,9 @@
-const moment = require("moment");
-const mongoose = require("mongoose");
+const moment = require('moment');
+const mongoose = require('mongoose');
 
-const { createScheduledEmails } = require("../../database/queries/ScheduledEmail");
+const {
+  createScheduledEmails,
+} = require('../../database/queries/ScheduledEmail');
 
 /**
  * schedule 3 emails reminders
@@ -15,14 +17,17 @@ const { createScheduledEmails } = require("../../database/queries/ScheduledEmail
  */
 
 const scheduleReminderEmails = async ({
-  bookingId, startDate, hostId, internId,
+  bookingId,
+  startDate,
+  hostId,
+  internId,
 }) => {
   const reminders = [];
 
   const currnetDate = moment();
-  const beforeOneWeekDate = moment(startDate).subtract(1, "weeks");
-  const beforeTwoWeekDate = moment(startDate).subtract(2, "weeks");
-  const beforeThreeWeekDate = moment(startDate).subtract(3, "weeks");
+  const beforeOneWeekDate = moment(startDate).subtract(1, 'weeks');
+  const beforeTwoWeekDate = moment(startDate).subtract(2, 'weeks');
+  const beforeThreeWeekDate = moment(startDate).subtract(3, 'weeks');
 
   const data = {
     bookingId: mongoose.Types.ObjectId(bookingId),
@@ -30,10 +35,9 @@ const scheduleReminderEmails = async ({
     internId: mongoose.Types.ObjectId(internId),
   };
 
-
   if (currnetDate.isSameOrBefore(beforeOneWeekDate)) {
     reminders.push({
-      type: "BOOKING_REMINDER_1_WEEK",
+      type: 'BOOKING_REMINDER_1_WEEK',
       dueDate: beforeOneWeekDate,
       data,
     });
@@ -41,7 +45,7 @@ const scheduleReminderEmails = async ({
 
   if (currnetDate.isSameOrBefore(beforeTwoWeekDate)) {
     reminders.push({
-      type: "BOOKING_REMINDER_2_WEEKS",
+      type: 'BOOKING_REMINDER_2_WEEKS',
       dueDate: beforeTwoWeekDate,
       data,
     });
@@ -49,7 +53,7 @@ const scheduleReminderEmails = async ({
 
   if (currnetDate.isSameOrBefore(beforeThreeWeekDate)) {
     reminders.push({
-      type: "BOOKING_REMINDER_3_WEEKS",
+      type: 'BOOKING_REMINDER_3_WEEKS',
       dueDate: beforeThreeWeekDate,
       data,
     });
@@ -59,11 +63,10 @@ const scheduleReminderEmails = async ({
     await createScheduledEmails(reminders);
   } else if (currnetDate.isSameOrBefore(startDate)) {
     // TODO send email immediately
-  // await sendEmailNow()
+    // await sendEmailNow()
   } else {
-    throw new Error("start date is in the past");
+    throw new Error('start date is in the past');
   }
 };
-
 
 module.exports = scheduleReminderEmails;

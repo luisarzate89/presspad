@@ -1,6 +1,6 @@
-import React from "react";
-import { Hint } from "./Checklist.style";
-import getAbsoluteLink from "./../../../helpers/getAbsoluteLink";
+import React from 'react';
+import { Hint } from './Checklist.style';
+import getAbsoluteLink from '../../../helpers/getAbsoluteLink';
 
 const HintElement = ({
   hintText,
@@ -8,7 +8,7 @@ const HintElement = ({
   containsInternEmail,
   hostEmail,
   internEmail,
-  links
+  links,
 }) => {
   if (!hintText) {
     return null;
@@ -17,7 +17,7 @@ const HintElement = ({
   let hintTextSegments = hintText;
   let hintTextElement = <Hint>{hintText}</Hint>;
   if (containsHostEmail) {
-    hintTextSegments = hintText.split("{email}");
+    hintTextSegments = hintText.split('{email}');
     hintTextElement = (
       <Hint>
         {hintTextSegments[0]}
@@ -32,7 +32,7 @@ const HintElement = ({
       </Hint>
     );
   } else if (containsInternEmail) {
-    hintTextSegments = hintText.split("{email}");
+    hintTextSegments = hintText.split('{email}');
     hintTextElement = (
       <Hint>
         {hintTextSegments[0]}
@@ -49,7 +49,7 @@ const HintElement = ({
   }
   if (links && links.length) {
     // split the hint text into segments
-    hintTextSegments = hintText.split("/");
+    hintTextSegments = hintText.split('/');
     // replace the links segements with its object
     links.forEach(link => {
       const i = hintTextSegments.indexOf(link.linkType);

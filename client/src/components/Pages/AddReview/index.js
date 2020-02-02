@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-import randomProfile from "../../../assets/random-profile.jpg";
-import Avatar from "./Avatar";
-import CallForReview from "./CallForReview";
-import ComponentWrapper from "./Wrappers/ComponentWrapper";
-import ReviewSection from "./ReviewSection";
+import randomProfile from '../../../assets/random-profile.jpg';
+import Avatar from './Avatar';
+import CallForReview from './CallForReview';
+import ComponentWrapper from './Wrappers/ComponentWrapper';
+import ReviewSection from './ReviewSection';
 
 // use the state here and pass props to other components
 
 class AddReview extends Component {
   state = {
     rating: null,
-    message: "",
-    to: "", // id
-    from: "", // id
-    booking: "" // id
+    message: '',
+    to: '', // id
+    from: '', // id
+    booking: '', // id
   };
 
   async componentDidMount() {
     // get the current booking id
     const {
       match: {
-        params: { id }
-      }
+        params: { id },
+      },
     } = this.props; // in my opinion a case against using prettier.
 
     // should request the current booking information
@@ -42,7 +42,7 @@ class AddReview extends Component {
         reviewerName: populatedBooking.host.name,
         reviewedName: populatedBooking.intern.name,
         bio,
-        jobTitle
+        jobTitle,
       });
     } else {
       this.setState({
@@ -52,13 +52,13 @@ class AddReview extends Component {
         reviewerName: populatedBooking.intern.name,
         reviewedName: populatedBooking.host.name,
         bio,
-        jobTitle
+        jobTitle,
       });
     }
   }
 
   onRatingChange = rating => {
-    this.setState({ rating: rating });
+    this.setState({ rating });
   };
 
   onTextAreaChange = ({ target: { value } }) => {
@@ -76,17 +76,17 @@ class AddReview extends Component {
         from,
         rating,
         message,
-        booking
+        booking,
       });
       // show success message to the user
       Swal.fire({
-        type: "success",
-        title: "Review has been sent successfully!"
+        type: 'success',
+        title: 'Review has been sent successfully!',
       });
     } catch (error) {
       Swal.fire({
-        type: "error",
-        title: `${error.response.data.error}`
+        type: 'error',
+        title: `${error.response.data.error}`,
       });
     }
   };
@@ -98,7 +98,7 @@ class AddReview extends Component {
       bio,
       jobTitle,
       profileImage,
-      booking
+      booking,
     } = this.state;
 
     return (

@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const { compare } = require("bcryptjs");
+const mongoose = require('mongoose');
+const { compare } = require('bcryptjs');
 
-const User = require("../../../database/models/User");
-const buildDB = require("../../../database/data/test");
-const Account = require("./../../../database/models/Account");
+const User = require('../../../database/models/User');
+const buildDB = require('../../../database/data/test');
+const Account = require('./../../../database/models/Account');
 
-describe("Test User schema", () => {
+describe('Test User schema', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -16,18 +16,18 @@ describe("Test User schema", () => {
     mongoose.disconnect();
   });
 
-  test("should User schema be defined", async () => {
+  test('should User schema be defined', async () => {
     expect(User).toBeDefined();
   });
 
-  test("should User schema store correctly", async (done) => {
+  test('should User schema store correctly', async done => {
     const accounts = await Account.find();
 
     const user = {
-      name: "newUser",
-      email: "new@user.test",
-      password: "123456",
-      role: "superhost",
+      name: 'newUser',
+      email: 'new@user.test',
+      password: '123456',
+      role: 'superhost',
       account: accounts[8]._id,
     };
 
@@ -40,16 +40,19 @@ describe("Test User schema", () => {
     expect(storedUser.role).toBe(user.role);
     expect(storedUser.account).toBe(accounts[8]._id);
 
-
     // hashing password
-    compare(user.password, storedUser.password).then((isTrue) => {
+    compare(user.password, storedUser.password).then(isTrue => {
       expect(isTrue).toBeTruthy();
       done();
     });
 
     // check for isCorrectPassword new method
-    const isCorrectPasswordCorrect = await storedUser.isCorrectPassword(user.password);
-    const isCorrectPasswordFalse = await storedUser.isCorrectPassword("Wrong password");
+    const isCorrectPasswordCorrect = await storedUser.isCorrectPassword(
+      user.password,
+    );
+    const isCorrectPasswordFalse = await storedUser.isCorrectPassword(
+      'Wrong password',
+    );
     expect(isCorrectPasswordCorrect).toBeTruthy();
     expect(isCorrectPasswordFalse).toBeFalsy();
   });

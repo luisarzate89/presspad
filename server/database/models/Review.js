@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
@@ -6,11 +6,11 @@ const reviewSchema = new Schema(
   {
     to: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     from: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     rating: {
       type: Number,
@@ -24,13 +24,13 @@ const reviewSchema = new Schema(
     },
     booking: {
       type: Schema.Types.ObjectId,
-      ref: "bookings",
+      ref: 'bookings',
       required: true,
     },
   },
   { timestamps: true },
 );
 
-const Review = model("reviews", reviewSchema);
+const Review = model('reviews', reviewSchema);
 
 module.exports = Review;

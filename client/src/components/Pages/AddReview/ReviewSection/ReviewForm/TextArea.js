@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const TextArea = styled.textarea`
   width: 450px;
@@ -6,7 +6,7 @@ const TextArea = styled.textarea`
   padding: 5px;
   margin: 0 0 20px 0;
   resize: none;
-  border: 1.5px solid #F6F6F6;
-`
+  border: 1.5px solid #f6f6f6;
+`;
 
 export default TextArea;

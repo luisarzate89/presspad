@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Account = require("../../models/Account");
-const InternalTransaction = require("../../models/InternalTransaction");
+const Account = require('../../models/Account');
+const InternalTransaction = require('../../models/InternalTransaction');
 
 /**
  * Create an internal transaction, Must be done inside a database transaction session
@@ -12,13 +12,29 @@ const InternalTransaction = require("../../models/InternalTransaction");
  * @param {string} type Type of transaction "installment", "donation", "couponTransaction"
  * @param {session} session Transaction session
  */
-const createInternalTransaction = async (userId, fromAccount, toAccount, amount, type, session) => {
-  const internaltransaction = InternalTransaction.create([{
-    user: userId, from: fromAccount, to: toAccount, amount, type,
-  }], { session });
+const createInternalTransaction = async (
+  userId,
+  fromAccount,
+  toAccount,
+  amount,
+  type,
+  session,
+) => {
+  const internaltransaction = InternalTransaction.create(
+    [
+      {
+        user: userId,
+        from: fromAccount,
+        to: toAccount,
+        amount,
+        type,
+      },
+    ],
+    { session },
+  );
 
   let bulkWriteArr;
-  if (type === "installment") {
+  if (type === 'installment') {
     // update intern Account "from"
     bulkWriteArr = [
       {
@@ -39,7 +55,7 @@ const createInternalTransaction = async (userId, fromAccount, toAccount, amount,
         },
       },
     ];
-  } else if (type === "couponTransaction") {
+  } else if (type === 'couponTransaction') {
     // update org account "from"
     // the coupon amount have been already substracted before from the current balance
     // and adde to couponsValue, so we should substract it from couponsValue
@@ -62,7 +78,7 @@ const createInternalTransaction = async (userId, fromAccount, toAccount, amount,
         },
       },
     ];
-  } else if (type === "donation") {
+  } else if (type === 'donation') {
     // update host or others account "from"
     bulkWriteArr = [
       {
@@ -76,12 +92,15 @@ const createInternalTransaction = async (userId, fromAccount, toAccount, amount,
       // no need to update presspad account since external transaction (source of money) update it
     ];
   } else {
-    throw new Error("type must be installment, donation or couponTransaction");
+    throw new Error('type must be installment, donation or couponTransaction');
   }
 
   const updatedAccounts = Account.bulkWrite(bulkWriteArr, { session });
 
-  const [inTransaction] = await Promise.all([internaltransaction, updatedAccounts]);
+  const [inTransaction] = await Promise.all([
+    internaltransaction,
+    updatedAccounts,
+  ]);
 
   return inTransaction[0];
 };

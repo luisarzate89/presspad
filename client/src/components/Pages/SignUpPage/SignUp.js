@@ -1,13 +1,13 @@
-import React from "react";
-import { Input, Checkbox } from "antd";
+import React from 'react';
+import { Input, Checkbox } from 'antd';
 // COMMON COMPONENTS
-import Button from "./../../Common/Button";
+import Button from '../../Common/Button';
 
-import USER_TYPES from "./../../../constants/userTypes";
+import USER_TYPES from '../../../constants/userTypes';
 import {
   TERMS_CONDITIONS,
   PRIVACY_POLICY,
-} from "../../../constants/externalLinks";
+} from '../../../constants/externalLinks';
 
 // STYLING
 import {
@@ -22,7 +22,7 @@ import {
   Disclaimer,
   DisclaimerText,
   DisclaimerWrapper,
-} from "./SignUpPage.style";
+} from './SignUpPage.style';
 
 export default props => {
   const {
@@ -129,7 +129,7 @@ export default props => {
           />
           <ErrorMsg>{password2Error}</ErrorMsg>
         </InputDiv>
-        {(userType === "host" || userType === "intern") && (
+        {(userType === 'host' || userType === 'intern') && (
           <DisclaimerWrapper>
             <Disclaimer>
               <Checkbox

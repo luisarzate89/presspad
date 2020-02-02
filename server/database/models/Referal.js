@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
@@ -9,16 +9,16 @@ const referalSchema = new Schema(
   {
     referrer: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     referred: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
   },
   { timestamps: true },
 );
 
-const Referal = model("referrals", referalSchema);
+const Referal = model('referrals', referalSchema);
 
 module.exports = Referal;

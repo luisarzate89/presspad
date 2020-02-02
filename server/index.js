@@ -4,12 +4,12 @@ const dbConnection = require("./database/dbConnection");
 
 dbConnection()
   .then(() => {
-    app.listen(app.get("port"), () => {
+    app.listen(app.get('port'), () => {
       // eslint-disable-next-line no-console
-      console.log("Listening on port: ", app.get("port"));
+      console.log('Listening on port: ', app.get('port'));
     });
   })
   .catch(err => {
     // handle failing db connection
-    console.log("db connection failed", err.name);
+    console.log('db connection failed', err.name);
   });

@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { Spin, message } from "antd";
+import React, { Component } from 'react';
+import { Spin, message } from 'antd';
 
 // api
-import axios from "axios";
+import axios from 'axios';
 import {
   API_VERIFY_PROFILE_URL,
   API_GET_USER_BOOKINGS_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import { HOST_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
+import { HOST_COMPLETE_PROFILE_URL } from '../../../constants/navRoutes';
 
-import Calendar from "./Calendar";
+import Calendar from './Calendar';
 
 // common components
-import Button from "../../Common/Button";
-import ListingGallery from "../../Common/Profile/ListingGallery";
+import Button from '../../Common/Button';
+import ListingGallery from '../../Common/Profile/ListingGallery';
 
 // styles
 
@@ -34,7 +34,7 @@ import {
   ParagraphHeadline,
   Paragraph,
   // StarRate
-} from "../../Common/Profile/Profiles.style";
+} from '../../Common/Profile/Profiles.style';
 
 import {
   MainSection,
@@ -57,13 +57,13 @@ import {
   // ReviewHeadline,
   // ReviewText,
   // ReviewsSection,
-} from "./Profile.style";
-import { titleCase } from "../../../helpers";
-import "antd/dist/antd.css";
+} from './Profile.style';
+import { titleCase } from '../../../helpers';
+import 'antd/dist/antd.css';
 
 // images
-import starSign from "../../../assets/star-sign-symbol.svg";
-import profilePlaceholder from "../../../assets/random-profile.jpg";
+import starSign from '../../../assets/star-sign-symbol.svg';
+import profilePlaceholder from '../../../assets/random-profile.jpg';
 
 class HostProfile extends Component {
   state = {
@@ -79,7 +79,7 @@ class HostProfile extends Component {
   getHostProfile = () => {
     const { match, history, role } = this.props;
     let hostId = match.params.id;
-    if (!hostId && match.path === "/my-profile") {
+    if (!hostId && match.path === '/my-profile') {
       hostId = this.props.id;
     }
 
@@ -98,8 +98,8 @@ class HostProfile extends Component {
         const error =
           err.response && err.response.data && err.response.data.error;
         if (
-          error === "User has no profile" &&
-          ["host", "superhost"].includes(role)
+          error === 'User has no profile' &&
+          ['host', 'superhost'].includes(role)
         ) {
           message
             .info(
@@ -111,7 +111,7 @@ class HostProfile extends Component {
             )
             .then(() => history.push(HOST_COMPLETE_PROFILE_URL));
         } else {
-          message.error(error || "Something went wrong");
+          message.error(error || 'Something went wrong');
         }
       });
   };
@@ -120,9 +120,9 @@ class HostProfile extends Component {
     const { role } = this.props;
 
     this.getHostProfile();
-    if (role !== "admin") {
+    if (role !== 'admin') {
       axios
-        .get(API_GET_USER_BOOKINGS_URL.replace(":id", this.props.id))
+        .get(API_GET_USER_BOOKINGS_URL.replace(':id', this.props.id))
         .then(result => this.setState({ internBookings: result.data }))
         .catch(err => console.log(err));
     }
@@ -180,7 +180,7 @@ class HostProfile extends Component {
     return (
       <Wrapper>
         <LinkDiv>
-          {role === "admin" ? (
+          {role === 'admin' ? (
             <TopDiv>
               <BackLinkDiv>
                 <Arrow />
@@ -223,18 +223,18 @@ class HostProfile extends Component {
           <TopDiv>
             <ProfilePic
               src={profileImage.url || profilePlaceholder}
-              adminView={role === "admin" || userId === currentUserId}
+              adminView={role === 'admin' || userId === currentUserId}
               onError={this.handleImageFail}
             />
             {console.log({ organisation })}
             <HeaderDiv>
-              {role === "admin" ? (
+              {role === 'admin' ? (
                 <Headline>{name}</Headline>
               ) : (
                 <Headline>
                   {jobTitle &&
                     `A ${titleCase(jobTitle)} ${
-                      organisation ? `at ${titleCase(organisation)}` : ""
+                      organisation ? `at ${titleCase(organisation)}` : ''
                     }`}
                 </Headline>
               )}
@@ -266,7 +266,7 @@ class HostProfile extends Component {
                   {titleCase(jobTitle)} - {titleCase(organisation)}
                 </ParagraphHeadline>
                 <Paragraph>{bio}</Paragraph>
-                <Paragraph style={{ display: "flex", flexDirection: "column" }}>
+                <Paragraph style={{ display: 'flex', flexDirection: 'column' }}>
                   {hometown && (
                     <span>
                       <Strong>Hometown:</Strong> {titleCase(hometown)}
@@ -362,10 +362,10 @@ class HostProfile extends Component {
           <AvailableHosting>
             <Card>
               <CalendarDiv userRole={role}>
-                {role === "host" && (
+                {role === 'host' && (
                   <SubHeadline>Your available Dates</SubHeadline>
                 )}
-                {role !== "host" && (
+                {role !== 'host' && (
                   <>
                     <SubHeadline>Available hosting</SubHeadline>
                     <ParagraphHeadline>
@@ -382,7 +382,7 @@ class HostProfile extends Component {
                   availableDates={availableDates}
                   internBookings={internBookings}
                   price={price}
-                  adminView={role === "admin"}
+                  adminView={role === 'admin'}
                 />
               </CalendarDiv>
             </Card>

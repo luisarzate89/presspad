@@ -1,5 +1,5 @@
-const WithdrawRequest = require("../../models/WithdrawRequest");
-const Account = require("../../models/Account");
+const WithdrawRequest = require('../../models/WithdrawRequest');
+const Account = require('../../models/Account');
 
 /**
  * Confirm or Cancel withdraw request,
@@ -10,9 +10,11 @@ const Account = require("../../models/Account");
  */
 const confirmOrCancelWithdrawRequest = async (withdrawId, type, session) => {
   const withdrawRequest = await WithdrawRequest.findByIdAndUpdate(
-    withdrawId, { status: type }, { session, new: true, useFindAndModify: false },
+    withdrawId,
+    { status: type },
+    { session, new: true, useFindAndModify: false },
   );
-  if (type === "transfered") {
+  if (type === 'transfered') {
     const { account, amount } = withdrawRequest;
     await Account.updateOne(
       { _id: account },

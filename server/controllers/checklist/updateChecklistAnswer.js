@@ -1,6 +1,5 @@
-
-const boom = require("boom");
-const { updateChecklistAnswer } = require("./../../database/queries/checkList");
+const boom = require('boom');
+const { updateChecklistAnswer } = require('./../../database/queries/checkList');
 
 module.exports = async (req, res, next) => {
   try {
@@ -12,9 +11,13 @@ module.exports = async (req, res, next) => {
       isChecked: !!isChecked,
     };
 
-    const updatedAnswer = await updateChecklistAnswer({ id, userId, updateDate });
+    const updatedAnswer = await updateChecklistAnswer({
+      id,
+      userId,
+      updateDate,
+    });
     if (!updatedAnswer) {
-      return boom.notFound("answer not found");
+      return boom.notFound('answer not found');
     }
 
     return res.json(updatedAnswer);

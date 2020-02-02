@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { BallPulse } from "./LoadingBallPulseSync.style";
+import { BallPulse } from './LoadingBallPulseSync.style';
 
 const LoadingBallPulseSync = () => (
   <BallPulse>

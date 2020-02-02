@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
-const User = require("../../models/User");
-const Booking = require("../../models/Booking");
-const Review = require("../../models/Review");
+const mongoose = require('mongoose');
+const User = require('../../models/User');
+const Booking = require('../../models/Booking');
+const Review = require('../../models/Review');
 
-const { addOrg } = require("./organisation");
-const { createNewAccount } = require("../account");
+const { addOrg } = require('./organisation');
+const { createNewAccount } = require('../account');
 
 module.exports.findByEmail = email =>
   User.findOne({ email: email.toLowerCase() });
@@ -17,7 +17,7 @@ module.exports.addNewUser = async userInfo => {
 
   const newAccount = await createNewAccount();
 
-  if (role === "organisation") {
+  if (role === 'organisation') {
     const { organisation, logo } = userInfo;
     const newOrg = await addOrg(organisation, logo, newAccount._id);
     return User.create({
@@ -30,7 +30,7 @@ module.exports.addNewUser = async userInfo => {
     });
   }
 
-  if (role === "host") {
+  if (role === 'host') {
     const { referral } = userInfo;
     return User.create({
       email: email.toLowerCase(),
@@ -70,38 +70,38 @@ module.exports.getInternStatus = internId =>
               {
                 case: {
                   $and: [
-                    { $lte: ["$startDate", new Date()] },
-                    { $gte: ["$endDate", new Date()] },
-                    { $eq: ["$status", "confirmed"] },
+                    { $lte: ['$startDate', new Date()] },
+                    { $gte: ['$endDate', new Date()] },
+                    { $eq: ['$status', 'confirmed'] },
                   ],
                 },
-                then: "At host",
+                then: 'At host',
               },
               {
                 case: {
                   $and: [
-                    { $gt: ["$startDate", new Date()] },
-                    { $eq: ["$status", "pending"] },
+                    { $gt: ['$startDate', new Date()] },
+                    { $eq: ['$status', 'pending'] },
                   ],
                 },
-                then: "Pending request",
+                then: 'Pending request',
               },
               {
                 case: {
                   $and: [
-                    { $gt: ["$startDate", new Date()] },
+                    { $gt: ['$startDate', new Date()] },
                     {
                       $or: [
-                        { $eq: ["$status", "confirmed"] },
-                        { $eq: ["$status", "completed"] },
+                        { $eq: ['$status', 'confirmed'] },
+                        { $eq: ['$status', 'completed'] },
                       ],
                     },
                   ],
                 },
-                then: "Booking confirmed",
+                then: 'Booking confirmed',
               },
             ],
-            default: "Looking for host",
+            default: 'Looking for host',
           },
         },
       },
@@ -118,31 +118,31 @@ module.exports.getUserReviews = userId =>
       // lookup user
       {
         $lookup: {
-          from: "users",
-          localField: "from",
-          foreignField: "_id",
-          as: "from_user",
+          from: 'users',
+          localField: 'from',
+          foreignField: '_id',
+          as: 'from_user',
         },
       },
       {
-        $unwind: "$from_user",
+        $unwind: '$from_user',
       },
       {
         $lookup: {
-          from: "profiles",
-          localField: "from",
-          foreignField: "user",
-          as: "from_profile",
+          from: 'profiles',
+          localField: 'from',
+          foreignField: 'user',
+          as: 'from_profile',
         },
       },
       {
-        $unwind: "$from_profile",
+        $unwind: '$from_profile',
       },
       {
         $project: {
           _id: 0,
-          "from_user.name": 1,
-          "from_profile.jobTitle": 1,
+          'from_user.name': 1,
+          'from_profile.jobTitle': 1,
           message: 1,
           createdAt: 1,
           rating: 1,
@@ -162,21 +162,21 @@ module.exports.getUserOrg = userId =>
     },
     {
       $lookup: {
-        from: "organisations",
-        localField: "organisation",
-        foreignField: "_id",
-        as: "organisation",
+        from: 'organisations',
+        localField: 'organisation',
+        foreignField: '_id',
+        as: 'organisation',
       },
     },
     {
       $addFields: {
         organisation: {
-          $arrayElemAt: ["$organisation", 0],
+          $arrayElemAt: ['$organisation', 0],
         },
       },
     },
-    { $replaceRoot: { newRoot: "$organisation" } },
+    { $replaceRoot: { newRoot: '$organisation' } },
   ]);
 
 module.exports.getAllInterns = () =>
-  User.find({ role: "intern" }, { password: 0 });
+  User.find({ role: 'intern' }, { password: 0 });

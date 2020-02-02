@@ -1,21 +1,21 @@
-const boom = require("boom");
-const mongoose = require("mongoose");
+const boom = require('boom');
+const mongoose = require('mongoose');
 
 const {
   updateUserProfile,
   findProfile,
   createNewProfile,
-} = require("./../database/queries/profiles");
-const { createNewListing } = require("./../database/queries/listings");
+} = require('./../database/queries/profiles');
+const { createNewListing } = require('./../database/queries/listings');
 
-const { updateListing } = require("../database/queries/listing");
-const { getListing } = require("../database/queries/listing/getListing");
+const { updateListing } = require('../database/queries/listing');
+const { getListing } = require('../database/queries/listing/getListing');
 
 module.exports = async (req, res, next) => {
   const { user } = req;
 
-  if (user.role !== "host") {
-    return next(boom.forbidden("only host can update his profile"));
+  if (user.role !== 'host') {
+    return next(boom.forbidden('only host can update his profile'));
   }
 
   const {

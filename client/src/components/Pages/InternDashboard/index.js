@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { Empty, message } from "antd";
-import moment from "moment";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Empty, message } from 'antd';
+import moment from 'moment';
 
-import BookingSection from "./BookingSection";
-import BookingsTableSection from "./BookingsTableSection";
-import PaymentsSection from "./PaymentsSection";
-import Update from "../../Common/Update";
-import { SectionTitle } from "./InternDashboard.style";
+import BookingSection from './BookingSection';
+import BookingsTableSection from './BookingsTableSection';
+import PaymentsSection from './PaymentsSection';
+import Update from '../../Common/Update';
+import { SectionTitle } from './InternDashboard.style';
 import {
   PageWrapper,
   SectionWrapperContent,
   UpdateList,
   BlueLink,
-} from "../../Common/general";
+} from '../../Common/general';
 
 import {
   API_INTERN_DASHBOARD_URL,
   API_NOTIFICATION_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
 export default class InternDashboard extends Component {
   state = {
@@ -27,8 +27,8 @@ export default class InternDashboard extends Component {
     notifications: [],
     slicedNotifications: [],
     viewNotificationNum: 3,
-    name: "",
-    profileImage: "",
+    name: '',
+    profileImage: '',
     markAsSeen: false,
   };
 
@@ -105,7 +105,7 @@ export default class InternDashboard extends Component {
         }
       } catch (error) {
         this.setState({ markAsSeen: false, notifications });
-        message.error("Something went wrong");
+        message.error('Something went wrong');
       }
     }
   };
@@ -115,7 +115,7 @@ export default class InternDashboard extends Component {
       dataset: { name },
     },
   }) => {
-    if (name === "updates") {
+    if (name === 'updates') {
       this.setState(({ viewNotificationNum, notifications }) => ({
         viewNotificationNum: viewNotificationNum ? undefined : 3,
         slicedNotifications: viewNotificationNum
@@ -166,9 +166,9 @@ export default class InternDashboard extends Component {
                 to="#"
                 data-name="updates"
                 onClick={this.handleViewMoreToggle}
-                style={{ marginTop: "2rem", textAlign: "center" }}
+                style={{ marginTop: '2rem', textAlign: 'center' }}
               >
-                {viewNotificationNum ? "View more" : "View less"}
+                {viewNotificationNum ? 'View more' : 'View less'}
               </BlueLink>
             )}
           </SectionWrapperContent>

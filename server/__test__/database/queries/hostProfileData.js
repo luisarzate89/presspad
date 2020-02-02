@@ -1,14 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const buildDB = require("../../../database/data/test/index");
+const buildDB = require('../../../database/data/test/index');
 
 // get query
-const { hostProfileData } = require("../../../database/queries/profile/hostProfile");
+const {
+  hostProfileData,
+} = require('../../../database/queries/profile/hostProfile');
 
 // get models
-const User = require("../../../database/models/User");
+const User = require('../../../database/models/User');
 
-describe("Tests for hostProfile queries", () => {
+describe('Tests for hostProfile queries', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -18,9 +20,9 @@ describe("Tests for hostProfile queries", () => {
     mongoose.disconnect();
   });
 
-  test("Test hostProfile query with valid id", async (done) => {
-    const hosts = await User.find({ email: "adam@gmail.com" });
-    await hostProfileData(hosts[0]._id).then((profileData) => {
+  test('Test hostProfile query with valid id', async done => {
+    const hosts = await User.find({ email: 'adam@gmail.com' });
+    await hostProfileData(hosts[0]._id).then(profileData => {
       expect(profileData).toBeDefined();
       expect(profileData[0].email).toBe(hosts[0].email);
       expect(profileData[0].listing._id).toBeDefined();
@@ -29,8 +31,8 @@ describe("Tests for hostProfile queries", () => {
     done();
   });
 
-  test("Test host profile data query with invalid id", async (done) => {
-    await hostProfileData("5ce66c1635c86b54fd6c732c").catch((err) => {
+  test('Test host profile data query with invalid id', async done => {
+    await hostProfileData('5ce66c1635c86b54fd6c732c').catch(err => {
       expect(err).toBeDefined();
     });
     done();

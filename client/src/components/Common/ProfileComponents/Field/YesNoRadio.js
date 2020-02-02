@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Radio } from "antd";
-import { Error } from "../ProfileComponents.style";
+import { Radio } from 'antd';
+import { Error } from '../ProfileComponents.style';
 
 export default function YesNoRadio({
   value,

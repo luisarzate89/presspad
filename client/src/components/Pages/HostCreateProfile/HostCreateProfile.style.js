@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { size } from "../../../theme";
+import { size } from '../../../theme';
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -67,7 +67,7 @@ export const SectionWrapperContent = styled.div`
 export const Label = styled.label`
   font-family: Roboto;
   font-style: normal;
-  font-weight: ${({ light }) => (light ? "lighter" : "bold")};
+  font-weight: ${({ light }) => (light ? 'lighter' : 'bold')};
   font-size: 16px;
   line-height: 25px;
   color: #393939;
@@ -83,19 +83,19 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   margin-bottom: 20px;
 `;
 
 export const PhotoWrapper = styled.div`
   background: #ffffff;
-  border: ${({ error }) => (error ? "1px solid red" : "1px solid #dbdbdb")};
+  border: ${({ error }) => (error ? '1px solid red' : '1px solid #dbdbdb')};
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  ${({ small }) => (small ? "height: 100%" : "height: 257px")};
-  ${({ direction }) => (direction ? `margin-${direction}: 12.5px;` : "")}
+  ${({ small }) => (small ? 'height: 100%' : 'height: 257px')};
+  ${({ direction }) => (direction ? `margin-${direction}: 12.5px;` : '')}
 
   @media (max-width: 575.98px) {
     height: 257px;
@@ -105,7 +105,7 @@ export const PhotoWrapper = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-image: ${({ imageSrc }) =>
-    imageSrc ? `url("${imageSrc}")` : "none"};
+    imageSrc ? `url("${imageSrc}")` : 'none'};
 `;
 
 export const UploadButton = styled.button`
@@ -118,11 +118,11 @@ export const UploadButton = styled.button`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;
 
 export const ErrorWrapper = styled.div`
-  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  border: ${({ error }) => (error ? '1px solid red' : 'initial')};
   margin-bottom: ${({ marginBottom }) => marginBottom};
 
   border-radius: 4px;

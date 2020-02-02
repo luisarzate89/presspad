@@ -1,7 +1,7 @@
-const boom = require("boom");
-const { deleteListingPhotoQ } = require("../../database/queries/listing");
-const { deleteFile } = require("../../helpers/storage");
-const { storageBucket: bucketName } = require("../../config");
+const boom = require('boom');
+const { deleteListingPhotoQ } = require('../../database/queries/listing');
+const { deleteFile } = require('../../helpers/storage');
+const { storageBucket: bucketName } = require('../../config');
 
 const deleteListingPhotos = async (req, res, next) => {
   const {
@@ -9,8 +9,8 @@ const deleteListingPhotos = async (req, res, next) => {
     body: { fileNameTobeDeleted },
   } = req;
 
-  if (!["host", "superhost"].includes(user.role)) {
-    return next(boom.forbidden("only host can update his profile"));
+  if (!['host', 'superhost'].includes(user.role)) {
+    return next(boom.forbidden('only host can update his profile'));
   }
 
   try {
@@ -25,8 +25,7 @@ const deleteListingPhotos = async (req, res, next) => {
       catching the error here if it is 404 don't 
       do anything and continue with the rest of code
       */
-      if(err.code !== 404)
-        throw err;
+      if (err.code !== 404) throw err;
     }
     const result = await deleteListingPhotoQ(user._id, fileNameTobeDeleted);
     return res.json(result);

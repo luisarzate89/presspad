@@ -1,11 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const buildDB = require("../../../database/data/test");
+const buildDB = require('../../../database/data/test');
 
-const { getAllHostStats } = require("../../../database/queries/stats/getAllHostStats");
+const {
+  getAllHostStats,
+} = require('../../../database/queries/stats/getAllHostStats');
 
-describe("Test get all host stats query", () => {
-  beforeAll(async (done) => {
+describe('Test get all host stats query', () => {
+  beforeAll(async done => {
     // build dummy data
     await buildDB();
     done();
@@ -15,8 +17,8 @@ describe("Test get all host stats query", () => {
     mongoose.disconnect();
   });
 
-  test("Test get stats", async (done) => {
-    getAllHostStats().then((response) => {
+  test('Test get stats', async done => {
+    getAllHostStats().then(response => {
       expect(response).toBeDefined();
       expect(response[0].internsHosted).toBeDefined();
       expect(response[0].name).toBeDefined();

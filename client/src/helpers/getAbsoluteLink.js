@@ -2,7 +2,7 @@ const getAbsoluteLink = link => {
   const regex = /^http[s]*:\/\/[\w]+/i;
   let url = link;
   if (link && !link.match(regex)) {
-    url = "http://" + link;
+    url = `http://${link}`;
   }
   return url;
 };

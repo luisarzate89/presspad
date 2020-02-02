@@ -1,12 +1,12 @@
-const boom = require("boom");
+const boom = require('boom');
 // QUERIES
 const {
   hostProfileData,
   getConfirmedBooking,
-} = require("./../../database/queries/profile/hostProfile");
+} = require('./../../database/queries/profile/hostProfile');
 
-const generateUrl = require("../../helpers/generateFileURL");
-const { isValidMongoObjectId } = require("../../helpers/isValidMongoObjectId");
+const generateUrl = require('../../helpers/generateFileURL');
+const { isValidMongoObjectId } = require('../../helpers/isValidMongoObjectId');
 
 const firstPart = postcode => {
   // split by space
@@ -27,16 +27,16 @@ const getHostProfile = async (req, res, next) => {
   const { id: hostId } = req.params;
   const { id: userId, role } = req.user;
 
-  if (!hostId) return next(boom.badRequest("User does not exist"));
+  if (!hostId) return next(boom.badRequest('User does not exist'));
   let address = {};
 
   try {
     if (!isValidMongoObjectId(hostId))
-      return next(boom.notFound("Invalid Host ID"));
+      return next(boom.notFound('Invalid Host ID'));
 
     let hostProfile;
     let booking;
-    if (role === "intern") {
+    if (role === 'intern') {
       booking = await getConfirmedBooking(userId, hostId);
       if (booking) [hostProfile] = await hostProfileData(hostId, true);
       else {
@@ -46,7 +46,7 @@ const getHostProfile = async (req, res, next) => {
     } else [hostProfile] = await hostProfileData(hostId);
 
     const {
-      listing: { address: { postcode = "", city = "" } = {} } = {},
+      listing: { address: { postcode = '', city = '' } = {} } = {},
     } = hostProfile;
 
     address = {
@@ -59,7 +59,7 @@ const getHostProfile = async (req, res, next) => {
     hostProfile.listing.address = address;
 
     if (!hostProfile || !hostProfile.profile || !hostProfile.listing)
-      return next(boom.notFound("Host has no profile or does not exist"));
+      return next(boom.notFound('Host has no profile or does not exist'));
 
     if (hostProfile.listing.photos)
       await Promise.all(hostProfile.listing.photos.map(generateUrl));

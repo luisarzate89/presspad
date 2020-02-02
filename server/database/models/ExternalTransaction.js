@@ -1,35 +1,41 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
-const externalTransactionSchema = new Schema({
-  // the user who made the transaction
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-    required: true,
+const externalTransactionSchema = new Schema(
+  {
+    // the user who made the transaction
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
+    },
+    // the account that transfered the money
+    account: {
+      type: Schema.Types.ObjectId,
+      ref: 'accounts',
+      required: true,
+    },
+    // money value
+    amount: {
+      type: Number,
+      required: true,
+      min: 0.01,
+    },
+    type: {
+      type: String,
+      enum: ['deposite', 'withdraw'],
+    },
+    stripeInfo: Object,
   },
-  // the account that transfered the money
-  account: {
-    type: Schema.Types.ObjectId,
-    ref: "accounts",
-    required: true,
+  {
+    timestamps: true,
   },
-  // money value
-  amount: {
-    type: Number,
-    required: true,
-    min: 0.01,
-  },
-  type: {
-    type: String,
-    enum: ["deposite", "withdraw"],
-  },
-  stripeInfo: Object,
-}, {
-  timestamps: true,
-});
+);
 
-const ExternalTransaction = model("externalTransactions", externalTransactionSchema);
+const ExternalTransaction = model(
+  'externalTransactions',
+  externalTransactionSchema,
+);
 
 module.exports = ExternalTransaction;

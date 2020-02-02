@@ -1,5 +1,5 @@
-const boom = require("boom");
-const { getAllCities } = require("../../database/queries/listing");
+const boom = require('boom');
+const { getAllCities } = require('../../database/queries/listing');
 
 exports.getAllCities = async (req, res, next) => {
   try {

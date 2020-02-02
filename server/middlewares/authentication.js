@@ -1,7 +1,7 @@
-const { verify } = require("jsonwebtoken");
-const boom = require("boom");
+const { verify } = require('jsonwebtoken');
+const boom = require('boom');
 
-const { getUserById } = require("./../database/queries/user");
+const { getUserById } = require('./../database/queries/user');
 
 module.exports = (req, res, next) => {
   // get cookies from the request
@@ -9,15 +9,15 @@ module.exports = (req, res, next) => {
 
   // if no cookies or token send unauthorized error
   if (!cookies || !cookies.token) {
-    return next(boom.unauthorized("no credentials"));
+    return next(boom.unauthorized('no credentials'));
   }
 
   // verify the token
   return verify(cookies.token, process.env.SECRET, (err, decoded) => {
     // if not valid send unauthorized error
     if (err) {
-      res.clearCookie("token");
-      return next(boom.unauthorized("credentials are not valid"));
+      res.clearCookie('token');
+      return next(boom.unauthorized('credentials are not valid'));
     }
 
     // get the user  Id from token
@@ -26,8 +26,8 @@ module.exports = (req, res, next) => {
       .then(user => {
         if (!user) {
           req.sqreen.auth_track(false, { email: user.email });
-          res.clearCookie("token");
-          return next(boom.unauthorized("credentials are not valid"));
+          res.clearCookie('token');
+          return next(boom.unauthorized('credentials are not valid'));
         }
 
         req.sqreen.identify(req, { email: user.email });

@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const boom = require("boom");
+const mongoose = require('mongoose');
+const boom = require('boom');
 
 const {
   hostRequestToWithdrawMoney,
   confirmOrCancelWithdrawRequest: confirmOrCancelWithdrawRequestQuery,
   getWithdrawRequestById,
-} = require("../../database/queries/payments");
+} = require('../../database/queries/payments');
 
 const confirmOrCancelWithdrawRequest = async (req, res, next) => {
   const { id: withdrawId } = req.params;
@@ -13,19 +13,19 @@ const confirmOrCancelWithdrawRequest = async (req, res, next) => {
   const { role } = req.user;
 
   // Autherizations
-  if (role !== "admin")
-    return next(boom.forbidden("only admin allow to confirm/cancel withdraw"));
+  if (role !== 'admin')
+    return next(boom.forbidden('only admin allow to confirm/cancel withdraw'));
   // validate the types [transfered, canceled]
-  if (type !== "transfered" && type !== "canceled")
-    return next(boom.badData("bad type value"));
+  if (type !== 'transfered' && type !== 'canceled')
+    return next(boom.badData('bad type value'));
 
   let session;
   try {
     const { status } = await getWithdrawRequestById(withdrawId);
 
-    if (status !== "pending")
+    if (status !== 'pending')
       return next(
-        boom.forbidden("this operation only for pending withdraw requests"),
+        boom.forbidden('this operation only for pending withdraw requests'),
       );
 
     // start a mongodb session
@@ -54,7 +54,7 @@ const withdrawRequest = async (req, res, next) => {
   const { role, account, _id } = req.user;
 
   // check for user role
-  if (role !== "host" && role !== "superhost") {
+  if (role !== 'host' && role !== 'superhost') {
     return next(boom.forbidden());
   }
 

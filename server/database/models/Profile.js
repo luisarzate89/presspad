@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
-const { types } = require("./../constants");
-const { wordLengthValidator } = require("../utils");
+const { types } = require('./../constants');
+const { wordLengthValidator } = require('../utils');
 
 const profileSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
       unique: true,
       required: true,
     },
@@ -23,42 +23,42 @@ const profileSchema = new Schema(
     },
     hometown: {
       type: String,
-      validate: wordLengthValidator(10, "hometown"),
+      validate: wordLengthValidator(10, 'hometown'),
       required: false, // required for Intern
     },
     school: {
       type: String,
-      validate: wordLengthValidator(10, "school"),
+      validate: wordLengthValidator(10, 'school'),
       required: false, // required for Intern
     },
     useReasonAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "useReasonAnswer"),
+      validate: wordLengthValidator(250, 'useReasonAnswer'),
       required: false,
     },
     issueAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "issueAnswer"),
+      validate: wordLengthValidator(250, 'issueAnswer'),
       required: false,
     },
     storyAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "storyAnswer"),
+      validate: wordLengthValidator(250, 'storyAnswer'),
       required: false,
     },
     mentorDescribeAnswer: {
       type: String,
-      validate: wordLengthValidator(200, "mentorDescribeAnswer"),
+      validate: wordLengthValidator(200, 'mentorDescribeAnswer'),
       required: false,
     },
     hearAboutPressPadAnswer: {
       type: String,
-      validate: wordLengthValidator(50, "hearAboutPressPadAnswer"),
+      validate: wordLengthValidator(50, 'hearAboutPressPadAnswer'),
       required: true,
     },
     phoneNumber: {
       type: String,
-      validate: wordLengthValidator(50, "phoneNumber"),
+      validate: wordLengthValidator(50, 'phoneNumber'),
       required: true,
     },
     emergencyContact: {
@@ -120,13 +120,13 @@ const profileSchema = new Schema(
     },
     allergies: {
       type: String,
-      validate: wordLengthValidator(50, "allergies"),
+      validate: wordLengthValidator(50, 'allergies'),
       required: false,
     },
     backgroundAnswer: {
       // Is there anything about your background...
       type: String,
-      validate: wordLengthValidator(250, "backgroundAnswer"),
+      validate: wordLengthValidator(250, 'backgroundAnswer'),
       required: false,
     },
     consentedOnPressPadTerms: {
@@ -141,22 +141,22 @@ const profileSchema = new Schema(
     },
     hostingReasonAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "hostingReasonAnswer"),
+      validate: wordLengthValidator(250, 'hostingReasonAnswer'),
       required: false,
     },
     mentoringExperienceAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "mentoringExperienceAnswer"),
+      validate: wordLengthValidator(250, 'mentoringExperienceAnswer'),
       required: false,
     },
     industryExperienceAnswer: {
       type: String,
-      validate: wordLengthValidator(250, "industryExperienceAnswer"),
+      validate: wordLengthValidator(250, 'industryExperienceAnswer'),
       required: false,
     },
     internshipOfficeAddress: {
       type: String,
-      validate: wordLengthValidator(50, "internshipOfficeAddress"),
+      validate: wordLengthValidator(50, 'internshipOfficeAddress'),
       required: false,
     },
     interests: {
@@ -172,12 +172,12 @@ const profileSchema = new Schema(
     },
     bio: {
       type: String,
-      validate: wordLengthValidator(250, "bio"),
+      validate: wordLengthValidator(250, 'bio'),
       required: true,
     },
     organisation: {
       type: String,
-      validate: wordLengthValidator(10, "organisation"),
+      validate: wordLengthValidator(10, 'organisation'),
       required: false, // required for hosts
     },
     jobTitle: {
@@ -185,7 +185,7 @@ const profileSchema = new Schema(
       lowercase: true,
       required: false, // required for hosts
       trim: true,
-      validate: wordLengthValidator(10, "jobTitle"),
+      validate: wordLengthValidator(10, 'jobTitle'),
     },
     profileImage: {
       fileName: {
@@ -258,6 +258,6 @@ const profileSchema = new Schema(
   },
 );
 
-const Profile = model("profiles", profileSchema);
+const Profile = model('profiles', profileSchema);
 
 module.exports = Profile;

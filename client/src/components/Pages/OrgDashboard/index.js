@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Moment from "moment";
-import { extendMoment } from "moment-range";
-import { message } from "antd";
-import schema from "./schema";
-import { calculatePrice } from "../../../helpers";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+import { message } from 'antd';
+import schema from './schema';
+import { calculatePrice } from '../../../helpers';
 
 import {
   API_ORGS_DASHBOARD_URL,
   API_INTERNS_URL,
   API_COUPONS_URL,
   API_NOTIFICATION_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import Content from "./Content";
+import Content from './Content';
 
 const moment = extendMoment(Moment);
 
@@ -43,7 +43,7 @@ class OrganizationDashboard extends Component {
   componentDidMount() {
     this.fetchOrgData();
 
-    document.addEventListener("keypress", e => {
+    document.addEventListener('keypress', e => {
       const { isNumberInputActive } = this.state;
       const numbers = [
         1,
@@ -56,18 +56,18 @@ class OrganizationDashboard extends Component {
         8,
         9,
         0,
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-        ".",
-        ",",
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '0',
+        '.',
+        ',',
       ];
       if (!numbers.includes(e.key) && isNumberInputActive) {
         e.preventDefault();
@@ -76,7 +76,7 @@ class OrganizationDashboard extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keypress", () => {});
+    document.removeEventListener('keypress', () => {});
   }
 
   fetchOrgData = () => {
@@ -107,7 +107,7 @@ class OrganizationDashboard extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   };
 
@@ -125,7 +125,7 @@ class OrganizationDashboard extends Component {
     const price = (calculatePrice(range) * discountRate) / 100;
 
     if (account.currentBalance - price < 0) {
-      return message.error("No Enough Money!");
+      return message.error('No Enough Money!');
     }
 
     this.validate().then(res => {
@@ -136,8 +136,8 @@ class OrganizationDashboard extends Component {
               internName,
               intern: internId,
               discountRate,
-              startDate: moment(startValue).format("YYYY-MM-DD"),
-              endDate: moment(endValue).format("YYYY-MM-DD"),
+              startDate: moment(startValue).format('YYYY-MM-DD'),
+              endDate: moment(endValue).format('YYYY-MM-DD'),
             })
             .then(({ data }) => {
               const { code } = data;
@@ -150,7 +150,7 @@ class OrganizationDashboard extends Component {
             })
             .catch(() => {
               this.setState({ apiLoading: false });
-              return message.error("Something went wrong!");
+              return message.error('Something went wrong!');
             });
         });
     });
@@ -171,7 +171,7 @@ class OrganizationDashboard extends Component {
     } catch (err) {
       const error =
         err.response && err.response.data && err.response.data.error;
-      message.error(error || "Something went wrong");
+      message.error(error || 'Something went wrong');
     }
   };
 
@@ -183,7 +183,7 @@ class OrganizationDashboard extends Component {
     option.props.label.includes(input.toLowerCase());
 
   onEndChange = value => {
-    this.onChange("endValue", value);
+    this.onChange('endValue', value);
   };
 
   handleStartOpenChange = open => {
@@ -201,11 +201,11 @@ class OrganizationDashboard extends Component {
   disabledEndDate = endValue => {
     const { startValue } = this.state;
     if (!endValue || !startValue) {
-      return endValue && endValue < moment().subtract(1, "day");
+      return endValue && endValue < moment().subtract(1, 'day');
     }
     return (
       endValue.valueOf() <= startValue.valueOf() ||
-      (endValue && endValue < moment().subtract(1, "day"))
+      (endValue && endValue < moment().subtract(1, 'day'))
     );
   };
 
@@ -243,19 +243,19 @@ class OrganizationDashboard extends Component {
   };
 
   onStartChange = value => {
-    this.onChange("startValue", value);
+    this.onChange('startValue', value);
   };
 
   disabledStartDate = startValue => {
     const { endValue } = this.state;
     // false mean not disabled
     if (!startValue || !endValue) {
-      return startValue && startValue < moment().subtract(1, "day");
+      return startValue && startValue < moment().subtract(1, 'day');
     }
 
     return (
       startValue.valueOf() > endValue.valueOf() ||
-      (startValue && startValue < moment().subtract(1, "day"))
+      (startValue && startValue < moment().subtract(1, 'day'))
     );
   };
 
@@ -264,7 +264,7 @@ class OrganizationDashboard extends Component {
     this.setState(
       {
         internName: label || addedNewInternName,
-        internId: key === "removeIt" ? null : key,
+        internId: key === 'removeIt' ? null : key,
         addedNewInternName: null,
       },
       () => {
@@ -344,7 +344,7 @@ class OrganizationDashboard extends Component {
       .catch(err => {
         const errors = {};
         err.inner.forEach(element => {
-          errors[element.path.split(".")[0]] = element.message;
+          errors[element.path.split('.')[0]] = element.message;
         });
         this.setState({ errors, attemptedToSubmit: true });
       });
@@ -395,7 +395,7 @@ class OrganizationDashboard extends Component {
         }
       } catch (error) {
         this.setState({ markAsSeen: false, slicedNotifications });
-        message.error("Something went wrong");
+        message.error('Something went wrong');
       }
     }
   };
@@ -405,7 +405,7 @@ class OrganizationDashboard extends Component {
       dataset: { name },
     },
   }) => {
-    if (name === "updates") {
+    if (name === 'updates') {
       this.setState(({ viewNotificationNum, notifications }) => ({
         viewNotificationNum: viewNotificationNum ? undefined : 3,
         slicedNotifications: viewNotificationNum

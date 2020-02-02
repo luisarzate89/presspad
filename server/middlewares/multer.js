@@ -1,16 +1,18 @@
-const multer = require("multer");
-const boom = require("boom");
+const multer = require('multer');
+const boom = require('boom');
 
 // fieldsArray for filtering and validating the files
 module.exports = fieldsArray => (req, res, next) => {
   // storage config
   const storage = multer.diskStorage({
     destination(destinationReq, file, cb) {
-      cb(null, "uploads/");
+      cb(null, 'uploads/');
     },
     filename(fileReq, file, cb) {
-      const extention = file.originalname.split(".")[file.originalname.split(".").length - 1];
-      const fileName = file.originalname.split(".")[0];
+      const extention = file.originalname.split('.')[
+        file.originalname.split('.').length - 1
+      ];
+      const fileName = file.originalname.split('.')[0];
       cb(null, `${fileName}-${Date.now()}.${extention}`);
     },
   });
@@ -30,9 +32,9 @@ module.exports = fieldsArray => (req, res, next) => {
     },
   }).any();
 
-  upload(req, res, (err) => {
+  upload(req, res, err => {
     if (err) {
-      return next(boom.badImplementation("Error while uploading files"));
+      return next(boom.badImplementation('Error while uploading files'));
     }
     return next();
   });

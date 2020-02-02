@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Icon as AntIcon } from "antd";
+import styled from 'styled-components';
+import { Icon as AntIcon } from 'antd';
 
-import { colors } from "./../../../theme";
+import { colors } from '../../../theme';
 
 export const Wrapper = styled.div`
   width: 100%;

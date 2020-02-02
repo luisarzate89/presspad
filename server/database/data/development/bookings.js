@@ -1,9 +1,9 @@
-const Listing = require("../../models/Listing");
-const User = require("../../models/User");
-const Booking = require("../../models/Booking");
+const Listing = require('../../models/Listing');
+const User = require('../../models/User');
+const Booking = require('../../models/Booking');
 
 module.exports = async () => {
-  const interns = await User.find({ role: "intern" });
+  const interns = await User.find({ role: 'intern' });
   const listings = await Listing.find();
 
   const bookings = [
@@ -29,7 +29,7 @@ module.exports = async () => {
       host: listings[0].user,
       startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
       endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      status: "canceled",
+      status: 'canceled',
       price: 200,
     },
     {
@@ -38,7 +38,7 @@ module.exports = async () => {
       host: listings[1].user,
       startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
       endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      status: "confirmed",
+      status: 'confirmed',
       price: 100,
     },
     {
@@ -47,7 +47,7 @@ module.exports = async () => {
       host: listings[1].user,
       startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
       endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      status: "confirmed",
+      status: 'confirmed',
       price: 200,
     },
     {

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import { Row, Col, Avatar } from "antd";
+import { Row, Col, Avatar } from 'antd';
 import {
   HeaderWrapper,
   HiText,
   ErrorWrapper,
   Error,
-  AvatarWrapper
-} from "./InternCreateProfile.style";
+  AvatarWrapper,
+} from './InternCreateProfile.style';
 
-import { ProgressRing } from "../../Common/progress";
+import { ProgressRing } from '../../Common/progress';
 
 export default ({ error, imageUrl, name, loading }) => (
   <HeaderWrapper>
@@ -17,13 +17,13 @@ export default ({ error, imageUrl, name, loading }) => (
       gutter={20}
       type="flex"
       justify="start"
-      style={{ alignItems: "center" }}
+      style={{ alignItems: 'center' }}
     >
       <Col xs={24} sm={4} lg={3}>
         <ErrorWrapper>
           <div
             style={{
-              textAlign: "center"
+              textAlign: 'center',
             }}
           >
             {/* neccesarry for ProgressRing */}
@@ -33,10 +33,10 @@ export default ({ error, imageUrl, name, loading }) => (
                 stroke={2}
                 progress={loading}
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   zIndex: 1,
                   left: 0,
-                  marginTop: -3
+                  marginTop: -3,
                 }}
               />
               <Avatar
@@ -44,14 +44,14 @@ export default ({ error, imageUrl, name, loading }) => (
                 icon="user"
                 src={imageUrl}
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "42px",
-                  backgroundColor: error ? "red" : "none"
+                  width: '80px',
+                  height: '80px',
+                  margin: '0 auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '42px',
+                  backgroundColor: error ? 'red' : 'none',
                 }}
               />
             </AvatarWrapper>
@@ -60,7 +60,7 @@ export default ({ error, imageUrl, name, loading }) => (
         </ErrorWrapper>
       </Col>
       <Col span={20}>
-        <HiText>Hi {name.split(" ")[0]}, please complete your profile</HiText>
+        <HiText>Hi {name.split(' ')[0]}, please complete your profile</HiText>
       </Col>
     </Row>
   </HeaderWrapper>

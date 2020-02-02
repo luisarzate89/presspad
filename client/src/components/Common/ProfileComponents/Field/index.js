@@ -1,18 +1,18 @@
-import React from "react";
-import Input from "./Input";
-import Select from "./Select";
-import DatePicker from "./DatePicker";
-import File from "./File";
-import YesNoRadio from "./YesNoRadio";
-import Checkist from "./Checkist";
-import DateRanges from "./DateRanges";
+import React from 'react';
+import Input from './Input';
+import Select from './Select';
+import DatePicker from './DatePicker';
+import File from './File';
+import YesNoRadio from './YesNoRadio';
+import Checkist from './Checkist';
+import DateRanges from './DateRanges';
 
 import {
   Label,
   RequiredSpan,
   GrayHint,
   FieldWrapper,
-} from "../ProfileComponents.style";
+} from '../ProfileComponents.style';
 
 export default function Field({
   type,
@@ -52,19 +52,19 @@ export default function Field({
   const value = parent ? _value && _value[name] : _value;
   const error = parent ? _error && _error[name] : _error;
 
-  if (type === "file") {
+  if (type === 'file') {
     url = _value && _value.url;
   }
 
   const isRequired =
-    (role === "intern" && requiredForIntern) ||
-    (role === "host" && requiredForHost);
+    (role === 'intern' && requiredForIntern) ||
+    (role === 'host' && requiredForHost);
 
   let label = _label;
-  if (role === "intern") {
+  if (role === 'intern') {
     label = internLabel || _label;
   }
-  if (role === "host") {
+  if (role === 'host') {
     label = hostLabel || _label;
   }
 
@@ -76,14 +76,14 @@ export default function Field({
         }
         padding={padding}
         paddingSmall={paddingSmall}
-        error={type !== "mainLabel" && error}
+        error={type !== 'mainLabel' && error}
       >
         {label}
         {isRequired && <RequiredSpan>*</RequiredSpan>}
       </Label>
       {hint && <GrayHint>{hint}</GrayHint>}
 
-      {type === "text" && (
+      {type === 'text' && (
         <Input
           placeholder={placeholder}
           value={value}
@@ -96,7 +96,7 @@ export default function Field({
         />
       )}
 
-      {type === "textArea" && (
+      {type === 'textArea' && (
         <Input
           placeholder={placeholder}
           value={value}
@@ -110,7 +110,7 @@ export default function Field({
         />
       )}
 
-      {type === "select" && (
+      {type === 'select' && (
         <Select
           placeholder={placeholder}
           value={value}
@@ -123,7 +123,7 @@ export default function Field({
         />
       )}
 
-      {type === "date" && (
+      {type === 'date' && (
         <DatePicker
           placeholder={placeholder}
           value={value}
@@ -135,7 +135,7 @@ export default function Field({
         />
       )}
 
-      {type === "file" && (
+      {type === 'file' && (
         <File
           placeholder={placeholder}
           value={value}
@@ -151,7 +151,7 @@ export default function Field({
         />
       )}
 
-      {type === "yesNo" && (
+      {type === 'yesNo' && (
         <YesNoRadio
           value={value}
           handleChange={handleChange}
@@ -163,7 +163,7 @@ export default function Field({
         />
       )}
 
-      {type === "dateRanges" && (
+      {type === 'dateRanges' && (
         <DateRanges
           disabledStartDate={disabledStartDate}
           disabledEndDate={disabledEndDate}
@@ -177,7 +177,7 @@ export default function Field({
         />
       )}
 
-      {type === "checklist" && (
+      {type === 'checklist' && (
         <Checkist
           value={value}
           handleChange={handleChange}

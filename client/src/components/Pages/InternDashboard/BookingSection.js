@@ -1,17 +1,17 @@
-import React from "react";
-import { Row, Col, Avatar, Empty } from "antd";
+import React from 'react';
+import { Row, Col, Avatar, Empty } from 'antd';
 
-import { getStringTime } from "../../../helpers";
-import randomProfile from "../../../assets/random-profile.jpg";
-import BookingSection from "../../Common/BookingSection";
-import { SectionTitle } from "./InternDashboard.style";
+import { getStringTime } from '../../../helpers';
+import randomProfile from '../../../assets/random-profile.jpg';
+import BookingSection from '../../Common/BookingSection';
+import { SectionTitle } from './InternDashboard.style';
 
 import {
   SectionWrapperContent,
   HeaderWrapper,
   HiText,
   SectionWrapper,
-} from "../../Common/general";
+} from '../../Common/general';
 
 export default function BookingSectionWrapper(props) {
   const {
@@ -48,13 +48,13 @@ export default function BookingSectionWrapper(props) {
     endDate = firstBooking.endDate;
     timeString = getStringTime(startDate);
   }
-  const title = "Your host";
+  const title = 'Your host';
 
   return (
     <SectionWrapper>
       <HeaderWrapper>
         <Row
-          style={{ width: "100%", paddingLeft: "1rem" }}
+          style={{ width: '100%', paddingLeft: '1rem' }}
           type="flex"
           justify="start"
         >
@@ -64,21 +64,21 @@ export default function BookingSectionWrapper(props) {
               icon="user"
               src={(profileImage && profileImage.url) || undefined}
               style={{
-                width: "80px",
-                height: "80px",
-                margin: "0 auto 0.5rem auto",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "42px",
-                border: "1px solid rgba(0, 0, 0, 0.15)",
+                width: '80px',
+                height: '80px',
+                margin: '0 auto 0.5rem auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '42px',
+                border: '1px solid rgba(0, 0, 0, 0.15)',
               }}
             />
           </Col>
           <Col xs={24} sm={20}>
             {firstBooking ? (
               <HiText>
-                Hi {name.split(" ")[0]}, your host is expecting you {timeString}
+                Hi {name.split(' ')[0]}, your host is expecting you {timeString}
                 .
               </HiText>
             ) : (

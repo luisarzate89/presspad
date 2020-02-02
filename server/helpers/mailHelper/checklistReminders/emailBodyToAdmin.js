@@ -1,7 +1,7 @@
-const moment = require("moment");
+const moment = require('moment');
 
-const { capitalizeName } = require("../../general");
-const { domain } = require("../../../config");
+const { capitalizeName } = require('../../general');
+const { domain } = require('../../../config');
 
 const emailBodyToAdmin = ({
   hostName,
@@ -13,7 +13,7 @@ const emailBodyToAdmin = ({
   startDate,
   bookingId,
 }) => {
-  const startDateString = moment(startDate).format("DD MMM YYYY");
+  const startDateString = moment(startDate).format('DD MMM YYYY');
   const bookingURL = `${domain}/booking/${bookingId}`;
   const hostURL = `${domain}/host/${hostId}`;
   const internURL = `${domain}/intern/${internId}`;
@@ -27,14 +27,14 @@ const emailBodyToAdmin = ({
       <div style="font-weight: 700;">
         Host: <a href="${hostURL}">${capitalizeName(hostName)}</a>
         <ul>
-          ${hostChecklist.join("\n")}
+          ${hostChecklist.join('\n')}
         </ul>
       </div>
 
       <div style="font-weight: 700;">
         Intern: <a href="${internURL}">${capitalizeName(internName)}</a>
         <ul>
-          ${internChecklist.join("\n")}
+          ${internChecklist.join('\n')}
         </ul>
       </div>
     </p>

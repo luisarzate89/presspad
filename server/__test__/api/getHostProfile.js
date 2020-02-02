@@ -1,12 +1,12 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const User = require("../../database/models/User");
+const User = require('../../database/models/User');
 
-const buildDB = require("./../../database/data/test/index");
-const app = require("./../../app");
+const buildDB = require('./../../database/data/test/index');
+const app = require('./../../app');
 
-describe("Testing for get host profile route", () => {
+describe('Testing for get host profile route', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -21,12 +21,12 @@ describe("Testing for get host profile route", () => {
     await buildDB();
   });
 
-  test("test with correct user id", async (done) => {
-    const host = await User.findOne({ email: "adam@gmail.com" });
+  test('test with correct user id', async done => {
+    const host = await User.findOne({ email: 'adam@gmail.com' });
 
     request(app)
       .get(`/api/host/${host._id}`)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
@@ -39,12 +39,12 @@ describe("Testing for get host profile route", () => {
       });
   });
 
-  test("test with incorrect user id", (done) => {
-    const data = { userId: "5ce66c1635c86b54fd6c732c" };
+  test('test with incorrect user id', done => {
+    const data = { userId: '5ce66c1635c86b54fd6c732c' };
 
     request(app)
       .get(`/api/host/${data.userId}`)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(404)
       .end((err, res) => {
         expect(res.body.error).toBeDefined();

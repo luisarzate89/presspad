@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { colors } from "../../../theme";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { colors } from '../../../theme';
 
 export const PageWrapper = styled.main`
   padding-top: 4rem;
@@ -122,14 +122,14 @@ export const UpdateDate = styled.span`
 export const PayButton = styled.button`
   background: ${props =>
     props.disabled ? colors.lightGray : colors.lightBlue};
-  opacity: ${props => (props.disabled ? "0.7" : "")};
+  opacity: ${props => (props.disabled ? '0.7' : '')};
   border-radius: 17.5px;
   font-size: 1rem;
   color: ${colors.white};
   border: none;
   padding: 0.5rem 5rem;
   margin: 0;
-  margin-top: ${({ mtop }) => mtop || ""};
+  margin-top: ${({ mtop }) => mtop || ''};
   margin-bottom: 10px;
   text-decoration: none;
   cursor: pointer;
@@ -140,7 +140,7 @@ export const PayButton = styled.button`
 
   :focus,
   :hover {
-    transform: ${props => (!props.disabled ? "scale(1.05)" : "")};
+    transform: ${props => (!props.disabled ? 'scale(1.05)' : '')};
   }
 `;
 

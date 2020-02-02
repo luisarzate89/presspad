@@ -1,13 +1,14 @@
-const { getOutstandingReminders } = require("./../../database/queries/ScheduledEmail");
-const addLinksIntoQuestion = require("./../../helpers/addLinksIntoQuestion");
+const {
+  getOutstandingReminders,
+} = require('./../../database/queries/ScheduledEmail');
+const addLinksIntoQuestion = require('./../../helpers/addLinksIntoQuestion');
 const {
   toHostAndIntern,
   toAdmin,
-} = require("../../helpers/mailHelper/checklistReminders/");
+} = require('../../helpers/mailHelper/checklistReminders/');
 
-
-const sendOutstandingReminders = () => new Promise(
-  async (resolve, reject) => {
+const sendOutstandingReminders = () =>
+  new Promise(async (resolve, reject) => {
     const sentEmailsIds = [];
 
     try {
@@ -19,16 +20,21 @@ const sendOutstandingReminders = () => new Promise(
         return resolve();
       }
 
-      emails.forEach((email) => {
+      emails.forEach(email => {
         const {
-          intern, host, hostChecklist = [], internChecklist = [], type, booking, _id,
+          intern,
+          host,
+          hostChecklist = [],
+          internChecklist = [],
+          type,
+          booking,
+          _id,
         } = email;
 
         const hostEmail = host.email;
         const internEmail = intern.email;
 
-
-        if (type === "BOOKING_REMINDER_1_WEEK") {
+        if (type === 'BOOKING_REMINDER_1_WEEK') {
           emailsList.push(
             toAdmin({
               hostChecklist,
@@ -46,7 +52,9 @@ const sendOutstandingReminders = () => new Promise(
         }
 
         // embed social links into question
-        [...hostChecklist, ...internChecklist].forEach(question => addLinksIntoQuestion(question));
+        [...hostChecklist, ...internChecklist].forEach(question =>
+          addLinksIntoQuestion(question),
+        );
 
         if (hostChecklist && hostChecklist.length) {
           emailsList.push(
@@ -85,7 +93,6 @@ const sendOutstandingReminders = () => new Promise(
     } catch (error) {
       return reject(error);
     }
-  },
-);
+  });
 
 module.exports = sendOutstandingReminders;

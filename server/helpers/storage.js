@@ -1,4 +1,4 @@
-const { admin } = require("../config");
+const { admin } = require('../config');
 
 /**
  * Get a signed URL for uploading or downloading a file to google cloud storage
@@ -17,12 +17,12 @@ const generateV4SignedUrl = async (bucketName, filename, action) => {
   // These options will allow temporary uploading of the file with outgoing
   // Content-Type: application/octet-stream header.
   const options = {
-    version: "v4",
+    version: 'v4',
     action,
     expires: Date.now() + 15 * 60 * 1000, // 15 minutes
   };
-  if (action === "write") {
-    options.contentType = "application/octet-stream";
+  if (action === 'write') {
+    options.contentType = 'application/octet-stream';
   }
 
   // Get a v4 signed URL for uploading/downloading the file
@@ -33,7 +33,6 @@ const generateV4SignedUrl = async (bucketName, filename, action) => {
 
   return url;
 };
-
 
 /**
  * Generate image public url
@@ -48,7 +47,6 @@ const getPublicFileUrl = (bucketName, fileName) => {
   const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
   return publicUrl;
 };
-
 
 /**
  * List all or prefixed objects in a bucket
@@ -79,7 +77,6 @@ const listFiles = async (bucketName, prefix, delimiter) => {
   return files;
 };
 
-
 /**
  * Deletes the file from the bucket
  *
@@ -97,7 +94,9 @@ const deleteFile = async (bucketName, filename) => {
     .delete();
 };
 
-
 module.exports = {
-  generateV4SignedUrl, getPublicFileUrl, listFiles, deleteFile,
+  generateV4SignedUrl,
+  getPublicFileUrl,
+  listFiles,
+  deleteFile,
 };

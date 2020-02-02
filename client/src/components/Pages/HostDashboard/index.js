@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { message } from "antd";
-import moment from "moment";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { message } from 'antd';
+import moment from 'moment';
 
-import Content from "./Content";
+import Content from './Content';
 import {
   API_HOST_DASHBOARD_URL,
   API_DONATION_URL,
   API_WITHDRAW_REQUEST_URL,
   API_NOTIFICATION_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import { withdrawSchema, donateSchema } from "./schemas";
+import { withdrawSchema, donateSchema } from './schemas';
 
 class HostProfile extends Component {
   state = {
-    name: "",
+    name: '',
     nextGuest: {},
     nextBooking: {},
     nextGuestProfile: {},
@@ -51,7 +51,7 @@ class HostProfile extends Component {
 
   async componentDidMount() {
     this.fetchData();
-    document.addEventListener("keypress", e => {
+    document.addEventListener('keypress', e => {
       const { isNumberInputActive } = this.state;
       const numbers = [
         1,
@@ -64,18 +64,18 @@ class HostProfile extends Component {
         8,
         9,
         0,
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-        ".",
-        ",",
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '0',
+        '.',
+        ',',
       ];
       if (!numbers.includes(e.key) && isNumberInputActive) {
         e.preventDefault();
@@ -84,7 +84,7 @@ class HostProfile extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keypress", () => {});
+    document.removeEventListener('keypress', () => {});
   }
 
   fetchData = async () => {
@@ -143,7 +143,7 @@ class HostProfile extends Component {
     } = this.state;
 
     let _value = value;
-    if (name === "withdrawValue" || name === "donateValue") {
+    if (name === 'withdrawValue' || name === 'donateValue') {
       _value = account.currentBalance - requestedAmount > 0 ? value : 0;
     }
 
@@ -169,7 +169,7 @@ class HostProfile extends Component {
       dataset: { name },
     },
   }) => {
-    if (name === "updates") {
+    if (name === 'updates') {
       this.setState(({ viewNotificationNum, updates }) => ({
         viewNotificationNum: viewNotificationNum ? undefined : 3,
         slicedUpdates: viewNotificationNum ? updates : updates.slice(0, 3),
@@ -263,7 +263,7 @@ class HostProfile extends Component {
       .catch(err => {
         const errors = {};
         err.inner.forEach(element => {
-          errors[element.path.split(".")[0]] = element.message;
+          errors[element.path.split('.')[0]] = element.message;
         });
         this.setState({ errors });
       });
@@ -308,7 +308,7 @@ class HostProfile extends Component {
         }
       } catch (error) {
         this.setState({ markAsSeen: false, slicedUpdates });
-        message.error("Something went wrong");
+        message.error('Something went wrong');
       }
     }
   };

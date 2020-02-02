@@ -1,9 +1,8 @@
-const sendMail = require("../index");
-const { email } = require("../../../config");
+const sendMail = require('../index');
+const { email } = require('../../../config');
 
-const emailBodyToInternAndHost = require("./emailBodyToInternAndHost");
-const createChecklistArray = require("./createChecklistArray");
-
+const emailBodyToInternAndHost = require('./emailBodyToInternAndHost');
+const createChecklistArray = require('./createChecklistArray');
 
 const toHostAndIntern = ({
   recipientEmail,
@@ -17,26 +16,24 @@ const toHostAndIntern = ({
 }) => {
   let subject;
   switch (type) {
-  case "BOOKING_REMINDER_2_WEEKS":
-    subject = "Reminder: Your booking starts in two weeks";
-    break;
+    case 'BOOKING_REMINDER_2_WEEKS':
+      subject = 'Reminder: Your booking starts in two weeks';
+      break;
 
-  case "BOOKING_REMINDER_3_WEEKS":
-    subject = "Reminder: Your booking starts in three weeks";
-    break;
+    case 'BOOKING_REMINDER_3_WEEKS':
+      subject = 'Reminder: Your booking starts in three weeks';
+      break;
 
-  default:
-    subject = "Reminder: Your booking starts in one week";
-    break;
+    default:
+      subject = 'Reminder: Your booking starts in one week';
+      break;
   }
-
 
   const checklistHtmlRows = createChecklistArray({
     checklist,
     hostEmail,
     internEmail,
   });
-
 
   const html = emailBodyToInternAndHost({
     name,
@@ -54,6 +51,5 @@ const toHostAndIntern = ({
 
   return sendMail(messageDetails);
 };
-
 
 module.exports = toHostAndIntern;

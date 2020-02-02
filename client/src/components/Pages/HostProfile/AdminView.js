@@ -1,18 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import axios from "axios";
-import { message } from "antd";
+import axios from 'axios';
+import { message } from 'antd';
 import {
   API_ADMIN_HOST_PROFILE,
   API_VERIFY_PROFILE_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import Button from "../../Common/Button";
+import Button from '../../Common/Button';
 
 import {
   disabledStartDate,
   disabledEndDate,
-} from "../HostCreateProfile/helpers";
+} from '../HostCreateProfile/helpers';
 
 import {
   AboutYouProfile,
@@ -20,14 +20,14 @@ import {
   Details,
   OtherInformation,
   Demographic,
-} from "../HostCreateProfile/ProfileComponents";
+} from '../HostCreateProfile/ProfileComponents';
 
-import TabbedView from "../../Common/TabbedView";
+import TabbedView from '../../Common/TabbedView';
 
 import {
   PageWrapper,
   ContentWrapper,
-} from "../HostCreateProfile/HostCreateProfile.style";
+} from '../HostCreateProfile/HostCreateProfile.style';
 
 import {
   BackLinkDiv,
@@ -35,11 +35,11 @@ import {
   BlueLink,
   MultipleButtons,
   AdminApproveAndRejectButton,
-} from "../InternProfile/AdminOrInternView/InternProfile.style";
+} from '../InternProfile/AdminOrInternView/InternProfile.style';
 
 export default class AdminView extends Component {
   state = {
-    activeKey: "Profile",
+    activeKey: 'Profile',
     adminApprovedProfile: false,
     adminApprovedProfileLoading: null,
     availableDates: [
@@ -118,8 +118,8 @@ export default class AdminView extends Component {
   componentDidMount() {
     const { hostId } = this.props;
     axios
-      .get(API_ADMIN_HOST_PROFILE.replace(":id", hostId), {
-        params: { role: "host" },
+      .get(API_ADMIN_HOST_PROFILE.replace(':id', hostId), {
+        params: { role: 'host' },
       })
       .then(
         ({
@@ -153,7 +153,7 @@ export default class AdminView extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   }
 
@@ -218,8 +218,8 @@ export default class AdminView extends Component {
     const {
       triggerHostView,
       userId,
-      hostName = "",
-      hostEmail = "",
+      hostName = '',
+      hostEmail = '',
     } = this.props;
 
     const {
@@ -232,7 +232,7 @@ export default class AdminView extends Component {
     } = this.state;
 
     const handleChange = _ => _;
-    const role = "admin";
+    const role = 'admin';
     return (
       <PageWrapper>
         <ContentWrapper>
@@ -278,7 +278,7 @@ export default class AdminView extends Component {
           <TabbedView
             activeKey={activeKey}
             onChange={this.onChangeTabs}
-            tabsTitle={["Profile", "Offer", "Details"]}
+            tabsTitle={['Profile', 'Offer', 'Details']}
             tabsContent={[
               <>
                 <AboutYouProfile

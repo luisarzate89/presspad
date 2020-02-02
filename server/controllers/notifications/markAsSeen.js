@@ -1,11 +1,11 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { markAsSeen } = require("../../database/queries/notification");
+const { markAsSeen } = require('../../database/queries/notification');
 
 module.exports = async (req, res, next) => {
   const { role } = req.user;
   let updateData;
-  if (role === "organisation") {
+  if (role === 'organisation') {
     updateData = { seenForOrg: true };
   } else {
     updateData = { seen: true };

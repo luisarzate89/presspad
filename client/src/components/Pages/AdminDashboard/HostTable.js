@@ -1,12 +1,12 @@
-import React from "react";
-import { Table, Tag } from "antd";
-import Highlighter from "react-highlight-words";
+import React from 'react';
+import { Table, Tag } from 'antd';
+import Highlighter from 'react-highlight-words';
 
-import { colors } from "../../../theme";
+import { colors } from '../../../theme';
 
 //  set colours for tags in the table
 const tagColors = {
-  "Waiting for approval": colors.primary,
+  'Waiting for approval': colors.primary,
   Approved: colors.green,
 };
 
@@ -19,15 +19,15 @@ export default function HostTable({
 }) {
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name"),
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      ...getColumnSearchProps('name'),
       sorter: (a, b) => a.name.localeCompare(b.name),
-      className: "nameCol",
+      className: 'nameCol',
       render: (text, { userId, email }) => (
         <span
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
           onClick={triggerHostView.bind(null, userId, text, email)}
           role="button"
           tabIndex={0}
@@ -45,11 +45,11 @@ export default function HostTable({
       ),
     },
     {
-      title: "Hometown",
-      dataIndex: "hometown",
-      key: "hometown",
-      ...getColumnSearchProps("hometown"),
-      sorter: (a, b) => (a.hometown || "").localeCompare(b.hometown || ""),
+      title: 'Hometown',
+      dataIndex: 'hometown',
+      key: 'hometown',
+      ...getColumnSearchProps('hometown'),
+      sorter: (a, b) => (a.hometown || '').localeCompare(b.hometown || ''),
       render: text => (
         <Highlighter
           highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
@@ -60,20 +60,20 @@ export default function HostTable({
       ),
     },
     {
-      title: "Interns Hosted",
-      dataIndex: "hosted",
-      key: "hosted",
+      title: 'Interns Hosted',
+      dataIndex: 'hosted',
+      key: 'hosted',
       filters: [
         {
-          text: "0",
+          text: '0',
           value: 1,
         },
         {
-          text: "1-10",
+          text: '1-10',
           value: 11,
         },
         {
-          text: "> 10",
+          text: '> 10',
           value: 999999999999999999,
         },
       ],
@@ -89,20 +89,20 @@ export default function HostTable({
       ),
     },
     {
-      title: "Current Balance",
-      dataIndex: "currentBalance",
-      key: "currentBalance",
+      title: 'Current Balance',
+      dataIndex: 'currentBalance',
+      key: 'currentBalance',
       filters: [
         {
-          text: "< 500",
+          text: '< 500',
           value: 500,
         },
         {
-          text: "500-1000",
+          text: '500-1000',
           value: 1000,
         },
         {
-          text: "> 1000",
+          text: '> 1000',
           value: 999999999999999999,
         },
       ],
@@ -118,20 +118,20 @@ export default function HostTable({
       ),
     },
     {
-      title: "Total Income",
-      dataIndex: "totalIncome",
-      key: "totalIncome",
+      title: 'Total Income',
+      dataIndex: 'totalIncome',
+      key: 'totalIncome',
       filters: [
         {
-          text: "< 500",
+          text: '< 500',
           value: 500,
         },
         {
-          text: "500-1000",
+          text: '500-1000',
           value: 1000,
         },
         {
-          text: "> 1000",
+          text: '> 1000',
           value: 999999999999999999,
         },
       ],
@@ -147,27 +147,27 @@ export default function HostTable({
       ),
     },
     {
-      title: "Approval Status",
-      dataIndex: "approvalStatus",
-      key: "approvalStatus",
+      title: 'Approval Status',
+      dataIndex: 'approvalStatus',
+      key: 'approvalStatus',
       render: status => (
         <Tag color={tagColors[status]} key={status}>
           <Highlighter
             highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
             searchWords={[highlightVal]}
             autoEscape
-            textToHighlight={status ? status.toUpperCase() : ""}
+            textToHighlight={status ? status.toUpperCase() : ''}
           />
         </Tag>
       ),
       filters: [
         {
-          text: "Approved",
-          value: "Approved",
+          text: 'Approved',
+          value: 'Approved',
         },
         {
-          text: "Waiting for approval",
-          value: "Waiting for approval",
+          text: 'Waiting for approval',
+          value: 'Waiting for approval',
         },
       ],
       onFilter: (value, record) => record.approvalStatus.indexOf(value) === 0,
@@ -178,7 +178,7 @@ export default function HostTable({
       columns={columns}
       dataSource={data}
       pagination={{ pageSize: 5 }}
-      scroll={{ x: "100%" }}
+      scroll={{ x: '100%' }}
       loading={loading}
     />
   );

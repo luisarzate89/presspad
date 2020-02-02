@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 import {
   Modal,
   message,
@@ -8,26 +8,26 @@ import {
   Skeleton,
   Row,
   Col,
-  InputNumber
-} from "antd";
-import { injectStripe, CardElement } from "react-stripe-elements";
-import { withRouter } from "react-router-dom";
+  InputNumber,
+} from 'antd';
+import { injectStripe, CardElement } from 'react-stripe-elements';
+import { withRouter } from 'react-router-dom';
 
 import {
   CardWrapper,
   PaymentModalTitle,
-  InfoMessage
-} from "./AddFundsModal.style";
-import { Label } from "./OrgDashboard.style";
+  InfoMessage,
+} from './AddFundsModal.style';
+import { Label } from './OrgDashboard.style';
 
-import { API_ORG_PAYMENT_URL } from "../../../constants/apiRoutes";
+import { API_ORG_PAYMENT_URL } from '../../../constants/apiRoutes';
 
 const initialState = {
-  error: "",
+  error: '',
   isLoading: false,
   success: false,
   amount: 0,
-  availableFunds: 0
+  availableFunds: 0,
 };
 
 class AddFundsModal extends Component {
@@ -41,7 +41,7 @@ class AddFundsModal extends Component {
       this.setState({ error: response.error.message, isLoading: false });
     } else if (response.requires_action) {
       const result = await this.props.stripe.handleCardAction(
-        response.payment_intent_client_secret
+        response.payment_intent_client_secret,
       );
       if (result.error) {
         this.setState({ error: result.error.message, isLoading: false });
@@ -50,7 +50,7 @@ class AddFundsModal extends Component {
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
           account,
           amount,
-          paymentIntent: result.paymentIntent
+          paymentIntent: result.paymentIntent,
         });
         await this.handleServerResponse(paymentResult);
       }
@@ -61,9 +61,9 @@ class AddFundsModal extends Component {
         setTimeout(
           () =>
             this.setState({ ...initialState }, () =>
-              handleAccountUpdate(newAccount)
+              handleAccountUpdate(newAccount),
             ),
-          2000
+          2000,
         );
       });
     }
@@ -76,7 +76,7 @@ class AddFundsModal extends Component {
 
       if (!amount) {
         return this.setState({
-          error: "you need to specify the amount you want to add"
+          error: 'you need to specify the amount you want to add',
         });
       }
 
@@ -84,8 +84,8 @@ class AddFundsModal extends Component {
       this.setState({ isLoading: true });
 
       const { error, paymentMethod } = await stripe.createPaymentMethod(
-        "card",
-        cardElement
+        'card',
+        cardElement,
       );
 
       if (error) {
@@ -94,7 +94,7 @@ class AddFundsModal extends Component {
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
           paymentMethod,
           amount,
-          account
+          account,
         });
 
         await this.handleServerResponse(paymentResult);
@@ -103,24 +103,24 @@ class AddFundsModal extends Component {
       if (error.response && error.response.status === 402) {
         return this.setState({
           error: error.response.data.error,
-          isLoading: false
+          isLoading: false,
         });
       }
-      message.error("something went wrong", 5);
+      message.error('something went wrong', 5);
       this.setState({
-        error: "something went wrong try again later",
-        isLoading: false
+        error: 'something went wrong try again later',
+        isLoading: false,
       });
     }
   };
 
   handleAmountChange = val => {
     const {
-      account: { currentBalance }
+      account: { currentBalance },
     } = this.props;
     this.setState({
       amount: val,
-      availableFunds: currentBalance + Number(val)
+      availableFunds: currentBalance + Number(val),
     });
   };
 
@@ -141,7 +141,7 @@ class AddFundsModal extends Component {
     if (success) {
       return (
         <Alert
-          style={{ marginTop: "1rem" }}
+          style={{ marginTop: '1rem' }}
           type="success"
           message="Your payment proccesed successful"
         />
@@ -151,21 +151,21 @@ class AddFundsModal extends Component {
       <>
         <CardWrapper>
           <CardElement
-            onChange={() => this.setState({ error: "" })}
+            onChange={() => this.setState({ error: '' })}
             onReady={this.handleReady}
-            style={{ base: { fontSize: "17px" } }}
+            style={{ base: { fontSize: '17px' } }}
           />
           <Skeleton
             loading={isLoading}
             title={false}
             active
-            paragraph={{ rows: 1, width: "95%" }}
+            paragraph={{ rows: 1, width: '95%' }}
           />
         </CardWrapper>
-        {error ? <Alert message={error} type="error" /> : ""}
+        {error ? <Alert message={error} type="error" /> : ''}
         <Button
           type="primary"
-          style={{ margin: "2.5rem auto 0", display: "block" }}
+          style={{ margin: '2.5rem auto 0', display: 'block' }}
           onClick={this.handleSubmit}
           disabled={isLoading}
         >
@@ -202,18 +202,18 @@ class AddFundsModal extends Component {
               min={0}
               size="large"
               style={{
-                width: "140px",
-                border: "1px solid #d9d9d9"
+                width: '140px',
+                border: '1px solid #d9d9d9',
               }}
               formatter={value =>
                 `£${value
                   .toString()
-                  .replace(/[^\d.]/g, "")
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  .replace(/^0/, "")
-                  .replace(/^,/, "") || 0}`
+                  .replace(/[^\d.]/g, '')
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  .replace(/^0/, '')
+                  .replace(/^,/, '') || 0}`
               }
-              parser={value => value.toString().replace(/[^\d.]/g, "") || 0}
+              parser={value => value.toString().replace(/[^\d.]/g, '') || 0}
               onChange={this.handleAmountChange}
             />
           </Col>

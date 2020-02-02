@@ -1,9 +1,9 @@
-const boom = require("boom");
+const boom = require('boom');
 const {
   updateUserProfile,
   findProfile,
   createNewProfile,
-} = require("./../../database/queries/profiles");
+} = require('./../../database/queries/profiles');
 
 module.exports = async (req, res, next) => {
   const { user } = req;
@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
 
   // check for required fields
   if (!profileImage || !bio) {
-    return next(boom.badRequest("missed data"));
+    return next(boom.badRequest('missed data'));
   }
 
   try {

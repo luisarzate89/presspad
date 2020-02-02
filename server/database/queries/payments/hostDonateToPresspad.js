@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const InternalTransaction = require("../../models/InternalTransaction");
-const User = require("../../models/User");
-const Account = require("../../models/Account");
-const WithdrawRequest = require("../../models/WithdrawRequest");
+const InternalTransaction = require('../../models/InternalTransaction');
+const User = require('../../models/User');
+const Account = require('../../models/Account');
+const WithdrawRequest = require('../../models/WithdrawRequest');
 
 const hostDonateToPresspad = async ({ fromAccount, amount, userId }) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
 
-    const presspadAdmin = await User.findOne({ role: "admin" }).session(
+    const presspadAdmin = await User.findOne({ role: 'admin' }).session(
       session,
     );
 
@@ -18,18 +18,18 @@ const hostDonateToPresspad = async ({ fromAccount, amount, userId }) => {
 
     const withdrawRequests = await WithdrawRequest.find({
       account: fromAccount,
-      status: "pending",
+      status: 'pending',
     });
 
     const requestedAmount = withdrawRequests
-      .filter(request => request && request.status === "pending")
+      .filter(request => request && request.status === 'pending')
       .reduce((prev, cur) => {
         return prev + cur.amount;
       }, 0);
 
     if (account.currentBalance - requestedAmount < amount) {
       return Promise.reject(
-        new Error("current balance is less than what you have"),
+        new Error('current balance is less than what you have'),
       );
     }
 
@@ -40,7 +40,7 @@ const hostDonateToPresspad = async ({ fromAccount, amount, userId }) => {
           to: presspadAdmin.account,
           amount,
           user: userId,
-          type: "donation",
+          type: 'donation',
         },
       ],
       { session },

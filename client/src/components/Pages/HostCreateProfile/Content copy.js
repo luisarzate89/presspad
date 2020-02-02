@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Row,
   Col,
@@ -7,9 +7,9 @@ import {
   Input,
   Checkbox,
   DatePicker,
-  Icon
-} from "antd";
-import moment from "moment";
+  Icon,
+} from 'antd';
+import moment from 'moment';
 
 import {
   PageWrapper,
@@ -25,10 +25,10 @@ import {
   UploadButton,
   PhotoWrapper,
   ErrorWrapper,
-  Error
-} from "./HostCreateProfile.style";
+  Error,
+} from './HostCreateProfile.style';
 
-import { ProgressBar, ProgressRing } from "../../Common/progress";
+import { ProgressBar, ProgressRing } from '../../Common/progress';
 
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
@@ -48,36 +48,36 @@ class Content extends Component {
       deleteImageFromGoogle,
       deleteDate,
       state,
-      name
+      name,
     } = this.props;
 
     const {
       profileImage: {
         dataUrl: profileImageDataUrl,
         isLoading: isProfileImageLoading,
-        loading: profileImageLoading
+        loading: profileImageLoading,
       },
       offerImages1: {
         dataUrl: offerImages1DataUrl,
         fileName: offerImages1fileName,
         loading: offerImages1Loading,
-        isLoading: isOfferImages1Loading
+        isLoading: isOfferImages1Loading,
       },
       offerImages2: {
         dataUrl: offerImages2DataUrl,
         fileName: offerImages2fileName,
         loading: offerImages2Loading,
-        isLoading: isOfferImages2Loading
+        isLoading: isOfferImages2Loading,
       },
       offerImages3: {
         dataUrl: offerImages3DataUrl,
         fileName: offerImages3fileName,
         loading: offerImages3Loading,
-        isLoading: isOfferImages3Loading
+        isLoading: isOfferImages3Loading,
       },
       interests,
       offerOtherInfo,
-      errors
+      errors,
     } = state;
 
     return (
@@ -87,18 +87,18 @@ class Content extends Component {
             <Row gutter={20} type="flex" justify="start">
               <Col xs={24} sm={4} lg={3}>
                 <ErrorWrapper>
-                  <div style={{ textAlign: "center" }}>
-                    {/*neccesarry for ProgressRing*/}
-                    <div style={{ position: "relative", width: 86 }}>
+                  <div style={{ textAlign: 'center' }}>
+                    {/* neccesarry for ProgressRing */}
+                    <div style={{ position: 'relative', width: 86 }}>
                       <ProgressRing
                         radius={43}
                         stroke={2}
                         progress={profileImageLoading}
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           zIndex: 1,
                           left: 0,
-                          marginTop: -3
+                          marginTop: -3,
                         }}
                       />
                       <Avatar
@@ -106,14 +106,14 @@ class Content extends Component {
                         icon="user"
                         src={profileImageDataUrl}
                         style={{
-                          width: "80px",
-                          height: "80px",
-                          margin: "0 auto",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "42px",
-                          backgroundColor: errors.profileImage ? "red" : "none"
+                          width: '80px',
+                          height: '80px',
+                          margin: '0 auto',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '42px',
+                          backgroundColor: errors.profileImage ? 'red' : 'none',
                         }}
                       />
                     </div>
@@ -123,7 +123,7 @@ class Content extends Component {
               </Col>
               <Col span={20}>
                 <HiText>
-                  Hi {name.split(" ")[0]}, please complete your profile
+                  Hi {name.split(' ')[0]}, please complete your profile
                 </HiText>
                 <HeaderButtonsWrapper>
                   {isProfileImageLoading ? (
@@ -139,7 +139,7 @@ class Content extends Component {
                     name="profileImage"
                     onChange={directUploadToGoogle}
                     accept="image/*"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     data-is-private="false"
                   />
                   <UploadButton onClick={handleSubmit}>Submit</UploadButton>
@@ -163,7 +163,7 @@ class Content extends Component {
                       placeholder="Introduce yourself to interns"
                       value={state.bio}
                       style={{
-                        border: errors.bio ? "none" : "1px solid #d9d9d9"
+                        border: errors.bio ? 'none' : '1px solid #d9d9d9',
                       }}
                     />
                     <Error>{errors.bio}</Error>
@@ -175,10 +175,10 @@ class Content extends Component {
                     name="interests"
                     onChange={handleInputChange}
                     rows={7}
-                    id={"interests"}
+                    id="interests"
                     value={interests}
                     placeholder="Add some of your interests"
-                    style={{ marginBottom: "40px" }}
+                    style={{ marginBottom: '40px' }}
                   />
                 </Col>
               </Row>
@@ -196,8 +196,8 @@ class Content extends Component {
                       id="organisationName"
                       style={{
                         border: errors.organisationName
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                          ? 'none'
+                          : '1px solid #d9d9d9',
                       }}
                     />
                     <Error>{errors.organisationName}</Error>
@@ -219,8 +219,8 @@ class Content extends Component {
                       id="organisationWebsite"
                       style={{
                         border: errors.organisationWebsite
-                          ? "none"
-                          : "1px solid #d9d9d9"
+                          ? 'none'
+                          : '1px solid #d9d9d9',
                       }}
                     />
                     <Error>{errors.organisationWebsite}</Error>
@@ -238,7 +238,7 @@ class Content extends Component {
                       onChange={handleInputChange}
                       value={state.jobTitle}
                       style={{
-                        border: errors.jobTitle ? "none" : "1px solid #d9d9d9"
+                        border: errors.jobTitle ? 'none' : '1px solid #d9d9d9',
                       }}
                     />
                     <Error>{errors.jobTitle}</Error>
@@ -263,13 +263,13 @@ class Content extends Component {
                       onChange={handleInputChange}
                       value={state.addressLine1}
                       style={{
-                        display: "inline",
+                        display: 'inline',
                         border: errors.addressLine1
-                          ? "1px solid red"
-                          : "1px solid #dbdbdb"
+                          ? '1px solid red'
+                          : '1px solid #dbdbdb',
                       }}
                     />
-                    <Error style={{ position: "relative" }}>
+                    <Error style={{ position: 'relative' }}>
                       {errors.addressLine1}
                     </Error>
                   </ErrorWrapper>
@@ -280,13 +280,13 @@ class Content extends Component {
                       value={state.addressLine2}
                       placeholder="Borough"
                       style={{
-                        display: "inline",
+                        display: 'inline',
                         border: errors.addressLine2
-                          ? "1px solid red"
-                          : "1px solid #d9d9d9"
+                          ? '1px solid red'
+                          : '1px solid #d9d9d9',
                       }}
                     />
-                    <Error style={{ position: "relative" }}>
+                    <Error style={{ position: 'relative' }}>
                       {errors.addressLine2}
                     </Error>
                   </ErrorWrapper>
@@ -297,13 +297,13 @@ class Content extends Component {
                       onChange={handleInputChange}
                       placeholder="City"
                       style={{
-                        display: "inline",
+                        display: 'inline',
                         border: errors.addressCity
-                          ? "1px solid red"
-                          : "1px solid #d9d9d9"
+                          ? '1px solid red'
+                          : '1px solid #d9d9d9',
                       }}
                     />
-                    <Error style={{ position: "relative" }}>
+                    <Error style={{ position: 'relative' }}>
                       {state.errors.addressCity}
                     </Error>
                   </ErrorWrapper>
@@ -314,13 +314,13 @@ class Content extends Component {
                       onChange={handleInputChange}
                       placeholder="Postcode"
                       style={{
-                        display: "inline",
+                        display: 'inline',
                         border: errors.addressPostCode
-                          ? "1px solid red"
-                          : "1px solid #d9d9d9"
+                          ? '1px solid red'
+                          : '1px solid #d9d9d9',
                       }}
                     />
-                    <Error style={{ position: "relative" }}>
+                    <Error style={{ position: 'relative' }}>
                       {errors.addressPostCode}
                     </Error>
                   </ErrorWrapper>
@@ -331,7 +331,7 @@ class Content extends Component {
                     <Col xs={24} sm={16} lg={16}>
                       <ErrorWrapper marginBottom="12.5px">
                         <ProgressBar
-                          showCheck={offerImages1fileName ? true : false}
+                          showCheck={!!offerImages1fileName}
                           progress={offerImages1Loading}
                         >
                           <PhotoWrapper
@@ -349,7 +349,7 @@ class Content extends Component {
                                 htmlFor="offerImages1"
                               >
                                 {offerImages1DataUrl ? (
-                                  "Delete photo"
+                                  'Delete photo'
                                 ) : (
                                   <>
                                     Add photo
@@ -359,7 +359,7 @@ class Content extends Component {
                                       onChange={directUploadToGoogle}
                                       name="offerImages1"
                                       accept="image/*"
-                                      style={{ display: "none" }}
+                                      style={{ display: 'none' }}
                                       data-is-private="false"
                                     />
                                   </>
@@ -374,15 +374,15 @@ class Content extends Component {
                     <Col xs={24} sm={8} lg={8}>
                       <div
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                          height: "100%"
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                          height: '100%',
                         }}
                       >
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
-                            showCheck={offerImages2fileName ? true : false}
+                            showCheck={!!offerImages2fileName}
                             progress={offerImages2Loading}
                             height="calc( (257px / 2) - 12.5px)"
                           >
@@ -398,14 +398,14 @@ class Content extends Component {
                                   onClick={() =>
                                     deleteImageFromGoogle(
                                       offerImages2fileName,
-                                      2
+                                      2,
                                     )
                                   }
                                   as="label"
                                   htmlFor="offerImages2"
                                 >
                                   {offerImages2DataUrl ? (
-                                    "Delete photo"
+                                    'Delete photo'
                                   ) : (
                                     <>
                                       Add photo
@@ -415,7 +415,7 @@ class Content extends Component {
                                         onChange={directUploadToGoogle}
                                         name="offerImages2"
                                         accept="image/*"
-                                        style={{ display: "none" }}
+                                        style={{ display: 'none' }}
                                         data-is-private="false"
                                       />
                                     </>
@@ -429,7 +429,7 @@ class Content extends Component {
 
                         <ErrorWrapper marginBottom="12.5px">
                           <ProgressBar
-                            showCheck={offerImages3fileName ? true : false}
+                            showCheck={!!offerImages3fileName}
                             progress={offerImages3Loading}
                             height="calc( (257px / 2) - 12.5px)"
                           >
@@ -445,14 +445,14 @@ class Content extends Component {
                                   onClick={() =>
                                     deleteImageFromGoogle(
                                       offerImages3fileName,
-                                      3
+                                      3,
                                     )
                                   }
                                   as="label"
                                   htmlFor="offerImages3"
                                 >
                                   {offerImages3DataUrl ? (
-                                    "Delete photo"
+                                    'Delete photo'
                                   ) : (
                                     <>
                                       Add photo
@@ -462,7 +462,7 @@ class Content extends Component {
                                         onChange={directUploadToGoogle}
                                         name="offerImages3"
                                         accept="image/*"
-                                        style={{ display: "none" }}
+                                        style={{ display: 'none' }}
                                         data-is-private="false"
                                       />
                                     </>
@@ -483,31 +483,31 @@ class Content extends Component {
                   {/* Other information */}
                   <Label htmlFor="Other information">Other information</Label>
                   <CheckboxGroup
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                     onChange={handleOtherInfo}
                     value={offerOtherInfo}
                   >
                     <Row>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="Pets allowed">Pets allowed</Checkbox>
                       </Col>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="LGBTQ friendly">
                           LGBTQ friendly
                         </Checkbox>
                       </Col>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="No kids">No kids</Checkbox>
                       </Col>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="Non-smoking">Non-smoking</Checkbox>
                       </Col>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="No other flatmates">
                           No other flatmates
                         </Checkbox>
                       </Col>
-                      <Col sm={12} xs={24} style={{ marginBottom: "10px" }}>
+                      <Col sm={12} xs={24} style={{ marginBottom: '10px' }}>
                         <Checkbox value="NOften away">Often away</Checkbox>
                       </Col>
                     </Row>
@@ -538,12 +538,12 @@ class Content extends Component {
                   <Row gutter={25} type="flex">
                     <Col xs={24} lg={12}>
                       {state.availableDates.map((item, index) => (
-                        <div key={index} style={{ marginBottom: "25px" }}>
+                        <div key={index} style={{ marginBottom: '25px' }}>
                           {index !== 0 && (
                             <Divider
                               style={{
-                                marginTop: "25px",
-                                background: "none"
+                                marginTop: '25px',
+                                background: 'none',
                               }}
                             />
                           )}
@@ -583,15 +583,15 @@ class Content extends Component {
                             xs={24}
                             sm={2}
                             style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              height: "32px"
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '32px',
                             }}
                           >
                             <Icon
                               type="close"
-                              style={{ color: "#0ac7e7" }}
+                              style={{ color: '#0ac7e7' }}
                               onClick={() => deleteDate(index)}
                             />
                           </Col>
@@ -602,14 +602,14 @@ class Content extends Component {
                   <>
                     <UploadText
                       style={{
-                        marginTop: "20px",
-                        display: "block"
+                        marginTop: '20px',
+                        display: 'block',
                       }}
                       onClick={handleAddMoreRanges}
                     >
                       {state.availableDates.length > 0
-                        ? "+ Add more"
-                        : "+ Add date"}
+                        ? '+ Add more'
+                        : '+ Add date'}
                     </UploadText>
                     <Error>{errors.availableDates}</Error>
                   </>

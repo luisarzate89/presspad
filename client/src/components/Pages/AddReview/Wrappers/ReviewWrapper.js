@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ReviewWrapper = styled.section`
   padding: 2rem 0 0 10.5rem;
@@ -7,7 +7,7 @@ const ReviewWrapper = styled.section`
   flex-direction: row-reverse;
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
-  };
+  }
 `;
 
 export default ReviewWrapper;

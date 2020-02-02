@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import { size } from "../../../theme";
+import { size } from '../../../theme';
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -112,17 +112,17 @@ export const TD = styled.td`
   font-size: 16px;
   line-height: 19px;
 
-  color: ${({ position }) => (position === "right" ? "#0AC7E7" : "#353942")};
+  color: ${({ position }) => (position === 'right' ? '#0AC7E7' : '#353942')};
   text-align: ${({ position }) =>
-    position === "right" ? "left" : position === "left" ? "right" : "center"};
+    position === 'right' ? 'left' : position === 'left' ? 'right' : 'center'};
 
-  font-weight: ${({ bold }) => (bold ? "bold" : "normal")};
+  font-weight: ${({ bold }) => (bold ? 'bold' : 'normal')};
 
   border: 10px solid transparent;
 
   @media (max-width: ${size.tablet}) {
     margin: 0 auto;
-    width: ${({ position }) => (position === "center" ? "2rem" : "100px")};
+    width: ${({ position }) => (position === 'center' ? '2rem' : '100px')};
   }
 `;
 
@@ -131,9 +131,9 @@ export const TH = styled.th`
   font-size: 16px;
   line-height: 19px;
 
-  color: ${({ position }) => (position === "right" ? "#0AC7E7" : "#353942")};
+  color: ${({ position }) => (position === 'right' ? '#0AC7E7' : '#353942')};
   text-align: ${({ position }) =>
-    position === "right" ? "left" : position === "left" ? "right" : "center"};
+    position === 'right' ? 'left' : position === 'left' ? 'right' : 'center'};
   border: 10px solid transparent;
 `;
 
@@ -152,20 +152,20 @@ export const BlueLink1 = styled(Link)`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+  color: ${({ disabled }) => (disabled ? '#828282' : '#0ac7e7')};
 
   @media (max-width: ${size.mobileXL}) {
     font-size: 14px;
   }
 `;
-export const BlueLink = styled(Link).attrs({ to: "#" })`
+export const BlueLink = styled(Link).attrs({ to: '#' })`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+  color: ${({ disabled }) => (disabled ? '#828282' : '#0ac7e7')};
 
   @media (max-width: ${size.mobileXL}) {
     font-size: 14px;
@@ -210,10 +210,10 @@ export const ModalContentWrapper = styled.div`
 
 export const ModalDescription = styled.span`
   font-style: normal;
-  font-weight: ${({ bold }) => (bold ? "bold" : 300)};
-  font-size: ${({ large }) => (large ? "25px" : "16px")};
+  font-weight: ${({ bold }) => (bold ? 'bold' : 300)};
+  font-size: ${({ large }) => (large ? '25px' : '16px')};
   line-height: 25px;
-  color: ${({ red }) => (red ? "red" : "#393939")};
+  color: ${({ red }) => (red ? 'red' : '#393939')};
 `;
 
 export const Label = styled.label`
@@ -236,7 +236,7 @@ export const Error = styled.p`
 `;
 
 export const ErrorWrapper = styled.div`
-  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  border: ${({ error }) => (error ? '1px solid red' : 'initial')};
   margin-bottom: ${({ marginBottom }) => marginBottom};
   border-radius: 4px;
   position: relative;

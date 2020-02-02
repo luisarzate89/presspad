@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { colors, shadows } from "../../../../theme";
+import { colors, shadows } from '../../../../theme';
 
 export const BookingDetailsCard = styled.div`
   box-shadow: ${shadows.card};
@@ -93,7 +93,7 @@ export const Button = styled.button`
   -moz-appearance: none;
   :focus,
   :hover {
-    transform: ${props => (!props.disabled ? "scale(1.1)" : "")};
+    transform: ${props => (!props.disabled ? 'scale(1.1)' : '')};
   }
   @media (max-width: 575.98px) {
     margin-top: 10px;

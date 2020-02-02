@@ -1,11 +1,11 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const buildDB = require("../../database/data/test/index");
-const app = require("../../app");
+const buildDB = require('../../database/data/test/index');
+const app = require('../../app');
 
 describe("Tests get intern's profile data", () => {
-  beforeAll(async (done) => {
+  beforeAll(async done => {
     try {
       await buildDB();
       done();
@@ -19,19 +19,18 @@ describe("Tests get intern's profile data", () => {
   });
 
   const intern = {
-    email: "mone@gmail.com",
-    password: "123456",
+    email: 'mone@gmail.com',
+    password: '123456',
   };
 
-
-  test("tests get Intern profile successfully", async (done) => {
+  test('tests get Intern profile successfully', async done => {
     request(app)
-      .post("/api/user/login")
+      .post('/api/user/login')
       .send(intern)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((error, response) => {
-        const token = response.headers["set-cookie"][0].split(";")[0];
+        const token = response.headers['set-cookie'][0].split(';')[0];
         if (error) return done(error);
         const { id } = response.body;
         // Request should get the intern profile
@@ -39,9 +38,9 @@ describe("Tests get intern's profile data", () => {
         // from google cloud
         return request(app)
           .get(`/api/interns/${id}/profile/?expand=bookings&expand=reviews`)
-          .set("Cookie", [token])
+          .set('Cookie', [token])
           .expect(200)
-          .expect("Content-Type", /json/)
+          .expect('Content-Type', /json/)
           .end(async (err, res) => {
             if (err) return done(err);
             expect(res).toBeDefined();

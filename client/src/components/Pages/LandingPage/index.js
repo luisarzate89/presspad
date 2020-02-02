@@ -1,8 +1,8 @@
-import React, { Component, createRef } from "react";
-import { Carousel } from "antd";
+import React, { Component, createRef } from 'react';
+import { Carousel } from 'antd';
 
 // import components
-import Footer from "../../Common/Footer";
+import Footer from '../../Common/Footer';
 
 // import styled components
 import {
@@ -24,16 +24,16 @@ import {
   Quote,
   TestimonialWords,
   Arrow,
-} from "./LandingPage.style";
+} from './LandingPage.style';
 
 // import images
-import heroImage from "../../../assets/landin-page-hero-image.png";
-import descriptionImage from "../../../assets/description-image.png";
-import descriptionImage2 from "../../../assets/description-image-2.png";
-import quote from "../../../assets/quote.png";
-import organizationFindMore from "../../../assets/organization.png";
-import hostFindMore from "../../../assets/host.png";
-import internFindMore from "../../../assets/intern.png";
+import heroImage from '../../../assets/landin-page-hero-image.png';
+import descriptionImage from '../../../assets/description-image.png';
+import descriptionImage2 from '../../../assets/description-image-2.png';
+import quote from '../../../assets/quote.png';
+import organizationFindMore from '../../../assets/organization.png';
+import hostFindMore from '../../../assets/host.png';
+import internFindMore from '../../../assets/intern.png';
 
 class LandingPage extends Component {
   state = {

@@ -7,7 +7,7 @@ import {
   LAPTOP_WIDTH,
   LAPTOP_L_WIDTH,
   DESKTOP_WIDTH,
-} from "./constants/screenWidths";
+} from './constants/screenWidths';
 
 // media queries
 export const size = {
@@ -35,43 +35,43 @@ export const breakpoints = {
 
 const colorCodes = {
   // primary (darkblue)
-  primary: "#08294A",
-  lightPrimary: "#6C8FB2",
-  extraLightPrimary: "#CFE4F9",
+  primary: '#08294A',
+  lightPrimary: '#6C8FB2',
+  extraLightPrimary: '#CFE4F9',
 
   // secondary (lightBlue)
-  secondary: "#09C7E7",
-  lightSecondary: "#A5EAF6",
-  extraLightSecondary: "#CDF3FA",
-  graySecondary: "#7C8CA1",
+  secondary: '#09C7E7',
+  lightSecondary: '#A5EAF6',
+  extraLightSecondary: '#CDF3FA',
+  graySecondary: '#7C8CA1',
 
   // negative/error/cancel, reject and confirm
-  red: "#EA5254",
-  orange: "#E8841F",
-  green: "#5BAF93",
-  blue: "#0A7AE7",
-  yellow: "#ffc069",
-  redSecond: "#BC0000",
+  red: '#EA5254',
+  orange: '#E8841F',
+  green: '#5BAF93',
+  blue: '#0A7AE7',
+  yellow: '#ffc069',
+  redSecond: '#BC0000',
 
   // fontcolors
-  fontPrimary: "#07294A",
-  fontBlack: "#313234",
-  fontLightBlack: "#393939",
+  fontPrimary: '#07294A',
+  fontBlack: '#313234',
+  fontLightBlack: '#393939',
 
   // borders
-  borderGray: "#d9d9d9",
+  borderGray: '#d9d9d9',
 
   // general
-  white: "#FFFFFF",
-  grayWhite: "fbfbfb",
-  lightGray: "#979797",
-  gray: "#545455",
-  blueGray: "#F2F6FA",
-  lightBlue: "#0ac7e7",
-  black: "#000000",
+  white: '#FFFFFF',
+  grayWhite: 'fbfbfb',
+  lightGray: '#979797',
+  gray: '#545455',
+  blueGray: '#F2F6FA',
+  lightBlue: '#0ac7e7',
+  black: '#000000',
 
   // transparent
-  transGray: "rgba(84, 84, 85, 0.4)",
+  transGray: 'rgba(84, 84, 85, 0.4)',
 };
 
 // general colors
@@ -84,10 +84,10 @@ export const colors = {
 
 // shadows
 export const shadows = {
-  main: "0px 0px 24px rgba(0, 0, 0, 0.04)",
-  card: "0px 0px 24px rgba(0, 0, 0, 0.04)",
-  pic: "0px 2px 24px rgba(0, 0, 0, 0.215882)",
-  stripeBorder: "0px 0px 0px 2px rgba(24, 144, 255, 0.2)",
+  main: '0px 0px 24px rgba(0, 0, 0, 0.04)',
+  card: '0px 0px 24px rgba(0, 0, 0, 0.04)',
+  pic: '0px 2px 24px rgba(0, 0, 0, 0.215882)',
+  stripeBorder: '0px 0px 0px 2px rgba(24, 144, 255, 0.2)',
 };
 
 // borders
@@ -96,14 +96,14 @@ export const borders = {
   divider: `1px solid ${colors.lightGray}`,
   stripeBorder: `1px solid ${colors.borderGray}`,
   error: `1px solid ${colors.red}`,
-  lightDivider: "1px solid rgba(0, 0, 0, 0.1)",
+  lightDivider: '1px solid rgba(0, 0, 0, 0.1)',
 };
 
 //  set colours for tags in the table
 export const tagColors = {
-  "Looking for host": colors.primary,
-  "At host": colors.green,
-  "Pending request": colors.orange,
+  'Looking for host': colors.primary,
+  'At host': colors.green,
+  'Pending request': colors.orange,
   new: colors.lightGray,
 };
 

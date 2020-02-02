@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Booking = require("../../models/Booking");
+const Booking = require('../../models/Booking');
 
 /**
  * get Booking information by bookingId
@@ -13,55 +13,55 @@ module.exports = bookingId =>
     // lookup host name
     {
       $lookup: {
-        from: "users",
-        let: { hostId: "$host" },
+        from: 'users',
+        let: { hostId: '$host' },
         pipeline: [
-          { $match: { $expr: { $eq: ["$$hostId", "$_id"] } } },
+          { $match: { $expr: { $eq: ['$$hostId', '$_id'] } } },
           { $project: { name: 1 } },
         ],
-        as: "host",
+        as: 'host',
       },
     },
     {
       $unwind: {
-        path: "$host",
+        path: '$host',
         preserveNullAndEmptyArrays: true,
       },
     },
     // lookup intern name
     {
       $lookup: {
-        from: "users",
-        let: { internId: "$intern" },
+        from: 'users',
+        let: { internId: '$intern' },
         pipeline: [
-          { $match: { $expr: { $eq: ["$$internId", "$_id"] } } },
+          { $match: { $expr: { $eq: ['$$internId', '$_id'] } } },
           { $project: { name: 1 } },
         ],
-        as: "intern",
+        as: 'intern',
       },
     },
     {
       $unwind: {
-        path: "$intern",
+        path: '$intern',
         preserveNullAndEmptyArrays: true,
       },
     },
     // lookup installments for this booking
     {
       $lookup: {
-        from: "installments",
-        let: { bookingId: "$_id" },
-        pipeline: [{ $match: { $expr: { $eq: ["$$bookingId", "$booking"] } } }],
-        as: "installments",
+        from: 'installments',
+        let: { bookingId: '$_id' },
+        pipeline: [{ $match: { $expr: { $eq: ['$$bookingId', '$booking'] } } }],
+        as: 'installments',
       },
     },
     // lookup coupons been used for this booking
     {
       $lookup: {
-        from: "coupons",
-        let: { internId: "$intern" },
-        pipeline: [{ $match: { $expr: { $eq: ["$$internId", "$intern"] } } }],
-        as: "coupons",
+        from: 'coupons',
+        let: { internId: '$intern' },
+        pipeline: [{ $match: { $expr: { $eq: ['$$internId', '$intern'] } } }],
+        as: 'coupons',
       },
     },
   ]);

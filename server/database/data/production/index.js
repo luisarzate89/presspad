@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const dbConnection = require("../../dbConnection");
-const createEmptyCollection = require("./../createEmptyCollection");
+const dbConnection = require('../../dbConnection');
+const createEmptyCollection = require('./../createEmptyCollection');
 
-const accounts = require("./accounts");
-const users = require("./users");
-const checklistQuestions = require("./checklistQuestions");
-const resetDb = require("./resetDb");
+const accounts = require('./accounts');
+const users = require('./users');
+const checklistQuestions = require('./checklistQuestions');
+const resetDb = require('./resetDb');
 
 const buildProdData = () =>
   new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ const buildProdData = () =>
 
 buildProdData().then(() => {
   // eslint-disable-next-line no-console
-  console.log("Done!: Production DB has been built successfully");
+  console.log('Done!: Production DB has been built successfully');
   // close the connection after build
   mongoose.disconnect();
 });

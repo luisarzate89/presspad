@@ -1,18 +1,18 @@
-const boom = require("boom");
+const boom = require('boom');
 const {
   hostRejectBookingById,
   getBookingWithUsers,
-} = require("../../database/queries/bookings");
-const { registerNotification } = require("../../services/notifications");
+} = require('../../database/queries/bookings');
+const { registerNotification } = require('../../services/notifications');
 
-const requestRejectedToIntern = require("./../../helpers/mailHelper/requestRejectedToIntern");
+const requestRejectedToIntern = require('./../../helpers/mailHelper/requestRejectedToIntern');
 
 const rejectBooking = async (req, res, next) => {
   const { id: bookingId } = req.params;
   const { role, _id: hostId } = req.user;
   try {
     // check for role
-    if (role !== "host" && role !== "superhost") {
+    if (role !== 'host' && role !== 'superhost') {
       return next(boom.forbidden());
     }
 
@@ -26,7 +26,7 @@ const rejectBooking = async (req, res, next) => {
       private: false,
       user: updatedBookingRequest.intern,
       secondParty: updatedBookingRequest.host,
-      type: "stayRejected",
+      type: 'stayRejected',
       booking: bookingId,
     };
 
@@ -35,7 +35,7 @@ const rejectBooking = async (req, res, next) => {
 
     const promiseArray = [registerNotification(notification)];
 
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === 'production') {
       promiseArray.push(requestRejectedToIntern(bookingDetails));
     }
 

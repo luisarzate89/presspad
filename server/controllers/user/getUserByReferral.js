@@ -1,23 +1,25 @@
-const boom = require("boom");
+const boom = require('boom');
 
-const { getUserById } = require("./../../database/queries/user");
+const { getUserById } = require('./../../database/queries/user');
 
 module.exports = (req, res, next) => {
   const { referralId } = req.body;
 
   getUserById(referralId, true)
-    .then((storedUser) => {
+    .then(storedUser => {
       if (!storedUser) {
         return next(
           boom.notFound(
-            "We cannot find a user with your referral code. Please try again with another code.",
+            'We cannot find a user with your referral code. Please try again with another code.',
           ),
         );
       }
 
-      if (storedUser.role !== "superhost") {
+      if (storedUser.role !== 'superhost') {
         return next(
-          boom.unauthorized("That user does not have sufficient priveleges to refer you."),
+          boom.unauthorized(
+            'That user does not have sufficient priveleges to refer you.',
+          ),
         );
       }
 

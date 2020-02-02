@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { ReactComponent as BackArrowIcon } from "../../../../assets/back-arrow.svg";
-import { colors } from "../../../../theme";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { ReactComponent as BackArrowIcon } from '../../../../assets/back-arrow.svg';
+import { colors } from '../../../../theme';
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -93,8 +93,8 @@ export const FileDetails = styled(Details)`
   color: #0ac7e7;
   cursor: pointer;
 
-  ${({ a }) => a && "cursor: not-allowed !important ;"}
-  ${({ a }) => a && "pointer-events: all !important ;"}
+  ${({ a }) => a && 'cursor: not-allowed !important ;'}
+  ${({ a }) => a && 'pointer-events: all !important ;'}
 `;
 
 export const BoldSpan = styled.span`
@@ -132,7 +132,7 @@ export const EditButton = styled(Link)`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   margin-top: 2rem;
   margin-left: auto;
   display: block;

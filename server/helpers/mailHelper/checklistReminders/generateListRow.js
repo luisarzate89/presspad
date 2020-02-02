@@ -22,15 +22,15 @@ const generateChecklistRow = ({
   links,
   isChecked,
 }) => {
-  let hintTextElement = hintText ? `<p>${hintText}</p>` : "";
+  let hintTextElement = hintText ? `<p>${hintText}</p>` : '';
 
   if (hintText) {
     let hintTextSegments = hintText;
     if (containsHostEmail) {
-      hintTextSegments = hintText.split("{email}").filter(i => !!i);
+      hintTextSegments = hintText.split('{email}').filter(i => !!i);
       hintTextElement = `
         <p style="list-style: none; font-size: 14px; font-weight: 300; font-size: 14px; font-weight: 300; margin-left: 1rem; margin-top: 0;">
-          ${hintTextSegments[0] || ""}
+          ${hintTextSegments[0] || ''}
           <a
             href="${hostEmail}"
             target="_blank"
@@ -38,14 +38,14 @@ const generateChecklistRow = ({
           >
             ${hostEmail}
           </a>
-          ${hintTextSegments[1] || ""}
+          ${hintTextSegments[1] || ''}
         </p>
         `;
     } else if (containsInternEmail) {
-      hintTextSegments = hintText.split("{email}").filter(i => !!i);
+      hintTextSegments = hintText.split('{email}').filter(i => !!i);
       hintTextElement = `
       <p style="list-style: none; font-size: 14px; font-weight: 300; font-size: 14px; font-weight: 300; margin-left: 1rem; margin-top: 0;">
-          ${hintTextSegments[0] || ""}
+          ${hintTextSegments[0] || ''}
           <a
             href="${internEmail}"
             target="_blank"
@@ -53,42 +53,44 @@ const generateChecklistRow = ({
           >
             ${internEmail}
           </a>
-          ${hintTextSegments[1] || ""}
+          ${hintTextSegments[1] || ''}
         </p>
       `;
     }
 
     if (links && links.length) {
       // split the hint text into segments
-      hintTextSegments = hintText.split("/").filter(i => !!i);
+      hintTextSegments = hintText.split('/').filter(i => !!i);
       // replace the links segements with its object
-      links.forEach((link) => {
+      links.forEach(link => {
         const i = hintTextSegments.indexOf(link.linkType);
         hintTextSegments[i] = link;
       });
       hintTextElement = `
       <p style="list-style: none; font-size: 14px; font-weight: 300; font-size: 14px; font-weight: 300; margin-left: 1rem; margin-top: 0;">
-          ${hintTextSegments.map((segment) => {
-    if (segment instanceof Object) {
-      return (
-        `<a
+          ${hintTextSegments
+            .map(segment => {
+              if (segment instanceof Object) {
+                return `<a
             href="${segment.url}"
             target="_blank"
             rel="noopener noreferrer"
           >
             ${segment.label}
-          </a>`
-      );
-    }
-    return segment;
-  }).join("\n")}
+          </a>`;
+              }
+              return segment;
+            })
+            .join('\n')}
         </p>
       `;
     }
   }
   const mainElement = `
-  <li style="color: ${isChecked ? "green" : "red"}; list-style: none; font-size: 16px; font-weight: 500;">
-    <span>${isChecked ? "&#10004;" : "&#10005;"}</span>
+  <li style="color: ${
+    isChecked ? 'green' : 'red'
+  }; list-style: none; font-size: 16px; font-weight: 500;">
+    <span>${isChecked ? '&#10004;' : '&#10005;'}</span>
     ${text}
     <br />
     ${hintTextElement}
@@ -96,6 +98,5 @@ const generateChecklistRow = ({
 
   return mainElement;
 };
-
 
 module.exports = generateChecklistRow;

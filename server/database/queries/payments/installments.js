@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Installment = require("../../models/Installment");
-const Booking = require("../../models/Booking");
+const Installment = require('../../models/Installment');
+const Booking = require('../../models/Booking');
 
 /**
  * Insert installments (BE AWARE this modify the installments[Array | Object] reference)
@@ -13,7 +13,13 @@ const Booking = require("../../models/Booking");
  * @param {string} hostId
  * @param {session} session Transaction session
  */
-const createInstallments = (installments, bookingId, internId, hostId, session) => {
+const createInstallments = (
+  installments,
+  bookingId,
+  internId,
+  hostId,
+  session,
+) => {
   if (Array.isArray(installments)) {
     // modify the installments
     for (let i = 0; i < installments.length; i += 1) {
@@ -46,9 +52,17 @@ const createInstallments = (installments, bookingId, internId, hostId, session) 
  * @param {number} amount amount that used in this transaction
  * @param {session} session
  */
-const updatePaidInstallment = async (installmentId, transactionId, bookingId, amount, session) => {
+const updatePaidInstallment = async (
+  installmentId,
+  transactionId,
+  bookingId,
+  amount,
+  session,
+) => {
   const installment = Installment.updateOne(
-    { _id: installmentId }, { transaction: transactionId }, { session },
+    { _id: installmentId },
+    { transaction: transactionId },
+    { session },
   );
   const booking = Booking.updateOne(
     { _id: mongoose.Types.ObjectId(bookingId) },

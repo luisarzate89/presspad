@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import styled, { keyframes } from "styled-components";
-import { colors } from "../../../theme";
+import styled, { keyframes } from 'styled-components';
+import { colors } from '../../../theme';
 
 const ballPulseSync = keyframes`
   33% {

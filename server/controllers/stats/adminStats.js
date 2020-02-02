@@ -1,30 +1,30 @@
-const boom = require("boom");
+const boom = require('boom');
 
 // IMPORT QUERIES
 const {
   getAllClientStats,
-} = require("./../../database/queries/stats/getAllClientStats");
+} = require('./../../database/queries/stats/getAllClientStats');
 const {
   getAllInternStats,
-} = require("./../../database/queries/stats/getAllInternStats");
+} = require('./../../database/queries/stats/getAllInternStats');
 const {
   getAllHostStats,
-} = require("./../../database/queries/stats/getAllHostStats");
+} = require('./../../database/queries/stats/getAllHostStats');
 const {
   findAllWithdrawRequests,
-} = require("../../database/queries/withdrawRequest");
+} = require('../../database/queries/withdrawRequest');
 
 module.exports = async (req, res, next) => {
   // get user data so we can check they are authorized
   const { user } = req;
 
-  if (user.role !== "admin")
-    return next(boom.unauthorized("You do not have sufficient priveleges"));
+  if (user.role !== 'admin')
+    return next(boom.unauthorized('You do not have sufficient priveleges'));
 
   // get whether you want client, intern or host data
   const { userType } = req.body;
 
-  if (userType === "clients") {
+  if (userType === 'clients') {
     return getAllClientStats()
       .then(stats => {
         if (stats.length === 0) return res.json(stats);
@@ -35,20 +35,20 @@ module.exports = async (req, res, next) => {
         next(boom.badImplementation(err));
       });
   }
-  if (userType === "interns") {
+  if (userType === 'interns') {
     return getAllInternStats()
       .then(stats => {
         if (stats.length === 0) return res.json(stats);
 
         const cleanStats = stats.map(intern => {
-          let status = "Looking for host";
+          let status = 'Looking for host';
 
           if (intern.liveBookings > 0) {
-            status = "At host";
+            status = 'At host';
           } else if (intern.pendingBookings > 0) {
-            status = "Pending request";
+            status = 'Pending request';
           } else if (intern.confirmedBookings > 0) {
-            status = "Booking confirmed";
+            status = 'Booking confirmed';
           }
 
           const internObj = {
@@ -69,7 +69,7 @@ module.exports = async (req, res, next) => {
       })
       .catch(err => next(boom.badImplementation(err)));
   }
-  if (userType === "hosts") {
+  if (userType === 'hosts') {
     return getAllHostStats()
       .then(stats => {
         if (stats.length === 0) return res.json(stats);
@@ -82,8 +82,8 @@ module.exports = async (req, res, next) => {
             hometown: host.listing.hometown,
             hosted: host.internsHosted,
             approvalStatus: host.profile[0].verified
-              ? "Approved"
-              : "Waiting for approval",
+              ? 'Approved'
+              : 'Waiting for approval',
             profileId: host.profile[0]._id,
             userId: host._id,
             totalIncome: host.totalIncome,
@@ -95,8 +95,8 @@ module.exports = async (req, res, next) => {
       })
       .catch(err => next(boom.badImplementation(err)));
   }
-  if (userType === "payments") {
+  if (userType === 'payments') {
     return findAllWithdrawRequests().then(data => res.json(data));
   }
-  return next(boom.badRequest("Invalid userType"));
+  return next(boom.badRequest('Invalid userType'));
 };

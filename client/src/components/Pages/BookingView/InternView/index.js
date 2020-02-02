@@ -1,20 +1,20 @@
 /* eslint-disable consistent-return */
-import React, { Component } from "react";
-import axios from "axios";
-import { Row, Col, message, Spin } from "antd";
-import { Elements } from "react-stripe-elements";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Row, Col, message, Spin } from 'antd';
+import { Elements } from 'react-stripe-elements';
 import {
   getDiscountDays,
   calculatePrice,
   createInstallments,
   getFirstUnpaidInstallment,
-} from "../helpers";
+} from '../helpers';
 
-import { titleCase } from "../../../../helpers";
+import { titleCase } from '../../../../helpers';
 
-import randomProfile from "../../../../assets/random-profile.jpg";
-import DisabledPopOver from "../../../Common/DisabledPopOver";
-import ListingGallery from "../../../Common/Profile/ListingGallery";
+import randomProfile from '../../../../assets/random-profile.jpg';
+import DisabledPopOver from '../../../Common/DisabledPopOver';
+import ListingGallery from '../../../Common/Profile/ListingGallery';
 import {
   Card,
   Header,
@@ -26,49 +26,49 @@ import {
   ParagraphHeadline,
   Paragraph,
   ShowMoreSection,
-} from "../../../Common/Profile/Profiles.style";
-import Reviews from "../../../Common/Reviews";
-import Checklist from "../Checklist";
-import PaymentsPlan from "./PaymentsPlan";
-import BookingInfo from "./BookingInfo";
-import PayNowModal from "./PayNowModal";
+} from '../../../Common/Profile/Profiles.style';
+import Reviews from '../../../Common/Reviews';
+import Checklist from '../Checklist';
+import PaymentsPlan from './PaymentsPlan';
+import BookingInfo from './BookingInfo';
+import PayNowModal from './PayNowModal';
 
 import {
   API_COUPON_URL,
   API_HOST_PROFILE_URL,
-} from "../../../../constants/apiRoutes";
-import { Error404, Error500 } from "../../../../constants/navRoutes";
+} from '../../../../constants/apiRoutes';
+import { Error404, Error500 } from '../../../../constants/navRoutes';
 
 import {
   PageWrapper,
   SectionWrapperContent,
   SectionTitle,
   BlueLink,
-} from "../../../Common/general";
+} from '../../../Common/general';
 
 import {
   AboutSectionDataContainer,
   AboutSectionDataRow,
   AboutSectionDataCell,
-} from "../../InternProfile/HostView/HostView.style";
+} from '../../InternProfile/HostView/HostView.style';
 
-import starSign from "../../../../assets/star-sign-symbol.svg";
+import starSign from '../../../../assets/star-sign-symbol.svg';
 
 export default class BookingView extends Component {
   state = {
     listing: {
-      userProfile: { organisation: "", profileImage: {} },
+      userProfile: { organisation: '', profileImage: {} },
       photos: [],
     },
     profile: {},
     // reviews: [],
     couponInfo: {
-      couponCode: "",
+      couponCode: '',
       discountDays: 0,
       discountRate: 0,
       couponDiscount: 0,
       isCouponLoading: null,
-      error: "",
+      error: '',
     },
     payNow: false,
     upfront: true,
@@ -80,7 +80,7 @@ export default class BookingView extends Component {
 
     this.setState({ isLoading: true });
 
-    const url = API_HOST_PROFILE_URL.replace(":id", bookingInfo.host._id);
+    const url = API_HOST_PROFILE_URL.replace(':id', bookingInfo.host._id);
     try {
       const {
         data: { listing, profile, reviews },
@@ -91,12 +91,12 @@ export default class BookingView extends Component {
       if (error.response && error.response.status === 404) {
         message.destroy();
         return message
-          .error("profile not found", 4)
+          .error('profile not found', 4)
           .then(() => this.props.history.push(Error404));
       }
       message.destroy();
       message
-        .error("something went wrong", 4)
+        .error('something went wrong', 4)
         .then(() => this.props.history.push(Error500));
     }
   }
@@ -109,15 +109,15 @@ export default class BookingView extends Component {
           ...prevState.couponInfo,
           isCouponLoading: false,
           couponDiscount: 0,
-          couponCode: "",
-          error: "",
+          couponCode: '',
+          error: '',
         },
       }));
     }
     // only send requests if the code is valid
     if (
       !code ||
-      typeof code !== "string" ||
+      typeof code !== 'string' ||
       code.length < 7 ||
       code.length > 14
     ) {
@@ -177,9 +177,9 @@ export default class BookingView extends Component {
               return { couponInfo: newCouponState };
             });
           } catch (error) {
-            let errorMsg = "something went wrong";
+            let errorMsg = 'something went wrong';
             if (error.response && error.response.status === 404) {
-              errorMsg = "wrong code ..";
+              errorMsg = 'wrong code ..';
             }
             this.setState(prevState => ({
               couponInfo: {
@@ -265,7 +265,7 @@ export default class BookingView extends Component {
         <Elements>
           <PayNowModal
             couponInfo={
-              couponInfo.error ? { ...couponInfo, couponCode: "" } : couponInfo
+              couponInfo.error ? { ...couponInfo, couponCode: '' } : couponInfo
             }
             bookingId={bookingInfo._id}
             paymentInfo={paymentInfo}
@@ -274,19 +274,19 @@ export default class BookingView extends Component {
           />
         </Elements>
         <Header justifyContent="space-between">
-          <div style={{ display: "flex", width: "80%" }}>
+          <div style={{ display: 'flex', width: '80%' }}>
             <ProfilePicDiv
               src={(profileImage && profileImage.url) || randomProfile}
               defaultPic={randomProfile}
-              adminView={bookingInfo.status === "confirmed"}
+              adminView={bookingInfo.status === 'confirmed'}
             />
             <HeaderDiv>
               <Headline>
                 {name}
                 <span>
                   {(jobTitle || organisation) &&
-                    ` (${jobTitle ? `A ${jobTitle}` : ""} ${
-                      organisation ? `at ${organisation}` : ""
+                    ` (${jobTitle ? `A ${jobTitle}` : ''} ${
+                      organisation ? `at ${organisation}` : ''
                     })`}
                 </span>
               </Headline>
@@ -315,9 +315,9 @@ export default class BookingView extends Component {
                   )}
 
                   <Address>
-                    <div style={{ display: "flex", marginTop: "0.5rem" }}>
+                    <div style={{ display: 'flex', marginTop: '0.5rem' }}>
                       <AboutSectionDataCell bold>Address:</AboutSectionDataCell>
-                      <div style={{ display: "inline-block" }}>
+                      <div style={{ display: 'inline-block' }}>
                         <AboutSectionDataCell>
                           {titleCase(addressline1)}
                         </AboutSectionDataCell>
@@ -358,7 +358,7 @@ export default class BookingView extends Component {
                   )}
                 </AboutSectionDataContainer>
               </SectionWrapperContent>
-              <ShowMoreSection type="flex" style={{ marginBottom: "2rem" }}>
+              <ShowMoreSection type="flex" style={{ marginBottom: '2rem' }}>
                 <BlueLink to={`/hosts/${hostId}`}>Show other Info</BlueLink>
                 <DisabledPopOver>
                   <BlueLink to="#">Show PressPad offer</BlueLink>
@@ -368,7 +368,7 @@ export default class BookingView extends Component {
                 </DisabledPopOver>
               </ShowMoreSection>
             </section>
-            {bookingInfo.status === "confirmed" ? (
+            {bookingInfo.status === 'confirmed' ? (
               <>
                 <Checklist bookingInfo={bookingInfo} userRole="intern" />
                 <PaymentsPlan

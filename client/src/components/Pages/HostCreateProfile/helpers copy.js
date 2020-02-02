@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 const MILLISECONDS_IN_A_DAY = 86400000;
 
@@ -11,7 +11,7 @@ const MILLISECONDS_IN_A_DAY = 86400000;
  * @return {Boolean}
  */
 export const disabledEndDate = (index, endDate, availableDates) => {
-  const startDate = availableDates[index].startDate;
+  const { startDate } = availableDates[index];
 
   // check for reserved dates
   const isDatePicked = checkIntersections(startDate, endDate, availableDates);
@@ -23,7 +23,7 @@ export const disabledEndDate = (index, endDate, availableDates) => {
   // if the user didn't select the endDate nor startDate
   // then he can't select a date before the current date
   if (!endDate || !startDate) {
-    return endDate && endDate < moment().endOf("day");
+    return endDate && endDate < moment().endOf('day');
   }
 
   // if the user selected a start date or end date
@@ -31,7 +31,7 @@ export const disabledEndDate = (index, endDate, availableDates) => {
   // the start date must be before the end date
   return (
     endDate.valueOf() <= startDate.valueOf() ||
-    (endDate && endDate < moment().endOf("day"))
+    (endDate && endDate < moment().endOf('day'))
   );
 };
 
@@ -44,7 +44,7 @@ export const disabledEndDate = (index, endDate, availableDates) => {
  * @return {Boolean}
  */
 export const disabledStartDate = (index, startDate, availableDates) => {
-  const endDate = availableDates[index].endDate;
+  const { endDate } = availableDates[index];
 
   // check for reserved dates
   const isDatePicked = checkIntersections(startDate, startDate, availableDates);
@@ -56,7 +56,7 @@ export const disabledStartDate = (index, startDate, availableDates) => {
   // if the user didn't select the endDate nor startDate
   // then he can't select a date before the current date
   if (!startDate || !endDate) {
-    return startDate && startDate < moment().subtract(1, "day");
+    return startDate && startDate < moment().subtract(1, 'day');
   }
 
   // if the user selected a start date or end date
@@ -64,7 +64,7 @@ export const disabledStartDate = (index, startDate, availableDates) => {
   // the start date must be before the end date
   return (
     startDate.valueOf() > endDate.valueOf() ||
-    (startDate && startDate < moment().subtract(1, "day"))
+    (startDate && startDate < moment().subtract(1, 'day'))
   );
 };
 
@@ -87,8 +87,8 @@ const checkIntersections = (startDate, compareDate, availableDates) => {
       startDate &&
       rangestartDate &&
       rangeendDate &&
-      (compareDate.valueOf() >= rangestartDate.valueOf() &&
-        compareDate.valueOf() <= rangeendDate.valueOf() + MILLISECONDS_IN_A_DAY)
+      compareDate.valueOf() >= rangestartDate.valueOf() &&
+      compareDate.valueOf() <= rangeendDate.valueOf() + MILLISECONDS_IN_A_DAY
     ) {
       return true;
     }
@@ -114,8 +114,8 @@ export const checkSelectedRange = (startDate, endDate, availableDates) => {
       startDate &&
       rangestartDate &&
       rangeendDate &&
-      (startDate.valueOf() <= rangestartDate.valueOf() &&
-        endDate.valueOf() > rangeendDate.valueOf())
+      startDate.valueOf() <= rangestartDate.valueOf() &&
+      endDate.valueOf() > rangeendDate.valueOf()
     ) {
       return true;
     }
@@ -132,7 +132,7 @@ export const getValidDAtes = availableDates => {
     if (startDate && endDate) {
       prev.push({
         startDate: moment(startDate).format(),
-        endDate: moment(endDate).format()
+        endDate: moment(endDate).format(),
       });
     }
 

@@ -1,16 +1,16 @@
-const moment = require("moment");
-const Booking = require(".//../../models/Booking");
-const Listing = require("./../../models/Listing");
+const moment = require('moment');
+const Booking = require('.//../../models/Booking');
+const Listing = require('./../../models/Listing');
 
-const createDatesArray = require("../../../helpers/createDatesArray");
-const getInternBookingsWithReviews = require("./getInternBookingsWithReviews");
-const getNextPendingBooking = require("./getNextPendingBooking");
-const getBookingById = require("./getBookingById");
-const getBooking = require("./getBooking");
-const getBookingWithUsers = require("./getBookingWithUsers");
-const getHostNextBooking = require("./getHostNextBooking");
-const getInternNextBooking = require("./getInternNextBooking");
-const countCompletedBookingsByUser = require("./countCompletedBookingsByUser");
+const createDatesArray = require('../../../helpers/createDatesArray');
+const getInternBookingsWithReviews = require('./getInternBookingsWithReviews');
+const getNextPendingBooking = require('./getNextPendingBooking');
+const getBookingById = require('./getBookingById');
+const getBooking = require('./getBooking');
+const getBookingWithUsers = require('./getBookingWithUsers');
+const getHostNextBooking = require('./getHostNextBooking');
+const getInternNextBooking = require('./getInternNextBooking');
+const countCompletedBookingsByUser = require('./countCompletedBookingsByUser');
 
 module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) =>
   Booking.findOneAndUpdate(
@@ -18,7 +18,7 @@ module.exports.hostAcceptBookingById = ({ bookingId, hostId, moneyGoTo }) =>
     { _id: bookingId, host: hostId },
     // update date
     {
-      status: "confirmed",
+      status: 'confirmed',
       moneyGoTo,
       confirmDate: moment.utc(),
     },
@@ -33,7 +33,7 @@ module.exports.hostRejectBookingById = ({ bookingId, hostId }) =>
     { _id: bookingId, host: hostId },
     // update date
     {
-      status: "canceled",
+      status: 'canceled',
       canceledBy: hostId,
     },
     {
@@ -48,7 +48,7 @@ module.exports.getUserBookings = async intern => {
   const userBookingDates = bookings.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
     acc.push(dates);
-    return acc.toString().split(",");
+    return acc.toString().split(',');
   }, []);
   return userBookingDates;
 };
@@ -75,7 +75,7 @@ module.exports.checkIfListingAvailable = async (listingId, bs, be) => {
   const listingAvDates = listing.availableDates.reduce((acc, cur) => {
     const dates = createDatesArray(cur.startDate, cur.endDate);
     acc.push(dates);
-    return acc.toString().split(",");
+    return acc.toString().split(',');
   }, []);
 
   // get all dates of current booking request
@@ -109,8 +109,8 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
 
     // check which object needs to be updated
     const isBetween = moment(bs).isBetween(ls, le);
-    const isSameStart = moment(bs).isSame(ls, "day");
-    const isSameEnd = moment(be).isSame(le, "day");
+    const isSameStart = moment(bs).isSame(ls, 'day');
+    const isSameEnd = moment(be).isSame(le, 'day');
     const dates = { startDate: 0, endDate: 0 };
 
     if (isBetween || isSameStart) {
@@ -120,43 +120,43 @@ module.exports.updateListingAvailability = async (listingId, bs, be) => {
       }
       // if booking starts on same day but booking endDate is before listing availab.
       //  -> store rest avail.
-      if (isSameStart && moment(be).isBefore(le, "day")) {
+      if (isSameStart && moment(be).isBefore(le, 'day')) {
         dates.startDate = moment(be)
-          .add(1, "day")
-          .format("YYYY-MM-DD");
-        dates.endDate = moment(le).format("YYYY-MM-DD");
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
+        dates.endDate = moment(le).format('YYYY-MM-DD');
         acc.push(dates);
       }
       // if booking startDate is after listing startDate and booking endDate
       //  is same as listing endDate -> store beginning avail
-      if (moment(bs).isAfter(ls, "day") && isSameEnd) {
-        dates.startDate = moment(ls).format("YYYY-MM-DD");
+      if (moment(bs).isAfter(ls, 'day') && isSameEnd) {
+        dates.startDate = moment(ls).format('YYYY-MM-DD');
         dates.endDate = moment(bs)
-          .subtract(1, "day")
-          .format("YYYY-MM-DD");
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD');
         acc.push(dates);
       }
       // if booking startDate is after listing startDate and booking endDate
       // is before listing endDate -> store avail. before and after booking
-      if (moment(bs).isAfter(ls, "day") && moment(be).isBefore(le, "day")) {
+      if (moment(bs).isAfter(ls, 'day') && moment(be).isBefore(le, 'day')) {
         const dates1 = { startDate: 0, endDate: 0 };
         const dates2 = { startDate: 0, endDate: 0 };
 
-        dates1.startDate = moment(ls).format("YYYY-MM-DD");
+        dates1.startDate = moment(ls).format('YYYY-MM-DD');
         dates1.endDate = moment(bs)
-          .subtract(1, "day")
-          .format("YYYY-MM-DD");
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD');
         acc.push(dates1);
         dates2.startDate = moment(be)
-          .add(1, "day")
-          .format("YYYY-MM-DD");
-        dates2.endDate = moment(le).format("YYYY-MM-DD");
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
+        dates2.endDate = moment(le).format('YYYY-MM-DD');
         acc.push(dates2);
       }
     } else {
       // return the other availability objects
-      dates.startDate = moment(ls).format("YYYY-MM-DD");
-      dates.endDate = moment(le).format("YYYY-MM-DD");
+      dates.startDate = moment(ls).format('YYYY-MM-DD');
+      dates.endDate = moment(le).format('YYYY-MM-DD');
       acc.push(dates);
     }
 

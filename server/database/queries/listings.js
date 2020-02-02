@@ -1,3 +1,4 @@
-const Listing = require("./../models/Listing");
+const Listing = require('./../models/Listing');
 
-module.exports.createNewListing = (data, s) => Listing.create([data], { session: s });
+module.exports.createNewListing = (data, s) =>
+  Listing.create([data], { session: s });

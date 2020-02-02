@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
-const { wordLengthValidator } = require("../utils");
-const { types } = require("./../constants");
+const { wordLengthValidator } = require('../utils');
+const { types } = require('./../constants');
 
 const listingSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
     address: {
       addressline1: {
@@ -31,12 +31,12 @@ const listingSchema = new Schema(
     neighbourhoodDescription: {
       type: String,
       required: false,
-      validate: wordLengthValidator(250, "neighbourhoodDescription"),
+      validate: wordLengthValidator(250, 'neighbourhoodDescription'),
     },
     otherInfo: {
       type: String,
       required: false,
-      validate: wordLengthValidator(250, "otherInfo"),
+      validate: wordLengthValidator(250, 'otherInfo'),
     },
     accommodationChecklist: [
       { type: String, enum: types.accommodationChecklist },
@@ -60,7 +60,7 @@ const listingSchema = new Schema(
     ],
     hometown: {
       type: String,
-      validate: wordLengthValidator(10, "hometown"),
+      validate: wordLengthValidator(10, 'hometown'),
       required: false,
     },
   },
@@ -70,6 +70,6 @@ const listingSchema = new Schema(
   },
 );
 
-const Listing = model("listings", listingSchema);
+const Listing = model('listings', listingSchema);
 
 module.exports = Listing;

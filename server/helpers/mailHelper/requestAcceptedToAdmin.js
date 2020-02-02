@@ -1,17 +1,16 @@
-const moment = require("moment");
+const moment = require('moment');
 
-const sendMail = require("./index");
-const { capitalizeName } = require("../general");
-const { email, domain } = require("./../../config");
+const sendMail = require('./index');
+const { capitalizeName } = require('../general');
+const { email, domain } = require('./../../config');
 /**
  * send email to amdin a host accept a request
  * @param {Object} options - required options to send email
  * { host: { name } }, { intern: { name, email } },
  */
-const requestAcceptedToAdmin = (options) => {
+const requestAcceptedToAdmin = options => {
   const hostName = capitalizeName(options.host.name);
   const internName = capitalizeName(options.intern.name);
-
 
   const html = `
     <p>Hi</p>
@@ -29,10 +28,12 @@ const requestAcceptedToAdmin = (options) => {
       Booking Details:
     </p>
     <ul>
-      <li>Start date: ${moment(options.startDate).format("DD MMM YYYY")}</li>
-      <li>End date: ${moment(options.endDate).format("DD MMM YYYY")}</li>
+      <li>Start date: ${moment(options.startDate).format('DD MMM YYYY')}</li>
+      <li>End date: ${moment(options.endDate).format('DD MMM YYYY')}</li>
       <li>Price: £${(Math.round(options.price * 100) / 100).toFixed(2)}</li>
-      <li>To be paid to: ${options.moneyGoTo === "presspad" ? "Presspad" : "The host"}</li>
+      <li>To be paid to: ${
+        options.moneyGoTo === 'presspad' ? 'Presspad' : 'The host'
+      }</li>
     <ul>
   `;
 

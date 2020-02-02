@@ -1,14 +1,14 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-const buildDB = require("./../../database/data/test/index");
-const app = require("./../../app");
+const buildDB = require('./../../database/data/test/index');
+const app = require('./../../app');
 
-const { API_SIGNUP_URL } = require("../../../client/src/constants/apiRoutes");
+const { API_SIGNUP_URL } = require('../../../client/src/constants/apiRoutes');
 
-const User = require("./../../database/models/User");
+const User = require('./../../database/models/User');
 
-describe("Testing for signup route", () => {
+describe('Testing for signup route', () => {
   beforeAll(async () => {
     // build dummy data
     await buildDB();
@@ -18,20 +18,20 @@ describe("Testing for signup route", () => {
     await mongoose.disconnect();
   });
 
-  test("test correct intern details", async (done) => {
+  test('test correct intern details', async done => {
     const data = {
       userInfo: {
-        email: "intern@test.com",
-        name: "Ted Test",
-        password: "a123456A",
-        role: "intern",
+        email: 'intern@test.com',
+        name: 'Ted Test',
+        password: 'a123456A',
+        role: 'intern',
       },
     };
 
     request(app)
       .post(API_SIGNUP_URL)
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
@@ -43,37 +43,37 @@ describe("Testing for signup route", () => {
       });
   });
 
-  test("test if email already exists", async (done) => {
+  test('test if email already exists', async done => {
     const data = {
       userInfo: {
-        email: "intern@test.com",
-        name: "Ted Test",
-        password: "a123456A",
-        role: "intern",
+        email: 'intern@test.com',
+        name: 'Ted Test',
+        password: 'a123456A',
+        role: 'intern',
       },
     };
 
     request(app)
       .post(API_SIGNUP_URL)
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(409)
       .end((err, res) => {
         expect(res).toBeDefined();
-        expect(res.body.error).toBe("Email already taken");
+        expect(res.body.error).toBe('Email already taken');
         done(err);
       });
   });
 
-  test("test host with correct details", async (done) => {
-    const superhost = await User.find({ type: "superhost" });
+  test('test host with correct details', async done => {
+    const superhost = await User.find({ type: 'superhost' });
 
     const data = {
       userInfo: {
-        email: "host@test.com",
-        name: "Ted Test",
-        password: "a123456A",
-        role: "host",
+        email: 'host@test.com',
+        name: 'Ted Test',
+        password: 'a123456A',
+        role: 'host',
         referral: superhost.id,
       },
     };
@@ -81,7 +81,7 @@ describe("Testing for signup route", () => {
     request(app)
       .post(API_SIGNUP_URL)
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
@@ -91,21 +91,21 @@ describe("Testing for signup route", () => {
       });
   });
 
-  test("test organisation with correct details", async (done) => {
+  test('test organisation with correct details', async done => {
     const data = {
       userInfo: {
-        email: "organisation@test.com",
-        name: "Ted Test",
-        password: "a123456A",
-        role: "host",
-        organisation: "ITV",
+        email: 'organisation@test.com',
+        name: 'Ted Test',
+        password: 'a123456A',
+        role: 'host',
+        organisation: 'ITV',
       },
     };
 
     request(app)
       .post(API_SIGNUP_URL)
       .send(data)
-      .expect("Content-Type", /json/)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();

@@ -1,16 +1,16 @@
-const boom = require("boom");
+const boom = require('boom');
 
 const {
   internDashboard: internDashboardQuery,
-} = require("../../database/queries/dashboard");
-const generateFileURL = require("./../../helpers/generateFileURL");
+} = require('../../database/queries/dashboard');
+const generateFileURL = require('./../../helpers/generateFileURL');
 
-const { getInternNextBooking } = require("./../../database/queries/bookings");
+const { getInternNextBooking } = require('./../../database/queries/bookings');
 
 const internDashboard = async (req, res, next) => {
   const { _id: internId, role } = req.user;
 
-  if (role !== "intern") {
+  if (role !== 'intern') {
     return next(boom.forbidden());
   }
   try {

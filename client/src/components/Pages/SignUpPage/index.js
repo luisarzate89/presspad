@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 // CONSTANTS
 import {
   API_SIGNUP_URL,
   API_GET_ORGS_URL,
   DASHBOARD_URL,
-} from "./../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import USER_TYPES from "./../../../constants/userTypes";
+import USER_TYPES from '../../../constants/userTypes';
 
 import {
   HOST_COMPLETE_PROFILE_URL,
   INTERN_COMPLETE_PROFILE_URL,
   Error500,
-} from "./../../../constants/navRoutes";
+} from '../../../constants/navRoutes';
 
-import SignUp from "./SignUp";
+import SignUp from './SignUp';
 
 export default class SignUpPage extends Component {
   state = {
@@ -32,7 +32,7 @@ export default class SignUpPage extends Component {
     const { userType } = this.props;
     this.setState({ userType });
 
-    userType === "organisation" && this.getAllOrgs();
+    userType === 'organisation' && this.getAllOrgs();
 
     window.scrollTo(0, 0);
   }
@@ -52,12 +52,10 @@ export default class SignUpPage extends Component {
     try {
       const orgs = await axios.get(API_GET_ORGS_URL);
       if (orgs.data.length > 0) {
-        const orgNames = orgs.data.map(organisation => {
-          return {
-            name: organisation.name,
-            email: organisation.orgDetails.email,
-          };
-        });
+        const orgNames = orgs.data.map(organisation => ({
+          name: organisation.name,
+          email: organisation.orgDetails.email,
+        }));
         this.setState({ existingOrgs: orgNames });
       }
     } catch (err) {
@@ -85,7 +83,7 @@ export default class SignUpPage extends Component {
       fields,
     });
 
-    if (["password", "password2"].includes(e.target.name))
+    if (['password', 'password2'].includes(e.target.name))
       this.passwordValidation();
   };
 
@@ -98,14 +96,14 @@ export default class SignUpPage extends Component {
     const pattern = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/g);
 
     if (fields.password && fields.password.length < 8) {
-      errors.passwordError = "Password is too short.";
+      errors.passwordError = 'Password is too short.';
       formIsValid = false;
     } else if (!pattern.test(fields.password)) {
       errors.passwordError =
-        "Password requires 8 characters including at least 1 uppercase character and 1 number.";
+        'Password requires 8 characters including at least 1 uppercase character and 1 number.';
       formIsValid = false;
     } else if (fields.password !== fields.password2) {
-      errors.password2Error = "Passwords do not match.";
+      errors.password2Error = 'Passwords do not match.';
       formIsValid = false;
     }
 
@@ -123,17 +121,17 @@ export default class SignUpPage extends Component {
 
     if (!fields.name) {
       formIsValid = false;
-      errors.nameError = "Please enter your name.";
+      errors.nameError = 'Please enter your name.';
     }
 
     if (!fields.email) {
       formIsValid = false;
-      errors.emailError = "Please enter your email.";
+      errors.emailError = 'Please enter your email.';
     }
 
     if (!fields.organisation && userType === USER_TYPES.organisation) {
       formIsValid = false;
-      errors.organisationError = "* Please enter your organisation";
+      errors.organisationError = '* Please enter your organisation';
     }
 
     if (fields.organisation && userType === USER_TYPES.organisation) {
@@ -144,14 +142,14 @@ export default class SignUpPage extends Component {
       }
     }
 
-    if (typeof fields.email !== "undefined") {
+    if (typeof fields.email !== 'undefined') {
       // regular expression for email validation
       const pattern = new RegExp(
         /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i,
       );
       if (!pattern.test(fields.email)) {
         formIsValid = false;
-        errors.emailError = "Please enter valid email.";
+        errors.emailError = 'Please enter valid email.';
       }
     }
 
@@ -161,24 +159,24 @@ export default class SignUpPage extends Component {
     );
 
     if (fields.password && fields.password.length < 8) {
-      errors.passwordError = "Password is too short.";
+      errors.passwordError = 'Password is too short.';
       formIsValid = false;
     } else if (!passwordPattern.test(fields.password)) {
       errors.passwordError =
-        "Password requires 8 characters including at least 1 uppercase character and 1 number.";
+        'Password requires 8 characters including at least 1 uppercase character and 1 number.';
       formIsValid = false;
     }
 
     if (fields.password !== fields.password2) {
       formIsValid = false;
-      errors.password2Error = "Passwords do not match";
+      errors.password2Error = 'Passwords do not match';
     }
 
     // for hosts make sure they've ticked the disclaimer
-    if ((userType === "host" || userType === "intern") && !fields.checkbox) {
+    if ((userType === 'host' || userType === 'intern') && !fields.checkbox) {
       formIsValid = false;
       errors.disclaimerError =
-        "You need to agree with the Terms & Conditions and PressPad Privacy Policy in order to complete the signup";
+        'You need to agree with the Terms & Conditions and PressPad Privacy Policy in order to complete the signup';
     }
 
     this.setState({
@@ -200,19 +198,19 @@ export default class SignUpPage extends Component {
         this.setState({ isLoading: true });
         const { data } = await axios.post(API_SIGNUP_URL, { userInfo });
         handleChangeState({ ...data, isLoggedIn: true });
-        if (["admin", "organisation"].includes(data.role)) {
+        if (['admin', 'organisation'].includes(data.role)) {
           this.setState({ isLoading: false });
           history.push(DASHBOARD_URL);
-        } else if (data.role === "intern") {
+        } else if (data.role === 'intern') {
           this.setState({ isLoading: false });
           history.push(INTERN_COMPLETE_PROFILE_URL);
-        } else if (["host", "superhost"].includes(data.role)) {
+        } else if (['host', 'superhost'].includes(data.role)) {
           this.setState({ isLoading: false });
           history.push(HOST_COMPLETE_PROFILE_URL);
         }
       } catch (err) {
         if (err.response) {
-          if (err.response.data.error.includes("Email")) {
+          if (err.response.data.error.includes('Email')) {
             this.setState({
               errors: {
                 emailError: err.response.data.error,

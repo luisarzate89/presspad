@@ -1,6 +1,6 @@
-const shortid = require("shortid");
-const OrgCodes = require("../../models/OrgCodes");
-const Organisation = require("../../models/Organisation");
+const shortid = require('shortid');
+const OrgCodes = require('../../models/OrgCodes');
+const Organisation = require('../../models/Organisation');
 
 module.exports = async () => {
   // organisations

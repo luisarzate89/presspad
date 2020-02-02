@@ -1,49 +1,49 @@
-import React from "react";
-import moment from "moment";
-import { Row, Col, Tabs, Table, Skeleton } from "antd";
+import React from 'react';
+import moment from 'moment';
+import { Row, Col, Tabs, Table, Skeleton } from 'antd';
 
-import CouponCode from "./CouponCode";
+import CouponCode from './CouponCode';
 
 import {
   InfoMessage,
   TabPanWrapper,
   InfoText,
   InfoValue,
-} from "./PaymentsPlan.style";
+} from './PaymentsPlan.style';
 import {
   SectionWrapperContent,
   SectionTitle,
   PayButton,
-} from "../../../Common/general";
+} from '../../../Common/general';
 
 const { TabPane } = Tabs;
 
 const columns = [
   {
-    title: "Due date",
-    dataIndex: "dueDate",
+    title: 'Due date',
+    dataIndex: 'dueDate',
     sorter: (a, b) => moment(a.dueDate) - moment(b.dueDate),
-    sortOrder: "ascend",
-    render: text => <span>{moment(text).format("DD MMM YYYY")}</span>,
+    sortOrder: 'ascend',
+    render: text => <span>{moment(text).format('DD MMM YYYY')}</span>,
   },
   {
-    title: "Amount due",
-    dataIndex: "amount",
+    title: 'Amount due',
+    dataIndex: 'amount',
     render: text => <span>£{text.toFixed(2)}</span>,
   },
 ];
 
 const renderPaymentsInstallment = (installments, role) => {
   columns[2] = {
-    title: "Status",
+    title: 'Status',
     render: (text, record) => (
-      <span>{record.transaction ? "paid" : "not paid"}</span>
+      <span>{record.transaction ? 'paid' : 'not paid'}</span>
     ),
   };
   return (
     <SectionWrapperContent>
       <SectionTitle>
-        {role === "intern" ? "Your payments" : "Payments"}
+        {role === 'intern' ? 'Your payments' : 'Payments'}
       </SectionTitle>
       <Table
         columns={columns}
@@ -63,7 +63,7 @@ const PaymentsPlan = ({
   role,
 }) => {
   const handleTabChange = activeKey => {
-    if (activeKey === "1") {
+    if (activeKey === '1') {
       handlePaymentMethod(true);
     } else {
       handlePaymentMethod(false);
@@ -103,7 +103,7 @@ const PaymentsPlan = ({
   const remainPrice = totalPrice - couponDiscount;
 
   return (
-    role === "intern" && (
+    role === 'intern' && (
       <SectionWrapperContent>
         <SectionTitle>Choose payment plan</SectionTitle>
         <Row gutter={30}>
@@ -142,7 +142,7 @@ const PaymentsPlan = ({
         </Row>
         <Row>
           <Tabs
-            tabBarStyle={{ textAlign: "center" }}
+            tabBarStyle={{ textAlign: 'center' }}
             defaultActiveKey="1"
             onChange={handleTabChange}
           >
@@ -151,9 +151,9 @@ const PaymentsPlan = ({
                 <InfoMessage>
                   {moment().isAfter(endDate)
                     ? `This booking has ended at ${moment(endDate).format(
-                        "DD MMM YYYY",
+                        'DD MMM YYYY',
                       )}`
-                    : "You must pay to finalize the booking"}
+                    : 'You must pay to finalize the booking'}
                 </InfoMessage>
                 <PayButton mtop="2rem" onClick={() => handlePayNowClick(true)}>
                   Pay £{remainPrice.toFixed(2)} now
@@ -170,9 +170,9 @@ const PaymentsPlan = ({
                 <InfoMessage>
                   {moment().isAfter(endDate)
                     ? `This booking has ended at ${moment(endDate).format(
-                        "DD MMM YYYY",
+                        'DD MMM YYYY',
                       )}`
-                    : "You must pay the first installment to finalize the booking"}
+                    : 'You must pay the first installment to finalize the booking'}
                 </InfoMessage>
                 {propsInstallments[0] && (
                   <PayButton onClick={() => handlePayNowClick(true)}>
