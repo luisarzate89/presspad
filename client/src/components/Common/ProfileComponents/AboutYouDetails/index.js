@@ -1,31 +1,31 @@
-import React from "react";
-import { Row, Col } from "antd";
+import React from 'react';
+import { Row, Col } from 'antd';
 import {
   SectionWrapper,
   SectionContent,
-  Description
-} from "../ProfileComponents.style";
+  Description,
+} from '../ProfileComponents.style';
 
-import Title from "../Title";
-import Field from "../Field";
-import fields from "../../../../constants/fields";
+import Title from '../Title';
+import Field from '../Field';
+import fields from '../../../../constants/fields';
 
 const AboutYouDetails = ({
   data = {},
-  name = "",
+  name = '',
   errors = {},
   handleChange,
   handleError,
   userId,
   role,
-  isAdmin = false
+  isAdmin = false,
 }) => {
   const props = {
     handleChange,
     handleError,
     userId,
     role,
-    readOnly: isAdmin
+    readOnly: isAdmin,
   };
 
   return (
@@ -38,36 +38,36 @@ const AboutYouDetails = ({
         </Description>
       )}
       <Title
-        title={isAdmin ? name : "About you"}
+        title={isAdmin ? name : 'About you'}
         hint={
-          !isAdmin && "You need to fill out this information to use PressPad"
+          !isAdmin && 'You need to fill out this information to use PressPad'
         }
       />
       <SectionContent>
         <Row gutter={25} type="flex">
-          <Col xs={24} style={{ margin: "1rem 0" }}>
+          <Col xs={24} style={{ margin: '1rem 0' }}>
             <Field
-              {...fields["photoID"]}
-              value={data["photoID"]}
-              error={errors["photoID"]}
+              {...fields['photoID']}
+              value={data['photoID']}
+              error={errors['photoID']}
               {...props}
             />
           </Col>
           <Col xs={24} md={16}>
             <Field
-              {...fields["hearAboutPressPadAnswer"]}
-              value={data["hearAboutPressPadAnswer"]}
-              error={errors["hearAboutPressPadAnswer"]}
+              {...fields['hearAboutPressPadAnswer']}
+              value={data['hearAboutPressPadAnswer']}
+              error={errors['hearAboutPressPadAnswer']}
               {...props}
             />
           </Col>
         </Row>
         <Row gutter={25} type="flex">
-          <Col xs={24} md={8} style={{ marginTop: "1rem" }}>
+          <Col xs={24} md={8} style={{ marginTop: '1rem' }}>
             <Field
-              {...fields["phoneNumber"]}
-              value={data["phoneNumber"]}
-              error={errors["phoneNumber"]}
+              {...fields['phoneNumber']}
+              value={data['phoneNumber']}
+              error={errors['phoneNumber']}
               {...props}
             />
           </Col>

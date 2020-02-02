@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SectionTitle = styled.h4`
   margin: 20px 0;

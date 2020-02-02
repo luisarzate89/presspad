@@ -1,5 +1,5 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import {
   Col,
@@ -10,12 +10,12 @@ import {
   Modal,
   InputNumber,
   Input,
-} from "antd";
-import { getStringTime } from "../../../helpers";
+} from 'antd';
+import { getStringTime } from '../../../helpers';
 
-import Update from "../../Common/Update";
-import Button from "../../Common/Button";
-import randomProfile from "../../../assets/random-profile.jpg";
+import Update from '../../Common/Update';
+import Button from '../../Common/Button';
+import randomProfile from '../../../assets/random-profile.jpg';
 
 import {
   PageWrapper,
@@ -35,16 +35,16 @@ import {
   BoldTitle,
   Error,
   ErrorWrapper,
-} from "./HostDashboard.style";
+} from './HostDashboard.style';
 
 import {
   HiText,
   HeaderWrapper,
   AvatarWrapper,
-} from "../../Common/general/index";
+} from '../../Common/general/index';
 
-import BookingSection from "../../Common/BookingSection";
-import { bookingsColumns, withdrawRequestsColumns } from "./TablesColumns";
+import BookingSection from '../../Common/BookingSection';
+import { bookingsColumns, withdrawRequestsColumns } from './TablesColumns';
 
 const Content = ({
   // props and state
@@ -109,28 +109,28 @@ const Content = ({
                 <Avatar
                   size="large"
                   icon="user"
-                  src={(profile.profileImage && profile.profileImage.url) || ""}
+                  src={(profile.profileImage && profile.profileImage.url) || ''}
                   style={{
-                    width: "80px",
-                    height: "80px",
-                    margin: "0 auto",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "42px",
-                    border: "1px solid rgba(0, 0, 0, 0.15)",
+                    width: '80px',
+                    height: '80px',
+                    margin: '0 auto',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '42px',
+                    border: '1px solid rgba(0, 0, 0, 0.15)',
                   }}
                 />
               </AvatarWrapper>
             </Col>
             <Col flex xs={24} sm={20}>
               <HiText>
-                Hi {name.split(" ")[0]}
+                Hi {name.split(' ')[0]}
                 {Object.keys(nextBooking).length > 0 && (
                   <>
                     , your next guest is arriving
                     <BoldTitle>
-                      {" "}
+                      {' '}
                       {getStringTime(nextBooking.startDate)}
                     </BoldTitle>
                     .
@@ -146,7 +146,7 @@ const Content = ({
             bio={nextGuestProfile.bio}
             name={nextGuest.name}
             userId={nextGuest._id}
-            organisationName={nextGuestProfile.organisation || "N/A"}
+            organisationName={nextGuestProfile.organisation || 'N/A'}
             bookingId={nextBooking._id}
             startDate={nextBooking.startDate}
             endDate={nextBooking.endDate}
@@ -185,17 +185,17 @@ const Content = ({
               <BlueLink
                 data-name="updates"
                 onClick={handleViewMoreToggle}
-                style={{ marginTop: "2rem", textAlign: "center" }}
+                style={{ marginTop: '2rem', textAlign: 'center' }}
               >
-                {viewNotificationNum ? "View more" : "View less"}
+                {viewNotificationNum ? 'View more' : 'View less'}
               </BlueLink>
             )}
           </SectionWrapperContent>
         </section>
-        <Row gutter={20} style={{ width: "100%" }} type="flex" justify="start">
+        <Row gutter={20} style={{ width: '100%' }} type="flex" justify="start">
           <Col lg={24} xl={16} xs={24} sm={24}>
             <SectionWrapperContent
-              style={{ minHeight: 357, height: "calc(100% - 20px)" }}
+              style={{ minHeight: 357, height: 'calc(100% - 20px)' }}
             >
               <SectionTitle>Your bookings</SectionTitle>
               {bookings.length > 0 ? (
@@ -207,15 +207,15 @@ const Content = ({
                     pagination={false}
                     onRow={record => ({
                       onClick: () => history.push(`booking/${record._id}`),
-                      style: { cursor: "pointer" },
+                      style: { cursor: 'pointer' },
                     })}
                   />
                   {bookings.length > 3 && (
                     <BlueLink
                       onClick={handleViewMoreToggle}
-                      style={{ marginTop: "2rem", textAlign: "center" }}
+                      style={{ marginTop: '2rem', textAlign: 'center' }}
                     >
-                      {viewNumber ? "View more" : "View less"}
+                      {viewNumber ? 'View more' : 'View less'}
                     </BlueLink>
                   )}
                 </BookingsTableWrapper>
@@ -240,7 +240,7 @@ const Content = ({
                 <Button
                   label="Withdraw funds"
                   type="secondary"
-                  style={{ width: "145px" }}
+                  style={{ width: '145px' }}
                   onClick={handleOpenModal}
                   name="withdrawModalOpen"
                   disabled={!canBeWithdraw || canBeWithdraw <= 0}
@@ -248,7 +248,7 @@ const Content = ({
                 <Button
                   label="Donate funds"
                   type="secondary"
-                  style={{ width: "135px" }}
+                  style={{ width: '135px' }}
                   onClick={handleOpenModal}
                   name="donateModalOpen"
                   disabled={!canBeWithdraw || canBeWithdraw <= 0}
@@ -259,7 +259,7 @@ const Content = ({
         </Row>
         <Col sm={24} xs={24}>
           <SectionWrapperContent
-            style={{ minHeight: 357, height: "calc(100% - 20px)" }}
+            style={{ minHeight: 357, height: 'calc(100% - 20px)' }}
           >
             <SectionTitle>Your Withdraw Requests</SectionTitle>
             {withdrawRequests.length > 0 ? (
@@ -273,9 +273,9 @@ const Content = ({
                 {bookings.length > 3 && (
                   <BlueLink
                     onClick={handleViewMoreToggle}
-                    style={{ marginTop: "2rem", textAlign: "center" }}
+                    style={{ marginTop: '2rem', textAlign: 'center' }}
                   >
-                    {viewNumber ? "View more" : "View less"}
+                    {viewNumber ? 'View more' : 'View less'}
                   </BlueLink>
                 )}
               </BookingsTableWrapper>
@@ -309,23 +309,23 @@ const Content = ({
                 min={0}
                 size="large"
                 style={{
-                  width: "140px",
+                  width: '140px',
                   border: errors.donateValue
-                    ? "1px solid red"
-                    : "1px solid #d9d9d9",
+                    ? '1px solid red'
+                    : '1px solid #d9d9d9',
                 }}
                 formatter={value =>
-                  `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                 }
-                parser={value => value.replace(/£\s?|(,*)/g, "")}
-                onChange={value => handleNumberChange("donateValue", value)}
+                parser={value => value.replace(/£\s?|(,*)/g, '')}
+                onChange={value => handleNumberChange('donateValue', value)}
               />
               <Error>{errors.donateValue}</Error>
             </ErrorWrapper>
             <Button
               label="Donate funds"
               type="secondary"
-              style={{ width: "135px" }}
+              style={{ width: '135px' }}
               onClick={handleSubmitDonate}
               loading={apiLoading}
             />
@@ -333,7 +333,7 @@ const Content = ({
               label="Cancel"
               type="cancel"
               nobgc
-              style={{ width: "135px" }}
+              style={{ width: '135px' }}
               onClick={handleCloseModals}
             />
           </ModalContentWrapper>
@@ -347,7 +347,7 @@ const Content = ({
         <ModalContentWrapper>
           <ModalTitle>Withdraw funds</ModalTitle>
           <ModalDescription>
-            Please input your bank details and the amount you’d like to withdraw{" "}
+            Please input your bank details and the amount you’d like to withdraw{' '}
           </ModalDescription>
           <div>
             <ModalDescription bold>Funds available: </ModalDescription>
@@ -360,8 +360,8 @@ const Content = ({
             justify="center"
             align="middle"
             style={{
-              width: "100%",
-              marginBottom: errors.bankName ? "20px" : 0,
+              width: '100%',
+              marginBottom: errors.bankName ? '20px' : 0,
             }}
           >
             <Col span={10}>
@@ -385,8 +385,8 @@ const Content = ({
             justify="center"
             align="middle"
             style={{
-              width: "100%",
-              marginBottom: errors.bankSortCode ? "20px" : 0,
+              width: '100%',
+              marginBottom: errors.bankSortCode ? '20px' : 0,
             }}
           >
             <Col span={10}>
@@ -410,8 +410,8 @@ const Content = ({
             justify="center"
             align="middle"
             style={{
-              width: "100%",
-              marginBottom: errors.accountNumber ? "20px" : 0,
+              width: '100%',
+              marginBottom: errors.accountNumber ? '20px' : 0,
             }}
           >
             <Col span={10}>
@@ -436,8 +436,8 @@ const Content = ({
             justify="center"
             align="middle"
             style={{
-              width: "100%",
-              marginBottom: errors.withdrawValue ? "20px" : 0,
+              width: '100%',
+              marginBottom: errors.withdrawValue ? '20px' : 0,
             }}
           >
             <Col span={10}>
@@ -453,16 +453,16 @@ const Content = ({
                   min={0}
                   size="large"
                   style={{
-                    width: "140px",
+                    width: '140px',
                     border: errors.withdrawValue
-                      ? "1px solid red"
-                      : "1px solid #d9d9d9",
+                      ? '1px solid red'
+                      : '1px solid #d9d9d9',
                   }}
                   formatter={value =>
-                    `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                   }
-                  parser={value => value.replace(/£\s?|(,*)/g, "")}
-                  onChange={value => handleNumberChange("withdrawValue", value)}
+                  parser={value => value.replace(/£\s?|(,*)/g, '')}
+                  onChange={value => handleNumberChange('withdrawValue', value)}
                 />
                 <Error>{errors.withdrawValue}</Error>
               </ErrorWrapper>
@@ -472,7 +472,7 @@ const Content = ({
           <Button
             label="withdraw funds"
             type="secondary"
-            style={{ width: "135px" }}
+            style={{ width: '135px' }}
             onClick={handleSubmitWithdrawRequest}
             loading={apiLoading}
           />
@@ -480,7 +480,7 @@ const Content = ({
             label="Cancel"
             type="cancel"
             nobgc
-            style={{ width: "135px" }}
+            style={{ width: '135px' }}
             onClick={handleCloseModals}
           />
         </ModalContentWrapper>

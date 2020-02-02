@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Input } from "antd";
-import { ErrorWrapper, Error } from "../ProfileComponents.style";
+import { Input } from 'antd';
+import { ErrorWrapper, Error } from '../ProfileComponents.style';
 
 const { TextArea } = Input;
 
@@ -36,9 +36,9 @@ export default function InputWithLabel({
             placeholder={placeholder}
             value={value}
             style={{
-              border: error ? "none" : "1px solid #d9d9d9",
-              height: "100%",
-              minHeight: fullHeight ? "230px" : undefined,
+              border: error ? 'none' : '1px solid #d9d9d9',
+              height: '100%',
+              minHeight: fullHeight ? '230px' : undefined,
             }}
             readOnly={readOnly}
           />
@@ -52,10 +52,10 @@ export default function InputWithLabel({
                 : name
             }
             placeholder={placeholder}
-            value={value || ""}
+            value={value || ''}
             data-parent="favouriteArticle"
             style={{
-              border: error ? "none" : "1px solid #d9d9d9",
+              border: error ? 'none' : '1px solid #d9d9d9',
             }}
             readOnly={readOnly}
           />

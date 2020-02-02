@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Alert } from "antd";
+import React, { Component } from 'react';
+import { Alert } from 'antd';
 
-import InternInfo from "./InternInfo";
-import BookingRequestSection from "../BookingRequestSection";
-import Checklist from "../Checklist";
-import Reviews from "../../../Common/Reviews";
+import InternInfo from './InternInfo';
+import BookingRequestSection from '../BookingRequestSection';
+import Checklist from '../Checklist';
+import Reviews from '../../../Common/Reviews';
 
 // styles
 import {
@@ -14,17 +14,17 @@ import {
   Arrow,
   BackLink,
   Card,
-} from "../../../Common/Profile/Profiles.style";
+} from '../../../Common/Profile/Profiles.style';
 
-import PaymentsTable from "./PaymentsTable";
+import PaymentsTable from './PaymentsTable';
 
-import { SectionWrapperContent } from "../../../Common/general";
+import { SectionWrapperContent } from '../../../Common/general';
 
-import "antd/dist/antd.css";
+import 'antd/dist/antd.css';
 
 class HostView extends Component {
   state = {
-    bookingStatus: "",
+    bookingStatus: '',
   };
 
   handleBooking = action => {
@@ -50,24 +50,24 @@ class HostView extends Component {
           </BackLinkDiv>
         </LinkDiv>
         <InternInfo internId={internId} />
-        {(status === "canceled" || bookingStatus === "canceled") && (
+        {(status === 'canceled' || bookingStatus === 'canceled') && (
           <SectionWrapperContent mtop="20px">
             <Alert
-              style={{ marginTop: "1.2rem", textAlign: "center" }}
+              style={{ marginTop: '1.2rem', textAlign: 'center' }}
               message="Your booking is canceled"
               type="warning"
             />
           </SectionWrapperContent>
         )}
 
-        {status === "pending" && !bookingStatus && (
+        {status === 'pending' && !bookingStatus && (
           <BookingRequestSection
             bookingInfo={bookingInfo}
             handleBooking={this.handleBooking}
           />
         )}
 
-        {(status === "confirmed" || bookingStatus === "confirmed") && (
+        {(status === 'confirmed' || bookingStatus === 'confirmed') && (
           <>
             <Checklist bookingInfo={bookingInfo} userRole="host" />
             <PaymentsTable installments={installments} />

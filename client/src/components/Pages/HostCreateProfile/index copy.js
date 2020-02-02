@@ -1,61 +1,61 @@
-import React, { Component } from "react";
-import { message, Modal, Spin, Alert } from "antd";
-import * as Yup from "yup";
-import axios from "axios";
+import React, { Component } from 'react';
+import { message, Modal, Spin, Alert } from 'antd';
+import * as Yup from 'yup';
+import axios from 'axios';
 
 import {
   API_HOST_COMPLETE_PROFILE,
   API_MY_PROFILE_URL,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
-import { DASHBOARD_URL } from "../../../constants/navRoutes";
+import { DASHBOARD_URL } from '../../../constants/navRoutes';
 
 import {
   disabledEndDate,
   disabledStartDate,
   checkSelectedRange,
   getValidDAtes,
-} from "./helpers";
+} from './helpers';
 
-import Content from "./Content";
+import Content from './Content';
 
 const rUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:.[w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/i;
 
 const schema = Yup.object().shape({
   profileImage: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
+    fileName: Yup.string().required('Required'),
     isPrivate: Yup.boolean().default(false),
   }),
-  bio: Yup.string().required("Required"),
+  bio: Yup.string().required('Required'),
   interests: Yup.string(),
-  organisationName: Yup.string().required("Required"),
+  organisationName: Yup.string().required('Required'),
   organisationWebsite: Yup.string()
-    .matches(rUrl, "Not a valid link")
-    .required("Required"),
+    .matches(rUrl, 'Not a valid link')
+    .required('Required'),
   jobTitle: Yup.string(),
-  addressLine1: Yup.string().required("Required"),
+  addressLine1: Yup.string().required('Required'),
   addressLine2: Yup.string(),
-  addressCity: Yup.string().required("Required"),
-  addressPostCode: Yup.string().required("Required"),
+  addressCity: Yup.string().required('Required'),
+  addressPostCode: Yup.string().required('Required'),
 
   offerImages1: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
+    fileName: Yup.string().required('Required'),
     isPrivate: Yup.boolean().default(false),
   }),
   offerImages2: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
+    fileName: Yup.string().required('Required'),
     isPrivate: Yup.boolean().default(false),
   }),
   offerImages3: Yup.object().shape({
-    fileName: Yup.string().required("Required"),
+    fileName: Yup.string().required('Required'),
     isPrivate: Yup.boolean().default(false),
   }),
 
-  offerDescription: Yup.string().required("Required"),
+  offerDescription: Yup.string().required('Required'),
   offerOtherInfo: Yup.array(),
   availableDates: Yup.mixed().test(
-    "avialable-dates",
-    "Must select avialable dates",
+    'avialable-dates',
+    'Must select avialable dates',
     function(availableDates) {
       const { startDate, endDate } = availableDates[0];
       if (!startDate || !endDate) {
@@ -71,22 +71,22 @@ class HostCreateProfile extends Component {
     attemptedToSubmit: false,
     loading: true,
     profileImage: {
-      fileName: "",
-      dataUrl: "",
+      fileName: '',
+      dataUrl: '',
       loading: 0,
       isLoading: false,
     },
-    bio: "",
-    interests: "",
-    organisationName: "",
-    organisationWebsite: "",
+    bio: '',
+    interests: '',
+    organisationName: '',
+    organisationWebsite: '',
 
-    jobTitle: "",
-    addressLine1: "",
-    addressLine2: "",
-    addressCity: "",
-    addressPostCode: "",
-    offerDescription: "",
+    jobTitle: '',
+    addressLine1: '',
+    addressLine2: '',
+    addressCity: '',
+    addressPostCode: '',
+    offerDescription: '',
     offerOtherInfo: [],
 
     availableDates: [
@@ -100,20 +100,20 @@ class HostCreateProfile extends Component {
     offerImages1: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      fileName: "",
+      dataUrl: '',
+      fileName: '',
     },
     offerImages2: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      fileName: "",
+      dataUrl: '',
+      fileName: '',
     },
     offerImages3: {
       loading: 0,
       isLoading: false,
-      dataUrl: "",
-      fileName: "",
+      dataUrl: '',
+      fileName: '',
     },
     errors: {},
   };
@@ -132,20 +132,20 @@ class HostCreateProfile extends Component {
             profileImage: {
               ...this.state.profileImage,
               ...profile.profileImage,
-              dataUrl: (profile.profileImage && profile.profileImage.url) || "",
+              dataUrl: (profile.profileImage && profile.profileImage.url) || '',
             },
             organisationName:
-              (profile.organisation && profile.organisation.name) || "",
+              (profile.organisation && profile.organisation.name) || '',
             organisationWebsite:
-              (profile.organisation && profile.organisation.website) || "",
+              (profile.organisation && profile.organisation.website) || '',
             addressPostCode:
-              (listing && listing.address && listing.address.postcode) || "",
+              (listing && listing.address && listing.address.postcode) || '',
             addressCity:
-              (listing && listing.address && listing.address.city) || "",
+              (listing && listing.address && listing.address.city) || '',
             addressLine1:
-              (listing && listing.address && listing.address.street) || "",
+              (listing && listing.address && listing.address.street) || '',
             addressLine2:
-              (listing && listing.address && listing.address.borough) || "",
+              (listing && listing.address && listing.address.borough) || '',
             offerImages1: {
               ...this.state.offerImages1,
               fileName:
@@ -153,13 +153,13 @@ class HostCreateProfile extends Component {
                   listing.photos &&
                   listing.photos[0] &&
                   listing.photos[0].fileName) ||
-                "",
+                '',
               dataUrl:
                 (listing &&
                   listing.photos &&
                   listing.photos[0] &&
                   listing.photos[0].url) ||
-                "",
+                '',
             },
             offerImages2: {
               ...this.state.offerImages2,
@@ -168,13 +168,13 @@ class HostCreateProfile extends Component {
                   listing.photos &&
                   listing.photos[1] &&
                   listing.photos[1].fileName) ||
-                "",
+                '',
               dataUrl:
                 (listing &&
                   listing.photos &&
                   listing.photos[1] &&
                   listing.photos[1].url) ||
-                "",
+                '',
             },
             offerImages3: {
               ...this.state.offerImages3,
@@ -183,16 +183,16 @@ class HostCreateProfile extends Component {
                   listing.photos &&
                   listing.photos[2] &&
                   listing.photos[2].fileName) ||
-                "",
+                '',
               dataUrl:
                 (listing &&
                   listing.photos &&
                   listing.photos[2] &&
                   listing.photos[2].url) ||
-                "",
+                '',
             },
             offerOtherInfo: (listing && listing.otherInfo) || [],
-            offerDescription: (listing && listing.description) || "",
+            offerDescription: (listing && listing.description) || '',
             availableDates: (listing && listing.availableDates) || [],
           });
         }
@@ -200,7 +200,7 @@ class HostCreateProfile extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   }
 
@@ -221,7 +221,7 @@ class HostCreateProfile extends Component {
     if (!image) {
       if (!this.state[name].name) {
         return this.setState({
-          errors: { ...errors, [name]: "please upload a file" },
+          errors: { ...errors, [name]: 'please upload a file' },
         });
       }
       return;
@@ -246,13 +246,13 @@ class HostCreateProfile extends Component {
       } = await axios.get(`/api/upload/signed-url?fileName=${generatedName}`);
 
       const headers = {
-        "Content-Type": "application/octet-stream",
+        'Content-Type': 'application/octet-stream',
       };
 
-      let dataUrl = "";
+      let dataUrl = '';
 
-      if (isPrivate === "false") {
-        headers["x-goog-acl"] = "public-read";
+      if (isPrivate === 'false') {
+        headers['x-goog-acl'] = 'public-read';
         dataUrl = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
       await axios.put(signedUrl, image, {
@@ -264,7 +264,7 @@ class HostCreateProfile extends Component {
               loading: precent.toFixed(2),
               isLoading: true,
             },
-            errors: { ...errors, [name]: "" },
+            errors: { ...errors, [name]: '' },
           });
         },
       });
@@ -276,10 +276,10 @@ class HostCreateProfile extends Component {
           loading: 100,
           isLoading: false,
         },
-        errors: { ...errors, [name]: "" },
+        errors: { ...errors, [name]: '' },
       });
     } catch (error) {
-      message.error("something went wrong, try again later", 5);
+      message.error('something went wrong, try again later', 5);
       this.setState({
         [name]: { ...this.state[name], loading: 0, isLoading: false },
       });
@@ -297,14 +297,14 @@ class HostCreateProfile extends Component {
         ...this.state,
         [`offerImages${indexToDelete}`]: {
           ...this.state[`offerImages${indexToDelete}`],
-          fileName: "",
-          dataUrl: "",
+          fileName: '',
+          dataUrl: '',
         },
       });
     } catch (err) {
       const error =
         err.response && err.response.data && err.response.data.error;
-      message.error(error || "Something went wrong");
+      message.error(error || 'Something went wrong');
     }
   };
 
@@ -326,7 +326,7 @@ class HostCreateProfile extends Component {
       .catch(err => {
         const errors = {};
         err.inner.forEach(element => {
-          errors[element.path.split(".")[0]] = element.message;
+          errors[element.path.split('.')[0]] = element.message;
         });
 
         this.setState({ errors });
@@ -344,7 +344,7 @@ class HostCreateProfile extends Component {
         this.setState({ errors: {}, uploading: true });
         Modal.destroyAll();
         Modal.info({
-          title: "Uploading",
+          title: 'Uploading',
           content: (
             <Spin spinning={this.state.loading}>
               <Alert
@@ -397,22 +397,22 @@ class HostCreateProfile extends Component {
         };
 
         // add optional fields if existed
-        formData.interests = interests || " ";
-        formData.jobTitle = jobTitle || " ";
-        formData.addressLine2 = addressLine2 || " ";
+        formData.interests = interests || ' ';
+        formData.jobTitle = jobTitle || ' ';
+        formData.addressLine2 = addressLine2 || ' ';
 
         axios({
-          method: "post",
+          method: 'post',
           url: API_HOST_COMPLETE_PROFILE,
           data: formData,
           headers: {
-            "content-type": "application/json",
+            'content-type': 'application/json',
           },
         })
           .then(({ data }) => {
             Modal.destroyAll();
             Modal.success({
-              title: "Done",
+              title: 'Done',
               content: (
                 <Alert
                   message="Thank you"
@@ -424,14 +424,14 @@ class HostCreateProfile extends Component {
               onOk: () => {
                 this.props.history.push(DASHBOARD_URL);
               },
-              type: "success",
+              type: 'success',
             });
             this.setState({ loading: false, success: true });
           })
           .catch(err => {
             Modal.destroyAll();
             Modal.error({
-              title: "Error",
+              title: 'Error',
               content: (
                 <Alert
                   message="Error"
@@ -439,7 +439,7 @@ class HostCreateProfile extends Component {
                   type="error"
                 />
               ),
-              type: "error",
+              type: 'error',
             });
             this.setState({ loading: false, erros: err.response.data });
           });
@@ -467,16 +467,16 @@ class HostCreateProfile extends Component {
     const { startDate } = newAvailableDates[index];
 
     let isDatePicked;
-    if (field === "startDate") {
+    if (field === 'startDate') {
       obj.endOpen = true;
-    } else if (field === "endDate") {
+    } else if (field === 'endDate') {
       obj.endOpen = false;
 
       isDatePicked = checkSelectedRange(startDate, value, newAvailableDates);
     }
 
     if (isDatePicked) {
-      return message.warning("Cannot select intersected ranges");
+      return message.warning('Cannot select intersected ranges');
     }
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
@@ -488,11 +488,11 @@ class HostCreateProfile extends Component {
   };
 
   onStartChange = (index, value) => {
-    this.changeSelectedDate(index, "startDate", value);
+    this.changeSelectedDate(index, 'startDate', value);
   };
 
   onEndChange = (index, value) => {
-    this.changeSelectedDate(index, "endDate", value);
+    this.changeSelectedDate(index, 'endDate', value);
   };
 
   // add new available dates range
@@ -508,7 +508,7 @@ class HostCreateProfile extends Component {
     }, false);
 
     if (emptyRanges && availableDates.length > 0) {
-      return message.warning("fill the previous ranges");
+      return message.warning('fill the previous ranges');
     }
 
     const newAvailableDates = [...availableDates];

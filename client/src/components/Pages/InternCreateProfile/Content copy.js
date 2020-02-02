@@ -1,5 +1,5 @@
-import React from "react";
-import { Row, Col, Avatar, Input } from "antd";
+import React from 'react';
+import { Row, Col, Avatar, Input } from 'antd';
 
 import {
   PageWrapper,
@@ -14,10 +14,10 @@ import {
   UploadText,
   UploadButton,
   ErrorWrapper,
-  Error
-} from "./InternCreateProfile.style";
+  Error,
+} from './InternCreateProfile.style';
 
-import { ProgressRing, ProgressBar } from "../../Common/progress/";
+import { ProgressRing, ProgressBar } from '../../Common/progress';
 
 const { TextArea } = Input;
 
@@ -26,25 +26,25 @@ const Content = ({
   handleSubmit,
   state,
   directUploadToGoogle,
-  name
+  name,
 }) => {
   const {
     profileImage: {
       url: profileImageDataUrl,
       isLoading: isProfileImageLoading,
-      loading: profileImageLoading
+      loading: profileImageLoading,
     },
     photoIDFile: {
       url: photoIDFileName,
       loading: photoIDLoading,
-      isLoading: isPhotoIDLoading
+      isLoading: isPhotoIDLoading,
     },
     offerLetter: {
       url: offerLetterName,
       loading: offerLetterLoading,
-      isLoading: isOfferLetterLoading
+      isLoading: isOfferLetterLoading,
     },
-    errors
+    errors,
   } = state;
 
   return (
@@ -56,20 +56,20 @@ const Content = ({
               <ErrorWrapper>
                 <div
                   style={{
-                    textAlign: "center"
+                    textAlign: 'center',
                   }}
                 >
-                  {/*neccesarry for ProgressRing*/}
-                  <div style={{ position: "relative", width: 86 }}>
+                  {/* neccesarry for ProgressRing */}
+                  <div style={{ position: 'relative', width: 86 }}>
                     <ProgressRing
                       radius={43}
                       stroke={2}
                       progress={profileImageLoading}
                       style={{
-                        position: "absolute",
+                        position: 'absolute',
                         zIndex: 1,
                         left: 0,
-                        marginTop: -3
+                        marginTop: -3,
                       }}
                     />
                     <Avatar
@@ -77,16 +77,16 @@ const Content = ({
                       icon="user"
                       src={profileImageDataUrl}
                       style={{
-                        width: "80px",
-                        height: "80px",
-                        margin: "0 auto",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "42px",
+                        width: '80px',
+                        height: '80px',
+                        margin: '0 auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '42px',
                         backgroundColor: errors.profileImagefileName
-                          ? "red"
-                          : "none"
+                          ? 'red'
+                          : 'none',
                       }}
                     />
                   </div>
@@ -96,7 +96,7 @@ const Content = ({
             </Col>
             <Col span={20}>
               <HiText>
-                Hi {name.split(" ")[0]}, please complete your profile
+                Hi {name.split(' ')[0]}, please complete your profile
               </HiText>
               <HeaderButtonsWrapper>
                 {isProfileImageLoading ? (
@@ -112,7 +112,7 @@ const Content = ({
                   name="profileImage"
                   onChange={directUploadToGoogle}
                   accept="image/*"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   data-is-private="false"
                 />
                 <UploadButton onClick={handleSubmit}>Submit</UploadButton>
@@ -132,9 +132,9 @@ const Content = ({
                     id="jobTitle"
                     name="jobTitle"
                     onChange={handleInputChange}
-                    value={state.jobTitle || ""}
+                    value={state.jobTitle || ''}
                     style={{
-                      border: errors.jobTitle ? "none" : "1px solid #d9d9d9"
+                      border: errors.jobTitle ? 'none' : '1px solid #d9d9d9',
                     }}
                   />
                   <Error>{errors.jobTitle}</Error>
@@ -150,11 +150,11 @@ const Content = ({
                     name="name"
                     data-parent="organisation"
                     onChange={handleInputChange}
-                    value={state.organisation.name || ""}
+                    value={state.organisation.name || ''}
                     style={{
                       border: errors.organisationname
-                        ? "none"
-                        : "1px solid #d9d9d9"
+                        ? 'none'
+                        : '1px solid #d9d9d9',
                     }}
                   />
                   <Error>{errors.organisationname}</Error>
@@ -168,9 +168,9 @@ const Content = ({
                     rows={6}
                     id="bio"
                     placeholder="Introduce yourself to interns"
-                    value={state.bio || ""}
+                    value={state.bio || ''}
                     style={{
-                      border: errors.bio ? "none" : "1px solid #d9d9d9"
+                      border: errors.bio ? 'none' : '1px solid #d9d9d9',
                     }}
                   />
                   <Error>{errors.bio}</Error>
@@ -190,12 +190,12 @@ const Content = ({
                         onChange={handleInputChange}
                         id="title"
                         placeholder="Article title"
-                        value={state.favouriteArticle.title || ""}
+                        value={state.favouriteArticle.title || ''}
                         data-parent="favouriteArticle"
                         style={{
                           border: errors.articleTitle
-                            ? "none"
-                            : "1px solid #d9d9d9"
+                            ? 'none'
+                            : '1px solid #d9d9d9',
                         }}
                       />
                     </ErrorWrapper>
@@ -212,12 +212,12 @@ const Content = ({
                         onChange={handleInputChange}
                         id="author"
                         placeholder="Article author"
-                        value={state.favouriteArticle.author || ""}
+                        value={state.favouriteArticle.author || ''}
                         data-parent="favouriteArticle"
                         style={{
                           border: errors.favouriteArticleauthor
-                            ? "none"
-                            : "1px solid #d9d9d9"
+                            ? 'none'
+                            : '1px solid #d9d9d9',
                         }}
                       />
                     </ErrorWrapper>
@@ -235,12 +235,12 @@ const Content = ({
                     onChange={handleInputChange}
                     id="link"
                     placeholder="Article link"
-                    value={state.favouriteArticle.link || ""}
+                    value={state.favouriteArticle.link || ''}
                     data-parent="favouriteArticle"
                     style={{
                       border: errors.favouriteArticlelink
-                        ? "none"
-                        : "1px solid #d9d9d9"
+                        ? 'none'
+                        : '1px solid #d9d9d9',
                     }}
                   />
                 </ErrorWrapper>
@@ -253,13 +253,13 @@ const Content = ({
                     onChange={handleInputChange}
                     rows={6}
                     id="favouriteArticle"
-                    value={state.favouriteArticle.description || ""}
+                    value={state.favouriteArticle.description || ''}
                     data-parent="favouriteArticle"
                     placeholder="Share a short description of a recent article you liked"
                     style={{
                       border: errors.favouriteArticledescription
-                        ? "none"
-                        : "1px solid #d9d9d9"
+                        ? 'none'
+                        : '1px solid #d9d9d9',
                     }}
                   />
                 </ErrorWrapper>
@@ -276,7 +276,7 @@ const Content = ({
               <Col xs={24} lg={12}>
                 <Label htmlFor="photoID">Photo ID</Label>
                 <Row gutter={25} type="flex">
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Col xs={20} sm={20} lg={20}>
                       <ErrorWrapper error={errors.PhotoID} marginBottom="20px">
                         <ProgressBar progress={photoIDLoading}>
@@ -284,9 +284,9 @@ const Content = ({
                             id="PhotoID"
                             style={{
                               border: errors.PhotoID
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
+                                ? 'none'
+                                : '1px solid #d9d9d9',
+                              display: 'inline',
                             }}
                             value={photoIDFileName}
                             placeholder="No file has been uploaded"
@@ -307,8 +307,8 @@ const Content = ({
                             id="photoID"
                             onChange={directUploadToGoogle}
                             name="photoIDFile"
-                            style={{ display: "none" }}
-                            data-is-private={true}
+                            style={{ display: 'none' }}
+                            data-is-private
                           />
                         </UploadText>
                       )}
@@ -317,7 +317,7 @@ const Content = ({
                 </Row>
                 <Label htmlFor="offerLetter">Offer letter</Label>
                 <Row gutter={25} type="flex">
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Col xs={20} sm={20} lg={20}>
                       <ErrorWrapper
                         error={errors.offerLetter}
@@ -328,11 +328,11 @@ const Content = ({
                             id="offerLetter2"
                             style={{
                               border: errors.offerLetter
-                                ? "none"
-                                : "1px solid #d9d9d9",
-                              display: "inline"
+                                ? 'none'
+                                : '1px solid #d9d9d9',
+                              display: 'inline',
                             }}
-                            value={offerLetterName || ""}
+                            value={offerLetterName || ''}
                             placeholder="No file has been uploaded"
                             disabled={!!offerLetterName}
                           />
@@ -351,8 +351,8 @@ const Content = ({
                             id="offerLetter"
                             onChange={directUploadToGoogle}
                             name="offerLetter"
-                            data-is-private={true}
-                            style={{ display: "none" }}
+                            data-is-private
+                            style={{ display: 'none' }}
                           />
                         </UploadText>
                       )}
@@ -374,14 +374,14 @@ const Content = ({
                         <Input
                           name="name"
                           onChange={handleInputChange}
-                          value={state.reference1.name || ""}
+                          value={state.reference1.name || ''}
                           placeholder="Name"
                           id="reference1Name"
                           data-parent="reference1"
                           style={{
                             border: errors.reference1Name
-                              ? "none"
-                              : "1px solid #d9d9d9"
+                              ? 'none'
+                              : '1px solid #d9d9d9',
                           }}
                         />
                         <Error>{errors.reference1name}</Error>
@@ -395,13 +395,13 @@ const Content = ({
                         <Input
                           name="contact"
                           onChange={handleInputChange}
-                          value={state.reference1.contact || ""}
+                          value={state.reference1.contact || ''}
                           placeholder="Contact"
                           data-parent="reference1"
                           style={{
                             border: errors.reference1contact
-                              ? "none"
-                              : "1px solid #d9d9d9"
+                              ? 'none'
+                              : '1px solid #d9d9d9',
                           }}
                         />
                         <Error>{errors.reference1contact}</Error>
@@ -424,14 +424,14 @@ const Content = ({
                         <Input
                           name="name"
                           onChange={handleInputChange}
-                          value={state.reference2.name || ""}
+                          value={state.reference2.name || ''}
                           placeholder="Name"
                           id="reference2Name"
                           data-parent="reference2"
                           style={{
                             border: errors.reference2name
-                              ? "none"
-                              : "1px solid #d9d9d9"
+                              ? 'none'
+                              : '1px solid #d9d9d9',
                           }}
                         />
                         <Error>{errors.reference2name}</Error>
@@ -445,13 +445,13 @@ const Content = ({
                         <Input
                           name="contact"
                           onChange={handleInputChange}
-                          value={state.reference2.contact || ""}
+                          value={state.reference2.contact || ''}
                           placeholder="Contact"
                           data-parent="reference2"
                           style={{
                             border: errors.reference2contact
-                              ? "none"
-                              : "1px solid #d9d9d9"
+                              ? 'none'
+                              : '1px solid #d9d9d9',
                           }}
                         />
                         <Error>{errors.reference2contact}</Error>

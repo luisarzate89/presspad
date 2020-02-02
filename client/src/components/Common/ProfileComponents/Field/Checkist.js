@@ -1,5 +1,5 @@
-import React from "react";
-import { Checkbox, Row, Col } from "antd";
+import React from 'react';
+import { Checkbox, Row, Col } from 'antd';
 
 // import { Checkbox } from "antd";
 
@@ -9,7 +9,7 @@ export default function YesNoRadio({
   name,
   options,
   parent,
-  readOnly
+  readOnly,
 }) {
   const onChange = _value => {
     handleChange({ value: _value, key: name, parent });
@@ -19,7 +19,7 @@ export default function YesNoRadio({
     <Checkbox.Group onChange={readOnly ? undefined : onChange} value={value}>
       <Row>
         {options.map(option => (
-          <Col xs={24} key={option} style={{ marginTop: "1rem" }}>
+          <Col xs={24} key={option} style={{ marginTop: '1rem' }}>
             <Checkbox value={option}>{option}</Checkbox>
           </Col>
         ))}

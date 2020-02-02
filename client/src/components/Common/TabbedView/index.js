@@ -1,45 +1,43 @@
-import React from "react";
-import { Tabs } from "antd";
+import React from 'react';
+import { Tabs } from 'antd';
 
-import { CardContainer } from "./TabbedView.style";
+import { CardContainer } from './TabbedView.style';
 
 const { TabPane } = Tabs;
 const TabbedView = ({
   tabsTitle = [],
   tabsContent = [],
   activeKey,
-  onChange
-}) => {
-  return (
-    <CardContainer>
-      <Tabs
-        activeKey={activeKey || tabsTitle[0]}
-        onChange={onChange}
-        animated
-        type="card"
-        tabBarStyle={{
-          border: "none",
-          width: "97%",
-          margin: "0 auto"
-        }}
-      >
-        {tabsContent.map((Content, i) => (
-          <TabPane tab={tabsTitle[i]} key={tabsTitle[i]}>
-            <div
-              style={{
-                width: "97%",
-                margin: "0 auto",
-                padding: "1rem"
-              }}
-            >
-              {Content}
-            </div>
-          </TabPane>
-        ))}
-      </Tabs>
-    </CardContainer>
-  );
-};
+  onChange,
+}) => (
+  <CardContainer>
+    <Tabs
+      activeKey={activeKey || tabsTitle[0]}
+      onChange={onChange}
+      animated
+      type="card"
+      tabBarStyle={{
+        border: 'none',
+        width: '97%',
+        margin: '0 auto',
+      }}
+    >
+      {tabsContent.map((Content, i) => (
+        <TabPane tab={tabsTitle[i]} key={tabsTitle[i]}>
+          <div
+            style={{
+              width: '97%',
+              margin: '0 auto',
+              padding: '1rem',
+            }}
+          >
+            {Content}
+          </div>
+        </TabPane>
+      ))}
+    </Tabs>
+  </CardContainer>
+);
 export default TabbedView;
 
 // Example

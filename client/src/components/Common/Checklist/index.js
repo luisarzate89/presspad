@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import Checkbox from "./Checkbox";
+import Checkbox from './Checkbox';
 
-import { SectionWrapperContent, SectionTitle } from "../general";
-import { Paragraph } from "../Profile/Profiles.style";
+import { SectionWrapperContent, SectionTitle } from '../general';
+import { Paragraph } from '../Profile/Profiles.style';
 
-import HintText from "./HintText";
+import HintText from './HintText';
 
 const Checklist = ({ checklistObj, handleChange }) => {
   const optionals = [];
@@ -48,8 +48,8 @@ const Checklist = ({ checklistObj, handleChange }) => {
             />
           );
         })}
-        <div style={{ marginTop: "5vh", fontWeight: "bold" }}>
-          <div style={{ fontSize: "25px" }}>Other things to do:</div>
+        <div style={{ marginTop: '5vh', fontWeight: 'bold' }}>
+          <div style={{ fontSize: '25px' }}>Other things to do:</div>
           <div>
             {optionals.map(
               ({
@@ -58,10 +58,10 @@ const Checklist = ({ checklistObj, handleChange }) => {
                 containsHostEmail,
                 containsInternEmail,
                 containsCalendlyLink,
-                links
+                links,
               }) => (
                 <>
-                  <div style={{ marginTop: "10px" }}>{text}</div>
+                  <div style={{ marginTop: '10px' }}>{text}</div>
                   <HintText
                     hintText={hintText}
                     containsHostEmail={containsHostEmail}
@@ -70,7 +70,7 @@ const Checklist = ({ checklistObj, handleChange }) => {
                     links={links}
                   />
                 </>
-              )
+              ),
             )}
           </div>
         </div>

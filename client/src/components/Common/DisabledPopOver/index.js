@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { Popover } from "antd";
+import { Popover } from 'antd';
 
-import { ContentWrapper } from "./DisabledPopOver.style";
+import { ContentWrapper } from './DisabledPopOver.style';
 
 // wrapping the disabled elements in this component,
 // will render a popover message
@@ -17,7 +17,7 @@ const DisabledLink = props => {
     </div>
   );
 
-  const defaultTitle = "Comming Soon!";
+  const defaultTitle = 'Comming Soon!';
 
   return (
     <Popover

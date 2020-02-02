@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ImageSection = styled.section`
   margin-top: 15px;

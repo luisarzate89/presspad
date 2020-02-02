@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import moment from "moment";
-import Calendar from "react-calendar/dist/entry.nostyle";
-import { Spin } from "antd";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import moment from 'moment';
+import Calendar from 'react-calendar/dist/entry.nostyle';
+import { Spin } from 'antd';
+import PropTypes from 'prop-types';
 
-import { CalendarWrapper } from "./Calendar.style";
+import { CalendarWrapper } from './Calendar.style';
 
 /**
  * Presentational calendar, no functionality
@@ -27,10 +27,10 @@ class CalendarComponent extends Component {
     }
     const dates = [
       moment(startDate)
-        .startOf("day") // reset the time to 00:00:00
+        .startOf('day') // reset the time to 00:00:00
         .toDate(), // change it to Date object
       moment(endDate)
-        .endOf("day")
+        .endOf('day')
         .toDate(),
     ];
 
@@ -42,8 +42,8 @@ class CalendarComponent extends Component {
     const { dates } = this.state;
 
     const yesterday = moment()
-      .subtract(1, "days")
-      .endOf("day")
+      .subtract(1, 'days')
+      .endOf('day')
       .toDate();
 
     if (date >= dates[0] && date <= dates[1] && date <= yesterday) {
@@ -69,7 +69,7 @@ class CalendarComponent extends Component {
             minDetail="month"
             pointerEvents="none"
             formatShortWeekday={(locale, value) =>
-              ["S", "M", "T", "W", "T", "F", "S"][moment(value).day()]
+              ['S', 'M', 'T', 'W', 'T', 'F', 'S'][moment(value).day()]
             }
           />
         </CalendarWrapper>

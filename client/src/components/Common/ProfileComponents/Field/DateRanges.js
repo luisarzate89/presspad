@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Row, Col, Divider, DatePicker, Icon } from "antd";
-import moment from "moment";
+import React, { Component } from 'react';
+import { Row, Col, Divider, DatePicker, Icon } from 'antd';
+import moment from 'moment';
 
-import { Label, UploadText, Error } from "../ProfileComponents.style";
+import { Label, UploadText, Error } from '../ProfileComponents.style';
 
 class DateRanges extends Component {
   state = {};
@@ -21,17 +21,17 @@ class DateRanges extends Component {
     } = this.props;
 
     return (
-      <Row gutter={25} type="flex" style={{ padding: "0.5rem 0 1rem 0" }}>
+      <Row gutter={25} type="flex" style={{ padding: '0.5rem 0 1rem 0' }}>
         <Col xs={24}>
           <Row gutter={25} type="flex">
             <Col xs={24} md={20} lg={20}>
               {availableDates.map((item, index) => (
-                <div key={item._id} style={{ marginBottom: "25px" }}>
+                <div key={item._id} style={{ marginBottom: '25px' }}>
                   {index !== 0 && (
                     <Divider
                       style={{
-                        marginTop: "25px",
-                        background: "none",
+                        marginTop: '25px',
+                        background: 'none',
                       }}
                     />
                   )}
@@ -68,15 +68,15 @@ class DateRanges extends Component {
                       xs={24}
                       sm={2}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: "32px",
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '32px',
                       }}
                     >
                       <Icon
                         type="close"
-                        style={{ color: "#0ac7e7" }}
+                        style={{ color: '#0ac7e7' }}
                         onClick={() => deleteDate(index)}
                       />
                     </Col>
@@ -89,12 +89,12 @@ class DateRanges extends Component {
             <>
               <UploadText
                 style={{
-                  marginTop: "20px",
-                  display: "block",
+                  marginTop: '20px',
+                  display: 'block',
                 }}
                 onClick={handleAddMoreRanges}
               >
-                {availableDates.length > 0 ? "+ Add more" : "+ Add date"}
+                {availableDates.length > 0 ? '+ Add more' : '+ Add date'}
               </UploadText>
               <Error>{error}</Error>
             </>

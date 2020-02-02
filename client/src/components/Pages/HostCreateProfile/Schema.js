@@ -1,6 +1,6 @@
-import { array, boolean, date, object, string, lazy } from "yup";
-import { optionalWordLengthValidator } from "../../../helpers";
-import errMsgs from "../../../constants/errorMessages";
+import { array, boolean, date, object, string, lazy } from 'yup';
+import { optionalWordLengthValidator } from '../../../helpers';
+import errMsgs from '../../../constants/errorMessages';
 
 export const profileSchema = object().shape({
   birthDate: date()
@@ -50,14 +50,14 @@ export const offerSchema = object({
   address: object({
     addressline1: string()
       .max(50, errMsgs.MAX(50))
-      .required("Required"),
+      .required('Required'),
     addressline2: string().max(50, errMsgs.MAX(50)),
     city: string()
       .max(50, errMsgs.MAX(50))
-      .required("Required"),
+      .required('Required'),
     postcode: string()
       .max(50, errMsgs.MAX(50))
-      .required("Required"),
+      .required('Required'),
   }),
   availableDates: array(
     object({

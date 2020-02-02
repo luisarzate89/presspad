@@ -1,14 +1,14 @@
-import React from "react";
-import { Row, Col } from "antd";
+import React from 'react';
+import { Row, Col } from 'antd';
 import {
   SectionWrapper,
   SectionContent,
   Description,
-} from "../../../../Common/ProfileComponents/ProfileComponents.style";
+} from '../../../../Common/ProfileComponents/ProfileComponents.style';
 
-import Title from "../../../../Common/ProfileComponents/Title";
-import Field from "../../../../Common/ProfileComponents/Field";
-import fields from "../../../../../constants/fields";
+import Title from '../../../../Common/ProfileComponents/Title';
+import Field from '../../../../Common/ProfileComponents/Field';
+import fields from '../../../../../constants/fields';
 
 const AboutYou = ({
   data = {},
@@ -37,9 +37,9 @@ const AboutYou = ({
         </Description>
       )}
       <Title
-        title={isAdmin ? name : "About you"}
+        title={isAdmin ? name : 'About you'}
         hint={
-          !isAdmin && "You need to fill out this information to use PressPad"
+          !isAdmin && 'You need to fill out this information to use PressPad'
         }
       />
       <SectionContent>
@@ -151,7 +151,7 @@ const AboutYou = ({
           </Col>
         </Row>
 
-        <Row gutter={25} type="flex" style={{ marginTop: "1.5rem" }}>
+        <Row gutter={25} type="flex" style={{ marginTop: '1.5rem' }}>
           <Col xs={24}>
             <Field
               {...fields.hostingReasonAnswer}

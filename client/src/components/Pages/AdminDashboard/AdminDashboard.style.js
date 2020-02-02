@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { colors, shadows } from "./../../../theme";
+import { colors, shadows } from '../../../theme';
 
 export const Wrapper = styled.div`
   padding-top: 6rem;
@@ -38,9 +38,9 @@ export const MenuItem = styled.div`
   position: relative;
 
   &:after {
-    content: " ";
+    content: ' ';
     position: absolute;
-    width: ${props => props.active && "100%"};
+    width: ${props => props.active && '100%'};
     left: 0;
     bottom: 0;
     border-bottom: 3px ${colors.secondary} solid;
@@ -102,7 +102,7 @@ export const ContentTitle = styled.h3`
   margin-top: 0;
   margin-bottom: 2rem;
   text-transform: capitalize;
-  display: ${props => props.hide && "none"};
+  display: ${props => props.hide && 'none'};
 `;
 
 export const ProfileWrapper = styled.div`
@@ -119,5 +119,5 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const HostWrapper = styled.div`
-  display: ${props => props.hide && "none"};
+  display: ${props => props.hide && 'none'};
 `;

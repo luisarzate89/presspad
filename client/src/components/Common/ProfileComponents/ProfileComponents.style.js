@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors, size } from "../../../theme";
+import styled from 'styled-components';
+import { colors, size } from '../../../theme';
 
 export const SectionWrapper = styled.div``;
 
@@ -24,7 +24,7 @@ export const SectionTitle = styled.h3`
   margin: 0 1rem 0 0;
 
   :before {
-    content: "";
+    content: '';
     display: block;
     width: 8px;
     background: ${colors.fontPrimary};
@@ -52,9 +52,9 @@ export const FieldWrapper = styled.div`
 export const Label = styled.label`
   font-family: Roboto;
   font-style: normal;
-  font-weight: ${({ light }) => (light ? "lighter" : "bold")};
+  font-weight: ${({ light }) => (light ? 'lighter' : 'bold')};
   line-height: 25px;
-  color: ${({ error }) => (error ? "red" : "#393939")};
+  color: ${({ error }) => (error ? 'red' : '#393939')};
   display: block;
 
   @media (max-width: 767px) {
@@ -71,9 +71,9 @@ export const SectionContent = styled.div`
 `;
 
 export const ErrorWrapper = styled.div`
-  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  border: ${({ error }) => (error ? '1px solid red' : 'initial')};
   margin-bottom: ${({ marginBottom }) => marginBottom};
-  height: ${({ fullHeight }) => (fullHeight ? "auto" : "calc(100% - 27px)")};
+  height: ${({ fullHeight }) => (fullHeight ? 'auto' : 'calc(100% - 27px)')};
   border-radius: 4px;
   position: relative;
 
@@ -90,7 +90,7 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const Error = styled.p`
-  position: ${({ block }) => (block ? "block" : "absolute")};
+  position: ${({ block }) => (block ? 'block' : 'absolute')};
   top: 100%;
   color: red;
   font-size: 12px;
@@ -106,7 +106,7 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   display: block;
   margin: 5px 0;
   overflow: hidden;

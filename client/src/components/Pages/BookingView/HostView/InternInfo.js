@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Skeleton, Icon, message, Alert } from "antd";
-import axios from "axios";
-import moment from "moment";
+import React, { Component } from 'react';
+import { Skeleton, Icon, message, Alert } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
 
-import { API_INTERN_PROFILE_URL } from "../../../../constants/apiRoutes";
+import { API_INTERN_PROFILE_URL } from '../../../../constants/apiRoutes';
 
 // styles
-import { BlueLink } from "../../../Common/general";
+import { BlueLink } from '../../../Common/general';
 import {
   Header,
   HeaderDiv,
@@ -15,7 +15,7 @@ import {
   SubHeadline,
   Paragraph,
   Card,
-} from "../../../Common/Profile/Profiles.style";
+} from '../../../Common/Profile/Profiles.style';
 
 import {
   MainSection,
@@ -30,35 +30,35 @@ import {
   AboutSectionDataContainer,
   AboutSectionDataRow,
   AboutSectionDataCell,
-} from "./HostView.style";
+} from './HostView.style';
 
-import "antd/dist/antd.css";
+import 'antd/dist/antd.css';
 
-import referIcon from "../../../../assets/refer.svg";
-import verifiedIcon from "../../../../assets/verified.svg";
-import RandomProfileImg from "../../../../assets/random-profile.jpg";
+import referIcon from '../../../../assets/refer.svg';
+import verifiedIcon from '../../../../assets/verified.svg';
+import RandomProfileImg from '../../../../assets/random-profile.jpg';
 
 class InternInfo extends Component {
   state = {
     isLoading: true,
     internData: {
-      name: "",
-      birthDate: "",
+      name: '',
+      birthDate: '',
       profileImage: null,
-      bio: "",
-      school: "",
-      hometown: "",
-      interests: "",
-      gender: "",
-      organisation: "",
-      useReasonAnswer: "",
-      issueAnswer: "",
-      storyAnswer: "",
-      mentorDescribeAnswer: "",
+      bio: '',
+      school: '',
+      hometown: '',
+      interests: '',
+      gender: '',
+      organisation: '',
+      useReasonAnswer: '',
+      issueAnswer: '',
+      storyAnswer: '',
+      mentorDescribeAnswer: '',
       verified: false,
       referencesNum: 0,
     },
-    error: "",
+    error: '',
   };
 
   async componentDidMount() {
@@ -66,18 +66,18 @@ class InternInfo extends Component {
     try {
       this.setState({ isLoading: true });
       const { data: internData } = await axios.get(
-        `${API_INTERN_PROFILE_URL.replace(":id", internId)}`,
+        `${API_INTERN_PROFILE_URL.replace(':id', internId)}`,
       );
       this.setState({
         isLoading: false,
-        error: "",
+        error: '',
         internData,
       });
     } catch (err) {
       const error =
         (err.response && err.response.data && err.response.data.error) ||
-        "Something went wrong";
-      message.error(error || "Something went wrong");
+        'Something went wrong';
+      message.error(error || 'Something went wrong');
       this.setState({ isLoading: false, error });
     }
   }
@@ -94,7 +94,7 @@ class InternInfo extends Component {
     if (isLoading) {
       return (
         <MainSection>
-          <Skeleton active avatar={{ size: 160, shape: "square" }} />
+          <Skeleton active avatar={{ size: 160, shape: 'square' }} />
         </MainSection>
       );
     }
@@ -121,7 +121,7 @@ class InternInfo extends Component {
         <Header justifyContent="flex-start">
           <ProfilePicDiv src={this.getProfilePic(profileImage)} />
           <HeaderDiv>
-            <Headline style={{ marginBottom: "1rem" }}>{name}</Headline>
+            <Headline style={{ marginBottom: '1rem' }}>{name}</Headline>
             <SymbolDiv>
               {verified ? (
                 <SymbolContainer>
@@ -149,7 +149,7 @@ class InternInfo extends Component {
           <AboutSection>
             <Card mt="30px" mh="450px">
               <InnerCard>
-                <SubHeadline>About {name.split(" ")[0]}</SubHeadline>
+                <SubHeadline>About {name.split(' ')[0]}</SubHeadline>
                 <AboutSectionDataContainer>
                   {!!name && (
                     <AboutSectionDataRow>
@@ -163,7 +163,7 @@ class InternInfo extends Component {
                         Date of birth:
                       </AboutSectionDataCell>
                       <AboutSectionDataCell>
-                        {moment(birthDate).format("DD/MM/YYYY")}
+                        {moment(birthDate).format('DD/MM/YYYY')}
                       </AboutSectionDataCell>
                     </AboutSectionDataRow>
                   )}
@@ -221,14 +221,14 @@ class InternInfo extends Component {
           <BioSection>
             <Card mt="30px" mh="450px">
               <InnerCard>
-                <SubHeadline>{name.split(" ")[0]}&apos;s Bio</SubHeadline>
+                <SubHeadline>{name.split(' ')[0]}&apos;s Bio</SubHeadline>
                 <Paragraph>{bio}</Paragraph>
               </InnerCard>
             </Card>
           </BioSection>
         </MainSection>
         <BlueLink
-          style={{ width: "100%", textAlign: "center", margin: "2rem 0" }}
+          style={{ width: '100%', textAlign: 'center', margin: '2rem 0' }}
           to={`/interns/${internId}`}
         >
           Show more about Andrew

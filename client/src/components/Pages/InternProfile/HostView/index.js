@@ -1,12 +1,12 @@
 /* eslint-disable global-require */
-import React, { Component } from "react";
-import { Spin, Icon, message } from "antd";
-import axios from "axios";
-import moment from "moment";
+import React, { Component } from 'react';
+import { Spin, Icon, message } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
 
-import { API_INTERN_PROFILE_URL } from "../../../../constants/apiRoutes";
+import { API_INTERN_PROFILE_URL } from '../../../../constants/apiRoutes';
 
-import Reviews from "../../../Common/Reviews";
+import Reviews from '../../../Common/Reviews';
 
 // styles
 import {
@@ -23,7 +23,7 @@ import {
   ParagraphHeadline,
   Paragraph,
   Card,
-} from "../../../Common/Profile/Profiles.style";
+} from '../../../Common/Profile/Profiles.style';
 
 import {
   MainSection,
@@ -39,19 +39,19 @@ import {
   AboutSectionDataContainer,
   AboutSectionDataRow,
   AboutSectionDataCell,
-} from "./HostView.style";
+} from './HostView.style';
 
 import {
   useReasonQuestion,
   issueQuestion,
   storyQuestion,
   mentorDescribeQuestion,
-} from "./questions.json";
+} from './questions.json';
 
-import "antd/dist/antd.css";
+import 'antd/dist/antd.css';
 
-import referIcon from "../../../../assets/refer.svg";
-import verifiedIcon from "../../../../assets/verified.svg";
+import referIcon from '../../../../assets/refer.svg';
+import verifiedIcon from '../../../../assets/verified.svg';
 
 class HostView extends Component {
   state = {
@@ -62,7 +62,7 @@ class HostView extends Component {
   componentDidMount() {
     const { id: internId } = this.props.match.params;
     axios
-      .get(`${API_INTERN_PROFILE_URL.replace(":id", internId)}`)
+      .get(`${API_INTERN_PROFILE_URL.replace(':id', internId)}`)
       .then(({ data: internData }) => {
         this.setState({
           isLoading: false,
@@ -72,14 +72,14 @@ class HostView extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   }
 
   getProfilePic = img =>
     img && img.length > 0
       ? img
-      : require("./../../../../assets/random-profile.jpg");
+      : require('./../../../../assets/random-profile.jpg');
 
   render() {
     if (this.state.isLoading) return <Spin tip="Loading Request" />;
@@ -148,7 +148,7 @@ class HostView extends Component {
           <AboutSection>
             <Card mt="30px" mh="450px">
               <InnerCard>
-                <SubHeadline>About {name.split(" ")[0]}</SubHeadline>
+                <SubHeadline>About {name.split(' ')[0]}</SubHeadline>
                 <AboutSectionDataContainer>
                   {!!name && (
                     <AboutSectionDataRow>
@@ -162,7 +162,7 @@ class HostView extends Component {
                         Date of birth:
                       </AboutSectionDataCell>
                       <AboutSectionDataCell>
-                        {moment(birthDate).format("DD/MM/YYYY")}
+                        {moment(birthDate).format('DD/MM/YYYY')}
                       </AboutSectionDataCell>
                     </AboutSectionDataRow>
                   )}
@@ -220,7 +220,7 @@ class HostView extends Component {
           <BioSection>
             <Card mt="30px" mh="450px">
               <InnerCard>
-                <SubHeadline>{name.split(" ")[0]}'s Bio</SubHeadline>
+                <SubHeadline>{name.split(' ')[0]}'s Bio</SubHeadline>
                 <Paragraph>{bio}</Paragraph>
               </InnerCard>
             </Card>
@@ -229,26 +229,26 @@ class HostView extends Component {
         <MoreAboutSection>
           <Card mt="30px" mh="450px">
             <InnerCard>
-              <SubHeadline>More About {name.split(" ")[0]}</SubHeadline>
+              <SubHeadline>More About {name.split(' ')[0]}</SubHeadline>
               <ParagraphHeadline bold>{useReasonQuestion}</ParagraphHeadline>
               <Paragraph>
-                {useReasonAnswer || "Answer is not available"}
+                {useReasonAnswer || 'Answer is not available'}
               </Paragraph>
               <ParagraphHeadline bold>{issueQuestion}</ParagraphHeadline>
-              <Paragraph>{issueAnswer || "Answer is not available"}</Paragraph>
+              <Paragraph>{issueAnswer || 'Answer is not available'}</Paragraph>
               <ParagraphHeadline bold>{storyQuestion}</ParagraphHeadline>
-              <Paragraph>{storyAnswer || "Answer is not available"}</Paragraph>
+              <Paragraph>{storyAnswer || 'Answer is not available'}</Paragraph>
               <ParagraphHeadline bold>
                 {mentorDescribeQuestion}
               </ParagraphHeadline>
               <Paragraph>
-                {mentorDescribeAnswer || "Answer is not available"}
+                {mentorDescribeAnswer || 'Answer is not available'}
               </Paragraph>
             </InnerCard>
           </Card>
         </MoreAboutSection>
 
-        <MoreAboutSection style={{ marginTop: "5rem" }}>
+        <MoreAboutSection style={{ marginTop: '5rem' }}>
           <Card>
             <Reviews userId={internId} name={name} userRole="intern" />
           </Card>

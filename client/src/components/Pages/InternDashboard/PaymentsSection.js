@@ -1,10 +1,10 @@
-import React from "react";
-import { Table } from "antd";
+import React from 'react';
+import { Table } from 'antd';
 
-import { paymentsColumns } from "./TablesColumns";
+import { paymentsColumns } from './TablesColumns';
 
-import { SectionTitle } from "./InternDashboard.style";
-import { SectionWrapperContent } from "../../Common/general";
+import { SectionTitle } from './InternDashboard.style';
+import { SectionWrapperContent } from '../../Common/general';
 
 export default function PaymentsSection(props) {
   return (

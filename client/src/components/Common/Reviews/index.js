@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import axios from "axios";
-import { Skeleton } from "antd";
-import Review from "./Review";
-import { API_REVIEWS } from "../../../constants/apiRoutes";
-import { Wrapper, MainTitle, SubTitle } from "./Reviews.style";
+import axios from 'axios';
+import { Skeleton } from 'antd';
+import Review from './Review';
+import { API_REVIEWS } from '../../../constants/apiRoutes';
+import { Wrapper, MainTitle, SubTitle } from './Reviews.style';
 
 export default class Reviews extends Component {
   state = {

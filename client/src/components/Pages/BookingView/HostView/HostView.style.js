@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { colors } from "../../../../theme";
+import { colors } from '../../../../theme';
 
 export const InfoWrapper = styled.div`
   margin-right: 4rem;
@@ -85,12 +85,12 @@ export const AboutSectionDataRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: ${({ pushDown = false }) => (pushDown ? "38" : "15")}px;
+  margin-top: ${({ pushDown = false }) => (pushDown ? '38' : '15')}px;
 `;
 
 export const AboutSectionDataCell = styled.div`
-  font-weight: ${({ bold = false }) => (bold ? "bold" : "normal")};
-  width: ${({ fullWidth = false }) => (fullWidth ? "100" : "50")}%;
+  font-weight: ${({ bold = false }) => (bold ? 'bold' : 'normal')};
+  width: ${({ fullWidth = false }) => (fullWidth ? '100' : '50')}%;
   text-align: left;
 `;
 

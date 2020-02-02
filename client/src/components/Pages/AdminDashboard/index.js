@@ -1,17 +1,17 @@
 /* eslint-disable no-nested-ternary */
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-import { Input, Button, Icon, message } from "antd";
+import { Input, Button, Icon, message } from 'antd';
 
 // SUB COMPONENTS
-import ClientTable from "./ClientTable";
-import InternTable from "./InternTable";
-import HostTable from "./HostTable";
-import PaymentsTable from "./PaymentsTable";
-import SearchBar from "../../Common/SearchBar";
-import InternProfile from "../InternProfile/AdminOrInternView";
-import HostProfile from "../HostProfile";
+import ClientTable from './ClientTable';
+import InternTable from './InternTable';
+import HostTable from './HostTable';
+import PaymentsTable from './PaymentsTable';
+import SearchBar from '../../Common/SearchBar';
+import InternProfile from '../InternProfile/AdminOrInternView';
+import HostProfile from '../HostProfile';
 
 // STYLING
 import {
@@ -23,40 +23,40 @@ import {
   MainSection,
   ContentTitle,
   HostWrapper,
-} from "./AdminDashboard.style";
+} from './AdminDashboard.style';
 
 // API ROUTES
 import {
   API_ADMIN_STATS_URL,
   API_UPDATE_WITHDRAW_REQUEST_URL,
-} from "../../../constants/apiRoutes";
-import { filterArray } from "../../../helpers";
+} from '../../../constants/apiRoutes';
+import { filterArray } from '../../../helpers';
 
 export default class AdminDashboard extends Component {
   state = {
-    activeLink: "clients",
+    activeLink: 'clients',
     loading: false,
     data: [],
     filteredData: [],
-    highlightVal: "",
+    highlightVal: '',
     axiosSource: null,
     internView: {
       on: false,
-      internId: "",
+      internId: '',
     },
     hostView: {
       on: false,
-      hostId: "",
-      hostName: "",
-      email: "",
+      hostId: '',
+      hostName: '',
+      email: '',
     },
   };
 
   componentDidMount() {
-    this.selectSection("clients");
+    this.selectSection('clients');
   }
 
-  triggerInternView = (internId = "") => {
+  triggerInternView = (internId = '') => {
     this.setState(prev => {
       const newState = { ...prev };
       newState.internView.on = !newState.internView.on;
@@ -65,7 +65,7 @@ export default class AdminDashboard extends Component {
     });
   };
 
-  triggerHostView = (hostId = "", hostName = "", email = "") => {
+  triggerHostView = (hostId = '', hostName = '', email = '') => {
     this.setState(prev => {
       const newState = { ...prev };
       newState.hostView.on = !newState.hostView.on;
@@ -79,7 +79,7 @@ export default class AdminDashboard extends Component {
   selectSection = section => {
     const { axiosSource } = this.state;
 
-    if (axiosSource) axiosSource.cancel("Cancel axios request");
+    if (axiosSource) axiosSource.cancel('Cancel axios request');
 
     this.setState(
       {
@@ -88,8 +88,8 @@ export default class AdminDashboard extends Component {
         data: [],
         filteredData: [],
         axiosSource: axios.CancelToken.source(),
-        internView: { on: false, internId: "" },
-        hostView: { on: false, hostId: "" },
+        internView: { on: false, internId: '' },
+        hostView: { on: false, hostId: '' },
       },
       () => {
         const { axiosSource: newAxiosSource } = this.state;
@@ -104,11 +104,11 @@ export default class AdminDashboard extends Component {
             this.setState({ data, filteredData: data, loading: false });
           })
           .catch(err => {
-            let errorMsg = "Something went wrong";
+            let errorMsg = 'Something went wrong';
             if (err.response && err.response.status !== 500) {
               errorMsg = err.response.data.error;
             }
-            if (err.message !== "Cancel axios request") {
+            if (err.message !== 'Cancel axios request') {
               message.error(errorMsg);
             }
             this.setState({ loading: false });
@@ -138,8 +138,8 @@ export default class AdminDashboard extends Component {
           style={{
             width: 188,
             marginBottom: 8,
-            display: "block",
-            backgound: "red",
+            display: 'block',
+            backgound: 'red',
           }}
           id="tableInput"
         />
@@ -162,7 +162,7 @@ export default class AdminDashboard extends Component {
       </div>
     ),
     filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? "red" : undefined }} />
+      <Icon type="search" style={{ color: filtered ? 'red' : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -201,7 +201,7 @@ export default class AdminDashboard extends Component {
     const { data: _data, filteredData: _filteredData } = this.state;
     try {
       await axios.patch(
-        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(":id", id)}`,
+        `${API_UPDATE_WITHDRAW_REQUEST_URL.replace(':id', id)}`,
         { type },
       );
       message.success(`The request have been ${type} successfully`);
@@ -225,7 +225,7 @@ export default class AdminDashboard extends Component {
 
       this.setState({ data, filteredData });
     } catch (error) {
-      message.error("something went wrong");
+      message.error('something went wrong');
     }
   };
 
@@ -245,26 +245,26 @@ export default class AdminDashboard extends Component {
           <Title>Your Dashboard</Title>
           <DashboardMenu>
             <MenuItem
-              onClick={() => this.selectSection("clients")}
-              active={activeLink === "clients"}
+              onClick={() => this.selectSection('clients')}
+              active={activeLink === 'clients'}
             >
               Clients
             </MenuItem>
             <MenuItem
-              onClick={() => this.selectSection("interns")}
-              active={activeLink === "interns"}
+              onClick={() => this.selectSection('interns')}
+              active={activeLink === 'interns'}
             >
               Interns
             </MenuItem>
             <MenuItem
-              onClick={() => this.selectSection("hosts")}
-              active={activeLink === "hosts"}
+              onClick={() => this.selectSection('hosts')}
+              active={activeLink === 'hosts'}
             >
               Hosts
             </MenuItem>
             <MenuItem
-              onClick={() => this.selectSection("payments")}
-              active={activeLink === "payments"} // change here
+              onClick={() => this.selectSection('payments')}
+              active={activeLink === 'payments'} // change here
             >
               Payments
             </MenuItem>
@@ -287,8 +287,8 @@ export default class AdminDashboard extends Component {
         ) : (
           <MainSection>
             <ContentTitle>
-              {activeLink.toLowerCase() === "payments"
-                ? "Withdraw requests"
+              {activeLink.toLowerCase() === 'payments'
+                ? 'Withdraw requests'
                 : `Your ${activeLink}`}
             </ContentTitle>
             <SearchBar
@@ -296,7 +296,7 @@ export default class AdminDashboard extends Component {
               handleSearchBar={this.handleSearchBar}
               highlightVal={highlightVal}
             />
-            {activeLink === "clients" && (
+            {activeLink === 'clients' && (
               <ClientTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
@@ -304,7 +304,7 @@ export default class AdminDashboard extends Component {
                 highlightVal={highlightVal}
               />
             )}
-            {activeLink === "interns" && (
+            {activeLink === 'interns' && (
               <InternTable
                 getColumnSearchProps={this.getColumnSearchProps}
                 loading={loading}
@@ -313,7 +313,7 @@ export default class AdminDashboard extends Component {
                 triggerInternView={this.triggerInternView}
               />
             )}
-            {activeLink === "hosts" && (
+            {activeLink === 'hosts' && (
               <HostWrapper>
                 <HostTable
                   getColumnSearchProps={this.getColumnSearchProps}
@@ -324,7 +324,7 @@ export default class AdminDashboard extends Component {
                 />
               </HostWrapper>
             )}
-            {activeLink === "payments" && (
+            {activeLink === 'payments' && (
               <HostWrapper>
                 <PaymentsTable
                   getColumnSearchProps={this.getColumnSearchProps}

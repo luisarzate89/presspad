@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { message, Spin, Icon } from "antd";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { message, Spin, Icon } from 'antd';
 
 import {
   CheckboxContainer,
@@ -8,9 +8,9 @@ import {
   StyledCheckbox,
   CheckIcon,
   Text,
-} from "./Checklist.style";
+} from './Checklist.style';
 
-import { API_UPDATE_CHECKLIST_ANSWER } from "../../../../constants/apiRoutes";
+import { API_UPDATE_CHECKLIST_ANSWER } from '../../../../constants/apiRoutes';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 12 }} spin />;
 
@@ -32,7 +32,7 @@ class Checkbox extends Component {
     const { handleChecklistChange } = this.props;
     try {
       this.setState({ isLoading: true });
-      await axios.patch(API_UPDATE_CHECKLIST_ANSWER.replace(":id", id), {
+      await axios.patch(API_UPDATE_CHECKLIST_ANSWER.replace(':id', id), {
         isChecked: checked,
       });
       this.setState({ isLoading: false }, () => {
@@ -40,7 +40,7 @@ class Checkbox extends Component {
       });
     } catch (err) {
       message.destroy();
-      message.error("Something went wrong, try again later");
+      message.error('Something went wrong, try again later');
     }
   };
 

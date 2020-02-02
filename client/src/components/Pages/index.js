@@ -1,23 +1,23 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 //  COMMON COMPONENTS
-import PrivateRoute from "../Common/PrivateRoute";
-import NotFound from "../Common/NotFound";
+import PrivateRoute from '../Common/PrivateRoute';
+import NotFound from '../Common/NotFound';
 
-import LandingPage from "./LandingPage";
-import HostCreateProfile from "./HostCreateProfile";
-import SignInPage from "./SignInPage";
-import SignUpPage from "./SignUpPage";
-import Dashboard from "./Dashboard";
-import HostProfile from "./HostProfile";
-import InternCreateProfile from "./InternCreateProfile";
-import AdminDashboard from "./AdminDashboard";
-import SearchHosts from "./SearchHosts";
-import BookingView from "./BookingView";
-import MyProfile from "./MyProfile";
-import AddReview from "./AddReview";
-import InternProfile from "./InternProfile";
+import LandingPage from './LandingPage';
+import HostCreateProfile from './HostCreateProfile';
+import SignInPage from './SignInPage';
+import SignUpPage from './SignUpPage';
+import Dashboard from './Dashboard';
+import HostProfile from './HostProfile';
+import InternCreateProfile from './InternCreateProfile';
+import AdminDashboard from './AdminDashboard';
+import SearchHosts from './SearchHosts';
+import BookingView from './BookingView';
+import MyProfile from './MyProfile';
+import AddReview from './AddReview';
+import InternProfile from './InternProfile';
 
 import {
   HOME_URL,
@@ -34,8 +34,8 @@ import {
   BOOKING_VIEW_URL,
   MYPROFILE_URL,
   ADD_REVIWE_URL,
-  INTERN_PROFILE
-} from "../../constants/navRoutes";
+  INTERN_PROFILE,
+} from '../../constants/navRoutes';
 
 export default function Pages(props) {
   const { handleChangeState, isLoggedIn, role, windowWidth } = props;
@@ -72,7 +72,7 @@ export default function Pages(props) {
           isLoggedIn={isLoggedIn}
           {...props}
         />
-        {["host", "superhost"].includes(role) && (
+        {['host', 'superhost'].includes(role) && (
           <PrivateRoute
             exact
             path={HOST_COMPLETE_PROFILE_URL}
@@ -82,7 +82,7 @@ export default function Pages(props) {
             {...props}
           />
         )}
-        {role === "admin" && (
+        {role === 'admin' && (
           <PrivateRoute
             exact
             path={ADMIN_DASHBOARD_URL}
@@ -92,7 +92,7 @@ export default function Pages(props) {
             {...props}
           />
         )}
-        {role === "intern" && (
+        {role === 'intern' && (
           <PrivateRoute
             exact
             path={INTERN_COMPLETE_PROFILE_URL}
@@ -116,7 +116,7 @@ export default function Pages(props) {
           isLoggedIn={isLoggedIn}
           {...props}
         />
-        {["intern", "host", "superhost"].includes(role) && (
+        {['intern', 'host', 'superhost'].includes(role) && (
           <PrivateRoute
             exact
             path={ADD_REVIWE_URL}

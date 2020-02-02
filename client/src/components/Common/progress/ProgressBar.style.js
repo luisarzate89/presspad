@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Bar = styled.span`
-  background: ${({ progress }) => (progress === 100 ? "green" : "blue")};
+  background: ${({ progress }) => (progress === 100 ? 'green' : 'blue')};
   height: 3px;
   display: block;
   width: ${({ progress }) => progress}%;

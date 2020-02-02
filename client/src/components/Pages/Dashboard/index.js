@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import OrgDashboard from "../OrgDashboard";
-import InternDashboard from "../InternDashboard";
-import HostDashboard from "../HostDashboard";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import OrgDashboard from '../OrgDashboard';
+import InternDashboard from '../InternDashboard';
+import HostDashboard from '../HostDashboard';
 
-import { ADMIN_DASHBOARD_URL, Error404 } from "../../../constants/navRoutes";
+import { ADMIN_DASHBOARD_URL, Error404 } from '../../../constants/navRoutes';
 
 export default class Dashboard extends Component {
   componentDidMount() {
@@ -14,17 +14,17 @@ export default class Dashboard extends Component {
   render() {
     const { role } = this.props;
     switch (role) {
-      case "organisation":
+      case 'organisation':
         return <OrgDashboard {...this.props} />;
 
-      case "intern":
+      case 'intern':
         return <InternDashboard {...this.props} />;
 
-      case "host":
-      case "superhost":
+      case 'host':
+      case 'superhost':
         return <HostDashboard {...this.props} />;
 
-      case "admin":
+      case 'admin':
         return <Redirect to={ADMIN_DASHBOARD_URL} />;
 
       default:

@@ -1,12 +1,12 @@
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import { colors, shadows, size } from "../../../theme";
-import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
+import { colors, shadows, size } from '../../../theme';
+import { ReactComponent as BackArrowIcon } from '../../../assets/back-arrow.svg';
 
 const classNames = {
-  reactCalendar: ".react-calendar",
-  reactCalendarNavigation: ".react-calendar__navigation",
+  reactCalendar: '.react-calendar',
+  reactCalendarNavigation: '.react-calendar__navigation',
 };
 
 export const MainSection = styled.section`
@@ -70,8 +70,8 @@ export const BackLink = styled(Link)`
 `;
 
 const blurPic = css`
-  filter: ${({ blur }) => (blur ? "blur(2px)" : "none")};
-  -webkit-filter: ${({ blur }) => (blur ? "blur(2px)" : "none")};
+  filter: ${({ blur }) => (blur ? 'blur(2px)' : 'none')};
+  -webkit-filter: ${({ blur }) => (blur ? 'blur(2px)' : 'none')};
 `;
 
 export const ProfilePic = styled.img`
@@ -293,7 +293,7 @@ const InnerSideCard = styled.div.attrs(classNames)`
   }
 
   ${classNames.reactCalendar} {
-    pointer-events: ${props => (props.userRole === "host" ? "none" : "all")};
+    pointer-events: ${props => (props.userRole === 'host' ? 'none' : 'all')};
   }
 
   ${classNames.reactCalendarNavigation} {
@@ -374,7 +374,7 @@ export const EditButton = styled(Link)`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   display: block;
   width: 100px;
   height: fit-content;

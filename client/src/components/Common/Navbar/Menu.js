@@ -1,10 +1,10 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { NavLink, withRouter } from "react-router-dom";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { NavLink, withRouter } from 'react-router-dom';
 
-import { Icon } from "antd";
+import { Icon } from 'antd';
 
-import { colors } from "../../../theme";
+import { colors } from '../../../theme';
 
 import {
   HOME_URL,
@@ -14,9 +14,9 @@ import {
   ADMIN_DASHBOARD_URL,
   HOSTS_URL,
   SIGNIN_URL,
-} from "../../../constants/navRoutes";
+} from '../../../constants/navRoutes';
 
-import USER_TYPES from "../../../constants/userTypes";
+import USER_TYPES from '../../../constants/userTypes';
 
 const Wrapper = styled.div`
   ${({ isMobile }) =>
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
       background-color: ${colors.primary};
 
       :before {
-        content: "";
+        content: '';
         position: absolute;
         width: 100%;
         height: 100%;
@@ -117,12 +117,12 @@ const Menu = ({
           <Icon
             type="close"
             style={{
-              fontSize: "32px",
-              color: "white",
-              cursor: "pointer",
-              position: "absolute",
-              top: "1rem",
-              right: "1rem",
+              fontSize: '32px',
+              color: 'white',
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
             }}
             onClick={toggleMenu}
           />
@@ -149,12 +149,12 @@ const Menu = ({
           <Icon
             type="close"
             style={{
-              fontSize: "32px",
-              color: "white",
-              cursor: "pointer",
-              position: "absolute",
-              top: "1rem",
-              right: "1rem",
+              fontSize: '32px',
+              color: 'white',
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
             }}
             onClick={toggleMenu}
           />

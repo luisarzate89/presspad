@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { colors, shadows, size } from "../../../theme";
+import { colors, shadows, size } from '../../../theme';
 
 export const Wrapper = styled.div`
   padding: 6rem 1rem;
@@ -74,7 +74,7 @@ export const InputDiv = styled.div`
 
   .ant-input {
     color: ${props =>
-      props.isError ? colors.redSecond : "inherit"} !important;
+      props.isError ? colors.redSecond : 'inherit'} !important;
   }
 `;
 

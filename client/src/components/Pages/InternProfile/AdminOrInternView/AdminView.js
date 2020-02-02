@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { message } from "antd";
+import React from 'react';
+import axios from 'axios';
+import { message } from 'antd';
 
 import {
   AboutYouProfile,
@@ -8,19 +8,19 @@ import {
   AboutYouDetails,
   OtherInformationDetails,
   Demographic,
-} from "../../../Common/ProfileComponents";
-import TabbedView from "../../../Common/TabbedView";
-import { BackLinkDiv, Arrow, BlueLink } from "./InternProfile.style";
+} from '../../../Common/ProfileComponents';
+import TabbedView from '../../../Common/TabbedView';
+import { BackLinkDiv, Arrow, BlueLink } from './InternProfile.style';
 
 import {
   PageWrapper,
   ContentWrapper,
-} from "../../InternCreateProfile/InternCreateProfile.style";
-import { API_ADMIN_INTERN_PROFILE } from "../../../../constants/apiRoutes";
+} from '../../InternCreateProfile/InternCreateProfile.style';
+import { API_ADMIN_INTERN_PROFILE } from '../../../../constants/apiRoutes';
 
 export default class AdminView extends React.Component {
   state = {
-    activeKey: "Profile",
+    activeKey: 'Profile',
     data: {
       birthDate: null,
       hometown: null,
@@ -81,7 +81,7 @@ export default class AdminView extends React.Component {
   componentDidMount() {
     const { userId } = this.props;
     axios
-      .get(API_ADMIN_INTERN_PROFILE.replace(":id", userId))
+      .get(API_ADMIN_INTERN_PROFILE.replace(':id', userId))
       .then(({ data: { profile } }) => {
         if (profile) {
           this.setState(prevState => ({
@@ -92,7 +92,7 @@ export default class AdminView extends React.Component {
           }));
         }
       })
-      .catch(() => message.error("Internal Server Error"));
+      .catch(() => message.error('Internal Server Error'));
   }
 
   onChangeTabs = activeKey => {
@@ -105,7 +105,7 @@ export default class AdminView extends React.Component {
 
     const handleChange = _ => _;
 
-    const role = "intern";
+    const role = 'intern';
 
     return (
       <PageWrapper>
@@ -117,7 +117,7 @@ export default class AdminView extends React.Component {
           <TabbedView
             activeKey={activeKey}
             onChange={this.onChangeTabs}
-            tabsTitle={["Profile", "Details"]}
+            tabsTitle={['Profile', 'Details']}
             tabsContent={[
               <>
                 <AboutYouProfile

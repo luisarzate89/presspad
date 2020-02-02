@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { Input, DatePicker, Icon, Select } from "antd";
-import axios from "axios";
-import moment from "moment";
+import React, { Component } from 'react';
+import { Input, DatePicker, Icon, Select } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
 
 // import API routes
 import {
   API_SEARCH_PROFILES_URL,
   API_GET_ALL_CETIES_URL,
-} from "../../../constants/apiRoutes";
-import Button from "../../Common/Button";
-import { titleCase } from "../../../helpers";
+} from '../../../constants/apiRoutes';
+import Button from '../../Common/Button';
+import { titleCase } from '../../../helpers';
 
 // import Nav routes
-import { HOSTS_URL, SIGNUP_INTERN } from "../../../constants/navRoutes";
+import { HOSTS_URL, SIGNUP_INTERN } from '../../../constants/navRoutes';
 
-import { TABLET_WIDTH } from "../../../constants/screenWidths";
+import { TABLET_WIDTH } from '../../../constants/screenWidths';
 
-import placeholder from "../../../assets/listing-placeholder.jpg";
+import placeholder from '../../../assets/listing-placeholder.jpg';
 // import styled components
 import {
   Wrapper,
@@ -40,7 +40,7 @@ import {
   SignUpPromo,
   SearchButtonDiv,
   SearchButton,
-} from "./SearchHosts.style";
+} from './SearchHosts.style';
 
 export default class index extends Component {
   state = {
@@ -71,7 +71,7 @@ export default class index extends Component {
         this.setState({ listings: data });
       })
       .catch(() => {
-        errors.searchError = "Sorry, there was an error getting the listings";
+        errors.searchError = 'Sorry, there was an error getting the listings';
         this.setState({
           errors,
         });
@@ -123,11 +123,11 @@ export default class index extends Component {
   };
 
   onStartChange = value => {
-    this.onDateInputChange("startDate", value);
+    this.onDateInputChange('startDate', value);
   };
 
   onEndChange = value => {
-    this.onDateInputChange("endDate", value);
+    this.onDateInputChange('endDate', value);
   };
 
   onSearchSubmit = e => {
@@ -150,20 +150,20 @@ export default class index extends Component {
     ) {
       searchIsValid = false;
       errors.searchError =
-        "* You must fill in at least one input before searching";
+        '* You must fill in at least one input before searching';
     }
 
     if (searchFields.startDate) {
       if (!searchFields.endDate) {
         searchIsValid = false;
-        errors.searchError = "* You must enter both a start and end date";
+        errors.searchError = '* You must enter both a start and end date';
       }
     }
 
     if (searchFields.endDate) {
       if (!searchFields.startDate) {
         searchIsValid = false;
-        errors.searchError = "* You must enter both a start and end date";
+        errors.searchError = '* You must enter both a start and end date';
       }
     }
 
@@ -184,19 +184,19 @@ export default class index extends Component {
     if (dates.length > 0) {
       const sortedDates = dates.sort((a, b) => b.startDate - a.startDate);
 
-      return moment(sortedDates[0].startDate).format("Do MMM YYYY");
+      return moment(sortedDates[0].startDate).format('Do MMM YYYY');
     }
-    return moment(dates).format("Do MMM YYYY");
+    return moment(dates).format('Do MMM YYYY');
   };
 
   showEndDate = dates => {
     if (dates.length > 0) {
       const sortedDates = dates.sort((a, b) => b.endDate - a.endDate);
       return moment(sortedDates[sortedDates.length - 1].endDate).format(
-        "Do MMM YYYY",
+        'Do MMM YYYY',
       );
     }
-    return moment(dates).format("Do MMM YYYY");
+    return moment(dates).format('Do MMM YYYY');
   };
 
   render() {
@@ -289,8 +289,8 @@ export default class index extends Component {
         {listings && (
           <ResultsWrapper>
             <ResultsText>
-              Your search returned {listings.length}{" "}
-              {listings.length === 1 ? "result" : "results"}
+              Your search returned {listings.length}{' '}
+              {listings.length === 1 ? 'result' : 'results'}
             </ResultsText>
             {isLoggedIn ? (
               <Hosts underThree={listings.length < 3}>
@@ -305,7 +305,7 @@ export default class index extends Component {
                     </HostHeader>
                     <HostImg src={this.getListingPic(listing.photos)} />
                     <HostDates>
-                      {this.showStartDate(listing.availableDates)} -{" "}
+                      {this.showStartDate(listing.availableDates)} -{' '}
                       {this.showEndDate(listing.availableDates)}
                     </HostDates>
                     <HostLocation>
@@ -333,7 +333,7 @@ export default class index extends Component {
                       </HostHeader>
                       <HostImg src={this.getListingPic(listing.photos)} />
                       <HostDates>
-                        {this.showStartDate(listing.availableDates)} -{" "}
+                        {this.showStartDate(listing.availableDates)} -{' '}
                         {this.showEndDate(listing.availableDates)}
                       </HostDates>
                       <HostLocation>

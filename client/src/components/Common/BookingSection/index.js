@@ -1,10 +1,10 @@
-import React from "react";
-import { Row, Col, Icon } from "antd";
+import React from 'react';
+import { Row, Col, Icon } from 'antd';
 
-import Calendar from "../Calendar";
-import DisabledPopOver from "../DisabledPopOver";
-import { ReactComponent as MapPin } from "../../../assets/mapPin.svg";
-import randomProfile from "../../../assets/random-profile.jpg";
+import Calendar from '../Calendar';
+import DisabledPopOver from '../DisabledPopOver';
+import { ReactComponent as MapPin } from '../../../assets/mapPin.svg';
+import randomProfile from '../../../assets/random-profile.jpg';
 
 import {
   SectionTitle,
@@ -12,9 +12,9 @@ import {
   HostName,
   JopTitle,
   Bio,
-} from "./InternDashboard.style";
+} from './InternDashboard.style';
 
-import { SectionWrapperContent, BlueLink } from "../general";
+import { SectionWrapperContent, BlueLink } from '../general';
 
 export default function BookingSection(props) {
   const {
@@ -45,9 +45,9 @@ export default function BookingSection(props) {
                     <BlueLink
                       to="#"
                       style={{
-                        fontWeight: "normal",
-                        textAlign: "left",
-                        width: "100%",
+                        fontWeight: 'normal',
+                        textAlign: 'left',
+                        width: '100%',
                       }}
                     >
                       view on map&nbsp;
@@ -63,7 +63,7 @@ export default function BookingSection(props) {
                       alt="host profile image"
                     />
                   </Col>
-                  <Col xs={14} sm={24} style={{ paddingLeft: "1rem" }}>
+                  <Col xs={14} sm={24} style={{ paddingLeft: '1rem' }}>
                     <HostName>{name}</HostName>
                     <JopTitle>
                       {jobTitle && `A ${jobTitle}`}
@@ -75,21 +75,21 @@ export default function BookingSection(props) {
                   </Col>
                 </Row>
                 <Row type="flex" justify="space-around" gutter={0}>
-                  {role === "intern" && (
+                  {role === 'intern' && (
                     <Col>
                       <BlueLink
                         to={`/booking/${bookingId}`}
                         style={{
-                          fontFamily: "Roboto",
-                          fontStyle: "normal",
-                          fontWeight: "bold",
-                          fontSize: "1rem",
-                          lineHeight: "1.19rem",
-                          textAlign: "center",
-                          color: "#0ac7e7",
-                          display: "inline-block",
-                          marginBottom: "1.25rem",
-                          marginLeft: "1.25rem",
+                          fontFamily: 'Roboto',
+                          fontStyle: 'normal',
+                          fontWeight: 'bold',
+                          fontSize: '1rem',
+                          lineHeight: '1.19rem',
+                          textAlign: 'center',
+                          color: '#0ac7e7',
+                          display: 'inline-block',
+                          marginBottom: '1.25rem',
+                          marginLeft: '1.25rem',
                         }}
                         href="#viewBooking"
                       >
@@ -105,7 +105,7 @@ export default function BookingSection(props) {
                   <Col>
                     <DisabledPopOver>
                       <BlueLink marginb="1.25rem" to="#">
-                        Message {name && name.split(" ")[0]}
+                        Message {name && name.split(' ')[0]}
                       </BlueLink>
                     </DisabledPopOver>
                   </Col>
@@ -115,7 +115,7 @@ export default function BookingSection(props) {
           </Col>
           <Col lg={8} md={10} sm={24} xs={24}>
             <SectionWrapperContent
-              style={{ minHeight: 422, height: "calc(100% - 20px)" }}
+              style={{ minHeight: 422, height: 'calc(100% - 20px)' }}
             >
               <Calendar startDate={startDate} endDate={endDate} />
             </SectionWrapperContent>

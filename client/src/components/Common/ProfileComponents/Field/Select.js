@@ -1,7 +1,7 @@
-import React from "react";
-import { Select } from "antd";
+import React from 'react';
+import { Select } from 'antd';
 
-import { ErrorWrapper, Error } from "../ProfileComponents.style";
+import { ErrorWrapper, Error } from '../ProfileComponents.style';
 
 const { Option } = Select;
 
@@ -23,7 +23,7 @@ export default function SelectComponent({
     <>
       <ErrorWrapper error={error} marginBottom="12px">
         <Select
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onChange={onChange}
           placeholder={placeholder}
           name={name}

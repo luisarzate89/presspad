@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
-import { Rate } from "antd";
+import styled, { css } from 'styled-components';
+import { Rate } from 'antd';
 
-import { ReactComponent as BackArrowIcon } from "../../../assets/back-arrow.svg";
-import { shadows, colors, size } from "../../../theme";
+import { ReactComponent as BackArrowIcon } from '../../../assets/back-arrow.svg';
+import { shadows, colors, size } from '../../../theme';
 
 export const Wrapper = styled.div`
   width: 80%;
@@ -49,8 +49,8 @@ export const Arrow = styled(BackArrowIcon)`
 export const Header = styled.header`
   padding-top: 2rem;
   display: flex;
-  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
-  align-items: ${({ alignItems }) => alignItems || "start"};
+  justify-content: ${({ justifyContent }) => justifyContent || 'space-between'};
+  align-items: ${({ alignItems }) => alignItems || 'start'};
 `;
 
 export const HeaderDiv = styled.div`
@@ -70,7 +70,7 @@ export const HeaderDiv = styled.div`
 export const Headline = styled.h1`
   font-weight: 900;
   font-size: 1.9rem;
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-weight: 700;
   color: ${colors.fontBlack};
   margin-bottom: 0;
@@ -129,7 +129,7 @@ export const SubHeadline = styled.h2`
 export const ParagraphHeadline = styled.h3`
   font-size: 16px;
   text-align: left;
-  font-weight: ${({ bold = false }) => (bold ? "bold" : "400")};
+  font-weight: ${({ bold = false }) => (bold ? 'bold' : '400')};
   color: ${colors.fontLightBlack};
   margin-top: 5px;
   margin-bottom: 0;

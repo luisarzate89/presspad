@@ -1,90 +1,90 @@
-import { Alert, message, Modal } from "antd";
-import axios from "axios";
-import React, { Component } from "react";
+import { Alert, message, Modal } from 'antd';
+import axios from 'axios';
+import React, { Component } from 'react';
 import {
   API_HOST_COMPLETE_PROFILE,
   API_MY_PROFILE_URL,
-} from "../../../constants/apiRoutes";
-import { DASHBOARD_URL } from "../../../constants/navRoutes";
-import Content from "./Content";
+} from '../../../constants/apiRoutes';
+import { DASHBOARD_URL } from '../../../constants/navRoutes';
+import Content from './Content';
 import {
   checkSelectedRange,
   disabledEndDate,
   disabledStartDate,
   getValidDAtes,
-} from "./helpers";
-import { detailsSchema, offerSchema, profileSchema } from "./Schema";
+} from './helpers';
+import { detailsSchema, offerSchema, profileSchema } from './Schema';
 
 const INITIAL_STATE = {
-  birthDate: "",
-  hometown: "",
-  gender: "",
-  school: "",
+  birthDate: '',
+  hometown: '',
+  gender: '',
+  school: '',
   profileImage: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
   // interests: "",
-  bio: "",
-  jobTitle: "",
-  organisation: "",
-  workingArea: "",
-  hostingReasonAnswer: "",
-  mentoringExperienceAnswer: "",
-  industryExperienceAnswer: "",
-  backgroundAnswer: "",
+  bio: '',
+  jobTitle: '',
+  organisation: '',
+  workingArea: '',
+  hostingReasonAnswer: '',
+  mentoringExperienceAnswer: '',
+  industryExperienceAnswer: '',
+  backgroundAnswer: '',
   photos1: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
   photos2: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
   photos3: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
   address: {
-    addressline1: "",
-    addressline2: "",
-    city: "",
-    postcode: "",
+    addressline1: '',
+    addressline2: '',
+    city: '',
+    postcode: '',
   },
-  accommodationChecklist: "",
-  neighbourhoodDescription: "",
-  otherInfo: "",
+  accommodationChecklist: '',
+  neighbourhoodDescription: '',
+  otherInfo: '',
   photoID: {
-    fileName: "",
+    fileName: '',
     isPrivate: true,
-    url: "",
+    url: '',
   },
-  hearAboutPressPadAnswer: "",
+  hearAboutPressPadAnswer: '',
   reference1: {
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   },
   reference2: {
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   },
   DBSCheck: {
-    fileName: "",
+    fileName: '',
     isPrivate: true,
   },
   pressCard: {
-    fileName: "",
+    fileName: '',
     isPrivate: false,
   },
-  sexualOrientation: "",
-  degreeLevel: "",
-  ethnicity: "",
-  parentProfession: "",
-  disability: "",
-  parentsWorkInPress: "",
-  caringResponsibilities: "",
+  sexualOrientation: '',
+  degreeLevel: '',
+  ethnicity: '',
+  parentProfession: '',
+  disability: '',
+  parentsWorkInPress: '',
+  caringResponsibilities: '',
 };
-const TABS = { PROFILE: "Profile", OFFER: "Offer", DETAILS: "Details" };
+const TABS = { PROFILE: 'Profile', OFFER: 'Offer', DETAILS: 'Details' };
 
 export default class HostCreateProfile extends Component {
   state = {
@@ -127,7 +127,7 @@ export default class HostCreateProfile extends Component {
       .catch(err => {
         const error =
           err.response && err.response.data && err.response.data.error;
-        message.error(error || "Something went wrong");
+        message.error(error || 'Something went wrong');
       });
   }
 
@@ -172,8 +172,8 @@ export default class HostCreateProfile extends Component {
   handleValidationError = ({ inner }) => {
     const newErrors = {};
     inner.forEach(({ path, message: errorMessage }) => {
-      if (path.includes(".")) {
-        const [parent, childrenPath] = path.split(".");
+      if (path.includes('.')) {
+        const [parent, childrenPath] = path.split('.');
         newErrors[path] = newErrors[path] || {};
         newErrors[parent] = {
           ...newErrors[parent],
@@ -244,7 +244,7 @@ export default class HostCreateProfile extends Component {
       .then(() => {
         Modal.destroyAll();
         Modal.success({
-          title: "Done",
+          title: 'Done',
           content: (
             <Alert
               message="Thank you"
@@ -255,14 +255,14 @@ export default class HostCreateProfile extends Component {
           onOk: () => {
             this.props.history.push(DASHBOARD_URL);
           },
-          type: "success",
+          type: 'success',
         });
         this.setState({ loading: false });
       })
       .catch(err => {
         Modal.destroyAll();
         Modal.error({
-          title: "Error",
+          title: 'Error',
           content: (
             <Alert
               message="Error"
@@ -270,7 +270,7 @@ export default class HostCreateProfile extends Component {
               type="error"
             />
           ),
-          type: "error",
+          type: 'error',
         });
         this.setState({ loading: false });
       });
@@ -287,11 +287,11 @@ export default class HostCreateProfile extends Component {
   };
 
   onEndChange = (index, value) => {
-    this.changeSelectedDate(index, "endDate", value);
+    this.changeSelectedDate(index, 'endDate', value);
   };
 
   onStartChange = (index, value) => {
-    this.changeSelectedDate(index, "startDate", value);
+    this.changeSelectedDate(index, 'startDate', value);
   };
 
   changeSelectedDate = (index, field, value) => {
@@ -304,16 +304,16 @@ export default class HostCreateProfile extends Component {
     const { startDate } = newAvailableDates[index];
 
     let isDatePicked;
-    if (field === "startDate") {
+    if (field === 'startDate') {
       obj.endOpen = true;
-    } else if (field === "endDate") {
+    } else if (field === 'endDate') {
       obj.endOpen = false;
 
       isDatePicked = checkSelectedRange(startDate, value, newAvailableDates);
     }
 
     if (isDatePicked) {
-      return message.warning("Cannot select intersected ranges");
+      return message.warning('Cannot select intersected ranges');
     }
 
     newAvailableDates[index] = { ...newAvailableDates[index], ...obj };
@@ -337,7 +337,7 @@ export default class HostCreateProfile extends Component {
     }, false);
 
     if (emptyRanges && availableDates.length > 0) {
-      return message.warning("fill the previous ranges");
+      return message.warning('fill the previous ranges');
     }
 
     const newAvailableDates = [...availableDates];

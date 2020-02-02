@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import styled from "styled-components";
-import { colors } from "../../../theme";
+import styled from 'styled-components';
+import { colors } from '../../../theme';
 
 export const CardContainer = styled.div`
   .ant-tabs-bar {

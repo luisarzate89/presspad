@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 import {
   CheckboxContainer,
   HiddenCheckbox,
   StyledCheckbox,
   CheckIcon,
-  Text
-} from "./Checklist.style";
+  Text,
+} from './Checklist.style';
 
 /**
  * Custom checkbox

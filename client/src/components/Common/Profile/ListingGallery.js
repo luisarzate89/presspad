@@ -1,5 +1,5 @@
-import React from "react";
-import { Carousel } from "antd";
+import React from 'react';
+import { Carousel } from 'antd';
 
 import {
   ImageSection,
@@ -7,10 +7,10 @@ import {
   MainImage,
   SubImage,
   SideImageDiv,
-} from "./ListingGallery.style";
+} from './ListingGallery.style';
 
 // assets
-import ListingPlaceholder from "../../../assets/listing-placeholder.jpg";
+import ListingPlaceholder from '../../../assets/listing-placeholder.jpg';
 
 function ListingGallery({ img1, img2, img3, windowWidth = window.innerWidth }) {
   return (
@@ -18,7 +18,7 @@ function ListingGallery({ img1, img2, img3, windowWidth = window.innerWidth }) {
       {windowWidth < 776 ? (
         // <MainImageDiv>
 
-        <Carousel autoplay effect="fade" style={{ width: "100%" }}>
+        <Carousel autoplay effect="fade" style={{ width: '100%' }}>
           <MainImage
             src={img1 || ListingPlaceholder}
             onError={e => (e.target.src = ListingPlaceholder)}

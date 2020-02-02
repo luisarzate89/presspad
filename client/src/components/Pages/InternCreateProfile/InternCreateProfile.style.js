@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { size } from "../../../theme";
+import { size } from '../../../theme';
 
 export const PageWrapper = styled.div`
   padding-top: 4rem;
@@ -72,7 +72,7 @@ export const SectionWrapperContent = styled.div`
 export const Label = styled.label`
   font-family: Roboto;
   font-style: normal;
-  font-weight: ${({ light }) => (light ? "lighter" : "bold")};
+  font-weight: ${({ light }) => (light ? 'lighter' : 'bold')};
   font-size: 16px;
   line-height: 25px;
   color: #393939;
@@ -88,7 +88,7 @@ export const UploadText = styled.button`
   color: #0ac7e7;
   background: none;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   margin-bottom: 20px;
   display: block;
 `;
@@ -103,11 +103,11 @@ export const UploadButton = styled.button`
   line-height: 25px;
   color: #0ac7e7;
   padding: 7px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;
 
 export const ErrorWrapper = styled.div`
-  border: ${({ error }) => (error ? "1px solid red" : "initial")};
+  border: ${({ error }) => (error ? '1px solid red' : 'initial')};
   margin-bottom: ${({ marginBottom }) => marginBottom};
 
   border-radius: 4px;
@@ -115,7 +115,7 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const Error = styled.p`
-  position: ${({ block }) => (block ? "block" : "absolute")};
+  position: ${({ block }) => (block ? 'block' : 'absolute')};
   top: 100%;
   color: red;
   font-size: 12px;

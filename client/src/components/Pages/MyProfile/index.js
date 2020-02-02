@@ -1,23 +1,23 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
-import { DASHBOARD_URL } from "../../../constants/navRoutes";
+import { DASHBOARD_URL } from '../../../constants/navRoutes';
 
-import HostCreateProfile from "../HostCreateProfile";
-import InternCreateProfile from "../InternCreateProfile";
+import HostCreateProfile from '../HostCreateProfile';
+import InternCreateProfile from '../InternCreateProfile';
 
 const MyProfile = props => {
   const { role } = props;
 
-  if (role === "host" || role === "superhost") {
+  if (role === 'host' || role === 'superhost') {
     return <HostCreateProfile {...props} />;
   }
 
-  if (role === "intern") {
+  if (role === 'intern') {
     return <InternCreateProfile {...props} />;
   }
 
-  if (role === "organisation") {
+  if (role === 'organisation') {
     return <Redirect to={DASHBOARD_URL} />;
   }
   return null;

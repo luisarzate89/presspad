@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   AboutYouProfile,
@@ -6,14 +6,14 @@ import {
   Details,
   OtherInformation,
   Demographic,
-} from "./ProfileComponents";
+} from './ProfileComponents';
 
-import TabbedView from "../../Common/TabbedView";
-import Button from "../../Common/Button";
+import TabbedView from '../../Common/TabbedView';
+import Button from '../../Common/Button';
 
-import { PageWrapper, ContentWrapper } from "./HostCreateProfile.style";
+import { PageWrapper, ContentWrapper } from './HostCreateProfile.style';
 
-import HeaderWrapper from "./HeaderWrapper";
+import HeaderWrapper from './HeaderWrapper';
 
 export default ({
   name,
@@ -48,7 +48,7 @@ export default ({
       <TabbedView
         activeKey={activeKey}
         onChange={onChangeTabs}
-        tabsTitle={["Profile", "Offer", "Details"]}
+        tabsTitle={['Profile', 'Offer', 'Details']}
         tabsContent={[
           <>
             <AboutYouProfile
@@ -61,15 +61,15 @@ export default ({
             />
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "2rem",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: '2rem',
               }}
             >
               <Button
                 label="Next"
                 type="primary"
-                onClick={() => onChangeTabs("Offer")}
+                onClick={() => onChangeTabs('Offer')}
               />
             </div>
           </>,
@@ -93,15 +93,15 @@ export default ({
 
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "2rem",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: '2rem',
               }}
             >
               <Button
                 label="Next"
                 type="primary"
-                onClick={() => onChangeTabs("Details")}
+                onClick={() => onChangeTabs('Details')}
               />
             </div>
           </>,
@@ -135,9 +135,9 @@ export default ({
 
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "2rem",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: '2rem',
               }}
             >
               <Button

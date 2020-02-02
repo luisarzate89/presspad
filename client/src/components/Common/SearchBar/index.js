@@ -1,18 +1,16 @@
-import React from "react";
-import { Input } from "antd";
+import React from 'react';
+import { Input } from 'antd';
 
-import { SectionWrapperContent } from "../../Common/general";
+import { SectionWrapperContent } from '../general';
 
-const SearchBar = props => {
-  return (
-    <SectionWrapperContent>
-      <Input.Search
-        onChange={props.handleSearchBar}
-        enterButton
-        style={{ maxWidth: "500px" }}
-      />
-    </SectionWrapperContent>
-  );
-};
+const SearchBar = props => (
+  <SectionWrapperContent>
+    <Input.Search
+      onChange={props.handleSearchBar}
+      enterButton
+      style={{ maxWidth: '500px' }}
+    />
+  </SectionWrapperContent>
+);
 
 export default SearchBar;

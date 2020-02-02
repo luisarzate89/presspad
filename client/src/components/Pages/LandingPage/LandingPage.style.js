@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { ReactComponent as ArrowIcon } from "../../../assets/arrow.svg";
-import { size, colors } from "./../../../theme";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { ReactComponent as ArrowIcon } from '../../../assets/arrow.svg';
+import { size, colors } from '../../../theme';
 
 export const Wrapper = styled.div`
   .ant-carousel .slick-slide {
@@ -208,7 +208,7 @@ export const Arrow = styled(ArrowIcon)`
   width: 7vw;
   max-width: 90px;
   transform: translateY(-50%)
-    ${({ direction }) => (direction === "left" ? "rotate(180deg)" : "")};
+    ${({ direction }) => (direction === 'left' ? 'rotate(180deg)' : '')};
   cursor: pointer;
   position: absolute;
   transition: all 0.2s ease-in-out;
@@ -221,7 +221,7 @@ export const Arrow = styled(ArrowIcon)`
 
   :hover {
     transform: translateY(-50%)
-      ${({ direction }) => (direction === "left" ? "rotate(180deg)" : "")}
+      ${({ direction }) => (direction === 'left' ? 'rotate(180deg)' : '')}
       scale(1.1);
   }
 `;

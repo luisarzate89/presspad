@@ -1,6 +1,6 @@
-import { boolean, date, object, string, lazy } from "yup";
-import { optionalWordLengthValidator } from "../../../helpers";
-import errMsgs from "../../../constants/errorMessages";
+import { boolean, date, object, string, lazy } from 'yup';
+import { optionalWordLengthValidator } from '../../../helpers';
+import errMsgs from '../../../constants/errorMessages';
 
 export const profileSchema = object({
   birthDate: date()
@@ -27,7 +27,7 @@ export const profileSchema = object({
   bio: string()
     .ensure()
     .wordLengthValidator(250)
-    .required("Please write a short bio about yourself"),
+    .required('Please write a short bio about yourself'),
   organisation: lazy(optionalWordLengthValidator(10)),
   useReasonAnswer: lazy(optionalWordLengthValidator(250)),
   issueAnswer: lazy(optionalWordLengthValidator(250)),
@@ -39,16 +39,16 @@ export const detailsSchema = object({
   photoID: object({
     fileName: string()
       .ensure()
-      .required("Please upload photographic proof of identity"),
+      .required('Please upload photographic proof of identity'),
     isPrivate: boolean().default(true),
   }).required(),
   hearAboutPressPadAnswer: string()
     .ensure()
     .wordLengthValidator(50)
-    .required("Please tell us how your heard about PressPad"),
+    .required('Please tell us how your heard about PressPad'),
   phoneNumber: string()
     .typeError(errMsgs.PHONE_NUMBER)
-    .max(50, "Invalid phone number")
+    .max(50, 'Invalid phone number')
     .required(errMsgs.PHONE_NUMBER),
   reference1: object({
     name: string()

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const SectionTitle = styled.h4`
   margin: 20px 0;
@@ -51,5 +51,5 @@ export const BlueLink = styled(Link)`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: ${({ disabled }) => (disabled ? "#828282" : "#0ac7e7")};
+  color: ${({ disabled }) => (disabled ? '#828282' : '#0ac7e7')};
 `;

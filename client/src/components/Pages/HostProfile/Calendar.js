@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import Calendar from "react-calendar/dist/entry.nostyle";
-import moment from "moment";
-import axios from "axios";
-import { Spin, Alert, Icon, Modal } from "antd";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import Calendar from 'react-calendar/dist/entry.nostyle';
+import moment from 'moment';
+import axios from 'axios';
+import { Spin, Alert, Icon, Modal } from 'antd';
 import {
   createDatesArray,
   getDateRangeFromArray,
   calculatePrice,
-} from "../../../helpers";
+} from '../../../helpers';
 
 import {
   API_BOOKING_REQUEST_URL,
   API_GET_INTERN_STATUS,
-} from "../../../constants/apiRoutes";
+} from '../../../constants/apiRoutes';
 
 import {
   CalendarWrapper,
@@ -23,9 +23,9 @@ import {
   RequestBtn,
   ErrorDiv,
   PriceTopDiv,
-} from "./Calendar.style";
+} from './Calendar.style';
 
-import { INTERN_COMPLETE_PROFILE_URL } from "../../../constants/navRoutes";
+import { INTERN_COMPLETE_PROFILE_URL } from '../../../constants/navRoutes';
 
 const bookingRequest = (url, data) => axios.post(url, data);
 
@@ -37,8 +37,8 @@ class CalendarComponent extends Component {
     isRangeSelected: false,
     price: 0,
     bookingExists: false,
-    message: "",
-    messageType: "",
+    message: '',
+    messageType: '',
     isBooking: false,
   };
 
@@ -69,7 +69,7 @@ class CalendarComponent extends Component {
 
   // to disable "Request Stay" button when the user starts to select a range
   onDayClick = () => {
-    this.setState({ isRangeSelected: false, message: "" });
+    this.setState({ isRangeSelected: false, message: '' });
   };
 
   // updates state
@@ -80,8 +80,8 @@ class CalendarComponent extends Component {
       dates,
       isRangeSelected: true,
       price: calculatePrice(moment.range(dates[0], dates[1])),
-      message: "",
-      messageType: "",
+      message: '',
+      messageType: '',
     });
     // check if booking exists and update state
     this.bookingFound(dates, internBookings);
@@ -91,13 +91,13 @@ class CalendarComponent extends Component {
   tileDisabled = ({ date }) => {
     const { avDates } = this.state;
     // return true if current date is not included in available dates => disable tile
-    date = moment(date).format("YYYY-MM-DD");
+    date = moment(date).format('YYYY-MM-DD');
     return (
       !avDates.includes(date) ||
       moment
         .utc()
-        .startOf("day")
-        .add(7, "days")
+        .startOf('day')
+        .add(7, 'days')
         .isAfter(date)
     ); // Block day tiles only
   };
@@ -122,14 +122,14 @@ class CalendarComponent extends Component {
       listing: listingId,
       intern: currentUserId,
       host: hostId,
-      startDate: moment(dates[0]).format("YYYY-MM-DD"),
-      endDate: moment(dates[1]).format("YYYY-MM-DD"),
+      startDate: moment(dates[0]).format('YYYY-MM-DD'),
+      endDate: moment(dates[1]).format('YYYY-MM-DD'),
       price,
     };
 
-    let message = "";
+    let message = '';
     try {
-      this.setState({ isBooking: true, message: "" });
+      this.setState({ isBooking: true, message: '' });
       const {
         data: { verified, isComplete },
       } = await axios.get(API_GET_INTERN_STATUS);
@@ -137,28 +137,28 @@ class CalendarComponent extends Component {
       if (!verified) {
         message = "You can't make a request until you get verified";
       } else if (!isComplete) {
-        message = "You need to complete your profile";
+        message = 'You need to complete your profile';
       }
 
       if (!verified || !isComplete) {
         this.showAlertAndRedirectToProfile(message);
-        this.setState({ message, messageType: "error", isBooking: false });
+        this.setState({ message, messageType: 'error', isBooking: false });
       }
 
       if (verified && isComplete) {
         bookingRequest(API_BOOKING_REQUEST_URL, data)
           .then(() => {
             this.setState({
-              message: "Booking request sent successfully",
-              messageType: "success",
+              message: 'Booking request sent successfully',
+              messageType: 'success',
               isBooking: false,
               dates: null,
               isRangeSelected: false,
-              price: "0",
+              price: '0',
             });
             Modal.success({
-              title: "Done!",
-              content: "your booking successfully sent",
+              title: 'Done!',
+              content: 'your booking successfully sent',
             });
             // update parent state
             getHostProfile();
@@ -170,22 +170,22 @@ class CalendarComponent extends Component {
 
             if (
               serverError ===
-              "user has already a booking request for those dates"
+              'user has already a booking request for those dates'
             ) {
               errorMsg =
-                "It seems like you have already requested a booking during those dates. You can only make one request at a time.";
+                'It seems like you have already requested a booking during those dates. You can only make one request at a time.';
             } else if (
-              serverError === "listing is not available during those dates"
+              serverError === 'listing is not available during those dates'
             ) {
               errorMsg =
-                "Unfortunately this listing is not fully available during your requested booking dates.";
+                'Unfortunately this listing is not fully available during your requested booking dates.';
             } else {
               errorMsg = serverError;
             }
 
             this.setState({
               isBooking: false,
-              messageType: "error",
+              messageType: 'error',
               message: errorMsg,
             });
           });
@@ -193,12 +193,12 @@ class CalendarComponent extends Component {
     } catch (err) {
       if (err && err.response && err.response.status === 404) {
         const errorMessage =
-          "You need to have a profile in order to be able to book stay";
+          'You need to have a profile in order to be able to book stay';
 
         this.showAlertAndRedirectToProfile(errorMessage);
         this.setState({
           isBooking: false,
-          messageType: "error",
+          messageType: 'error',
           message: errorMessage,
         });
       }
@@ -217,11 +217,11 @@ class CalendarComponent extends Component {
     // disable request btn
     return bookingDatesFound
       ? this.setState({
-        bookingExists: true,
-        messageType: "error",
-        message:
-          "It seems like you have already requested a booking during those dates. You can only make one request at a time.",
-      })
+          bookingExists: true,
+          messageType: 'error',
+          message:
+            'It seems like you have already requested a booking during those dates. You can only make one request at a time.',
+        })
       : this.setState({ bookingExists: false });
   };
 
@@ -253,11 +253,11 @@ class CalendarComponent extends Component {
             minDetail="month"
             selectRange
             formatShortWeekday={(locale, value) =>
-              ["S", "M", "T", "W", "T", "F", "S"][moment(value).day()]
+              ['S', 'M', 'T', 'W', 'T', 'F', 'S'][moment(value).day()]
             }
           />
         </CalendarWrapper>
-        {role === "intern" && (
+        {role === 'intern' && (
           <PricingDiv>
             <PriceTopDiv>
               <PriceHeadline>Full price for period</PriceHeadline>
@@ -282,8 +282,8 @@ class CalendarComponent extends Component {
                     type="loading"
                     style={{
                       fontSize: 24,
-                      marginRight: "8px",
-                      color: "white",
+                      marginRight: '8px',
+                      color: 'white',
                     }}
                     spin
                   />

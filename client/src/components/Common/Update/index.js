@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import { Link } from "react-router-dom";
-import { Badge, UpdateItem, BlueSpan, UpdateDate } from "../general";
-import LoadingBallPulseSync from "../LoadingBallPulseSync";
+import { Link } from 'react-router-dom';
+import { Badge, UpdateItem, BlueSpan, UpdateDate } from '../general';
+import LoadingBallPulseSync from '../LoadingBallPulseSync';
 
-import { getStringTime } from "../../../helpers";
+import { getStringTime } from '../../../helpers';
 
 const Update = ({ item, userRole }) => {
   const { type, secondParty, createdAt, seen, booking, loading } = item;
 
   const timeString = getStringTime(createdAt);
   switch (userRole) {
-    case "intern":
+    case 'intern':
       switch (type) {
-        case "stayRejected":
+        case 'stayRejected':
           return (
             <UpdateItem>
               Your request to stay with&nbsp;
@@ -26,7 +26,7 @@ const Update = ({ item, userRole }) => {
             </UpdateItem>
           );
 
-        case "stayApproved":
+        case 'stayApproved':
           return (
             <UpdateItem>
               Your request to stay with&nbsp;
@@ -39,7 +39,7 @@ const Update = ({ item, userRole }) => {
             </UpdateItem>
           );
 
-        case "stayCompleted":
+        case 'stayCompleted':
           return (
             <UpdateItem>
               Your stay with&nbsp;
@@ -52,7 +52,7 @@ const Update = ({ item, userRole }) => {
             </UpdateItem>
           );
 
-        case "completeProfileRemind":
+        case 'completeProfileRemind':
           return (
             <Link to="/my-profile">
               <UpdateItem>
@@ -64,7 +64,7 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "getReview":
+        case 'getReview':
           return (
             <Link to={`/booking/${booking}`}>
               <UpdateItem>
@@ -77,7 +77,7 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "giveReviewReminder":
+        case 'giveReviewReminder':
           return (
             <Link to={`/review-info/${booking}`}>
               <UpdateItem>
@@ -93,35 +93,35 @@ const Update = ({ item, userRole }) => {
         default:
           return null;
       }
-    case "host":
+    case 'host':
       switch (type) {
-        case "stayRequest":
+        case 'stayRequest':
           return (
             <UpdateItem>
               <Link to={`/interns/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
-              </Link>{" "}
-              &nbsp;requested to stay with you -{" "}
+              </Link>{' '}
+              &nbsp;requested to stay with you -{' '}
               <UpdateDate>{timeString}</UpdateDate>
               {!seen && !loading && <Badge>new</Badge>}
               {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
-        case "stayCompleted":
+        case 'stayCompleted':
           return (
             <UpdateItem>
               <Link to={`/interns/${secondParty._id}`}>
                 <BlueSpan>{secondParty.name}</BlueSpan>
-              </Link>{" "}
-              &nbsp;has completed his stay with you -{" "}
+              </Link>{' '}
+              &nbsp;has completed his stay with you -{' '}
               <UpdateDate>{timeString}</UpdateDate>
               {!seen && !loading && <Badge>new</Badge>}
               {loading && !seen && <LoadingBallPulseSync />}
             </UpdateItem>
           );
 
-        case "completeProfileRemind":
+        case 'completeProfileRemind':
           return (
             <Link to="/my-profile">
               <UpdateItem>
@@ -133,7 +133,7 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "getReview":
+        case 'getReview':
           return (
             <Link to={`/booking/${booking}`}>
               <UpdateItem>
@@ -146,7 +146,7 @@ const Update = ({ item, userRole }) => {
             </Link>
           );
 
-        case "giveReviewReminder":
+        case 'giveReviewReminder':
           return (
             <Link to={`/review-info/${booking}`}>
               <UpdateItem>

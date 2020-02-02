@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { message, Icon, Tooltip } from "antd";
-import { ProgressBar } from "../../progress";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { message, Icon, Tooltip } from 'antd';
+import { ProgressBar } from '../../progress';
 
-import { UploadText, Error } from "../ProfileComponents.style";
+import { UploadText, Error } from '../ProfileComponents.style';
 
 export default class File extends Component {
   state = {
@@ -22,7 +22,7 @@ export default class File extends Component {
       if (!image) {
         if (!this.state[name].name) {
           return this.setState({
-            error: "please upload a file",
+            error: 'please upload a file',
           });
         }
         return undefined;
@@ -49,13 +49,13 @@ export default class File extends Component {
       } = await axios.get(`/api/upload/signed-url?fileName=${generatedName}`);
 
       const headers = {
-        "Content-Type": "application/octet-stream",
+        'Content-Type': 'application/octet-stream',
       };
 
-      let url = "";
+      let url = '';
 
       if (!isPrivate) {
-        headers["x-goog-acl"] = "public-read";
+        headers['x-goog-acl'] = 'public-read';
         url = `https://storage.googleapis.com/${bucketName}/${generatedName}`;
       }
       await axios.put(signedUrl, image, {
@@ -66,7 +66,7 @@ export default class File extends Component {
             {
               loading: precent.toFixed(2),
               isLoading: true,
-              error: "",
+              error: '',
             },
             () => {
               this.props.handleChange({
@@ -85,16 +85,16 @@ export default class File extends Component {
         fileName: generatedName,
         loading: 100,
         isLoading: false,
-        error: "",
+        error: '',
       });
     } catch (error) {
-      message.error("something went wrong, try again later");
+      message.error('something went wrong, try again later');
       this.setState({
         loading: 0,
         isLoading: false,
       });
       return this.props.handleError({
-        errorMsg: "something went wrong, try again later",
+        errorMsg: 'something went wrong, try again later',
         key: name,
         parent,
       });
@@ -109,7 +109,7 @@ export default class File extends Component {
         <Tooltip title="download" placement="bottomLeft">
           <UploadText as="a" href={url}>
             <Icon type="download" />
-            <span style={{ marginLeft: "1rem" }}>download</span>
+            <span style={{ marginLeft: '1rem' }}>download</span>
           </UploadText>
         </Tooltip>
       );
@@ -132,11 +132,11 @@ export default class File extends Component {
           >
             {fileName || value ? (
               <>
-                <Icon type="check" style={{ color: "green" }} />
+                <Icon type="check" style={{ color: 'green' }} />
                 {fileName || value}
               </>
             ) : (
-              "+ Add file"
+              '+ Add file'
             )}
             <input
               type="file"
@@ -147,7 +147,7 @@ export default class File extends Component {
               }
               onChange={this.directUploadToGoogle}
               name={name}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
           </UploadText>
         )}
