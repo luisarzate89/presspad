@@ -45,9 +45,9 @@ export default windowWidth => {
   if (windowWidth > 690) {
     columnsObject.push({
       title: 'Amount spent so far',
-      dataIndex: 'usedDays',
-      key: 'usedDays',
-      render: usedDays => <span>£{(usedDays && usedDays * 20) || 0}</span>,
+      dataIndex: 'usedAmount',
+      key: 'usedAmount',
+      render: usedAmount => <span>£{usedAmount || 0}</span>,
     });
   }
 
