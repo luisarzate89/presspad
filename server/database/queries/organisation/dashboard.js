@@ -130,8 +130,8 @@ module.exports = id => {
     {
       $lookup: {
         from: 'bookings',
-        localField: '_id',
-        foreignField: 'user',
+        localField: 'intern._id',
+        foreignField: 'intern',
         as: 'bookings',
       },
     },
