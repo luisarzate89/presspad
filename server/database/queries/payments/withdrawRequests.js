@@ -1,5 +1,5 @@
 const WithdrawRequest = require('../../models/WithdrawRequest');
-const Account = require('../../models/Account');
+const { Account, User } = require('../../models');
 
 /**
  * Confirm or Cancel withdraw request,
@@ -9,6 +9,7 @@ const Account = require('../../models/Account');
  * @param {import session from mongoose} session
  */
 const confirmOrCancelWithdrawRequest = async (withdrawId, type, session) => {
+  const presspadAdmin = await User.findOne({ role: 'admin' });
   const withdrawRequest = await WithdrawRequest.findByIdAndUpdate(
     withdrawId,
     { status: type },
@@ -19,6 +20,11 @@ const confirmOrCancelWithdrawRequest = async (withdrawId, type, session) => {
     await Account.updateOne(
       { _id: account },
       { $inc: { currentBalance: -1 * amount, withdrawal: amount } },
+      { session },
+    );
+    await Account.updateMany(
+      { _id: presspadAdmin.account },
+      { $inc: { currentBalance: -1 * amount } },
       { session },
     );
   }
