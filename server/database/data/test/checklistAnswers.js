@@ -1,33 +1,38 @@
-const ChecklistQuestion = require('../../models/ChecklistQuestion');
-const ChecklistAnswers = require('../../models/ChecklistAnswer');
-const Booking = require('../../models/Booking');
+const ChecklistAnswer = require('../../models/ChecklistAnswer');
 
-module.exports = async () => {
-  const bookings = await Booking.findOne({ status: 'confirmed' }).sort({
-    price: 1,
-  });
-  const checklistQuestions = await ChecklistQuestion.find().sort({ text: 1 });
+const reset = () => ChecklistAnswer.deleteMany();
+
+const createAll = async ({ users, checklistQuestions, bookings }) => {
+  await reset();
+
+  const { internUser, hostUser } = users;
+  const { completedBooking } = bookings;
 
   const checklistAnswers = [
     {
-      user: bookings.intern,
+      user: internUser._id,
       question: checklistQuestions[0]._id,
       isChecked: true,
-      booking: bookings._id,
+      booking: completedBooking._id,
     },
     {
-      user: bookings.host,
+      user: hostUser._id,
       question: checklistQuestions[1]._id,
       isChecked: true,
-      booking: bookings._id,
+      booking: completedBooking._id,
     },
     {
-      user: bookings.intern,
+      user: internUser._id,
       question: checklistQuestions[2]._id,
       isChecked: true,
-      booking: bookings._id,
+      booking: completedBooking._id,
     },
   ];
 
-  await ChecklistAnswers.create(checklistAnswers);
+  await ChecklistAnswer.create(checklistAnswers);
+};
+
+module.exports = {
+  createAll,
+  reset,
 };

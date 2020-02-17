@@ -12,7 +12,7 @@ export const ADD_REVIWE_URL = '/review-info/:id/';
 
 // signing up process
 export const SIGNUP_INTERN = '/sign-up/intern';
-export const SIGNUP_HOST = '/sign-up/host/:referralCode?';
+export const SIGNUP_HOST = '/sign-up/host';
 export const SIGNUP_ORG = '/sign-up/organisation';
 export const HOST_COMPLETE_PROFILE_URL = '/host-complete-profile';
 export const INTERN_COMPLETE_PROFILE_URL = '/intern-complete-profile';

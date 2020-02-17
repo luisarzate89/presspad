@@ -1,77 +1,79 @@
-const Listing = require('../../models/Listing');
-const User = require('../../models/User');
 const Booking = require('../../models/Booking');
 
-module.exports = async () => {
-  const interns = await User.find({ role: 'intern' }).sort({
-    name: 1,
-    email: 1,
-  });
-  const listings = await Listing.find().sort({ 'address.postcode': 1 });
+const reset = () => Booking.deleteMany();
 
+const createAll = async ({ users, listings }) => {
+  const { internUser, hostUser } = users;
+  const { LondonListing } = listings;
+
+  await reset();
   const bookings = [
+    // completed
     {
-      listing: listings[0],
-      intern: interns[0],
-      host: listings[0].user,
-      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
+      listing: LondonListing._id,
+      intern: internUser,
+      host: hostUser,
+      startDate: Date.now() - 20 * 24 * 60 * 60 * 1000,
       endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      price: 300,
+      status: 'completed',
+      price: 120,
+      payedAmount: 120,
+      moneyGoTo: 'host',
     },
+    // pending
     {
-      listing: listings[0],
-      intern: interns[1],
-      host: listings[0].user,
+      listing: LondonListing._id,
+      intern: internUser,
+      host: hostUser,
       startDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
-      price: 436,
+      endDate: Date.now() + 20 * 24 * 60 * 60 * 1000,
+      status: 'pending',
+      price: 120,
+      payedAmount: 0,
+      moneyGoTo: 'host',
     },
+    // confirmed & not paid
     {
-      listing: listings[1],
-      intern: interns[0],
-      host: listings[1].user,
-      startDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
-      price: 400,
-    },
-    {
-      listing: listings[0],
-      intern: interns[1],
-      host: listings[0].user,
-      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
+      listing: LondonListing._id,
+      intern: internUser,
+      host: hostUser,
+      startDate: Date.now() + 25 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
       status: 'confirmed',
-      price: 300,
+      price: 120,
+      payedAmount: 0,
+      moneyGoTo: 'presspad',
     },
+    // confirmed & paid (first payment)
     {
-      listing: listings[1],
-      intern: interns[1],
-      host: listings[1].user,
-      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
+      listing: LondonListing._id,
+      intern: internUser,
+      host: hostUser,
+      startDate: Date.now() + 31 * 24 * 60 * 60 * 1000,
+      endDate: Date.now() + 35 * 24 * 60 * 60 * 1000,
       status: 'confirmed',
       price: 100,
-    },
-    {
-      listing: listings[1],
-      intern: interns[2],
-      host: listings[1].user,
-      startDate: Date.now() - 30 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      confirmDate: Date.now() - 36 * 24 * 60 * 60 * 1000,
-      status: 'confirmed',
-      price: 200,
-    },
-    {
-      listing: listings[2],
-      intern: interns[1],
-      host: listings[2].user,
-      startDate: Date.now() + 10 * 24 * 60 * 60 * 1000,
-      endDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
-      price: 300,
+      payedAmount: 33.33,
+      moneyGoTo: 'presspad',
     },
   ];
-  await Booking.create(bookings);
+
+  const [
+    completedBooking,
+    pendingBooking,
+    confirmedNotPaid,
+    confirmedPaidFirst,
+  ] = await Booking.create(bookings);
+
+  return {
+    completedBooking,
+    pendingBooking,
+    confirmedNotPaid,
+    confirmedPaidFirst,
+  };
+};
+
+module.exports = {
+  createAll,
+  reset,
 };

@@ -1,64 +1,42 @@
 const Organisation = require('../../models/Organisation');
-const Account = require('../../models/Account');
+const account = require('./accounts');
 
-module.exports = async () => {
-  const accounts = await Account.find();
+const reset = () => Organisation.deleteMany();
 
-  const [
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    orgAccount1,
-    orgAccount2,
-    orgAccount3,
-    orgAccount4,
-  ] = accounts;
+const createNew = async ({ name }) => {
+  const newAccount = await account.createNew();
+
+  const newOrganisation = {
+    name,
+    logo: {
+      fileName: 'test.svg',
+    },
+    account: newAccount._id,
+  };
+
+  return Organisation.create(newOrganisation);
+};
+
+const createAll = async ({ accounts }) => {
+  await reset();
+  const { organisationAccount } = accounts;
 
   const organisations = [
     {
       name: 'Financial Times',
-      plan: 'basic',
-      credits: 500,
       logo: {
         fileName: 'test.svg',
       },
-      account: orgAccount1._id,
-    },
-    {
-      name: 'The Guardian',
-      plan: 'basic',
-      credits: 1500,
-      logo: {
-        fileName: 'test.svg',
-      },
-      account: orgAccount2._id,
-    },
-    {
-      name: 'BBC',
-      plan: 'basic',
-      credits: 750,
-      logo: {
-        fileName: 'test.svg',
-      },
-      account: orgAccount3._id,
-    },
-    {
-      name: 'AFP',
-      plan: 'basic',
-      credits: 200,
-      logo: {
-        fileName: 'test.svg',
-      },
-      account: orgAccount4._id,
+      account: organisationAccount._id,
     },
   ];
 
-  await Organisation.create(organisations);
+  const [financialTimeOrganisation] = await Organisation.create(organisations);
+  return { financialTimeOrganisation };
+};
+
+module.exports = {
+  createAll,
+  createNew,
+  reset,
 };

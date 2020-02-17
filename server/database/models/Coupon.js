@@ -42,27 +42,13 @@ const couponSchema = new Schema(
       required: true,
       default: shortid.generate,
     },
-    days: {
-      type: Number,
-      required: true,
-      validate: {
-        validator: Number.isInteger,
-        message: 'Days is not an integer value',
-      },
-    },
-    usedDays: {
-      type: Number,
-      required: true,
-      validate: {
-        validator: Number.isInteger,
-        message: 'Used Days is not an integer value',
-      },
-    },
     startDate: {
       type: Date,
       required: true,
       validate: {
-        validator: value => moment().startOf('day') <= value,
+        validator: value =>
+          moment().startOf('day') <= value ||
+          process.env.NODE_ENV !== 'production',
         message: 'start date is in the past',
       },
     },
@@ -70,7 +56,9 @@ const couponSchema = new Schema(
       type: Date,
       required: true,
       validate: {
-        validator: value => moment().startOf('day') <= value,
+        validator: value =>
+          moment().startOf('day') <= value ||
+          process.env.NODE_ENV !== 'production',
         message: 'end date is in the past',
       },
     },
@@ -102,14 +90,6 @@ const couponSchema = new Schema(
           type: Number,
           min: 0,
           required: true,
-        },
-        usedDays: {
-          type: Number,
-          required: true,
-          validate: {
-            validator: Number.isInteger,
-            message: 'Used Days is not an integer value',
-          },
         },
         booking: {
           type: Schema.Types.ObjectId,

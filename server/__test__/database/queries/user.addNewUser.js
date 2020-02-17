@@ -3,17 +3,10 @@ const mongoose = require('mongoose');
 const buildDB = require('../../../database/data/test');
 
 const { addNewUser } = require('./../../../database/queries/user');
-const {
-  addOrg,
-  checkCode,
-  deleteCode,
-} = require('./../../../database/queries/user/organisation');
+const { addOrg } = require('./../../../database/queries/user/organisation');
 
-const User = require('../../../database/models/User');
 const Organisation = require('../../../database/models/Organisation');
 const Account = require('../../../database/models/Account');
-
-const OrgCode = require('../../../database/models/OrgCodes');
 
 describe('Test for add and find organisation queries', () => {
   beforeAll(async () => {
@@ -30,24 +23,6 @@ describe('Test for add and find organisation queries', () => {
     addOrg('Test Organisation', 'logo', account._id).then(response => {
       expect(response).toBeDefined();
       expect(response.name).toBe('Test Organisation');
-      done();
-    });
-  });
-
-  test('Test checkCode', async done => {
-    const orgCode = await OrgCode.findOne();
-    checkCode(orgCode.code).then(foundOrgCode => {
-      expect(foundOrgCode).toBeDefined();
-      expect(foundOrgCode.organisation).toBeDefined();
-      done();
-    });
-  });
-
-  test('Test deleteCode', async done => {
-    const orgCode = await OrgCode.findOne();
-    deleteCode(orgCode.code).then(deletedCode => {
-      expect(deletedCode).toBeDefined();
-      expect(deletedCode.deletedCount).toBe(1);
       done();
     });
   });
@@ -82,14 +57,11 @@ describe('Test addNewUser query', () => {
   });
 
   test('Test host', async done => {
-    const referralUser = await User.findOne({ role: 'superhost' });
-
     const userInfo = {
       email: 'host@test.com',
       name: 'Ted Test',
       password: 'a123456A',
       role: 'host',
-      referral: referralUser.id,
     };
 
     addNewUser(userInfo).then(newUser => {

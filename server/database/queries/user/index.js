@@ -31,13 +31,11 @@ module.exports.addNewUser = async userInfo => {
   }
 
   if (role === 'host') {
-    const { referral } = userInfo;
     return User.create({
       email: email.toLowerCase(),
       name,
       password,
       role,
-      referral,
       account: newAccount._id,
     });
   }

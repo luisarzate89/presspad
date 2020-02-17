@@ -46,8 +46,6 @@ export const InputDiv = styled.div`
   }
 `;
 
-export const ReferralText = styled.p``;
-
 export const Disclaimer = styled.div``;
 
 export const ErrorMsg = styled.div`

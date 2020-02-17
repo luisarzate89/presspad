@@ -1,27 +1,33 @@
-const Booking = require('../../models/Booking');
 const Review = require('../../models/Review');
 
-module.exports = async () => {
-  const bookings = await Booking.find({ status: 'confirmed' }).sort({
-    price: 1,
-  });
+const reset = () => Review.deleteMany();
 
+const createAll = async ({ bookings }) => {
+  const { completedBooking } = bookings;
+
+  await reset();
   const reviews = [
     {
-      to: bookings[1].intern,
-      from: bookings[1].host,
+      to: completedBooking.intern,
+      from: completedBooking.host,
+      rating: 4,
+      message: 'He was very clever intern, I wish him good luck',
+      booking: completedBooking._id,
+    },
+    {
+      to: completedBooking.host,
+      from: completedBooking.intern,
       rating: 5,
       message:
         'Staying here was an absolute pleasure. I learned a great deal about how to approach politicians and very much enjoyed the city. We managed to go to a few journalistic events as well and met some amazing people!',
-      booking: bookings[1]._id,
-    },
-    {
-      to: bookings[2].host,
-      from: bookings[2].intern,
-      rating: 5,
-      message: 'It all went very well! We had a great time together.',
-      booking: bookings[2]._id,
+      booking: completedBooking._id,
     },
   ];
-  await Review.create(reviews);
+  const [fromHostReview, fromInternReview] = await Review.create(reviews);
+  return { fromHostReview, fromInternReview };
+};
+
+module.exports = {
+  createAll,
+  reset,
 };

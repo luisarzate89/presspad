@@ -4,7 +4,6 @@ const router = require('express').Router();
 const loginController = require('./../controllers/user/login');
 const userInfo = require('./../controllers/user/userInfo');
 const signUpController = require('./../controllers/user/signup');
-const getUserByReferral = require('./../controllers/user/getUserByReferral');
 const getAllOrgs = require('./../controllers/user/getAllOrgs');
 const hostsCompleteProfile = require('./../controllers/hostsCompleteProfile');
 const internsCompleteProfile = require('./../controllers/user/internsCompleteProfile');
@@ -54,9 +53,9 @@ const { markAsSeen } = require('../controllers/notifications');
 const viewWithdrawRequests = require('../controllers/withdrawRequests');
 
 // IMPORT MIDDLEWARES
-const authentication = require("./../middlewares/authentication");
+const authentication = require('./../middlewares/authentication');
 // const softAuthCheck = require("./../middlewares/softAuthCheck");
-const { validation } = require("./../middlewares/validation");
+const { validation } = require('./../middlewares/validation');
 
 // API ROUTES
 const {
@@ -64,7 +63,6 @@ const {
   USER_URL,
   SIGNUP_URL,
   SIGNOUT_URL,
-  CHECK_REFERRAL_URL,
   GET_ORGS_URL,
   HOST_PROFILE_URL,
   HOST_COMPLETE_PROFILE,
@@ -161,7 +159,6 @@ router.post(ADMIN_STATS_URL, authentication, adminStats);
 // USE CONTROLLERS
 router.post(LOGIN_URL, loginController);
 router.post(SIGNUP_URL, signUpController);
-router.post(CHECK_REFERRAL_URL, getUserByReferral);
 router.get(GET_ORGS_URL, getAllOrgs);
 
 // Orgs

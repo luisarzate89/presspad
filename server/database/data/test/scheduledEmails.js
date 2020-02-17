@@ -1,21 +1,27 @@
 const ScheduledEmail = require('../../models/ScheduledEmail');
-const Booking = require('../../models/Booking');
 
-module.exports = async () => {
-  const bookings = await Booking.findOne({ status: 'confirmed' }).sort({
-    price: 1,
-  });
+const reset = () => ScheduledEmail.deleteMany();
 
-  const scheduledEmail = {
-    type: 'BOOKING_REMINDER_1_WEEK',
-    data: {
-      recipient: 'test@gmail.com',
-      host: bookings.host,
-      booking: bookings._id,
+const createAll = async ({ users }) => {
+  const { hostUser, internUser } = users;
+
+  const scheduledEmails = [
+    {
+      type: 'BOOKING_REMINDER_1_WEEK',
+      data: {
+        recipient: 'test@gmail.com',
+        host: hostUser._id,
+        booking: internUser._id,
+      },
+      isSent: false,
+      dueDate: Date.now() + 7 * 24 * 60 * 60 * 1000, // after 7 days
     },
-    isSent: false,
-    dueDate: Date.now() + 7 * 24 * 60 * 60 * 1000, // after 7 days
-  };
+  ];
 
-  await ScheduledEmail.create(scheduledEmail);
+  await ScheduledEmail.create(scheduledEmails);
+};
+
+module.exports = {
+  createAll,
+  reset,
 };

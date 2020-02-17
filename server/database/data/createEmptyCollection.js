@@ -9,14 +9,10 @@ const {
   InternalTransaction,
   Listing,
   Notification,
-  OrgCodes,
   Organisation,
   Profile,
-  Referal,
   Review,
   ScheduledEmail,
-  ScheduledNotification,
-  Transaction,
   User,
   WithdrawRequest,
 } = require('./../models');
@@ -33,14 +29,10 @@ const createEmptyCollection = async () => {
     await InternalTransaction.createCollection();
     await Listing.createCollection();
     await Notification.createCollection();
-    await OrgCodes.createCollection();
     await Organisation.createCollection();
     await Profile.createCollection();
-    await Referal.createCollection();
     await Review.createCollection();
     await ScheduledEmail.createCollection();
-    await ScheduledNotification.createCollection();
-    await Transaction.createCollection();
     await User.createCollection();
     await WithdrawRequest.createCollection();
   } catch (err) {

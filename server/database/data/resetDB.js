@@ -9,14 +9,10 @@ const {
   InternalTransaction,
   Listing,
   Notification,
-  OrgCodes,
   Organisation,
   Profile,
-  Referal,
   Review,
   ScheduledEmail,
-  ScheduledNotification,
-  Transaction,
   User,
   WithdrawRequest,
 } = require('./../models');
@@ -33,14 +29,10 @@ const resetDB = async () => {
     await InternalTransaction.deleteMany();
     await Listing.deleteMany();
     await Notification.deleteMany();
-    await OrgCodes.deleteMany();
     await Organisation.deleteMany();
     await Profile.deleteMany();
-    await Referal.deleteMany();
     await Review.deleteMany();
     await ScheduledEmail.deleteMany();
-    await ScheduledNotification.deleteMany();
-    await Transaction.deleteMany();
     await User.deleteMany();
     await WithdrawRequest.deleteMany();
   } catch (err) {

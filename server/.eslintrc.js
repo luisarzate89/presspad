@@ -2,7 +2,8 @@ module.exports = {
   env: {
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
+    jest: true,
   },
   extends: ["airbnb-base", "prettier"],
   globals: {
@@ -22,7 +23,8 @@ module.exports = {
         trailingComma: "all",
         singleQuote: true
       }
-    ]
+    ],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
   },
   plugins: ["prettier"]
 };

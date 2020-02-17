@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
     return getUserById(id, true)
       .then(user => {
         if (!user) {
-          req.sqreen.auth_track(false, { email: user.email });
+          req.sqreen.auth_track(false);
           res.clearCookie('token');
           return next(boom.unauthorized('credentials are not valid'));
         }

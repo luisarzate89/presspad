@@ -6,8 +6,6 @@ const app = require('./../../app');
 
 const { API_SIGNUP_URL } = require('../../../client/src/constants/apiRoutes');
 
-const User = require('./../../database/models/User');
-
 describe('Testing for signup route', () => {
   beforeAll(async () => {
     // build dummy data
@@ -66,15 +64,12 @@ describe('Testing for signup route', () => {
   });
 
   test('test host with correct details', async done => {
-    const superhost = await User.find({ type: 'superhost' });
-
     const data = {
       userInfo: {
         email: 'host@test.com',
         name: 'Ted Test',
         password: 'a123456A',
         role: 'host',
-        referral: superhost.id,
       },
     };
 
@@ -86,7 +81,6 @@ describe('Testing for signup route', () => {
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body.email).toBe(data.userInfo.email);
-        expect(res.referral).toBe(superhost.id);
         done(err);
       });
   });

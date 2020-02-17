@@ -1,70 +1,96 @@
 const mongoose = require('mongoose');
-const dbConnect = require('../../dbConnection');
-const resetDb = require('./../resetDB');
 
-const organisations = require('./organisations');
-const orgCodes = require('./orgCodes');
-const users = require('./users');
-const referrals = require('./referrals');
-const profiles = require('./profiles');
-const listings = require('./listings');
-const bookings = require('./bookings');
-const reviews = require('./reviews');
-const transactions = require('./transactions');
-const notifications = require('./notifications');
-const accounts = require('./accounts');
+const dbConnection = require('../../dbConnection');
+const createEmptyCollection = require('../createEmptyCollection');
+
+const account = require('./accounts');
+const organisation = require('./organisations');
+const user = require('./users');
+const profile = require('./profiles');
+const listing = require('./listings');
+const booking = require('./bookings');
+
+const review = require('./reviews');
+const notification = require('./notifications');
 const internalTransaction = require('./internalTransaction');
-const coupons = require('./coupons');
-const scheduledNotifications = require('./scheduledNotifications');
-const externalTransactions = require('./externalTransactions');
-const installments = require('./installments');
-const scheduledEmails = require('./scheduledEmails');
-const checklistQuestions = require('./checklistQuestions');
-const checklistAnswers = require('./checklistAnswers');
-const withdrawRequests = require('./withdrawRequests');
+const coupon = require('./coupons');
 
-const buildTestData = useAtlas =>
+const externalTransaction = require('./externalTransactions');
+const installments = require('./installments');
+const scheduledEmail = require('./scheduledEmails');
+const checklistQuestion = require('./checklistQuestions');
+const withdrawRequest = require('./withdrawRequests');
+const checklistAnswer = require('./checklistAnswers');
+
+const couponDiscountRate = 50;
+
+const buildData = () =>
   new Promise((resolve, reject) => {
-    dbConnect(useAtlas)
+    dbConnection()
       .then(async () => {
-        try {
-          await resetDb();
-          await accounts();
-          await organisations();
-          await users();
-          await orgCodes();
-          await referrals();
-          await profiles();
-          await listings();
-          await bookings();
-          await reviews();
-          await notifications();
-          await transactions();
-          await internalTransaction();
-          await coupons();
-          await scheduledNotifications();
-          await externalTransactions();
-          await installments();
-          await scheduledEmails();
-          await checklistQuestions();
-          await checklistAnswers();
-          await withdrawRequests();
-        } catch (err) {
-          console.log('err during building the test db, try again', err);
-          throw err;
-        }
+        await createEmptyCollection();
+
+        const accounts = await account.createAll();
+
+        const organisations = await organisation.createAll({ accounts });
+
+        const users = await user.createAll({
+          accounts,
+          organisations,
+        });
+
+        await profile.createAll({ users });
+
+        const listings = await listing.createAll({ users });
+
+        const bookings = await booking.createAll({
+          users,
+          listings,
+        });
+
+        await review.createAll({ bookings });
+
+        await notification.createAll({ users, bookings });
+
+        const internalTransactions = await internalTransaction.createAll({
+          accounts,
+          users,
+          bookings,
+          couponDiscountRate,
+        });
+
+        await coupon.createAll({
+          users,
+          accounts,
+          organisations,
+          bookings,
+          couponDiscountRate,
+          internalTransactions,
+        });
+
+        await scheduledEmail.createAll({ users });
+
+        const checklistQuestions = await checklistQuestion.createAll();
+
+        await checklistAnswer.createAll({
+          checklistQuestions,
+          users,
+          bookings,
+        });
+
+        await externalTransaction.createAll({ users, accounts });
+
+        await installments.createAll({ internalTransactions, bookings, users });
+
+        await withdrawRequest.createAll({ users, accounts });
       })
       .then(resolve)
       .catch(reject);
   });
 
-if (process.env.NODE_ENV === 'build') {
-  buildTestData().then(() => {
-    // eslint-disable-next-line no-console
-    console.log('Done!: Dev DB has been built successfully');
-    // close the connection after build
-    mongoose.disconnect();
-  });
-}
-
-module.exports = buildTestData;
+buildData().then(() => {
+  // eslint-disable-next-line no-console
+  console.log('Done!: DB has been built successfully');
+  // close the connection after build
+  mongoose.disconnect();
+});

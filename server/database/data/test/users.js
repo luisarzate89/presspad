@@ -1,170 +1,88 @@
 const User = require('../../models/User');
-const Organisation = require('../../models/Organisation');
-const Account = require('../../models/Account');
+const organisation = require('./organisations');
 
-module.exports = async () => {
-  const accounts = await Account.find();
-  const [
-    adminAccount,
-    internsAccount1,
-    internsAccount2,
-    internsAccount3,
-    internsAccount4,
-    hostAccount1,
-    hostAccount2,
-    hostAccount3,
-    hostAccount4,
-    hostAccount5,
-    orgAccount1,
-    orgAccount2,
-    orgAccount3,
-    orgAccount4,
-  ] = accounts;
-  // organisation codes
-  // const organisations = await Organisation.find();
+const reset = () => User.deleteMany();
 
-  const BBC = await Organisation.findOne({ name: 'BBC' });
-  const FTimes = await Organisation.findOne({ name: 'Financial Times' });
-  const Guardian = await Organisation.findOne({ name: 'The Guardian' });
-  const AFP = await Organisation.findOne({ name: 'AFP' });
+const createNew = async ({ email, name, password, role }) => {
+  const newUserData = {
+    email: email || `${role}@test.com`,
+    name: name || 'name',
+    password: password || '123456',
+    role,
+  };
 
-  // create admin
+  if (role === 'organisation') {
+    const newOrganisation = await organisation.createNew();
+    newUserData.organisation = newOrganisation._id;
+    newUserData.account = newOrganisation.account;
+  }
+
+  return User.create(newUserData);
+};
+
+const createAll = async ({ accounts, organisations }) => {
+  const { financialTimeOrganisation } = organisations;
+
+  await reset();
+
+  const {
+    presspadAccount,
+    internAccount,
+    hostAccount,
+    organisationAccount,
+  } = accounts;
+
   const admin = {
-    email: 'mark@presspad.co.uk',
+    email: 'admin@test.com',
     name: 'Mark Upton',
     password: '123456',
     role: 'admin',
-    account: adminAccount._id,
+    account: presspadAccount._id,
   };
-  await User.create(admin);
 
-  // create organisation users
-  const organisationUsers = [
-    {
-      email: 'michael@financialtimes.co.uk',
-      name: 'Michael Peters',
-      password: '123456',
-      role: 'organisation',
-      organisation: FTimes._id,
-      plan: 'basic',
-      account: orgAccount1._id,
-    },
-    {
-      email: 'josephine@guardian.co.uk',
-      name: 'Josephine Doeski',
-      password: '123456',
-      role: 'organisation',
-      organisation: Guardian._id,
-      plan: 'basic',
-      account: orgAccount2._id,
-    },
-    {
-      email: 'brian@bbc.co.uk',
-      name: 'Brian Meyer',
-      password: '123456',
-      role: 'organisation',
-      organisation: BBC._id,
-      account: orgAccount3._id,
-    },
-    {
-      email: 'luise@afp.co.uk',
-      name: 'Luise Michaels',
-      password: '123456',
-      role: 'organisation',
-      organisation: AFP._id,
-      plan: 'basic',
-      account: orgAccount4._id,
-    },
-  ];
-
-  await User.create(organisationUsers);
-
-  // create superhost
-  const superhost = {
-    email: 'alexandra@presspad.co.uk',
-    name: 'Alexandra Lions',
+  const organisationUser = {
+    email: 'organisation@test.com',
+    name: 'Michael Peters',
     password: '123456',
-    role: 'superhost',
-    account: hostAccount1._id,
+    role: 'organisation',
+    organisation: financialTimeOrganisation._id,
+    account: organisationAccount._id,
   };
 
-  const storedSuperhost = await User.create(superhost);
+  const host = {
+    email: 'host@test.com',
+    name: 'Adam Appele',
+    password: '123456',
+    role: 'host',
+    account: hostAccount._id,
+  };
 
-  // create hosts
-  const hosts = [
-    {
-      email: 'adam@gmail.com',
-      name: 'Adam Appele',
-      password: '123456',
-      role: 'host',
-      referral: storedSuperhost,
-      account: hostAccount2._id,
-    },
-    {
-      email: 'eve@hello.com',
-      name: 'Eve Richards',
-      password: '123456',
-      role: 'host',
-      referral: storedSuperhost,
-      account: hostAccount3._id,
-    },
-    {
-      email: 'hilda@bbc.co.uk',
-      name: 'Hilda Meyer',
-      password: '123456',
-      role: 'host',
-      referral: storedSuperhost,
-      account: hostAccount4._id,
-    },
-    {
-      email: 'simon@gmail.com',
-      name: 'Simon Dupree',
-      password: '123456',
-      role: 'host',
-      referral: storedSuperhost,
-      account: hostAccount5._id,
-    },
-  ];
+  const intern = {
+    email: 'intern@test.com',
+    name: 'Mone Dupree',
+    password: '123456',
+    role: 'intern',
+    organisation: financialTimeOrganisation._id,
+    account: internAccount._id,
+  };
 
-  await User.create(hosts);
+  const [
+    adminUser,
+    createdOrganisationUser,
+    hostUser,
+    internUser,
+  ] = await User.create([admin, organisationUser, host, intern]);
 
-  // create interns
-  const interns = [
-    {
-      email: 'mone@gmail.com',
-      name: 'Mone Dupree',
-      password: '123456',
-      role: 'intern',
-      organisation: BBC._id,
-      account: internsAccount1._id,
-    },
-    {
-      email: 'newby@gmail.com',
-      name: 'Newby French',
-      password: '123456',
-      role: 'intern',
-      organisation: AFP._id,
-      account: internsAccount2._id,
-    },
-    {
-      email: 'joe@hello.com',
-      name: 'Joe The Friel',
-      password: '123456',
-      role: 'intern',
-      organisation: Guardian._id,
-      account: internsAccount3._id,
-    },
-    {
-      email: 'ramy@rambo.co.uk',
-      name: 'Ramy Rambo',
-      password: '123456',
-      role: 'intern',
-      organisation: FTimes._id,
-      account: internsAccount4._id,
-    },
-  ];
+  return {
+    adminUser,
+    organisationUser: createdOrganisationUser,
+    hostUser,
+    internUser,
+  };
+};
 
-  const storredInterns = await User.create(interns);
-
-  return storredInterns;
+module.exports = {
+  createAll,
+  createNew,
+  reset,
 };

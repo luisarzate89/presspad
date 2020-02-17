@@ -6,9 +6,6 @@ const API_LOGIN_URL = `${API_PREFIX}${LOGIN_URL}`; // to use on the client
 const SIGNUP_URL = '/user/signup';
 const API_SIGNUP_URL = `${API_PREFIX}${SIGNUP_URL}`;
 
-const CHECK_REFERRAL_URL = '/user/check-referral';
-const API_CHECK_REFERRAL_URL = `${API_PREFIX}${CHECK_REFERRAL_URL}`;
-
 const USER_URL = '/user/check-user';
 const API_USER_URL = `${API_PREFIX}${USER_URL}`;
 
@@ -132,7 +129,6 @@ module.exports = {
   API_SIGNUP_URL,
   API_SIGNOUT_URL,
   API_USER_URL,
-  API_CHECK_REFERRAL_URL,
   API_GET_ORGS_URL,
   API_HOST_COMPLETE_PROFILE,
   API_INTERN_COMPLETE_PROFILE,
@@ -176,7 +172,6 @@ module.exports = {
   SIGNUP_URL,
   SIGNOUT_URL,
   USER_URL,
-  CHECK_REFERRAL_URL,
   GET_ORGS_URL,
   HOST_COMPLETE_PROFILE,
   INTERN_COMPLETE_PROFILE,
