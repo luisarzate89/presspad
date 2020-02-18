@@ -29,7 +29,11 @@ const createAll = async ({ users, checklistQuestions, bookings }) => {
     },
   ];
 
-  await ChecklistAnswer.create(checklistAnswers);
+  const [firstAnswer, secondAnswer, thirdAnswer] = await ChecklistAnswer.create(
+    checklistAnswers,
+  );
+
+  return { firstAnswer, secondAnswer, thirdAnswer };
 };
 
 module.exports = {

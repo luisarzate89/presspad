@@ -18,7 +18,7 @@ const internalTransaction = require('./internalTransaction');
 const coupon = require('./coupons');
 
 const externalTransaction = require('./externalTransactions');
-const installments = require('./installments');
+const installment = require('./installments');
 const scheduledEmail = require('./scheduledEmails');
 const checklistQuestion = require('./checklistQuestions');
 const withdrawRequest = require('./withdrawRequests');
@@ -44,7 +44,7 @@ const buildData = () =>
       organisations,
     });
 
-    await profile.createAll({ users });
+    const profiles = await profile.createAll({ users });
 
     const listings = await listing.createAll({ users });
 
@@ -53,9 +53,9 @@ const buildData = () =>
       listings,
     });
 
-    await review.createAll({ bookings });
+    const reviews = await review.createAll({ bookings });
 
-    await notification.createAll({ users, bookings });
+    const notifications = await notification.createAll({ users, bookings });
 
     const internalTransactions = await internalTransaction.createAll({
       accounts,
@@ -64,7 +64,7 @@ const buildData = () =>
       couponDiscountRate,
     });
 
-    await coupon.createAll({
+    const coupons = await coupon.createAll({
       users,
       accounts,
       organisations,
@@ -73,22 +73,50 @@ const buildData = () =>
       internalTransactions,
     });
 
-    await scheduledEmail.createAll({ users });
+    const scheduledEmails = await scheduledEmail.createAll({ users });
 
     const checklistQuestions = await checklistQuestion.createAll();
 
-    await checklistAnswer.createAll({
+    const checklistAnswers = await checklistAnswer.createAll({
       checklistQuestions,
       users,
       bookings,
     });
 
-    await externalTransaction.createAll({ users, accounts });
+    const externalTransactions = await externalTransaction.createAll({
+      users,
+      accounts,
+    });
 
-    await installments.createAll({ internalTransactions, bookings, users });
+    const installments = await installment.createAll({
+      internalTransactions,
+      bookings,
+      users,
+    });
 
-    await withdrawRequest.createAll({ users, accounts });
-    return connection;
+    const withdrawRequests = await withdrawRequest.createAll({
+      users,
+      accounts,
+    });
+    return {
+      connection,
+      accounts,
+      organisations,
+      users,
+      profiles,
+      listings,
+      bookings,
+      reviews,
+      notifications,
+      internalTransactions,
+      coupons,
+      scheduledEmails,
+      checklistAnswers,
+      checklistQuestions,
+      externalTransactions,
+      installments,
+      withdrawRequests,
+    };
   });
 
 if (process.env.NODE_ENV !== 'test') {

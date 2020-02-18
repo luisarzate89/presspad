@@ -46,7 +46,19 @@ const createAll = async ({ bookings, users, internalTransactions }) => {
       dueDate: Date.now() + 29 * 24 * 60 * 60 * 1000,
     },
   ];
-  return Installment.create(installments);
+  const [
+    upfrontPayment,
+    firstPaidPayment,
+    secondUnpaidPayment,
+    thirdUnpaidPayment,
+  ] = await Installment.create(installments);
+
+  return {
+    upfrontPayment,
+    firstPaidPayment,
+    secondUnpaidPayment,
+    thirdUnpaidPayment,
+  };
 };
 
 module.exports = {

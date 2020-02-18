@@ -11,7 +11,8 @@ const createAll = async ({ users }) => {
     private: false,
   };
 
-  return Notification.create(notification);
+  const stayApproved = await Notification.create(notification);
+  return { stayApproved };
 };
 
 module.exports = {

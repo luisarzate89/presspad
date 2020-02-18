@@ -34,7 +34,17 @@ const createAll = async ({ users, accounts }) => {
       createdAt: Date.now() + 20 * 24 * 60 * 60 * 1000,
     },
   ];
-  await ExternalTransaction.create(externalTransactions);
+  const [
+    organisationTransaction,
+    internPayingUpfrontTransaction,
+    internPayingFirstTransaction,
+  ] = await ExternalTransaction.create(externalTransactions);
+
+  return {
+    organisationTransaction,
+    internPayingUpfrontTransaction,
+    internPayingFirstTransaction,
+  };
 };
 
 module.exports = {
