@@ -1,6 +1,7 @@
-require("sqreen");
-const app = require("./app");
-const dbConnection = require("./database/dbConnection");
+require('./sqreen');
+
+const app = require('./app');
+const dbConnection = require('./database/dbConnection');
 
 dbConnection()
   .then(() => {

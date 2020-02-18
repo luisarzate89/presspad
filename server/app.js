@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const Sentry = require('@sentry/node');
-const Sqreen = require('sqreen');
+const Sqreen = require('./sqreen');
 
 const router = require('./router');
 const cronJobs = require('./helpers/cronjobs');
