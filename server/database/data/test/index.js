@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const dbConnection = require('../../dbConnection');
+const testConnection = require('../../testConnection');
+const devConnection = require('../../dbConnection');
+
 const createEmptyCollection = require('../createEmptyCollection');
 
 const account = require('./accounts');
@@ -24,73 +26,78 @@ const checklistAnswer = require('./checklistAnswers');
 
 const couponDiscountRate = 50;
 
+let connect = devConnection;
+
+if (process.env.NODE_ENV === 'test') {
+  connect = testConnection;
+}
 const buildData = () =>
-  new Promise((resolve, reject) => {
-    dbConnection()
-      .then(async () => {
-        await createEmptyCollection();
+  connect().then(async connection => {
+    await createEmptyCollection();
 
-        const accounts = await account.createAll();
+    const accounts = await account.createAll();
 
-        const organisations = await organisation.createAll({ accounts });
+    const organisations = await organisation.createAll({ accounts });
 
-        const users = await user.createAll({
-          accounts,
-          organisations,
-        });
+    const users = await user.createAll({
+      accounts,
+      organisations,
+    });
 
-        await profile.createAll({ users });
+    await profile.createAll({ users });
 
-        const listings = await listing.createAll({ users });
+    const listings = await listing.createAll({ users });
 
-        const bookings = await booking.createAll({
-          users,
-          listings,
-        });
+    const bookings = await booking.createAll({
+      users,
+      listings,
+    });
 
-        await review.createAll({ bookings });
+    await review.createAll({ bookings });
 
-        await notification.createAll({ users, bookings });
+    await notification.createAll({ users, bookings });
 
-        const internalTransactions = await internalTransaction.createAll({
-          accounts,
-          users,
-          bookings,
-          couponDiscountRate,
-        });
+    const internalTransactions = await internalTransaction.createAll({
+      accounts,
+      users,
+      bookings,
+      couponDiscountRate,
+    });
 
-        await coupon.createAll({
-          users,
-          accounts,
-          organisations,
-          bookings,
-          couponDiscountRate,
-          internalTransactions,
-        });
+    await coupon.createAll({
+      users,
+      accounts,
+      organisations,
+      bookings,
+      couponDiscountRate,
+      internalTransactions,
+    });
 
-        await scheduledEmail.createAll({ users });
+    await scheduledEmail.createAll({ users });
 
-        const checklistQuestions = await checklistQuestion.createAll();
+    const checklistQuestions = await checklistQuestion.createAll();
 
-        await checklistAnswer.createAll({
-          checklistQuestions,
-          users,
-          bookings,
-        });
+    await checklistAnswer.createAll({
+      checklistQuestions,
+      users,
+      bookings,
+    });
 
-        await externalTransaction.createAll({ users, accounts });
+    await externalTransaction.createAll({ users, accounts });
 
-        await installments.createAll({ internalTransactions, bookings, users });
+    await installments.createAll({ internalTransactions, bookings, users });
 
-        await withdrawRequest.createAll({ users, accounts });
-      })
-      .then(resolve)
-      .catch(reject);
+    await withdrawRequest.createAll({ users, accounts });
+    return connection;
   });
 
-buildData().then(() => {
-  // eslint-disable-next-line no-console
-  console.log('Done!: DB has been built successfully');
-  // close the connection after build
-  mongoose.disconnect();
-});
+if (process.env.NODE_ENV !== 'test') {
+  buildData().then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Done!: DB has been built successfully');
+    // close the connection after build
+    mongoose.disconnect();
+  });
+}
+
+module.exports = buildData;

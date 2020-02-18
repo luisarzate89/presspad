@@ -7,7 +7,13 @@
     "coverageDirectory": "./coverage/",
     "modulePathIgnorePatterns": [
       "__test__/database/",
-      "__test__/api/"
+      "__test__/api/admin/",
+      "__test__/api/bookings/",
+      "__test__/api/dashboard/",
+      "__test__/api/payments/",
+      "__test__/api/profiles/",
+      "__test__/api/reviews/",
+      "__test__/api/users/"
     ],
     "collectCoverageFrom": [
       "**/*.js",
@@ -36,12 +42,12 @@
     "build": "cd client && npm run build",
     "init:both": "npm i && npm run client:init",
     "coverage": "codecov",
-    "test:coverage": "cross-env NODE_ENV=test jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles --forceExit",
     "test:clearCache": "cross-env NODE_ENV=test jest --clearCache",
     "test:client": "cd client && npm test",
     "test:client:coverage": "NODE_ENV=test cd client && npm run test:coverage",
     "test": "cross-env NODE_ENV=test npm run test:coverage && npm run test:client:coverage",
-    "test:current": "cross-env NODE_ENV=test jest server/__test__/api/admin.viewWithdrawRequests --runInBand --detectOpenHandles --forceExit",
+    "test:current": "cross-env NODE_ENV=test jest server/__test__/api/admin.viewWithdrawRequests --detectOpenHandles --forceExit",
     "heroku-postbuild": "npm run client:init && npm run build",
     "build:data:dev": "cross-env NODE_ENV=development node server/database/data/test/index.js",
     "build:data:prd": "node server/database/data/production/index.js",
@@ -60,6 +66,7 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.9.0",
+    "mongodb-memory-server": "^6.2.4",
     "nodemon": "^1.19.4",
     "prettier": "1.19.1",
     "supertest": "^4.0.2"
@@ -76,6 +83,7 @@
     "env2": "^2.2.2",
     "express": "^4.16.4",
     "firebase-admin": "^8.9.0",
+    "jest-environment-node": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
