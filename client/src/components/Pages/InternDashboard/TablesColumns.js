@@ -16,7 +16,7 @@ export const paymentsColumns = [
   {
     title: 'Amount due',
     dataIndex: 'amount',
-    render: (text, record) => <span>£{record.amount.toFixed(2)}</span>,
+    render: (text, record) => <span>£{(record.amount / 100).toFixed(2)}</span>,
   },
   {
     title: 'Status',
@@ -66,23 +66,21 @@ export const bookingsColumns = windowWidth => {
     columns.push({
       title: 'Total Price',
       dataIndex: 'price',
-      render: price => <span>£{price.toFixed(2)}</span>,
+      render: price => <span>£{(price / 100).toFixed(2)}</span>,
     });
   }
   if (windowWidth > 1000) {
     columns.push({
       title: 'Paid so far',
       dataIndex: 'payedAmount',
-      render: payedAmount => <span>£{payedAmount.toFixed(2)}</span>,
+      render: payedAmount => <span>£{(payedAmount / 100).toFixed(2)}</span>,
     });
   }
 
   columns.push({
     title: 'Status',
     dataIndex: 'status',
-    render: (status, record) => (
-      <Badge color={bookingStatus[status]} text={status} />
-    ),
+    render: status => <Badge color={bookingStatus[status]} text={status} />,
   });
 
   if (windowWidth > 800) {

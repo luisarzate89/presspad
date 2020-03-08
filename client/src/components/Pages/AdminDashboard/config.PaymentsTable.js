@@ -74,7 +74,7 @@ const columns = (highlightVal, handleClick) => [
         highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
         searchWords={[highlightVal]}
         autoEscape
-        textToHighlight={text.toString()}
+        textToHighlight={(text / 100).toFixed(2)}
       />
     ),
   },

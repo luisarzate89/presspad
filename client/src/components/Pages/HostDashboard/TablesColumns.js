@@ -20,7 +20,7 @@ export const withdrawRequestsColumns = windowWidth => {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
-      render: amount => <span>£{amount}</span>,
+      render: amount => <span>£{(amount / 100).toFixed(2)}</span>,
     },
     {
       title: 'Status',
@@ -107,7 +107,7 @@ export const bookingsColumns = windowWidth => {
       title: 'Earnings',
       dataIndex: 'price',
       key: 'price',
-      render: text => `£${Number(text).toFixed(2)}`,
+      render: text => `£${(text / 100).toFixed(2)}`,
     });
   }
 

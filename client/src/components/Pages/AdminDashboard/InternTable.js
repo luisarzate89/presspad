@@ -94,7 +94,7 @@ export default function InternTable({
                 }}
                 searchWords={[highlightVal]}
                 autoEscape
-                textToHighlight={`£${nextInstallmentAmount}`}
+                textToHighlight={`£${(nextInstallmentAmount / 100).toFixed(2)}`}
               />
             </>
           ) : (
@@ -129,7 +129,7 @@ export default function InternTable({
           highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
           searchWords={[highlightVal]}
           autoEscape
-          textToHighlight={text.toString()}
+          textToHighlight={(text / 100).toFixed(2)}
         />
       ),
     },

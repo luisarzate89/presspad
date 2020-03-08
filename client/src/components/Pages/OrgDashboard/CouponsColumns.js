@@ -39,7 +39,7 @@ export default windowWidth => {
 
   columnsObject.push({
     title: 'Total potential cost',
-    render: (_, row) => <span>£{row.reservedAmount}</span>,
+    render: (_, row) => <span>£{(row.reservedAmount / 100).toFixed(2)}</span>,
   });
 
   if (windowWidth > 690) {
@@ -47,7 +47,7 @@ export default windowWidth => {
       title: 'Amount spent so far',
       dataIndex: 'usedAmount',
       key: 'usedAmount',
-      render: usedAmount => <span>£{usedAmount || 0}</span>,
+      render: usedAmount => <span>£{(usedAmount / 100).toFixed(2) || 0}</span>,
     });
   }
 

@@ -21,8 +21,8 @@ const createAll = async ({
       internName: internUser.name,
       createdBy: organisationUser._id,
       discountRate: couponDiscountRate,
-      reservedAmount: 60, // 120 X 50%
-      usedAmount: 60,
+      reservedAmount: 6000, // 120 pound X 50%
+      usedAmount: 6000,
       startDate: Date.now() - 20 * 24 * 60 * 60 * 1000,
       endDate: Date.now() - 15 * 24 * 60 * 60 * 1000, // 6days => 120
     },

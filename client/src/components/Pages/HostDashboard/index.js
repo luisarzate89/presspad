@@ -201,8 +201,9 @@ class HostProfile extends Component {
       this.validate(donateSchema).then(res => {
         if (res) {
           this.setState({ apiLoading: true }, () => {
+            const penniesDonateValue = Math.floor(donateValue * 100);
             axios
-              .post(API_DONATION_URL, { amount: donateValue })
+              .post(API_DONATION_URL, { amount: penniesDonateValue })
               .then(() => {
                 this.setState({ apiLoading: false });
                 this.handleCloseModals();
@@ -227,9 +228,10 @@ class HostProfile extends Component {
       this.validate(withdrawSchema).then(res => {
         if (res) {
           this.setState({ apiLoading: true }, () => {
+            const penniesWithdrawValue = Math.floor(withdrawValue * 100);
             axios
               .post(API_WITHDRAW_REQUEST_URL, {
-                amount: withdrawValue,
+                amount: penniesWithdrawValue,
                 bankName,
                 bankSortCode,
                 accountNumber,

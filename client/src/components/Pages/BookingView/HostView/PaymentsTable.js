@@ -16,7 +16,7 @@ export default function PaymentsTable({ installments }) {
     {
       title: 'Amount due',
       dataIndex: 'amount',
-      render: text => <span>£{text.toFixed(2)}</span>,
+      render: text => <span>£{(text / 100).toFixed(2)}</span>,
     },
   ];
 

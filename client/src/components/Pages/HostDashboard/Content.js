@@ -227,15 +227,15 @@ const Content = ({
           <Col xl={8} lg={24} md={24} xs={24}>
             <SectionWrapperContent style={{ minHeight: 357 }}>
               <ListItem>How much you’ve earned so far</ListItem>
-              <Number blue>£{window.Number(income).toFixed(2)}</Number>
+              <Number blue>£{(income / 100).toFixed(2)}</Number>
               <ListItem>How much you’ve donated</ListItem>
-              <Number>£{window.Number(donation).toFixed(2)}</Number>
+              <Number>£{(donation / 100).toFixed(2)}</Number>
               <ListItem>How much you’ve withdrew</ListItem>
-              <Number>£{window.Number(withdrawal).toFixed(2)}</Number>
+              <Number>£{(withdrawal / 100).toFixed(2)}</Number>
               <ListItem>In process withdraw requests</ListItem>
-              <Number>£{window.Number(requestedAmount).toFixed(2)}</Number>
+              <Number>£{(requestedAmount / 100).toFixed(2)}</Number>
               <ListItem>How much you can withdraw</ListItem>
-              <Number>£{window.Number(canBeWithdraw).toFixed(2) || 0}</Number>
+              <Number>£{(canBeWithdraw / 100).toFixed(2) || 0}</Number>
               <ButtonsWrapper>
                 <Button
                   label="Withdraw funds"
@@ -243,7 +243,7 @@ const Content = ({
                   style={{ width: '145px' }}
                   onClick={handleOpenModal}
                   name="withdrawModalOpen"
-                  disabled={!canBeWithdraw || canBeWithdraw <= 0}
+                  disabled={!canBeWithdraw || canBeWithdraw < 100}
                 />
                 <Button
                   label="Donate funds"
@@ -251,7 +251,7 @@ const Content = ({
                   style={{ width: '135px' }}
                   onClick={handleOpenModal}
                   name="donateModalOpen"
-                  disabled={!canBeWithdraw || canBeWithdraw <= 0}
+                  disabled={!canBeWithdraw || canBeWithdraw < 100}
                 />
               </ButtonsWrapper>
             </SectionWrapperContent>
@@ -298,14 +298,16 @@ const Content = ({
             </ModalDescription>
             <div>
               <ModalDescription bold>Funds available: </ModalDescription>
-              <ModalDescription bold>£{canBeWithdraw}</ModalDescription>
+              <ModalDescription bold>
+                £{(canBeWithdraw / 100).toFixed(2)}
+              </ModalDescription>
             </div>
             <ErrorWrapper>
               <InputNumber
                 onBlur={handleBlurNumberInput}
                 onFocus={handleFocusNumberInput}
-                defaultValue={canBeWithdraw || 0}
-                max={canBeWithdraw || 0}
+                defaultValue={(canBeWithdraw / 100).toFixed(2) || 0}
+                max={(canBeWithdraw / 100).toFixed(2) || 0}
                 min={0}
                 size="large"
                 style={{
@@ -351,7 +353,9 @@ const Content = ({
           </ModalDescription>
           <div>
             <ModalDescription bold>Funds available: </ModalDescription>
-            <ModalDescription bold>£{canBeWithdraw} </ModalDescription>
+            <ModalDescription bold>
+              £{(canBeWithdraw / 100).toFixed(2)}
+            </ModalDescription>
           </div>
 
           <Row
@@ -448,8 +452,8 @@ const Content = ({
                 <InputNumber
                   onBlur={handleBlurNumberInput}
                   onFocus={handleFocusNumberInput}
-                  defaultValue={canBeWithdraw || 0}
-                  max={canBeWithdraw}
+                  defaultValue={(canBeWithdraw / 100).toFixed(2) || 0}
+                  max={(canBeWithdraw / 100).toFixed(2)}
                   min={0}
                   size="large"
                   style={{

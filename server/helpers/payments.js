@@ -26,8 +26,8 @@ exports.createInstallments = (netAmount, startDate, endDate, upfront) => {
   if (moment().isAfter(endDate)) return [];
 
   // split payemnts amount
-  const firstPay = Math.round((netAmount / 3) * 100, 2) / 100;
-  const secondPay = Math.round(((netAmount - firstPay) / 2) * 100, 2) / 100;
+  const firstPay = Math.floor(netAmount / 3);
+  const secondPay = Math.floor((netAmount - firstPay) / 2);
   const thirdPay = netAmount - firstPay - secondPay;
 
   // split payments dueDate
@@ -99,7 +99,7 @@ exports.calculatePrice = range => {
     weeks = range.diff('weeks');
     days = range.diff('days') % 7;
   }
-  return weeks * 150 + days * 20;
+  return weeks * 15000 + days * 2000;
 };
 
 /**

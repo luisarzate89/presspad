@@ -47,9 +47,11 @@ class AddFundsModal extends Component {
         this.setState({ error: result.error.message, isLoading: false });
       } else {
         // The card action has been handled, confirm it on the server
+        const penniesAmount = Math.floor(amount * 100);
+
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
           account,
-          amount,
+          amount: penniesAmount,
           paymentIntent: result.paymentIntent,
         });
         await this.handleServerResponse(paymentResult);
@@ -91,9 +93,11 @@ class AddFundsModal extends Component {
       if (error) {
         this.setState({ error: error.message, isLoading: false });
       } else {
+        const penniesAmount = Math.floor(amount * 100);
+
         const { data: paymentResult } = await axios.post(API_ORG_PAYMENT_URL, {
           paymentMethod,
-          amount,
+          amount: penniesAmount,
           account,
         });
 
@@ -118,9 +122,11 @@ class AddFundsModal extends Component {
     const {
       account: { currentBalance },
     } = this.props;
+    const penniesVal = Math.floor(val * 100);
+
     this.setState({
       amount: val,
-      availableFunds: currentBalance + Number(val),
+      availableFunds: currentBalance + penniesVal,
     });
   };
 
@@ -169,7 +175,7 @@ class AddFundsModal extends Component {
           onClick={this.handleSubmit}
           disabled={isLoading}
         >
-          Pay £{amount}&nbsp;now
+          Pay £{Number(amount).toFixed(2)}&nbsp;now
         </Button>
       </>
     );
@@ -220,7 +226,10 @@ class AddFundsModal extends Component {
           <Col span={9}>
             <InfoMessage>
               funds:&nbsp;
-              {this.state.availableFunds || this.props.account.currentBalance}
+              {(
+                (this.state.availableFunds ||
+                  this.props.account.currentBalance) / 100
+              ).toFixed(2)}
             </InfoMessage>
           </Col>
         </Row>

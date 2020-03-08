@@ -58,7 +58,7 @@ export const calculatePrice = range => {
     weeks = range.diff('weeks');
     days = range.diff('days') % 7;
   }
-  return weeks * 150 + days * 20;
+  return weeks * 15000 + days * 2000;
 };
 
 // fields to filter based on them

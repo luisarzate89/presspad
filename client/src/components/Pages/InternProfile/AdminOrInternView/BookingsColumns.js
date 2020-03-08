@@ -30,7 +30,7 @@ export default windowWidth => {
       title: 'Cost',
       dataIndex: 'price',
       key: 'price',
-      render: text => `£${Number(text).toFixed(2)}`,
+      render: text => `£${(text / 100).toFixed(2)}`,
     });
   }
 

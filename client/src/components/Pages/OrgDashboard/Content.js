@@ -60,7 +60,7 @@ const { Option } = Select;
 
 class Content extends Component {
   render() {
-    let potentialCost;
+    let potentialCost = 0;
     const {
       state,
       name,
@@ -258,7 +258,10 @@ class Content extends Component {
                           Available funds:
                         </TD>
                         <TD position="center" bold>
-                          £{(account && account.currentBalance) || 0}
+                          £
+                          {(account &&
+                            (account.currentBalance / 100).toFixed(2)) ||
+                            0}
                         </TD>
                         <TD position="right">
                           <BlueLink onClick={() => handlePayNowClick(true)}>
@@ -272,7 +275,7 @@ class Content extends Component {
                           {liveCoupons || 0}
                         </TD>
                         <TD position="right">
-                          {account.currentBalance > 0 ? (
+                          {account.currentBalance >= 100 ? (
                             <>
                               {state.addCouponLoading ? (
                                 <BlueLink>
@@ -304,7 +307,10 @@ class Content extends Component {
                       <InfoTableRow>
                         <TD position="left">Your Codes values:</TD>
                         <TD position="center" bold>
-                          £{(account && account.couponsValue) || 0}
+                          £
+                          {(account &&
+                            (account.couponsValue / 100).toFixed(2)) ||
+                            0}
                         </TD>
                       </InfoTableRow>
 
@@ -352,7 +358,7 @@ class Content extends Component {
             <div>
               <ModalDescription bold>Funds available: </ModalDescription>
               <ModalDescription bold>
-                £{account.currentBalance}{' '}
+                £{(account.currentBalance / 100).toFixed(2)}{' '}
               </ModalDescription>
             </div>
 
@@ -360,13 +366,13 @@ class Content extends Component {
               <ModalDescription bold>Potential Cost: </ModalDescription>
               <ModalDescription
                 bold
-                red={account.currentBalance - potentialCost < 0}
+                red={account.currentBalance - potentialCost < 100}
               >
-                £{potentialCost || '0'}{' '}
+                £{Number(potentialCost / 100).toFixed(2)}{' '}
               </ModalDescription>
             </div>
 
-            {account.currentBalance - potentialCost < 0 && (
+            {account.currentBalance - potentialCost < 100 && (
               <div>
                 <BlueLink onClick={() => handlePayNowClick(true)}>
                   Add funds
@@ -553,7 +559,9 @@ class Content extends Component {
 
                 <div>
                   <ModalDescription bold>Coupon cost: </ModalDescription>
-                  <ModalDescription bold>£{discountPrice} </ModalDescription>
+                  <ModalDescription bold>
+                    £{(discountPrice / 100).toFixed(2)}{' '}
+                  </ModalDescription>
                 </div>
 
                 <Button

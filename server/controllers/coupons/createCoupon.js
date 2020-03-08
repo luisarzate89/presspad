@@ -27,7 +27,7 @@ const createCoupon = async (req, res, next) => {
 
   // check for user role
   if (role !== 'organisation' || !organisation) {
-    return next(boom.unauthorized());
+    return next(boom.forbidden());
   }
 
   try {
@@ -40,7 +40,7 @@ const createCoupon = async (req, res, next) => {
       days,
       startDate,
       endDate,
-      amount: (amount * discountRate) / 100,
+      amount: Math.floor((amount * discountRate) / 100),
       usedDays: 0,
       intern,
     });

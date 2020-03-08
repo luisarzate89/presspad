@@ -149,7 +149,7 @@ class PayNowModal extends Component {
           onClick={this.handleSubmit}
           disabled={isLoading}
         >
-          Pay £{amount}&nbsp;now
+          Pay £{(amount / 100).toFixed(2)}&nbsp;now
         </Button>
       </>
     );

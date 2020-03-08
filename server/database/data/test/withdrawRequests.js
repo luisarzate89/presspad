@@ -10,7 +10,7 @@ const createAll = async ({ users, accounts }) => {
     user: hostUser._id,
     account: hostAccount._id,
     status: 'pending',
-    amount: 100,
+    amount: 10000,
     bankName: 'bankName',
     bankSortCode: 'bankSortCode',
     accountNumber: 'accountNumber',

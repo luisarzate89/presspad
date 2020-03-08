@@ -136,7 +136,7 @@ export default class extends React.Component {
             <BookingDetailsDiv>
               <BookingDetailsHeadline>Payment</BookingDetailsHeadline>
               <BookingDetailsText>
-                £{parseFloat(Math.round(price * 100) / 100).toFixed(2)}{' '}
+                £{Math.floor(price / 100).toFixed(2)}{' '}
               </BookingDetailsText>
             </BookingDetailsDiv>
           </BookingDetailsContainer>

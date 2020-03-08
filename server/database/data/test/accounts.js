@@ -10,18 +10,23 @@ const emptyAccount = {
 
 const presspadAccountData = {
   ...emptyAccount,
-  currentBalance: 120 + 33.33,
-  income: 120 + 33.33,
+  currentBalance: 12000 + 3333 + 10500,
+  income: 12000 + 3333 + 10500,
 };
 
-const internAccountData = { ...emptyAccount, income: 60 + 33.33 };
+const internAccountData = { ...emptyAccount, income: 6000 + 3333 };
 
 const hostAccountData = {
   ...emptyAccount,
-  income: 120 + 33.33,
-  currentBalance: 120 + 33.33,
+  income: 12000 + 3333,
+  currentBalance: 12000 + 3333,
 };
-const organisationAccountData = { ...emptyAccount, income: 60 };
+
+const organisationAccountData = {
+  ...emptyAccount,
+  income: 6000 + 10500,
+  currentBalance: 10500,
+};
 
 const allAccounts = [
   presspadAccountData,

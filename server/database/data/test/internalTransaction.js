@@ -34,7 +34,7 @@ const createAll = async ({ accounts, users, bookings, couponDiscountRate }) => {
       user: internUser._id,
       from: internAccount._id,
       to: hostAccount._id,
-      amount: 33.33,
+      amount: 3333,
       type: 'installment',
     },
   ];

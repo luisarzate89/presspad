@@ -37,7 +37,6 @@ const BookingInfo = props => {
       if (transactions) {
         transactions.forEach(transaction => {
           if (transaction.booking === bookingId) {
-            // discounts += calculatePrice(transaction.usedDays);
             discounts += transaction.amount;
           }
         });
@@ -63,13 +62,13 @@ const BookingInfo = props => {
             </InfoValue>
             <InfoText>Full price for period</InfoText>
             <InfoValue mbottom="2.5rem" align="center" light>
-              £{fullPrice.toFixed(2)}
+              £{(fullPrice / 100).toFixed(2)}
             </InfoValue>
             {status === 'confirmed' ? (
               <>
                 <InfoText>Coupon discounts</InfoText>
                 <InfoValue mbottom="2.5rem" align="center" light>
-                  £{discounts.toFixed(2)}
+                  £{(discounts / 100).toFixed(2)}
                 </InfoValue>
                 <InfoText>
                   {role === 'intern'
@@ -77,7 +76,7 @@ const BookingInfo = props => {
                     : 'So far you’ve recieved'}
                 </InfoText>
                 <InfoValue mbottom="2.5rem" align="center" light>
-                  £{payedAmount.toFixed(2)}
+                  £{(payedAmount / 100).toFixed(2)}
                 </InfoValue>
               </>
             ) : null}
@@ -101,11 +100,11 @@ const BookingInfo = props => {
               <InfoValue mbottom="2.5rem" align="center">
                 £
                 {firstUnpaidInstallment.amount &&
-                  firstUnpaidInstallment.amount.toFixed(2)}
+                  (firstUnpaidInstallment.amount / 100).toFixed(2)}
               </InfoValue>
               {role === 'intern' && (
                 <PayButton onClick={() => handlePayNowClick(true)}>
-                  Pay £{firstUnpaidInstallment.amount.toFixed(2)} now
+                  Pay £{(firstUnpaidInstallment.amount / 100).toFixed(2)} now
                 </PayButton>
               )}
             </Row>

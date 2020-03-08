@@ -29,7 +29,7 @@ const columns = [
   {
     title: 'Amount due',
     dataIndex: 'amount',
-    render: text => <span>£{text.toFixed(2)}</span>,
+    render: text => <span>£{(text / 100).toFixed(2)}</span>,
   },
 ];
 
@@ -114,7 +114,7 @@ const PaymentsPlan = ({
               </Col>
 
               <Col span={12}>
-                <InfoValue light>{totalPrice.toFixed(2)}</InfoValue>
+                <InfoValue light>{(totalPrice / 100).toFixed(2)}</InfoValue>
               </Col>
             </Row>
             <Row type="flex" align="middle">
@@ -122,7 +122,7 @@ const PaymentsPlan = ({
                 <InfoText>Remaining price: </InfoText>
               </Col>
               <Col span={12}>
-                <InfoValue light>{remainPrice.toFixed(2)}</InfoValue>
+                <InfoValue light>{(remainPrice / 100).toFixed(2)}</InfoValue>
               </Col>
             </Row>
           </Col>
@@ -156,7 +156,7 @@ const PaymentsPlan = ({
                     : 'You must pay to finalize the booking'}
                 </InfoMessage>
                 <PayButton mtop="2rem" onClick={() => handlePayNowClick(true)}>
-                  Pay £{remainPrice.toFixed(2)} now
+                  Pay £{(remainPrice / 100).toFixed(2)} now
                 </PayButton>
               </TabPanWrapper>
             </TabPane>
@@ -176,7 +176,7 @@ const PaymentsPlan = ({
                 </InfoMessage>
                 {propsInstallments[0] && (
                   <PayButton onClick={() => handlePayNowClick(true)}>
-                    Pay £{propsInstallments[0].amount} now
+                    Pay £{(propsInstallments[0].amount / 100).toFixed(2)} now
                   </PayButton>
                 )}
               </TabPanWrapper>

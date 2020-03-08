@@ -147,6 +147,8 @@ export default class BookingView extends Component {
               endDate: couponEnd,
               discountRate,
               usedDays,
+              usedAmount,
+              reservedAmount,
             } = couponInfo;
 
             const {
@@ -160,13 +162,21 @@ export default class BookingView extends Component {
               couponEnd,
               usedDays,
             });
+
+            let couponDiscount =
+              (calculatePrice(discountDays) * discountRate) / 100;
+
+            const availableAmount = reservedAmount - usedAmount;
+            if (availableAmount < couponDiscount) {
+              couponDiscount = availableAmount;
+            }
+
             this.setState(prevState => {
               const newCouponState = {
                 ...prevState.couponInfo,
                 discountDays,
                 discountRate,
-                couponDiscount:
-                  (calculatePrice(discountDays) * discountRate) / 100,
+                couponDiscount,
                 isCouponLoading: false,
                 error: false,
               };

@@ -113,7 +113,7 @@ export default function HostTable({
           highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
           searchWords={[highlightVal]}
           autoEscape
-          textToHighlight={text.toString()}
+          textToHighlight={(text / 100).toFixed(2)}
         />
       ),
     },
@@ -142,7 +142,7 @@ export default function HostTable({
           highlightStyle={{ backgroundColor: colors.yellow, padding: 0 }}
           searchWords={[highlightVal]}
           autoEscape
-          textToHighlight={text.toString()}
+          textToHighlight={(text / 100).toFixed(2)}
         />
       ),
     },

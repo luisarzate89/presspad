@@ -52,7 +52,10 @@ const CouponCode = props => {
             data={{ key: 'Discount', value: `${discountRate}%` }}
           />
           <PaymentInfoRow
-            data={{ key: 'Discount amount', value: `£${couponDiscount}` }}
+            data={{
+              key: 'Discount amount',
+              value: `£${(couponDiscount / 100).toFixed(2)}`,
+            }}
           />
         </>
       )}

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const testConnection = require('../../testConnection');
 const devConnection = require('../../dbConnection');
+const resetDB = require('../resetDB');
 
 const createEmptyCollection = require('../createEmptyCollection');
 
@@ -31,9 +32,12 @@ let connect = devConnection;
 if (process.env.NODE_ENV === 'test') {
   connect = testConnection;
 }
-const buildData = () =>
-  connect().then(async connection => {
+const buildData = options =>
+  connect(options).then(async ({ connection, mongoServer }) => {
     await createEmptyCollection();
+    if (process.env.NODE_ENV !== 'test') {
+      await resetDB();
+    }
 
     const accounts = await account.createAll();
 
@@ -100,6 +104,7 @@ const buildData = () =>
     });
     return {
       connection,
+      mongoServer,
       accounts,
       organisations,
       users,
