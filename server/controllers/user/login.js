@@ -1,7 +1,6 @@
 // expect email and plain password
 // respond with user info and create new token
 
-const jwt = require('jsonwebtoken');
 const boom = require('boom');
 const { compare } = require('bcryptjs');
 
@@ -10,6 +9,7 @@ const { tokenMaxAge } = require('./../../constants');
 
 // QUERIES
 const { findByEmail } = require('./../../database/queries/user');
+const createToken = require('./../../helpers/createToken');
 
 module.exports = (req, res, next) => {
   const { email, password: plainPassword } = req.body;
@@ -41,10 +41,7 @@ module.exports = (req, res, next) => {
           role: user.role,
         };
 
-        // create token for 30 days
-        const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-          expiresIn: tokenMaxAge.string,
-        });
+        const token = createToken(user._id);
         res.cookie('token', token, {
           maxAge: tokenMaxAge.number,
           httpOnly: true,

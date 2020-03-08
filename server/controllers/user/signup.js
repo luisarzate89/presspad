@@ -2,7 +2,6 @@
 // respond with user info and create new token
 
 const boom = require('boom');
-const jwt = require('jsonwebtoken');
 
 // QUERIES
 const { findByEmail, addNewUser } = require('./../../database/queries/user');
@@ -10,9 +9,10 @@ const { findByEmail, addNewUser } = require('./../../database/queries/user');
 // CONSTANTS
 const { tokenMaxAge } = require('./../../constants');
 
+const createToken = require('./../../helpers/createToken');
+
 module.exports = (req, res, next) => {
-  const { userInfo } = req.body;
-  const { email, role } = userInfo;
+  const { email, name, password, role, organisation } = req.body;
 
   // check if the email already exists
   findByEmail(email)
@@ -23,14 +23,10 @@ module.exports = (req, res, next) => {
 
       // MORE CHECKS REQUIRED FOR INTERN
       if (role === 'intern') {
-        // get code from userInfo
-
         // add new user
-        return addNewUser(userInfo)
+        return addNewUser({ email, name, password, role })
           .then(user => {
-            const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-              expiresIn: tokenMaxAge.string,
-            });
+            const token = createToken(user._id);
 
             res.cookie('token', token, {
               maxAge: tokenMaxAge.number,
@@ -52,11 +48,9 @@ module.exports = (req, res, next) => {
       }
 
       // FOR HOST AND ORGANISATION
-      return addNewUser(userInfo)
+      return addNewUser({ email, name, password, role, organisation })
         .then(user => {
-          const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-            expiresIn: tokenMaxAge.string,
-          });
+          const token = createToken(user._id);
 
           res.cookie('token', token, {
             maxAge: tokenMaxAge.number,

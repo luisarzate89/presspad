@@ -88,8 +88,8 @@ class App extends Component {
     axios
       .get(API_USER_URL)
       .then(({ data }) => {
-        if (data.user) {
-          this.setState({ ...data.user, isLoggedIn: true, isMounted: true });
+        if (data) {
+          this.setState({ ...data, isLoggedIn: true, isMounted: true });
         } else {
           this.setState({
             ...initialState,

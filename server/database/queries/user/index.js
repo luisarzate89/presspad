@@ -10,7 +10,9 @@ module.exports.findByEmail = email =>
   User.findOne({ email: email.toLowerCase() });
 
 module.exports.getUserById = (id, withoutPassword) =>
-  withoutPassword ? User.findById(id, { password: 0 }) : User.findById(id);
+  withoutPassword
+    ? User.findById(id, { password: 0 }).exec()
+    : User.findById(id).exec();
 
 module.exports.addNewUser = async userInfo => {
   const { email, name, password, role } = userInfo;

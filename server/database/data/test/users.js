@@ -1,15 +1,20 @@
 const User = require('../../models/User');
 const organisation = require('./organisations');
+const account = require('./accounts');
 
 const reset = () => User.deleteMany();
 
 const createNew = async ({ email, name, password, role }) => {
   const newUserData = {
-    email: email || `${role}@test.com`,
+    email: email || `${role}-test@test.com`,
     name: name || 'name',
     password: password || '123456',
     role,
   };
+
+  const newAccount = await account.createNew();
+
+  newUserData.account = newAccount._id;
 
   if (role === 'organisation') {
     const newOrganisation = await organisation.createNew();

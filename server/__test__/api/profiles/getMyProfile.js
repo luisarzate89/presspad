@@ -1,8 +1,8 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const buildDB = require('./../../../database/data/test/index');
+const app = require('./../../../app');
 
 describe('Tests get profile data with the image urls form google cloud', () => {
   beforeAll(async done => {
@@ -15,12 +15,12 @@ describe('Tests get profile data with the image urls form google cloud', () => {
   });
 
   const intern = {
-    email: 'mone@gmail.com',
+    email: 'intern@test.com',
     password: '123456',
   };
 
   const host = {
-    email: 'simon@gmail.com',
+    email: 'host@test.com',
     password: '123456',
   };
 
@@ -50,11 +50,11 @@ describe('Tests get profile data with the image urls form google cloud', () => {
             const { url } = res.body.profile.profileImage;
             expect(url).toBeTruthy();
             expect(url).toMatch(/https:\/\/storage.googleapis.com\/*\/*.*/);
-            expect(res.body.profile.jobTitle).toBe('journalist');
+
             return done();
           });
       });
-  }, 30000);
+  });
 
   test('tests get Host profile successfully', async done => {
     request(app)
@@ -77,12 +77,13 @@ describe('Tests get profile data with the image urls form google cloud', () => {
             expect(res.body).toBeDefined();
 
             const { profile, listing } = res.body;
+
             expect(profile).toBeTruthy();
             expect(listing).toBeTruthy();
-            expect(listing.photos).toHaveLength(0);
-            expect(listing.address.street).toBe('28 Test Road');
+            expect(listing.photos).toHaveLength(3);
+            expect(listing.address.addressline1).toBe('21 Roding Road');
             return done();
           });
       });
-  }, 30000);
+  });
 });

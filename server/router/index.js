@@ -54,8 +54,10 @@ const viewWithdrawRequests = require('../controllers/withdrawRequests');
 
 // IMPORT MIDDLEWARES
 const authentication = require('./../middlewares/authentication');
+const authorization = require('./../middlewares/authorization');
+
 // const softAuthCheck = require("./../middlewares/softAuthCheck");
-const { validation } = require('./../middlewares/validation');
+const { validation, validation2 } = require('./../middlewares/validation');
 
 // API ROUTES
 const {
@@ -104,7 +106,7 @@ const {
 
 // add validation middleware
 router.use(validation);
-
+router.use(validation2);
 // accept booking by id
 router.patch(ACCEPT_BOOKING_URL, authentication, acceptBooking);
 
@@ -183,7 +185,12 @@ router.get(UPLOAD_SIGNED_URL, authentication, getUploadSignedURL);
 router.post(COUPONS_URL, authentication, createCoupon);
 
 // admin || org get all interns
-router.get(INTERNS_URL, authentication, getAllInterns);
+router.get(
+  INTERNS_URL,
+  authentication,
+  authorization(['admin', 'organisation']),
+  getAllInterns,
+);
 
 // host donate to presspad
 router.post(DONATION_URL, authentication, hostDonation);

@@ -1,7 +1,7 @@
 const Listing = require('../../models/Listing');
 const { types } = require('../../constants');
 
-const user = require('./users');
+const profiles = require('./profiles');
 
 const defaultListingData = {
   address: {
@@ -57,7 +57,7 @@ const createNew = async ({ fillMissedFields = true, listingData = {} }) => {
 
   newListingData = { ...newListingData, ...listingData };
 
-  const newProfile = await user.profile({ userData: { role: 'host' } });
+  const newProfile = await profiles.createNew({ userData: { role: 'host' } });
   newListingData.user = newProfile.user;
 
   return Listing.create(newListingData);
