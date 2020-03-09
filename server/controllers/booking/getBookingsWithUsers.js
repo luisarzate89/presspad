@@ -3,10 +3,7 @@ const boom = require('boom');
 const getBookingWithUsers = require('../../database/queries/bookings/getBookingWithUsers');
 const { getProfile } = require('../../database/queries/profile/getProfile');
 
-const bookingsControllers = {};
-module.exports = bookingsControllers;
-
-bookingsControllers.getBookingsWithUsers = async (req, res, next) => {
+const getBookingsWithUsers = async (req, res, next) => {
   const { bookingId } = req.params;
   const currentUser = req.user.id;
   try {
@@ -33,3 +30,5 @@ bookingsControllers.getBookingsWithUsers = async (req, res, next) => {
     return next(boom.badImplementation(error));
   }
 };
+
+module.exports = getBookingsWithUsers;

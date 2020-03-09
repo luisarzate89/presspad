@@ -17,6 +17,7 @@ const {
   newBookingRequest,
   acceptBooking,
   rejectBooking,
+  getBookingsWithUsers,
 } = require('./../controllers/booking');
 const adminStats = require('./../controllers/stats/adminStats');
 const verifyProfile = require('./../controllers/profile/verifyProfile');
@@ -31,7 +32,6 @@ const { postReview, getReviews } = require('../controllers/review');
 const signOut = require('../controllers/user/signOut');
 const { getCoupons } = require('../controllers/coupon');
 const getInternStatus = require('../controllers/profile/getInternStatus');
-const { getBookingsWithUsers } = require('../controllers/Bookings');
 const {
   internPayment,
   withdrawRequest,
