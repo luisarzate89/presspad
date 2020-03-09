@@ -144,7 +144,12 @@ router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 router.get(GET_INTERN_STATUS, authentication, getInternStatus);
 
 // creates new booking request
-router.post(BOOKING_REQUEST_URL, newBookingRequest);
+router.post(
+  BOOKING_REQUEST_URL,
+  authentication,
+  authorization(['intern']),
+  newBookingRequest,
+);
 
 // view booking by id
 router.get(GET_BOOKING_URL, authentication, viewBooking);
