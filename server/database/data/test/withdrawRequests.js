@@ -6,19 +6,33 @@ const createAll = async ({ users, accounts }) => {
   const { hostUser } = users;
   const { hostAccount } = accounts;
 
-  const withdrawRequests = {
-    user: hostUser._id,
-    account: hostAccount._id,
-    status: 'pending',
-    amount: 10000,
-    bankName: 'bankName',
-    bankSortCode: 'bankSortCode',
-    accountNumber: 'accountNumber',
-  };
+  const withdrawRequests = [
+    {
+      user: hostUser._id,
+      account: hostAccount._id,
+      status: 'pending',
+      amount: 10000,
+      bankName: 'bankName',
+      bankSortCode: 'bankSortCode',
+      accountNumber: 'accountNumber',
+    },
+    {
+      user: hostUser._id,
+      account: hostAccount._id,
+      status: 'transfered',
+      amount: 10000,
+      bankName: 'bankName',
+      bankSortCode: 'bankSortCode',
+      accountNumber: 'accountNumber',
+    },
+  ];
 
-  const pendingWithdrawRequest = await WithdrawRequest.create(withdrawRequests);
+  const [
+    pendingWithdrawRequest,
+    transferedWithdrawRequest,
+  ] = await WithdrawRequest.create(withdrawRequests);
 
-  return { pendingWithdrawRequest };
+  return { pendingWithdrawRequest, transferedWithdrawRequest };
 };
 
 module.exports = {

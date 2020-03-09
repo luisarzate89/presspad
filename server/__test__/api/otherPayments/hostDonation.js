@@ -12,7 +12,13 @@ const {
 
 describe('Testing for host donate to presspad account route', () => {
   test('test with correct details', async done => {
-    const { connection, users, accounts, withdrawRequests } = await buildDB({
+    const {
+      connection,
+      mongoServer,
+      users,
+      accounts,
+      withdrawRequests,
+    } = await buildDB({
       replSet: true,
     });
 
@@ -32,7 +38,11 @@ describe('Testing for host donate to presspad account route', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end(async (error, result) => {
-        if (error) return done(error);
+        if (error) {
+          await connection.close();
+          await mongoServer.stop();
+          return done(error);
+        }
 
         expect(result).toBeDefined();
         expect(error).toBeFalsy();
@@ -60,12 +70,15 @@ describe('Testing for host donate to presspad account route', () => {
         expect(transaction).toBeDefined();
         expect(transaction.amount).toBe(amount);
         await connection.close();
-        return done();
+        await mongoServer.stop();
+        return done(error);
       });
   }, 20000);
 
   test('test with incorrect details', async done => {
-    const { connection, users, accounts } = await buildDB({ replSet: true });
+    const { connection, mongoServer, users, accounts } = await buildDB({
+      replSet: true,
+    });
 
     const { hostUser } = users;
     const { hostAccount, presspadAccount } = accounts;
@@ -106,7 +119,8 @@ describe('Testing for host donate to presspad account route', () => {
         // shouldn't create any transactions
         expect(transaction).toBeFalsy();
         await connection.close();
-        done();
+        await mongoServer.stop();
+        done(error);
       });
   }, 20000);
 });

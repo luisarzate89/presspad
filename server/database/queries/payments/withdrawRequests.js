@@ -22,7 +22,7 @@ const confirmOrCancelWithdrawRequest = async (withdrawId, type, session) => {
       { $inc: { currentBalance: -1 * amount, withdrawal: amount } },
       { session },
     );
-    await Account.updateMany(
+    await Account.updateOne(
       { _id: presspadAdmin.account },
       { $inc: { currentBalance: -1 * amount } },
       { session },

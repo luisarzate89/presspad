@@ -38,7 +38,9 @@ const confirmOrCancelWithdrawRequest = async (req, res, next) => {
     await session.commitTransaction();
     session.endSession();
 
-    return res.sendStatus(200);
+    return res.json({
+      success: true,
+    });
   } catch (error) {
     if (session && !session.hasEnded) {
       await session.abortTransaction();
