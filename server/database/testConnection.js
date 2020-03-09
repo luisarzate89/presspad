@@ -1,30 +1,32 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
+const {
+  MongoMemoryServer,
+  MongoMemoryReplSet,
+} = require('mongodb-memory-server');
 
-module.exports = () =>
-  new Promise((resolve, reject) => {
-    const mongoServer = new MongoMemoryServer();
+module.exports = async (options = {}) => {
+  const { replSet } = options;
+  let mongoServer;
 
-    mongoose.Promise = Promise;
-    mongoose.set('useCreateIndex', true);
-
-    mongoServer.getUri().then(mongoUri => {
-      const mongooseOpts = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      };
-
-      mongoose.connect(mongoUri, mongooseOpts);
-
-      mongoose.connection.on('error', e => {
-        if (e.message.code === 'ETIMEDOUT') {
-          mongoose.connect(mongoUri, mongooseOpts);
-        }
-        reject(e);
-      });
-
-      mongoose.connection.once('open', () => {
-        resolve(mongoose.connection);
-      });
+  if (replSet) {
+    mongoServer = new MongoMemoryReplSet({
+      debug: false,
+      replSet: { storageEngine: 'wiredTiger' },
     });
-  });
+    await mongoServer.waitUntilRunning();
+  } else {
+    mongoServer = new MongoMemoryServer();
+  }
+
+  mongoose.Promise = Promise;
+  mongoose.set('useCreateIndex', true);
+
+  const mongoUri = await mongoServer.getUri();
+  const mongooseOpts = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  };
+
+  await mongoose.connect(mongoUri, mongooseOpts);
+  return { connection: mongoose.connection, mongoServer };
+};
