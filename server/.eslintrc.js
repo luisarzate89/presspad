@@ -16,6 +16,7 @@ module.exports = {
   rules: {
     "no-underscore-dangle": 0,
     "destructuring-assignment": 0,
+    "consistent-return":0,
     "dot-notation": 0,
     "prettier/prettier": [
       "error",
