@@ -1,29 +1,31 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const buildDB = require('./../../../database/data/test');
+const app = require('./../../../app');
 
-const { API_SIGNUP_URL } = require('../../../client/src/constants/apiRoutes');
+const {
+  API_SIGNUP_URL,
+} = require('../../../../client/src/constants/apiRoutes');
 
+let connection;
 describe('Testing for signup route', () => {
   beforeAll(async () => {
     // build dummy data
-    await buildDB();
+    const { connection: _connection } = await buildDB();
+    connection = _connection;
   });
 
   afterAll(async () => {
-    await mongoose.disconnect();
+    await connection.close();
   });
 
-  test('test correct intern details', async done => {
+  test('test correct {intern} details', async done => {
     const data = {
-      userInfo: {
-        email: 'intern@test.com',
-        name: 'Ted Test',
-        password: 'a123456A',
-        role: 'intern',
-      },
+      email: 'newintern@test.com',
+      name: 'Ted Test',
+      password: 'a123456A',
+      passwordConfirm: 'a123456A',
+      role: 'intern',
     };
 
     request(app)
@@ -34,8 +36,8 @@ describe('Testing for signup route', () => {
       .end((err, res) => {
         expect(res).toBeDefined();
         expect(res.body).toBeDefined();
-        expect(res.body.email).toBe(data.userInfo.email);
-        expect(res.body.name).toBe(data.userInfo.name);
+        expect(res.body.email).toBe(data.email);
+        expect(res.body.name).toBe(data.name);
         expect(res.body.password).toBe(undefined);
         done(err);
       });
@@ -43,12 +45,11 @@ describe('Testing for signup route', () => {
 
   test('test if email already exists', async done => {
     const data = {
-      userInfo: {
-        email: 'intern@test.com',
-        name: 'Ted Test',
-        password: 'a123456A',
-        role: 'intern',
-      },
+      email: 'intern@test.com',
+      name: 'Ted Test',
+      password: 'a123456A',
+      passwordConfirm: 'a123456A',
+      role: 'intern',
     };
 
     request(app)
@@ -63,14 +64,13 @@ describe('Testing for signup route', () => {
       });
   });
 
-  test('test host with correct details', async done => {
+  test('test {host} with correct details', async done => {
     const data = {
-      userInfo: {
-        email: 'host@test.com',
-        name: 'Ted Test',
-        password: 'a123456A',
-        role: 'host',
-      },
+      email: 'newhost@test.com',
+      name: 'Ted Test',
+      password: 'a123456A',
+      passwordConfirm: 'a123456A',
+      role: 'host',
     };
 
     request(app)
@@ -80,20 +80,19 @@ describe('Testing for signup route', () => {
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
-        expect(res.body.email).toBe(data.userInfo.email);
+        expect(res.body.email).toBe(data.email);
         done(err);
       });
   });
 
-  test('test organisation with correct details', async done => {
+  test('test {organisation} with correct details', async done => {
     const data = {
-      userInfo: {
-        email: 'organisation@test.com',
-        name: 'Ted Test',
-        password: 'a123456A',
-        role: 'host',
-        organisation: 'ITV',
-      },
+      email: 'neworganisation@test.com',
+      name: 'Ted Test',
+      password: 'a123456A',
+      passwordConfirm: 'a123456A',
+      role: 'organisation',
+      organisation: 'ITV',
     };
 
     request(app)
@@ -103,7 +102,52 @@ describe('Testing for signup route', () => {
       .expect(200)
       .end((err, res) => {
         expect(res).toBeDefined();
-        expect(res.body.email).toBe(data.userInfo.email);
+        expect(res.body.email).toBe(data.email);
+        done(err);
+      });
+  });
+
+  test('test {organisation} without organisation name', async done => {
+    const data = {
+      email: 'neworganisation@test.com',
+      name: 'Ted Test',
+      password: 'a123456A',
+      passwordConfirm: 'a123456A',
+      role: 'organisation',
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.error).toBe('Please enter your organisation');
+        done(err);
+      });
+  });
+
+  test('test {organisation} with weak password', async done => {
+    const data = {
+      email: 'neworganisation@test.com',
+      name: 'Ted Test',
+      password: '000000000',
+      passwordConfirm: '000000000',
+      role: 'organisation',
+      organisation: 'ITV',
+    };
+
+    request(app)
+      .post(API_SIGNUP_URL)
+      .send(data)
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err, res) => {
+        expect(res).toBeDefined();
+        expect(res.body.error).toBe(
+          'Password requires 8 characters including at least 1 uppercase character and 1 number.',
+        );
         done(err);
       });
   });

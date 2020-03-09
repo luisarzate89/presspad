@@ -1,22 +1,23 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const buildDB = require('./../../../database/data/test');
+const app = require('./../../../app');
 
+let connection;
 describe('Testing for login route', () => {
   beforeAll(async () => {
     // build dummy data
-    await buildDB();
+    const { connection: _connection } = await buildDB();
+    connection = _connection;
   });
 
   afterAll(async () => {
-    await mongoose.disconnect();
+    await connection.close();
   });
 
   test('test with correct email', done => {
     const data = {
-      email: 'michael@financialtimes.co.uk',
+      email: 'intern@test.com',
       password: '123456',
     };
 
@@ -62,9 +63,7 @@ describe('Testing for login route', () => {
       .expect('Content-Type', /json/)
       .expect(401)
       .end((err, res) => {
-        expect(res.body.error).toMatch(
-          'Login failed. Email or password cannot be recognised',
-        );
+        expect(res.body.error).toMatch('Login failed. User does not exist');
         done(err);
       });
   });

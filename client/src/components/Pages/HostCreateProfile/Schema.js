@@ -1,6 +1,7 @@
 import { array, boolean, date, object, string, lazy } from 'yup';
 import { optionalWordLengthValidator } from '../../../helpers';
-import errMsgs from '../../../constants/errorMessages';
+
+const errMsgs = require('../../../constants/errorMessages');
 
 export const profileSchema = object().shape({
   birthDate: date()

@@ -58,6 +58,8 @@ app.use((err, req, res, next) => {
   // print out the eror to the console in test mood
   if (process.env.NODE_ENV !== 'test') {
     console.error(err);
+  } else {
+    console.log(err.message);
   }
 
   // send the error object

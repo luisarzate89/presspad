@@ -1,4 +1,6 @@
 const boom = require('boom');
+const validation2 = require('./validation2');
+
 const {
   HOST_COMPLETE_PROFILE,
   INTERN_COMPLETE_PROFILE,
@@ -53,4 +55,4 @@ const validation = (req, res, next) => {
   }
 };
 
-module.exports = { validation, validate };
+module.exports = { validation, validate, validation2 };

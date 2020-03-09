@@ -10,9 +10,7 @@
       "__test__/api/admin/",
       "__test__/api/bookings/",
       "__test__/api/dashboard/",
-      "__test__/api/profiles/",
-      "__test__/api/reviews/",
-      "__test__/api/users/"
+      "__test__/api/reviews/"
     ],
     "collectCoverageFrom": [
       "**/*.js",
@@ -53,7 +51,8 @@
     "lint:server": "eslint server",
     "lint:client": "cd client && eslint .",
     "lint-fix:server": "eslint server --fix",
-    "lint-fix:client": "cd client/ && eslint . --fix"
+    "lint-fix:client": "cd client/ && eslint . --fix",
+    "test:local": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "codecov": "^3.6.1",

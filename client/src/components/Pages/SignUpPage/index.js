@@ -32,7 +32,7 @@ export default class SignUpPage extends Component {
     const { userType } = this.props;
     this.setState({ userType });
 
-    userType === 'organisation' && this.getAllOrgs();
+    if (userType === 'organisation') this.getAllOrgs();
 
     window.scrollTo(0, 0);
   }
@@ -83,11 +83,11 @@ export default class SignUpPage extends Component {
       fields,
     });
 
-    if (['password', 'password2'].includes(e.target.name))
+    if (['password', 'passwordConfirm'].includes(e.target.name))
       this.passwordValidation();
   };
 
-  passwordValidation = e => {
+  passwordValidation = () => {
     const { fields } = this.state;
     const errors = {};
     let formIsValid = true;
@@ -102,8 +102,8 @@ export default class SignUpPage extends Component {
       errors.passwordError =
         'Password requires 8 characters including at least 1 uppercase character and 1 number.';
       formIsValid = false;
-    } else if (fields.password !== fields.password2) {
-      errors.password2Error = 'Passwords do not match.';
+    } else if (fields.password !== fields.passwordConfirm) {
+      errors.passwordConfirmError = 'Passwords do not match.';
       formIsValid = false;
     }
 
@@ -167,9 +167,9 @@ export default class SignUpPage extends Component {
       formIsValid = false;
     }
 
-    if (fields.password !== fields.password2) {
+    if (fields.password !== fields.passwordConfirm) {
       formIsValid = false;
-      errors.password2Error = 'Passwords do not match';
+      errors.passwordConfirmError = 'Passwords do not match';
     }
 
     // for hosts make sure they've ticked the disclaimer
@@ -196,7 +196,7 @@ export default class SignUpPage extends Component {
       const userInfo = { ...fields };
       try {
         this.setState({ isLoading: true });
-        const { data } = await axios.post(API_SIGNUP_URL, { userInfo });
+        const { data } = await axios.post(API_SIGNUP_URL, { ...userInfo });
         handleChangeState({ ...data, isLoggedIn: true });
         if (['admin', 'organisation'].includes(data.role)) {
           this.setState({ isLoading: false });

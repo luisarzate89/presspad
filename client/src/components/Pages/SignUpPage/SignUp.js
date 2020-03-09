@@ -35,13 +35,20 @@ export default props => {
     userType,
     isLoading,
   } = props;
-  const { email, password, password2, name, organisation, checkbox } = fields;
+  const {
+    email,
+    password,
+    passwordConfirm,
+    name,
+    organisation,
+    checkbox,
+  } = fields;
   const {
     nameError,
     emailError,
     organisationError,
     passwordError,
-    password2Error,
+    passwordConfirmError,
     disclaimerError,
   } = errors;
 
@@ -117,17 +124,17 @@ export default props => {
           <ErrorMsg>{passwordError}</ErrorMsg>
         </InputDiv>
         <InputDiv>
-          <InputLabel htmlFor="password2">Confirm Password</InputLabel>
+          <InputLabel htmlFor="passwordConfirm">Confirm Password</InputLabel>
           <Input.Password
             placeholder="Re-enter your password"
-            name="password2"
-            id="password2"
+            name="passwordConfirm"
+            id="passwordConfirm"
             type="password"
             size="large"
             onChange={onInputChange}
-            value={password2}
+            value={passwordConfirm}
           />
-          <ErrorMsg>{password2Error}</ErrorMsg>
+          <ErrorMsg>{passwordConfirmError}</ErrorMsg>
         </InputDiv>
         {(userType === 'host' || userType === 'intern') && (
           <DisclaimerWrapper>

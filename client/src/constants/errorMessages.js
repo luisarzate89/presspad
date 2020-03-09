@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   GENDER: 'Gender is required',
   HOMETOWN: 'Hometown is required',
   BIO: 'Please write a short bio about yourself',
@@ -19,5 +19,22 @@ export default {
   PHONE_NUMBER: 'You must provide a phone number',
   ORGANISATION: 'Organisation is required',
   WORKING_AREA: 'Working area is required',
-  EMAIL: 'Unvalid email',
+  EMAIL: 'INVALID email',
+  // sign up fields
+  signup: {
+    NAME_REQUIRED: 'Please enter your name.',
+    NAME_SHORT: 'minimum length is 3 characters',
+    NAME_LONG: 'maximum length is 15 characters',
+    EMAIL_REQUIRED: 'Please enter your email.',
+    EMAIL_INVALID: 'Please enter a valid email.',
+    ORGANISATION_REQUIRED: 'Please enter your organisation',
+    PASSWORD_REQUIRED: 'Please enter your password.',
+    PASSWORD_SHORT: 'Password is too short.',
+    PASSWORD_NOT_MATCH: 'Passwords do not match.',
+    PASSWORD_WEAK:
+      'Password requires 8 characters including at least 1 uppercase character and 1 number.',
+    PASSWORD_CONFIRM_REQUIRED: 'Password confirm is required',
+    ROLE_INVALID: 'invalid role',
+    ROLE_REQUIRED: 'role is required',
+  },
 };

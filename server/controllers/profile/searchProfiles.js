@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
     // get first 2-3 chars from postcode
     listings.forEach(({ address = {} }) => {
       // split by space
-      const splited = address.postcode && address.postcode.split(" ");
+      const splited = address.postcode && address.postcode.split(' ');
       // get first part
       if (splited && splited.length > 1) {
         // eslint-disable-next-line no-param-reassign
@@ -34,7 +34,7 @@ module.exports = async (req, res, next) => {
           ? address.postcode
               .substring(0, address.postcode.length - 3)
               .substring(0, 4)
-          : "";
+          : '';
       }
     });
 
