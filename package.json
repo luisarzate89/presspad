@@ -9,7 +9,6 @@
       "__test__/database/",
       "__test__/api/admin/",
       "__test__/api/bookings/",
-      "__test__/api/dashboard/",
       "__test__/api/payments/",
       "__test__/api/reviews/"
     ],
