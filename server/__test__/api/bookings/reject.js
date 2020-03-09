@@ -65,4 +65,20 @@ describe('Testing for host should be able to reject booking route', () => {
         done();
       });
   });
+
+  test('with not "host" role', async done => {
+    const { internUser } = users;
+    const { pendingBooking } = bookings;
+
+    const token = `token=${createToken(internUser._id)}`;
+
+    request(app)
+      .patch(API_REJECT_BOOKING_URL.replace(':id', pendingBooking._id))
+      .set('Cookie', [token])
+      .expect(403)
+      .end(async (error, result) => {
+        expect(result).toBeDefined();
+        done(error);
+      });
+  });
 });
