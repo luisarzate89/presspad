@@ -1,82 +1,66 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const buildDB = require('./../../../database/data/test');
+const app = require('./../../../app');
+const createToken = require('./../../../helpers/createToken');
 
 const {
   API_ORGS_DASHBOARD_URL,
-} = require('./../../../client/src/constants/apiRoutes');
+} = require('../../../../client/src/constants/apiRoutes');
+
+let connection;
+let users;
 
 describe('Testing for organisation dashboard data', () => {
-  beforeAll(async done => {
+  beforeEach(async () => {
     // build dummy data
-    await buildDB();
-    done();
+    const { connection: _connection, users: _users } = await buildDB();
+    connection = _connection;
+    users = _users;
   });
 
-  afterAll(() => {
-    mongoose.disconnect();
+  afterAll(async () => {
+    await connection.close();
   });
 
   test("test with an organisation user's role", done => {
-    const loginData = {
-      email: 'brian@bbc.co.uk',
-      password: '123456',
-    };
+    const { organisationUser } = users;
+
+    const token = `token=${createToken(organisationUser._id)}`;
 
     request(app)
-      .post('/api/user/login')
-      .send(loginData)
+      .get(API_ORGS_DASHBOARD_URL)
+      .set('Cookie', [token])
       .expect('Content-Type', /json/)
       .expect(200)
-      .end(async (err, res) => {
-        const token = res.headers['set-cookie'][0].split(';')[0];
+      .end((error, result) => {
+        expect(result).toBeDefined();
+        expect(result.body).toHaveLength(3);
 
-        request(app)
-          .get(API_ORGS_DASHBOARD_URL)
-          .set('Cookie', [token])
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((error, result) => {
-            expect(result).toBeDefined();
-            expect(result.body).toHaveLength(3);
+        const [details, notifications, interns] = result.body;
+        expect(details).toBeDefined();
+        expect(details[0].name).toBe('Financial Times');
 
-            const [details, notifications, interns] = result.body;
-            expect(details).toBeDefined();
-            expect(details[0].name).toBe('BBC');
+        expect(notifications).toBeDefined();
+        expect(notifications).toHaveLength(1);
+        expect(notifications[0].secondParty).toBeDefined();
+        expect(notifications[0].user).toBeDefined();
 
-            expect(notifications).toBeDefined();
-            expect(notifications).toHaveLength(2);
-            expect(notifications[0].secondParty).toBeDefined();
-            expect(notifications[0].user).toBeDefined();
-
-            expect(interns).toBeDefined();
-            done(error);
-          });
+        expect(interns).toBeDefined();
+        done(error);
       });
   });
 
   test('test unauthorized user', done => {
-    const loginData = {
-      email: 'adam@gmail.com',
-      password: '123456',
-    };
+    const { internUser } = users;
+
+    const token = `token=${createToken(internUser._id)}`;
 
     request(app)
-      .post('/api/user/login')
-      .send(loginData)
+      .get(API_ORGS_DASHBOARD_URL)
+      .set('Cookie', [token])
       .expect('Content-Type', /json/)
-      .expect(200)
-      .end(async (err, res) => {
-        const token = res.headers['set-cookie'][0].split(';')[0];
-
-        request(app)
-          .get(API_ORGS_DASHBOARD_URL)
-          .set('Cookie', [token])
-          .expect('Content-Type', /json/)
-          .expect(401)
-          .end(done);
-      });
+      .expect(401)
+      .end(done);
   });
 });

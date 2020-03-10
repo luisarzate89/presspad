@@ -1,125 +1,111 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const buildDB = require('../../../database/data/test');
+const app = require('../../../app');
+const createToken = require('../../../helpers/createToken');
 
 // API ROUTE
 const {
   API_ADMIN_STATS_URL,
-} = require('./../../../client/src/constants/apiRoutes');
+} = require('../../../../client/src/constants/apiRoutes');
+
+let connection;
+let users;
+let organisations;
 
 describe('Testing for get host profile route', () => {
-  beforeAll(async done => {
+  beforeEach(async () => {
     // build dummy data
-    await buildDB();
-    done();
+    const {
+      connection: _connection,
+      users: _users,
+      organisations: _organisations,
+    } = await buildDB();
+    connection = _connection;
+    users = _users;
+    organisations = _organisations;
   });
 
-  afterAll(() => {
-    mongoose.disconnect();
+  afterAll(async () => {
+    await connection.close();
   });
 
   test('test with correct user id and client', done => {
-    // must be an admin user
-    const loginData = {
-      email: 'mark@presspad.co.uk',
-      password: '123456',
-    };
+    const { adminUser } = users;
+    const token = `token=${createToken(adminUser._id)}`;
+    const { financialTimeOrganisation } = organisations;
+    const data = { userType: 'clients' };
 
     request(app)
-      .post('/api/user/login')
-      .send(loginData)
+      .post(API_ADMIN_STATS_URL)
+      .set('Cookie', [token])
+      .send(data)
       .expect('Content-Type', /json/)
       .expect(200)
-      .end(async (err, res) => {
-        const token = res.headers['set-cookie'][0].split(';')[0];
-        const data = { userType: 'clients' };
-
-        request(app)
-          .post(API_ADMIN_STATS_URL)
-          .set('Cookie', [token])
-          .send(data)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((error, result) => {
-            expect(result).toBeDefined();
-            expect(result.body).toBeDefined();
-            expect(result.body[0].name).toBeDefined();
-            expect(result.body[0].currentlyHosted).toBeDefined();
-            expect(result.body[0].currentBalance).toBeDefined();
-            expect(result.body[0]._id).toBeDefined();
-            done(error);
-          });
+      .end((error, result) => {
+        expect(result).toBeDefined();
+        expect(result.body).toBeDefined();
+        expect(result.body[0].name).toBe(financialTimeOrganisation.name);
+        expect(result.body[0].currentlyHosted).toBeDefined();
+        expect(result.body[0].currentBalance).toBeDefined();
+        expect(result.body[0]._id).toBeDefined();
+        done(error);
       });
   });
 
   test('test with correct user id and intern', done => {
     // must be an admin user
-    const loginData = {
-      email: 'mark@presspad.co.uk',
-      password: '123456',
-    };
+    const { adminUser, internUser } = users;
+    const { financialTimeOrganisation } = organisations;
+
+    const token = `token=${createToken(adminUser._id)}`;
+    const data = { userType: 'interns' };
 
     request(app)
-      .post('/api/user/login')
-      .send(loginData)
+      .post(API_ADMIN_STATS_URL)
+      .set('Cookie', [token])
+      .send(data)
       .expect('Content-Type', /json/)
       .expect(200)
-      .end(async (err, res) => {
-        const token = res.headers['set-cookie'][0].split(';')[0];
-        const data = { userType: 'interns' };
+      .end((error, result) => {
+        expect(result).toBeDefined();
+        expect(result.body).toBeDefined();
+        expect(result.body[0].key).toBe(1);
+        expect(result.body[0].name).toBe(internUser.name);
+        expect(result.body[0].status).toBe('Pending request');
+        expect(result.body[0].organisation).toBe(
+          financialTimeOrganisation.name,
+        );
 
-        request(app)
-          .post(API_ADMIN_STATS_URL)
-          .set('Cookie', [token])
-          .send(data)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((error, result) => {
-            expect(result).toBeDefined();
-            expect(result.body).toBeDefined();
-            expect(result.body[0].key).toBe(1);
-            expect(result.body[0].name).toBeDefined();
-            expect(result.body[0].name).toBeDefined();
-            expect(result.body[0].status).toBeDefined();
-            done(error);
-          });
+        done(error);
       });
   });
 
   test('test with correct user id and host', done => {
     // must be an admin user
-    const loginData = {
-      email: 'mark@presspad.co.uk',
-      password: '123456',
-    };
+    const { adminUser, hostUser } = users;
+    const token = `token=${createToken(adminUser._id)}`;
+
+    const data = { userType: 'hosts' };
 
     request(app)
-      .post('/api/user/login')
-      .send(loginData)
+      .post(API_ADMIN_STATS_URL)
+      .set('Cookie', [token])
+      .send(data)
       .expect('Content-Type', /json/)
       .expect(200)
-      .end(async (err, res) => {
-        const token = res.headers['set-cookie'][0].split(';')[0];
-        const data = { userType: 'hosts' };
-
-        request(app)
-          .post(API_ADMIN_STATS_URL)
-          .set('Cookie', [token])
-          .send(data)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((error, result) => {
-            expect(result).toBeDefined();
-            expect(result.body).toBeDefined();
-            expect(result.body[0].key).toBe(1);
-            expect(result.body[0].name).toBeDefined();
-            expect(result.body[0].city).toBeDefined();
-            expect(result.body[0].hosted).toBeDefined();
-            expect(result.body[0].approvalStatus).toBeDefined();
-            done(error);
-          });
+      .end((error, result) => {
+        expect(result).toBeDefined();
+        expect(result).toBeDefined();
+        expect(result.body).toBeDefined();
+        expect(result.body[0].key).toBe(1);
+        expect(result.body[0].name).toBe(hostUser.name);
+        expect(result.body[0].email).toBe(hostUser.email);
+        expect(result.body[0].hosted).toBe(1);
+        expect(result.body[0].approvalStatus).toBe('Approved');
+        expect(result.body[0].totalIncome).toBe(15333);
+        expect(result.body[0].currentBalance).toBe(15333);
+        done(error);
       });
   });
 });
