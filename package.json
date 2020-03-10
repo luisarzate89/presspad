@@ -6,6 +6,7 @@
     "testRegex": "__test__/*",
     "coverageDirectory": "./coverage/",
     "modulePathIgnorePatterns": [
+      "__test__/api/internPayments/mockData",
       "__test__/database/",
       "__test__/api/bookings/",
       "__test__/api/reviews/"

@@ -60,7 +60,7 @@ describe('Testing for host dashboard route', () => {
         expect(account.withdrawal).toBeDefined();
 
         expect(withdrawRequests).toBeDefined();
-        expect(withdrawRequests).toHaveLength(1);
+        expect(withdrawRequests).toHaveLength(2);
         expect(withdrawRequests[0].status).toBe('pending');
 
         expect(nextBookingWithDetails).toBeDefined();
