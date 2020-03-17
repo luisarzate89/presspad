@@ -17,6 +17,7 @@ const {
   newBookingRequest,
   acceptBooking,
   rejectBooking,
+  getBookingsWithUsers,
 } = require('./../controllers/booking');
 const adminStats = require('./../controllers/stats/adminStats');
 const verifyProfile = require('./../controllers/profile/verifyProfile');
@@ -31,7 +32,6 @@ const { postReview, getReviews } = require('../controllers/review');
 const signOut = require('../controllers/user/signOut');
 const { getCoupons } = require('../controllers/coupon');
 const getInternStatus = require('../controllers/profile/getInternStatus');
-const { getBookingsWithUsers } = require('../controllers/Bookings');
 const {
   internPayment,
   withdrawRequest,
@@ -144,7 +144,12 @@ router.post(VERIFY_PROFILE_URL, authentication, verifyProfile);
 router.get(GET_INTERN_STATUS, authentication, getInternStatus);
 
 // creates new booking request
-router.post(BOOKING_REQUEST_URL, newBookingRequest);
+router.post(
+  BOOKING_REQUEST_URL,
+  authentication,
+  authorization(['intern']),
+  newBookingRequest,
+);
 
 // view booking by id
 router.get(GET_BOOKING_URL, authentication, viewBooking);

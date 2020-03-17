@@ -1,0 +1,34 @@
+name: "Add labels to new issues"
+
+on:
+  issues:
+    types: [opened]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  give-backlog-label:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: andymckay/labeler@1.0.2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        add-labels: "backlog"
+        ignore-if-assigned: true
+        
+        
+  assign_to_project:
+    
+    runs-on: ubuntu-latest
+    name: Assign to One Project
+    
+    steps:
+    - name: Assign NEW issues project plan
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/yalla-coop/presspad/projects/1'
+
