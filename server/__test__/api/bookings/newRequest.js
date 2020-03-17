@@ -1,46 +1,51 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 const moment = require('moment');
 
-const User = require('../../database/models/User');
-const Listing = require('../../database/models/Listing');
+const buildDB = require('./../../../database/data/test/index');
+const app = require('./../../../app');
 
-const buildDB = require('./../../database/data/test/index');
-const app = require('./../../app');
+const createToken = require('../../../helpers/createToken');
+
+let connection;
+let users;
+let listings;
 
 describe('Testing for create new booking route', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     // build dummy data
-    await buildDB();
+    const {
+      connection: _connection,
+      users: _users,
+      listings: _listings,
+    } = await buildDB();
+    connection = _connection;
+    users = _users;
+    listings = _listings;
   });
 
   afterAll(async () => {
-    await mongoose.disconnect();
-  });
-
-  beforeEach(async () => {
-    // build dummy data
-    await buildDB();
+    await connection.close();
   });
 
   test('test to create new booking with valid request', async done => {
-    const interns = await User.find({ role: 'intern' });
-    const hosts = await User.find({ role: 'host' }).sort({ name: 1 });
+    const { hostUser, internUser } = users;
+    const { LondonListing } = listings;
 
-    const listing = await Listing.findOne({ user: hosts[2]._id });
+    const token = `token=${createToken(internUser._id)}`;
 
     const data = {
-      intern: interns[0]._id,
-      host: listing.user,
-      listing: listing._id,
-      startDate: moment.utc().add(30, 'days'),
-      endDate: moment.utc().add(36, 'days'),
-      price: 150,
+      intern: internUser._id,
+      host: hostUser._id,
+      listing: LondonListing._id,
+      startDate: moment.utc().add(40, 'days'),
+      endDate: moment.utc().add(45, 'days'),
+      price: 12000,
     };
 
     request(app)
       .post('/api/new-booking')
       .send(data)
+      .set('Cookie', [token])
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -51,17 +56,44 @@ describe('Testing for create new booking route', () => {
       });
   });
 
-  test('test to create new booking with invalid request - duplicate booking dates', async done => {
-    const interns = await User.find({ role: 'intern' });
+  test('test to create new booking with manipulated price value', async done => {
+    const { hostUser, internUser } = users;
+    const { LondonListing } = listings;
 
-    const hosts = await User.find({ role: 'host' });
-
-    const listing = await Listing.findOne({ user: hosts[0]._id });
+    const token = `token=${createToken(internUser._id)}`;
 
     const data = {
-      intern: interns[0]._id,
-      host: listing.user,
-      listing: listing._id,
+      intern: internUser._id,
+      host: hostUser._id,
+      listing: LondonListing._id,
+      startDate: moment.utc().add(40, 'days'),
+      endDate: moment.utc().add(45, 'days'),
+      price: 1000,
+    };
+
+    request(app)
+      .post('/api/new-booking')
+      .send(data)
+      .set('Cookie', [token])
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.error).toBeDefined();
+        expect(res.body.error).toBe("Price doesn't match!");
+        done(err);
+      });
+  });
+
+  test('test to create new booking with invalid request - duplicate booking dates', async done => {
+    const { hostUser, internUser } = users;
+    const { LondonListing } = listings;
+
+    const token = `token=${createToken(internUser._id)}`;
+
+    const data = {
+      intern: internUser._id,
+      host: hostUser._id,
+      listing: LondonListing._id,
       startDate: moment.utc().add(10, 'days'),
       endDate: moment.utc().add(20, 'days'),
       price: 220,
@@ -70,6 +102,7 @@ describe('Testing for create new booking route', () => {
     request(app)
       .post('/api/new-booking')
       .send(data)
+      .set('Cookie', [token])
       .expect('Content-Type', /json/)
       .expect(400)
       .end((err, res) => {
@@ -84,16 +117,15 @@ describe('Testing for create new booking route', () => {
   });
 
   test('test to create new booking with invalid request - 7 days in advance', async done => {
-    const interns = await User.find({ role: 'intern' });
+    const { hostUser, internUser } = users;
+    const { LondonListing } = listings;
 
-    const hosts = await User.find({ role: 'host' });
-
-    const listing = await Listing.findOne({ user: hosts[0]._id });
+    const token = `token=${createToken(internUser._id)}`;
 
     const data = {
-      intern: interns[0]._id,
-      host: listing.user,
-      listing: listing._id,
+      intern: internUser._id,
+      host: hostUser._id,
+      listing: LondonListing._id,
       startDate: moment.utc().add(6, 'days'),
       endDate: moment.utc().add(20, 'days'),
       price: 220,
@@ -102,6 +134,7 @@ describe('Testing for create new booking route', () => {
     request(app)
       .post('/api/new-booking')
       .send(data)
+      .set('Cookie', [token])
       .expect('Content-Type', /json/)
       .expect(400)
       .end((err, res) => {
